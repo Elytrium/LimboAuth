@@ -1,0 +1,115 @@
+//file:noinspection GroovyAssignabilityCheck
+
+plugins {
+    id("java")
+    id("checkstyle")
+    id("com.github.spotbugs").version("5.0.3")
+    id("org.cadixdev.licenser").version("0.6.1")
+    id("com.github.johnrengelman.shadow").version("7.1.0")
+}
+
+setGroup("net.elytrium")
+setVersion("1.0.3-SNAPSHOT")
+
+compileJava {
+    getOptions().setEncoding("UTF-8")
+}
+
+java {
+    setSourceCompatibility(JavaVersion.VERSION_11)
+    setTargetCompatibility(JavaVersion.VERSION_11)
+}
+
+repositories {
+    mavenCentral()
+
+    maven {
+        setName("velocitypowered-repo")
+        setUrl("https://nexus.velocitypowered.com/repository/maven-public/")
+    }
+    maven {
+        setName("elytrium-repo")
+        setUrl("https://maven.elytrium.net/repo/")
+    }
+}
+
+dependencies {
+    compileOnly("net.elytrium:limboapi-api:1.0.3-SNAPSHOT")
+
+    compileOnly("com.velocitypowered:velocity-api:3.1.0")
+    annotationProcessor("com.velocitypowered:velocity-api:3.1.0")
+
+    implementation("at.favre.lib:bcrypt:0.9.0")
+    implementation("dev.samstevens.totp:totp:1.7.1")
+
+    implementation("com.j256.ormlite:ormlite-jdbc:5.7")
+
+    implementation("com.h2database:h2:2.0.202")
+    implementation("mysql:mysql-connector-java:8.0.27")
+    implementation("org.postgresql:postgresql:42.3.1")
+
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.2")
+}
+
+shadowJar {
+    getArchiveClassifier().set("")
+
+    exclude("META-INF/maven/**")
+    exclude("META-INF/INFO_BIN")
+    exclude("META-INF/INFO_SRC")
+    exclude("google/protobuf/**")
+    exclude("com/google/protobuf/**")
+    exclude("com/mysql/cj/x/**")
+    exclude("com/mysql/cj/xdevapi/**")
+    exclude("org/apache/commons/codec/language/**")
+    exclude("org/checkerframework/**")
+    exclude("**/package-info.class")
+
+    minimize()
+
+    relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
+    relocate("com.j256.ormlite", "net.elytrium.limboauth.thirdparty.com.j256.ormlite")
+    relocate("com.mysql", "net.elytrium.limboauth.thirdparty.com.mysql")
+    relocate("dev.samstevens.totp", "net.elytrium.limboauth.thirdparty.dev.samstevens.totp")
+    relocate("org.apache.commons.codec", "net.elytrium.limboauth.thirdparty.org.apache.commons.codec")
+    relocate("org.h2", "net.elytrium.limboauth.thirdparty.org.h2")
+    relocate("org.postgresql", "net.elytrium.limboauth.thirdparty.org.postgresql")
+}
+
+license {
+    setHeader(file("HEADER.txt"))
+}
+
+checkstyle {
+    setToolVersion("9.2")
+    setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
+    setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
+
+    // The build should immediately fail if we have errors.
+    setMaxErrors(0)
+    setMaxWarnings(0)
+}
+
+spotbugsMain {
+    setExcludeFilter(file("${this.getRootDir()}/config/spotbugs/suppressions.xml"))
+
+    reports {
+        html {
+            getRequired().set(true)
+            getOutputLocation().set(file("${this.getBuildDir()}/reports/spotbugs/main/spotbugs.html"))
+            setStylesheet("fancy-hist.xsl")
+        }
+    }
+}
+
+sourceSets.main.getJava().srcDir(getTasks().register("generateTemplates", Copy) { task ->
+    task.getInputs().properties("version": getVersion())
+
+    task.from(file("src/main/templates"))
+            .into(getLayout().getBuildDirectory().dir("generated/sources/templates"))
+            .expand("version": getVersion())
+}.map {
+    it.getOutputs()
+})
+
+assemble.dependsOn(shadowJar)
