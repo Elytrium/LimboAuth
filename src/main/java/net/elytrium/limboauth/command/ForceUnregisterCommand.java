@@ -40,7 +40,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
   private final ProxyServer server;
   private final Dao<RegisteredPlayer, String> playerDao;
 
-  private final Component successfulPlayer;
+  private final Component kick;
   private final String successful;
   private final String notSuccessful;
   private final Component usage;
@@ -50,7 +50,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
     this.server = server;
     this.playerDao = playerDao;
 
-    this.successfulPlayer = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_SUCCESSFUL_PLAYER);
+    this.kick = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_NOT_SUCCESSFUL;
     this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_USAGE);
@@ -83,9 +83,9 @@ public class ForceUnregisterCommand implements SimpleCommand {
       String playerNick = args[0];
       try {
         this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
+        this.plugin.removePlayerFromCache(playerNick);
         this.server.getPlayer(playerNick).ifPresent(player -> {
-          this.plugin.removePlayerFromCache(player);
-          player.disconnect(this.successfulPlayer);
+          player.disconnect(this.kick);
         });
         source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.successful, playerNick)));
       } catch (SQLException e) {

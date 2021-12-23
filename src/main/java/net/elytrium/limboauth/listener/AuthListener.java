@@ -31,6 +31,7 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
+// TODO: Customizable events priority
 public class AuthListener {
 
   private final Dao<RegisteredPlayer, String> playerDao;

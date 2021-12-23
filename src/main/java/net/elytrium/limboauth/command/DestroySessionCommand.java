@@ -49,7 +49,7 @@ public class DestroySessionCommand implements SimpleCommand {
       return;
     }
 
-    this.plugin.removePlayerFromCache((Player) source);
+    this.plugin.removePlayerFromCache(((Player) source).getUsername());
     source.sendMessage(this.successful);
   }
 

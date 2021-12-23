@@ -35,7 +35,18 @@ public class Settings extends Config {
 
   public static class MAIN {
 
+    @Comment("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked.")
+    public int AUTH_TIME = 60000;
     public boolean ENABLE_BOSSBAR = true;
+    @Comment("Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE")
+    public String BOSSBAR_COLOR = "RED";
+    @Comment("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20")
+    public String BOSSBAR_OVERLAY = "NOTCHED_20";
+    public int MIN_PASSWORD_LENGTH = 4;
+    @Comment("Максимальная длинна пароля для BCrypt равняется 71 символу.")
+    public int MAX_PASSWORD_LENGTH = 71;
+    public boolean CHECK_PASSWORD_STRENGTH = true;
+    public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
     public boolean ONLINE_MODE_NEED_AUTH = true;
     public boolean FORCE_OFFLINE_UUID = false;
     @Comment({
@@ -48,8 +59,8 @@ public class Settings extends Config {
     public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
     public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
     @Comment({
-        "If you want to migrate your database from another plugin, which is not using BCrypt",
-        "You can set an old hash algorithm to migrate from. Currently, only AUTHME is supported yet"
+        "If you want to migrate your database from another plugin, which is not using BCrypt.",
+        "You can set an old hash algorithm to migrate from. Currently, only AUTHME is supported yet."
     })
     public String MIGRATION_HASH = "";
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
@@ -62,7 +73,7 @@ public class Settings extends Config {
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;
     public int TOTP_RECOVERY_CODES_AMOUNT = 16;
-    @Comment("Time in milliseconds, when ip limit works, set to 0 for disable")
+    @Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
     public long IP_LIMIT_VALID_TIME = 21600000;
     @Comment({
         "Regex of allowed nicknames",
@@ -95,10 +106,23 @@ public class Settings extends Config {
       public int Z = 0;
     }
 
+    /*
+    @Create
+    public Settings.MAIN.EVENTS_PRIORITIES EVENTS_PRIORITIES;
+
+    @Comment("Available priorities: FIRST, EARLY, NORMAL, LATE, LAST")
+    public static class EVENTS_PRIORITIES {
+
+      public String PRE_LOGIN = "NORMAL";
+      public String LOGIN_LIMBO_REGISTER = "NORMAL";
+      public String SAFE_GAME_PROFILE_REQUEST = "NORMAL";
+    }
+    */
+
     @Create
     public MAIN.STRINGS STRINGS;
 
-    //@Comment("Leave empty to disable.")
+    @Comment("Leave title fields empty to disable.")
     public static class STRINGS {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
@@ -109,31 +133,41 @@ public class Settings extends Config {
       public String NOT_REGISTERED = "{PRFX} &cYou are not registered!";
       public String WRONG_PASSWORD = "{PRFX} &cPassword is wrong!";
 
-      public String NICKNAME_INVALID = "{NL}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
+      public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
+
       @Comment("6 hours by default in ip-limit-valid-time")
       public String IP_LIMIT = "{PRFX} &cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
-      public String WRONG_NICKNAME_CASE = "{NL}{NL}&cThe case of your nickname is wrong. Nickname is CaSe SeNsItIvE.";
+      public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cThe case of your nickname is wrong. Nickname is CaSe SeNsItIvE.";
 
-      public String LOGIN = "{PRFX} Please, login using &6/login &6<password>. You have &6{0} &cattempts.";
-      public String LOGIN_SUCCESS = "{PRFX} &aSuccessfully logged in!";
-      public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou've entered the wrong password. You have &6{0} &cattempts left.";
-      public String LOGIN_TITLE = "";
-      public String LOGIN_SUBTITLE = "";
-      public String LOGIN_SUCCESS_TITLE = "";
-      public String LOGIN_SUCCESS_SUBTITLE = "";
+      public String BOSSBAR = "{PRFX} У вас осталось &6{0} &fсекунд чтобы авторизироваться.";
+      public String TIMES_UP = "{PRFX}{NL}&cВремя авторизации вышло.";
+
+      public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
+      public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
+      public String LOGIN_WRONG_PASSWORD_KICK = "{PRFX}{NL}&cYou've entered the wrong password numerous times!";
+      public String LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully logged in!";
+      public String LOGIN_TITLE = "&fPlease, login using &6/login <password>&a.";
+      public String LOGIN_SUBTITLE = "&aYou have &6{0} &aattempts.";
+      public String LOGIN_SUCCESSFUL_TITLE = "{PRFX}";
+      public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
       public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
-      public String REGISTER_TITLE = "";
-      public String REGISTER_SUBTITLE = "";
-      public String DIFFERENT_PASSWORDS = "{PRFX} The entered passwords differ from each other.";
-      public String KICK_PASSWORD_WRONG = "{NL}{NL}&cYou've entered the wrong password numerous times!";
+      public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
+      public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
+      public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
+      public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
+      public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
+      public String REGISTER_TITLE = "{PRFX}";
+      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
+      public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
+      public String REGISTER_SUCCESSFUL_SUBTITLE = "&aSuccessfully registered!";
 
-      public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}{NL}&aSuccessfully unregistered!";
+      public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
       public String UNREGISTER_USAGE = "{PRFX} Usage: &6/unregister <current password> confirm";
 
       public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &a{0} successfully unregistered!";
-      public String FORCE_UNREGISTER_SUCCESSFUL_PLAYER = "{PRFX}{NL}{NL}&aYou have been unregistered by administrator!";
+      public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";
       public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister {0}. Most likely this player has never been on this server.";
       public String FORCE_UNREGISTER_USAGE = "{PRFX} Usage: &6/forceunregister <nickname>";
 
@@ -142,6 +176,8 @@ public class Settings extends Config {
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
+      public String TOTP_TITLE = "{PRFX}";
+      public String TOTP_SUBTITLE = "&aEnter your 2FA key using &6/2fa <key>";
       public String TOTP_SUCCESSFUL = "{PRFX} &aSuccessfully enabled 2FA!";
       public String TOTP_DISABLED = "{PRFX} &aSuccessfully disabled 2FA!";
       @Comment("Or if totp-need-pass set to false remove the \"<current password>\" part.")

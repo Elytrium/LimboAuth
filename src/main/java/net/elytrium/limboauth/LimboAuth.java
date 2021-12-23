@@ -33,6 +33,7 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -40,7 +41,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,6 +57,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.Dimension;
@@ -82,6 +86,7 @@ import org.slf4j.Logger;
     authors = {"hevav", "mdxd44"},
     dependencies = {@Dependency(id = "limboapi")}
 )
+@SuppressFBWarnings({"EI_EXPOSE_REP", "MS_EXPOSE_REP"})
 public class LimboAuth {
 
   private static LimboAuth instance;
@@ -92,11 +97,12 @@ public class LimboAuth {
   private final ProxyServer server;
   private final LimboFactory factory;
 
-  private Dao<RegisteredPlayer, String> playerDao;
-  private Limbo authServer;
+  private final Set<String> unsafePasswords = new HashSet<>();
   private Map<String, CachedUser> cachedAuthChecks;
-  private Component nicknameInvalid;
+  private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
+  private Limbo authServer;
+  private Component nicknameInvalid;
 
   @Inject
   @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -110,7 +116,7 @@ public class LimboAuth {
   }
 
   @Subscribe
-  public void onProxyInitialization(ProxyInitializeEvent event) throws SQLException {
+  public void onProxyInitialization(ProxyInitializeEvent event) throws Exception {
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
     this.reload();
@@ -119,20 +125,29 @@ public class LimboAuth {
   }
 
   @SuppressWarnings("SwitchStatementWithTooFewBranches")
-  public void reload() throws SQLException {
+  public void reload() throws Exception {
     Settings.IMP.reload(new File(this.dataDirectory.toFile().getAbsoluteFile(), "config.yml"));
+
+    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH) {
+      this.unsafePasswords.clear();
+      Path unsafePasswordsFile = Paths.get(this.dataDirectory.toFile().getAbsolutePath(), Settings.IMP.MAIN.UNSAFE_PASSWORDS_FILE);
+      if (!unsafePasswordsFile.toFile().exists()) {
+        Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsFile);
+      }
+
+      this.unsafePasswords.addAll(Files.lines(unsafePasswordsFile).collect(Collectors.toSet()));
+    }
 
     this.cachedAuthChecks = new ConcurrentHashMap<>();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
-
     JdbcPooledConnectionSource connectionSource;
     // requireNonNull prevents the shade plugin from excluding the drivers in minimized jar.
     switch (dbConfig.STORAGE_TYPE.toLowerCase(Locale.ROOT)) {
       case "h2": {
         Objects.requireNonNull(org.h2.Driver.class);
         Objects.requireNonNull(org.h2.engine.Engine.class);
-        connectionSource = new JdbcPooledConnectionSource("jdbc:h2:" + this.dataDirectory.toFile().getAbsoluteFile() + "/" + "limboauth");
+        connectionSource = new JdbcPooledConnectionSource("jdbc:h2:" + this.dataDirectory.toFile().getAbsoluteFile() + "/limboauth");
         break;
       }
       case "mysql": {
@@ -212,7 +227,7 @@ public class LimboAuth {
 
     this.authServer = this.factory.createLimbo(authWorld);
 
-    this.nicknameInvalid = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID);
+    this.nicknameInvalid = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
 
     this.server.getEventManager().unregisterListeners(this);
     this.server.getEventManager().register(this, new AuthListener(this.playerDao));
@@ -280,8 +295,8 @@ public class LimboAuth {
     this.cachedAuthChecks.put(username, new CachedUser(player.getRemoteAddress().getAddress(), System.currentTimeMillis()));
   }
 
-  public void removePlayerFromCache(Player player) {
-    this.cachedAuthChecks.remove(player.getUsername());
+  public void removePlayerFromCache(String username) {
+    this.cachedAuthChecks.remove(username);
   }
 
   public boolean needAuth(Player player) {
@@ -312,7 +327,7 @@ public class LimboAuth {
 
     // Send player to auth virtual server.
     try {
-      this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, nickname));
+      this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, nickname));
     } catch (Throwable t) {
       this.getLogger().error("Error", t);
     }
@@ -331,10 +346,6 @@ public class LimboAuth {
     }
   }
 
-  public Logger getLogger() {
-    return this.logger;
-  }
-
   private void checkCache(Map<String, CachedUser> userMap, long time) {
     userMap.entrySet().stream()
         .filter(u -> u.getValue().getCheckTime() + time <= System.currentTimeMillis())
@@ -348,6 +359,18 @@ public class LimboAuth {
 
   public static LimboAuth getInstance() {
     return instance;
+  }
+
+  public Set<String> getUnsafePasswords() {
+    return this.unsafePasswords;
+  }
+
+  public Logger getLogger() {
+    return this.logger;
+  }
+
+  public ProxyServer getServer() {
+    return this.server;
   }
 
   private static class CachedUser {

@@ -67,13 +67,14 @@ public class UnregisterCommand implements SimpleCommand {
 
     if (args.length == 2) {
       if (args[1].equalsIgnoreCase("confirm")) {
-        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, ((Player) source).getUsername());
+        String username = ((Player) source).getUsername();
+        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
         if (player == null) {
           source.sendMessage(this.notRegistered);
         } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           try {
-            this.playerDao.deleteById(((Player) source).getUsername().toLowerCase(Locale.ROOT));
-            this.plugin.removePlayerFromCache((Player) source);
+            this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
+            this.plugin.removePlayerFromCache(username);
             ((Player) source).disconnect(this.successful);
           } catch (SQLException e) {
             source.sendMessage(this.errorOccurred);
