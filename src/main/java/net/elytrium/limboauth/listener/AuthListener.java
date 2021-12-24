@@ -43,7 +43,7 @@ public class AuthListener {
   @Subscribe
   public void onProxyConnect(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH || !LimboAuth.getInstance().isPremium(event.getUsername())) {
+      if (!LimboAuth.getInstance().isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       } else {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
@@ -73,22 +73,18 @@ public class AuthListener {
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
 
-        if (event.isOnlineMode()) {
+        if (event.isOnlineMode()
+            && registeredPlayer.getHash().isEmpty()
+            && registeredPlayer.getPremiumUuid().isEmpty()) {
           try {
             registeredPlayer.setPremiumUuid(event.getOriginalProfile().getId().toString());
-            registeredPlayer.setHash("");
-
-            if (currentUuid.isEmpty()) {
-              registeredPlayer.setUuid(UuidUtils.generateOfflinePlayerUuid(event.getUsername()).toString());
-            }
-
             this.playerDao.update(registeredPlayer);
           } catch (SQLException e) {
             e.printStackTrace();
           }
+        }
 
-          event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
-        } else if (currentUuid.isEmpty()) {
+        if (currentUuid.isEmpty()) {
           try {
             registeredPlayer.setUuid(event.getGameProfile().getId().toString());
             this.playerDao.update(registeredPlayer);
@@ -96,19 +92,21 @@ public class AuthListener {
             ex.printStackTrace();
           }
         }
+
+        event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
       }
     } else if (event.isOnlineMode()) {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq("nickname", event.getUsername());
-        updateBuilder.updateColumnValue("hash", "");
+        updateBuilder.where().eq("NICKNAME", event.getUsername());
+        updateBuilder.updateColumnValue("HASH", "");
         updateBuilder.update();
       } catch (SQLException e) {
         e.printStackTrace();
       }
     }
 
-    if (!Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
+    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
   }

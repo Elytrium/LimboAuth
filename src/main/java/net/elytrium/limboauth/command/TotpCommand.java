@@ -121,8 +121,8 @@ public class TotpCommand implements SimpleCommand {
 
             try {
               updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq("nickname", username);
-              updateBuilder.updateColumnValue("totpToken", secret);
+              updateBuilder.where().eq("NICKNAME", username);
+              updateBuilder.updateColumnValue("TOTPTOKEN", secret);
               updateBuilder.update();
             } catch (SQLException e) {
               source.sendMessage(this.errorOccurred);
@@ -175,8 +175,8 @@ public class TotpCommand implements SimpleCommand {
           if (AuthSessionHandler.getVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
             try {
               updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq("nickname", username);
-              updateBuilder.updateColumnValue("totpToken", "");
+              updateBuilder.where().eq("NICKNAME", username);
+              updateBuilder.updateColumnValue("TOTPTOKEN", "");
               updateBuilder.update();
 
               source.sendMessage(this.disabled);

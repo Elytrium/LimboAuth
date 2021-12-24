@@ -18,40 +18,44 @@
 package net.elytrium.limboauth.command;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
+import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-public class ChangePasswordCommand implements SimpleCommand {
+public class PremiumCommand implements SimpleCommand {
 
+  private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
 
   private final Component notPlayer;
-  private final boolean needOldPass;
+  private final Component notPremium;
+  private final Component alreadyPremium;
   private final Component notRegistered;
-  private final Component wrongPassword;
   private final Component successful;
   private final Component errorOccurred;
+  private final Component wrongPassword;
   private final Component usage;
 
-  public ChangePasswordCommand(Dao<RegisteredPlayer, String> playerDao) {
+  public PremiumCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+    this.plugin = plugin;
     this.playerDao = playerDao;
 
     this.notPlayer = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
-    this.needOldPass = Settings.IMP.MAIN.CHANGE_PASSWORD_NEED_OLD_PASSWORD;
+    this.notPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PREMIUM);
+    this.alreadyPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ALREADY_PREMIUM);
     this.notRegistered = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.wrongPassword = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.successful = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_SUCCESSFUL);
+    this.successful = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL);
     this.errorOccurred = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_USAGE);
+    this.wrongPassword = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
+    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_USAGE);
   }
 
   @Override
@@ -64,31 +68,34 @@ public class ChangePasswordCommand implements SimpleCommand {
       return;
     }
 
-    if (this.needOldPass ? args.length == 2 : args.length == 1) {
-      if (this.needOldPass) {
-        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, ((Player) source).getUsername());
+    if (args.length == 2) {
+      if (args[1].equalsIgnoreCase("confirm")) {
+        String username = ((Player) source).getUsername();
+        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
         if (player == null) {
           source.sendMessage(this.notRegistered);
-          return;
-        } else if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+        } else if (player.getHash().isEmpty()) {
+          source.sendMessage(this.alreadyPremium);
+        } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+          if (this.plugin.isPremiumExternal(username)) {
+            try {
+              player.setHash("");
+              this.playerDao.update(player);
+              this.plugin.removePlayerFromCache(username);
+              ((Player) source).disconnect(this.successful);
+            } catch (SQLException e) {
+              source.sendMessage(this.errorOccurred);
+              e.printStackTrace();
+            }
+          } else {
+            source.sendMessage(this.notPremium);
+          }
+        } else {
           source.sendMessage(this.wrongPassword);
-          return;
         }
+
+        return;
       }
-
-      try {
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq("NICKNAME", ((Player) source).getUsername());
-        updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
-        updateBuilder.update();
-
-        source.sendMessage(this.successful);
-      } catch (SQLException e) {
-        source.sendMessage(this.errorOccurred);
-        e.printStackTrace();
-      }
-
-      return;
     }
 
     source.sendMessage(this.usage);
@@ -96,6 +103,6 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.changepassword") != Tristate.FALSE;
+    return invocation.source().getPermissionValue("limboauth.commands.unregister") != Tristate.FALSE;
   }
 }

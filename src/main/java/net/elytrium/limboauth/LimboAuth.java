@@ -23,6 +23,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
@@ -68,6 +69,7 @@ import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
+import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
@@ -187,6 +189,7 @@ public class LimboAuth {
     manager.unregister("limboauth");
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
+    manager.register("premium", new PremiumCommand(this, this.playerDao));
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this.playerDao), "changepass");
     manager.register("destroysession", new DestroySessionCommand(this));
@@ -233,7 +236,7 @@ public class LimboAuth {
     this.server.getEventManager().register(this, new AuthListener(this.playerDao));
 
     Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-cache")).scheduleAtFixedRate(() ->
-        this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
+            this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
@@ -316,31 +319,64 @@ public class LimboAuth {
       return;
     }
 
-    if (!Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH && player.isOnlineMode()) {
-      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUsername());
+    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
 
+    if (player.isOnlineMode()) {
       if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
-        this.factory.passLoginLimbo(player);
-        return;
+        registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
+        if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+          this.factory.passLoginLimbo(player);
+          return;
+        }
       }
     }
-
     // Send player to auth virtual server.
     try {
-      this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, nickname));
+      this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
     } catch (Throwable t) {
       this.getLogger().error("Error", t);
     }
   }
 
-  public boolean isPremium(String nickname) {
+  public boolean isPremiumExternal(String nickname) {
     try {
       HttpRequest request = HttpRequest.newBuilder()
           .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, nickname)))
           .build();
+
       HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
       return response.statusCode() == 200;
     } catch (IOException | InterruptedException e) {
+      this.getLogger().error("Unable to authenticate with Mojang", e);
+      return true;
+    }
+  }
+
+  public boolean isPremium(String nickname) {
+    try {
+      if (this.isPremiumExternal(nickname)) {
+        QueryBuilder<RegisteredPlayer, String> query = this.playerDao.queryBuilder();
+        query.where()
+            .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
+            .and()
+            .ne("HASH", "");
+        query.setCountOf(true);
+        QueryBuilder<RegisteredPlayer, String> query2 = this.playerDao.queryBuilder();
+        query2.where()
+            .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
+            .and()
+            .eq("HASH", "");
+        query2.setCountOf(true);
+        if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
+          return this.playerDao.countOf(query.prepare()) == 0
+              && this.playerDao.countOf(query2.prepare()) != 0;
+        } else {
+          return this.playerDao.countOf(query.prepare()) == 0;
+        }
+      } else {
+        return false;
+      }
+    } catch (SQLException e) {
       this.getLogger().error("Unable to authenticate with Mojang", e);
       return true;
     }

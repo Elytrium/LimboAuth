@@ -43,7 +43,7 @@ public class Settings extends Config {
     @Comment("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20")
     public String BOSSBAR_OVERLAY = "NOTCHED_20";
     public int MIN_PASSWORD_LENGTH = 4;
-    @Comment("Максимальная длинна пароля для BCrypt равняется 71 символу.")
+    @Comment("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71.")
     public int MAX_PASSWORD_LENGTH = 71;
     public boolean CHECK_PASSWORD_STRENGTH = true;
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
@@ -139,8 +139,8 @@ public class Settings extends Config {
       public String IP_LIMIT = "{PRFX} &cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
       public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cThe case of your nickname is wrong. Nickname is CaSe SeNsItIvE.";
 
-      public String BOSSBAR = "{PRFX} У вас осталось &6{0} &fсекунд чтобы авторизироваться.";
-      public String TIMES_UP = "{PRFX}{NL}&cВремя авторизации вышло.";
+      public String BOSSBAR = "{PRFX} You have &6{0} &fseconds left to log in.";
+      public String TIMES_UP = "{PRFX}{NL}&cAuthorization time is up.";
 
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
@@ -165,6 +165,11 @@ public class Settings extends Config {
 
       public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
       public String UNREGISTER_USAGE = "{PRFX} Usage: &6/unregister <current password> confirm";
+
+      public String PREMIUM_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to PREMIUM!";
+      public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
+      public String NOT_PREMIUM = "{PRFX} Your account is not PREMIUM";
+      public String ALREADY_PREMIUM = "{PRFX} Your account is already PREMIUM";
 
       public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &a{0} successfully unregistered!";
       public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";

@@ -68,11 +68,11 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private int attempts = Settings.IMP.MAIN.LOGIN_ATTEMPTS;
   private boolean totp = false;
 
-  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, String lowercaseNickname) {
+  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, RegisteredPlayer playerInfo) {
     this.playerDao = playerDao;
     this.proxyPlayer = proxyPlayer;
-    this.playerInfo = this.fetchInfo(lowercaseNickname);
     this.plugin = plugin;
+    this.playerInfo = playerInfo;
   }
 
   @Override
@@ -201,10 +201,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
-  }
-
-  private RegisteredPlayer fetchInfo(String nickname) {
-    return fetchInfo(this.playerDao, nickname);
   }
 
   public static CodeVerifier getVerifier() {
