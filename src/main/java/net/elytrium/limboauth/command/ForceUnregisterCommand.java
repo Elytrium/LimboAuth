@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.utils.SuggestUtils;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.utils.SuggestUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
