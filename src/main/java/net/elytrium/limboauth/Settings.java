@@ -166,19 +166,24 @@ public class Settings extends Config {
       public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
       public String UNREGISTER_USAGE = "{PRFX} Usage: &6/unregister <current password> confirm";
 
-      public String PREMIUM_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to PREMIUM!";
+      public String PREMIUM_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to &6PREMIUM&a!";
+      public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
+      public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
-      public String NOT_PREMIUM = "{PRFX} Your account is not PREMIUM";
-      public String ALREADY_PREMIUM = "{PRFX} Your account is already PREMIUM";
 
-      public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &a{0} successfully unregistered!";
+      public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &6{0} &asuccessfully unregistered!";
       public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";
-      public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister {0}. Most likely this player has never been on this server.";
+      public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_UNREGISTER_USAGE = "{PRFX} Usage: &6/forceunregister <nickname>";
 
       public String CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password!";
       @Comment("Or if change-password-need-old-pass set to false remove the \"<old password>\" part.")
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
+
+      public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
+      public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby administator!";
+      public String FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL = "{PRFX} &cUnable to change password for &6{0}&c. Most likely this player has never been on this server.";
+      public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
       public String TOTP_TITLE = "{PRFX}";

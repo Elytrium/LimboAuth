@@ -36,11 +36,11 @@ public class PremiumCommand implements SimpleCommand {
   private final Dao<RegisteredPlayer, String> playerDao;
 
   private final Component notPlayer;
-  private final Component notPremium;
-  private final Component alreadyPremium;
   private final Component notRegistered;
+  private final Component alreadyPremium;
   private final Component successful;
   private final Component errorOccurred;
+  private final Component notPremium;
   private final Component wrongPassword;
   private final Component usage;
 
@@ -49,11 +49,11 @@ public class PremiumCommand implements SimpleCommand {
     this.playerDao = playerDao;
 
     this.notPlayer = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
-    this.notPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PREMIUM);
-    this.alreadyPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ALREADY_PREMIUM);
     this.notRegistered = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
+    this.alreadyPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ALREADY_PREMIUM);
     this.successful = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL);
     this.errorOccurred = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
+    this.notPremium = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PREMIUM);
     this.wrongPassword = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
     this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_USAGE);
   }
@@ -103,6 +103,6 @@ public class PremiumCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.unregister") != Tristate.FALSE;
+    return invocation.source().getPermissionValue("limboauth.commands.premium") != Tristate.FALSE;
   }
 }

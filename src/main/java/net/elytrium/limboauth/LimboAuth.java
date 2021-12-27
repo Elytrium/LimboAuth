@@ -67,6 +67,7 @@ import net.elytrium.limboapi.api.file.SchematicFile;
 import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
+import net.elytrium.limboauth.command.ForceChangePasswordCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
@@ -78,6 +79,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.utils.UpdatesChecker;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 @Plugin(
@@ -94,9 +96,10 @@ public class LimboAuth {
   private static LimboAuth instance;
 
   private final HttpClient client = HttpClient.newHttpClient();
-  private final Path dataDirectory;
-  private final Logger logger;
   private final ProxyServer server;
+  private final Logger logger;
+  private final Metrics.Factory metricsFactory;
+  private final Path dataDirectory;
   private final LimboFactory factory;
 
   private final Set<String> unsafePasswords = new HashSet<>();
@@ -108,17 +111,20 @@ public class LimboAuth {
 
   @Inject
   @SuppressWarnings("OptionalGetWithoutIsPresent")
-  public LimboAuth(ProxyServer server, Logger logger, @Named("limboapi") PluginContainer factory, @DataDirectory Path dataDirectory) {
+  public LimboAuth(ProxyServer server, Logger logger, Metrics.Factory metricsFactory,
+      @Named("limboapi") PluginContainer factory, @DataDirectory Path dataDirectory) {
     setInstance(this);
 
     this.server = server;
     this.logger = logger;
+    this.metricsFactory = metricsFactory;
     this.dataDirectory = dataDirectory;
     this.factory = (LimboFactory) factory.getInstance().get();
   }
 
   @Subscribe
   public void onProxyInitialization(ProxyInitializeEvent event) throws Exception {
+    this.metricsFactory.make(this, 13700);
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
     this.reload();
@@ -182,8 +188,10 @@ public class LimboAuth {
 
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
+    manager.unregister("premium");
     manager.unregister("forceunregister");
     manager.unregister("changepassword");
+    manager.unregister("forcechangepassword");
     manager.unregister("destroysession");
     manager.unregister("2fa");
     manager.unregister("limboauth");
@@ -192,6 +200,7 @@ public class LimboAuth {
     manager.register("premium", new PremiumCommand(this, this.playerDao));
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this.playerDao), "changepass");
+    manager.register("forcechangepassword", new ForceChangePasswordCommand(this.server, this.playerDao), "forcechangepass");
     manager.register("destroysession", new DestroySessionCommand(this));
     if (Settings.IMP.MAIN.ENABLE_TOTP) {
       manager.register("2fa", new TotpCommand(this.playerDao), "totp");
@@ -236,7 +245,7 @@ public class LimboAuth {
     this.server.getEventManager().register(this, new AuthListener(this.playerDao));
 
     Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-cache")).scheduleAtFixedRate(() ->
-            this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
+        this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
@@ -320,7 +329,6 @@ public class LimboAuth {
     }
 
     RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
-
     if (player.isOnlineMode()) {
       if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
         registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
@@ -330,6 +338,7 @@ public class LimboAuth {
         }
       }
     }
+
     // Send player to auth virtual server.
     try {
       this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
@@ -340,12 +349,12 @@ public class LimboAuth {
 
   public boolean isPremiumExternal(String nickname) {
     try {
-      HttpRequest request = HttpRequest.newBuilder()
-          .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, nickname)))
-          .build();
-
-      HttpResponse<String> response = this.client.send(request, HttpResponse.BodyHandlers.ofString());
-      return response.statusCode() == 200;
+      return this.client.send(
+          HttpRequest.newBuilder()
+              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, nickname)))
+              .build(),
+          HttpResponse.BodyHandlers.ofString()
+      ).statusCode() == 200;
     } catch (IOException | InterruptedException e) {
       this.getLogger().error("Unable to authenticate with Mojang", e);
       return true;

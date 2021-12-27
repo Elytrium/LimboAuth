@@ -18,6 +18,7 @@
 package net.elytrium.limboauth.command;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -25,33 +26,31 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
-import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.utils.SuggestUtils;
+import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.utils.SuggestUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-public class ForceUnregisterCommand implements SimpleCommand {
+public class ForceChangePasswordCommand implements SimpleCommand {
 
-  private final LimboAuth plugin;
   private final ProxyServer server;
   private final Dao<RegisteredPlayer, String> playerDao;
 
-  private final Component kick;
+  private final String message;
   private final String successful;
   private final String notSuccessful;
   private final Component usage;
 
-  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
-    this.plugin = plugin;
+  public ForceChangePasswordCommand(ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
     this.server = server;
     this.playerDao = playerDao;
 
-    this.kick = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
-    this.successful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_SUCCESSFUL;
-    this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_NOT_SUCCESSFUL;
-    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_USAGE);
+    this.message = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_MESSAGE;
+    this.successful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
+    this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL;
+    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
   }
 
   @Override
@@ -64,16 +63,23 @@ public class ForceUnregisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (args.length == 1) {
-      String playerNick = args[0];
+    if (args.length == 2) {
+      String nickname = args[0];
+      String newPassword = args[1];
 
       try {
-        this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
-        this.plugin.removePlayerFromCache(playerNick);
-        this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.successful, playerNick)));
+        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+        updateBuilder.where().eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT));
+        updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(newPassword));
+        updateBuilder.update();
+
+        this.server.getPlayer(nickname).ifPresent(player ->
+            player.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.message, newPassword)))
+        );
+
+        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.successful, nickname)));
       } catch (SQLException e) {
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
+        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         e.printStackTrace();
       }
 
@@ -85,6 +91,6 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().hasPermission("limboauth.admin.forceunregister");
+    return invocation.source().hasPermission("limboauth.admin.forcechangepassword");
   }
 }

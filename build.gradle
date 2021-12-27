@@ -44,9 +44,11 @@ dependencies {
 
     implementation("com.j256.ormlite:ormlite-jdbc:5.7")
 
-    implementation("com.h2database:h2:2.0.202")
+    implementation("com.h2database:h2:1.4.200")
     implementation("mysql:mysql-connector-java:8.0.27")
     implementation("org.postgresql:postgresql:42.3.1")
+
+    implementation("org.bstats:bstats-velocity:2.2.1")
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.2")
 }
@@ -66,6 +68,10 @@ shadowJar {
     exclude("**/package-info.class")
 
     minimize()
+
+    // Why are we increasing the size of the plugin if we can do that? :thinking:
+    relocate("org.bstats", "net.elytrium.limboapi.bstats")
+    exclude("org/bstats/**")
 
     relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
     relocate("com.j256.ormlite", "net.elytrium.limboauth.thirdparty.com.j256.ormlite")
@@ -106,8 +112,8 @@ sourceSets.main.getJava().srcDir(getTasks().register("generateTemplates", Copy) 
     task.getInputs().properties("version": getVersion())
 
     task.from(file("src/main/templates"))
-            .into(getLayout().getBuildDirectory().dir("generated/sources/templates"))
-            .expand("version": getVersion())
+        .into(getLayout().getBuildDirectory().dir("generated/sources/templates"))
+        .expand("version": getVersion())
 }.map {
     it.getOutputs()
 })
