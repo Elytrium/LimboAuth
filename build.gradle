@@ -9,7 +9,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.0.3-SNAPSHOT")
+setVersion("1.0.3-rc1")
 
 compileJava {
     getOptions().setEncoding("UTF-8")
@@ -34,15 +34,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.3-SNAPSHOT")
+    compileOnly("net.elytrium:limboapi-api:1.0.3-rc-1")
 
-    compileOnly("com.velocitypowered:velocity-api:3.1.0")
-    annotationProcessor("com.velocitypowered:velocity-api:3.1.0")
+    compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("dev.samstevens.totp:totp:1.7.1")
 
-    implementation("com.j256.ormlite:ormlite-jdbc:5.7")
+    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 
     implementation("com.h2database:h2:1.4.200")
     implementation("mysql:mysql-connector-java:8.0.27")
@@ -70,7 +70,7 @@ shadowJar {
     minimize()
 
     // Why are we increasing the size of the plugin if we can do that? :thinking:
-    relocate("org.bstats", "net.elytrium.limboapi.bstats")
+    relocate("org.bstats", "net.elytrium.limboapi.thirdparty.org.bstats")
     exclude("org/bstats/**")
 
     relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
