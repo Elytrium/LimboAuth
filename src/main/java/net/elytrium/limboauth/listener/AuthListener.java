@@ -20,10 +20,13 @@ package net.elytrium.limboauth.listener;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.util.UuidUtils;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboapi.api.event.SafeGameProfileRequestEvent;
 import net.elytrium.limboauth.LimboAuth;
@@ -34,16 +37,18 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 // TODO: Customizable events priority
 public class AuthListener {
 
+  private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
 
-  public AuthListener(Dao<RegisteredPlayer, String> playerDao) {
+  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+    this.plugin = plugin;
     this.playerDao = playerDao;
   }
 
   @Subscribe
-  public void onProxyConnect(PreLoginEvent event) {
+  public void onPreLoginEvent(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      if (!LimboAuth.getInstance().isPremium(event.getUsername())) {
+      if (!this.plugin.isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       } else {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
@@ -52,14 +57,26 @@ public class AuthListener {
   }
 
   @Subscribe
-  public void onLogin(LoginLimboRegisterEvent event) {
-    if (LimboAuth.getInstance().needAuth(event.getPlayer())) {
-      event.addCallback(() -> LimboAuth.getInstance().authPlayer(event.getPlayer()));
+  public void onPostLogin(PostLoginEvent event) {
+    Map<UUID, Runnable> postLoginTasks = this.plugin.getPostLoginTasks();
+    UUID uuid = event.getPlayer().getUniqueId();
+    if (postLoginTasks.containsKey(uuid)) {
+      // We need to delay for player's client to finish switching the server, it takes a little time.
+      this.plugin.getServer().getScheduler().buildTask(
+          this.plugin, () -> postLoginTasks.get(uuid).run()
+      ).delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS).schedule();
     }
   }
 
   @Subscribe
-  public void onProfile(SafeGameProfileRequestEvent event) {
+  public void onLoginLimboRegister(LoginLimboRegisterEvent event) {
+    if (this.plugin.needAuth(event.getPlayer())) {
+      event.addCallback(() -> this.plugin.authPlayer(event.getPlayer()));
+    }
+  }
+
+  @Subscribe
+  public void onGameProfileRequest(SafeGameProfileRequestEvent event) {
     if (Settings.IMP.MAIN.SAVE_UUID) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
 
@@ -67,15 +84,12 @@ public class AuthListener {
         event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
         return;
       }
-
       registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getUsername());
 
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
 
-        if (event.isOnlineMode()
-            && registeredPlayer.getHash().isEmpty()
-            && registeredPlayer.getPremiumUuid().isEmpty()) {
+        if (event.isOnlineMode() && registeredPlayer.getHash().isEmpty() && registeredPlayer.getPremiumUuid().isEmpty()) {
           try {
             registeredPlayer.setPremiumUuid(event.getOriginalProfile().getId().toString());
             this.playerDao.update(registeredPlayer);

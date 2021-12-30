@@ -9,7 +9,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.0.3-rc1")
+setVersion("1.0.3-rc2")
 
 compileJava {
     getOptions().setEncoding("UTF-8")
@@ -28,16 +28,22 @@ repositories {
         setUrl("https://papermc.io/repo/repository/maven-public/")
     }
     maven {
+        setName("opencollab-repo")
+        setUrl("https://repo.opencollab.dev/maven-snapshots/")
+    }
+    maven {
         setName("elytrium-repo")
         setUrl("https://maven.elytrium.net/repo/")
     }
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.3-rc1")
+    compileOnly("net.elytrium:limboapi-api:1.0.3-rc2")
 
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
+
+    compileOnly("org.geysermc.floodgate:api:2.1.1-SNAPSHOT")
 
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("dev.samstevens.totp:totp:1.7.1")

@@ -30,6 +30,12 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class LimboAuthCommand implements SimpleCommand {
 
+  private final LimboAuth plugin;
+
+  public LimboAuthCommand(LimboAuth plugin) {
+    this.plugin = plugin;
+  }
+
   @Override
   public List<String> suggest(SimpleCommand.Invocation invocation) {
     CommandSource source = invocation.source();
@@ -57,7 +63,7 @@ public class LimboAuthCommand implements SimpleCommand {
     if (args.length == 1) {
       if (args[0].equalsIgnoreCase("reload") && source.hasPermission("limboauth.admin.reload")) {
         try {
-          LimboAuth.getInstance().reload();
+          this.plugin.reload();
           source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
         } catch (Exception e) {
           source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD_FAILED));

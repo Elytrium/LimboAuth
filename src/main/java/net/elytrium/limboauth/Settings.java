@@ -48,7 +48,11 @@ public class Settings extends Config {
     public boolean CHECK_PASSWORD_STRENGTH = true;
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
     public boolean ONLINE_MODE_NEED_AUTH = true;
+    @Comment("Needs floodgate plugin.")
+    public boolean FLOODGATE_NEED_AUTH = true;
     public boolean FORCE_OFFLINE_UUID = false;
+    @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
+    public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
     @Comment({
         "Forcibly set player's UUID to the value from the database",
         "If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."
@@ -122,7 +126,7 @@ public class Settings extends Config {
     @Create
     public MAIN.STRINGS STRINGS;
 
-    @Comment("Leave title fields empty to disable.")
+    @Comment("You can left blank the fields marked with \"*\" comment.")
     public static class STRINGS {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
@@ -142,13 +146,30 @@ public class Settings extends Config {
       public String BOSSBAR = "{PRFX} You have &6{0} &fseconds left to log in.";
       public String TIMES_UP = "{PRFX}{NL}&cAuthorization time is up.";
 
+      @Comment("*")
+      public String LOGIN_PREMIUM = "{PRFX} You've been logged in automatically using the premium account!";
+      @Comment("*")
+      public String LOGIN_PREMIUM_TITLE = "{PRFX} Welcome!";
+      @Comment("*")
+      public String LOGIN_PREMIUM_SUBTITLE = "&aYou has been logged in as premium player!";
+      @Comment("*")
+      public String LOGIN_FLOODGATE = "{PRFX} You've been logged in automatically using the bedrock account!";
+      @Comment("*")
+      public String LOGIN_FLOODGATE_TITLE = "{PRFX} Welcome!";
+      @Comment("*")
+      public String LOGIN_FLOODGATE_SUBTITLE = "&aYou has been logged in as bedrock player!";
+
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
       public String LOGIN_WRONG_PASSWORD_KICK = "{PRFX}{NL}&cYou've entered the wrong password numerous times!";
       public String LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully logged in!";
+      @Comment("*")
       public String LOGIN_TITLE = "&fPlease, login using &6/login <password>&a.";
+      @Comment("*")
       public String LOGIN_SUBTITLE = "&aYou have &6{0} &aattempts.";
+      @Comment("*")
       public String LOGIN_SUCCESSFUL_TITLE = "{PRFX}";
+      @Comment("*")
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
@@ -158,9 +179,13 @@ public class Settings extends Config {
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
+      @Comment("*")
       public String REGISTER_TITLE = "{PRFX}";
+      @Comment("*")
       public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
+      @Comment("*")
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
+      @Comment("*")
       public String REGISTER_SUCCESSFUL_SUBTITLE = "&aSuccessfully registered!";
 
       public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
@@ -186,7 +211,9 @@ public class Settings extends Config {
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
+      @Comment("*")
       public String TOTP_TITLE = "{PRFX}";
+      @Comment("*")
       public String TOTP_SUBTITLE = "&aEnter your 2FA key using &6/2fa <key>";
       public String TOTP_SUCCESSFUL = "{PRFX} &aSuccessfully enabled 2FA!";
       public String TOTP_DISABLED = "{PRFX} &aSuccessfully disabled 2FA!";

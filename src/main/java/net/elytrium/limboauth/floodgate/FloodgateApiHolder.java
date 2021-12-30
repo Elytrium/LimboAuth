@@ -15,10 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth;
+package net.elytrium.limboauth.floodgate;
 
-// The constants are replaced before compilation.
-public class BuildConstants {
+import java.util.UUID;
+import org.geysermc.floodgate.api.FloodgateApi;
 
-  public static final String AUTH_VERSION = "${version}";
+/**
+ * Holder class for optional floodgate feature, we can't inject of optional plugins without holders due to Velocity structure.
+ */
+public class FloodgateApiHolder {
+
+  private final FloodgateApi floodgateApi;
+
+  public FloodgateApiHolder() {
+    this.floodgateApi = FloodgateApi.getInstance();
+  }
+
+  public boolean isFloodgatePlayer(UUID uuid) {
+    return this.floodgateApi.isFloodgatePlayer(uuid);
+  }
 }
