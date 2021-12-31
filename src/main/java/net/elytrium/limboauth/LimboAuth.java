@@ -296,7 +296,7 @@ public class LimboAuth {
       tables.forEach(t -> {
         try {
           String columnDefinition = t.getColumnDefinition();
-          StringBuilder builder = new StringBuilder("ALTER TABLE `AUTH` ADD ");
+          StringBuilder builder = new StringBuilder("ALTER TABLE \"AUTH\" ADD ");
           List<String> dummy = new ArrayList<>();
           if (columnDefinition == null) {
             playerDao.getConnectionSource().getDatabaseType().appendColumnArg(t.getTableName(), builder, t, dummy, dummy, dummy, dummy);
