@@ -3,8 +3,8 @@
 # LimboAuth
 
 [![Join our Discord](https://img.shields.io/discord/775778822334709780.svg?logo=discord&label=Discord)](https://ely.su/discord)
-[![Proxy Stats](https://img.shields.io/bstats/servers/12530?logo=minecraft&label=Servers)](https://bstats.org/plugin/velocity/LimboAPI/12530)
-[![Proxy Stats](https://img.shields.io/bstats/players/12530?logo=minecraft&label=Players)](https://bstats.org/plugin/velocity/LimboAPI/12530)
+[![Proxy Stats](https://img.shields.io/bstats/servers/13700?logo=minecraft&label=Servers)](https://bstats.org/plugin/velocity/LimboAuth/13700)
+[![Proxy Stats](https://img.shields.io/bstats/players/13700?logo=minecraft&label=Players)](https://bstats.org/plugin/velocity/LimboAuth/13700)
 
 Auth System built in virtual server (Limbo). \
 [MC-Market](https://www.mc-market.org/resources/21097/) \
@@ -21,17 +21,17 @@ Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216)
 
 ## Features of LimboAuth
 
-- Supports H2, MySQL, PostgreSQL databases
-- Geyser Floodgate support
-- Hybrid (Floodgate/Online/Offline) mode support
-- Uses BCrypt - the best hashing algorithm for password
-- Ability to migrate from AuthMe-alike plugins
-- Ability to block weak passwords
-- TOTP 2FA support
-- Ability to set UUID from database
-- Highly customisable config - you can change all the messages the plugin sends, or just disable them
-- MCEdit schematic world loading
-- And more..
+- Supports H2, MySQL, PostgreSQL databases;
+- Geyser Floodgate support;
+- Hybrid (Floodgate/Online/Offline) mode support;
+- Uses BCrypt - the best hashing algorithm for password;
+- Ability to migrate from AuthMe-alike plugins;
+- Ability to block weak passwords;
+- TOTP 2FA support;
+- Ability to set UUID from database;
+- Highly customisable config - you can change all the messages the plugin sends, or just disable them;
+- MCEdit schematic world loading;
+- And more...
 
 ## Donation
 

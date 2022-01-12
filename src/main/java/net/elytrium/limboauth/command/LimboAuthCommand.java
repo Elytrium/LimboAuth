@@ -69,11 +69,9 @@ public class LimboAuthCommand implements SimpleCommand {
           source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD_FAILED));
           e.printStackTrace();
         }
-      } else {
-        this.showHelp(source);
-      }
 
-      return;
+        return;
+      }
     }
 
     this.showHelp(source);

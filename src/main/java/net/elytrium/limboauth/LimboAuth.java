@@ -77,7 +77,6 @@ import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.utils.UpdatesChecker;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bstats.velocity.Metrics;
@@ -114,7 +113,6 @@ public class LimboAuth {
   private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
-  private Component nicknameInvalid;
 
   @Inject
   public LimboAuth(ProxyServer server, Logger logger, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
@@ -253,8 +251,6 @@ public class LimboAuth {
 
     this.authServer = this.factory.createLimbo(authWorld);
 
-    this.nicknameInvalid = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
-
     this.server.getEventManager().unregisterListeners(this);
     this.server.getEventManager().register(this, new AuthListener(this, this.playerDao));
 
@@ -337,7 +333,7 @@ public class LimboAuth {
   public void authPlayer(Player player) {
     String nickname = player.getUsername();
     if (!this.nicknameValidationPattern.matcher(nickname).matches()) {
-      player.disconnect(this.nicknameInvalid);
+      player.disconnect(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK));
       return;
     }
 
