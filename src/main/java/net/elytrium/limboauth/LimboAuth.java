@@ -79,6 +79,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.utils.UpdatesChecker;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
+import org.bstats.charts.SimplePie;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -132,10 +133,18 @@ public class LimboAuth {
 
   @Subscribe
   public void onProxyInitialization(ProxyInitializeEvent event) throws Exception {
-    this.metricsFactory.make(this, 13700);
+    Metrics metrics = this.metricsFactory.make(this, 13700);
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
     this.reload();
+
+    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.MAIN.FLOODGATE_NEED_AUTH)));
+    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH)));
+    metrics.addCustomChart(new SimplePie("db_type", () -> Settings.IMP.DATABASE.STORAGE_TYPE));
+    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.IMP.MAIN.LOAD_WORLD)));
+    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.MAIN.ENABLE_TOTP)));
+    metrics.addCustomChart(new SimplePie("dimension", () -> Settings.IMP.MAIN.DIMENSION));
+    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
 
     UpdatesChecker.checkForUpdates(this.getLogger());
   }
