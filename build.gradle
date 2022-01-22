@@ -3,13 +3,13 @@
 plugins {
     id("java")
     id("checkstyle")
-    id("com.github.spotbugs").version("5.0.3")
+    id("com.github.spotbugs").version("5.0.5")
     id("org.cadixdev.licenser").version("0.6.1")
-    id("com.github.johnrengelman.shadow").version("7.1.0")
+    id("com.github.johnrengelman.shadow").version("7.1.2")
 }
 
 setGroup("net.elytrium")
-setVersion("1.0.3-rc2")
+setVersion("1.0.3-rc3")
 
 compileJava {
     getOptions().setEncoding("UTF-8")
@@ -24,6 +24,10 @@ repositories {
     mavenCentral()
 
     maven {
+        setName("elytrium-repo")
+        setUrl("https://maven.elytrium.net/repo/")
+    }
+    maven {
         setName("papermc-repo")
         setUrl("https://papermc.io/repo/repository/maven-public/")
     }
@@ -31,14 +35,10 @@ repositories {
         setName("opencollab-repo")
         setUrl("https://repo.opencollab.dev/maven-snapshots/")
     }
-    maven {
-        setName("elytrium-repo")
-        setUrl("https://maven.elytrium.net/repo/")
-    }
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.3-rc2")
+    compileOnly("net.elytrium:limboapi-api:1.0.3-rc5")
 
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
@@ -51,12 +51,12 @@ dependencies {
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 
     implementation("com.h2database:h2:1.4.200")
-    implementation("mysql:mysql-connector-java:8.0.27")
+    implementation("mysql:mysql-connector-java:8.0.28")
     implementation("org.postgresql:postgresql:42.3.1")
 
     implementation("org.bstats:bstats-velocity:2.2.1")
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.2")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.3")
 }
 
 shadowJar {
@@ -93,7 +93,7 @@ license {
 }
 
 checkstyle {
-    setToolVersion("9.2")
+    setToolVersion("9.2.1")
     setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
     setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
 

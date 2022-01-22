@@ -82,6 +82,7 @@ import net.elytrium.limboauth.utils.UpdatesChecker;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bstats.charts.SimplePie;
+import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -147,6 +148,7 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.MAIN.ENABLE_TOTP)));
     metrics.addCustomChart(new SimplePie("dimension", () -> Settings.IMP.MAIN.DIMENSION));
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
+    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
 
     UpdatesChecker.checkForUpdates(this.getLogger());
   }
@@ -260,7 +262,7 @@ public class LimboAuth {
       }
     }
 
-    this.authServer = this.factory.createLimbo(authWorld);
+    this.authServer = this.factory.createLimbo(authWorld).setName("LimboAuth");
 
     this.server.getEventManager().unregisterListeners(this);
     this.server.getEventManager().register(this, new AuthListener(this, this.playerDao));
