@@ -124,5 +124,17 @@ public class AuthListener {
     if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
+
+    if (!event.isOnlineMode() && !Settings.IMP.MAIN.OFFLINE_MODE_PREFIX.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(
+          Settings.IMP.MAIN.OFFLINE_MODE_PREFIX + event.getUsername()
+      ));
+    }
+
+    if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(
+          Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()
+      ));
+    }
   }
 }
