@@ -17,6 +17,8 @@
 
 package net.elytrium.limboauth.migration;
 
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -24,12 +26,12 @@ import java.security.NoSuchAlgorithmException;
 
 @SuppressWarnings("unused")
 public enum MigrationHash {
-
   AUTHME((hash, password) -> {
     String[] arr = hash.split("\\$"); // $SHA$salt$hash
     return arr.length == 4
         && arr[3].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-256") + arr[2], "SHA-256"));
   }),
+  ARGON2(new Argon2Verifier()),
   SHA512_NP((hash, password) -> {
     String[] arr = hash.split("\\$"); // SHA$salt$hash
     return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password + arr[1], "SHA-512"));
@@ -69,6 +71,19 @@ public enum MigrationHash {
       return String.format("%0" + (array.length << 1) + "x", new BigInteger(1, array));
     } catch (NoSuchAlgorithmException e) {
       throw new IllegalArgumentException(e);
+    }
+  }
+
+  private static class Argon2Verifier implements MigrationHashVerifier {
+    private Argon2 argon2;
+
+    @Override
+    public boolean checkPassword(String hash, String password) {
+      if (this.argon2 == null) {
+        this.argon2 = Argon2Factory.create();
+      }
+
+      return this.argon2.verify(hash, password.getBytes(StandardCharsets.UTF_8));
     }
   }
 }

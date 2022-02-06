@@ -55,6 +55,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.3.1")
 
     implementation("org.bstats:bstats-velocity:2.2.1")
+    implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.3")
 }
