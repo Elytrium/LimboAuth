@@ -106,9 +106,9 @@ public class AuthListener {
           } catch (SQLException ex) {
             ex.printStackTrace();
           }
+        } else {
+          event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
         }
-
-        event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
       }
     } else if (event.isOnlineMode()) {
       try {
