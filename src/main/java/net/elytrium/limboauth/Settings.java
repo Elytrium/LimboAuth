@@ -68,7 +68,13 @@ public class Settings extends Config {
     public String ONLINE_MODE_PREFIX = "";
     @Comment({
         "If you want to migrate your database from another plugin, which is not using BCrypt.",
-        "You can set an old hash algorithm to migrate from. Currently, only AUTHME is supported yet."
+        "You can set an old hash algorithm to migrate from.",
+        "AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$password",
+        "SHA256_NP - SHA256(password) that looks like SHA$salt$password",
+        "SHA256_P - SHA256(password) that looks like $SHA$salt$password",
+        "SHA512_NP - SHA512(password) that looks like SHA$salt$password",
+        "SHA512_P - SHA512(password) that looks like $SHA$salt$password",
+        "MD5 - Basic md5 hash"
     })
     public String MIGRATION_HASH = "";
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")

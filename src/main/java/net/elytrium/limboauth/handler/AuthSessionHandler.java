@@ -212,7 +212,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
-    boolean isCorrect = BCrypt.verifyer().verify(password.getBytes(StandardCharsets.UTF_8), player.getHash().getBytes(StandardCharsets.UTF_8)).verified;
+    boolean isCorrect = BCrypt.verifyer().verify(
+        password.getBytes(StandardCharsets.UTF_8),
+        player.getHash().replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
+    ).verified;
 
     if (!isCorrect && !Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
       isCorrect = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH).checkPassword(player.getHash(), password);

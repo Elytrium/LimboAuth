@@ -22,12 +22,32 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("unused")
 public enum MigrationHash {
 
-  @SuppressWarnings("unused")
   AUTHME((hash, password) -> {
     String[] arr = hash.split("\\$"); // $SHA$salt$hash
-    return arr.length == 4 && arr[3].equals(MigrationHash.getSHA256(MigrationHash.getSHA256(password) + arr[2]));
+    return arr.length == 4
+        && arr[3].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-256") + arr[2], "SHA-256"));
+  }),
+  SHA512_NP((hash, password) -> {
+    String[] arr = hash.split("\\$"); // SHA$salt$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password + arr[1], "SHA-512"));
+  }),
+  SHA512_P((hash, password) -> {
+    String[] arr = hash.split("\\$"); // $SHA$salt$hash
+    return arr.length == 4 && arr[3].equals(MigrationHash.getDigest(password + arr[2], "SHA-512"));
+  }),
+  SHA256_NP((hash, password) -> {
+    String[] arr = hash.split("\\$"); // SHA$salt$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password + arr[1], "SHA-256"));
+  }),
+  SHA256_P((hash, password) -> {
+    String[] arr = hash.split("\\$"); // $SHA$salt$hash
+    return arr.length == 4 && arr[3].equals(MigrationHash.getDigest(password + arr[2], "SHA-256"));
+  }),
+  MD5((hash, password) -> {
+    return hash.equals(MigrationHash.getDigest(password, "MD5"));
   });
 
   final MigrationHashVerifier verifier;
@@ -40,9 +60,9 @@ public enum MigrationHash {
     return this.verifier.checkPassword(hash, password);
   }
 
-  private static String getSHA256(String string) {
+  private static String getDigest(String string, String algo) {
     try {
-      MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+      MessageDigest messageDigest = MessageDigest.getInstance(algo);
       messageDigest.reset();
       messageDigest.update(string.getBytes(StandardCharsets.UTF_8));
       byte[] array = messageDigest.digest();
