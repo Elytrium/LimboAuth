@@ -42,6 +42,7 @@ public class UnregisterCommand implements SimpleCommand {
   private final Component errorOccurred;
   private final Component wrongPassword;
   private final Component usage;
+  private final Component crackedCommand;
 
   public UnregisterCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
     this.plugin = plugin;
@@ -53,6 +54,7 @@ public class UnregisterCommand implements SimpleCommand {
     this.errorOccurred = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
     this.wrongPassword = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
     this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_USAGE);
+    this.crackedCommand = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
   }
 
   @Override
@@ -71,6 +73,8 @@ public class UnregisterCommand implements SimpleCommand {
         RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
         if (player == null) {
           source.sendMessage(this.notRegistered);
+        } else if (player.getHash().isEmpty()) {
+          source.sendMessage(this.crackedCommand);
         } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           try {
             this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));

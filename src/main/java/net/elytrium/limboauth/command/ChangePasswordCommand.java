@@ -41,6 +41,7 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component successful;
   private final Component errorOccurred;
   private final Component usage;
+  private final Component crackedCommand;
 
   public ChangePasswordCommand(Dao<RegisteredPlayer, String> playerDao) {
     this.playerDao = playerDao;
@@ -52,6 +53,7 @@ public class ChangePasswordCommand implements SimpleCommand {
     this.successful = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_SUCCESSFUL);
     this.errorOccurred = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
     this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_USAGE);
+    this.crackedCommand = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
   }
 
   @Override
@@ -70,6 +72,8 @@ public class ChangePasswordCommand implements SimpleCommand {
         if (player == null) {
           source.sendMessage(this.notRegistered);
           return;
+        } else if (player.getHash().isEmpty()) {
+          source.sendMessage(this.crackedCommand);
         } else if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           source.sendMessage(this.wrongPassword);
           return;

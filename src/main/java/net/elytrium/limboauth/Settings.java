@@ -145,7 +145,8 @@ public class Settings extends Config {
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
 
       public String NOT_PLAYER = "{PRFX} &cСonsole is not allowed to execute this command!";
-      public String NOT_REGISTERED = "{PRFX} &cYou are not registered!";
+      public String NOT_REGISTERED = "{PRFX} &cYou are not registered or your account is &6PREMIUM!";
+      public String CRACKED_COMMAND = "{PRFX}{NL}&aYou can not use this command since your account is &6PREMIUM&a!";
       public String WRONG_PASSWORD = "{PRFX} &cPassword is wrong!";
 
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";

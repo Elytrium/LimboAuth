@@ -60,6 +60,7 @@ public class TotpCommand implements SimpleCommand {
   private final String recovery;
   private final Component disabled;
   private final Component wrong;
+  private final Component crackedCommand;
 
   public TotpCommand(Dao<RegisteredPlayer, String> playerDao) {
     this.playerDao = playerDao;
@@ -80,6 +81,7 @@ public class TotpCommand implements SimpleCommand {
     this.recovery = Settings.IMP.MAIN.STRINGS.TOTP_RECOVERY;
     this.disabled = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.TOTP_DISABLED);
     this.wrong = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.TOTP_WRONG);
+    this.crackedCommand = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
   }
 
   @Override
@@ -107,6 +109,8 @@ public class TotpCommand implements SimpleCommand {
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
               return;
+            } else if (playerInfo.getHash().isEmpty()) {
+              source.sendMessage(this.crackedCommand);
             } else if (this.needPassword && !AuthSessionHandler.checkPassword(args[1], playerInfo, this.playerDao)) {
               source.sendMessage(this.wrongPassword);
               return;
