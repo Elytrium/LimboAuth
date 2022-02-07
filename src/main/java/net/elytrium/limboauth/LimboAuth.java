@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -24,7 +25,11 @@ import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
+import com.mojang.brigadier.tree.CommandNode;
 import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
+import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Dependency;
@@ -47,6 +52,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -84,6 +90,7 @@ import net.kyori.adventure.title.Title;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 
 @Plugin(
@@ -262,7 +269,12 @@ public class LimboAuth {
       }
     }
 
-    this.authServer = this.factory.createLimbo(authWorld).setName("LimboAuth");
+    this.authServer = this.factory
+        .createLimbo(authWorld)
+        .setName("LimboAuth")
+        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("2fa", "totp")), new AuthCommand())
+        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("login", "l", "log")), new AuthCommand())
+        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("reg", "register")), new AuthCommand());
 
     this.server.getEventManager().unregisterListeners(this);
     this.server.getEventManager().register(this, new AuthListener(this, this.playerDao));
@@ -486,6 +498,39 @@ public class LimboAuth {
 
     public long getCheckTime() {
       return this.checkTime;
+    }
+  }
+
+  private static class AuthCommandMeta implements CommandMeta {
+
+    private final LimboAuth plugin;
+    private final Collection<String> aliases;
+
+    AuthCommandMeta(LimboAuth plugin, Collection<String> aliases) {
+      this.plugin = plugin;
+      this.aliases = aliases;
+    }
+
+    @Override
+    public Collection<String> getAliases() {
+      return this.aliases;
+    }
+
+    @Override
+    public Collection<CommandNode<CommandSource>> getHints() {
+      return Collections.emptyList();
+    }
+
+    @Override
+    public @Nullable Object getPlugin() {
+      return this.plugin;
+    }
+  }
+
+  private static class AuthCommand implements SimpleCommand {
+    @Override
+    public void execute(Invocation invocation) {
+
     }
   }
 }
