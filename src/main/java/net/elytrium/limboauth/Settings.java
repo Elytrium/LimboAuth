@@ -19,6 +19,8 @@ package net.elytrium.limboauth;
 
 import java.io.File;
 import net.elytrium.limboauth.config.Config;
+import net.kyori.adventure.title.Title;
+import net.kyori.adventure.util.Ticks;
 
 public class Settings extends Config {
 
@@ -119,6 +121,36 @@ public class Settings extends Config {
       public int X = 0;
       public int Y = 0;
       public int Z = 0;
+    }
+
+    @Create
+    public Settings.MAIN.CRACKED_TITLE_SETTINGS CRACKED_TITLE_SETTINGS;
+
+    public static class CRACKED_TITLE_SETTINGS {
+
+      public int FADE_IN = 10;
+      public int STAY = 70;
+      public int FADE_OUT = 20;
+      public boolean CLEAR_AFTER_LOGIN = false;
+
+      public Title.Times toTimes() {
+        return Title.Times.of(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+      }
+
+    }
+
+    @Create
+    public Settings.MAIN.PREMIUM_TITLE_SETTINGS PREMIUM_TITLE_SETTINGS;
+
+    public static class PREMIUM_TITLE_SETTINGS {
+
+      public int FADE_IN = 10;
+      public int STAY = 70;
+      public int FADE_OUT = 20;
+
+      public Title.Times toTimes() {
+        return Title.Times.of(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+      }
     }
 
     /*

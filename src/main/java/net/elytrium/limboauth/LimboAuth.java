@@ -367,7 +367,8 @@ public class LimboAuth {
                 player.showTitle(
                     Title.title(
                         LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_PREMIUM_TITLE),
-                        LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_PREMIUM_SUBTITLE)
+                        LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_PREMIUM_SUBTITLE),
+                        Settings.IMP.MAIN.PREMIUM_TITLE_SETTINGS.toTimes()
                     )
                 );
               }
@@ -379,7 +380,8 @@ public class LimboAuth {
                 player.showTitle(
                     Title.title(
                         LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_FLOODGATE_TITLE),
-                        LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_FLOODGATE_SUBTITLE)
+                        LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_FLOODGATE_SUBTITLE),
+                        Settings.IMP.MAIN.PREMIUM_TITLE_SETTINGS.toTimes()
                     )
                 );
               }

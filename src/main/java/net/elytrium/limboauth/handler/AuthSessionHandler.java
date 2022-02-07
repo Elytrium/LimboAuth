@@ -123,7 +123,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 this.proxyPlayer.showTitle(
                     Title.title(
                         this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_TITLE),
-                        this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_SUBTITLE)
+                        this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_SUBTITLE),
+                        Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
                     )
                 );
               }
@@ -307,7 +308,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.showTitle(
           Title.title(
               this.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_TITLE),
-              this.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE)
+              this.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE),
+              Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
           )
       );
     }
@@ -315,6 +317,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void finishAuth() {
+    if (Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.CLEAR_AFTER_LOGIN) {
+      this.proxyPlayer.clearTitle();
+    }
+
     this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
   }
@@ -324,14 +330,20 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.sendMessage(this.deserialize(Settings.IMP.MAIN.STRINGS.TOTP));
       if (sendTitle && !Settings.IMP.MAIN.STRINGS.TOTP_TITLE.isEmpty() && !Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE.isEmpty()) {
         this.proxyPlayer.showTitle(
-            Title.title(this.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_TITLE), this.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE))
+            Title.title(
+                this.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_TITLE),
+                this.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE),
+                Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes())
         );
       }
     } else if (this.playerInfo == null) {
       this.proxyPlayer.sendMessage(this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER));
       if (sendTitle && !Settings.IMP.MAIN.STRINGS.REGISTER_TITLE.isEmpty() && !Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE.isEmpty()) {
         this.proxyPlayer.showTitle(
-            Title.title(this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_TITLE), this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE))
+            Title.title(
+                this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_TITLE),
+                this.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE),
+                Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes())
         );
       }
     } else {
@@ -340,7 +352,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
         this.proxyPlayer.showTitle(
             Title.title(
                 this.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_TITLE, this.attempts)),
-                this.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE, this.attempts))
+                this.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE, this.attempts)),
+                Settings.IMP.MAIN.PREMIUM_TITLE_SETTINGS.toTimes()
             )
         );
       }
