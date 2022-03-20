@@ -22,15 +22,16 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
+import com.velocitypowered.api.event.player.GameProfileRequestEvent;
 import com.velocitypowered.api.util.UuidUtils;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
-import net.elytrium.limboapi.api.event.SafeGameProfileRequestEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
@@ -39,10 +40,12 @@ public class AuthListener {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
     this.playerDao = playerDao;
+    this.floodgateApi = floodgateApi;
   }
 
   @Subscribe
@@ -77,8 +80,8 @@ public class AuthListener {
   }
 
   @Subscribe
-  public void onGameProfileRequest(SafeGameProfileRequestEvent event) {
-    if (Settings.IMP.MAIN.SAVE_UUID) {
+  public void onGameProfileRequest(GameProfileRequestEvent event) {
+    if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
 
       if (registeredPlayer != null) {

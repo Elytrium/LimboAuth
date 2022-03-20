@@ -34,4 +34,8 @@ public class FloodgateApiHolder {
   public boolean isFloodgatePlayer(UUID uuid) {
     return this.floodgateApi.isFloodgatePlayer(uuid);
   }
+
+  public int getPrefixLength() {
+    return this.floodgateApi.getPlayerPrefix().length();
+  }
 }

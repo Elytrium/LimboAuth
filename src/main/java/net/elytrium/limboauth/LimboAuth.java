@@ -277,7 +277,7 @@ public class LimboAuth {
         .registerCommand(new AuthCommandMeta(this, ImmutableList.of("reg", "register")), new AuthCommand());
 
     this.server.getEventManager().unregisterListeners(this);
-    this.server.getEventManager().register(this, new AuthListener(this, this.playerDao));
+    this.server.getEventManager().register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
 
     Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-cache")).scheduleAtFixedRate(() ->
         this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
@@ -357,6 +357,12 @@ public class LimboAuth {
 
   public void authPlayer(Player player) {
     String nickname = player.getUsername();
+    boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
+
+    if (isFloodgate) {
+      nickname = nickname.substring(this.floodgateApi.getPrefixLength());
+    }
+
     if (!this.nicknameValidationPattern.matcher(nickname).matches()) {
       player.disconnect(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK));
       return;
@@ -364,7 +370,7 @@ public class LimboAuth {
 
     RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
     boolean onlineMode = player.isOnlineMode();
-    if (onlineMode || (!Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId()))) {
+    if (onlineMode || isFloodgate) {
       if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
         registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
         if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
