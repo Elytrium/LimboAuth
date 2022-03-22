@@ -298,7 +298,11 @@ public class LimboAuth {
             + playerDao.getTableInfo().getTableName() + "';";
         break;
       }
-      case "postgresql":
+      case "postgresql": {
+        findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = '" + Settings.IMP.DATABASE.DATABASE
+            + "' AND TABLE_NAME = '" + playerDao.getTableInfo().getTableName() + "';";
+        break;
+      }
       case "mysql": {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + Settings.IMP.DATABASE.DATABASE
             + "' AND TABLE_NAME = '" + playerDao.getTableInfo().getTableName() + "';";
