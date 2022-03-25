@@ -451,6 +451,10 @@ public class LimboAuth {
   }
 
   public boolean isPremium(String nickname) {
+    if (Settings.IMP.MAIN.FORCE_OFFLINE_MODE) {
+      return false;
+    }
+
     try {
       if (this.isPremiumExternal(nickname)) {
         QueryBuilder<RegisteredPlayer, String> premiumRegisteredQuery = this.playerDao.queryBuilder();

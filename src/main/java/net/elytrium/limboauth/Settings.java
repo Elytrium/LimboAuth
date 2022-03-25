@@ -52,6 +52,9 @@ public class Settings extends Config {
     public boolean ONLINE_MODE_NEED_AUTH = true;
     @Comment("Needs floodgate plugin.")
     public boolean FLOODGATE_NEED_AUTH = true;
+    @Comment("TOTALLY disables hybrid auth feature")
+    public boolean FORCE_OFFLINE_MODE = false;
+    @Comment("Forces all players to get offline uuid")
     public boolean FORCE_OFFLINE_UUID = false;
     @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
     public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
