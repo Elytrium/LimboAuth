@@ -134,7 +134,7 @@ public class Settings extends Config {
       public boolean CLEAR_AFTER_LOGIN = false;
 
       public Title.Times toTimes() {
-        return Title.Times.of(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+        return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
       }
 
     }
@@ -149,7 +149,7 @@ public class Settings extends Config {
       public int FADE_OUT = 20;
 
       public Title.Times toTimes() {
-        return Title.Times.of(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+        return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
       }
     }
 
@@ -239,6 +239,8 @@ public class Settings extends Config {
       public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
       public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
+
+      public String EVENT_CANCELLED = "{PRFX} Authorization event was cancelled";
 
       public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &6{0} &asuccessfully unregistered!";
       public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";

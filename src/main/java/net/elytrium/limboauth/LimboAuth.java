@@ -80,6 +80,8 @@ import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
+import net.elytrium.limboauth.event.PreAuthorizationEvent;
+import net.elytrium.limboauth.event.PreRegisterEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
@@ -416,6 +418,16 @@ public class LimboAuth {
       }
     }
 
+    if (registeredPlayer == null) {
+      this.server.getEventManager().fire(new PreRegisterEvent(player)).thenAcceptAsync((event)
+          -> this.sendPlayer(event.getPlayer(), null));
+    } else {
+      this.server.getEventManager().fire(new PreAuthorizationEvent(player, registeredPlayer)).thenAcceptAsync((event)
+          -> this.sendPlayer(event.getPlayer(), event.getPlayerInfo()));
+    }
+  }
+
+  private void sendPlayer(Player player, RegisteredPlayer registeredPlayer) {
     // Send player to auth virtual server.
     try {
       this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));

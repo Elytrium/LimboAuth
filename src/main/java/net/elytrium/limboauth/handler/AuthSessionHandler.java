@@ -38,6 +38,10 @@ import net.elytrium.limboapi.api.LimboSessionHandler;
 import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.event.PostAuthorizationEvent;
+import net.elytrium.limboauth.event.PostEvent;
+import net.elytrium.limboauth.event.PostRegisterEvent;
+import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.bossbar.BossBar;
@@ -128,7 +132,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                     )
                 );
               }
-              this.finishAuth();
+              this.finishRegister();
             }
           } else {
             this.sendMessage(false);
@@ -313,12 +317,25 @@ public class AuthSessionHandler implements LimboSessionHandler {
           )
       );
     }
-    this.finishAuth();
+
+    this.plugin.getServer().getEventManager()
+        .fire(new PostAuthorizationEvent(this.player, this.playerInfo))
+        .thenAcceptAsync(this::finishAuth);
   }
 
-  private void finishAuth() {
+  private void finishRegister() {
+    this.plugin.getServer().getEventManager()
+        .fire(new PostRegisterEvent(this.player, this.playerInfo))
+        .thenAcceptAsync(this::finishAuth);
+  }
+
+  private void finishAuth(PostEvent event) {
     if (Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.CLEAR_AFTER_LOGIN) {
       this.proxyPlayer.clearTitle();
+    }
+
+    if (event.getResult() == TaskEvent.Result.CANCEL) {
+      this.proxyPlayer.disconnect(event.getReason());
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);

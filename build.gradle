@@ -6,6 +6,7 @@ plugins {
     id("com.github.spotbugs").version("5.0.5")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
+    id("maven-publish")
 }
 
 setGroup("net.elytrium")
@@ -34,6 +35,39 @@ repositories {
     maven {
         setName("opencollab-repo")
         setUrl("https://repo.opencollab.dev/maven-snapshots/")
+    }
+}
+
+task javadocJar(type: Jar) {
+    getArchiveClassifier().set("javadoc")
+    from(javadoc)
+}
+
+task sourcesJar(type: Jar) {
+    getArchiveClassifier().set("sources")
+    from(sourceSets.main.getAllSource())
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                setUsername(System.getenv("PUBLISH_USERNAME"))
+                setPassword(System.getenv("PUBLISH_PASSWORD"))
+            }
+
+            setName("elytrium-repo")
+            setUrl("https://maven.elytrium.net/repo/")
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+
+            artifact(javadocJar)
+            artifact(sourcesJar)
+        }
     }
 }
 
