@@ -80,6 +80,7 @@ import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
 import net.elytrium.limboauth.event.PreAuthorizationEvent;
+import net.elytrium.limboauth.event.PreEvent;
 import net.elytrium.limboauth.event.PreRegisterEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
@@ -423,19 +424,35 @@ public class LimboAuth {
 
     if (registeredPlayer == null) {
       this.server.getEventManager().fire(new PreRegisterEvent(player)).thenAcceptAsync((event)
-          -> this.sendPlayer(event.getPlayer(), null));
+          -> this.sendPlayer(event, null));
     } else {
       this.server.getEventManager().fire(new PreAuthorizationEvent(player, registeredPlayer)).thenAcceptAsync((event)
-          -> this.sendPlayer(event.getPlayer(), event.getPlayerInfo()));
+          -> this.sendPlayer(event, event.getPlayerInfo()));
     }
   }
 
-  private void sendPlayer(Player player, RegisteredPlayer registeredPlayer) {
-    // Send player to auth virtual server.
-    try {
-      this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
-    } catch (Throwable t) {
-      this.getLogger().error("Error", t);
+  private void sendPlayer(PreEvent event, RegisteredPlayer registeredPlayer) {
+    Player player = event.getPlayer();
+
+    switch (event.getResult()) {
+      case BYPASS: {
+        this.factory.passLoginLimbo(player);
+        break;
+      }
+      case CANCEL: {
+        player.disconnect(event.getReason());
+        break;
+      }
+      case NORMAL:
+      default: {
+        try {
+          this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
+        } catch (Throwable t) {
+          this.getLogger().error("Error", t);
+        }
+
+        break;
+      }
     }
   }
 
