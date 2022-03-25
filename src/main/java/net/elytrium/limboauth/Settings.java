@@ -18,6 +18,7 @@
 package net.elytrium.limboauth;
 
 import java.io.File;
+import java.util.List;
 import net.elytrium.limboauth.config.Config;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
@@ -115,6 +116,10 @@ public class Settings extends Config {
         "Or implement your own API, it should just respond with HTTP code 200 only if the player is premium"
     })
     public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+
+    public List<String> REGISTER_COMMAND = List.of("/r", "/reg", "/register");
+    public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");
+    public List<String> TOTP_COMMAND = List.of("/2fa", "/totp");
 
     @Create
     public Settings.MAIN.WORLD_COORDS WORLD_COORDS;

@@ -115,10 +115,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
   public void onChat(String message) {
     String[] args = message.split(" ");
     if (args.length != 0 && this.checkArgsLength(args.length)) {
-      switch (args[0]) {
-        case "/reg":
-        case "/register":
-        case "/r": {
+      Command command = Command.parse(args[0]);
+      switch (command) {
+        case REGISTER: {
           if (!this.totp && this.playerInfo == null) {
             if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(args[1]) && this.checkPasswordStrength(args[1])) {
               this.register(args[1]);
@@ -139,9 +138,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
           break;
         }
-        case "/log":
-        case "/login":
-        case "/l": {
+        case LOGIN: {
           if (!this.totp && this.playerInfo != null) {
             if (this.checkPassword(args[1])) {
               this.loginOrTotp();
@@ -155,8 +152,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
           break;
         }
-        case "/totp":
-        case "/2fa": {
+        case TOTP: {
           if (this.totp) {
             if (verifier.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
               this.finishLogin();
@@ -168,6 +164,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
           break;
         }
+        case INVALID:
         default: {
           this.sendMessage(false);
         }
@@ -422,5 +419,28 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static String genHash(String password) {
     return BCrypt.withDefaults().hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+  }
+
+  private enum Command {
+    INVALID,
+    REGISTER,
+    LOGIN,
+    TOTP;
+
+    static Command parse(String command) {
+      if (Settings.IMP.MAIN.REGISTER_COMMAND.contains(command)) {
+        return Command.REGISTER;
+      }
+
+      if (Settings.IMP.MAIN.LOGIN_COMMAND.contains(command)) {
+        return Command.LOGIN;
+      }
+
+      if (Settings.IMP.MAIN.TOTP_COMMAND.contains(command)) {
+        return Command.TOTP;
+      }
+
+      return Command.INVALID;
+    }
   }
 }

@@ -17,7 +17,6 @@
 
 package net.elytrium.limboauth;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -274,9 +273,9 @@ public class LimboAuth {
     this.authServer = this.factory
         .createLimbo(authWorld)
         .setName("LimboAuth")
-        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("2fa", "totp")), new AuthCommand())
-        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("login", "l", "log")), new AuthCommand())
-        .registerCommand(new AuthCommandMeta(this, ImmutableList.of("reg", "register")), new AuthCommand());
+        .registerCommand(new AuthCommandMeta(this, this.filterCommands(Settings.IMP.MAIN.REGISTER_COMMAND)), new AuthCommand())
+        .registerCommand(new AuthCommandMeta(this, this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)), new AuthCommand())
+        .registerCommand(new AuthCommandMeta(this, this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)), new AuthCommand());
 
     this.server.getEventManager().unregisterListeners(this);
     this.server.getEventManager().register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
@@ -287,6 +286,10 @@ public class LimboAuth {
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
     );
+  }
+
+  private List<String> filterCommands(List<String> commands) {
+    return commands.stream().filter(e -> e.startsWith("/")).map(e -> e.substring(1)).collect(Collectors.toList());
   }
 
   public void migrateDb(Dao<RegisteredPlayer, String> playerDao) {
