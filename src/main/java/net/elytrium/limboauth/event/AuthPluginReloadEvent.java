@@ -17,19 +17,5 @@
 
 package net.elytrium.limboauth.event;
 
-import com.velocitypowered.api.proxy.Player;
-import java.util.function.Consumer;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-
-public class PreAuthorizationEvent extends PreEvent {
-  private final RegisteredPlayer playerInfo;
-
-  public PreAuthorizationEvent(Player player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
-    super(player, onComplete);
-    this.playerInfo = playerInfo;
-  }
-
-  public RegisteredPlayer getPlayerInfo() {
-    return this.playerInfo;
-  }
+public class AuthPluginReloadEvent {
 }

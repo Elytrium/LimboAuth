@@ -63,6 +63,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.elytrium.limboapi.api.Limbo;
@@ -79,9 +80,11 @@ import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
+import net.elytrium.limboauth.event.AuthPluginReloadEvent;
 import net.elytrium.limboauth.event.PreAuthorizationEvent;
 import net.elytrium.limboauth.event.PreEvent;
 import net.elytrium.limboauth.event.PreRegisterEvent;
+import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
@@ -122,6 +125,8 @@ public class LimboAuth {
   private final Path dataDirectory;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
+
+  private JdbcPooledConnectionSource connectionSource;
 
   private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
@@ -183,26 +188,25 @@ public class LimboAuth {
     this.cachedAuthChecks.clear();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
-    JdbcPooledConnectionSource connectionSource;
     // requireNonNull prevents the shade plugin from excluding the drivers in minimized jar.
     switch (dbConfig.STORAGE_TYPE.toLowerCase(Locale.ROOT)) {
       case "h2": {
         Objects.requireNonNull(org.h2.Driver.class);
         Objects.requireNonNull(org.h2.engine.Engine.class);
-        connectionSource = new JdbcPooledConnectionSource("jdbc:h2:" + this.dataDirectory.toFile().getAbsoluteFile() + "/limboauth");
+        this.connectionSource = new JdbcPooledConnectionSource("jdbc:h2:" + this.dataDirectory.toFile().getAbsoluteFile() + "/limboauth");
         break;
       }
       case "mysql": {
         Objects.requireNonNull(com.mysql.cj.jdbc.Driver.class);
         Objects.requireNonNull(com.mysql.cj.conf.url.SingleConnectionUrl.class);
-        connectionSource = new JdbcPooledConnectionSource(
+        this.connectionSource = new JdbcPooledConnectionSource(
             "jdbc:mysql://" + dbConfig.HOSTNAME + "/" + dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS, dbConfig.USER, dbConfig.PASSWORD
         );
         break;
       }
       case "postgresql": {
         Objects.requireNonNull(org.postgresql.Driver.class);
-        connectionSource = new JdbcPooledConnectionSource(
+        this.connectionSource = new JdbcPooledConnectionSource(
             "jdbc:postgresql://" + dbConfig.HOSTNAME + "/" + dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS, dbConfig.USER, dbConfig.PASSWORD
         );
         break;
@@ -214,8 +218,8 @@ public class LimboAuth {
       }
     }
 
-    TableUtils.createTableIfNotExists(connectionSource, RegisteredPlayer.class);
-    this.playerDao = DaoManager.createDao(connectionSource, RegisteredPlayer.class);
+    TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+    this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
     this.migrateDb(this.playerDao);
@@ -287,31 +291,33 @@ public class LimboAuth {
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
     );
+
+    this.server.getEventManager().fireAndForget(new AuthPluginReloadEvent());
   }
 
   private List<String> filterCommands(List<String> commands) {
     return commands.stream().filter(e -> e.startsWith("/")).map(e -> e.substring(1)).collect(Collectors.toList());
   }
 
-  public void migrateDb(Dao<RegisteredPlayer, String> playerDao) {
+  public void migrateDb(Dao<?, ?> dao) {
     Set<FieldType> tables = new HashSet<>();
-    Collections.addAll(tables, playerDao.getTableInfo().getFieldTypes());
+    Collections.addAll(tables, dao.getTableInfo().getFieldTypes());
 
     String findSql;
     switch (Settings.IMP.DATABASE.STORAGE_TYPE) {
       case "h2": {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '"
-            + playerDao.getTableInfo().getTableName() + "';";
+            + dao.getTableInfo().getTableName() + "';";
         break;
       }
       case "postgresql": {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = '" + Settings.IMP.DATABASE.DATABASE
-            + "' AND TABLE_NAME = '" + playerDao.getTableInfo().getTableName() + "';";
+            + "' AND TABLE_NAME = '" + dao.getTableInfo().getTableName() + "';";
         break;
       }
       case "mysql": {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + Settings.IMP.DATABASE.DATABASE
-            + "' AND TABLE_NAME = '" + playerDao.getTableInfo().getTableName() + "';";
+            + "' AND TABLE_NAME = '" + dao.getTableInfo().getTableName() + "';";
         break;
       }
       default: {
@@ -322,21 +328,21 @@ public class LimboAuth {
     }
 
     try {
-      playerDao.queryRaw(findSql).forEach(e -> tables.removeIf(q -> q.getColumnName().equalsIgnoreCase(e[0])));
+      dao.queryRaw(findSql).forEach(e -> tables.removeIf(q -> q.getColumnName().equalsIgnoreCase(e[0])));
 
       tables.forEach(t -> {
         try {
           String columnDefinition = t.getColumnDefinition();
-          StringBuilder builder = new StringBuilder("ALTER TABLE \"AUTH\" ADD ");
+          StringBuilder builder = new StringBuilder("ALTER TABLE \"" + dao.getTableInfo().getTableName() + "\" ADD ");
           List<String> dummy = new ArrayList<>();
           if (columnDefinition == null) {
-            playerDao.getConnectionSource().getDatabaseType().appendColumnArg(t.getTableName(), builder, t, dummy, dummy, dummy, dummy);
+            dao.getConnectionSource().getDatabaseType().appendColumnArg(t.getTableName(), builder, t, dummy, dummy, dummy, dummy);
           } else {
-            playerDao.getConnectionSource().getDatabaseType().appendEscapedEntityName(builder, t.getColumnName());
+            dao.getConnectionSource().getDatabaseType().appendEscapedEntityName(builder, t.getColumnName());
             builder.append(" ").append(columnDefinition).append(" ");
           }
 
-          playerDao.executeRawNoArgs(builder.toString());
+          dao.executeRawNoArgs(builder.toString());
         } catch (SQLException e) {
           e.printStackTrace();
         }
@@ -423,16 +429,16 @@ public class LimboAuth {
     }
 
     if (registeredPlayer == null) {
-      this.server.getEventManager().fire(new PreRegisterEvent(player)).thenAcceptAsync((event)
-          -> this.sendPlayer(event, null));
+      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
+      this.server.getEventManager().fire(new PreRegisterEvent(player, eventConsumer)).thenAcceptAsync(eventConsumer);
     } else {
-      this.server.getEventManager().fire(new PreAuthorizationEvent(player, registeredPlayer)).thenAcceptAsync((event)
-          -> this.sendPlayer(event, event.getPlayerInfo()));
+      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
+      this.server.getEventManager().fire(new PreAuthorizationEvent(player, registeredPlayer, eventConsumer)).thenAcceptAsync(eventConsumer);
     }
   }
 
-  private void sendPlayer(PreEvent event, RegisteredPlayer registeredPlayer) {
-    Player player = event.getPlayer();
+  private void sendPlayer(TaskEvent event, RegisteredPlayer registeredPlayer) {
+    Player player = ((PreEvent) event).getPlayer();
 
     switch (event.getResult()) {
       case BYPASS: {
@@ -442,6 +448,9 @@ public class LimboAuth {
       case CANCEL: {
         player.disconnect(event.getReason());
         break;
+      }
+      case WAIT: {
+        return;
       }
       case NORMAL:
       default: {
@@ -510,6 +519,14 @@ public class LimboAuth {
         .filter(u -> u.getValue().getCheckTime() + time <= System.currentTimeMillis())
         .map(Map.Entry::getKey)
         .forEach(userMap::remove);
+  }
+
+  public JdbcPooledConnectionSource getConnectionSource() {
+    return this.connectionSource;
+  }
+
+  public Dao<RegisteredPlayer, String> getPlayerDao() {
+    return this.playerDao;
   }
 
   public Set<String> getUnsafePasswords() {

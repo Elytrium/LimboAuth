@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth.event;
 
+import java.util.function.Consumer;
 import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -27,6 +28,12 @@ public abstract class TaskEvent {
       = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.EVENT_CANCELLED);
   private Result result = Result.NORMAL;
   private Component reason = defaultReason;
+
+  private final Consumer<TaskEvent> onComplete;
+
+  public TaskEvent(Consumer<TaskEvent> onComplete) {
+    this.onComplete = onComplete;
+  }
 
   public Result getResult() {
     return this.result;
@@ -45,9 +52,28 @@ public abstract class TaskEvent {
     return this.reason;
   }
 
+  public void complete(Result result) {
+    if (this.result != Result.WAIT) {
+      return;
+    }
+
+    this.result = result;
+    this.onComplete.accept(this);
+  }
+
+  public void completeAndCancel(@NotNull Component c) {
+    if (this.result != Result.WAIT) {
+      return;
+    }
+
+    this.cancel(c);
+    this.onComplete.accept(this);
+  }
+
   public enum Result {
     CANCEL,
     BYPASS,
-    NORMAL
+    NORMAL,
+    WAIT
   }
 }

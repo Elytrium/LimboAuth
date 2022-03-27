@@ -39,7 +39,6 @@ import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.PostAuthorizationEvent;
-import net.elytrium.limboauth.event.PostEvent;
 import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
@@ -316,17 +315,17 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     this.plugin.getServer().getEventManager()
-        .fire(new PostAuthorizationEvent(this.player, this.playerInfo))
+        .fire(new PostAuthorizationEvent(this.player, this.playerInfo, this::finishAuth))
         .thenAcceptAsync(this::finishAuth);
   }
 
   private void finishRegister() {
     this.plugin.getServer().getEventManager()
-        .fire(new PostRegisterEvent(this.player, this.playerInfo))
+        .fire(new PostRegisterEvent(this.player, this.playerInfo, this::finishAuth))
         .thenAcceptAsync(this::finishAuth);
   }
 
-  private void finishAuth(PostEvent event) {
+  private void finishAuth(TaskEvent event) {
     if (Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.CLEAR_AFTER_LOGIN) {
       this.proxyPlayer.clearTitle();
     }

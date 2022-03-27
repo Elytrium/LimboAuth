@@ -17,11 +17,12 @@
 
 package net.elytrium.limboauth.event;
 
+import java.util.function.Consumer;
 import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
 public class PostAuthorizationEvent extends PostEvent {
-  public PostAuthorizationEvent(LimboPlayer player, RegisteredPlayer playerInfo) {
-    super(player, playerInfo);
+  public PostAuthorizationEvent(LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+    super(player, playerInfo, onComplete);
   }
 }

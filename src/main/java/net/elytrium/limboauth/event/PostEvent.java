@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth.event;
 
+import java.util.function.Consumer;
 import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
@@ -25,8 +26,8 @@ public abstract class PostEvent extends TaskEvent {
   private final LimboPlayer player;
   private final RegisteredPlayer playerInfo;
 
-  protected PostEvent(LimboPlayer player, RegisteredPlayer playerInfo) {
-    super();
+  protected PostEvent(LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+    super(onComplete);
 
     this.player = player;
     this.playerInfo = playerInfo;

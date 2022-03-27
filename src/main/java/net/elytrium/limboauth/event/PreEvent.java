@@ -18,12 +18,13 @@
 package net.elytrium.limboauth.event;
 
 import com.velocitypowered.api.proxy.Player;
+import java.util.function.Consumer;
 
 public abstract class PreEvent extends TaskEvent {
   private final Player player;
 
-  protected PreEvent(Player player) {
-    super();
+  protected PreEvent(Player player, Consumer<TaskEvent> onComplete) {
+    super(onComplete);
     this.player = player;
   }
 
