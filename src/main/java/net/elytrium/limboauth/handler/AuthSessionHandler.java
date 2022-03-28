@@ -332,6 +332,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     if (event.getResult() == TaskEvent.Result.CANCEL) {
       this.proxyPlayer.disconnect(event.getReason());
+      return;
+    } else if (event.getResult() == TaskEvent.Result.WAIT) {
+      return;
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);

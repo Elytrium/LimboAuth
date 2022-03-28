@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
@@ -77,6 +78,7 @@ public class UnregisterCommand implements SimpleCommand {
           source.sendMessage(this.crackedCommand);
         } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           try {
+            this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
             this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
             this.plugin.removePlayerFromCache(username);
             ((Player) source).disconnect(this.successful);
