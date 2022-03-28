@@ -80,6 +80,7 @@ public class Settings extends Config {
         "SHA256_P - SHA256(password) that looks like $SHA$salt$hash",
         "SHA512_NP - SHA512(password) that looks like SHA$salt$hash",
         "SHA512_P - SHA512(password) that looks like $SHA$salt$hash",
+        "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash",
         "MD5 - Basic md5 hash",
         "Argon2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
     })

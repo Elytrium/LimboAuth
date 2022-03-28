@@ -32,6 +32,10 @@ public enum MigrationHash {
         && arr[3].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-256") + arr[2], "SHA-256"));
   }),
   ARGON2(new Argon2Verifier()),
+  SHA512_DBA((hash, password) -> {
+    String[] arr = hash.split("\\$"); // SHA$salt$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-512") + arr[1], "SHA-512"));
+  }),
   SHA512_NP((hash, password) -> {
     String[] arr = hash.split("\\$"); // SHA$salt$hash
     return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password + arr[1], "SHA-512"));
