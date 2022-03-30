@@ -235,7 +235,7 @@ public class LimboAuth {
     manager.unregister("limboauth");
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
-    manager.register("premium", new PremiumCommand(this, this.playerDao));
+    manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this.playerDao), "changepass");
     manager.register("forcechangepassword", new ForceChangePasswordCommand(this.server, this.playerDao), "forcechangepass");
