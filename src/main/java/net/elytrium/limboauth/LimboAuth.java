@@ -353,17 +353,17 @@ public class LimboAuth {
   }
 
   public void cacheAuthUser(Player player) {
-    String username = player.getUsername();
+    String username = player.getUsername().toLowerCase(Locale.ROOT);
     this.cachedAuthChecks.remove(username);
     this.cachedAuthChecks.put(username, new CachedUser(player.getRemoteAddress().getAddress(), System.currentTimeMillis()));
   }
 
   public void removePlayerFromCache(String username) {
-    this.cachedAuthChecks.remove(username);
+    this.cachedAuthChecks.remove(username.toLowerCase(Locale.ROOT));
   }
 
   public boolean needAuth(Player player) {
-    String username = player.getUsername();
+    String username = player.getUsername().toLowerCase(Locale.ROOT);
     if (!this.cachedAuthChecks.containsKey(username)) {
       return true;
     } else {
