@@ -28,6 +28,11 @@ public abstract class PreEvent extends TaskEvent {
     this.player = player;
   }
 
+  protected PreEvent(Result result, Player player, Consumer<TaskEvent> onComplete) {
+    super(result, onComplete);
+    this.player = player;
+  }
+
   public Player getPlayer() {
     return this.player;
   }

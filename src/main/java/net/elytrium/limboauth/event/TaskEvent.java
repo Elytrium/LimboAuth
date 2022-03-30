@@ -35,6 +35,11 @@ public abstract class TaskEvent {
     this.onComplete = onComplete;
   }
 
+  public TaskEvent(Result result, Consumer<TaskEvent> onComplete) {
+    this.result = result;
+    this.onComplete = onComplete;
+  }
+
   public Result getResult() {
     return this.result;
   }

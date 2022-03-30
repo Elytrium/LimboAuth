@@ -25,4 +25,8 @@ public class PostAuthorizationEvent extends PostEvent {
   public PostAuthorizationEvent(LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
     super(player, playerInfo, onComplete);
   }
+
+  public PostAuthorizationEvent(Result result, LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+    super(result, player, playerInfo, onComplete);
+  }
 }

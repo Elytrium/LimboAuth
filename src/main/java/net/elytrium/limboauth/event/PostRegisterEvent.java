@@ -25,4 +25,8 @@ public class PostRegisterEvent extends PostEvent {
   public PostRegisterEvent(LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
     super(player, playerInfo, onComplete);
   }
+
+  public PostRegisterEvent(Result result, LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+    super(result, player, playerInfo, onComplete);
+  }
 }

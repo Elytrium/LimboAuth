@@ -24,4 +24,8 @@ public class PreRegisterEvent extends PreEvent {
   public PreRegisterEvent(Player player, Consumer<TaskEvent> onComplete) {
     super(player, onComplete);
   }
+
+  public PreRegisterEvent(Result result, Player player, Consumer<TaskEvent> onComplete) {
+    super(result, player, onComplete);
+  }
 }

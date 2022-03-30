@@ -29,6 +29,11 @@ public class PreAuthorizationEvent extends PreEvent {
     this.playerInfo = playerInfo;
   }
 
+  public PreAuthorizationEvent(Result result, Player player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+    super(result, player, onComplete);
+    this.playerInfo = playerInfo;
+  }
+
   public RegisteredPlayer getPlayerInfo() {
     return this.playerInfo;
   }
