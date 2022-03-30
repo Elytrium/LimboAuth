@@ -386,6 +386,8 @@ public class LimboAuth {
 
     RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
     boolean onlineMode = player.isOnlineMode();
+    boolean onlineModePassed = false;
+
     if (onlineMode || isFloodgate) {
       if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
         registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
@@ -422,8 +424,7 @@ public class LimboAuth {
             }
           });
 
-          this.factory.passLoginLimbo(player);
-          return;
+          onlineModePassed = true;
         }
       }
     }
@@ -433,7 +434,13 @@ public class LimboAuth {
       this.server.getEventManager().fire(new PreRegisterEvent(player, eventConsumer)).thenAcceptAsync(eventConsumer);
     } else {
       Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
-      this.server.getEventManager().fire(new PreAuthorizationEvent(player, registeredPlayer, eventConsumer)).thenAcceptAsync(eventConsumer);
+      TaskEvent event = new PreAuthorizationEvent(player, registeredPlayer, eventConsumer);
+
+      if (onlineModePassed) {
+        event.setResult(TaskEvent.Result.BYPASS);
+      }
+
+      this.server.getEventManager().fire(event).thenAcceptAsync(eventConsumer);
     }
   }
 
