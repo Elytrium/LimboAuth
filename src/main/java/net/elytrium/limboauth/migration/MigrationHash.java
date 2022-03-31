@@ -54,6 +54,10 @@ public enum MigrationHash {
   }),
   MD5((hash, password) -> {
     return hash.equals(MigrationHash.getDigest(password, "MD5"));
+  }),
+  MOON_SHA256((hash, password) -> {
+    String[] arr = hash.split("\\$"); // $SHA$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-256"), "SHA-256"));
   });
 
   final MigrationHashVerifier verifier;
