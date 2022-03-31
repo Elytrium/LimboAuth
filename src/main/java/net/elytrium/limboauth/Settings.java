@@ -75,14 +75,16 @@ public class Settings extends Config {
     @Comment({
         "If you want to migrate your database from another plugin, which is not using BCrypt.",
         "You can set an old hash algorithm to migrate from.",
-        "AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$hash",
+        "AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$hash (AuthMe, MoonVKAuth, DSKAuth, DBA)",
+        "AUTHME_NP - AuthMe SHA256(SHA256(password) + salt) that looks like SHA$salt$hash (JPremium)",
         "SHA256_NP - SHA256(password) that looks like SHA$salt$hash",
         "SHA256_P - SHA256(password) that looks like $SHA$salt$hash",
         "SHA512_NP - SHA512(password) that looks like SHA$salt$hash",
         "SHA512_P - SHA512(password) that looks like $SHA$salt$hash",
-        "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash",
+        "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash (DBA, JPremium)",
         "MD5 - Basic md5 hash",
-        "Argon2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
+        "ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
+        "MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)",
     })
     public String MIGRATION_HASH = "";
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
