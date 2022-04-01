@@ -375,11 +375,9 @@ public class LimboAuth {
     String nickname = player.getUsername();
     boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
 
-    if (isFloodgate) {
-      nickname = nickname.substring(this.floodgateApi.getPrefixLength());
-    }
+    String validatorNickname = (isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname;
 
-    if (!this.nicknameValidationPattern.matcher(nickname).matches()) {
+    if (!this.nicknameValidationPattern.matcher(validatorNickname).matches()) {
       player.disconnect(LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK));
       return;
     }
