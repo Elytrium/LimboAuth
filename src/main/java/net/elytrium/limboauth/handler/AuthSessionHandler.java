@@ -102,8 +102,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
       }
       if (bossBarEnabled) {
         long timeSinceJoin = Settings.IMP.MAIN.AUTH_TIME - (System.currentTimeMillis() - AuthSessionHandler.this.joinTime);
-        this.bossBar.name(this.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.BOSSBAR, (int) (timeSinceJoin / 1000))));
-        this.bossBar.progress((timeSinceJoin * bossBarMultiplier) / 1000);
+        this.bossBar.name(this.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.BOSSBAR, (int) (timeSinceJoin / 1000F))));
+        // It is possible, that the progress value can overcome 1, e.g. 1.0000001.
+        this.bossBar.progress(Math.min((timeSinceJoin * bossBarMultiplier) / 1000F, 1F));
       }
     }).repeat(1, TimeUnit.SECONDS).schedule();
 
