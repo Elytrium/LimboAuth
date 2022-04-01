@@ -28,6 +28,7 @@ import dev.samstevens.totp.time.SystemTimeProvider;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -218,8 +219,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
         player.getHash().replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
-    if (!isCorrect && !Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
-      isCorrect = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH).checkPassword(player.getHash(), password);
+    if (!isCorrect) {
+      if (Settings.IMP.MAIN.FORCED_HASH_PICKING) {
+        isCorrect = Arrays.stream(MigrationHash.values())
+            .anyMatch(migrationHash -> migrationHash.checkPassword(player.getHash(), password));
+      } else if (!Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
+        isCorrect = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH).checkPassword(player.getHash(), password);
+      }
 
       if (isCorrect) {
         player.setHash(genHash(password));

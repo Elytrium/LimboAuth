@@ -85,6 +85,14 @@ public class Settings extends Config {
         "Argon2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
     })
     public String MIGRATION_HASH = "";
+    @Comment({
+        "This option can be used if you have a variety of hashes in your config",
+        "Although it is not recommended, as it's time consuming and may cause",
+        "a false validation.",
+        "The way this works is it picks through all algorithms, trying to validate",
+        "a stored hash. If none return a positive result, the password is wrong."
+    })
+    public boolean FORCED_HASH_PICKING = false;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public String DIMENSION = "THE_END";
     public long PURGE_CACHE_MILLIS = 3600000;
