@@ -19,6 +19,7 @@ package net.elytrium.limboauth.listener;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
@@ -79,7 +80,7 @@ public class AuthListener {
     }
   }
 
-  @Subscribe
+  @Subscribe(order = PostOrder.FIRST)
   public void onGameProfileRequest(GameProfileRequestEvent event) {
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
