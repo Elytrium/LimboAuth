@@ -3,7 +3,7 @@
 plugins {
     id("java")
     id("checkstyle")
-    id("com.github.spotbugs").version("5.0.5")
+    id("com.github.spotbugs").version("5.0.6")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
     id("maven-publish")
@@ -86,39 +86,61 @@ dependencies {
 
     implementation("com.h2database:h2:1.4.200")
     implementation("mysql:mysql-connector-java:8.0.28")
-    implementation("org.postgresql:postgresql:42.3.1")
+    implementation("org.postgresql:postgresql:42.3.3")
 
-    implementation("org.bstats:bstats-velocity:2.2.1")
+    implementation("org.bstats:bstats-velocity:3.0.0")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.5.3")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.6.0")
 }
 
 shadowJar {
     getArchiveClassifier().set("")
 
+    exclude("META-INF/licenses/**")
     exclude("META-INF/maven/**")
+    exclude("META-INF/versions/**")
+    exclude("META-INF/AL2.0")
     exclude("META-INF/INFO_BIN")
     exclude("META-INF/INFO_SRC")
+    exclude("META-INF/LGPL2.1")
+    exclude("META-INF/LICENSE")
+    exclude("META-INF/NOTICE")
+    exclude("META-INF/README")
+    exclude("META-INF/*.txt")
     exclude("google/protobuf/**")
     exclude("com/google/protobuf/**")
+    exclude("com/j256/ormlite/**/*.txt")
     exclude("com/mysql/cj/x/**")
     exclude("com/mysql/cj/xdevapi/**")
+    exclude("com/sun/jna/aix-ppc*/**")
+    exclude("com/sun/jna/darwin-aarch64/**")
+    exclude("com/sun/jna/freebsd-*/**")
+    exclude("com/sun/jna/linux-arm*/**")
+    exclude("com/sun/jna/linux-mips64el/**")
+    exclude("com/sun/jna/linux-ppc*/**")
+    exclude("com/sun/jna/linux-riscv64/**")
+    exclude("com/sun/jna/linux-s390x/**")
+    exclude("com/sun/jna/linux-x86/**")
+    exclude("com/sun/jna/openbsd-*/**")
+    exclude("com/sun/jna/sunos-*/**")
+    exclude("com/sun/jna/win32-x86/**")
     exclude("org/apache/commons/codec/language/**")
     exclude("org/checkerframework/**")
     exclude("**/package-info.class")
 
     minimize()
 
-    // Why are we increasing the size of the plugin if we can do that? :thinking:
-    relocate("org.bstats", "net.elytrium.limboapi.thirdparty.org.bstats")
-    exclude("org/bstats/**")
-
     relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
     relocate("com.j256.ormlite", "net.elytrium.limboauth.thirdparty.com.j256.ormlite")
     relocate("com.mysql", "net.elytrium.limboauth.thirdparty.com.mysql")
+    relocate("com.sun.jna", "net.elytrium.limboauth.thirdparty.com.sun.jna") {
+        exclude("com.sun.jna.Native") // For compatibility with native methods.
+    }
+    relocate("de.mkammerer.argon2", "net.elytrium.limboauth.thirdparty.de.mkammerer.argon2")
     relocate("dev.samstevens.totp", "net.elytrium.limboauth.thirdparty.dev.samstevens.totp")
     relocate("org.apache.commons.codec", "net.elytrium.limboauth.thirdparty.org.apache.commons.codec")
+    relocate("org.bstats", "net.elytrium.limboauth.thirdparty.org.bstats")
     relocate("org.h2", "net.elytrium.limboauth.thirdparty.org.h2")
     relocate("org.postgresql", "net.elytrium.limboauth.thirdparty.org.postgresql")
 }
@@ -128,7 +150,7 @@ license {
 }
 
 checkstyle {
-    setToolVersion("9.2.1")
+    setToolVersion("10.1")
     setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
     setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
 
