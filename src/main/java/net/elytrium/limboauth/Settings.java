@@ -83,6 +83,7 @@ public class Settings extends Config {
         "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash",
         "MD5 - Basic md5 hash",
         "ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
+        "MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)"
     })
     public String MIGRATION_HASH = "";
     @Comment({
