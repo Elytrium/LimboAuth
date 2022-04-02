@@ -93,6 +93,12 @@ public class Settings extends Config {
         "a stored hash. If none return a positive result, the password is wrong."
     })
     public boolean FORCED_HASH_PICKING = false;
+    @Comment({
+        "This option is IGNORED when FORCED_HASH_PICKING=false",
+        "In case some hashing algorithms are never used",
+        "or throw errors when picked, you can disable them here."
+    })
+    public List<String> FORCED_HASH_EXCLUSIONS = List.of("Argon2", "MD5");
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public String DIMENSION = "THE_END";
     public long PURGE_CACHE_MILLIS = 3600000;

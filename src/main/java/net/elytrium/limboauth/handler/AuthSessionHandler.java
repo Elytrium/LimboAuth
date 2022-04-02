@@ -222,6 +222,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (!isCorrect) {
       if (Settings.IMP.MAIN.FORCED_HASH_PICKING) {
         isCorrect = Arrays.stream(MigrationHash.values())
+            .filter(migrationHash -> !Settings.IMP.MAIN.FORCED_HASH_EXCLUSIONS.contains(migrationHash.toString()))
             .anyMatch(migrationHash -> migrationHash.checkPassword(player.getHash(), password));
       } else if (!Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
         isCorrect = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH).checkPassword(player.getHash(), password);
