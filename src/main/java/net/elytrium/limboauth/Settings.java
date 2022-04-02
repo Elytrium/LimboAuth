@@ -82,7 +82,7 @@ public class Settings extends Config {
         "SHA512_P - SHA512(password) that looks like $SHA$salt$hash",
         "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash",
         "MD5 - Basic md5 hash",
-        "Argon2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
+        "ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
     })
     public String MIGRATION_HASH = "";
     @Comment({
@@ -98,7 +98,7 @@ public class Settings extends Config {
         "In case some hashing algorithms are never used",
         "or throw errors when picked, you can disable them here."
     })
-    public List<String> FORCED_HASH_EXCLUSIONS = List.of("Argon2", "MD5");
+    public List<String> FORCED_HASH_EXCLUSIONS = List.of("ARGON2", "MD5");
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public String DIMENSION = "THE_END";
     public long PURGE_CACHE_MILLIS = 3600000;
