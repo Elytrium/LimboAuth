@@ -90,6 +90,7 @@ public class Settings extends Config {
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public String DIMENSION = "THE_END";
     public long PURGE_CACHE_MILLIS = 3600000;
+    public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     @Comment("QR Generator URL, set {data} placeholder")
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";
@@ -119,6 +120,13 @@ public class Settings extends Config {
         "Or implement your own API, it should just respond with HTTP code 200 only if the player is premium"
     })
     public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+
+    @Comment({
+        "If Mojang rate-limits your server, we cannot determine if the player is premium or not",
+        "This option allows you to choose whether every player will be defined as premium or as cracked while Mojang is rate-limiting the server",
+        "True - as premium; False - as cracked"
+    })
+    public boolean ON_RATE_LIMIT_PREMIUM = true;
 
     public List<String> REGISTER_COMMAND = List.of("/r", "/reg", "/register");
     public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");

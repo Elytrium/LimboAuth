@@ -114,7 +114,8 @@ import org.slf4j.Logger;
 )
 public class LimboAuth {
 
-  private final Map<String, CachedUser> cachedAuthChecks = new ConcurrentHashMap<>();
+  private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
+  private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
 
@@ -286,9 +287,16 @@ public class LimboAuth {
     this.server.getEventManager().register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
 
     Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-cache")).scheduleAtFixedRate(() ->
-        this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
+            this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
+        TimeUnit.MILLISECONDS
+    );
+
+    Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-premium-cache")).scheduleAtFixedRate(() ->
+            this.checkCache(this.premiumCache, Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS),
+        Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
+        Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
     );
 
@@ -355,7 +363,7 @@ public class LimboAuth {
   public void cacheAuthUser(Player player) {
     String username = player.getUsername().toLowerCase(Locale.ROOT);
     this.cachedAuthChecks.remove(username);
-    this.cachedAuthChecks.put(username, new CachedUser(player.getRemoteAddress().getAddress(), System.currentTimeMillis()));
+    this.cachedAuthChecks.put(username, new CachedSessionUser(player.getRemoteAddress().getAddress(), System.currentTimeMillis()));
   }
 
   public void removePlayerFromCache(String username) {
@@ -465,16 +473,35 @@ public class LimboAuth {
   }
 
   public boolean isPremiumExternal(String nickname) {
+    String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    if (this.premiumCache.containsKey(lowercaseNickname)) {
+      return this.premiumCache.get(lowercaseNickname).isPremium();
+    }
+
     try {
-      return this.client.send(
+      int statusCode = this.client.send(
           HttpRequest.newBuilder()
-              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
+              .uri(URI.create(
+                  String.format(
+                      Settings.IMP.MAIN.ISPREMIUM_AUTH_URL,
+                      URLEncoder.encode(lowercaseNickname, StandardCharsets.UTF_8))))
               .build(),
           HttpResponse.BodyHandlers.ofString()
-      ).statusCode() == 200;
+      ).statusCode();
+
+      boolean isPremium = statusCode == 200;
+
+      // 429 Too Many Requests
+      if (statusCode != 429) {
+        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(isPremium, System.currentTimeMillis()));
+      } else {
+        return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+      }
+
+      return isPremium;
     } catch (IOException | InterruptedException e) {
       this.getLogger().error("Unable to authenticate with Mojang", e);
-      return true;
+      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
     }
   }
 
@@ -513,7 +540,7 @@ public class LimboAuth {
     }
   }
 
-  private void checkCache(Map<String, CachedUser> userMap, long time) {
+  private void checkCache(Map<String, ? extends CachedUser> userMap, long time) {
     userMap.entrySet().stream()
         .filter(u -> u.getValue().getCheckTime() + time <= System.currentTimeMillis())
         .map(Map.Entry::getKey)
@@ -546,20 +573,42 @@ public class LimboAuth {
 
   private static class CachedUser {
 
-    private final InetAddress inetAddress;
     private final long checkTime;
 
-    public CachedUser(InetAddress inetAddress, long checkTime) {
-      this.inetAddress = inetAddress;
+    public CachedUser(long checkTime) {
       this.checkTime = checkTime;
+    }
+
+    public long getCheckTime() {
+      return this.checkTime;
+    }
+  }
+
+  private static class CachedSessionUser extends CachedUser {
+
+    private final InetAddress inetAddress;
+
+    public CachedSessionUser(InetAddress inetAddress, long checkTime) {
+      super(checkTime);
+      this.inetAddress = inetAddress;
     }
 
     public InetAddress getInetAddress() {
       return this.inetAddress;
     }
+  }
 
-    public long getCheckTime() {
-      return this.checkTime;
+  private static class CachedPremiumUser extends CachedUser {
+
+    private final boolean isPremium;
+
+    public CachedPremiumUser(boolean isPremium, long checkTime) {
+      super(checkTime);
+      this.isPremium = isPremium;
+    }
+
+    public boolean isPremium() {
+      return this.isPremium;
     }
   }
 
