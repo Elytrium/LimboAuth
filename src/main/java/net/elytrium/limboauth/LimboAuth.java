@@ -372,11 +372,12 @@ public class LimboAuth {
   }
 
   public boolean needAuth(Player player) {
-    String username = player.getUsername().toLowerCase(Locale.ROOT);
-    if (!this.cachedAuthChecks.containsKey(username)) {
+    String username = player.getUsername();
+    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
+    if (!this.cachedAuthChecks.containsKey(lowercaseUsername)) {
       return true;
     } else {
-      CachedSessionUser sessionUser = this.cachedAuthChecks.get(username);
+      CachedSessionUser sessionUser = this.cachedAuthChecks.get(lowercaseUsername);
       return !sessionUser.getInetAddress().equals(player.getRemoteAddress().getAddress()) || !sessionUser.getUsername().equals(username);
     }
   }
