@@ -361,9 +361,10 @@ public class LimboAuth {
   }
 
   public void cacheAuthUser(Player player) {
-    String username = player.getUsername().toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.remove(username);
-    this.cachedAuthChecks.put(username, new CachedSessionUser(player.getRemoteAddress().getAddress(), System.currentTimeMillis()));
+    String username = player.getUsername();
+    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
+    this.cachedAuthChecks.remove(lowercaseUsername);
+    this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(player.getRemoteAddress().getAddress(), username, System.currentTimeMillis()));
   }
 
   public void removePlayerFromCache(String username) {
@@ -375,7 +376,8 @@ public class LimboAuth {
     if (!this.cachedAuthChecks.containsKey(username)) {
       return true;
     } else {
-      return !this.cachedAuthChecks.get(username).getInetAddress().equals(player.getRemoteAddress().getAddress());
+      CachedSessionUser sessionUser = this.cachedAuthChecks.get(username);
+      return !sessionUser.getInetAddress().equals(player.getRemoteAddress().getAddress()) || !sessionUser.getUsername().equals(username);
     }
   }
 
@@ -587,14 +589,20 @@ public class LimboAuth {
   private static class CachedSessionUser extends CachedUser {
 
     private final InetAddress inetAddress;
+    private final String username;
 
-    public CachedSessionUser(InetAddress inetAddress, long checkTime) {
+    public CachedSessionUser(InetAddress inetAddress, String username, long checkTime) {
       super(checkTime);
       this.inetAddress = inetAddress;
+      this.username = username;
     }
 
     public InetAddress getInetAddress() {
       return this.inetAddress;
+    }
+
+    public String getUsername() {
+      return this.username;
     }
   }
 
