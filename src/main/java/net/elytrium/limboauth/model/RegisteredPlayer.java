@@ -85,7 +85,7 @@ public class RegisteredPlayer {
   }
 
   public String getHash() {
-    return this.hash;
+    return this.hash == null ? "" : this.hash;
   }
 
   public void setIP(String ip) {
