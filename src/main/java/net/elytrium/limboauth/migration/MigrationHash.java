@@ -63,6 +63,14 @@ public enum MigrationHash {
   MOON_SHA256((hash, password) -> {
     String[] arr = hash.split("\\$"); // $SHA$hash
     return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(MigrationHash.getDigest(password, "SHA-256"), "SHA-256"));
+  }),
+  SHA256_NO_SALT((hash, password) -> {
+    String[] arr = hash.split("\\$"); // $SHA$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password, "SHA-256"));
+  }),
+  SHA512_NO_SALT((hash, password) -> {
+    String[] arr = hash.split("\\$"); // $SHA$hash
+    return arr.length == 3 && arr[2].equals(MigrationHash.getDigest(password, "SHA-512"));
   });
 
   final MigrationHashVerifier verifier;

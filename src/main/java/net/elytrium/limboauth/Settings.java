@@ -85,6 +85,8 @@ public class Settings extends Config {
         "MD5 - Basic md5 hash",
         "ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
         "MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)",
+        "SHA256_NO_SALT - SHA256(password) that looks like $SHA$hash (NexAuth)",
+        "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
     })
     public String MIGRATION_HASH = "";
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
