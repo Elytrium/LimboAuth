@@ -69,7 +69,7 @@ public class RegisteredPlayer {
   }
 
   public String getNickname() {
-    return this.nickname;
+    return this.nickname == null ? this.lowercaseNickname : this.nickname;
   }
 
   public void setLowercaseNickname(String lowercaseNickname) {
@@ -93,7 +93,7 @@ public class RegisteredPlayer {
   }
 
   public String getIP() {
-    return this.ip;
+    return this.ip == null ? "" : this.ip;
   }
 
   public void setTotpToken(String totpToken) {
@@ -101,7 +101,7 @@ public class RegisteredPlayer {
   }
 
   public String getTotpToken() {
-    return this.totpToken;
+    return this.totpToken == null ? "" : this.totpToken;
   }
 
   public void setRegDate(Long regDate) {
@@ -117,7 +117,7 @@ public class RegisteredPlayer {
   }
 
   public String getUuid() {
-    return this.uuid;
+    return this.uuid == null ? "" : this.uuid;
   }
 
   public void setPremiumUuid(String premiumUuid) {
@@ -125,6 +125,6 @@ public class RegisteredPlayer {
   }
 
   public String getPremiumUuid() {
-    return this.premiumUuid;
+    return this.premiumUuid == null ? "" : this.premiumUuid;
   }
 }

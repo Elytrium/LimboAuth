@@ -85,7 +85,7 @@ public class AuthListener {
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
 
-      if (registeredPlayer != null) {
+      if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
         event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
         return;
       }

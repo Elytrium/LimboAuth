@@ -249,6 +249,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         long checkDate = System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME;
 
         alreadyRegistered.stream()
+            .filter(e -> e.getRegDate() != null)
             .filter(e -> e.getRegDate() < checkDate)
             .forEach(e -> {
               try {
