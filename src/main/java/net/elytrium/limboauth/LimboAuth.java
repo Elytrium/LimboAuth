@@ -71,6 +71,7 @@ import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.file.SchematicFile;
+import net.elytrium.limboapi.api.file.StructureFile;
 import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
@@ -260,6 +261,10 @@ public class LimboAuth {
         switch (Settings.IMP.MAIN.WORLD_FILE_TYPE) {
           case "schematic": {
             file = new SchematicFile(path);
+            break;
+          }
+          case "structure": {
+            file = new StructureFile(path);
             break;
           }
           default: {

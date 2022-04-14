@@ -111,9 +111,9 @@ public class Settings extends Config {
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
-    @Comment("World file type: schematic")
-    public String WORLD_FILE_TYPE = "schematic";
-    public String WORLD_FILE_PATH = "world.schematic";
+    @Comment("World file type: schematic (1.12.2 and lower), structure block .nbt (saved in the latest version)")
+    public String WORLD_FILE_TYPE = "structure";
+    public String WORLD_FILE_PATH = "world.nbt";
     @Comment({
         "Custom isPremium URL",
         "You can use Mojang one's API (set by default)",
