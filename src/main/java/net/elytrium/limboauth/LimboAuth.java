@@ -169,7 +169,6 @@ public class LimboAuth {
     UpdatesChecker.checkForUpdates(this.getLogger());
   }
 
-  @SuppressWarnings("SwitchStatementWithTooFewBranches")
   public void reload() throws Exception {
     Settings.IMP.reload(new File(this.dataDirectory.toFile().getAbsoluteFile(), "config.yml"));
 
@@ -220,11 +219,15 @@ public class LimboAuth {
       }
     }
 
-    TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
-    this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
-    this.migrateDb(this.playerDao);
+    try {
+      TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+      this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
+      this.migrateDb(this.playerDao);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
@@ -544,7 +547,7 @@ public class LimboAuth {
       }
     } catch (SQLException e) {
       this.getLogger().error("Unable to authenticate with Mojang", e);
-      return true;
+      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
     }
   }
 

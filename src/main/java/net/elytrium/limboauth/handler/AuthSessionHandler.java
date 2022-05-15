@@ -228,6 +228,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           playerDao.update(player);
         } catch (SQLException e) {
           e.printStackTrace();
+          return false;
         }
       }
     }
@@ -258,6 +259,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                 sizeOfValid.decrementAndGet();
               } catch (SQLException ex) {
                 ex.printStackTrace();
+                this.proxyPlayer.disconnect(this.deserialize(Settings.IMP.MAIN.STRINGS.DB_ERROR));
               }
             });
       }
@@ -267,6 +269,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       }
     } catch (SQLException e) {
       e.printStackTrace();
+      this.proxyPlayer.disconnect(this.deserialize(Settings.IMP.MAIN.STRINGS.DB_ERROR));
     }
   }
 
@@ -292,6 +295,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.playerDao.create(registeredPlayer);
     } catch (SQLException e) {
       e.printStackTrace();
+      this.proxyPlayer.disconnect(this.deserialize(Settings.IMP.MAIN.STRINGS.DB_ERROR));
     }
   }
 

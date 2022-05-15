@@ -100,6 +100,7 @@ public class AuthListener {
             this.playerDao.update(registeredPlayer);
           } catch (SQLException e) {
             e.printStackTrace();
+            return;
           }
         }
 
@@ -109,6 +110,7 @@ public class AuthListener {
             this.playerDao.update(registeredPlayer);
           } catch (SQLException ex) {
             ex.printStackTrace();
+            return;
           }
         } else {
           event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
@@ -122,6 +124,7 @@ public class AuthListener {
         updateBuilder.update();
       } catch (SQLException e) {
         e.printStackTrace();
+        return;
       }
     }
 
