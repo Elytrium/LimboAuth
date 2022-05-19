@@ -156,15 +156,16 @@ public class AuthSessionHandler implements LimboSessionHandler {
     boolean bossBarEnabled = Settings.IMP.MAIN.ENABLE_BOSSBAR;
     Serializer serializer = LimboAuth.getSerializer();
     int authTime = Settings.IMP.MAIN.AUTH_TIME;
-    float multiplier = authTime / 1000.0F;
+    float multiplier = 1000.0F / authTime;
     this.authMainTask = this.plugin.getServer().getScheduler().buildTask(this.plugin, () -> {
       if (System.currentTimeMillis() - this.joinTime > authTime) {
         this.proxyPlayer.disconnect(timesUp);
       } else {
         if (bossBarEnabled) {
-          float secondsLeft = ((System.currentTimeMillis() - this.joinTime) - authTime) / 1000.0F;
+          float secondsLeft = (authTime - (System.currentTimeMillis() - this.joinTime)) / 1000.0F;
           this.bossBar.name(serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.BOSSBAR, (int) secondsLeft)));
-          this.bossBar.progress((int) (secondsLeft * multiplier));
+          // It's possible, that the progress value can overcome 1, e.g. 1.0000001.
+          this.bossBar.progress(Math.min(1.0F, secondsLeft * multiplier));
         }
       }
     }).repeat(1, TimeUnit.SECONDS).schedule();
@@ -359,7 +360,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     int loginAttempts = Settings.IMP.MAIN.LOGIN_ATTEMPTS;
     loginWrongPassword = new Component[loginAttempts];
     for (int i = 0; i < loginAttempts; ++i) {
-      loginWrongPassword[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD, i));
+      loginWrongPassword[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD, i + 1));
     }
     loginWrongPasswordKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
     totp = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP);
@@ -384,7 +385,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
     login = new Component[loginAttempts];
     for (int i = 0; i < loginAttempts; ++i) {
-      login[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN, i));
+      login[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN, i + 1));
     }
     if (Settings.IMP.MAIN.STRINGS.LOGIN_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE.isEmpty()) {
       loginTitle = null;
