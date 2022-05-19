@@ -26,12 +26,13 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import net.elytrium.java.commons.mc.serialization.Serializer;
+import net.elytrium.java.commons.mc.velocity.commands.SuggestUtils;
+import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.utils.SuggestUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
 
@@ -50,12 +51,12 @@ public class ForceChangePasswordCommand implements SimpleCommand {
     this.message = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_MESSAGE;
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL;
-    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
+    this.usage = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
   }
 
   @Override
   public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(invocation.arguments(), this.server);
+    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
   }
 
   @Override
@@ -67,26 +68,23 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       String nickname = args[0];
       String newPassword = args[1];
 
+      Serializer serializer = LimboAuth.getSerializer();
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT));
         updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(newPassword));
         updateBuilder.update();
 
-        this.server.getPlayer(nickname).ifPresent(player ->
-            player.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.message, newPassword)))
-        );
+        this.server.getPlayer(nickname).ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
 
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.successful, nickname)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
       } catch (SQLException e) {
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         e.printStackTrace();
       }
-
-      return;
+    } else {
+      source.sendMessage(this.usage);
     }
-
-    source.sendMessage(this.usage);
   }
 
   @Override

@@ -21,15 +21,12 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.function.Consumer;
 
 public abstract class PreEvent extends TaskEvent {
+
   private final Player player;
 
-  protected PreEvent(Player player, Consumer<TaskEvent> onComplete) {
-    super(onComplete);
-    this.player = player;
-  }
+  protected PreEvent(Consumer<TaskEvent> onComplete, Result result, Player player) {
+    super(onComplete, result);
 
-  protected PreEvent(Result result, Player player, Consumer<TaskEvent> onComplete) {
-    super(result, onComplete);
     this.player = player;
   }
 

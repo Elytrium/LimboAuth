@@ -28,5 +28,4 @@ public class AuthUnregisterEvent {
   public String getNickname() {
     return this.nickname;
   }
-
 }

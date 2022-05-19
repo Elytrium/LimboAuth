@@ -26,25 +26,25 @@ public abstract class PostEvent extends TaskEvent {
   private final LimboPlayer player;
   private final RegisteredPlayer playerInfo;
 
-  protected PostEvent(LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
+  protected PostEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo) {
     super(onComplete);
 
     this.player = player;
     this.playerInfo = playerInfo;
   }
 
-  protected PostEvent(Result result, LimboPlayer player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
-    super(result, onComplete);
+  protected PostEvent(Consumer<TaskEvent> onComplete, Result result, LimboPlayer player, RegisteredPlayer playerInfo) {
+    super(onComplete, result);
 
     this.player = player;
     this.playerInfo = playerInfo;
   }
 
-  public RegisteredPlayer getPlayerInfo() {
-    return this.playerInfo;
-  }
-
   public LimboPlayer getPlayer() {
     return this.player;
+  }
+
+  public RegisteredPlayer getPlayerInfo() {
+    return this.playerInfo;
   }
 }

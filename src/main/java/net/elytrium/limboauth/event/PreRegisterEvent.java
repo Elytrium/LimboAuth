@@ -21,11 +21,8 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.function.Consumer;
 
 public class PreRegisterEvent extends PreEvent {
-  public PreRegisterEvent(Player player, Consumer<TaskEvent> onComplete) {
-    super(player, onComplete);
-  }
 
-  public PreRegisterEvent(Result result, Player player, Consumer<TaskEvent> onComplete) {
-    super(result, player, onComplete);
+  public PreRegisterEvent(Consumer<TaskEvent> onComplete, Result result, Player player) {
+    super(onComplete, result, player);
   }
 }

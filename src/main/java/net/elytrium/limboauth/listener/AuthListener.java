@@ -133,15 +133,11 @@ public class AuthListener {
     }
 
     if (!event.isOnlineMode() && !Settings.IMP.MAIN.OFFLINE_MODE_PREFIX.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(
-          Settings.IMP.MAIN.OFFLINE_MODE_PREFIX + event.getUsername()
-      ));
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.OFFLINE_MODE_PREFIX + event.getUsername()));
     }
 
     if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(
-          Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()
-      ));
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()));
     }
   }
 }

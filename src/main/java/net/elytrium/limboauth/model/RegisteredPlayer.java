@@ -20,7 +20,6 @@ package net.elytrium.limboauth.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@SuppressWarnings("unused")
 @DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
 
@@ -109,7 +108,7 @@ public class RegisteredPlayer {
   }
 
   public Long getRegDate() {
-    return this.regDate;
+    return this.regDate == null ? (Long) Long.MIN_VALUE : this.regDate;
   }
 
   public void setUuid(String uuid) {

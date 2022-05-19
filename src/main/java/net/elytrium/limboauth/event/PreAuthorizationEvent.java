@@ -22,15 +22,12 @@ import java.util.function.Consumer;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
 public class PreAuthorizationEvent extends PreEvent {
+
   private final RegisteredPlayer playerInfo;
 
-  public PreAuthorizationEvent(Player player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
-    super(player, onComplete);
-    this.playerInfo = playerInfo;
-  }
+  public PreAuthorizationEvent(Consumer<TaskEvent> onComplete, Result result, Player player, RegisteredPlayer playerInfo) {
+    super(onComplete, result, player);
 
-  public PreAuthorizationEvent(Result result, Player player, RegisteredPlayer playerInfo, Consumer<TaskEvent> onComplete) {
-    super(result, player, onComplete);
     this.playerInfo = playerInfo;
   }
 

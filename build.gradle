@@ -3,22 +3,22 @@
 plugins {
     id("java")
     id("checkstyle")
-    id("com.github.spotbugs").version("5.0.6")
+    id("maven-publish")
+    id("com.github.spotbugs").version("5.0.7")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
-    id("maven-publish")
 }
 
 setGroup("net.elytrium")
 setVersion("1.0.4-SNAPSHOT")
 
-compileJava {
-    getOptions().setEncoding("UTF-8")
-}
-
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
     setTargetCompatibility(JavaVersion.VERSION_11)
+}
+
+compileJava {
+    getOptions().setEncoding("UTF-8")
 }
 
 repositories {
@@ -38,39 +38,6 @@ repositories {
     }
 }
 
-task javadocJar(type: Jar) {
-    getArchiveClassifier().set("javadoc")
-    from(javadoc)
-}
-
-task sourcesJar(type: Jar) {
-    getArchiveClassifier().set("sources")
-    from(sourceSets.main.getAllSource())
-}
-
-publishing {
-    repositories {
-        maven {
-            credentials {
-                setUsername(System.getenv("PUBLISH_USERNAME"))
-                setPassword(System.getenv("PUBLISH_PASSWORD"))
-            }
-
-            setName("elytrium-repo")
-            setUrl("https://maven.elytrium.net/repo/")
-        }
-    }
-
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-
-            artifact(javadocJar)
-            artifact(sourcesJar)
-        }
-    }
-}
-
 dependencies {
     compileOnly("net.elytrium:limboapi-api:1.0.4-SNAPSHOT")
 
@@ -85,13 +52,13 @@ dependencies {
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 
     implementation("com.h2database:h2:1.4.200")
-    implementation("mysql:mysql-connector-java:8.0.28")
-    implementation("org.postgresql:postgresql:42.3.3")
+    implementation("mysql:mysql-connector-java:8.0.29")
+    implementation("org.postgresql:postgresql:42.3.5")
 
     implementation("org.bstats:bstats-velocity:3.0.0")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
-    compileOnly("com.github.spotbugs:spotbugs-annotations:4.6.0")
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.7.0")
 }
 
 shadowJar {
@@ -169,6 +136,56 @@ spotbugsMain {
             setStylesheet("fancy-hist.xsl")
         }
     }
+}
+
+task javadocJar(type: Jar) {
+    getArchiveClassifier().set("javadoc")
+    from(javadoc)
+}
+
+task sourcesJar(type: Jar) {
+    getArchiveClassifier().set("sources")
+    from(sourceSets.main.getAllSource())
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                setUsername(System.getenv("PUBLISH_USERNAME"))
+                setPassword(System.getenv("PUBLISH_PASSWORD"))
+            }
+
+            setName("elytrium-repo")
+            setUrl("https://maven.elytrium.net/repo/")
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            from(getComponents().java)
+
+            artifact(javadocJar)
+            artifact(sourcesJar)
+        }
+    }
+}
+
+javadoc {
+    getOptions().setEncoding("UTF-8")
+    getOptions().setCharSet("UTF-8")
+    getOptions().setSource("11")
+    getOptions().links("https://docs.oracle.com/en/java/javase/11/docs/api/")
+
+    // Remove "undefined" from search paths when generating javadoc for a non-modular project. (JDK-8215291)
+    if (JavaVersion.current() == JavaVersion.VERSION_11) {
+        getOptions().addBooleanOption("-no-module-directories", true)
+    }
+}
+
+artifacts {
+    archives(javadocJar)
+    archives(sourcesJar)
 }
 
 sourceSets.main.getJava().srcDir(getTasks().register("generateTemplates", Copy) { task ->

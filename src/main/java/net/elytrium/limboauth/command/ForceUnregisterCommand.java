@@ -25,12 +25,12 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import net.elytrium.java.commons.mc.serialization.Serializer;
+import net.elytrium.java.commons.mc.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.utils.SuggestUtils;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class ForceUnregisterCommand implements SimpleCommand {
 
@@ -48,15 +48,16 @@ public class ForceUnregisterCommand implements SimpleCommand {
     this.server = server;
     this.playerDao = playerDao;
 
-    this.kick = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
+    Serializer serializer = LimboAuth.getSerializer();
+    this.kick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_NOT_SUCCESSFUL;
-    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_USAGE);
+    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_USAGE);
   }
 
   @Override
   public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(invocation.arguments(), this.server);
+    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
   }
 
   @Override
@@ -67,20 +68,19 @@ public class ForceUnregisterCommand implements SimpleCommand {
     if (args.length == 1) {
       String playerNick = args[0];
 
+      Serializer serializer = LimboAuth.getSerializer();
       try {
         this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
         this.plugin.removePlayerFromCache(playerNick);
         this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.successful, playerNick)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
       } catch (SQLException e) {
-        source.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
         e.printStackTrace();
       }
-
-      return;
+    } else {
+      source.sendMessage(this.usage);
     }
-
-    source.sendMessage(this.usage);
   }
 
   @Override

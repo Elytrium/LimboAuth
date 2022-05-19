@@ -18,4 +18,5 @@
 package net.elytrium.limboauth.event;
 
 public class AuthPluginReloadEvent {
+
 }

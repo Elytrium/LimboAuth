@@ -24,19 +24,20 @@ import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
 import java.util.Locale;
+import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class UnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
 
+  private final String confirmKeyword;
   private final Component notPlayer;
   private final Component notRegistered;
   private final Component successful;
@@ -49,13 +50,15 @@ public class UnregisterCommand implements SimpleCommand {
     this.plugin = plugin;
     this.playerDao = playerDao;
 
-    this.notPlayer = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
-    this.notRegistered = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.successful = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_SUCCESSFUL);
-    this.errorOccurred = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.wrongPassword = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.usage = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_USAGE);
-    this.crackedCommand = LegacyComponentSerializer.legacyAmpersand().deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
+    Serializer serializer = LimboAuth.getSerializer();
+    this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
+    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+    this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
+    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_SUCCESSFUL);
+    this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
+    this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
+    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_USAGE);
+    this.crackedCommand = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
   }
 
   @Override
@@ -63,42 +66,41 @@ public class UnregisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (!(source instanceof Player)) {
-      source.sendMessage(this.notPlayer);
-      return;
-    }
-
-    if (args.length == 2) {
-      if (args[1].equalsIgnoreCase("confirm")) {
-        String username = ((Player) source).getUsername();
-        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
-        if (player == null) {
-          source.sendMessage(this.notRegistered);
-        } else if (player.getHash().isEmpty()) {
-          source.sendMessage(this.crackedCommand);
-        } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-          try {
-            this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-            this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
-            this.plugin.removePlayerFromCache(username);
-            ((Player) source).disconnect(this.successful);
-          } catch (SQLException e) {
-            source.sendMessage(this.errorOccurred);
-            e.printStackTrace();
+    if (source instanceof Player) {
+      if (args.length == 2) {
+        if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
+          String username = ((Player) source).getUsername();
+          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+          if (player == null) {
+            source.sendMessage(this.notRegistered);
+          } else if (player.getHash().isEmpty()) {
+            source.sendMessage(this.crackedCommand);
+          } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+            try {
+              this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
+              this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
+              this.plugin.removePlayerFromCache(username);
+              ((Player) source).disconnect(this.successful);
+            } catch (SQLException e) {
+              source.sendMessage(this.errorOccurred);
+              e.printStackTrace();
+            }
+          } else {
+            source.sendMessage(this.wrongPassword);
           }
-        } else {
-          source.sendMessage(this.wrongPassword);
+
+          return;
         }
-
-        return;
       }
-    }
 
-    source.sendMessage(this.usage);
+      source.sendMessage(this.usage);
+    } else {
+      source.sendMessage(this.notPlayer);
+    }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.unregister") != Tristate.FALSE;
+    return invocation.source().getPermissionValue("limboauth.commands.unregister") == Tristate.TRUE;
   }
 }

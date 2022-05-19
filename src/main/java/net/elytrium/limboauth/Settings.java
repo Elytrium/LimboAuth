@@ -17,13 +17,12 @@
 
 package net.elytrium.limboauth;
 
-import java.io.File;
 import java.util.List;
-import net.elytrium.limboauth.config.Config;
+import net.elytrium.java.commons.config.YamlConfig;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
 
-public class Settings extends Config {
+public class Settings extends YamlConfig {
 
   @Ignore
   public static final Settings IMP = new Settings();
@@ -31,11 +30,21 @@ public class Settings extends Config {
   @Final
   public String VERSION = BuildConstants.AUTH_VERSION;
 
+  @Comment({
+      "Available serializers:",
+      "LEGACY_AMPERSAND - \"&c&lExample &c&9Text\".",
+      "LEGACY_SECTION - \"§c§lExample §c§9Text\".",
+      "MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\". (https://webui.adventure.kyori.net/)",
+      "GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)",
+      "GSON_COLOR_DOWNSAMPLING - Same as GSON, but uses downsampling."
+  })
+  public String SERIALIZER = "LEGACY_AMPERSAND";
   public String PREFIX = "LimboAuth &6>>&f";
 
   @Create
   public MAIN MAIN;
 
+  @Comment("Don't use \\n, use {NL} for new line, and {PRFX} for prefix.")
   public static class MAIN {
 
     @Comment("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked.")
@@ -68,6 +77,8 @@ public class Settings extends Config {
     public boolean TOTP_NEED_PASSWORD = true;
     public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
     public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
+    @Comment("Used in unregister and premium commands.")
+    public String CONFIRM_KEYWORD = "confirm";
     @Comment("This prefix will be added to offline mode players nickname")
     public String OFFLINE_MODE_PREFIX = "";
     @Comment("This prefix will be added to online mode players nickname")
@@ -157,7 +168,6 @@ public class Settings extends Config {
       public Title.Times toTimes() {
         return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
       }
-
     }
 
     @Create
@@ -190,12 +200,12 @@ public class Settings extends Config {
     @Create
     public MAIN.STRINGS STRINGS;
 
-    @Comment("You can left blank the fields marked with \"*\" comment.")
     public static class STRINGS {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
       public String RELOAD_FAILED = "{PRFX} &cReload failed, check console for details.";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
+      public String DATABASE_ERROR_KICK = "{PRFX} &cA database error has occurred!";
 
       public String NOT_PLAYER = "{PRFX} &cСonsole is not allowed to execute this command!";
       public String NOT_REGISTERED = "{PRFX} &cYou are not registered or your account is &6PREMIUM!";
@@ -205,36 +215,36 @@ public class Settings extends Config {
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
 
       @Comment("6 hours by default in ip-limit-valid-time")
-      public String IP_LIMIT = "{PRFX} &cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
+      public String IP_LIMIT_KICK = "{PRFX}{NL}{NL}&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
       public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cThe case of your nickname is wrong. Nickname is CaSe SeNsItIvE.";
 
       public String BOSSBAR = "{PRFX} You have &6{0} &fseconds left to log in.";
       public String TIMES_UP = "{PRFX}{NL}&cAuthorization time is up.";
 
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM = "{PRFX} You've been logged in automatically using the premium account!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_TITLE = "{PRFX} Welcome!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_SUBTITLE = "&aYou has been logged in as premium player!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE = "{PRFX} You've been logged in automatically using the bedrock account!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_TITLE = "{PRFX} Welcome!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_SUBTITLE = "&aYou has been logged in as bedrock player!";
 
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
       public String LOGIN_WRONG_PASSWORD_KICK = "{PRFX}{NL}&cYou've entered the wrong password numerous times!";
       public String LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully logged in!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_TITLE = "&fPlease, login using &6/login <password>&a.";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_SUBTITLE = "&aYou have &6{0} &aattempts.";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_SUCCESSFUL_TITLE = "{PRFX}";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
@@ -244,13 +254,13 @@ public class Settings extends Config {
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_SUBTITLE = "&aSuccessfully registered!";
 
       public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
@@ -278,9 +288,9 @@ public class Settings extends Config {
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String TOTP_TITLE = "{PRFX}";
-      @Comment("*")
+      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String TOTP_SUBTITLE = "&aEnter your 2FA key using &6/2fa <key>";
       public String TOTP_SUCCESSFUL = "{PRFX} &aSuccessfully enabled 2FA!";
       public String TOTP_DISABLED = "{PRFX} &aSuccessfully disabled 2FA!";
@@ -292,7 +302,6 @@ public class Settings extends Config {
       public String TOTP_TOKEN = "{PRFX} &aYour 2FA token &7(Click to copy)&a: &6{0}";
       public String TOTP_RECOVERY = "{PRFX} &aYour recovery codes &7(Click to copy)&a: &6{0}";
 
-      public String DB_ERROR = "{PRFX} &aA database error has occurred.";
       public String DESTROY_SESSION_SUCCESSFUL = "{PRFX} &eYour session is now destroyed, you'll need to log in again after reconnecting.";
     }
 
@@ -324,14 +333,5 @@ public class Settings extends Config {
     public String PASSWORD = "password";
     public String DATABASE = "limboauth";
     public String CONNECTION_PARAMETERS = "?autoReconnect=true&initialTimeout=1&useSSL=false";
-  }
-
-  public void reload(File file) {
-    if (this.load(file, this.PREFIX)) {
-      this.save(file);
-    } else {
-      this.save(file);
-      this.load(file, this.PREFIX);
-    }
   }
 }
