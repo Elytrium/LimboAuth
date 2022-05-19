@@ -23,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Hex;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 
 @SuppressWarnings("unused")
 public enum MigrationHash {
@@ -93,10 +94,15 @@ public enum MigrationHash {
 
   private static class Argon2Verifier implements MigrationHashVerifier {
 
-    private final Argon2 argon2 = Argon2Factory.create();
+    @MonotonicNonNull
+    private Argon2 argon2;
 
     @Override
     public boolean checkPassword(String hash, String password) {
+      if (this.argon2 == null) {
+        this.argon2 = Argon2Factory.create();
+      }
+
       return this.argon2.verify(hash, password.getBytes(StandardCharsets.UTF_8));
     }
   }
