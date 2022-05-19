@@ -82,6 +82,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static Component loginSuccessful;
   @Nullable
   private static Title loginSuccessfulTitle;
+  @Nullable
   private static MigrationHash migrationHash;
 
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -408,7 +409,11 @@ public class AuthSessionHandler implements LimboSessionHandler {
           Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
       );
     }
-    migrationHash = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH);
+    if (Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
+      migrationHash = null;
+    } else {
+      migrationHash = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH);
+    }
   }
 
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
@@ -418,7 +423,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
-    if (!isCorrect && !Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
+    if (!isCorrect && migrationHash != null) {
       isCorrect = migrationHash.checkPassword(hash, password);
       if (isCorrect) {
         player.setHash(genHash(password));
