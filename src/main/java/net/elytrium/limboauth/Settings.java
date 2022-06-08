@@ -122,9 +122,12 @@ public class Settings extends YamlConfig {
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
-    @Comment("World file type: schematic (1.12.2 and lower), structure block .nbt (saved in the latest version)")
+    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (saved in 1.17 - 1.18.2).")
     public String WORLD_FILE_TYPE = "structure";
     public String WORLD_FILE_PATH = "world.nbt";
+
+    @Comment("World time in ticks (24000 ticks == 1 in-game day)")
+    public long WORLD_TICKS = 1000L;
     @Comment({
         "Custom isPremium URL",
         "You can use Mojang one's API (set by default)",

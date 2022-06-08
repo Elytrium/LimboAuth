@@ -350,6 +350,7 @@ public class LimboAuth {
     this.authServer = this.factory
         .createLimbo(authWorld)
         .setName("LimboAuth")
+        .setWorldTime(Settings.IMP.MAIN.WORLD_TICKS)
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.REGISTER_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)));
