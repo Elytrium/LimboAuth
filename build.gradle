@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.0.5")
+setVersion("1.0.6-SNAPSHOT")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.5")
+    compileOnly("net.elytrium:limboapi-api:1.0.6-SNAPSHOT")
 
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")

@@ -128,6 +128,10 @@ public class Settings extends YamlConfig {
 
     @Comment("World time in ticks (24000 ticks == 1 in-game day)")
     public long WORLD_TICKS = 1000L;
+
+    @Comment("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR")
+    public String GAME_MODE = "ADVENTURE";
+
     @Comment({
         "Custom isPremium URL",
         "You can use Mojang one's API (set by default)",

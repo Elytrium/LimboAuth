@@ -77,6 +77,7 @@ import net.elytrium.limboapi.api.command.LimboCommandMeta;
 import net.elytrium.limboapi.api.file.SchematicFile;
 import net.elytrium.limboapi.api.file.StructureFile;
 import net.elytrium.limboapi.api.file.WorldFile;
+import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
@@ -351,6 +352,7 @@ public class LimboAuth {
         .createLimbo(authWorld)
         .setName("LimboAuth")
         .setWorldTime(Settings.IMP.MAIN.WORLD_TICKS)
+        .setGameMode(GameMode.valueOf(Settings.IMP.MAIN.GAME_MODE))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.REGISTER_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)));
