@@ -95,6 +95,7 @@ import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.title.Title;
@@ -483,14 +484,14 @@ public class LimboAuth {
             this.postLoginTasks.put(player.getUniqueId(), () -> {
               if (onlineMode) {
                 if (this.loginPremium != null) {
-                  player.sendMessage(this.loginPremium);
+                  player.sendMessage(this.loginPremium, MessageType.SYSTEM);
                 }
                 if (this.loginPremiumTitle != null) {
                   player.showTitle(this.loginPremiumTitle);
                 }
               } else {
                 if (this.loginFloodgate != null) {
-                  player.sendMessage(this.loginFloodgate);
+                  player.sendMessage(this.loginFloodgate, MessageType.SYSTEM);
                 }
                 if (this.loginFloodgateTitle != null) {
                   player.showTitle(this.loginFloodgateTitle);

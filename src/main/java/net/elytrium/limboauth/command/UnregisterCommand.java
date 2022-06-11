@@ -30,6 +30,7 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class UnregisterCommand implements SimpleCommand {
@@ -72,9 +73,9 @@ public class UnregisterCommand implements SimpleCommand {
           String username = ((Player) source).getUsername();
           RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
           if (player == null) {
-            source.sendMessage(this.notRegistered);
+            source.sendMessage(this.notRegistered, MessageType.SYSTEM);
           } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand);
+            source.sendMessage(this.crackedCommand, MessageType.SYSTEM);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
             try {
               this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
@@ -82,20 +83,20 @@ public class UnregisterCommand implements SimpleCommand {
               this.plugin.removePlayerFromCache(username);
               ((Player) source).disconnect(this.successful);
             } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
+              source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
               e.printStackTrace();
             }
           } else {
-            source.sendMessage(this.wrongPassword);
+            source.sendMessage(this.wrongPassword, MessageType.SYSTEM);
           }
 
           return;
         }
       }
 
-      source.sendMessage(this.usage);
+      source.sendMessage(this.usage, MessageType.SYSTEM);
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
     }
   }
 

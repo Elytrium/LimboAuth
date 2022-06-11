@@ -29,6 +29,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class ChangePasswordCommand implements SimpleCommand {
@@ -68,12 +69,12 @@ public class ChangePasswordCommand implements SimpleCommand {
         if (this.needOldPass) {
           RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, ((Player) source).getUsername());
           if (player == null) {
-            source.sendMessage(this.notRegistered);
+            source.sendMessage(this.notRegistered, MessageType.SYSTEM);
             return;
           } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand);
+            source.sendMessage(this.crackedCommand, MessageType.SYSTEM);
           } else if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            source.sendMessage(this.wrongPassword);
+            source.sendMessage(this.wrongPassword, MessageType.SYSTEM);
             return;
           }
         }
@@ -84,16 +85,16 @@ public class ChangePasswordCommand implements SimpleCommand {
           updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
           updateBuilder.update();
 
-          source.sendMessage(this.successful);
+          source.sendMessage(this.successful, MessageType.SYSTEM);
         } catch (SQLException e) {
-          source.sendMessage(this.errorOccurred);
+          source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
           e.printStackTrace();
         }
       } else {
-        source.sendMessage(this.usage);
+        source.sendMessage(this.usage, MessageType.SYSTEM);
       }
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
     }
   }
 

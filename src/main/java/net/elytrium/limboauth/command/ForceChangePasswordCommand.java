@@ -32,6 +32,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
@@ -75,15 +76,16 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(newPassword));
         updateBuilder.update();
 
-        this.server.getPlayer(nickname).ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
+        this.server.getPlayer(nickname)
+            .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword)), MessageType.SYSTEM));
 
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)), MessageType.SYSTEM);
       } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)), MessageType.SYSTEM);
         e.printStackTrace();
       }
     } else {
-      source.sendMessage(this.usage);
+      source.sendMessage(this.usage, MessageType.SYSTEM);
     }
   }
 

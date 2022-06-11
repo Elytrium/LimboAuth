@@ -36,6 +36,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 
@@ -94,7 +95,7 @@ public class TotpCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       if (args.length == 0) {
-        source.sendMessage(this.usage);
+        source.sendMessage(this.usage, MessageType.SYSTEM);
       } else {
         String username = ((Player) source).getUsername();
 
@@ -104,18 +105,18 @@ public class TotpCommand implements SimpleCommand {
           if (this.needPassword ? args.length == 2 : args.length == 1) {
             playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
             if (playerInfo == null) {
-              source.sendMessage(this.notRegistered);
+              source.sendMessage(this.notRegistered, MessageType.SYSTEM);
               return;
             } else if (playerInfo.getHash().isEmpty()) {
-              source.sendMessage(this.crackedCommand);
+              source.sendMessage(this.crackedCommand, MessageType.SYSTEM);
               return;
             } else if (this.needPassword && !AuthSessionHandler.checkPassword(args[1], playerInfo, this.playerDao)) {
-              source.sendMessage(this.wrongPassword);
+              source.sendMessage(this.wrongPassword, MessageType.SYSTEM);
               return;
             }
 
             if (!playerInfo.getTotpToken().isEmpty()) {
-              source.sendMessage(this.alreadyEnabled);
+              source.sendMessage(this.alreadyEnabled, MessageType.SYSTEM);
               return;
             }
 
@@ -126,10 +127,10 @@ public class TotpCommand implements SimpleCommand {
               updateBuilder.updateColumnValue("TOTPTOKEN", secret);
               updateBuilder.update();
             } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
+              source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
               e.printStackTrace();
             }
-            source.sendMessage(this.successful);
+            source.sendMessage(this.successful, MessageType.SYSTEM);
 
             QrData data = new QrData.Builder()
                 .label(username)
@@ -137,21 +138,23 @@ public class TotpCommand implements SimpleCommand {
                 .issuer(this.issuer)
                 .build();
             String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
-            source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
+            source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)), MessageType.SYSTEM);
 
             Serializer serializer = LimboAuth.getSerializer();
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret)).clickEvent(ClickEvent.copyToClipboard(secret)));
+            source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
+                .clickEvent(ClickEvent.copyToClipboard(secret)), MessageType.SYSTEM);
             String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes)).clickEvent(ClickEvent.copyToClipboard(codes)));
+            source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes))
+                .clickEvent(ClickEvent.copyToClipboard(codes)), MessageType.SYSTEM);
           } else {
-            source.sendMessage(this.usage);
+            source.sendMessage(this.usage, MessageType.SYSTEM);
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
             playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
 
             if (playerInfo == null) {
-              source.sendMessage(this.notRegistered);
+              source.sendMessage(this.notRegistered, MessageType.SYSTEM);
               return;
             }
 
@@ -162,23 +165,23 @@ public class TotpCommand implements SimpleCommand {
                 updateBuilder.updateColumnValue("TOTPTOKEN", "");
                 updateBuilder.update();
 
-                source.sendMessage(this.disabled);
+                source.sendMessage(this.disabled, MessageType.SYSTEM);
               } catch (SQLException e) {
-                source.sendMessage(this.errorOccurred);
+                source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
                 e.printStackTrace();
               }
             } else {
-              source.sendMessage(this.wrong);
+              source.sendMessage(this.wrong, MessageType.SYSTEM);
             }
           } else {
-            source.sendMessage(this.usage);
+            source.sendMessage(this.usage, MessageType.SYSTEM);
           }
         } else {
-          source.sendMessage(this.usage);
+          source.sendMessage(this.usage, MessageType.SYSTEM);
         }
       }
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
     }
   }
 
