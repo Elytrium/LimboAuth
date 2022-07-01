@@ -98,6 +98,7 @@ public class Settings extends YamlConfig {
         "MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)",
         "SHA256_NO_SALT - SHA256(password) that looks like $SHA$hash (NexAuth)",
         "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
+        "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
     })
     public String MIGRATION_HASH = "";
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
