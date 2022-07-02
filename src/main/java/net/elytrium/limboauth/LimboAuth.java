@@ -349,6 +349,10 @@ public class LimboAuth {
       }
     }
 
+    if (this.authServer != null) {
+      this.authServer.dispose();
+    }
+
     this.authServer = this.factory
         .createLimbo(authWorld)
         .setName("LimboAuth")
