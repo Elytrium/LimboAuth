@@ -37,6 +37,7 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.velocitypowered.api.scheduler.ScheduledTask;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +61,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -142,7 +141,6 @@ public class LimboAuth {
   private final File configFile;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
-  private final ThreadLocal<ScheduledExecutorService> scheduler;
 
   @Nullable
   private Component loginPremium;
@@ -153,6 +151,8 @@ public class LimboAuth {
   @Nullable
   private Title loginFloodgateTitle;
   private Component nicknameInvalidKick;
+  private ScheduledTask purgeCacheTask;
+  private ScheduledTask purgePremiumCacheTask;
 
   private JdbcPooledConnectionSource connectionSource;
   private Dao<RegisteredPlayer, String> playerDao;
@@ -177,8 +177,6 @@ public class LimboAuth {
     } else {
       this.floodgateApi = null;
     }
-
-    this.scheduler = ThreadLocal.withInitial(() -> Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-scheduler")));
   }
 
   @Subscribe
@@ -370,19 +368,25 @@ public class LimboAuth {
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
 
-    Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-purge-cache")).scheduleAtFixedRate(
-        () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
-        Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
-        Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
-        TimeUnit.MILLISECONDS
-    );
+    if (this.purgeCacheTask != null) {
+      this.purgeCacheTask.cancel();
+    }
 
-    Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-purge-premium-cache")).scheduleAtFixedRate(
-        () -> this.checkCache(this.premiumCache, Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS),
-        Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
-        Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
-        TimeUnit.MILLISECONDS
-    );
+    this.purgeCacheTask = this.server.getScheduler()
+        .buildTask(this, () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS))
+        .delay(Settings.IMP.MAIN.PURGE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.MAIN.PURGE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .schedule();
+
+    if (this.purgePremiumCacheTask != null) {
+      this.purgePremiumCacheTask.cancel();
+    }
+
+    this.purgePremiumCacheTask = this.server.getScheduler()
+        .buildTask(this, () -> this.checkCache(this.premiumCache, Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS))
+        .delay(Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .schedule();
 
     eventManager.fireAndForget(new AuthPluginReloadEvent());
   }
@@ -659,10 +663,6 @@ public class LimboAuth {
 
   public static Serializer getSerializer() {
     return SERIALIZER;
-  }
-
-  public ScheduledExecutorService getScheduler() {
-    return this.scheduler.get();
   }
 
   private static class CachedUser {
