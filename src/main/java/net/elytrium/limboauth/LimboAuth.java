@@ -61,6 +61,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -141,6 +142,7 @@ public class LimboAuth {
   private final File configFile;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
+  private final ThreadLocal<ScheduledExecutorService> scheduler;
 
   @Nullable
   private Component loginPremium;
@@ -175,6 +177,8 @@ public class LimboAuth {
     } else {
       this.floodgateApi = null;
     }
+
+    this.scheduler = ThreadLocal.withInitial(() -> Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-scheduler")));
   }
 
   @Subscribe
@@ -366,14 +370,14 @@ public class LimboAuth {
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
 
-    Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-cache")).scheduleAtFixedRate(
+    Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-purge-cache")).scheduleAtFixedRate(
         () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS),
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         Settings.IMP.MAIN.PURGE_CACHE_MILLIS,
         TimeUnit.MILLISECONDS
     );
 
-    Executors.newScheduledThreadPool(1, task -> new Thread(task, "purge-premium-cache")).scheduleAtFixedRate(
+    Executors.newSingleThreadScheduledExecutor(task -> new Thread(task, "limboauth-purge-premium-cache")).scheduleAtFixedRate(
         () -> this.checkCache(this.premiumCache, Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS),
         Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
         Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS,
@@ -655,6 +659,10 @@ public class LimboAuth {
 
   public static Serializer getSerializer() {
     return SERIALIZER;
+  }
+
+  public ScheduledExecutorService getScheduler() {
+    return this.scheduler.get();
   }
 
   private static class CachedUser {

@@ -20,7 +20,6 @@ package net.elytrium.limboauth.handler;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.scheduler.ScheduledTask;
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
 import dev.samstevens.totp.code.DefaultCodeVerifier;
@@ -31,6 +30,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import net.elytrium.java.commons.mc.serialization.Serializer;
@@ -101,7 +101,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   @Nullable
   private RegisteredPlayer playerInfo;
 
-  private ScheduledTask authMainTask;
+  private ScheduledFuture<?> authMainTask;
 
   private LimboPlayer player;
   private String ip;
@@ -158,7 +158,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = LimboAuth.getSerializer();
     int authTime = Settings.IMP.MAIN.AUTH_TIME;
     float multiplier = 1000.0F / authTime;
-    this.authMainTask = this.plugin.getServer().getScheduler().buildTask(this.plugin, () -> {
+    this.authMainTask = this.plugin.getScheduler().scheduleWithFixedDelay(() -> {
       if (System.currentTimeMillis() - this.joinTime > authTime) {
         this.proxyPlayer.disconnect(timesUp);
       } else {
@@ -169,7 +169,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           this.bossBar.progress(Math.min(1.0F, secondsLeft * multiplier));
         }
       }
-    }).repeat(1, TimeUnit.SECONDS).schedule();
+    }, 0, 1, TimeUnit.SECONDS);
 
     if (bossBarEnabled) {
       this.proxyPlayer.showBossBar(this.bossBar);
@@ -249,7 +249,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   @Override
   public void onDisconnect() {
     if (this.authMainTask != null) {
-      this.authMainTask.cancel();
+      this.authMainTask.cancel(true);
     }
 
     this.proxyPlayer.hideBossBar(this.bossBar);
