@@ -130,6 +130,9 @@ public class Settings extends YamlConfig {
     @Comment("World time in ticks (24000 ticks == 1 in-game day)")
     public long WORLD_TICKS = 1000L;
 
+    @Comment("World light level (from 0 to 15)")
+    public int WORLD_LIGHT_LEVEL = 15;
+
     @Comment("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR")
     public String GAME_MODE = "ADVENTURE";
 

@@ -345,7 +345,7 @@ public class LimboAuth {
         }
 
         Settings.MAIN.WORLD_COORDS coords = Settings.IMP.MAIN.WORLD_COORDS;
-        file.toWorld(this.factory, authWorld, coords.X, coords.Y, coords.Z);
+        file.toWorld(this.factory, authWorld, coords.X, coords.Y, coords.Z, Settings.IMP.MAIN.WORLD_LIGHT_LEVEL);
       } catch (IOException e) {
         e.printStackTrace();
       }
