@@ -156,6 +156,9 @@ public class Settings extends YamlConfig {
     public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");
     public List<String> TOTP_COMMAND = List.of("/2fa", "/totp");
 
+    @Comment("New players will be kicked with registrations-disabled-kick message")
+    public boolean DISABLE_REGISTRATIONS = false;
+
     @Create
     public Settings.MAIN.WORLD_COORDS WORLD_COORDS;
 
@@ -288,6 +291,8 @@ public class Settings extends YamlConfig {
       public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";
       public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_UNREGISTER_USAGE = "{PRFX} Usage: &6/forceunregister <nickname>";
+
+      public String REGISTRATIONS_DISABLED_KICK = "{PRFX} Registrations are currently disabled.";
 
       public String CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password!";
       @Comment("Or if change-password-need-old-pass set to false remove the \"<old password>\" part.")

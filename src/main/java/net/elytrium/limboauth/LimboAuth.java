@@ -150,6 +150,7 @@ public class LimboAuth {
   private Component loginFloodgate;
   @Nullable
   private Title loginFloodgateTitle;
+  private Component registrationsDisabledKick;
   private Component nicknameInvalidKick;
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
@@ -246,6 +247,7 @@ public class LimboAuth {
     }
 
     this.nicknameInvalidKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
+    this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
 
     if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH) {
       this.unsafePasswords.clear();
@@ -484,6 +486,7 @@ public class LimboAuth {
     String nickname = player.getUsername();
     if (this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+
       boolean onlineMode = player.isOnlineMode();
       TaskEvent.Result result = TaskEvent.Result.NORMAL;
 
@@ -518,6 +521,11 @@ public class LimboAuth {
 
       EventManager eventManager = this.server.getEventManager();
       if (registeredPlayer == null) {
+        if (Settings.IMP.MAIN.DISABLE_REGISTRATIONS) {
+          player.disconnect(this.registrationsDisabledKick);
+          return;
+        }
+
         Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
         eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
       } else {
