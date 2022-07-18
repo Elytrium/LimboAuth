@@ -230,7 +230,7 @@ public class Settings extends YamlConfig {
 
       @Comment("6 hours by default in ip-limit-valid-time")
       public String IP_LIMIT_KICK = "{PRFX}{NL}{NL}&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
-      public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cThe case of your nickname is wrong. Nickname is CaSe SeNsItIvE.";
+      public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cYou should join using username &6{0}&c, not &6{1}&c.";
 
       public String BOSSBAR = "{PRFX} You have &6{0} &fseconds left to log in.";
       public String TIMES_UP = "{PRFX}{NL}&cAuthorization time is up.";

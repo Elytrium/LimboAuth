@@ -60,7 +60,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static BossBar.Overlay bossbarOverlay;
   private static Component ipLimitKick;
   private static Component databaseErrorKick;
-  private static Component wrongNicknameCaseKick;
+  private static String wrongNicknameCaseKick;
   private static Component timesUp;
   private static Component registerSuccessful;
   @Nullable
@@ -122,6 +122,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     this.player.disableFalling();
 
+    Serializer serializer = LimboAuth.getSerializer();
+
     if (this.playerInfo == null) {
       try {
         List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq("IP", this.ip);
@@ -149,13 +151,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
       }
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
-        this.proxyPlayer.disconnect(wrongNicknameCaseKick);
+        this.proxyPlayer.disconnect(serializer.deserialize(
+            MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
+        );
         return;
       }
     }
 
     boolean bossBarEnabled = Settings.IMP.MAIN.ENABLE_BOSSBAR;
-    Serializer serializer = LimboAuth.getSerializer();
     int authTime = Settings.IMP.MAIN.AUTH_TIME;
     float multiplier = 1000.0F / authTime;
     this.authMainTask = this.player.getScheduledExecutor().scheduleWithFixedDelay(() -> {
@@ -346,7 +349,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     bossbarOverlay = BossBar.Overlay.valueOf(Settings.IMP.MAIN.BOSSBAR_OVERLAY.toUpperCase(Locale.ROOT));
     ipLimitKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.IP_LIMIT_KICK);
     databaseErrorKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DATABASE_ERROR_KICK);
-    wrongNicknameCaseKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_NICKNAME_CASE_KICK);
+    wrongNicknameCaseKick = Settings.IMP.MAIN.STRINGS.WRONG_NICKNAME_CASE_KICK;
     timesUp = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TIMES_UP);
     registerSuccessful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL);
     if (Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_SUBTITLE.isEmpty()) {
