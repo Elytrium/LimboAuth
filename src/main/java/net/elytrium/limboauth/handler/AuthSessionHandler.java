@@ -151,7 +151,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
       }
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
-        this.proxyPlayer.disconnect(serializer.deserialize(MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername())));
+        this.proxyPlayer.disconnect(serializer.deserialize(
+            MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
+        );
         return;
       }
     }
