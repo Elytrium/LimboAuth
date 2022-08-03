@@ -94,7 +94,7 @@ public class AuthListener {
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
 
-        if (event.isOnlineMode() && registeredPlayer.getHash().isEmpty() && registeredPlayer.getPremiumUuid().isEmpty()) {
+        if (event.isOnlineMode() && registeredPlayer.getPremium() && registeredPlayer.getPremiumUuid().isEmpty()) {
           try {
             registeredPlayer.setPremiumUuid(event.getOriginalProfile().getId().toString());
             this.playerDao.update(registeredPlayer);

@@ -193,6 +193,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
               username,
               username.toLowerCase(Locale.ROOT),
               genHash(args[1]),
+              false,
               this.ip,
               "",
               System.currentTimeMillis(),

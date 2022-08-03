@@ -32,6 +32,9 @@ public class RegisteredPlayer {
   @DatabaseField(canBeNull = false, columnName = "HASH")
   private String hash;
 
+  @DatabaseField(canBeNull = false, columnName = "PREMIUM")
+  private boolean premium;
+
   @DatabaseField(columnName = "IP")
   private String ip;
 
@@ -48,10 +51,11 @@ public class RegisteredPlayer {
   private String premiumUuid;
 
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid) {
+      String hash, boolean premium, String ip, String totpToken, Long regDate, String uuid, String premiumUuid) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
+    this.premium = premium;
     this.ip = ip;
     this.totpToken = totpToken;
     this.regDate = regDate;
@@ -85,6 +89,14 @@ public class RegisteredPlayer {
 
   public String getHash() {
     return this.hash == null ? "" : this.hash;
+  }
+
+  public void setPremium(boolean premium) {
+    this.premium = premium;
+  }
+
+  public boolean getPremium() {
+    return this.premium;
   }
 
   public void setIP(String ip) {
