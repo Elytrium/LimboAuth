@@ -491,9 +491,9 @@ public class LimboAuth {
       TaskEvent.Result result = TaskEvent.Result.NORMAL;
 
       if (onlineMode || isFloodgate) {
-        if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+        if (registeredPlayer == null || registeredPlayer.getPremium()) {
           registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
-          if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+          if (registeredPlayer == null || registeredPlayer.getPremium()) {
             // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
             // We need to wait for the PLAY connection state to set.
             this.postLoginTasks.put(player.getUniqueId(), () -> {
@@ -605,14 +605,14 @@ public class LimboAuth {
           premiumRegisteredQuery.where()
               .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
               .and()
-              .ne("HASH", "");
+              .ne("PREMIUM", 1);
           premiumRegisteredQuery.setCountOf(true);
 
           QueryBuilder<RegisteredPlayer, String> premiumUnregisteredQuery = this.playerDao.queryBuilder();
           premiumUnregisteredQuery.where()
               .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
               .and()
-              .eq("HASH", "");
+              .ne("PREMIUM", 0);
           premiumUnregisteredQuery.setCountOf(true);
 
           if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {

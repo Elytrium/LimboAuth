@@ -74,12 +74,12 @@ public class PremiumCommand implements SimpleCommand {
           RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
           if (player == null) {
             source.sendMessage(this.notRegistered, MessageType.SYSTEM);
-          } else if (player.getHash().isEmpty()) {
+          } else if (player.getPremium()) {
             source.sendMessage(this.alreadyPremium, MessageType.SYSTEM);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
             if (this.plugin.isPremiumExternal(username)) {
               try {
-                player.setHash("");
+                player.setPremium(true);
                 this.playerDao.update(player);
                 this.plugin.removePlayerFromCache(username);
                 ((Player) source).disconnect(this.successful);
