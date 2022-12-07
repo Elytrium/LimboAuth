@@ -139,11 +139,31 @@ public class Settings extends YamlConfig {
     @Comment({
         "Custom isPremium URL",
         "You can use Mojang one's API (set by default)",
-        "Or CloudFlare one's: https://api.ashcon.app/mojang/v1/user/%s",
+        "Or CloudFlare one's: https://api.ashcon.app/mojang/v2/user/%s",
         "Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/",
-        "Or implement your own API, it should just respond with HTTP code 200 only if the player is premium"
+        "Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"
     })
     public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+
+    @Comment({
+        "Status codes (see the comment above)",
+        "Responses with unlisted status codes will be identified as responses with a server error",
+        "Set 200 if you use using Mojang or CloudFlare API"
+    })
+    public int STATUS_CODE_USER_EXISTS = 200;
+    @Comment("Set 204 if you use Mojang API, 404 if you use CloudFlare API")
+    public int STATUS_CODE_USER_NOT_EXISTS = 204;
+    @Comment("Set 429 if you use Mojang or CloudFlare API")
+    public int STATUS_CODE_RATE_LIMIT = 429;
+
+    @Comment({
+        "Sample Mojang API response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}",
+        "Sample CloudFlare API response: {\"uuid\":\"9c7024b2a48746b3b3934f397ae5d70f\",\"username\":\"hevav\", ...}",
+        "Responses with an invalid scheme will be identified as responses with a server error",
+        "Set this parameter to [], to disable JSON scheme validation"
+    })
+    public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
+    public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
 
     @Comment({
         "If Mojang rate-limits your server, we cannot determine if the player is premium or not",
@@ -151,6 +171,13 @@ public class Settings extends YamlConfig {
         "True - as premium; False - as cracked"
     })
     public boolean ON_RATE_LIMIT_PREMIUM = true;
+
+    @Comment({
+        "If Mojang API is down, we cannot determine if the player is premium or not",
+        "This option allows you to choose whether every player will be defined as premium or as cracked while Mojang API is unavailable",
+        "True - as premium; False - as cracked"
+    })
+    public boolean ON_SERVER_ERROR_PREMIUM = true;
 
     public List<String> REGISTER_COMMAND = List.of("/r", "/reg", "/register");
     public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");

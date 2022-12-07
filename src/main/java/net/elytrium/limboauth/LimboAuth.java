@@ -17,6 +17,8 @@
 
 package net.elytrium.limboauth;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -565,6 +567,19 @@ public class LimboAuth {
     }
   }
 
+  private boolean validateScheme(String json, List<String> scheme) {
+    if (!scheme.isEmpty()) {
+      JsonObject object = (JsonObject) JsonParser.parseString(json);
+      for (String field : scheme) {
+        if (!object.has(field)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
   public boolean isPremiumExternal(String nickname) {
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     if (this.premiumCache.containsKey(lowercaseNickname)) {
@@ -572,26 +587,35 @@ public class LimboAuth {
     }
 
     try {
-      int statusCode = this.client.send(
+      HttpResponse<String> response = this.client.send(
           HttpRequest.newBuilder()
               .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(lowercaseNickname, StandardCharsets.UTF_8))))
               .build(),
           HttpResponse.BodyHandlers.ofString()
-      ).statusCode();
+      );
 
-      boolean isPremium = statusCode == 200;
+      int statusCode = response.statusCode();
 
-      // 429 Too Many Requests.
-      if (statusCode != 429) {
-        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), isPremium));
-      } else {
+      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT) {
         return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
       }
 
-      return isPremium;
+      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS
+          && this.validateScheme(response.body(), Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
+        return true;
+      }
+
+      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
+          && this.validateScheme(response.body(), Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
+        return false;
+      }
+
+      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     } catch (IOException | InterruptedException e) {
       LOGGER.error("Unable to authenticate with Mojang.", e);
-      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
   }
 
