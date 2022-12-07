@@ -52,8 +52,8 @@ dependencies {
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 
     implementation("com.h2database:h2:1.4.200")
-    implementation("mysql:mysql-connector-java:8.0.29")
-    implementation("org.postgresql:postgresql:42.3.5")
+    implementation('mysql:mysql-connector-java:8.0.31')
+    implementation('org.postgresql:postgresql:42.5.1')
 
     implementation("org.bstats:bstats-velocity:3.0.0")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
