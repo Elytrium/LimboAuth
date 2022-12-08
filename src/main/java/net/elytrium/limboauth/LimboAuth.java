@@ -495,6 +495,25 @@ public class LimboAuth {
       if (onlineMode || isFloodgate) {
         if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
           registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
+          if (registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
+            registeredPlayer = new RegisteredPlayer(
+                nickname,
+                nickname.toLowerCase(Locale.ROOT),
+                "",
+                player.getRemoteAddress().getAddress().getHostAddress(),
+                "",
+                System.currentTimeMillis(),
+                player.getUniqueId().toString(),
+                player.getUniqueId().toString()
+            );
+
+            try {
+              this.playerDao.create(registeredPlayer);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+
           if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
             // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
             // We need to wait for the PLAY connection state to set.

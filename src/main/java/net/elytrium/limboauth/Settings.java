@@ -73,6 +73,11 @@ public class Settings extends YamlConfig {
         "If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."
     })
     public boolean SAVE_UUID = true;
+    @Comment({
+        "Saves in the database the accounts of premium users whose login is via online-mode-need-auth: false",
+        "Can be disabled to reduce the size of stored data in the database"
+    })
+    public boolean SAVE_PREMIUM_ACCOUNTS = true;
     public boolean ENABLE_TOTP = true;
     public boolean TOTP_NEED_PASSWORD = true;
     public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
