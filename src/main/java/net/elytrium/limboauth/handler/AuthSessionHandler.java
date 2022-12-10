@@ -339,6 +339,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
+    this.playerInfo.setIP(this.ip);
+    try {
+      this.playerDao.update(this.playerInfo);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      this.proxyPlayer.disconnect(databaseErrorKick);
+      return;
+    }
     this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
   }
