@@ -130,13 +130,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
         if (alreadyRegistered != null) {
           int sizeOfValidRegistrations = alreadyRegistered.size();
           if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
-              registeredPlayer.setIP("");
-              this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
-            }
+            sizeOfValidRegistrations = sizeOfValidRegistrations - (int) alreadyRegistered.stream()
+                    .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
+                    .count();
           }
 
           if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
@@ -339,6 +335,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
+    // Update player ip in the database
     this.playerInfo.setIP(this.ip);
     try {
       this.playerDao.update(this.playerInfo);
@@ -347,6 +344,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.disconnect(databaseErrorKick);
       return;
     }
+
     this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
   }
