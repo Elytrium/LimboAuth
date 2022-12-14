@@ -128,7 +128,7 @@ public class Settings extends YamlConfig {
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
-    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (saved in 1.17 - 1.18.2).")
+    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (any Minecraft version is supported, but the latest one is recommended).")
     public String WORLD_FILE_TYPE = "structure";
     public String WORLD_FILE_PATH = "world.nbt";
 
