@@ -94,16 +94,6 @@ public class AuthListener {
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
 
-        if (event.isOnlineMode() && registeredPlayer.getHash().isEmpty() && registeredPlayer.getPremiumUuid().isEmpty()) {
-          try {
-            registeredPlayer.setPremiumUuid(event.getOriginalProfile().getId().toString());
-            this.playerDao.update(registeredPlayer);
-          } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-          }
-        }
-
         if (currentUuid.isEmpty()) {
           try {
             registeredPlayer.setUuid(event.getGameProfile().getId().toString());

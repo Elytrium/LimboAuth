@@ -494,8 +494,20 @@ public class LimboAuth {
 
       if (onlineMode || isFloodgate) {
         if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+          RegisteredPlayer nicknameRegisteredPlayer = registeredPlayer;
           registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
-          if (registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
+
+          if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
+            registeredPlayer = nicknameRegisteredPlayer;
+            registeredPlayer.setPremiumUuid(player.getUniqueId().toString());
+            try {
+              this.playerDao.update(registeredPlayer);
+            } catch (SQLException e) {
+              e.printStackTrace();
+            }
+          }
+
+          if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
             registeredPlayer = new RegisteredPlayer(
                 nickname,
                 nickname.toLowerCase(Locale.ROOT),
