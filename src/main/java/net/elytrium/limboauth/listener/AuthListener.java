@@ -76,7 +76,7 @@ public class AuthListener {
   @Subscribe
   public void onLoginLimboRegister(LoginLimboRegisterEvent event) {
     if (this.plugin.needAuth(event.getPlayer())) {
-      event.addCallback(() -> this.plugin.authPlayer(event.getPlayer()));
+      event.addOnJoinCallback(() -> this.plugin.authPlayer(event.getPlayer()));
     }
   }
 
@@ -109,8 +109,8 @@ public class AuthListener {
     } else if (event.isOnlineMode()) {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq("NICKNAME", event.getUsername());
-        updateBuilder.updateColumnValue("HASH", "");
+        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, event.getUsername());
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
         updateBuilder.update();
       } catch (SQLException e) {
         e.printStackTrace();

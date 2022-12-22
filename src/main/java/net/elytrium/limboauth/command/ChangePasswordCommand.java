@@ -29,7 +29,6 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class ChangePasswordCommand implements SimpleCommand {
@@ -69,32 +68,32 @@ public class ChangePasswordCommand implements SimpleCommand {
         if (this.needOldPass) {
           RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, ((Player) source).getUsername());
           if (player == null) {
-            source.sendMessage(this.notRegistered, MessageType.SYSTEM);
+            source.sendMessage(this.notRegistered);
             return;
           } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand, MessageType.SYSTEM);
+            source.sendMessage(this.crackedCommand);
           } else if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            source.sendMessage(this.wrongPassword, MessageType.SYSTEM);
+            source.sendMessage(this.wrongPassword);
             return;
           }
         }
 
         try {
           UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-          updateBuilder.where().eq("NICKNAME", ((Player) source).getUsername());
-          updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
+          updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, ((Player) source).getUsername());
+          updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
           updateBuilder.update();
 
-          source.sendMessage(this.successful, MessageType.SYSTEM);
+          source.sendMessage(this.successful);
         } catch (SQLException e) {
-          source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
+          source.sendMessage(this.errorOccurred);
           e.printStackTrace();
         }
       } else {
-        source.sendMessage(this.usage, MessageType.SYSTEM);
+        source.sendMessage(this.usage);
       }
     } else {
-      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
+      source.sendMessage(this.notPlayer);
     }
   }
 

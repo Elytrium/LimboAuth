@@ -23,12 +23,12 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
+import java.util.Locale;
 import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class PremiumCommand implements SimpleCommand {
@@ -73,34 +73,34 @@ public class PremiumCommand implements SimpleCommand {
           String username = ((Player) source).getUsername();
           RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
           if (player == null) {
-            source.sendMessage(this.notRegistered, MessageType.SYSTEM);
+            source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.alreadyPremium, MessageType.SYSTEM);
+            source.sendMessage(this.alreadyPremium);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            if (this.plugin.isPremiumExternal(username)) {
+            if (this.plugin.isPremiumExternal(username.toLowerCase(Locale.ROOT)).getState() == LimboAuth.PremiumState.PREMIUM) {
               try {
                 player.setHash("");
                 this.playerDao.update(player);
                 this.plugin.removePlayerFromCache(username);
                 ((Player) source).disconnect(this.successful);
               } catch (SQLException e) {
-                source.sendMessage(this.errorOccurred, MessageType.SYSTEM);
+                source.sendMessage(this.errorOccurred);
                 e.printStackTrace();
               }
             } else {
-              source.sendMessage(this.notPremium, MessageType.SYSTEM);
+              source.sendMessage(this.notPremium);
             }
           } else {
-            source.sendMessage(this.wrongPassword, MessageType.SYSTEM);
+            source.sendMessage(this.wrongPassword);
           }
 
           return;
         }
       }
 
-      source.sendMessage(this.usage, MessageType.SYSTEM);
+      source.sendMessage(this.usage);
     } else {
-      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
+      source.sendMessage(this.notPlayer);
     }
   }
 

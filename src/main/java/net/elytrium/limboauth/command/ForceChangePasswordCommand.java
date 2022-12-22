@@ -32,7 +32,6 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
@@ -72,20 +71,20 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       Serializer serializer = LimboAuth.getSerializer();
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue("HASH", AuthSessionHandler.genHash(newPassword));
+        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(newPassword));
         updateBuilder.update();
 
         this.server.getPlayer(nickname)
-            .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword)), MessageType.SYSTEM));
+            .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
 
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)), MessageType.SYSTEM);
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
       } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)), MessageType.SYSTEM);
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         e.printStackTrace();
       }
     } else {
-      source.sendMessage(this.usage, MessageType.SYSTEM);
+      source.sendMessage(this.usage);
     }
   }
 

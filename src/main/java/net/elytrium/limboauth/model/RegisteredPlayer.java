@@ -23,28 +23,37 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
 
-  @DatabaseField(canBeNull = false, columnName = "NICKNAME")
+  public static final String NICKNAME_FIELD = "NICKNAME";
+  public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
+  public static final String HASH_FIELD = "HASH";
+  public static final String IP_FIELD = "IP";
+  public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
+  public static final String REG_DATE_FIELD = "REGDATE";
+  public static final String UUID_FIELD = "UUID";
+  public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
+
+  @DatabaseField(canBeNull = false, columnName = NICKNAME_FIELD)
   private String nickname;
 
-  @DatabaseField(id = true, columnName = "LOWERCASENICKNAME")
+  @DatabaseField(id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
 
-  @DatabaseField(canBeNull = false, columnName = "HASH")
+  @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash;
 
-  @DatabaseField(columnName = "IP")
+  @DatabaseField(columnName = IP_FIELD)
   private String ip;
 
-  @DatabaseField(columnName = "TOTPTOKEN")
+  @DatabaseField(columnName = TOTP_TOKEN_FIELD)
   private String totpToken;
 
-  @DatabaseField(columnName = "REGDATE")
+  @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate;
 
-  @DatabaseField(columnName = "UUID")
+  @DatabaseField(columnName = UUID_FIELD)
   private String uuid;
 
-  @DatabaseField(columnName = "PREMIUMUUID")
+  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid;
 
   public RegisteredPlayer(String nickname, String lowercaseNickname,
