@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -103,10 +102,10 @@ public class LimboAuthCommand implements SimpleCommand {
         if (command.equalsIgnoreCase("reload") && source.hasPermission("limboauth.admin.reload")) {
           try {
             this.plugin.reload();
-            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD), MessageType.SYSTEM);
+            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
           } catch (Exception e) {
             e.printStackTrace();
-            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD_FAILED), MessageType.SYSTEM);
+            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD_FAILED));
           }
 
           return;
@@ -144,16 +143,16 @@ public class LimboAuthCommand implements SimpleCommand {
 
   private void showHelp(CommandSource source) {
     for (Component component : HELP_MESSAGE) {
-      source.sendMessage(component, MessageType.SYSTEM);
+      source.sendMessage(component);
     }
     List<Map.Entry<String, Component>> availableSubcommands = SUBCOMMANDS.entrySet().stream()
         .filter(command -> source.hasPermission("limboauth.admin." + command.getKey()))
         .collect(Collectors.toList());
     if (availableSubcommands.size() > 0) {
-      source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE, MessageType.SYSTEM);
-      availableSubcommands.forEach(command -> source.sendMessage(command.getValue(), MessageType.SYSTEM));
+      source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE);
+      availableSubcommands.forEach(command -> source.sendMessage(command.getValue()));
     } else {
-      source.sendMessage(NO_AVAILABLE_SUBCOMMANDS_MESSAGE, MessageType.SYSTEM);
+      source.sendMessage(NO_AVAILABLE_SUBCOMMANDS_MESSAGE);
     }
   }
 }

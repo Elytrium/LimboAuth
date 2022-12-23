@@ -44,7 +44,6 @@ import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -126,7 +125,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     if (this.playerInfo == null) {
       try {
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq("IP", this.ip);
+        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(RegisteredPlayer.IP_FIELD, this.ip);
         if (alreadyRegistered != null) {
           int sizeOfValidRegistrations = alreadyRegistered.size();
           if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
@@ -204,7 +203,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             this.proxyPlayer.disconnect(databaseErrorKick);
           }
 
-          this.proxyPlayer.sendMessage(registerSuccessful, MessageType.SYSTEM);
+          this.proxyPlayer.sendMessage(registerSuccessful);
           if (registerSuccessfulTitle != null) {
             this.proxyPlayer.showTitle(registerSuccessfulTitle);
           }
@@ -228,7 +227,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             this.sendMessage(true);
           }
         } else if (--this.attempts != 0) {
-          this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1], MessageType.SYSTEM);
+          this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1]);
         } else {
           this.proxyPlayer.disconnect(loginWrongPasswordKick);
         }
@@ -256,17 +255,17 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   private void sendMessage(boolean sendTitle) {
     if (this.totpState) {
-      this.proxyPlayer.sendMessage(totp, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(totp);
       if (sendTitle && totpTitle != null) {
         this.proxyPlayer.showTitle(totpTitle);
       }
     } else if (this.playerInfo == null) {
-      this.proxyPlayer.sendMessage(register, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(register);
       if (sendTitle && registerTitle != null) {
         this.proxyPlayer.showTitle(registerTitle);
       }
     } else {
-      this.proxyPlayer.sendMessage(login[this.attempts - 1], MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(login[this.attempts - 1]);
       if (sendTitle && loginTitle != null) {
         this.proxyPlayer.showTitle(loginTitle);
       }
@@ -285,7 +284,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (!Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD || args[1].equals(args[2])) {
       return true;
     } else {
-      this.proxyPlayer.sendMessage(registerDifferentPasswords, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(registerDifferentPasswords);
       return false;
     }
   }
@@ -293,10 +292,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private boolean checkPasswordLength(String password) {
     int length = password.length();
     if (length > Settings.IMP.MAIN.MAX_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooLong, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(registerPasswordTooLong);
       return false;
     } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooShort, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(registerPasswordTooShort);
       return false;
     } else {
       return true;
@@ -305,7 +304,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   private boolean checkPasswordStrength(String password) {
     if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && this.plugin.getUnsafePasswords().contains(password)) {
-      this.proxyPlayer.sendMessage(registerPasswordUnsafe, MessageType.SYSTEM);
+      this.proxyPlayer.sendMessage(registerPasswordUnsafe);
       return false;
     } else {
       return true;
@@ -313,7 +312,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void finishLogin() {
-    this.proxyPlayer.sendMessage(loginSuccessful, MessageType.SYSTEM);
+    this.proxyPlayer.sendMessage(loginSuccessful);
     if (loginSuccessfulTitle != null) {
       this.proxyPlayer.showTitle(loginSuccessfulTitle);
     }
@@ -453,7 +452,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
     List<RegisteredPlayer> playerList = null;
     try {
-      playerList = playerDao.queryForEq("PREMIUMUUID", uuid.toString());
+      playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -464,7 +463,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
     List<RegisteredPlayer> playerList = null;
     try {
-      playerList = playerDao.queryForEq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT));
+      playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
     } catch (SQLException e) {
       e.printStackTrace();
     }

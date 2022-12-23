@@ -24,7 +24,6 @@ import com.velocitypowered.api.proxy.Player;
 import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class DestroySessionCommand implements SimpleCommand {
@@ -48,9 +47,9 @@ public class DestroySessionCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful, MessageType.SYSTEM);
+      source.sendMessage(this.successful);
     } else {
-      source.sendMessage(this.notPlayer, MessageType.SYSTEM);
+      source.sendMessage(this.notPlayer);
     }
   }
 

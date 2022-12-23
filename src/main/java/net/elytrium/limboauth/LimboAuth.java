@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
@@ -65,6 +66,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -97,7 +99,6 @@ import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.title.Title;
@@ -464,12 +465,12 @@ public class LimboAuth {
   public void cacheAuthUser(Player player) {
     String username = player.getUsername();
     String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.remove(lowercaseUsername);
     this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
   }
 
   public void removePlayerFromCache(String username) {
     this.cachedAuthChecks.remove(username.toLowerCase(Locale.ROOT));
+    this.premiumCache.remove(username.toLowerCase(Locale.ROOT));
   }
 
   public boolean needAuth(Player player) {
@@ -486,75 +487,88 @@ public class LimboAuth {
   public void authPlayer(Player player) {
     boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
     String nickname = player.getUsername();
-    if (this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
-      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
-
-      boolean onlineMode = player.isOnlineMode();
-      TaskEvent.Result result = TaskEvent.Result.NORMAL;
-
-      if (onlineMode || isFloodgate) {
-        if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
-          registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
-          if (registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
-            registeredPlayer = new RegisteredPlayer(
-                nickname,
-                nickname.toLowerCase(Locale.ROOT),
-                "",
-                player.getRemoteAddress().getAddress().getHostAddress(),
-                "",
-                System.currentTimeMillis(),
-                player.getUniqueId().toString(),
-                player.getUniqueId().toString()
-            );
-
-            try {
-              this.playerDao.create(registeredPlayer);
-            } catch (SQLException e) {
-              e.printStackTrace();
-            }
-          }
-
-          if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
-            // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
-            // We need to wait for the PLAY connection state to set.
-            this.postLoginTasks.put(player.getUniqueId(), () -> {
-              if (onlineMode) {
-                if (this.loginPremium != null) {
-                  player.sendMessage(this.loginPremium, MessageType.SYSTEM);
-                }
-                if (this.loginPremiumTitle != null) {
-                  player.showTitle(this.loginPremiumTitle);
-                }
-              } else {
-                if (this.loginFloodgate != null) {
-                  player.sendMessage(this.loginFloodgate, MessageType.SYSTEM);
-                }
-                if (this.loginFloodgateTitle != null) {
-                  player.showTitle(this.loginFloodgateTitle);
-                }
-              }
-            });
-
-            result = TaskEvent.Result.BYPASS;
-          }
-        }
-      }
-
-      EventManager eventManager = this.server.getEventManager();
-      if (registeredPlayer == null) {
-        if (Settings.IMP.MAIN.DISABLE_REGISTRATIONS) {
-          player.disconnect(this.registrationsDisabledKick);
-          return;
-        }
-
-        Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
-        eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
-      } else {
-        Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
-        eventManager.fire(new PreAuthorizationEvent(eventConsumer, result, player, registeredPlayer)).thenAcceptAsync(eventConsumer);
-      }
-    } else {
+    if (!this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
       player.disconnect(this.nicknameInvalidKick);
+      return;
+    }
+
+    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+
+    boolean onlineMode = player.isOnlineMode();
+    TaskEvent.Result result = TaskEvent.Result.NORMAL;
+
+    if (onlineMode || isFloodgate) {
+      if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+        RegisteredPlayer nicknameRegisteredPlayer = registeredPlayer;
+        registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
+
+        if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
+          registeredPlayer = nicknameRegisteredPlayer;
+          registeredPlayer.setPremiumUuid(player.getUniqueId().toString());
+          try {
+            this.playerDao.update(registeredPlayer);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+
+        if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
+          registeredPlayer = new RegisteredPlayer(
+              nickname,
+              nickname.toLowerCase(Locale.ROOT),
+              "",
+              player.getRemoteAddress().getAddress().getHostAddress(),
+              "",
+              System.currentTimeMillis(),
+              player.getUniqueId().toString(),
+              player.getUniqueId().toString()
+          );
+
+          try {
+            this.playerDao.create(registeredPlayer);
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+
+        if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+          // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
+          // We need to wait for the PLAY connection state to set.
+          this.postLoginTasks.put(player.getUniqueId(), () -> {
+            if (onlineMode) {
+              if (this.loginPremium != null) {
+                player.sendMessage(this.loginPremium);
+              }
+              if (this.loginPremiumTitle != null) {
+                player.showTitle(this.loginPremiumTitle);
+              }
+            } else {
+              if (this.loginFloodgate != null) {
+                player.sendMessage(this.loginFloodgate);
+              }
+              if (this.loginFloodgateTitle != null) {
+                player.showTitle(this.loginFloodgateTitle);
+              }
+            }
+          });
+
+          result = TaskEvent.Result.BYPASS;
+        }
+      }
+    }
+
+    EventManager eventManager = this.server.getEventManager();
+    if (registeredPlayer == null) {
+      if (Settings.IMP.MAIN.DISABLE_REGISTRATIONS) {
+        player.disconnect(this.registrationsDisabledKick);
+        return;
+      }
+
+      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
+      eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
+    } else {
+      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
+      eventManager.fire(new PreAuthorizationEvent(eventConsumer, result, player, registeredPlayer)).thenAcceptAsync(eventConsumer);
     }
   }
 
@@ -586,9 +600,13 @@ public class LimboAuth {
     }
   }
 
-  private boolean validateScheme(String json, List<String> scheme) {
+  private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
     if (!scheme.isEmpty()) {
-      JsonObject object = (JsonObject) JsonParser.parseString(json);
+      if (!(jsonElement instanceof JsonObject)) {
+        return false;
+      }
+
+      JsonObject object = (JsonObject) jsonElement;
       for (String field : scheme) {
         if (!object.has(field)) {
           return false;
@@ -599,16 +617,11 @@ public class LimboAuth {
     return true;
   }
 
-  public boolean isPremiumExternal(String nickname) {
-    String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    if (this.premiumCache.containsKey(lowercaseNickname)) {
-      return this.premiumCache.get(lowercaseNickname).isPremium();
-    }
-
+  public PremiumResponse isPremiumExternal(String nickname) {
     try {
       HttpResponse<String> response = this.client.send(
           HttpRequest.newBuilder()
-              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(lowercaseNickname, StandardCharsets.UTF_8))))
+              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
               .build(),
           HttpResponse.BodyHandlers.ofString()
       );
@@ -616,59 +629,150 @@ public class LimboAuth {
       int statusCode = response.statusCode();
 
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT) {
-        return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+        return new PremiumResponse(PremiumState.RATE_LIMIT);
       }
 
+      JsonElement jsonElement = JsonParser.parseString(response.body());
+
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS
-          && this.validateScheme(response.body(), Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        return new PremiumResponse(PremiumState.PREMIUM, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+      }
+
+      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        return new PremiumResponse(PremiumState.CRACKED);
+      }
+
+      return new PremiumResponse(PremiumState.ERROR);
+    } catch (IOException | InterruptedException e) {
+      LOGGER.error("Unable to authenticate with Mojang.", e);
+      return new PremiumResponse(PremiumState.ERROR);
+    }
+  }
+
+  public PremiumResponse isPremiumInternal(String nickname) {
+    try {
+      QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
+      crackedCountQuery.where()
+          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
+          .and()
+          .ne(RegisteredPlayer.HASH_FIELD, "");
+      crackedCountQuery.setCountOf(true);
+
+      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
+      premiumCountQuery.where()
+          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
+          .and()
+          .eq(RegisteredPlayer.HASH_FIELD, "");
+      premiumCountQuery.setCountOf(true);
+
+      if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
+        return new PremiumResponse(PremiumState.CRACKED);
+      }
+
+      if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
+        return new PremiumResponse(PremiumState.PREMIUM);
+      }
+
+      return new PremiumResponse(PremiumState.UNKNOWN);
+    } catch (SQLException e) {
+      LOGGER.error("Unable to check if account is premium.", e);
+      return new PremiumResponse(PremiumState.ERROR);
+    }
+  }
+
+  public boolean isPremiumUuid(UUID uuid) {
+    try {
+      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
+      premiumCountQuery.where()
+          .eq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString())
+          .and()
+          .eq(RegisteredPlayer.HASH_FIELD, "");
+      premiumCountQuery.setCountOf(true);
+
+      return this.playerDao.countOf(premiumCountQuery.prepare()) != 0;
+    } catch (SQLException e) {
+      LOGGER.error("Unable to check if account is premium.", e);
+      return false;
+    }
+  }
+
+  @SafeVarargs
+  private boolean checkIsPremiumAndCache(String nickname, Function<String, PremiumResponse>... functions) {
+    String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    if (this.premiumCache.containsKey(lowercaseNickname)) {
+      return this.premiumCache.get(lowercaseNickname).isPremium();
+    }
+
+    boolean premium = false;
+    boolean unknown = false;
+    boolean wasRateLimited = false;
+    boolean wasError = false;
+    UUID uuid = null;
+
+    for (Function<String, PremiumResponse> function : functions) {
+      PremiumResponse check = function.apply(lowercaseNickname);
+      if (check.getUuid() != null) {
+        uuid = check.getUuid();
+      }
+
+      switch (check.getState()) {
+        case CRACKED: {
+          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
+          return false;
+        }
+        case PREMIUM: {
+          premium = true;
+          break;
+        }
+        case UNKNOWN: {
+          unknown = true;
+          break;
+        }
+        case RATE_LIMIT: {
+          wasRateLimited = true;
+          break;
+        }
+        default:
+        case ERROR: {
+          wasError = true;
+          break;
+        }
+      }
+    }
+
+    if (wasRateLimited && unknown || wasRateLimited && wasError) {
+      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+    }
+
+    if (wasError && unknown || !premium) {
+      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
+    }
+
+    if (unknown) {
+      if (uuid != null && this.isPremiumUuid(uuid)) {
         this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
         return true;
       }
 
-      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
-          && this.validateScheme(response.body(), Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
-        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
+      if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
         return false;
       }
-
-      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
-    } catch (IOException | InterruptedException e) {
-      LOGGER.error("Unable to authenticate with Mojang.", e);
-      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
+
+    this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
+    return true;
   }
 
   public boolean isPremium(String nickname) {
     if (Settings.IMP.MAIN.FORCE_OFFLINE_MODE) {
       return false;
     } else {
-      try {
-        if (this.isPremiumExternal(nickname)) {
-          QueryBuilder<RegisteredPlayer, String> premiumRegisteredQuery = this.playerDao.queryBuilder();
-          premiumRegisteredQuery.where()
-              .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
-              .and()
-              .ne("HASH", "");
-          premiumRegisteredQuery.setCountOf(true);
-
-          QueryBuilder<RegisteredPlayer, String> premiumUnregisteredQuery = this.playerDao.queryBuilder();
-          premiumUnregisteredQuery.where()
-              .eq("LOWERCASENICKNAME", nickname.toLowerCase(Locale.ROOT))
-              .and()
-              .eq("HASH", "");
-          premiumUnregisteredQuery.setCountOf(true);
-
-          if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
-            return this.playerDao.countOf(premiumRegisteredQuery.prepare()) == 0 && this.playerDao.countOf(premiumUnregisteredQuery.prepare()) != 0;
-          } else {
-            return this.playerDao.countOf(premiumRegisteredQuery.prepare()) == 0;
-          }
-        } else {
-          return false;
-        }
-      } catch (Exception e) {
-        LOGGER.error("Unable to authenticate with Mojang.", e);
-        return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+      if (Settings.IMP.MAIN.CHECK_PREMIUM_PRIORITY_INTERNAL) {
+        return checkIsPremiumAndCache(nickname, this::isPremiumInternal, this::isPremiumExternal);
+      } else {
+        return checkIsPremiumAndCache(nickname, this::isPremiumExternal, this::isPremiumInternal);
       }
     }
   }
@@ -752,16 +856,57 @@ public class LimboAuth {
 
   private static class CachedPremiumUser extends CachedUser {
 
-    private final boolean isPremium;
+    private final boolean premium;
 
-    public CachedPremiumUser(long checkTime, boolean isPremium) {
+    public CachedPremiumUser(long checkTime, boolean premium) {
       super(checkTime);
 
-      this.isPremium = isPremium;
+      this.premium = premium;
     }
 
     public boolean isPremium() {
-      return this.isPremium;
+      return this.premium;
     }
+  }
+
+  public static class PremiumResponse {
+
+    private final PremiumState state;
+    private final UUID uuid;
+
+    public PremiumResponse(PremiumState state) {
+      this.state = state;
+      this.uuid = null;
+    }
+
+    public PremiumResponse(PremiumState state, UUID uuid) {
+      this.state = state;
+      this.uuid = uuid;
+    }
+
+    public PremiumResponse(PremiumState state, String uuid) {
+      this.state = state;
+      if (uuid.contains("-")) {
+        this.uuid = UUID.fromString(uuid);
+      } else {
+        this.uuid = new UUID(Long.parseUnsignedLong(uuid.substring(0, 16), 16), Long.parseUnsignedLong(uuid.substring(16), 16));
+      }
+    }
+
+    public PremiumState getState() {
+      return this.state;
+    }
+
+    public UUID getUuid() {
+      return this.uuid;
+    }
+  }
+
+  public enum PremiumState {
+    PREMIUM(),
+    CRACKED(),
+    UNKNOWN(),
+    RATE_LIMIT(),
+    ERROR()
   }
 }

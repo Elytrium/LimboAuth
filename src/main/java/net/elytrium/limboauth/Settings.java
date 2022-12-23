@@ -66,6 +66,8 @@ public class Settings extends YamlConfig {
     public boolean FORCE_OFFLINE_MODE = false;
     @Comment("Forces all players to get offline uuid")
     public boolean FORCE_OFFLINE_UUID = false;
+    @Comment("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API.")
+    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
     @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
     public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
     @Comment({
@@ -128,7 +130,7 @@ public class Settings extends YamlConfig {
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
-    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (saved in 1.17 - 1.18.2).")
+    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (any Minecraft version is supported, but the latest one is recommended).")
     public String WORLD_FILE_TYPE = "structure";
     public String WORLD_FILE_PATH = "world.nbt";
 
@@ -168,6 +170,7 @@ public class Settings extends YamlConfig {
         "Set this parameter to [], to disable JSON scheme validation"
     })
     public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
+    public String JSON_UUID_FIELD = "id";
     public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
 
     @Comment({

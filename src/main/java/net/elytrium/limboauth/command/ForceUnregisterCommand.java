@@ -30,7 +30,6 @@ import net.elytrium.java.commons.mc.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.audience.MessageType;
 import net.kyori.adventure.text.Component;
 
 public class ForceUnregisterCommand implements SimpleCommand {
@@ -74,13 +73,13 @@ public class ForceUnregisterCommand implements SimpleCommand {
         this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
         this.plugin.removePlayerFromCache(playerNick);
         this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)), MessageType.SYSTEM);
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
       } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)), MessageType.SYSTEM);
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
         e.printStackTrace();
       }
     } else {
-      source.sendMessage(this.usage, MessageType.SYSTEM);
+      source.sendMessage(this.usage);
     }
   }
 
