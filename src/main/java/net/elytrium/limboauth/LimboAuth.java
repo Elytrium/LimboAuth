@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
@@ -599,8 +600,13 @@ public class LimboAuth {
     }
   }
 
-  private boolean validateScheme(JsonObject object, List<String> scheme) {
+  private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
     if (!scheme.isEmpty()) {
+      if (!(jsonElement instanceof JsonObject)) {
+        return false;
+      }
+
+      JsonObject object = (JsonObject) jsonElement;
       for (String field : scheme) {
         if (!object.has(field)) {
           return false;
@@ -626,15 +632,15 @@ public class LimboAuth {
         return new PremiumResponse(PremiumState.RATE_LIMIT);
       }
 
-      JsonObject jsonObject = (JsonObject) JsonParser.parseString(response.body());
+      JsonElement jsonElement = JsonParser.parseString(response.body());
 
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS
-          && this.validateScheme(jsonObject, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
-        return new PremiumResponse(PremiumState.PREMIUM, jsonObject.get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        return new PremiumResponse(PremiumState.PREMIUM, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
 
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
-          && this.validateScheme(jsonObject, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
         return new PremiumResponse(PremiumState.CRACKED);
       }
 
