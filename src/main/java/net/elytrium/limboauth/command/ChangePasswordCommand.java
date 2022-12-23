@@ -37,7 +37,6 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   private final boolean needOldPass;
   private final Component notRegistered;
-  private final Component crackedCommand;
   private final Component wrongPassword;
   private final Component successful;
   private final Component errorOccurred;
@@ -50,7 +49,6 @@ public class ChangePasswordCommand implements SimpleCommand {
     Serializer serializer = LimboAuth.getSerializer();
     this.needOldPass = Settings.IMP.MAIN.CHANGE_PASSWORD_NEED_OLD_PASSWORD;
     this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.crackedCommand = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
     this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
     this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_SUCCESSFUL);
     this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
@@ -64,33 +62,40 @@ public class ChangePasswordCommand implements SimpleCommand {
     String[] args = invocation.arguments();
 
     if (source instanceof Player) {
-      if (this.needOldPass ? args.length == 2 : args.length == 1) {
-        if (this.needOldPass) {
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, ((Player) source).getUsername());
-          if (player == null) {
-            source.sendMessage(this.notRegistered);
-            return;
-          } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand);
-          } else if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+      String username = ((Player) source).getUsername();
+      RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+
+      if (player == null) {
+        source.sendMessage(this.notRegistered);
+        return;
+      }
+
+      boolean onlineMode = player.getHash().isEmpty();
+      if (this.needOldPass) {
+        if (!onlineMode) {
+          if (args.length < 2) {
+            source.sendMessage(this.usage);
+          }
+
+          if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
             source.sendMessage(this.wrongPassword);
             return;
           }
         }
-
-        try {
-          UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-          updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, ((Player) source).getUsername());
-          updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
-          updateBuilder.update();
-
-          source.sendMessage(this.successful);
-        } catch (SQLException e) {
-          source.sendMessage(this.errorOccurred);
-          e.printStackTrace();
-        }
-      } else {
+      } else if (args.length < 1) {
         source.sendMessage(this.usage);
+      }
+
+      try {
+        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
+        updateBuilder.update();
+
+        source.sendMessage(this.successful);
+      } catch (SQLException e) {
+        source.sendMessage(this.errorOccurred);
+        e.printStackTrace();
       }
     } else {
       source.sendMessage(this.notPlayer);
