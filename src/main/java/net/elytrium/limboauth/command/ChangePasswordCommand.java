@@ -75,6 +75,7 @@ public class ChangePasswordCommand implements SimpleCommand {
         if (!onlineMode) {
           if (args.length < 2) {
             source.sendMessage(this.usage);
+            return;
           }
 
           if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
@@ -84,6 +85,7 @@ public class ChangePasswordCommand implements SimpleCommand {
         }
       } else if (args.length < 1) {
         source.sendMessage(this.usage);
+        return;
       }
 
       try {
