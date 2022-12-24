@@ -51,10 +51,6 @@ dependencies {
 
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
 
-    implementation("com.h2database:h2:1.4.200")
-    implementation('mysql:mysql-connector-java:8.0.31')
-    implementation('org.postgresql:postgresql:42.5.1')
-
     implementation("org.bstats:bstats-velocity:3.0.0")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
@@ -100,7 +96,6 @@ shadowJar {
 
     relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
     relocate("com.j256.ormlite", "net.elytrium.limboauth.thirdparty.com.j256.ormlite")
-    relocate("com.mysql", "net.elytrium.limboauth.thirdparty.com.mysql")
     relocate("com.sun.jna", "net.elytrium.limboauth.thirdparty.com.sun.jna") {
         exclude("com.sun.jna.Native") // For compatibility with native methods.
     }
@@ -108,8 +103,6 @@ shadowJar {
     relocate("dev.samstevens.totp", "net.elytrium.limboauth.thirdparty.dev.samstevens.totp")
     relocate("org.apache.commons.codec", "net.elytrium.limboauth.thirdparty.org.apache.commons.codec")
     relocate("org.bstats", "net.elytrium.limboauth.thirdparty.org.bstats")
-    relocate("org.h2", "net.elytrium.limboauth.thirdparty.org.h2")
-    relocate("org.postgresql", "net.elytrium.limboauth.thirdparty.org.postgresql")
 }
 
 license {

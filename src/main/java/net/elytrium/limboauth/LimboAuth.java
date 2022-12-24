@@ -26,8 +26,8 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.FieldType;
-import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
 import com.velocitypowered.api.command.CommandManager;
@@ -90,6 +90,7 @@ import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
+import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.event.AuthPluginReloadEvent;
 import net.elytrium.limboauth.event.PreAuthorizationEvent;
 import net.elytrium.limboauth.event.PreEvent;
@@ -158,7 +159,7 @@ public class LimboAuth {
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
 
-  private JdbcPooledConnectionSource connectionSource;
+  private ConnectionSource connectionSource;
   private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
@@ -267,29 +268,14 @@ public class LimboAuth {
     this.cachedAuthChecks.clear();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
-    switch (dbConfig.STORAGE_TYPE.toLowerCase(Locale.ROOT)) {
-      case "h2": {
-        this.connectionSource = new JdbcPooledConnectionSource("jdbc:h2:" + this.dataDirectoryFile.getAbsoluteFile() + "/limboauth");
-        break;
-      }
-      case "mysql": {
-        this.connectionSource = new JdbcPooledConnectionSource(
-            "jdbc:mysql://" + dbConfig.HOSTNAME + "/" + dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS, dbConfig.USER, dbConfig.PASSWORD
-        );
-        break;
-      }
-      case "postgresql": {
-        this.connectionSource = new JdbcPooledConnectionSource(
-            "jdbc:postgresql://" + dbConfig.HOSTNAME + "/" + dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS, dbConfig.USER, dbConfig.PASSWORD
-        );
-        break;
-      }
-      default: {
-        LOGGER.error("Wrong database type.");
-        this.server.shutdown();
-        return;
-      }
-    }
+    DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(dbConfig.STORAGE_TYPE.toUpperCase(Locale.ROOT));
+    this.connectionSource = databaseLibrary.connectToORM(
+        this.dataDirectoryFile.toPath().toAbsolutePath(),
+        dbConfig.HOSTNAME,
+        dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS,
+        dbConfig.USER,
+        dbConfig.PASSWORD
+    );
 
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
@@ -789,23 +775,12 @@ public class LimboAuth {
     return this.server;
   }
 
-  public JdbcPooledConnectionSource getConnectionSource() {
+  public ConnectionSource getConnectionSource() {
     return this.connectionSource;
   }
 
   public Dao<RegisteredPlayer, String> getPlayerDao() {
     return this.playerDao;
-  }
-
-  static {
-    // requireNonNull prevents the shade plugin from excluding the drivers in minimized jar.
-    Objects.requireNonNull(com.mysql.cj.jdbc.Driver.class);
-    Objects.requireNonNull(com.mysql.cj.conf.url.SingleConnectionUrl.class);
-
-    Objects.requireNonNull(org.h2.Driver.class);
-    Objects.requireNonNull(org.h2.engine.Engine.class);
-
-    Objects.requireNonNull(org.postgresql.Driver.class);
   }
 
   private static void setLogger(Logger logger) {
