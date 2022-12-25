@@ -71,17 +71,16 @@ public class ChangePasswordCommand implements SimpleCommand {
       }
 
       boolean onlineMode = player.getHash().isEmpty();
-      if (this.needOldPass) {
-        if (!onlineMode) {
-          if (args.length < 2) {
-            source.sendMessage(this.usage);
-            return;
-          }
+      boolean needOldPass = this.needOldPass && !onlineMode;
+      if (needOldPass) {
+        if (args.length < 2) {
+          source.sendMessage(this.usage);
+          return;
+        }
 
-          if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            source.sendMessage(this.wrongPassword);
-            return;
-          }
+        if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+          source.sendMessage(this.wrongPassword);
+          return;
         }
       } else if (args.length < 1) {
         source.sendMessage(this.usage);
@@ -91,7 +90,7 @@ public class ChangePasswordCommand implements SimpleCommand {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(this.needOldPass ? args[1] : args[0]));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(needOldPass ? args[1] : args[0]));
         updateBuilder.update();
 
         source.sendMessage(this.successful);
