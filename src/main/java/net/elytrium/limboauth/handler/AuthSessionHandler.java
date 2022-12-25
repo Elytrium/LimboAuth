@@ -106,6 +106,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private String ip;
   private int attempts = Settings.IMP.MAIN.LOGIN_ATTEMPTS;
   private boolean totpState;
+  private String tempPassword;
 
   public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
     this.playerDao = playerDao;
@@ -186,12 +187,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (args.length != 0 && this.checkArgsLength(args.length)) {
       Command command = Command.parse(args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
-        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(args[1]) && this.checkPasswordStrength(args[1])) {
+        String password = args[1];
+        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
+          this.saveTempPassword(password);
           String username = this.proxyPlayer.getUsername();
           RegisteredPlayer registeredPlayer = new RegisteredPlayer(
               username,
               username.toLowerCase(Locale.ROOT),
-              genHash(args[1]),
+              genHash(password),
               this.ip,
               "",
               System.currentTimeMillis(),
@@ -213,7 +216,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
 
           this.plugin.getServer().getEventManager()
-              .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo))
+              .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
               .thenAcceptAsync(this::finishAuth);
         }
 
@@ -223,7 +226,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
         // If we don't place {@code return} here, an another message (AuthSessionHandler#sendMessage) will be sent.
         return;
       } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
-        if (args[1].length() > 0 && checkPassword(args[1], this.playerInfo, this.playerDao)) {
+        String password = args[1];
+        this.saveTempPassword(password);
+
+        if (password.length() > 0 && checkPassword(password, this.playerInfo, this.playerDao)) {
           if (this.playerInfo.getTotpToken().isEmpty()) {
             this.finishLogin();
           } else {
@@ -246,6 +252,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     this.sendMessage(false);
+  }
+
+  private void saveTempPassword(String password) {
+    this.tempPassword = password;
   }
 
   @Override
@@ -322,7 +332,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     this.plugin.getServer().getEventManager()
-        .fire(new PostAuthorizationEvent(this::finishAuth, this.player, this.playerInfo))
+        .fire(new PostAuthorizationEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
         .thenAcceptAsync(this::finishAuth);
   }
 

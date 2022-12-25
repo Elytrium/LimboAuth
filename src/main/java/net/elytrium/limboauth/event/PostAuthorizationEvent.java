@@ -23,7 +23,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 
 public class PostAuthorizationEvent extends PostEvent {
 
-  public PostAuthorizationEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo) {
-    super(onComplete, player, playerInfo);
+  public PostAuthorizationEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo, String password) {
+    super(onComplete, player, playerInfo, password);
   }
 }
