@@ -21,6 +21,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
@@ -52,12 +53,19 @@ public class AuthListener {
   @Subscribe
   public void onPreLoginEvent(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      if (!this.plugin.isPremium(event.getUsername())) {
-        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
-      } else {
+      if (this.plugin.isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
+      } else {
+        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       }
+    } else {
+      this.plugin.saveForceOfflineMode(event.getUsername());
     }
+  }
+
+  @Subscribe
+  public void onProxyDisconnect(DisconnectEvent event) {
+    this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
   }
 
   @Subscribe

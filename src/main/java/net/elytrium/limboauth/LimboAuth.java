@@ -135,6 +135,7 @@ public class LimboAuth {
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
+  private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
 
   private final HttpClient client = HttpClient.newHttpClient();
 
@@ -156,6 +157,7 @@ public class LimboAuth {
   private Title loginFloodgateTitle;
   private Component registrationsDisabledKick;
   private Component nicknameInvalidKick;
+  private Component reconnectKick;
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
 
@@ -251,6 +253,7 @@ public class LimboAuth {
     }
 
     this.nicknameInvalidKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
+    this.reconnectKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.RECONNECT_KICK);
     this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
 
     if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH) {
@@ -471,6 +474,11 @@ public class LimboAuth {
   }
 
   public void authPlayer(Player player) {
+    if (this.isForcedPreviously(player.getUsername()) && this.isPremium(player.getUsername())) {
+      player.disconnect(this.reconnectKick);
+      return;
+    }
+
     boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
     String nickname = player.getUsername();
     if (!this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
@@ -761,6 +769,18 @@ public class LimboAuth {
         return checkIsPremiumAndCache(nickname, this::isPremiumExternal, this::isPremiumInternal);
       }
     }
+  }
+
+  public void saveForceOfflineMode(String nickname) {
+    this.forcedPreviously.add(nickname);
+  }
+
+  public void unsetForcedPreviously(String nickname) {
+    this.forcedPreviously.remove(nickname);
+  }
+
+  public boolean isForcedPreviously(String nickname) {
+    return this.forcedPreviously.contains(nickname);
   }
 
   public Map<UUID, Runnable> getPostLoginTasks() {

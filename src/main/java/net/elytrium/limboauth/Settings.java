@@ -262,6 +262,7 @@ public class Settings extends YamlConfig {
       public String WRONG_PASSWORD = "{PRFX} &cPassword is wrong!";
 
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
+      public String RECONNECT_KICK = "{PRFX}{NL}&cReconnect to the server to verify your account!";
 
       @Comment("6 hours by default in ip-limit-valid-time")
       public String IP_LIMIT_KICK = "{PRFX}{NL}{NL}&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
