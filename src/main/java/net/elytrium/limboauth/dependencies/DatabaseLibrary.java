@@ -114,7 +114,7 @@ public enum DatabaseLibrary {
     addPath.setAccessible(true);
     addPath.invoke(currentClassLoader, Path.of(baseLibraryURL.toURI()));
 
-    return new JdbcSingleConnectionSource(jdbc, this.connect(currentClassLoader, dir, jdbc, hostname, user, password));
+    return new JdbcSingleConnectionSource(jdbc, this.connect(currentClassLoader, dir, jdbc, user, password));
   }
 
   private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register) throws Exception {
