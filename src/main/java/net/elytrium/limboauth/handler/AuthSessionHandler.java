@@ -199,7 +199,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
               "",
               System.currentTimeMillis(),
               this.proxyPlayer.getUniqueId().toString(),
-              ""
+              "",
+              this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress(),
+              System.currentTimeMillis()
           );
 
           try {
@@ -346,6 +348,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     } else if (event.getResult() == TaskEvent.Result.WAIT) {
       return;
+    }
+
+    try {
+      this.plugin.updateLoginData(this.proxyPlayer);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);

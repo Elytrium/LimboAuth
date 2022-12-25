@@ -27,6 +27,7 @@ import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
@@ -515,7 +516,9 @@ public class LimboAuth {
               "",
               System.currentTimeMillis(),
               player.getUniqueId().toString(),
-              player.getUniqueId().toString()
+              player.getUniqueId().toString(),
+              player.getRemoteAddress().getAddress().getHostAddress(),
+              System.currentTimeMillis()
           );
 
           try {
@@ -572,6 +575,12 @@ public class LimboAuth {
     switch (event.getResult()) {
       case BYPASS: {
         this.factory.passLoginLimbo(player);
+        this.cacheAuthUser(player);
+        try {
+          this.updateLoginData(player);
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
         break;
       }
       case CANCEL: {
@@ -592,6 +601,14 @@ public class LimboAuth {
         break;
       }
     }
+  }
+
+  public void updateLoginData(Player player) throws SQLException {
+    UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+    updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, player.getUsername().toLowerCase(Locale.ROOT));
+    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
+    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_DATE_FIELD, System.currentTimeMillis());
+    updateBuilder.update();
   }
 
   private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {

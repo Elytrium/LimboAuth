@@ -27,8 +27,10 @@ public class RegisteredPlayer {
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
   public static final String HASH_FIELD = "HASH";
   public static final String IP_FIELD = "IP";
+  public static final String LOGIN_IP_FIELD = "LOGINIP";
   public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
   public static final String REG_DATE_FIELD = "REGDATE";
+  public static final String LOGIN_DATE_FIELD = "LOGINDATE";
   public static final String UUID_FIELD = "UUID";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
 
@@ -56,8 +58,14 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid;
 
+  @DatabaseField(columnName = LOGIN_IP_FIELD)
+  private String loginIp;
+
+  @DatabaseField(columnName = LOGIN_DATE_FIELD)
+  private Long loginDate;
+
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid) {
+      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -66,6 +74,8 @@ public class RegisteredPlayer {
     this.regDate = regDate;
     this.uuid = uuid;
     this.premiumUuid = premiumUuid;
+    this.loginIp = loginIp;
+    this.loginDate = loginDate;
   }
 
   public RegisteredPlayer() {
@@ -116,8 +126,8 @@ public class RegisteredPlayer {
     this.regDate = regDate;
   }
 
-  public Long getRegDate() {
-    return this.regDate == null ? (Long) Long.MIN_VALUE : this.regDate;
+  public long getRegDate() {
+    return this.regDate == null ? Long.MIN_VALUE : this.regDate;
   }
 
   public void setUuid(String uuid) {
@@ -134,5 +144,21 @@ public class RegisteredPlayer {
 
   public String getPremiumUuid() {
     return this.premiumUuid == null ? "" : this.premiumUuid;
+  }
+
+  public String getLoginIp() {
+    return this.loginIp == null ? "" : this.uuid;
+  }
+
+  public void setLoginIp(String loginIp) {
+    this.loginIp = loginIp;
+  }
+
+  public long getLoginDate() {
+    return this.loginDate == null ? Long.MIN_VALUE : this.loginDate;
+  }
+
+  public void setLoginDate(Long loginDate) {
+    this.loginDate = loginDate;
   }
 }
