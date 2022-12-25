@@ -447,7 +447,7 @@ public class LimboAuth {
 
       tables.forEach(table -> {
         try {
-          StringBuilder builder = new StringBuilder("ALTER TABLE \"" + tableName + "\" ADD ");
+          StringBuilder builder = new StringBuilder("ALTER TABLE " + tableName + " ADD ");
           String columnDefinition = table.getColumnDefinition();
           DatabaseType databaseType = dao.getConnectionSource().getDatabaseType();
           if (columnDefinition == null) {
