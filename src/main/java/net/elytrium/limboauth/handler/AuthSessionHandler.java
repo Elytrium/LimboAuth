@@ -240,6 +240,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
         } else if (--this.attempts != 0) {
           this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1]);
+          this.checkBruteforceAttempts();
         } else {
           this.proxyPlayer.disconnect(loginWrongPasswordKick);
         }
@@ -249,11 +250,20 @@ public class AuthSessionHandler implements LimboSessionHandler {
         if (TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
           this.finishLogin();
           return;
+        } else {
+          this.checkBruteforceAttempts();
         }
       }
     }
 
     this.sendMessage(false);
+  }
+
+  private void checkBruteforceAttempts() {
+    this.plugin.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
+    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
+      this.proxyPlayer.disconnect(loginWrongPasswordKick);
+    }
   }
 
   private void saveTempPassword(String password) {
@@ -332,6 +342,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (loginSuccessfulTitle != null) {
       this.proxyPlayer.showTitle(loginSuccessfulTitle);
     }
+
+    this.plugin.clearBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
 
     this.plugin.getServer().getEventManager()
         .fire(new PostAuthorizationEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))

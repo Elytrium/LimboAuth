@@ -112,6 +112,9 @@ public class Settings extends YamlConfig {
     public String DIMENSION = "THE_END";
     public long PURGE_CACHE_MILLIS = 3600000;
     public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
+    public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
+    @Comment("Used to ban IPs when a possible attacker incorrectly enters the password")
+    public int BRUTEFORCE_MAX_ATTEMPTS = 10;
     @Comment("QR Generator URL, set {data} placeholder")
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";

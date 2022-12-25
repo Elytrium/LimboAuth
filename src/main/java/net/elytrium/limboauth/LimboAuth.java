@@ -134,6 +134,7 @@ public class LimboAuth {
 
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
+  private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
@@ -157,10 +158,12 @@ public class LimboAuth {
   @Nullable
   private Title loginFloodgateTitle;
   private Component registrationsDisabledKick;
+  private Component bruteforceAttemptKick;
   private Component nicknameInvalidKick;
   private Component reconnectKick;
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
+  private ScheduledTask purgeBruteforceCacheTask;
 
   private ConnectionSource connectionSource;
   private Dao<RegisteredPlayer, String> playerDao;
@@ -253,6 +256,7 @@ public class LimboAuth {
       );
     }
 
+    this.bruteforceAttemptKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
     this.nicknameInvalidKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
     this.reconnectKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.RECONNECT_KICK);
     this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
@@ -270,6 +274,8 @@ public class LimboAuth {
     }
 
     this.cachedAuthChecks.clear();
+    this.premiumCache.clear();
+    this.bruteforceCache.clear();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
     DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(dbConfig.STORAGE_TYPE.toUpperCase(Locale.ROOT));
@@ -383,6 +389,16 @@ public class LimboAuth {
         .repeat(Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS, TimeUnit.MILLISECONDS)
         .schedule();
 
+    if (this.purgeBruteforceCacheTask != null) {
+      this.purgeBruteforceCacheTask.cancel();
+    }
+
+    this.purgeBruteforceCacheTask = this.server.getScheduler()
+        .buildTask(this, () -> this.checkCache(this.bruteforceCache, Settings.IMP.MAIN.PURGE_BRUTEFORCE_CACHE_MILLIS))
+        .delay(Settings.IMP.MAIN.PURGE_BRUTEFORCE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.MAIN.PURGE_BRUTEFORCE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+        .schedule();
+
     eventManager.fireAndForget(new AuthPluginReloadEvent());
   }
 
@@ -390,7 +406,7 @@ public class LimboAuth {
     return commands.stream().filter(command -> command.startsWith("/")).map(command -> command.substring(1)).collect(Collectors.toList());
   }
 
-  private void checkCache(Map<String, ? extends CachedUser> userMap, long time) {
+  private void checkCache(Map<?, ? extends CachedUser> userMap, long time) {
     userMap.entrySet().stream()
         .filter(userEntry -> userEntry.getValue().getCheckTime() + time <= System.currentTimeMillis())
         .map(Map.Entry::getKey)
@@ -477,6 +493,11 @@ public class LimboAuth {
   public void authPlayer(Player player) {
     if (this.isForcedPreviously(player.getUsername()) && this.isPremium(player.getUsername())) {
       player.disconnect(this.reconnectKick);
+      return;
+    }
+
+    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
+      player.disconnect(this.bruteforceAttemptKick);
       return;
     }
 
@@ -788,6 +809,24 @@ public class LimboAuth {
     }
   }
 
+  public void incrementBruteforceAttempts(InetAddress address) {
+    this.bruteforceCache.get(address).incrementAttempts();
+  }
+
+  public int getBruteforceAttempts(InetAddress address) {
+    CachedBruteforceUser user = this.bruteforceCache.get(address);
+    if (user == null) {
+      user = new CachedBruteforceUser(System.currentTimeMillis());
+      this.bruteforceCache.put(address, user);
+    }
+
+    return user.getAttempts();
+  }
+
+  public void clearBruteforceAttempts(InetAddress address) {
+    this.bruteforceCache.remove(address);
+  }
+
   public void saveForceOfflineMode(String nickname) {
     this.forcedPreviously.add(nickname);
   }
@@ -878,6 +917,23 @@ public class LimboAuth {
 
     public boolean isPremium() {
       return this.premium;
+    }
+  }
+
+  private static class CachedBruteforceUser extends CachedUser {
+
+    private int attempts;
+
+    public CachedBruteforceUser(long checkTime) {
+      super(checkTime);
+    }
+
+    public void incrementAttempts() {
+      this.attempts++;
+    }
+
+    public int getAttempts() {
+      return  this.attempts;
     }
   }
 
