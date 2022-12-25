@@ -64,7 +64,8 @@ public enum DatabaseLibrary {
   ),
   MYSQL(
       BaseLibrary.MYSQL,
-          (classLoader, dir, jdbc, user, password) -> fromDriver(classLoader.loadClass("com.mysql.cj.jdbc.Driver"), jdbc, user, password, true),
+          (classLoader, dir, jdbc, user, password)
+              -> fromDriver(classLoader.loadClass("com.mysql.cj.jdbc.NonRegisteringDriver"), jdbc, user, password, true),
           (dir, hostname, database) ->
               "jdbc:mysql://" + hostname + "/" + database
   ),
@@ -130,8 +131,9 @@ public enum DatabaseLibrary {
 
     Object driver = legacyConstructor.newInstance();
 
-    if (!register) {
-      DriverManager.deregisterDriver((Driver) driver);
+    DriverManager.deregisterDriver((Driver) driver);
+    if (register) {
+      DriverManager.registerDriver((Driver) driver);
     }
 
     Method connect = connectionClass.getDeclaredMethod("connect", String.class, Properties.class);
