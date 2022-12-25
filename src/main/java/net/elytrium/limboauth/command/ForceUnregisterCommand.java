@@ -29,6 +29,7 @@ import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.java.commons.mc.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
 
@@ -70,6 +71,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
       Serializer serializer = LimboAuth.getSerializer();
       try {
+        this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
         this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
         this.plugin.removePlayerFromCache(playerNick);
         this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
