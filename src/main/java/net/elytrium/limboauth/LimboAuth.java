@@ -422,16 +422,21 @@ public class LimboAuth {
     String findSql;
     String database = Settings.IMP.DATABASE.DATABASE;
     String tableName = tableInfo.getTableName();
-    switch (Settings.IMP.DATABASE.STORAGE_TYPE) {
-      case "h2": {
+    DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(Settings.IMP.DATABASE.STORAGE_TYPE.toUpperCase(Locale.ROOT));
+    switch (databaseLibrary) {
+      case SQLITE: {
+        findSql = "SELECT name FROM PRAGMA_TABLE_INFO('" + tableName + "')";
+        break;
+      }
+      case H2: {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + tableName + "';";
         break;
       }
-      case "postgresql": {
+      case POSTGRESQL: {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
         break;
       }
-      case "mysql": {
+      case MYSQL: {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
         break;
       }
@@ -447,7 +452,15 @@ public class LimboAuth {
 
       tables.forEach(table -> {
         try {
-          StringBuilder builder = new StringBuilder("ALTER TABLE " + tableName + " ADD ");
+          StringBuilder builder = new StringBuilder("ALTER TABLE ");
+          if (databaseLibrary == DatabaseLibrary.POSTGRESQL) {
+            builder.append('"');
+          }
+          builder.append(tableName);
+          if (databaseLibrary == DatabaseLibrary.POSTGRESQL) {
+            builder.append('"');
+          }
+          builder.append(" ADD ");
           String columnDefinition = table.getColumnDefinition();
           DatabaseType databaseType = dao.getConnectionSource().getDatabaseType();
           if (columnDefinition == null) {
