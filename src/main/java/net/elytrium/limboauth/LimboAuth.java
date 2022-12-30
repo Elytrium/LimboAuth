@@ -504,7 +504,8 @@ public class LimboAuth {
   }
 
   public void authPlayer(Player player) {
-    if (this.isForcedPreviously(player.getUsername()) && this.isPremium(player.getUsername())) {
+    boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
+    if (!isFloodgate && this.isForcedPreviously(player.getUsername()) && this.isPremium(player.getUsername())) {
       player.disconnect(this.reconnectKick);
       return;
     }
@@ -514,7 +515,6 @@ public class LimboAuth {
       return;
     }
 
-    boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
     String nickname = player.getUsername();
     if (!this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
       player.disconnect(this.nicknameInvalidKick);
