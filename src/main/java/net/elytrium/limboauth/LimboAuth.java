@@ -681,7 +681,7 @@ public class LimboAuth {
 
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
-        return new PremiumResponse(PremiumState.PREMIUM, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+        return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
 
       if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
@@ -768,6 +768,10 @@ public class LimboAuth {
           return false;
         }
         case PREMIUM: {
+          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
+          return true;
+        }
+        case PREMIUM_USERNAME: {
           premium = true;
           break;
         }
@@ -787,14 +791,6 @@ public class LimboAuth {
       }
     }
 
-    if (wasRateLimited && unknown || wasRateLimited && wasError) {
-      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
-    }
-
-    if (wasError && unknown || !premium) {
-      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
-    }
-
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
         this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
@@ -804,6 +800,14 @@ public class LimboAuth {
       if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
         return false;
       }
+    }
+
+    if (wasRateLimited && unknown || wasRateLimited && wasError) {
+      return Settings.IMP.MAIN.ON_RATE_LIMIT_PREMIUM;
+    }
+
+    if (wasError && unknown || !premium) {
+      return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
 
     this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
@@ -984,10 +988,11 @@ public class LimboAuth {
   }
 
   public enum PremiumState {
-    PREMIUM(),
-    CRACKED(),
-    UNKNOWN(),
-    RATE_LIMIT(),
-    ERROR()
+    PREMIUM,
+    PREMIUM_USERNAME,
+    CRACKED,
+    UNKNOWN,
+    RATE_LIMIT,
+    ERROR
   }
 }

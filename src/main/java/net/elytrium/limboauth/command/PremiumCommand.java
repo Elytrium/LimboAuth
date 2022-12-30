@@ -77,7 +77,7 @@ public class PremiumCommand implements SimpleCommand {
           } else if (player.getHash().isEmpty()) {
             source.sendMessage(this.alreadyPremium);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            if (this.plugin.isPremiumExternal(username.toLowerCase(Locale.ROOT)).getState() == LimboAuth.PremiumState.PREMIUM) {
+            if (this.plugin.isPremiumExternal(username.toLowerCase(Locale.ROOT)).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
               try {
                 player.setHash("");
                 this.playerDao.update(player);
