@@ -20,10 +20,10 @@ package net.elytrium.limboauth.command;
 import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.stream.Collectors;
-import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
@@ -37,25 +37,7 @@ public class LimboAuthCommand implements SimpleCommand {
       Component.text("https://elytrium.net/github/", NamedTextColor.GREEN),
       Component.empty()
   );
-  private static final Map<String, Component> SUBCOMMANDS = Map.of(
-      /*
-      "serverstats", Component.textOfChildren(
-          Component.text("  /limboauth serverstats", NamedTextColor.GREEN),
-          Component.text(" - ", NamedTextColor.DARK_GRAY),
-          Component.text("Query for server stats.", NamedTextColor.YELLOW)
-      ),
-      "playerstats", Component.textOfChildren(
-          Component.text("  /limboauth playerstats <player>", NamedTextColor.GREEN),
-          Component.text(" - ", NamedTextColor.DARK_GRAY),
-          Component.text("Query for stats of specified player.", NamedTextColor.YELLOW)
-      ),
-      */
-      "reload", Component.textOfChildren(
-          Component.text("  /limboauth reload", NamedTextColor.GREEN),
-          Component.text(" - ", NamedTextColor.DARK_GRAY),
-          Component.text("Reload config.", NamedTextColor.YELLOW)
-      )
-  );
+
   private static final Component AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("Available subcommands:", NamedTextColor.WHITE);
   private static final Component NO_AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("There is no available subcommands for you.", NamedTextColor.WHITE);
 
@@ -71,19 +53,17 @@ public class LimboAuthCommand implements SimpleCommand {
     String[] args = invocation.arguments();
 
     if (args.length == 0) {
-      return SUBCOMMANDS.keySet().stream()
-          .filter(cmd -> source.hasPermission("limboauth.admin." + cmd))
+      return Arrays.stream(Subcommand.values())
+          .filter(command -> command.hasPermission(source))
+          .map(Subcommand::getCommand)
           .collect(Collectors.toList());
     } else if (args.length == 1) {
       String argument = args[0];
-      return SUBCOMMANDS.keySet().stream()
-          .filter(cmd -> source.hasPermission("limboauth.admin." + cmd))
+      return Arrays.stream(Subcommand.values())
+          .filter(command -> command.hasPermission(source))
+          .map(Subcommand::getCommand)
           .filter(str -> str.regionMatches(true, 0, argument, 0, argument.length()))
           .collect(Collectors.toList());
-      /*
-    } else if (args[0].equalsIgnoreCase("playerstats") && source.hasPermission("limboauth.admin.playerstats")) {
-      return SuggestUtils.suggestPlayers(this.plugin.getServer(), args, 2);
-      */
     } else {
       return ImmutableList.of();
     }
@@ -96,57 +76,71 @@ public class LimboAuthCommand implements SimpleCommand {
 
     int argsAmount = args.length;
     if (argsAmount > 0) {
-      String command = args[0];
-      Serializer serializer = LimboAuth.getSerializer();
-      if (argsAmount == 1) {
-        if (command.equalsIgnoreCase("reload") && source.hasPermission("limboauth.admin.reload")) {
-          this.plugin.reload();
-          source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
+      try {
+        Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
+        if (!subcommand.hasPermission(source)) {
+          this.showHelp(source);
           return;
         }
-        /*
-        else if (command.equalsIgnoreCase("serverstats") && source.hasPermission("limboauth.admin.serverstats")) {
-          return;
-        } else if (command.equalsIgnoreCase("playerstats") && source.hasPermission("limboauth.admin.playerstats")) {
-          source.sendMessage(Component.text("Please specify a player."));
-          return;
-        }
-        */
-      }
-      /*
-      else if (argsAmount == 2) {
-        if (command.equalsIgnoreCase("playerstats") && source.hasPermission("limboauth.admin.playerstats")) {
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.plugin.getPlayerDao(), args[1]);
-          if (player == null) {
-            source.sendMessage(Component.text("Игрок даезент екзистс."));
-          } else {
-            source.sendMessage(Component.text("Стата геймера под ником {player}:"));
-            source.sendMessage(Component.empty());
-            source.sendMessage(Component.text("Ласт айпи: " + player.getIP()));
-            source.sendMessage(Component.text("2fa: " + (player.getTotpToken().isEmpty() ? "Нет" : "Есть")));
-          }
 
-          return;
-        }
+        subcommand.executor.execute(this, source, args);
+      } catch (IllegalArgumentException e) {
+        this.showHelp(source);
       }
-      */
+    } else {
+      this.showHelp(source);
     }
-
-    this.showHelp(source);
   }
 
   private void showHelp(CommandSource source) {
-    for (Component component : HELP_MESSAGE) {
-      source.sendMessage(component);
-    }
-    List<Map.Entry<String, Component>> availableSubcommands = SUBCOMMANDS.entrySet().stream()
-        .filter(command -> source.hasPermission("limboauth.admin." + command.getKey()))
+    HELP_MESSAGE.forEach(source::sendMessage);
+
+    List<Subcommand> availableSubcommands = Arrays.stream(Subcommand.values())
+        .filter(command -> command.hasPermission(source))
         .collect(Collectors.toList());
+
     if (availableSubcommands.size() > 0) {
       source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE);
-      availableSubcommands.forEach(command -> source.sendMessage(command.getValue()));
+      availableSubcommands.forEach(command -> source.sendMessage(command.getMessageLine()));
     } else {
       source.sendMessage(NO_AVAILABLE_SUBCOMMANDS_MESSAGE);
     }
+  }
+
+  private enum Subcommand {
+    RELOAD("Reload config.", (LimboAuthCommand parent, CommandSource source, String[] args) -> {
+      parent.plugin.reload();
+      source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
+    });
+
+    private final String command;
+    private final String description;
+    private final SubcommandExecutor executor;
+
+    Subcommand(String description, SubcommandExecutor executor) {
+      this.command = this.name().toLowerCase(Locale.ROOT);
+      this.description = description;
+      this.executor = executor;
+    }
+
+    public boolean hasPermission(CommandSource source) {
+      return source.hasPermission("limboauth.admin." + this.command);
+    }
+
+    public Component getMessageLine() {
+      return Component.textOfChildren(
+          Component.text("  /limboauth " + this.command, NamedTextColor.GREEN),
+          Component.text(" - ", NamedTextColor.DARK_GRAY),
+          Component.text(this.description, NamedTextColor.YELLOW)
+      );
+    }
+
+    public String getCommand() {
+      return this.command;
+    }
+  }
+
+  private interface SubcommandExecutor {
+    void execute(LimboAuthCommand parent, CommandSource source, String[] args);
   }
 }
