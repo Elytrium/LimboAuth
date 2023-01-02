@@ -140,6 +140,7 @@ public class Settings extends YamlConfig {
     @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (any Minecraft version is supported, but the latest one is recommended).")
     public String WORLD_FILE_TYPE = "structure";
     public String WORLD_FILE_PATH = "world.nbt";
+    public boolean DISABLE_FALLING = true;
 
     @Comment("World time in ticks (24000 ticks == 1 in-game day)")
     public long WORLD_TICKS = 1000L;

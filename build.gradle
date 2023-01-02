@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.7")
+    compileOnly("net.elytrium:limboapi-api:1.0.8-SNAPSHOT")
 
     compileOnly("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
     compileOnly("com.velocitypowered:velocity-proxy:3.2.0-SNAPSHOT") // From Elytrium Repo.
