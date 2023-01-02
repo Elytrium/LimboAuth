@@ -19,6 +19,12 @@ package net.elytrium.limboauth;
 
 import java.util.List;
 import net.elytrium.java.commons.config.YamlConfig;
+import net.elytrium.java.commons.mc.serialization.Serializers;
+import net.elytrium.limboapi.api.chunk.Dimension;
+import net.elytrium.limboapi.api.player.GameMode;
+import net.elytrium.limboauth.dependencies.DatabaseLibrary;
+import net.elytrium.limboauth.migration.MigrationHash;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
 
@@ -38,7 +44,7 @@ public class Settings extends YamlConfig {
       "GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)",
       "GSON_COLOR_DOWNSAMPLING - Same as GSON, but uses downsampling."
   })
-  public String SERIALIZER = "LEGACY_AMPERSAND";
+  public Serializers SERIALIZER = Serializers.LEGACY_AMPERSAND;
   public String PREFIX = "LimboAuth &6>>&f";
 
   @Create
@@ -51,9 +57,9 @@ public class Settings extends YamlConfig {
     public int AUTH_TIME = 60000;
     public boolean ENABLE_BOSSBAR = true;
     @Comment("Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE")
-    public String BOSSBAR_COLOR = "RED";
+    public BossBar.Color BOSSBAR_COLOR = BossBar.Color.RED;
     @Comment("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20")
-    public String BOSSBAR_OVERLAY = "NOTCHED_20";
+    public BossBar.Overlay BOSSBAR_OVERLAY = BossBar.Overlay.NOTCHED_20;
     public int MIN_PASSWORD_LENGTH = 4;
     @Comment("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71.")
     public int MAX_PASSWORD_LENGTH = 71;
@@ -111,9 +117,9 @@ public class Settings extends YamlConfig {
         "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
         "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
     })
-    public String MIGRATION_HASH = "";
+    public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
-    public String DIMENSION = "THE_END";
+    public Dimension DIMENSION = Dimension.THE_END;
     public long PURGE_CACHE_MILLIS = 3600000;
     public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
@@ -149,7 +155,7 @@ public class Settings extends YamlConfig {
     public int WORLD_LIGHT_LEVEL = 15;
 
     @Comment("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR")
-    public String GAME_MODE = "ADVENTURE";
+    public GameMode GAME_MODE = GameMode.ADVENTURE;
 
     @Comment({
         "Custom isPremium URL",
@@ -384,7 +390,7 @@ public class Settings extends YamlConfig {
   public static class DATABASE {
 
     @Comment("Database type: mysql, postgresql, sqlite or h2.")
-    public String STORAGE_TYPE = "h2";
+    public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
 
     @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")
     public String HOSTNAME = "127.0.0.1:3306";

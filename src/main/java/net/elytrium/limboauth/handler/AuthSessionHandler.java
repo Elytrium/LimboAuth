@@ -378,8 +378,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static void reload() {
     Serializer serializer = LimboAuth.getSerializer();
-    bossbarColor = BossBar.Color.valueOf(Settings.IMP.MAIN.BOSSBAR_COLOR.toUpperCase(Locale.ROOT));
-    bossbarOverlay = BossBar.Overlay.valueOf(Settings.IMP.MAIN.BOSSBAR_OVERLAY.toUpperCase(Locale.ROOT));
+    bossbarColor = Settings.IMP.MAIN.BOSSBAR_COLOR;
+    bossbarOverlay = Settings.IMP.MAIN.BOSSBAR_OVERLAY;
     ipLimitKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.IP_LIMIT_KICK);
     databaseErrorKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DATABASE_ERROR_KICK);
     wrongNicknameCaseKick = Settings.IMP.MAIN.STRINGS.WRONG_NICKNAME_CASE_KICK;
@@ -447,11 +447,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
           Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
       );
     }
-    if (Settings.IMP.MAIN.MIGRATION_HASH.isEmpty()) {
-      migrationHash = null;
-    } else {
-      migrationHash = MigrationHash.valueOf(Settings.IMP.MAIN.MIGRATION_HASH);
-    }
+
+    migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
   }
 
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {

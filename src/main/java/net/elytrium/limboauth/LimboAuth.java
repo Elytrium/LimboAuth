@@ -78,13 +78,11 @@ import net.elytrium.java.commons.reflection.ReflectionException;
 import net.elytrium.java.commons.updates.UpdatesChecker;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
-import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
 import net.elytrium.limboapi.api.file.SchematicFile;
 import net.elytrium.limboapi.api.file.StructureFile;
 import net.elytrium.limboapi.api.file.WorldFile;
-import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
@@ -201,10 +199,10 @@ public class LimboAuth {
     Metrics metrics = this.metricsFactory.make(this, 13700);
     metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.MAIN.FLOODGATE_NEED_AUTH)));
     metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH)));
-    metrics.addCustomChart(new SimplePie("db_type", () -> Settings.IMP.DATABASE.STORAGE_TYPE));
+    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.IMP.DATABASE.STORAGE_TYPE)));
     metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.IMP.MAIN.LOAD_WORLD)));
     metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.MAIN.ENABLE_TOTP)));
-    metrics.addCustomChart(new SimplePie("dimension", () -> Settings.IMP.MAIN.DIMENSION));
+    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.IMP.MAIN.DIMENSION)));
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
 
@@ -225,7 +223,7 @@ public class LimboAuth {
           + " please install floodgate plugin.");
     }
 
-    ComponentSerializer<Component, Component, String> serializer = Serializers.valueOf(Settings.IMP.SERIALIZER.toUpperCase(Locale.ROOT)).getSerializer();
+    ComponentSerializer<Component, Component, String> serializer = Settings.IMP.SERIALIZER.getSerializer();
     if (serializer == null) {
       LOGGER.warn("The specified serializer could not be founded, using default. (LEGACY_AMPERSAND)");
       setSerializer(new Serializer(Objects.requireNonNull(Serializers.LEGACY_AMPERSAND.getSerializer())));
@@ -284,7 +282,7 @@ public class LimboAuth {
     this.bruteforceCache.clear();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
-    DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(dbConfig.STORAGE_TYPE.toUpperCase(Locale.ROOT));
+    DatabaseLibrary databaseLibrary = dbConfig.STORAGE_TYPE;
     try {
       this.connectionSource = databaseLibrary.connectToORM(
           this.dataDirectoryFile.toPath().toAbsolutePath(),
@@ -334,7 +332,7 @@ public class LimboAuth {
 
     Settings.MAIN.AUTH_COORDS authCoords = Settings.IMP.MAIN.AUTH_COORDS;
     VirtualWorld authWorld = this.factory.createVirtualWorld(
-        Dimension.valueOf(Settings.IMP.MAIN.DIMENSION),
+        Settings.IMP.MAIN.DIMENSION,
         authCoords.X, authCoords.Y, authCoords.Z,
         (float) authCoords.YAW, (float) authCoords.PITCH
     );
@@ -374,7 +372,7 @@ public class LimboAuth {
         .createLimbo(authWorld)
         .setName("LimboAuth")
         .setWorldTime(Settings.IMP.MAIN.WORLD_TICKS)
-        .setGameMode(GameMode.valueOf(Settings.IMP.MAIN.GAME_MODE))
+        .setGameMode(Settings.IMP.MAIN.GAME_MODE)
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.REGISTER_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)))
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)));
@@ -436,7 +434,7 @@ public class LimboAuth {
     String findSql;
     String database = Settings.IMP.DATABASE.DATABASE;
     String tableName = tableInfo.getTableName();
-    DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(Settings.IMP.DATABASE.STORAGE_TYPE.toUpperCase(Locale.ROOT));
+    DatabaseLibrary databaseLibrary = Settings.IMP.DATABASE.STORAGE_TYPE;
     switch (databaseLibrary) {
       case SQLITE: {
         findSql = "SELECT name FROM PRAGMA_TABLE_INFO('" + tableName + "')";
