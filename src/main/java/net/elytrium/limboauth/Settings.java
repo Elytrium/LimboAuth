@@ -59,8 +59,12 @@ public class Settings extends YamlConfig {
     public int MAX_PASSWORD_LENGTH = 71;
     public boolean CHECK_PASSWORD_STRENGTH = true;
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
+    @Comment({
+        "Players with premium nicknames should register/auth if this option is enabled",
+        "Players with premium nicknames must login with a premium Minecraft account if this option is disabled",
+    })
     public boolean ONLINE_MODE_NEED_AUTH = true;
-    @Comment("Needs floodgate plugin.")
+    @Comment("Needs floodgate plugin if disabled.")
     public boolean FLOODGATE_NEED_AUTH = true;
     @Comment("TOTALLY disables hybrid auth feature")
     public boolean FORCE_OFFLINE_MODE = false;

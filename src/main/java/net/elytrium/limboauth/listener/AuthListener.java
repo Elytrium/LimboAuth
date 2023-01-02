@@ -25,11 +25,20 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
+import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.util.UuidUtils;
+import com.velocitypowered.proxy.connection.MinecraftConnection;
+import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
+import com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler;
+import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
+import com.velocitypowered.proxy.protocol.packet.ServerLogin;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import net.elytrium.java.commons.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -39,6 +48,9 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 
 // TODO: Customizable events priority
 public class AuthListener {
+
+  private static final MethodHandle DELEGATE_FIELD;
+  private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -51,9 +63,9 @@ public class AuthListener {
   }
 
   @Subscribe
-  public void onPreLoginEvent(PreLoginEvent event) {
+  public void onPreLoginEvent(PreLoginEvent event) throws Throwable {
     if (!event.getResult().isForceOfflineMode()) {
-      if (this.plugin.isPremium(event.getUsername())) {
+      if (this.isPremiumByIdentifiedKey(event.getConnection()) || this.plugin.isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
       } else {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
@@ -61,6 +73,25 @@ public class AuthListener {
     } else {
       this.plugin.saveForceOfflineMode(event.getUsername());
     }
+  }
+
+  private boolean isPremiumByIdentifiedKey(InboundConnection inbound) throws Throwable {
+    LoginInboundConnection inboundConnection = (LoginInboundConnection) inbound;
+    InitialInboundConnection initialInbound = (InitialInboundConnection) DELEGATE_FIELD.invokeExact(inboundConnection);
+    MinecraftConnection connection = initialInbound.getConnection();
+    InitialLoginSessionHandler handler = (InitialLoginSessionHandler) connection.getSessionHandler();
+
+    ServerLogin packet = (ServerLogin) LOGIN_FIELD.invokeExact(handler);
+    if (packet == null) {
+      return false;
+    }
+
+    UUID holder = packet.getHolderUuid();
+    if (holder == null) {
+      return false;
+    }
+
+    return holder.version() != 3;
   }
 
   @Subscribe
@@ -136,6 +167,17 @@ public class AuthListener {
 
     if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
       event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()));
+    }
+  }
+
+  static {
+    try {
+      DELEGATE_FIELD = MethodHandles.privateLookupIn(LoginInboundConnection.class, MethodHandles.lookup())
+          .findGetter(LoginInboundConnection.class, "delegate", InitialInboundConnection.class);
+      LOGIN_FIELD = MethodHandles.privateLookupIn(InitialLoginSessionHandler.class, MethodHandles.lookup())
+          .findGetter(InitialLoginSessionHandler.class, "login", ServerLogin.class);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      throw new ReflectionException(e);
     }
   }
 }
