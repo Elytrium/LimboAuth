@@ -32,6 +32,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
@@ -81,7 +82,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
       } catch (SQLException e) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        e.printStackTrace();
+        throw new SQLRuntimeException(e);
       }
     } else {
       source.sendMessage(this.usage);

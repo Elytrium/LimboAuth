@@ -19,14 +19,17 @@ package net.elytrium.limboauth.dependencies;
 
 import com.j256.ormlite.jdbc.JdbcSingleConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
@@ -90,23 +93,27 @@ public enum DatabaseLibrary {
     this.stringGetter = stringGetter;
   }
 
-  public Connection connect(ClassLoader classLoader, Path dir, String hostname, String database, String user, String password) throws Exception {
+  public Connection connect(ClassLoader classLoader, Path dir, String hostname, String database, String user, String password)
+      throws ReflectiveOperationException, SQLException, IOException {
     return this.connect(classLoader, dir, this.stringGetter.getJdbcString(dir, hostname, database), user, password);
   }
 
-  public Connection connect(Path dir, String hostname, String database, String user, String password) throws Exception {
+  public Connection connect(Path dir, String hostname, String database, String user, String password)
+      throws ReflectiveOperationException, SQLException, IOException {
     return this.connect(dir, this.stringGetter.getJdbcString(dir, hostname, database), user, password);
   }
 
-  public Connection connect(ClassLoader classLoader, Path dir, String jdbc, String user, String password) throws Exception {
+  public Connection connect(ClassLoader classLoader, Path dir, String jdbc, String user, String password)
+      throws ReflectiveOperationException, SQLException, IOException {
     return this.connector.connect(classLoader, dir, jdbc, user, password);
   }
 
-  public Connection connect(Path dir, String jdbc, String user, String password) throws Exception {
+  public Connection connect(Path dir, String jdbc, String user, String password) throws IOException, ReflectiveOperationException, SQLException {
     return this.connector.connect(new IsolatedClassLoader(new URL[]{this.baseLibrary.getClassLoaderURL()}), dir, jdbc, user, password);
   }
 
-  public ConnectionSource connectToORM(Path dir, String hostname, String database, String user, String password) throws Exception {
+  public ConnectionSource connectToORM(Path dir, String hostname, String database, String user, String password)
+      throws ReflectiveOperationException, IOException, SQLException, URISyntaxException {
     String jdbc = this.stringGetter.getJdbcString(dir, hostname, database);
     URL baseLibraryURL = this.baseLibrary.getClassLoaderURL();
     ClassLoader currentClassLoader = DatabaseLibrary.class.getClassLoader();
@@ -117,7 +124,8 @@ public enum DatabaseLibrary {
     return new JdbcSingleConnectionSource(jdbc, this.connect(currentClassLoader, dir, jdbc, user, password));
   }
 
-  private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register) throws Exception {
+  private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register)
+      throws ReflectiveOperationException, SQLException {
     Constructor<?> legacyConstructor = connectionClass.getConstructor();
 
     Properties info = new Properties();
@@ -142,7 +150,8 @@ public enum DatabaseLibrary {
   }
 
   public interface DatabaseConnector {
-    Connection connect(ClassLoader classLoader, Path dir, String jdbc, String user, String password) throws Exception;
+    Connection connect(ClassLoader classLoader, Path dir, String jdbc, String user, String password)
+        throws ReflectiveOperationException, SQLException, IOException;
   }
 
   public interface DatabaseStringGetter {

@@ -45,6 +45,7 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -137,9 +138,8 @@ public class AuthListener {
           try {
             registeredPlayer.setUuid(event.getGameProfile().getId().toString());
             this.playerDao.update(registeredPlayer);
-          } catch (SQLException ex) {
-            ex.printStackTrace();
-            return;
+          } catch (SQLException e) {
+            throw new SQLRuntimeException(e);
           }
         } else {
           event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
@@ -152,8 +152,7 @@ public class AuthListener {
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
         updateBuilder.update();
       } catch (SQLException e) {
-        e.printStackTrace();
-        return;
+        throw new SQLRuntimeException(e);
       }
     }
 

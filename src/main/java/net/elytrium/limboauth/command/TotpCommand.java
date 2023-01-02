@@ -36,6 +36,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 
@@ -127,7 +128,7 @@ public class TotpCommand implements SimpleCommand {
               updateBuilder.update();
             } catch (SQLException e) {
               source.sendMessage(this.errorOccurred);
-              e.printStackTrace();
+              throw new SQLRuntimeException(e);
             }
             source.sendMessage(this.successful);
 
@@ -167,7 +168,7 @@ public class TotpCommand implements SimpleCommand {
                 source.sendMessage(this.disabled);
               } catch (SQLException e) {
                 source.sendMessage(this.errorOccurred);
-                e.printStackTrace();
+                throw new SQLRuntimeException(e);
               }
             } else {
               source.sendMessage(this.wrong);

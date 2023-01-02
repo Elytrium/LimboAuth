@@ -44,6 +44,7 @@ import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -149,9 +150,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
           }
         }
       } catch (SQLException e) {
-        e.printStackTrace();
         this.proxyPlayer.disconnect(databaseErrorKick);
-        return;
+        throw new SQLRuntimeException(e);
       }
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
@@ -212,8 +212,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
             this.playerDao.create(registeredPlayer);
             this.playerInfo = registeredPlayer;
           } catch (SQLException e) {
-            e.printStackTrace();
             this.proxyPlayer.disconnect(databaseErrorKick);
+            throw new SQLRuntimeException(e);
           }
 
           this.proxyPlayer.sendMessage(registerSuccessful);
@@ -369,7 +369,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     try {
       this.plugin.updateLoginData(this.proxyPlayer);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new SQLRuntimeException(e);
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);
@@ -468,8 +468,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         try {
           playerDao.update(player);
         } catch (SQLException e) {
-          e.printStackTrace();
-          return false;
+          throw new SQLRuntimeException(e);
         }
       }
     }
@@ -478,25 +477,21 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
-    List<RegisteredPlayer> playerList = null;
     try {
-      playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
+      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new SQLRuntimeException(e);
     }
-
-    return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
-    List<RegisteredPlayer> playerList = null;
     try {
-      playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new SQLRuntimeException(e);
     }
-
-    return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
   }
 
   public static String genHash(String password) {

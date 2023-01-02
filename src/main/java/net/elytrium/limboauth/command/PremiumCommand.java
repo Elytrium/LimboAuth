@@ -29,6 +29,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
 public class PremiumCommand implements SimpleCommand {
@@ -85,7 +86,7 @@ public class PremiumCommand implements SimpleCommand {
                 ((Player) source).disconnect(this.successful);
               } catch (SQLException e) {
                 source.sendMessage(this.errorOccurred);
-                e.printStackTrace();
+                throw new SQLRuntimeException(e);
               }
             } else {
               source.sendMessage(this.notPremium);

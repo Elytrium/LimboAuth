@@ -100,14 +100,8 @@ public class LimboAuthCommand implements SimpleCommand {
       Serializer serializer = LimboAuth.getSerializer();
       if (argsAmount == 1) {
         if (command.equalsIgnoreCase("reload") && source.hasPermission("limboauth.admin.reload")) {
-          try {
-            this.plugin.reload();
-            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
-          } catch (Exception e) {
-            e.printStackTrace();
-            source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD_FAILED));
-          }
-
+          this.plugin.reload();
+          source.sendMessage(serializer.deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
           return;
         }
         /*

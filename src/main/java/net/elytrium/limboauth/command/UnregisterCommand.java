@@ -30,6 +30,7 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
 public class UnregisterCommand implements SimpleCommand {
@@ -83,7 +84,7 @@ public class UnregisterCommand implements SimpleCommand {
               ((Player) source).disconnect(this.successful);
             } catch (SQLException e) {
               source.sendMessage(this.errorOccurred);
-              e.printStackTrace();
+              throw new SQLRuntimeException(e);
             }
           } else {
             source.sendMessage(this.wrongPassword);

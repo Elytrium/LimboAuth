@@ -260,7 +260,6 @@ public class Settings extends YamlConfig {
     public static class STRINGS {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
-      public String RELOAD_FAILED = "{PRFX} &cReload failed, check console for details.";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
       public String DATABASE_ERROR_KICK = "{PRFX} &cA database error has occurred!";
 

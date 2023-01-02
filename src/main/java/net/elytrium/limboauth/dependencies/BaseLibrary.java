@@ -18,6 +18,7 @@
 package net.elytrium.limboauth.dependencies;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -66,14 +67,11 @@ public enum BaseLibrary {
 
     this.filenamePath = Path.of("libraries/" + mavenPath);
 
-    URL mavenRepoURL = null;
     try {
-      mavenRepoURL = new URL("https://repo1.maven.org/maven2/" + mavenPath);
-    } catch (Exception e) {
-      e.printStackTrace();
+      this.mavenRepoURL = new URL("https://repo1.maven.org/maven2/" + mavenPath);
+    } catch (MalformedURLException e) {
+      throw new IllegalArgumentException(e);
     }
-
-    this.mavenRepoURL = mavenRepoURL;
   }
 
   @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
@@ -84,8 +82,8 @@ public enum BaseLibrary {
           Files.createDirectories(this.filenamePath.getParent());
           Files.copy(in, Files.createFile(this.filenamePath), StandardCopyOption.REPLACE_EXISTING);
         }
-      } catch (Exception e) {
-        e.printStackTrace();
+      } catch (IOException e) {
+        throw new IllegalArgumentException(e);
       }
     }
 

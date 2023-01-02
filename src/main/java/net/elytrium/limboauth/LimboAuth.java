@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -73,6 +74,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.elytrium.java.commons.mc.serialization.Serializer;
 import net.elytrium.java.commons.mc.serialization.Serializers;
+import net.elytrium.java.commons.reflection.ReflectionException;
 import net.elytrium.java.commons.updates.UpdatesChecker;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
@@ -101,6 +103,7 @@ import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.title.Title;
@@ -190,7 +193,7 @@ public class LimboAuth {
   }
 
   @Subscribe
-  public void onProxyInitialization(ProxyInitializeEvent event) throws Exception {
+  public void onProxyInitialization(ProxyInitializeEvent event) {
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
     this.reload();
@@ -214,7 +217,7 @@ public class LimboAuth {
   }
 
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
-  public void reload() throws Exception {
+  public void reload() {
     Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX);
 
     if (this.floodgateApi == null && !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH) {
@@ -261,14 +264,18 @@ public class LimboAuth {
     this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
 
     if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH) {
-      this.unsafePasswords.clear();
-      Path unsafePasswordsPath = Paths.get(this.dataDirectoryFile.getAbsolutePath(), Settings.IMP.MAIN.UNSAFE_PASSWORDS_FILE);
-      if (!unsafePasswordsPath.toFile().exists()) {
-        Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsPath);
-      }
+      try {
+        this.unsafePasswords.clear();
+        Path unsafePasswordsPath = Paths.get(this.dataDirectoryFile.getAbsolutePath(), Settings.IMP.MAIN.UNSAFE_PASSWORDS_FILE);
+        if (!unsafePasswordsPath.toFile().exists()) {
+          Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsPath);
+        }
 
-      try (Stream<String> unsafePasswordsStream = Files.lines(unsafePasswordsPath)) {
-        this.unsafePasswords.addAll(unsafePasswordsStream.collect(Collectors.toList()));
+        try (Stream<String> unsafePasswordsStream = Files.lines(unsafePasswordsPath)) {
+          this.unsafePasswords.addAll(unsafePasswordsStream.collect(Collectors.toList()));
+        }
+      } catch (IOException e) {
+        throw new IllegalArgumentException(e);
       }
     }
 
@@ -278,13 +285,21 @@ public class LimboAuth {
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
     DatabaseLibrary databaseLibrary = DatabaseLibrary.valueOf(dbConfig.STORAGE_TYPE.toUpperCase(Locale.ROOT));
-    this.connectionSource = databaseLibrary.connectToORM(
-        this.dataDirectoryFile.toPath().toAbsolutePath(),
-        dbConfig.HOSTNAME,
-        dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS,
-        dbConfig.USER,
-        dbConfig.PASSWORD
-    );
+    try {
+      this.connectionSource = databaseLibrary.connectToORM(
+          this.dataDirectoryFile.toPath().toAbsolutePath(),
+          dbConfig.HOSTNAME,
+          dbConfig.DATABASE + dbConfig.CONNECTION_PARAMETERS,
+          dbConfig.USER,
+          dbConfig.PASSWORD
+      );
+    } catch (ReflectiveOperationException e) {
+      throw new ReflectionException(e);
+    } catch (SQLException e) {
+      throw new SQLRuntimeException(e);
+    } catch (IOException | URISyntaxException e) {
+      throw new IllegalArgumentException(e);
+    }
 
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
@@ -293,7 +308,7 @@ public class LimboAuth {
       this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
-      e.printStackTrace();
+      throw new SQLRuntimeException(e);
     }
 
     CommandManager manager = this.server.getCommandManager();
@@ -347,7 +362,7 @@ public class LimboAuth {
         Settings.MAIN.WORLD_COORDS coords = Settings.IMP.MAIN.WORLD_COORDS;
         file.toWorld(this.factory, authWorld, coords.X, coords.Y, coords.Z, Settings.IMP.MAIN.WORLD_LIGHT_LEVEL);
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new IllegalArgumentException(e);
       }
     }
 
@@ -472,11 +487,11 @@ public class LimboAuth {
 
           dao.executeRawNoArgs(builder.toString());
         } catch (SQLException e) {
-          e.printStackTrace();
+          throw new SQLRuntimeException(e);
         }
       });
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new SQLRuntimeException(e);
     }
   }
 
@@ -536,7 +551,7 @@ public class LimboAuth {
           try {
             this.playerDao.update(registeredPlayer);
           } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLRuntimeException(e);
           }
         }
 
@@ -557,7 +572,7 @@ public class LimboAuth {
           try {
             this.playerDao.create(registeredPlayer);
           } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLRuntimeException(e);
           }
         }
 
@@ -612,7 +627,7 @@ public class LimboAuth {
         try {
           this.updateLoginData(player);
         } catch (SQLException e) {
-          e.printStackTrace();
+          throw new SQLRuntimeException(e);
         }
         break;
       }
@@ -625,12 +640,7 @@ public class LimboAuth {
       }
       case NORMAL:
       default: {
-        try {
-          this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
-        } catch (Throwable t) {
-          t.printStackTrace();
-        }
-
+        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
         break;
       }
     }
