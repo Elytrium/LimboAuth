@@ -64,9 +64,9 @@ public class AuthListener {
   }
 
   @Subscribe
-  public void onPreLoginEvent(PreLoginEvent event) throws Throwable {
+  public void onPreLoginEvent(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      if (this.isPremiumByIdentifiedKey(event.getConnection()) || this.plugin.isPremium(event.getUsername())) {
+      if (this.plugin.isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
       } else {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
@@ -76,6 +76,7 @@ public class AuthListener {
     }
   }
 
+  // Temporarily disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
   private boolean isPremiumByIdentifiedKey(InboundConnection inbound) throws Throwable {
     LoginInboundConnection inboundConnection = (LoginInboundConnection) inbound;
     InitialInboundConnection initialInbound = (InitialInboundConnection) DELEGATE_FIELD.invokeExact(inboundConnection);
