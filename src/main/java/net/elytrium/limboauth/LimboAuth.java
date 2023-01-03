@@ -834,17 +834,21 @@ public class LimboAuth {
   }
 
   public void incrementBruteforceAttempts(InetAddress address) {
-    this.bruteforceCache.get(address).incrementAttempts();
+    this.getBruteforceUser(address).incrementAttempts();
   }
 
   public int getBruteforceAttempts(InetAddress address) {
+    return this.getBruteforceUser(address).getAttempts();
+  }
+
+  private CachedBruteforceUser getBruteforceUser(InetAddress address) {
     CachedBruteforceUser user = this.bruteforceCache.get(address);
     if (user == null) {
       user = new CachedBruteforceUser(System.currentTimeMillis());
       this.bruteforceCache.put(address, user);
     }
 
-    return user.getAttempts();
+    return user;
   }
 
   public void clearBruteforceAttempts(InetAddress address) {
