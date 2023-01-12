@@ -899,6 +899,10 @@ public class LimboAuth {
     return SERIALIZER;
   }
 
+  public Limbo getAuthServer() {
+    return this.authServer;
+  }
+
   private static class CachedUser {
 
     private final long checkTime;
