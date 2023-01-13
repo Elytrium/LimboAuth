@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.0.9")
+setVersion("1.1.0")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
@@ -39,27 +39,27 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.elytrium:limboapi-api:1.0.8-SNAPSHOT")
+    compileOnly("net.elytrium.limboapi:api:$limboapiVersion")
 
-    compileOnly("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
-    compileOnly("com.velocitypowered:velocity-proxy:3.2.0-SNAPSHOT") // From Elytrium Repo.
-    annotationProcessor("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
+    annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
+    compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
 
     // Needs for some velocity methods.
-    compileOnly('io.netty:netty-codec:4.1.86.Final')
-    compileOnly("io.netty:netty-handler:4.1.86.Final")
+    compileOnly("io.netty:netty-codec:$nettyVersion")
+    compileOnly("io.netty:netty-handler:$nettyVersion")
 
-    compileOnly("org.geysermc.floodgate:api:2.1.1-SNAPSHOT")
+    compileOnly("org.geysermc.floodgate:api:$floodgateVersion")
 
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("dev.samstevens.totp:totp:1.7.1")
 
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
-
-    implementation("org.bstats:bstats-velocity:3.0.0")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
-    compileOnly('com.github.spotbugs:spotbugs-annotations:4.7.3')
+    implementation("org.bstats:bstats-velocity:$bstatsVersion")
+
+    compileOnly("com.github.spotbugs:spotbugs-annotations:$spotbugsVersion")
 }
 
 shadowJar {
@@ -108,6 +108,7 @@ shadowJar {
     relocate("dev.samstevens.totp", "net.elytrium.limboauth.thirdparty.dev.samstevens.totp")
     relocate("org.apache.commons.codec", "net.elytrium.limboauth.thirdparty.org.apache.commons.codec")
     relocate("org.bstats", "net.elytrium.limboauth.thirdparty.org.bstats")
+    relocate("net.elytrium.commons", "net.elytrium.limboapi.thirdparty.commons")
 }
 
 license {

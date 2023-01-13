@@ -38,7 +38,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import net.elytrium.java.commons.reflection.ReflectionException;
+import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;

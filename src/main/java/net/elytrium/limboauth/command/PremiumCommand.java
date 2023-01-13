@@ -24,7 +24,7 @@ import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
 import java.util.Locale;
-import net.elytrium.java.commons.mc.serialization.Serializer;
+import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
