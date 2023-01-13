@@ -42,14 +42,14 @@ Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216)
 - ***limboauth.commands.unregister* | /unregister** - Unregister Account Command
 - ***limboauth.commands.changepassword* | /changepassword** - Change Account Password Command
 - ***limboauth.commands.totp* | /totp** - 2FA Management Command
-- ***limboauth.commands.***** - Gives All Player Permissions
+- ***limboauth.commands.***\* - Gives All Player Permissions
 
 ### Admin
 
 - ***limboauth.admin.forceunregister* | /forceunregister** - Force Unregister Account Command
 - ***limboauth.admin.forcechangepassword* | /forcechangepassword** - Force Change Account Password Command
 - ***limboauth.admin.reload* | /lauth reload** - Reload Plugin Command
-- ***limboauth.admin./**** - Gives All Admin Permissions
+- ***limboauth.admin.***\* - Gives All Admin Permissions
 
 ## Donation
 
