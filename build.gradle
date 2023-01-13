@@ -40,6 +40,10 @@ repositories {
 
 dependencies {
     compileOnly("net.elytrium.limboapi:api:$limboapiVersion")
+    compileOnly("net.elytrium.commons:config:$elytriumCommonsVersion")
+    compileOnly("net.elytrium.commons:utils:$elytriumCommonsVersion")
+    compileOnly("net.elytrium.commons:velocity:$elytriumCommonsVersion")
+    compileOnly("net.elytrium.commons:kyori:$elytriumCommonsVersion")
 
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
@@ -108,7 +112,9 @@ shadowJar {
     relocate("dev.samstevens.totp", "net.elytrium.limboauth.thirdparty.dev.samstevens.totp")
     relocate("org.apache.commons.codec", "net.elytrium.limboauth.thirdparty.org.apache.commons.codec")
     relocate("org.bstats", "net.elytrium.limboauth.thirdparty.org.bstats")
-    relocate("net.elytrium.commons", "net.elytrium.limboapi.thirdparty.commons")
+    relocate("net.elytrium.commons.velocity", "net.elytrium.limboapi.thirdparty.commons.velocity")
+    relocate("net.elytrium.commons.kyori", "net.elytrium.limboapi.thirdparty.commons.kyori")
+    relocate("net.elytrium.commons.config", "net.elytrium.limboapi.thirdparty.commons.config")
 }
 
 license {
