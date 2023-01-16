@@ -21,8 +21,6 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.google.common.primitives.Longs;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
-import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
@@ -61,9 +59,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
-  // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
-  public static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
-  public static final String MOD_CHANNEL_STRING = MOD_CHANNEL.getId();
 
   private static BossBar.Color bossbarColor;
   private static BossBar.Overlay bossbarOverlay;
@@ -278,9 +273,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
         // Minecraft can't handle the plugin message immediately after going to the PLAY
         // state, so we have to postpone sending it
         if (Settings.IMP.MAIN.MOD.ENABLED) {
-          this.proxyPlayer.sendPluginMessage(MOD_CHANNEL, new byte[0]);
+          this.proxyPlayer.sendPluginMessage(this.plugin.getChannelIdentifier(this.proxyPlayer), new byte[0]);
         }
-      } else if (channel.equals(MOD_CHANNEL_STRING)) {
+      } else if (channel.equals(this.plugin.getChannelIdentifier(this.proxyPlayer).getId())) {
         if (this.tokenReceived) {
           this.checkBruteforceAttempts();
           this.proxyPlayer.disconnect(Component.empty());
