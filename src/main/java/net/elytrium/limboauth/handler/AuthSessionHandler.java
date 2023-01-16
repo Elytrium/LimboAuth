@@ -206,7 +206,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String password = args[1];
         if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
           this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer);
+          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
           try {
             this.playerDao.create(registeredPlayer);
