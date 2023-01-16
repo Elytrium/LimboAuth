@@ -17,7 +17,13 @@
 
 package net.elytrium.limboauth;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
+import java.util.Random;
+import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
@@ -209,6 +215,26 @@ public class Settings extends YamlConfig {
     public boolean DISABLE_REGISTRATIONS = false;
 
     @Create
+    public Settings.MAIN.MOD MOD;
+
+    @Comment({
+        "Implement the automatic login using the plugin, the LimboAuth client mod and optionally using a custom launcher",
+        "See https://github.com/Elytrium/LimboAuth-ClientMod"
+    })
+    public static class MOD {
+
+      public boolean ENABLED = true;
+
+      @Comment("Should the plugin forbid logging in without a mod")
+      public boolean LOGIN_ONLY_BY_MOD = false;
+
+      @Comment("The key must be the same in the plugin config and in the server hash issuer, if you use it")
+      @CustomSerializer(serializerClass = MD5KeySerializer.class)
+      public byte[] VERIFY_KEY = null;
+
+    }
+
+    @Create
     public Settings.MAIN.WORLD_COORDS WORLD_COORDS;
 
     public static class WORLD_COORDS {
@@ -368,6 +394,8 @@ public class Settings extends YamlConfig {
       public String TOTP_RECOVERY = "{PRFX} &aYour recovery codes &7(Click to copy)&a: &6{0}";
 
       public String DESTROY_SESSION_SUCCESSFUL = "{PRFX} &eYour session is now destroyed, you'll need to log in again after reconnecting.";
+
+      public String MOD_SESSION_EXPIRED = "{PRFX} Your session has expired, log in again.";
     }
 
     @Create
@@ -398,5 +426,42 @@ public class Settings extends YamlConfig {
     public String PASSWORD = "password";
     public String DATABASE = "limboauth";
     public String CONNECTION_PARAMETERS = "?autoReconnect=true&initialTimeout=1&useSSL=false";
+  }
+
+  public static class MD5KeySerializer extends ConfigSerializer<byte[], String> {
+
+    private final MessageDigest md5;
+    private final Random random;
+    private String originalValue;
+
+    public MD5KeySerializer() throws NoSuchAlgorithmException {
+      super(byte[].class, String.class);
+      this.md5 = MessageDigest.getInstance("MD5");
+      this.random = new SecureRandom();
+    }
+
+    @Override
+    public String serialize(byte[] from) {
+      if (this.originalValue == null || this.originalValue.isEmpty()) {
+        this.originalValue = generateRandomString(24);
+      }
+
+      return this.originalValue;
+    }
+
+    @Override
+    public byte[] deserialize(String from) {
+      this.originalValue = from;
+      return this.md5.digest(from.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private String generateRandomString(int length) {
+      String chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+      StringBuilder builder = new StringBuilder();
+      for (int i = 0; i < length; i++) {
+        builder.append(chars.charAt(this.random.nextInt(chars.length())));
+      }
+      return builder.toString();
+    }
   }
 }

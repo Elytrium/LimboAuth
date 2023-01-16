@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.1.0")
+setVersion("1.1.1")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
@@ -60,6 +60,8 @@ dependencies {
 
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
+
+    implementation("io.whitfin:siphash:2.0.0")
 
     implementation("org.bstats:bstats-velocity:$bstatsVersion")
 

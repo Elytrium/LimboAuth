@@ -30,7 +30,6 @@ import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -73,7 +72,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, AuthSessionHandler.genHash(newPassword));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(newPassword));
         updateBuilder.update();
 
         this.server.getPlayer(nickname)
