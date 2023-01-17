@@ -56,7 +56,7 @@ public class RegisteredPlayer {
   private String ip;
 
   @DatabaseField(columnName = TOTP_TOKEN_FIELD)
-  private String totpToken;
+  private String totpToken = "";
 
   @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
