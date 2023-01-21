@@ -73,6 +73,10 @@ public enum MigrationHash {
   SHA512_P_REVERSED_HASH((hash, password) -> {
     String[] args = hash.split("\\$"); // $SHA$hash$salt
     return args.length == 4 && args[2].equals(getDigest(password + args[3], "SHA-512"));
+  }),
+  SHA512_NLOGIN((hash, password) -> {
+    String[] args = hash.split("\\$"); // $SHA$hash$salt
+    return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
   });
 
   private final MigrationHashVerifier verifier;
