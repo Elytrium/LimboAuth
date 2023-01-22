@@ -385,8 +385,11 @@ public class LimboAuth {
         .setWorldTime(Settings.IMP.MAIN.WORLD_TICKS)
         .setGameMode(Settings.IMP.MAIN.GAME_MODE)
         .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.REGISTER_COMMAND)))
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)))
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)));
+        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.LOGIN_COMMAND)));
+
+    if (Settings.IMP.MAIN.ENABLE_TOTP) {
+      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.MAIN.TOTP_COMMAND)));
+    }
 
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
