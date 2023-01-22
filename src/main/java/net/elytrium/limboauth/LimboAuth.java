@@ -333,8 +333,8 @@ public class LimboAuth {
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this.playerDao), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this.server, this.playerDao), "forcechangepass", "fcp");
+    manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
+    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
     manager.register("destroysession", new DestroySessionCommand(this), "logout");
     if (Settings.IMP.MAIN.ENABLE_TOTP) {
       manager.register("2fa", new TotpCommand(this.playerDao), "totp");

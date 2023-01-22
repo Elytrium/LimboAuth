@@ -34,6 +34,7 @@ import net.kyori.adventure.text.Component;
 
 public class ChangePasswordCommand implements SimpleCommand {
 
+  private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
 
   private final boolean needOldPass;
@@ -44,7 +45,8 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public ChangePasswordCommand(Dao<RegisteredPlayer, String> playerDao) {
+  public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+    this.plugin = plugin;
     this.playerDao = playerDao;
 
     Serializer serializer = LimboAuth.getSerializer();
@@ -93,6 +95,8 @@ public class ChangePasswordCommand implements SimpleCommand {
         updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(needOldPass ? args[1] : args[0]));
         updateBuilder.update();
+
+        this.plugin.removePlayerFromCache(username);
 
         source.sendMessage(this.successful);
       } catch (SQLException e) {

@@ -36,6 +36,7 @@ import net.kyori.adventure.text.Component;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
 
+  private final LimboAuth plugin;
   private final ProxyServer server;
   private final Dao<RegisteredPlayer, String> playerDao;
 
@@ -44,7 +45,8 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   private final String notSuccessful;
   private final Component usage;
 
-  public ForceChangePasswordCommand(ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
+    this.plugin = plugin;
     this.server = server;
     this.playerDao = playerDao;
 
@@ -75,6 +77,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(newPassword));
         updateBuilder.update();
 
+        this.plugin.removePlayerFromCache(nickname);
         this.server.getPlayer(nickname)
             .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
 
