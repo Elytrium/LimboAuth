@@ -246,6 +246,18 @@ public class Settings extends YamlConfig {
     }
 
     @Create
+    public MAIN.AUTH_COORDS AUTH_COORDS;
+
+    public static class AUTH_COORDS {
+
+      public double X = 0;
+      public double Y = 0;
+      public double Z = 0;
+      public double YAW = 0;
+      public double PITCH = 0;
+    }
+
+    @Create
     public Settings.MAIN.CRACKED_TITLE_SETTINGS CRACKED_TITLE_SETTINGS;
 
     public static class CRACKED_TITLE_SETTINGS {
@@ -397,18 +409,6 @@ public class Settings extends YamlConfig {
       public String DESTROY_SESSION_SUCCESSFUL = "{PRFX} &eYour session is now destroyed, you'll need to log in again after reconnecting.";
 
       public String MOD_SESSION_EXPIRED = "{PRFX} Your session has expired, log in again.";
-    }
-
-    @Create
-    public MAIN.AUTH_COORDS AUTH_COORDS;
-
-    public static class AUTH_COORDS {
-
-      public double X = 0;
-      public double Y = 0;
-      public double Z = 0;
-      public double YAW = 0;
-      public double PITCH = 0;
     }
   }
 

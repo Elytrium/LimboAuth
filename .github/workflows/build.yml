@@ -5,38 +5,58 @@ on: [ push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        java: [ 11, 17 ]
-      fail-fast: true
     steps:
       - name: Checkout
         uses: actions/checkout@v3.0.0
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK
         uses: actions/setup-java@v3.0.0
         with:
           distribution: adopt
-          java-version: ${{ matrix.java }}
+          java-version: 11
       - name: Build LimboAuth
         run: ./gradlew build
       - name: Upload LimboAuth
         uses: actions/upload-artifact@v3.0.0
         with:
-          name: LimboAuth Built On ${{ matrix.java }} JDK
+          name: LimboAuth
           path: "build/libs/limboauth*.jar"
       - uses: dev-drprasad/delete-tag-and-release@v0.2.0
         if: ${{ github.event_name == 'push' }}
         with:
           delete_release: true
-          tag_name: dev-build-jdk-${{ matrix.java }}
+          tag_name: dev-build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Find git version
+        id: git-version
+        run: echo "id=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Find correct JAR
+        if: ${{ github.event_name == 'push' }}
+        id: find-jar
+        run: |
+          output="$(find build/libs/ ! -name "*-javadoc.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
+          echo "::set-output name=jarname::$output"
       - name: Release the build
         if: ${{ github.event_name == 'push' }}
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/libs/limboauth*.jar"
+          artifacts: build/libs/${{ steps.find-jar.outputs.jarname }}
           body: ${{ join(github.event.commits.*.message, '\n') }}
           prerelease: true
-          name: JDK ${{ matrix.java }} Dev-build
-          tag: dev-build-jdk-${{ matrix.java }}
+          name: Dev-build ${{ steps.git-version.outputs.id }}
+          tag: dev-build
+      - name: Upload to Modrinth
+        if: ${{ github.event_name == 'push' }}
+        uses: RubixDev/modrinth-upload@v1.0.0
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          file_path: build/libs/${{ steps.find-jar.outputs.jarname }}
+          name: Dev-build ${{ steps.git-version.outputs.id }}
+          version: ${{ steps.git-version.outputs.id }}
+          changelog: ${{ join(github.event.commits.*.message, '\n') }}
+          relations: TZOteSf2:required
+          game_versions: 1.7.2
+          release_type: beta
+          loaders: velocity
+          featured: false
+          project_id: 4iChqdl8
