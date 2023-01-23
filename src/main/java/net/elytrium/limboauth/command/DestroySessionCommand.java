@@ -19,7 +19,6 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
@@ -55,6 +54,7 @@ public class DestroySessionCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.destroysession") == Tristate.TRUE;
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.DESTROY_SESSION
+        .hasPermission(invocation.source(), "imboauth.commands.destroysession");
   }
 }

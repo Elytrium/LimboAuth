@@ -88,6 +88,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().hasPermission("limboauth.admin.forceunregister");
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_UNREGISTER
+        .hasPermission(invocation.source(), "limboauth.admin.forceunregister");
   }
 }

@@ -92,6 +92,12 @@ public class LimboAuthCommand implements SimpleCommand {
     }
   }
 
+  @Override
+  public boolean hasPermission(Invocation invocation) {
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.HELP
+        .hasPermission(invocation.source(), "limboauth.commands.help");
+  }
+
   private void showHelp(CommandSource source) {
     HELP_MESSAGE.forEach(source::sendMessage);
 
@@ -108,23 +114,26 @@ public class LimboAuthCommand implements SimpleCommand {
   }
 
   private enum Subcommand {
-    RELOAD("Reload config.", (LimboAuthCommand parent, CommandSource source, String[] args) -> {
-      parent.plugin.reload();
-      source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
-    });
+    RELOAD("Reload config.", Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.RELOAD,
+        (LimboAuthCommand parent, CommandSource source, String[] args) -> {
+          parent.plugin.reload();
+          source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
+        });
 
     private final String command;
     private final String description;
+    private final CommandPermissionState permissionState;
     private final SubcommandExecutor executor;
 
-    Subcommand(String description, SubcommandExecutor executor) {
+    Subcommand(String description, CommandPermissionState permissionState, SubcommandExecutor executor) {
+      this.permissionState = permissionState;
       this.command = this.name().toLowerCase(Locale.ROOT);
       this.description = description;
       this.executor = executor;
     }
 
     public boolean hasPermission(CommandSource source) {
-      return source.hasPermission("limboauth.admin." + this.command);
+      return this.permissionState.hasPermission(source, "limboauth.admin." + this.command);
     }
 
     public Component getMessageLine() {

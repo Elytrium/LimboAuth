@@ -28,6 +28,7 @@ import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.player.GameMode;
+import net.elytrium.limboauth.command.CommandPermissionState;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.kyori.adventure.bossbar.BossBar;
@@ -284,6 +285,37 @@ public class Settings extends YamlConfig {
       public Title.Times toTimes() {
         return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
       }
+    }
+
+    @Create
+    public MAIN.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
+
+    @Comment({
+        "Available values: FALSE, TRUE, PERMISSION",
+        " FALSE - the command will be disallowed",
+        " TRUE - the command will be allowed if player has false permission state",
+        " PERMISSION - the command will be allowed if player has true permission state"
+    })
+    public static class COMMAND_PERMISSION_STATE {
+      @Comment("Permission: limboauth.commands.changepassword")
+      public CommandPermissionState CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.commands.destroysession")
+      public CommandPermissionState DESTROY_SESSION = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.commands.premium")
+      public CommandPermissionState PREMIUM = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.commands.totp")
+      public CommandPermissionState TOTP = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.commands.unregister")
+      public CommandPermissionState UNREGISTER = CommandPermissionState.PERMISSION;
+
+      @Comment("Permission: limboauth.admin.forcechangepassword")
+      public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.forceunregister")
+      public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.reload")
+      public CommandPermissionState RELOAD = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.help")
+      public CommandPermissionState HELP = CommandPermissionState.TRUE;
     }
 
     /*

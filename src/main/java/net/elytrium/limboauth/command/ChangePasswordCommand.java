@@ -21,7 +21,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
 import net.elytrium.commons.kyori.serialization.Serializer;
@@ -110,6 +109,7 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.changepassword") == Tristate.TRUE;
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.CHANGE_PASSWORD
+        .hasPermission(invocation.source(), "limboauth.commands.changepassword");
   }
 }

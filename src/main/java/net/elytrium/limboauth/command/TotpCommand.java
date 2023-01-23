@@ -21,7 +21,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import dev.samstevens.totp.qr.QrData;
 import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
@@ -187,6 +186,7 @@ public class TotpCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.totp") == Tristate.TRUE;
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.TOTP
+        .hasPermission(invocation.source(), "limboauth.commands.totp");
   }
 }

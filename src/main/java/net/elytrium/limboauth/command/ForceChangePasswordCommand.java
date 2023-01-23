@@ -93,6 +93,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().hasPermission("limboauth.admin.forcechangepassword");
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_CHANGE_PASSWORD
+        .hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
   }
 }

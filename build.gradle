@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.1.6")
+setVersion("1.1.7")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
@@ -221,4 +221,6 @@ String getCurrentShortRevision() {
 
         setStandardOutput(outputStream)
     }
+
+    return outputStream.toString().trim()
 }

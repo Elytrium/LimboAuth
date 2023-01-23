@@ -20,7 +20,6 @@ package net.elytrium.limboauth.command;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.permission.Tristate;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -102,6 +101,7 @@ public class UnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return invocation.source().getPermissionValue("limboauth.commands.unregister") == Tristate.TRUE;
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.UNREGISTER
+        .hasPermission(invocation.source(), "limboauth.commands.unregister");
   }
 }
