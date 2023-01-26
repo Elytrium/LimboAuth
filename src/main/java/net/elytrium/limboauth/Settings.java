@@ -27,6 +27,7 @@ import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
+import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
@@ -151,8 +152,13 @@ public class Settings extends YamlConfig {
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
-    @Comment("World file type: \"schematic\" (1.12.2 and lower, not recommended), \"structure\" block .nbt (any Minecraft version is supported, but the latest one is recommended).")
-    public String WORLD_FILE_TYPE = "structure";
+    @Comment({
+        "World file type:",
+        " SCHEMATIC (MCEdit .schematic, 1.12.2 and lower, not recommended)",
+        " STRUCTURE (structure block .nbt, any Minecraft version is supported, but the latest one is recommended).",
+        " WORLDEDIT_SCHEM (WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended)."
+    })
+    public BuiltInWorldFileType WORLD_FILE_TYPE = BuiltInWorldFileType.STRUCTURE;
     public String WORLD_FILE_PATH = "world.nbt";
     public boolean DISABLE_FALLING = true;
 

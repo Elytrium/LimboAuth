@@ -87,8 +87,6 @@ import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
-import net.elytrium.limboapi.api.file.SchematicFile;
-import net.elytrium.limboapi.api.file.StructureFile;
 import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
@@ -351,22 +349,7 @@ public class LimboAuth {
     if (Settings.IMP.MAIN.LOAD_WORLD) {
       try {
         Path path = this.dataDirectory.resolve(Settings.IMP.MAIN.WORLD_FILE_PATH);
-        WorldFile file;
-        switch (Settings.IMP.MAIN.WORLD_FILE_TYPE) {
-          case "schematic": {
-            file = new SchematicFile(path);
-            break;
-          }
-          case "structure": {
-            file = new StructureFile(path);
-            break;
-          }
-          default: {
-            LOGGER.error("Incorrect world file type.");
-            this.server.shutdown();
-            return;
-          }
-        }
+        WorldFile file = this.factory.openWorldFile(Settings.IMP.MAIN.WORLD_FILE_TYPE, path);
 
         Settings.MAIN.WORLD_COORDS coords = Settings.IMP.MAIN.WORLD_COORDS;
         file.toWorld(this.factory, authWorld, coords.X, coords.Y, coords.Z, Settings.IMP.MAIN.WORLD_LIGHT_LEVEL);
