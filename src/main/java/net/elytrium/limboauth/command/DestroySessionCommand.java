@@ -55,6 +55,6 @@ public class DestroySessionCommand implements SimpleCommand {
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
     return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.DESTROY_SESSION
-        .hasPermission(invocation.source(), "imboauth.commands.destroysession");
+        .hasPermission(invocation.source(), "limboauth.commands.destroysession");
   }
 }
