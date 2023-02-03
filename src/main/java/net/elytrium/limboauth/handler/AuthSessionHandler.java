@@ -432,6 +432,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.plugin.updateLoginData(this.proxyPlayer);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
+    } catch (Throwable e) {
+      e.printStackTrace();
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);
