@@ -682,18 +682,18 @@ public class LimboAuth {
 
       int statusCode = response.statusCode();
 
-      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT) {
+      if (Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT.contains(statusCode)) {
         return new PremiumResponse(PremiumState.RATE_LIMIT);
       }
 
       JsonElement jsonElement = JsonParser.parseString(response.body());
 
-      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS
+      if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
         return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
 
-      if (statusCode == Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS
+      if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
         return new PremiumResponse(PremiumState.CRACKED);
       }

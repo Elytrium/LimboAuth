@@ -185,17 +185,17 @@ public class Settings extends YamlConfig {
         "Responses with unlisted status codes will be identified as responses with a server error",
         "Set 200 if you use using Mojang or CloudFlare API"
     })
-    public int STATUS_CODE_USER_EXISTS = 200;
-    @Comment("Set 404 if you use Mojang or CloudFlare API")
-    public int STATUS_CODE_USER_NOT_EXISTS = 404;
+    public List<Integer> STATUS_CODE_USER_EXISTS = List.of(200);
+    @Comment("Set 204 and 404 if you use Mojang API, 404 if you use CloudFlare API")
+    public List<Integer> STATUS_CODE_USER_NOT_EXISTS = List.of(204, 404);
     @Comment("Set 429 if you use Mojang or CloudFlare API")
-    public int STATUS_CODE_RATE_LIMIT = 429;
+    public List<Integer> STATUS_CODE_RATE_LIMIT = List.of(429);
 
     @Comment({
         "Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}",
         "Sample CloudFlare API exists response: {\"uuid\":\"9c7024b2a48746b3b3934f397ae5d70f\",\"username\":\"hevav\", ...}",
         "",
-        "Sample Mojang API not exists response: {\"path\":\"/users/profiles/minecraft/someletters1234566\",\"errorMessage\":\"Couldn't find any profile with that name\"}",
+        "Sample Mojang API not exists response (sometimes can be empty): {\"path\":\"/users/profiles/minecraft/someletters1234566\",\"errorMessage\":\"Couldn't find any profile with that name\"}",
         "Sample CloudFlare API not exists response: {\"code\":404,\"error\":\"Not Found\",\"reason\":\"No user with the name 'someletters123456' was found\"}",
         "",
         "Responses with an invalid scheme will be identified as responses with a server error",
