@@ -91,6 +91,7 @@ import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
+import net.elytrium.limboauth.command.ForceRegisterCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
@@ -320,6 +321,7 @@ public class LimboAuth {
 
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
+    manager.unregister("forceregister");
     manager.unregister("premium");
     manager.unregister("forceunregister");
     manager.unregister("changepassword");
@@ -329,6 +331,7 @@ public class LimboAuth {
     manager.unregister("limboauth");
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
+    manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
@@ -903,6 +906,10 @@ public class LimboAuth {
 
   public Limbo getAuthServer() {
     return this.authServer;
+  }
+
+  public Pattern getNicknameValidationPattern() {
+    return this.nicknameValidationPattern;
   }
 
   private static class CachedUser {

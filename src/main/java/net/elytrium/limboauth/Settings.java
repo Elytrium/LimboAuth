@@ -320,6 +320,8 @@ public class Settings extends YamlConfig {
 
       @Comment("Permission: limboauth.admin.forcechangepassword")
       public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.forceregister")
+      public CommandPermissionState FORCE_REGISTER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.forceunregister")
       public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.reload")
@@ -432,6 +434,12 @@ public class Settings extends YamlConfig {
       public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby administator!";
       public String FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL = "{PRFX} &cUnable to change password for &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
+
+      public String FORCE_REGISTER_USAGE = "{PRFX} Usage: &6/forceregister <nickname> <password>";
+      public String FORCE_REGISTER_INCORRECT_NICKNAME = "{PRFX} &cNickname contains forbidden characters.";
+      public String FORCE_REGISTER_TAKEN_NICKNAME = "{PRFX} &cThis nickname is already taken.";
+      public String FORCE_REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered player &6{0}&a!";
+      public String FORCE_REGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to register player &6{0}&c.";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)

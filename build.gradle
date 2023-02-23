@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.1.11")
+setVersion("1.1.12")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_11)
@@ -33,8 +33,8 @@ repositories {
         setUrl("https://papermc.io/repo/repository/maven-public/")
     }
     maven {
-        setName("opencollab-repo")
-        setUrl("https://repo.opencollab.dev/maven-snapshots/")
+        setName("opencollab-snapshot")
+        setUrl("https://repo.opencollab.dev/maven-snapshots")
     }
 }
 
