@@ -908,6 +908,10 @@ public class LimboAuth {
     return this.authServer;
   }
 
+  public Pattern getNicknameValidationPattern() {
+    return this.nicknameValidationPattern;
+  }
+
   private static class CachedUser {
 
     private final long checkTime;
