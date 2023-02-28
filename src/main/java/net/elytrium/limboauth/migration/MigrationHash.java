@@ -24,6 +24,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Hex;
 import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import com.google.common.base.Charsets;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 
 @SuppressWarnings("unused")
 public enum MigrationHash {
@@ -77,7 +80,8 @@ public enum MigrationHash {
   SHA512_NLOGIN((hash, password) -> {
     String[] args = hash.split("\\$"); // $SHA$hash$salt
     return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
-  });
+  }),
+  CRC32C((hash, password) -> hash.equals(Hashing.crc32c().newHasher().putString(password, Charsets.UTF_8).hash().toString()));
 
   private final MigrationHashVerifier verifier;
 
