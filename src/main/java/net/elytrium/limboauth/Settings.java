@@ -235,7 +235,7 @@ public class Settings extends YamlConfig {
     })
     public static class MOD {
 
-      public boolean ENABLED = true;
+      public boolean ENABLED = false;
 
       @Comment("Should the plugin forbid logging in without a mod")
       public boolean LOGIN_ONLY_BY_MOD = false;
