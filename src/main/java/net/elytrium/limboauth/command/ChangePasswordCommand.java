@@ -92,7 +92,7 @@ public class ChangePasswordCommand implements SimpleCommand {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(needOldPass ? args[1] : args[0]));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(needOldPass ? args[1] : args[0], player.getSalt()));
         updateBuilder.update();
 
         this.plugin.removePlayerFromCache(username);

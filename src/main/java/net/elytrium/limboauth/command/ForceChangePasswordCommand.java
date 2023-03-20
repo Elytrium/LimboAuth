@@ -65,7 +65,8 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   public void execute(SimpleCommand.Invocation invocation) {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
-
+    return;
+/*
     if (args.length == 2) {
       String nickname = args[0];
       String newPassword = args[1];
@@ -74,7 +75,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(newPassword));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(newPassword ,"FORCECHANGE"));
         updateBuilder.update();
 
         this.plugin.removePlayerFromCache(nickname);
@@ -89,6 +90,8 @@ public class ForceChangePasswordCommand implements SimpleCommand {
     } else {
       source.sendMessage(this.usage);
     }
+
+ */
   }
 
   @Override

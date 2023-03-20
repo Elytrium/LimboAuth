@@ -18,6 +18,7 @@
 package net.elytrium.limboauth.handler;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.google.common.hash.Hashing;
 import com.google.common.primitives.Longs;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
@@ -515,7 +516,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
   }
-
+/*
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
     String hash = player.getHash();
     boolean isCorrect = HASH_VERIFIER.verify(
@@ -537,6 +538,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     return isCorrect;
   }
+  */
+
+  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
+    String hash = player.getHash();
+    String salt = player.getSalt();
+    boolean isCorrect = genHash(password, salt).equals(hash);
+    return isCorrect;
+  }
+
+  public static String genHash(String password , String salt) {
+    String str = Hashing.sha512().hashString(password, StandardCharsets.UTF_8).toString();
+    return Hashing.sha512().hashString(str + salt, StandardCharsets.UTF_8).toString();
+  }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
     try {
@@ -554,14 +568,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
     }
-  }
-
-  /**
-   * Use {@link RegisteredPlayer#genHash(String)} or {@link RegisteredPlayer#setPassword}
-   */
-  @Deprecated()
-  public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
   }
 
   public static CodeVerifier getTotpCodeVerifier() {
