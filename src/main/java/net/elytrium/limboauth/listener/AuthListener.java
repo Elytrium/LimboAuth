@@ -65,10 +65,13 @@ public class AuthListener {
 
   @Subscribe
   public void onPreLoginEvent(PreLoginEvent event) {
+    System.out.println("PreLoginEvent for " + event.getUsername());
     if (!event.getResult().isForceOfflineMode()) {
       if (this.plugin.isPremium(event.getUsername())) {
+        System.out.println("Premium player " + event.getUsername() + " is connecting");
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
       } else {
+        System.out.println("Cracked player " + event.getUsername() + " is connecting");
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       }
     } else {
@@ -96,7 +99,7 @@ public class AuthListener {
     return holder.version() != 3;
   }
 
-  @Subscribe(order = PostOrder.FIRST)
+  @Subscribe
   public void onProxyDisconnect(DisconnectEvent event) {
     this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
   }

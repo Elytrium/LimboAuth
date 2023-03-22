@@ -675,6 +675,7 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumExternal(String nickname) {
+    System.out.println("CHECK " + nickname + " WITH MOJANG");
     try {
       HttpResponse<String> response = this.client.send(
           HttpRequest.newBuilder()
@@ -693,11 +694,13 @@ public class LimboAuth {
 
       if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        System.out.println("MOJANG RESPONSE : PREMIUM " + nickname);
         return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
 
       if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        System.out.println("MOJANG RESPONSE : CRACKED " + nickname);
         return new PremiumResponse(PremiumState.CRACKED);
       }
 
@@ -709,6 +712,7 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumInternal(String nickname) {
+    System.out.println("CHECK " + nickname + " WITH INTERNAL DATABASE");
     try {
       QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
       crackedCountQuery.where()
@@ -725,10 +729,14 @@ public class LimboAuth {
       premiumCountQuery.setCountOf(true);
 
       if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
+        System.out.println("INTERNAL RESPONSE : CRACKED " + nickname);
+        System.out.println("DEBUG : " + this.playerDao.countOf(crackedCountQuery.prepare()) + " --------------");
         return new PremiumResponse(PremiumState.CRACKED);
       }
 
       if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
+        System.out.println("INTERNAL RESPONSE : PREMIUM " + nickname);
+        System.out.println("DEBUG : " + this.playerDao.countOf(premiumCountQuery.prepare()) + " --------------");
         return new PremiumResponse(PremiumState.PREMIUM);
       }
 
@@ -759,6 +767,7 @@ public class LimboAuth {
   private boolean checkIsPremiumAndCache(String nickname, Function<String, PremiumResponse>... functions) {
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     if (this.premiumCache.containsKey(lowercaseNickname)) {
+      System.out.println("CACHE RESPONSE : " + this.premiumCache.get(lowercaseNickname).isPremium() + " " + nickname);
       return this.premiumCache.get(lowercaseNickname).isPremium();
     }
 
