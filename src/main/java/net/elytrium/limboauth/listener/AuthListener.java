@@ -96,7 +96,7 @@ public class AuthListener {
     return holder.version() != 3;
   }
 
-  @Subscribe
+  @Subscribe(order = PostOrder.FIRST)
   public void onProxyDisconnect(DisconnectEvent event) {
     this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
   }
