@@ -244,7 +244,7 @@ public class RegisteredPlayer {
   }
 
   public String getLoginIp() {
-    return this.loginIp == null ? "" : this.uuid;
+    return this.loginIp == null ? "" : this.loginIp;
   }
 
   public RegisteredPlayer setLoginIp(String loginIp) {
