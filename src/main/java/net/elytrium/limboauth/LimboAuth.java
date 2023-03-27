@@ -64,6 +64,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -675,11 +676,11 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumExternal(String nickname) {
-    System.out.println("CHECK " + nickname + " WITH MOJANG");
     try {
       HttpResponse<String> response = this.client.send(
           HttpRequest.newBuilder()
               .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
+                .timeout(Duration.ofSeconds(3))
               .build(),
           HttpResponse.BodyHandlers.ofString()
       );
@@ -695,6 +696,19 @@ public class LimboAuth {
       if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
         System.out.println("MOJANG RESPONSE : PREMIUM " + nickname);
+        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+        if(!player.getHash().equals("")){
+          try {
+            player.setHash("");
+            this.playerDao.update(player);
+            System.out.println(nickname + " est détécté premium par Mojang, je retire le hash de la base de donnée");
+            removePlayerFromCache(nickname);
+            ((Player) server.getPlayer(nickname).get()).disconnect(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL));
+          } catch (SQLException e) {
+            ((Player) server.getPlayer(nickname).get()).sendMessage(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED));
+            throw new SQLRuntimeException(e);
+          }
+        }
         return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
 
@@ -712,7 +726,6 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumInternal(String nickname) {
-    System.out.println("CHECK " + nickname + " WITH INTERNAL DATABASE");
     try {
       QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
       crackedCountQuery.where()
@@ -730,13 +743,11 @@ public class LimboAuth {
 
       if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
         System.out.println("INTERNAL RESPONSE : CRACKED " + nickname);
-        System.out.println("DEBUG : " + this.playerDao.countOf(crackedCountQuery.prepare()) + " --------------");
         return new PremiumResponse(PremiumState.CRACKED);
       }
 
       if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
         System.out.println("INTERNAL RESPONSE : PREMIUM " + nickname);
-        System.out.println("DEBUG : " + this.playerDao.countOf(premiumCountQuery.prepare()) + " --------------");
         return new PremiumResponse(PremiumState.PREMIUM);
       }
 

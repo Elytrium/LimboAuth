@@ -65,18 +65,15 @@ public class AuthListener {
 
   @Subscribe
   public void onPreLoginEvent(PreLoginEvent event) {
-    System.out.println("PreLoginEvent for " + event.getUsername());
-    if (!event.getResult().isForceOfflineMode()) {
+    //if (!event.getResult().isForceOfflineMode()) {
       if (this.plugin.isPremium(event.getUsername())) {
-        System.out.println("Premium player " + event.getUsername() + " is connecting");
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
       } else {
-        System.out.println("Cracked player " + event.getUsername() + " is connecting");
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       }
-    } else {
-      this.plugin.saveForceOfflineMode(event.getUsername());
-    }
+    //} else {
+      //this.plugin.saveForceOfflineMode(event.getUsername());
+    //}
   }
 
   // Temporarily disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
