@@ -505,6 +505,7 @@ public class LimboAuth {
   }
 
   public boolean needAuth(Player player) {
+    if (!Settings.IMP.MAIN.IP_SESSIONS) return true;
     String username = player.getUsername();
     String lowercaseUsername = username.toLowerCase(Locale.ROOT);
     if (!this.cachedAuthChecks.containsKey(lowercaseUsername)) {
