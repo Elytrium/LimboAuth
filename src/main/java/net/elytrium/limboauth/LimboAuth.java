@@ -142,6 +142,7 @@ public class LimboAuth {
   @MonotonicNonNull
   private static Serializer SERIALIZER;
 
+  private final Map<String, CachedUser> cooldownCache = new ConcurrentHashMap<>();
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
@@ -171,6 +172,7 @@ public class LimboAuth {
   private Component bruteforceAttemptKick;
   private Component nicknameInvalidKick;
   private Component reconnectKick;
+  private ScheduledTask purgeCooldownCacheTask;
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
   private ScheduledTask purgeBruteforceCacheTask;
@@ -287,6 +289,7 @@ public class LimboAuth {
       }
     }
 
+    this.cooldownCache.clear();
     this.cachedAuthChecks.clear();
     this.premiumCache.clear();
     this.bruteforceCache.clear();
@@ -380,6 +383,18 @@ public class LimboAuth {
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
+
+    if (this.purgeCooldownCacheTask != null) {
+      this.purgeCooldownCacheTask.cancel();
+    }
+
+    if (Settings.IMP.MAIN.PURGE_COOLDOWN_CACHE_MILLIS > 0) {
+      this.purgeCooldownCacheTask = this.server.getScheduler()
+          .buildTask(this, () -> this.checkCache(this.cooldownCache, Settings.IMP.MAIN.PURGE_COOLDOWN_CACHE_MILLIS))
+          .delay(Settings.IMP.MAIN.PURGE_COOLDOWN_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+          .repeat(Settings.IMP.MAIN.PURGE_COOLDOWN_CACHE_MILLIS, TimeUnit.MILLISECONDS)
+          .schedule();
+    }
 
     if (this.purgeCacheTask != null) {
       this.purgeCacheTask.cancel();
@@ -854,6 +869,16 @@ public class LimboAuth {
     }
 
     return user;
+  }
+
+  public boolean isCooldown(String nickname) {
+    return this.cooldownCache.get(nickname) != null;
+  }
+
+  public void addCooldown(String nickname) {
+    if (this.purgeCooldownCacheTask != null) {
+      this.cooldownCache.put(nickname, new CachedUser(System.currentTimeMillis()));
+    }
   }
 
   public void clearBruteforceAttempts(InetAddress address) {

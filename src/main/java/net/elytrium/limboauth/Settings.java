@@ -129,6 +129,7 @@ public class Settings extends YamlConfig {
     public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public Dimension DIMENSION = Dimension.THE_END;
+    public long PURGE_COOLDOWN_CACHE_MILLIS = 10000;
     public long PURGE_CACHE_MILLIS = 3600000;
     public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
@@ -459,6 +460,8 @@ public class Settings extends YamlConfig {
       public String DESTROY_SESSION_SUCCESSFUL = "{PRFX} &eYour session is now destroyed, you'll need to log in again after reconnecting.";
 
       public String MOD_SESSION_EXPIRED = "{PRFX} Your session has expired, log in again.";
+
+      public String COOLDOWN = "{PRFX} &cWait few seconds before using this command again.";
     }
   }
 

@@ -43,6 +43,7 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component errorOccurred;
   private final Component usage;
   private final Component notPlayer;
+  private final Component cooldown;
 
   public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
     this.plugin = plugin;
@@ -56,6 +57,7 @@ public class ChangePasswordCommand implements SimpleCommand {
     this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
     this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_USAGE);
     this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+    this.cooldown = serializer.deserialize(Settings.IMP.MAIN.STRINGS.COOLDOWN);
   }
 
   @Override
@@ -65,6 +67,11 @@ public class ChangePasswordCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       String username = ((Player) source).getUsername();
+      if (this.plugin.isCooldown(username)) {
+        source.sendMessage(this.cooldown);
+        return;
+      }
+
       RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
 
       if (player == null) {
@@ -96,6 +103,7 @@ public class ChangePasswordCommand implements SimpleCommand {
         updateBuilder.update();
 
         this.plugin.removePlayerFromCache(username);
+        this.plugin.addCooldown(username);
 
         source.sendMessage(this.successful);
       } catch (SQLException e) {
