@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth.migration;
 
+import com.google.common.hash.Hashing;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import java.nio.charset.StandardCharsets;
@@ -77,7 +78,9 @@ public enum MigrationHash {
   SHA512_NLOGIN((hash, password) -> {
     String[] args = hash.split("\\$"); // $SHA$hash$salt
     return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
-  });
+  }),
+  @SuppressWarnings("UnstableApiUsage")
+  CRC32C((hash, password) -> hash.equals(Hashing.crc32c().hashString(password, StandardCharsets.UTF_8).toString()));
 
   private final MigrationHashVerifier verifier;
 

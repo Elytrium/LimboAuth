@@ -125,6 +125,7 @@ public class Settings extends YamlConfig {
         "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
         "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
         "SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)",
+        "CRC32C - Basic CRC32C hash",
     })
     public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
