@@ -111,6 +111,7 @@ public class AuthListener {
           .buildTask(this.plugin, () -> postLoginTasks.get(uuid).run())
           .delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS)
           .schedule();
+      postLoginTasks.remove(uuid);
     }
   }
 

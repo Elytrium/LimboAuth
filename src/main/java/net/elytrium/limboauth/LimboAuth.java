@@ -697,17 +697,24 @@ public class LimboAuth {
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
         System.out.println("MOJANG RESPONSE : PREMIUM " + nickname);
         RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
-        if(!player.getHash().equals("")){
-          try {
-            player.setHash("");
-            this.playerDao.update(player);
-            System.out.println(nickname + " est détécté premium par Mojang, je retire le hash de la base de donnée");
-            removePlayerFromCache(nickname);
-            ((Player) server.getPlayer(nickname).get()).disconnect(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL));
-          } catch (SQLException e) {
-            ((Player) server.getPlayer(nickname).get()).sendMessage(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED));
-            throw new SQLRuntimeException(e);
+        if (player == null) {
+          return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+        }
+        try{
+          if(!player.getHash().equals("")){
+            try {
+              player.setHash("");
+              this.playerDao.update(player);
+              System.out.println(nickname + " est détécté premium par Mojang, je retire le hash de la base de donnée");
+              removePlayerFromCache(nickname);
+              ((Player) server.getPlayer(nickname).get()).disconnect(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL));
+            } catch (SQLException e) {
+              ((Player) server.getPlayer(nickname).get()).sendMessage(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED));
+              throw new SQLRuntimeException(e);
+            }
           }
+        } catch (Exception e){
+          e.printStackTrace();
         }
         return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
