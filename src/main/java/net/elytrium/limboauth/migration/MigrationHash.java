@@ -77,7 +77,8 @@ public enum MigrationHash {
   SHA512_NLOGIN((hash, password) -> {
     String[] args = hash.split("\\$"); // $SHA$hash$salt
     return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
-  });
+  }),
+  PLAINTEXT(String::equals);
 
   private final MigrationHashVerifier verifier;
 
