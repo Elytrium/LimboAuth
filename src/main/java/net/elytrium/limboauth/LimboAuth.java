@@ -204,7 +204,12 @@ public class LimboAuth {
   public void onProxyInitialization(ProxyInitializeEvent event) {
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
-    this.reload();
+    try {
+      this.reload();
+    } catch (SQLRuntimeException exception) {
+      LOGGER.error("SQL EXCEPTION CAUGHT.", exception);
+      this.server.shutdown();
+    }
 
     Metrics metrics = this.metricsFactory.make(this, 13700);
     metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.MAIN.FLOODGATE_NEED_AUTH)));
