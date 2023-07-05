@@ -468,7 +468,7 @@ public class Settings extends YamlConfig {
   @Comment("Database settings")
   public static class DATABASE {
 
-    @Comment("Database type: mysql, postgresql, sqlite or h2.")
+    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
     public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
 
     @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")
