@@ -126,6 +126,7 @@ public class Settings extends YamlConfig {
         "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
         "SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)",
         "CRC32C - Basic CRC32C hash",
+        "PLAINTEXT - Plain text",
     })
     public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
@@ -469,7 +470,7 @@ public class Settings extends YamlConfig {
   @Comment("Database settings")
   public static class DATABASE {
 
-    @Comment("Database type: mysql, postgresql, sqlite or h2.")
+    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
     public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
 
     @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")

@@ -204,7 +204,12 @@ public class LimboAuth {
   public void onProxyInitialization(ProxyInitializeEvent event) {
     System.setProperty("com.j256.simplelogging.level", "ERROR");
 
-    this.reload();
+    try {
+      this.reload();
+    } catch (SQLRuntimeException exception) {
+      LOGGER.error("SQL EXCEPTION CAUGHT.", exception);
+      this.server.shutdown();
+    }
 
     Metrics metrics = this.metricsFactory.make(this, 13700);
     metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.MAIN.FLOODGATE_NEED_AUTH)));
@@ -448,6 +453,7 @@ public class LimboAuth {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
         break;
       }
+      case MARIADB:
       case MYSQL: {
         findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
         break;
