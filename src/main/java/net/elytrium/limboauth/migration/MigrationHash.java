@@ -17,6 +17,7 @@
 
 package net.elytrium.limboauth.migration;
 
+import com.google.common.hash.Hashing;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 import java.nio.charset.StandardCharsets;
@@ -39,7 +40,9 @@ public enum MigrationHash {
   ARGON2(new Argon2Verifier()),
   SHA512_DBA((hash, password) -> {
     String[] args = hash.split("\\$"); // SHA$salt$hash
-    return args.length == 3 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[1], "SHA-512"));
+    return args.length 
+      
+      3 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[1], "SHA-512"));
   }),
   SHA512_NP((hash, password) -> {
     String[] args = hash.split("\\$"); // SHA$salt$hash
@@ -47,7 +50,8 @@ public enum MigrationHash {
   }),
   SHA512_P((hash, password) -> {
     String[] args = hash.split("\\$"); // $SHA$salt$hash
-    return args.length == 4 && args[3].equals(getDigest(password + args[2], "SHA-512"));
+    return args.length == 4 && args[3].equals(ge
+                                              tDigest(password + args[2], "SHA-512"));
   }),
   SHA256_NP((hash, password) -> {
     String[] args = hash.split("\\$"); // SHA$salt$hash
@@ -78,6 +82,8 @@ public enum MigrationHash {
     String[] args = hash.split("\\$"); // $SHA$hash$salt
     return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
   }),
+  @SuppressWarnings("UnstableApiUsage")
+  CRC32C((hash, password) -> hash.equals(Hashing.crc32c().hashString(password, StandardCharsets.UTF_8).toString())),
   PLAINTEXT(String::equals);
 
   private final MigrationHashVerifier verifier;
