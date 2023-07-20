@@ -43,10 +43,10 @@ public class RegisteredPlayer {
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
-  @DatabaseField(canBeNull = false, columnName = NICKNAME_FIELD)
+  @DatabaseField(index = true, canBeNull = false, columnName = NICKNAME_FIELD)
   private String nickname;
 
-  @DatabaseField(id = true, columnName = LOWERCASE_NICKNAME_FIELD)
+  @DatabaseField(index = true, id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
 
   @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
@@ -61,10 +61,10 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = UUID_FIELD)
+  @DatabaseField(index = true, columnName = UUID_FIELD)
   private String uuid = "";
 
-  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
+  @DatabaseField(index = true, columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid = "";
 
   @DatabaseField(columnName = LOGIN_IP_FIELD)
