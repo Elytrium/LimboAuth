@@ -72,6 +72,13 @@ public enum DatabaseLibrary {
           (dir, hostname, database) ->
               "jdbc:mysql://" + hostname + "/" + database
   ),
+  MARIADB(
+      BaseLibrary.MARIADB,
+          (classLoader, dir, jdbc, user, password)
+              -> fromDriver(classLoader.loadClass("org.mariadb.jdbc.Driver"), jdbc, user, password, true),
+          (dir, hostname, database) ->
+              "jdbc:mariadb://" + hostname + "/" + database
+  ),
   POSTGRESQL(
       BaseLibrary.POSTGRESQL,
           (classLoader, dir, jdbc, user, password) -> fromDriver(classLoader.loadClass("org.postgresql.Driver"), jdbc, user, password, true),

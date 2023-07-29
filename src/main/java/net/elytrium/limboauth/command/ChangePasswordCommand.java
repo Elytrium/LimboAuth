@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
@@ -90,12 +91,19 @@ public class ChangePasswordCommand implements SimpleCommand {
       }
 
       try {
+        final String oldHash = player.getHash();
+        final String newPassword = needOldPass ? args[1] : args[0];
+        final String newHash = RegisteredPlayer.genHash(newPassword);
+
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, RegisteredPlayer.genHash(needOldPass ? args[1] : args[0], player.getSalt()));
+        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
         updateBuilder.update();
 
         this.plugin.removePlayerFromCache(username);
+
+        this.plugin.getServer().getEventManager().fireAndForget(
+            new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
 
         source.sendMessage(this.successful);
       } catch (SQLException e) {

@@ -125,6 +125,8 @@ public class Settings extends YamlConfig {
         "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
         "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
         "SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)",
+        "CRC32C - Basic CRC32C hash",
+        "PLAINTEXT - Plain text",
     })
     public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
@@ -433,6 +435,7 @@ public class Settings extends YamlConfig {
       public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
       public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby administator!";
       public String FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL = "{PRFX} &cUnable to change password for &6{0}&c. Most likely this player has never been on this server.";
+      public String FORCE_CHANGE_PASSWORD_NOT_REGISTERED = "{PRFX} &cPlayer &6{0}&c is not registered.";
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
 
       public String FORCE_REGISTER_USAGE = "{PRFX} Usage: &6/forceregister <nickname> <password>";
@@ -468,7 +471,7 @@ public class Settings extends YamlConfig {
   @Comment("Database settings")
   public static class DATABASE {
 
-    @Comment("Database type: mysql, postgresql, sqlite or h2.")
+    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
     public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
 
     @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")

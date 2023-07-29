@@ -40,7 +40,12 @@ public enum BaseLibrary {
   MYSQL(
       "com.mysql",
       "mysql-connector-j",
-      "8.0.31"
+      "8.0.33"
+  ),
+  MARIADB(
+      "org.mariadb.jdbc",
+      "mariadb-java-client",
+      "3.1.4"
   ),
   POSTGRESQL(
       "org.postgresql",

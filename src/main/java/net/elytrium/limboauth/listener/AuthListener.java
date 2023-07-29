@@ -35,7 +35,6 @@ import com.velocitypowered.proxy.protocol.packet.ServerLogin;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import net.elytrium.commons.utils.reflection.ReflectionException;
@@ -104,12 +103,13 @@ public class AuthListener {
   @Subscribe
   public void onPostLogin(PostLoginEvent event) {
     UUID uuid = event.getPlayer().getUniqueId();
-    final Runnable postLoginTask = plugin.getPostLoginTasks().remove(uuid);
+    Runnable postLoginTask = this.plugin.getPostLoginTasks().remove(uuid);
     if (postLoginTask != null) {
+      // We need to delay for player's client to finish switching the server, it takes a little time.
       this.plugin.getServer().getScheduler()
-              .buildTask(this.plugin, postLoginTask)
-              .delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS)
-              .schedule();
+          .buildTask(this.plugin, postLoginTask)
+          .delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS)
+          .schedule();
     }
   }
 
