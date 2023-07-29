@@ -84,7 +84,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         }
 
         final String oldHash = registeredPlayer.getHash();
-        final String newHash = RegisteredPlayer.genHash(newPassword);
+        final String newHash = RegisteredPlayer.genHash(newPassword, registeredPlayer.getSalt());
 
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));

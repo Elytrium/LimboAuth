@@ -93,7 +93,7 @@ public class ChangePasswordCommand implements SimpleCommand {
       try {
         final String oldHash = player.getHash();
         final String newPassword = needOldPass ? args[1] : args[0];
-        final String newHash = RegisteredPlayer.genHash(newPassword);
+        final String newHash = RegisteredPlayer.genHash(newPassword, player.getSalt());
 
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
