@@ -307,10 +307,16 @@ public class LimboAuth {
           dbConfig.PASSWORD
       );
     } catch (ReflectiveOperationException e) {
+      LOGGER.error("The server is down because it couldn't connect to the database.");
+      this.server.shutdown();
       throw new ReflectionException(e);
     } catch (SQLException e) {
+      LOGGER.error("The server is down because it couldn't connect to the database.");
+      this.server.shutdown();
       throw new SQLRuntimeException(e);
     } catch (IOException | URISyntaxException e) {
+      LOGGER.error("The server is down because it couldn't connect to the database.");
+      this.server.shutdown();
       throw new IllegalArgumentException(e);
     }
 
