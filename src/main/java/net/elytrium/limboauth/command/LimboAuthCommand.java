@@ -20,12 +20,17 @@ package net.elytrium.limboauth.command;
 import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -118,7 +123,27 @@ public class LimboAuthCommand implements SimpleCommand {
         (LimboAuthCommand parent, CommandSource source, String[] args) -> {
           parent.plugin.reload();
           source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
-        });
+        }),
+    PLAYER("Get information about a player", Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.PLAYER,
+            (LimboAuthCommand parent, CommandSource source, String[] args) -> {
+              if (args.length < 2) {
+                source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.PLAYER_USAGE));
+                return;
+              }
+              RegisteredPlayer player = AuthSessionHandler.fetchInfo(parent.plugin.getPlayerDao(), args[1]);
+              if (player == null) {
+                source.sendMessage(LimboAuth.getSerializer().deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.PLAYER_NOT_FOUND, args[1])));
+                return;
+              }
+              source.sendMessage(LimboAuth.getSerializer().deserialize(MessageFormat.format(
+                      Settings.IMP.MAIN.STRINGS.PLAYER,
+                      player.getNickname(),
+                      Objects.requireNonNullElse(player.getIP(), "-"),
+                      new Date(player.getRegDate()),
+                      Objects.requireNonNullElse(player.getLoginIp(), "-"),
+                      new Date(player.getLoginDate())
+              )));
+            });
 
     private final String command;
     private final String description;
