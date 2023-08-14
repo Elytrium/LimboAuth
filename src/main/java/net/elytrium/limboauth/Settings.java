@@ -180,7 +180,8 @@ public class Settings extends YamlConfig {
         "Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/",
         "Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"
     })
-    public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+    public String ISPREMIUM_AUTH_URL_BACKUP = "https://api.mojang.com/users/profiles/minecraft/%s";
+    public String ISPREMIUM_AUTH_URL = "https://api.ashcon.app/mojang/v2/user/%s";
 
     @Comment({
         "Status codes (see the comment above)",

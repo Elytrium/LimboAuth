@@ -680,16 +680,31 @@ public class LimboAuth {
 
     return true;
   }
+  private HttpResponse<String> tryAuthentication(String nickname, String url) throws IOException, InterruptedException {
+    return this.client.send(
+            HttpRequest.newBuilder()
+                    .uri(URI.create(String.format(url, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
+                    .timeout(Duration.ofSeconds(3))
+                    .build(),
+            HttpResponse.BodyHandlers.ofString()
+    );
+  }
 
   public PremiumResponse isPremiumExternal(String nickname) {
+    HttpResponse<String> response;
     try {
-      HttpResponse<String> response = this.client.send(
-          HttpRequest.newBuilder()
-              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
-                .timeout(Duration.ofSeconds(3))
-              .build(),
-          HttpResponse.BodyHandlers.ofString()
-      );
+      // Essayez d'abord avec l'URL principale
+      response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL);
+    } catch (Exception e) {
+      LOGGER.warn("Failed to authenticate with primary URL. Trying backup...", e);
+      try {
+        // Si l'URL principale échoue, essayez avec l'URL de secours
+        response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL_BACKUP);
+      } catch (Exception e1) {
+        LOGGER.error("Unable to authenticate with both primary and backup URLs.", e1);
+        return new PremiumResponse(PremiumState.ERROR);
+      }
+    }
 
       int statusCode = response.statusCode();
 
@@ -732,10 +747,6 @@ public class LimboAuth {
       }
 
       return new PremiumResponse(PremiumState.ERROR);
-    } catch (IOException | InterruptedException e) {
-      LOGGER.error("Unable to authenticate with Mojang.", e);
-      return new PremiumResponse(PremiumState.ERROR);
-    }
   }
 
   public PremiumResponse isPremiumInternal(String nickname) {
