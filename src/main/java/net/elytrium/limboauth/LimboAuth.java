@@ -664,21 +664,32 @@ public class LimboAuth {
     return player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_13) >= 0 ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
   }
 
-  private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
-    if (!scheme.isEmpty()) {
-      if (!(jsonElement instanceof JsonObject)) {
-        return false;
-      }
+  private boolean validateScheme(JsonElement jsonElement, List<List<String>> schemes) {
+    if (!(jsonElement instanceof JsonObject)) {
+      return false;
+    }
 
-      JsonObject object = (JsonObject) jsonElement;
+    JsonObject object = (JsonObject) jsonElement;
+
+    // Boucle sur chaque schéma
+    for (List<String> scheme : schemes) {
+      boolean validScheme = true;
+
+      // Vérifier si tous les champs du schéma sont présents dans l'objet JSON
       for (String field : scheme) {
         if (!object.has(field)) {
-          return false;
+          validScheme = false;
+          break; // Ce schéma n'est pas valide, passez au suivant
         }
+      }
+
+      // Si un schéma valide a été trouvé, retournez true
+      if (validScheme) {
+        return true;
       }
     }
 
-    return true;
+    return false; // Aucun schéma valide n'a été trouvé
   }
   private HttpResponse<String> tryAuthentication(String nickname, String url) throws IOException, InterruptedException {
     return this.client.send(
@@ -690,38 +701,59 @@ public class LimboAuth {
     );
   }
 
+  public PremiumResponse getPremiumResponse(JsonElement jsonElement) {
+    JsonObject jsonObject = (JsonObject) jsonElement;
+
+    String uuidValue;
+    if (jsonObject.has(Settings.IMP.MAIN.JSON_UUID_FIELD)) {
+      uuidValue = jsonObject.get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString();
+    } else if (jsonObject.has("uuid")) {
+      uuidValue = jsonObject.get("uuid").getAsString();
+    } else {
+      throw new IllegalArgumentException("JSON object does not have 'id' or 'uuid' field.");
+    }
+
+    return new PremiumResponse(PremiumState.PREMIUM_USERNAME, uuidValue);
+  }
+
   public PremiumResponse isPremiumExternal(String nickname) {
     HttpResponse<String> response;
+
+
     try {
       // Essayez d'abord avec l'URL principale
       response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL);
     } catch (Exception e) {
+
       LOGGER.warn("Failed to authenticate with primary URL. Trying backup...", e);
       try {
         // Si l'URL principale échoue, essayez avec l'URL de secours
         response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL_BACKUP);
       } catch (Exception e1) {
+
         LOGGER.error("Unable to authenticate with both primary and backup URLs.", e1);
         return new PremiumResponse(PremiumState.ERROR);
       }
     }
 
-      int statusCode = response.statusCode();
+    int statusCode = response.statusCode();
 
-      if (Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT.contains(statusCode)) {
-        return new PremiumResponse(PremiumState.RATE_LIMIT);
-      }
+    if (Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT.contains(statusCode)) {
+      return new PremiumResponse(PremiumState.RATE_LIMIT);
+    }
 
-      JsonElement jsonElement = JsonParser.parseString(response.body());
+    JsonElement jsonElement = JsonParser.parseString(response.body());
 
-      if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
-          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+    if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)) {
+
+      if (this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+
         System.out.println("MOJANG RESPONSE : PREMIUM " + nickname);
         RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
         if (player == null) {
-          return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+          return getPremiumResponse(jsonElement);
         }
-        try{
+        try {
           if(!player.getHash().equals("")){
             try {
               player.setHash("");
@@ -734,20 +766,25 @@ public class LimboAuth {
               throw new SQLRuntimeException(e);
             }
           }
-        } catch (Exception e){
+        } catch (Exception e) {
           e.printStackTrace();
         }
-        return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+        return getPremiumResponse(jsonElement);
       }
+    }
 
-      if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)
-          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+    if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)) {
+
+      if (this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
+
         System.out.println("MOJANG RESPONSE : CRACKED " + nickname);
         return new PremiumResponse(PremiumState.CRACKED);
       }
+    }
 
-      return new PremiumResponse(PremiumState.ERROR);
+    return new PremiumResponse(PremiumState.ERROR);
   }
+
 
   public PremiumResponse isPremiumInternal(String nickname) {
     try {

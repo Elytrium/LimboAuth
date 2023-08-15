@@ -85,7 +85,7 @@ public class Settings extends YamlConfig {
     @Comment("Forces all players to get offline uuid")
     public boolean FORCE_OFFLINE_UUID = false;
     @Comment("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API.")
-    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
+    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = false;
     @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
     public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
     @Comment({
@@ -204,9 +204,14 @@ public class Settings extends YamlConfig {
         "Responses with an invalid scheme will be identified as responses with a server error",
         "Set this parameter to [], to disable JSON scheme validation"
     })
-    public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
+    public List<List<String>> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of(
+            List.of("name", "id"),
+            List.of("uuid", "username")
+    );
     public String JSON_UUID_FIELD = "id";
-    public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
+    public List<List<String>> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of(
+            List.of()
+    );
 
     @Comment({
         "If Mojang rate-limits your server, we cannot determine if the player is premium or not",
