@@ -29,7 +29,6 @@ import net.elytrium.limboauth.Settings;
 @DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
 
-  public static final String NICKNAME_FIELD = "NICKNAME";
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
   public static final String HASH_FIELD = "HASH";
   public static final String IP_FIELD = "IP";
@@ -37,14 +36,11 @@ public class RegisteredPlayer {
   public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
   public static final String REG_DATE_FIELD = "REGDATE";
   public static final String LOGIN_DATE_FIELD = "LOGINDATE";
-  public static final String UUID_FIELD = "UUID";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
   public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
-  @DatabaseField(canBeNull = false, columnName = NICKNAME_FIELD)
-  private String nickname;
 
   @DatabaseField(id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
@@ -61,8 +57,6 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = UUID_FIELD)
-  private String uuid = "";
 
   @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid = "";
@@ -77,15 +71,12 @@ public class RegisteredPlayer {
   private Long tokenIssuedAt = System.currentTimeMillis();
 
   @Deprecated
-  public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
-    this.nickname = nickname;
-    this.lowercaseNickname = lowercaseNickname;
+  public RegisteredPlayer(String nickname, String hash, String ip, String totpToken, Long regDate, String premiumUuid, String loginIp, Long loginDate) {
+    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     this.hash = hash;
     this.ip = ip;
     this.totpToken = totpToken;
     this.regDate = regDate;
-    this.uuid = uuid;
     this.premiumUuid = premiumUuid;
     this.loginIp = loginIp;
     this.loginDate = loginDate;
@@ -100,9 +91,8 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
-    this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    this.uuid = uuid;
+    this.premiumUuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
   }
@@ -116,14 +106,13 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setNickname(String nickname) {
-    this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
 
     return this;
   }
 
   public String getNickname() {
-    return this.nickname == null ? this.lowercaseNickname : this.nickname;
+    return this.lowercaseNickname;
   }
 
   public String getLowercaseNickname() {
@@ -179,13 +168,13 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setUuid(String uuid) {
-    this.uuid = uuid;
+    this.premiumUuid = uuid;
 
     return this;
   }
 
   public String getUuid() {
-    return this.uuid == null ? "" : this.uuid;
+    return premiumUuid;
   }
 
   public RegisteredPlayer setPremiumUuid(String premiumUuid) {

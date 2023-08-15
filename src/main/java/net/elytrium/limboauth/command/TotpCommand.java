@@ -30,6 +30,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Locale;
+
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -122,7 +124,7 @@ public class TotpCommand implements SimpleCommand {
             String secret = this.secretGenerator.generate();
             try {
               updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+              updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, username.toLowerCase(Locale.ROOT));
               updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
               updateBuilder.update();
             } catch (SQLException e) {
@@ -160,7 +162,7 @@ public class TotpCommand implements SimpleCommand {
             if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
               try {
                 updateBuilder = this.playerDao.updateBuilder();
-                updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+                updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, username.toLowerCase(Locale.ROOT));
                 updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, "");
                 updateBuilder.update();
 
