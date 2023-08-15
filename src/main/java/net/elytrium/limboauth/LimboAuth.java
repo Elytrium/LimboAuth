@@ -27,10 +27,12 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
 import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
 import com.velocitypowered.api.command.CommandManager;
@@ -65,6 +67,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -317,8 +320,11 @@ public class LimboAuth {
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
     try {
+      DatabaseTableConfig<RegisteredPlayer> tableConfig = DatabaseTableConfig.fromClass(connectionSource.getDatabaseType(), RegisteredPlayer.class);
+      tableConfig.setTableName(Settings.IMP.DATABASE.TABLE_NAME);
       TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
       this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
+      updateColumnNames(tableConfig);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
@@ -417,6 +423,24 @@ public class LimboAuth {
         .schedule();
 
     eventManager.fireAndForget(new AuthPluginReloadEvent());
+  }
+
+  private void updateColumnNames(DatabaseTableConfig<RegisteredPlayer> tableConfig) throws SQLException {
+    Map<String,DatabaseFieldConfig> fieldMap = new HashMap<>();
+    tableConfig.getFieldConfigs().forEach(fieldConfig -> fieldMap.put(fieldConfig.getColumnName(), fieldConfig));
+
+    // For each field in the RegisteredPlayer class, set the column name to the value in the settings file
+    fieldMap.get("nickname").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.NICKNAME_FIELD);
+    fieldMap.get("lowercaseNickname").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD);
+    fieldMap.get("hash").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
+    fieldMap.get("ip").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD);
+    fieldMap.get("totpToken").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOTP_TOKEN_FIELD);
+    fieldMap.get("regDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
+    fieldMap.get("uuid").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.UUID_FIELD);
+    fieldMap.get("premiumUuid").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
+    fieldMap.get("loginIp").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD);
+    fieldMap.get("loginDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD);
+    fieldMap.get("tokenIssuedAt").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOKEN_ISSUED_AT_FIELD);
   }
 
   private List<String> filterCommands(List<String> commands) {
