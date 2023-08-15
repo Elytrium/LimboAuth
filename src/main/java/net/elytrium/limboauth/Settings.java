@@ -487,7 +487,6 @@ public class Settings extends YamlConfig {
 
     @Comment("Column name settings")
     public static class COLUMN_NAMES {
-      public String NICKNAME_FIELD = "NICKNAME";
       public String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
       public String HASH_FIELD = "HASH";
       public String IP_FIELD = "IP";
@@ -495,7 +494,6 @@ public class Settings extends YamlConfig {
       public String TOTP_TOKEN_FIELD = "TOTPTOKEN";
       public String REG_DATE_FIELD = "REGDATE";
       public String LOGIN_DATE_FIELD = "LOGINDATE";
-      public String UUID_FIELD = "UUID";
       public String PREMIUM_UUID_FIELD = "PREMIUMUUID";
       public String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
     }
