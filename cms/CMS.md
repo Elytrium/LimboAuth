@@ -1,11 +1,4 @@
 
-# TOTP and Other
-
-###### /system/MFA
-
-[click files](https://cdn.quickfirecorp.ru/?dir=files/system/ "click files")
-
-
 # SQL
 
 ###### core_members dump
