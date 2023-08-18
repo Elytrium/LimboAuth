@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images_uploads",
+            "upload_session",
+            {
+                "name": "upload_session",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

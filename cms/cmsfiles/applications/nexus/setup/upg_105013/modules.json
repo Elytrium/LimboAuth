@@ -1,0 +1,19 @@
+{
+    "added": [
+        "front\/store",
+        "front\/checkout",
+        "front\/support",
+        "front\/clients",
+        "front\/promotion",
+        "front\/subscriptions",
+        "admin\/payments",
+        "admin\/customers",
+        "admin\/support",
+        "admin\/store",
+        "admin\/hosting",
+        "admin\/reports",
+        "admin\/subscriptions"
+    ],
+    "edited": [],
+    "removed": []
+}

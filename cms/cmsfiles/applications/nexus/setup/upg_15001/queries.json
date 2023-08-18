@@ -1,0 +1,291 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_fields",
+                "columns": {
+                    "sf_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 5,
+                        "name": "sf_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 128,
+                        "name": "sf_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_desc": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "sf_desc",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_type": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "sf_type",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_extra": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "sf_extra",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_departments": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "sf_departments",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 5,
+                        "name": "sf_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sf_required": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "sf_required",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "sf_id"
+                        ]
+                    },
+                    "sf_position": {
+                        "type": "key",
+                        "name": "sf_position",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "sf_position"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_cfields",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_monitor_acknowledged",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_api",
+                "type": "VARCHAR",
+                "length": 32,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_api_service",
+                "type": "VARCHAR",
+                "length": 32,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_label",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_extra",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_shipaddress",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    },
+    "9": {
+        "method": "insert",
+        "params": [
+            "nexus_gateways",
+            {
+                "g_key": "authnetdpm",
+                "g_name": "Authorize.Net (DPM)",
+                "g_testmode": 0,
+                "g_position": 6,
+                "g_payout": 0
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_extra",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_group_renewals",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_can_reactivate",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_grouped_renewals",
+                "type": "TEXT",
+                "allow_null": true
+            }
+        ]
+    }
+}

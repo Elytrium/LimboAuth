@@ -1,0 +1,111 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_events",
+            "event_start_date",
+            {
+                "name": "event_start_date",
+                "type": "DATETIME",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "calendar_event_comments",
+            {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "calendar_event_reviews",
+            {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "event_featured",
+                "columns": [
+                    "event_featured",
+                    "event_approved",
+                    "event_calendar_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "recurring_events",
+                "columns": [
+                    "event_recurring",
+                    "event_approved",
+                    "event_calendar_id"
+                ],
+                "length": [
+                    250,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "event_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

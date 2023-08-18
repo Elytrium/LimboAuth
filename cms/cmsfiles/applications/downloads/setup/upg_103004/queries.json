@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_purchasable",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

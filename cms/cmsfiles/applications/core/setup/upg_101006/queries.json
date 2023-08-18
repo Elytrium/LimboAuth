@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members_warn_reasons",
+            {
+                "wr_remove": "-1"
+            },
+            [
+                "wr_remove=?",
+                0
+            ]
+        ]
+    }
+}

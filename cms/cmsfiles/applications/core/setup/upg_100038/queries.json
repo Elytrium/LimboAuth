@@ -1,0 +1,56 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_cache",
+            {
+                "type": "key",
+                "name": "cache_expire",
+                "columns": [
+                    "cache_expire"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "core_member_status_updates",
+            "status_creator"
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "core_admin_permission_rows",
+            {
+                "row_perm_cache": "[]"
+            },
+            "row_perm_cache='null'"
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_lang_words",
+            "word_custom",
+            {
+                "name": "word_custom",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The current value",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

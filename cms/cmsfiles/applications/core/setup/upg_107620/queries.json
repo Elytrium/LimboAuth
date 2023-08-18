@@ -1,0 +1,82 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_attachments",
+            {
+                "name": "attach_img_rotate",
+                "type": "SMALLINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_clients",
+            {
+                "name": "oauth_api_access",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "rest",
+                    "graphql",
+                    "both"
+                ],
+                "allow_null": true,
+                "default": "rest",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_clients",
+            {
+                "name": "core_oauth_clients",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "rest",
+                    "graphql",
+                    "both"
+                ],
+                "allow_null": false,
+                "default": "rest",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_club_pages",
+            {
+                "name": "page_meta_index",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

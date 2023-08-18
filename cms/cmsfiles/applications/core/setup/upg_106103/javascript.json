@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/utils\/ips.utils.notification.js",
+            "core\/admin\/controllers\/members\/ips.members.form.js",
+            "core\/front\/controllers\/search\/ips.search.results.js",
+            "core\/admin\/controllers\/system\/ips.system.login.js",
+            "core\/admin\/controllers\/templates\/ips.templates.variablesDialog.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

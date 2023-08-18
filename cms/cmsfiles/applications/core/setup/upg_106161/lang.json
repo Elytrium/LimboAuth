@@ -1,0 +1,29 @@
+{
+    "normal": {
+        "added": [
+            "filestorage__core_Ranks",
+            "acplog__support_tool_caches_cleared",
+            "acplog__support_tool_apps_disabled",
+            "acplog__support_tool_apps_enabled",
+            "acplog__support_tool_plugins_disabled",
+            "acplog__support_tool_plugins_enabled",
+            "acplog__support_tool_theme_restored",
+            "acplog__support_tool_theme_deleted",
+            "acplog__support_tool_editor_restored",
+            "acplog__support_tool_editor_customized",
+            "acplog__support_tool_ads_disabled",
+            "acplog__support_tool_ads_enabled",
+            "webhook_logs_success",
+            "acplog__webhook_settings"
+        ],
+        "edited": [
+            "zapier_error_api"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

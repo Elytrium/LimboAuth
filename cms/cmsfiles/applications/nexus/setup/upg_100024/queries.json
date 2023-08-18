@@ -1,0 +1,49 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "nexus_purchases",
+            {
+                "ps_renewal_unit": 0
+            },
+            [
+                "ps_renewal_unit<>? AND ps_renewals=?",
+                "0",
+                "0"
+            ]
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "nexus_purchases",
+            {
+                "ps_renewal_unit": "m"
+            },
+            [
+                "ps_renewal_unit=? AND ps_renewals>?",
+                "1",
+                "0"
+            ]
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "nexus_support_notify",
+            "PRIMARY",
+            {
+                "type": "primary",
+                "name": "PRIMARY",
+                "columns": [
+                    "staff_id",
+                    "type"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

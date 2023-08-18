@@ -1,0 +1,11 @@
+{
+    "added": [],
+    "edited": [
+        "app=core&module=settings&controller=posting&tab=acronymExpansion"
+    ],
+    "removed": [
+        "app=core&module=settings&controller=login&tab=settings&searchResult=disable_anonymous",
+        "app=core&module=settings&controller=posting&searchResult=remote_image_proxy",
+        "app=core&module=settings&controller=posting&searchResult=remote_image_proxy_cache"
+    ]
+}

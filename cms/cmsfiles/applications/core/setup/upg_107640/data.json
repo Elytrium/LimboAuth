@@ -1,0 +1,23 @@
+{
+    "id": 107640,
+    "name": "4.7.8 Beta 1",
+    "steps": {
+        "queries": true,
+        "lang": true,
+        "theme": true,
+        "themeSettings": false,
+        "javascript": true,
+        "emailTemplates": true,
+        "hooks": false,
+        "acpSearchKeywords": true,
+        "settings": false,
+        "tasks": false,
+        "modules": false,
+        "widgets": false,
+        "customOptions": false,
+        "customRoutines": true
+    },
+    "forceMainUpgrader": true,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

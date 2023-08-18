@@ -1,0 +1,625 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_username",
+                "type": "VARCHAR",
+                "length": "64",
+                "allow_null": false,
+                "default": "root"
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_customers",
+                "columns": {
+                    "member_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 8,
+                        "name": "member_id",
+                        "type": "MEDIUMINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_first_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 64,
+                        "name": "cm_first_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_last_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 64,
+                        "name": "cm_last_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_address_1": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 128,
+                        "name": "cm_address_1",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_address_2": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 128,
+                        "name": "cm_address_2",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_city": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 64,
+                        "name": "cm_city",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_state": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 64,
+                        "name": "cm_state",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_zip": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 12,
+                        "name": "cm_zip",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_country": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 2,
+                        "name": "cm_country",
+                        "type": "CHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cm_phone": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 32,
+                        "name": "cm_phone",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "member_id"
+                        ]
+                    },
+                    "cm_first_name": {
+                        "type": "key",
+                        "name": "cm_first_name",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_first_name"
+                        ]
+                    },
+                    "cm_last_name": {
+                        "type": "key",
+                        "name": "cm_last_name",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_last_name"
+                        ]
+                    },
+                    "cm_address_1": {
+                        "type": "key",
+                        "name": "cm_address_1",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_address_1"
+                        ]
+                    },
+                    "cm_address_2": {
+                        "type": "key",
+                        "name": "cm_address_2",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_address_2"
+                        ]
+                    },
+                    "cm_city": {
+                        "type": "key",
+                        "name": "cm_city",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_city"
+                        ]
+                    },
+                    "cm_state": {
+                        "type": "key",
+                        "name": "cm_state",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_state"
+                        ]
+                    },
+                    "cm_zip": {
+                        "type": "key",
+                        "name": "cm_zip",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_zip"
+                        ]
+                    },
+                    "cm_country": {
+                        "type": "key",
+                        "name": "cm_country",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_country"
+                        ]
+                    },
+                    "cm_phone": {
+                        "type": "key",
+                        "name": "cm_phone",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cm_phone"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_customer_fields",
+                "columns": {
+                    "f_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "f_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_column": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 16,
+                        "name": "f_column",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_locked": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "f_locked",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 128,
+                        "name": "f_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_type": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "f_type",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_extra": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "f_extra",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_position": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "f_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_reg_show": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "f_reg_show",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_reg_require": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "f_reg_require",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_purchase_show": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "f_purchase_show",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "f_purchase_require": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "f_purchase_require",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "f_id"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "4": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_first_name",
+                "f_locked": 1,
+                "f_name": "First Name",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 1,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 1
+            }
+        ]
+    },
+    "5": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_last_name",
+                "f_locked": 1,
+                "f_name": "Last Name",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 2,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 1
+            }
+        ]
+    },
+    "6": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_address_1",
+                "f_locked": 1,
+                "f_name": "Address Line 1",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 3,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 1
+            }
+        ]
+    },
+    "7": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_address_2",
+                "f_locked": 1,
+                "f_name": "Address Line 2",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 4,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_city",
+                "f_locked": 1,
+                "f_name": "City",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 5,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 1
+            }
+        ]
+    },
+    "9": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_state",
+                "f_locked": 1,
+                "f_name": "State\/Region",
+                "f_type": "special",
+                "f_extra": "",
+                "f_position": 6,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 0
+            }
+        ]
+    },
+    "10": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_zip",
+                "f_locked": 1,
+                "f_name": "Zip\/Postcode",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 7,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 1
+            }
+        ]
+    },
+    "11": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_country",
+                "f_locked": 1,
+                "f_name": "Country",
+                "f_type": "dropdown",
+                "f_extra": "\\nAF\\nAX\\nAL\\nDZ\\nAS\\nAD\\nAO\\nAI\\nAQ\\nAG\\nAR\\nAM\\nAW\\nAU\\nAT\\nAZ\\nBS\\nBH\\nBD\\nBB\\nBY\\nBE\\nBZ\\nBJ\\nBM\\nBT\\nBO\\nBA\\nBW\\nBV\\nBR\\nIO\\nBN\\nBG\\nBF\\nBI\\nKH\\nCM\\nCA\\nCV\\nKY\\nCF\\nTD\\nCL\\nCN\\nCX\\nCC\\nCO\\nKM\\nCG\\nCD\\nCK\\nCR\\nCI\\nHR\\nCU\\nCY\\nCZ\\nDK\\nDJ\\nDM\\nDO\\nEC\\nEG\\nSV\\nGQ\\nER\\nEE\\nET\\nFK\\nFO\\nFJ\\nFI\\nFR\\nGF\\nPF\\nTF\\nGA\\nGM\\nGE\\nDE\\nGH\\nGI\\nGR\\nGL\\nGD\\nGP\\nGU\\nGT\\nGG\\nGN\\nGW\\nGY\\nHT\\nHM\\nVA\\nHN\\nHK\\nHU\\nIS\\nIN\\nID\\nIR\\nIQ\\nIE\\nIM\\nIL\\nIT\\nJM\\nJP\\nJE\\nJO\\nKZ\\nKE\\nKI\\nKP\\nKR\\nKW\\nKG\\nLA\\nLV\\nLB\\nLS\\nLR\\nLY\\nLI\\nLT\\nLU\\nMO\\nMK\\nMG\\nMW\\nMY\\nMV\\nML\\nMT\\nMH\\nMQ\\nMR\\nMU\\nYT\\nMX\\nFM\\nMD\\nMC\\nMN\\nME\\nMS\\nMA\\nMZ\\nMM\\nNA\\nNR\\nNP\\nNL\\nAN\\nNC\\nNZ\\nNI\\nNE\\nNG\\nNU\\nNF\\nMP\\nNO\\nOM\\nPK\\nPW\\nPS\\nPA\\nPG\\nPY\\nPE\\nPH\\nPN\\nPL\\nPT\\nPR\\nQA\\nRE\\nRO\\nRU\\nRW\\nBL\\nSH\\nKN\\nLC\\nMF\\nPM\\nVC\\nWS\\nSM\\nST\\nSA\\nSN\\nRS\\nSC\\nSL\\nSG\\nSK\\nSI\\nSB\\nSO\\nZA\\nGS\\nES\\nLK\\nSD\\nSR\\nSJ\\nSZ\\nSE\\nCH\\nSY\\nTW\\nTJ\\nTZ\\nTH\\nTL\\nTG\\nTK\\nTO\\nTT\\nTN\\nTR\\nTM\\nTC\\nTV\\nUG\\nUA\\nAE\\nGB\\nUS\\nUM\\nUY\\nUZ\\nVU\\nVE\\nVN\\nVG\\nVI\\nWF\\nEH\\nYE\\nZM\\nZW",
+                "f_position": 8,
+                "f_reg_show": 0,
+                "f_reg_require": 1,
+                "f_purchase_show": 1,
+                "f_purchase_require": 0
+            }
+        ]
+    },
+    "12": {
+        "method": "insert",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "f_id": 1,
+                "f_column": "cm_phone",
+                "f_locked": 1,
+                "f_name": "Phone Number",
+                "f_type": "text",
+                "f_extra": "",
+                "f_position": 6,
+                "f_reg_show": 0,
+                "f_reg_require": 0,
+                "f_purchase_show": 1,
+                "f_purchase_require": 0
+            }
+        ]
+    },
+    "13": {
+        "method": "update",
+        "params": [
+            "nexus_invoices",
+            {
+                "i_ordersteps": 0
+            }
+        ]
+    }
+}

@@ -1,0 +1,59 @@
+{
+    "html": {
+        "added": [
+            "front\/global\/commentEditHistoryRows",
+            "front\/global\/commentEditHistoryTable"
+        ],
+        "edited": [
+            "front\/clubs\/myClubsSidebar",
+            "front\/forms\/commentTemplate",
+            "front\/global\/commentEditHistory",
+            "front\/global\/footer",
+            "front\/global\/globalTemplate",
+            "front\/global\/groupPostedBadges",
+            "global\/global\/includeCSS",
+            "admin\/memberprofile\/warningView",
+            "front\/modcp\/warnHovercard",
+            "front\/profile\/hovercard",
+            "front\/sharelinks\/linkedin",
+            "front\/sharelinks\/reddit",
+            "front\/sharelinks\/twitter",
+            "front\/system\/settingsMfa",
+            "front\/system\/settingsPassword",
+            "front\/widgets\/achievements",
+            "front\/widgets\/clubs",
+            "front\/widgets\/relatedContent",
+            "front\/widgets\/stats",
+            "front\/widgets\/whosOnline"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/framework\/_vars.css",
+            "global\/framework\/badges.css",
+            "global\/framework\/blocks.css",
+            "global\/framework\/comments.css",
+            "global\/framework\/data-lists.css",
+            "global\/framework\/engagement.css",
+            "global\/framework\/layout.css",
+            "global\/framework\/menus.css",
+            "global\/framework\/navigation.css",
+            "global\/framework\/popup.css",
+            "global\/framework\/post-content.css",
+            "global\/responsive\/compose.css",
+            "global\/responsive\/data-lists.css",
+            "global\/responsive\/engagement.css",
+            "global\/responsive\/misc.css",
+            "front\/styles\/promote.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

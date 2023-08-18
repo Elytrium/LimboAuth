@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_downloads",
+            "dsize",
+            {
+                "name": "dsize",
+                "type": "BIGINT",
+                "length": 20,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,22 @@
+{
+   "1":  {
+        "method": "addIndex",
+        "params": [
+            "forums_topics",
+            {
+                "type": "key",
+                "name": "most_recent_post",
+                "columns": [
+                    "forum_id",
+                    "approved",
+                    "last_post"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

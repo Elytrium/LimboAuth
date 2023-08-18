@@ -1,0 +1,38 @@
+{
+    "html": {
+        "added": [
+            "admin\/achievements\/statsBadgeCount",
+            "admin\/achievements\/statsBadgeModal",
+            "admin\/achievements\/statsBadgeWrapper",
+            "admin\/achievements\/statsMemberBadgeCount",
+            "admin\/achievements\/statsMemberBadgeModal",
+            "front\/global\/confirmDelete",
+            "front\/global\/userNameFromData",
+            "front\/streams\/unsubscribeStream",
+            "admin\/support\/admin"
+        ],
+        "edited": [
+            "front\/streams\/streamWrapper",
+            "admin\/support\/dashboard",
+            "front\/system\/notificationSettingsIndex",
+            "front\/tables\/icon",
+            "front\/widgets\/activeUsers",
+            "front\/widgets\/promoted",
+            "front\/widgets\/whosOnline"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/framework\/compose.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

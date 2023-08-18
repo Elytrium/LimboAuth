@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_temp_records",
+            {
+                "name": "record_default",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

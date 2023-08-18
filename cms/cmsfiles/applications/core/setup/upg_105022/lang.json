@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "core_theme_set_logo_height",
+            "core_theme_set_logo_height_desc",
+            "mobile_app_redirect_scheme"
+        ],
+        "edited": [
+            "profile_settings_cvb_first"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

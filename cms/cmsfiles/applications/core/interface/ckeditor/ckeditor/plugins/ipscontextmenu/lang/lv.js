@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("ipscontextmenu","lv",{options:"Uznirstošās izvēlnes uzstādījumi"});

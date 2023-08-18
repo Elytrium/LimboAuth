@@ -1,0 +1,72 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_social_promote",
+            {
+                "name": "promote_hide",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "Allows rows to not be shown in our picks",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_social_promote",
+            "our_picks",
+            {
+                "type": "key",
+                "name": "our_picks",
+                "columns": [
+                    "promote_internal",
+                    "promote_sent",
+                    "promote_hide"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_member_history",
+            {
+                "type": "key",
+                "name": "log_by",
+                "columns": [
+                    "log_by",
+                    "log_ip_address",
+                    "log_date"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='core' AND word_key IN ('bm_users', 'bulkmail_sent_sofar', 'bm_sent_succesfull', 'continue_sending' )"
+            ]
+        ]
+    }
+}

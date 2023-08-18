@@ -1,0 +1,16 @@
+{
+    "added": [
+        "gallery_bandwidth_period",
+        "gallery_detailed_bandwidth",
+        "gallery_large_dims",
+        "gallery_maps_default",
+        "gallery_rss_enabled",
+        "gallery_small_dims",
+        "gallery_use_square_thumbnails",
+        "gallery_use_watermarks",
+        "gallery_watermark_images",
+        "gallery_watermark_path"
+    ],
+    "edited": [],
+    "removed": []
+}

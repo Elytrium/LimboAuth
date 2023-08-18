@@ -1,0 +1,10 @@
+{
+    "added": [
+        "app=calendar&module=calendars&controller=venues"
+    ],
+    "edited": [
+        "app=calendar&module=calendars&controller=calendars",
+        "app=calendar&module=calendars&controller=settings"
+    ],
+    "removed": []
+}

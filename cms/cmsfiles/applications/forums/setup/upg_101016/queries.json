@@ -1,0 +1,25 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "forums_posts",
+            "topic_id",
+            {
+                "type": "key",
+                "name": "topic_id",
+                "columns": [
+                    "topic_id",
+                    "queued",
+                    "post_date",
+                    "author_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

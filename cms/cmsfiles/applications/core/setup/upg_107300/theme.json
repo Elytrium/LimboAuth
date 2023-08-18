@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [
+            "global\/global\/googleMap"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/flags.css",
+            "global\/framework\/typography.css",
+            "admin\/promotion\/meta.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "admin\/welcome.svg",
+            "front\/notification.svg"
+        ],
+        "removed": []
+    }
+}

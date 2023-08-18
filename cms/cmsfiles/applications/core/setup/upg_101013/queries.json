@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_menu",
+            {
+                "name": "is_menu_child",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "If this item is a child of a dropdown menu",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_follow",
+            {
+                "type": "key",
+                "name": "follow_stream",
+                "columns": [
+                    "follow_app",
+                    "follow_area",
+                    "follow_member_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "err_sub_subscription_bought",
+            "email_transaction_wait"
+        ],
+        "edited": [
+            "cm_invoice_generate_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

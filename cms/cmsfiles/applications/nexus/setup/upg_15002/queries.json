@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_rebuild_thumb",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

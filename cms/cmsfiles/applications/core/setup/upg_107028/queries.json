@@ -1,0 +1,51 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_login_methods",
+            {
+                "name": "login_front",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_login_methods",
+            "login_front",
+            {
+                "name": "login_front",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "Boolean value indicating if method can be used for frontend logins",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropTable",
+        "params": [
+            "core_members_features"
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "core_members_features_seen"
+        ]
+    }
+}

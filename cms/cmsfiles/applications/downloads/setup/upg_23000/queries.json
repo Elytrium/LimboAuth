@@ -1,0 +1,177 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "downloads_ip2ext"
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "downloads_downloads",
+            "dcountry"
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "downloads_cfields",
+            {
+                "name": "cf_format",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "downloads_comments",
+            {
+                "name": "comment_author",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_report_files",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_view_downloads",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "idm_report_files": 1
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "downloads_mods",
+            {
+                "name": "modchangeauthor",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "9": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_files",
+            "file_open",
+            {
+                "type": "key",
+                "name": "file_open",
+                "columns": [
+                    "file_open",
+                    "file_cat",
+                    "file_submitted"
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_version",
+                "type": "varchar",
+                "length": 32,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_changelog",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "downloads_filebackup",
+            {
+                "name": "b_version",
+                "type": "varchar",
+                "length": 32,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "downloads_filebackup",
+            {
+                "name": "b_changelog",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files_records",
+            {
+                "name": "record_default",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "15": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key IN('idm_allow_emaillinks', 'idm_comment_display', 'idm_guest_report')"
+        ]
+    }
+}

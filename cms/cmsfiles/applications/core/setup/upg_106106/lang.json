@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [
+            "health_vapid_key_check_fail_exception"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "downloads_files",
+            {
+                "file_cost": ""
+            },
+            [
+                "file_cost=?",
+                "0"
+            ]
+        ]
+    }
+}

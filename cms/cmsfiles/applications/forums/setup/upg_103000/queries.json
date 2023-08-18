@@ -1,0 +1,31 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "forums_topics",
+            {
+                "moved_to": null
+            },
+            [
+                "moved_to=?",
+                "NULL"
+            ]
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "forums_forums",
+            {
+                "type": "key",
+                "name": "min_posts_view",
+                "columns": [
+                    "min_posts_view"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

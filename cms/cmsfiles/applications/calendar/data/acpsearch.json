@@ -1,0 +1,240 @@
+{
+    "app=calendar&module=calendars&controller=calendars": {
+        "lang_key": "menu__calendar_calendars_calendars",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "edit calendar",
+            "events"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&do=permissions": {
+        "lang_key": "menu__calendar_calendars_calendars",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "calendar permissions"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=cal_comment_moderate": {
+        "lang_key": "cal_comment_moderate",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "approved",
+            "comments must be approved",
+            "require approval"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_1_cal_allow_comments": {
+        "lang_key": "cal_allow_comments",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "allow comments",
+            "comments"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_1_cal_allow_reviews": {
+        "lang_key": "cal_allow_reviews",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "allow reviews",
+            "reviews"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_1_cal_color": {
+        "lang_key": "cal_color",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "calendar color"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_1_cal_moderate": {
+        "lang_key": "cal_moderate",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "approve",
+            "approve event",
+            "event"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_1_cal_title": {
+        "lang_key": "cal_title",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "calendar name",
+            "calendar title"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_new_cal_allow_comments": {
+        "lang_key": "cal_allow_comments",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "allow comments"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_new_cal_allow_reviews": {
+        "lang_key": "cal_allow_reviews",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "allow reviews",
+            "reviews"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_new_cal_color": {
+        "lang_key": "cal_color",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "calendar color"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_new_cal_moderate": {
+        "lang_key": "cal_moderate",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "approve event",
+            "event approve",
+            "events"
+        ]
+    },
+    "app=calendar&module=calendars&controller=calendars&searchResult=form_new_cal_title": {
+        "lang_key": "cal_title",
+        "restriction": "calendars_manage",
+        "keywords": [
+            "calendar title"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical": {
+        "lang_key": "menu__calendar_calendars_ical",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "calendar export",
+            "feeds",
+            "iCal",
+            "iCalendar"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=add&searchResult=form_feed_allow_rsvp": {
+        "lang_key": "feed_allow_rsvp",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "enable rsvp",
+            "rsvp"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=add&searchResult=form_feed_calendar_id": {
+        "lang_key": "feed_calendar_id",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "calendar"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=add&searchResult=form_feed_member_id": {
+        "lang_key": "feed_member_id",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "member"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=add&searchResult=form_feed_title": {
+        "lang_key": "feed_title",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "add icalendar",
+            "feed title",
+            "iCalendar feed"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=add&searchResult=form_feed_url": {
+        "lang_key": "feed_url",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "feed url",
+            "icalendar url"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=upload&searchResult=form_feed_calendar_id": {
+        "lang_key": "feed_calendar_id",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "calendar"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=upload&searchResult=form_feed_file": {
+        "lang_key": "feed_file",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "iCalendar file"
+        ]
+    },
+    "app=calendar&module=calendars&controller=ical&do=upload&searchResult=form_feed_member_id": {
+        "lang_key": "feed_member_id",
+        "restriction": "calendar_feeds_manage",
+        "keywords": [
+            "member"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings": {
+        "lang_key": "menu__calendar_calendars_settings",
+        "restriction": "settings_manage",
+        "keywords": [
+            "calendar settings",
+            "events"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=calendar_rss_feed_days": {
+        "lang_key": "calendar_rss_feed_days",
+        "restriction": "settings_manage",
+        "keywords": [
+            "days",
+            "feed days",
+            "forthcoming days",
+            "number of days",
+            "RSS Feed"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=form_calendar_date_format": {
+        "lang_key": "calendar_date_format",
+        "restriction": "settings_manage",
+        "keywords": [
+            "calendar date format"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=form_calendar_default_view": {
+        "lang_key": "calendar_default_view",
+        "restriction": "settings_manage",
+        "keywords": [
+            "calendar layout"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=form_calendar_rss_feed": {
+        "lang_key": "calendar_rss_feed",
+        "restriction": "settings_manage",
+        "keywords": [
+            "calendar rss",
+            "events rss"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=form_calendar_venues_enabled": {
+        "lang_key": "calendar_venues_enabled",
+        "restriction": "settings_manage",
+        "keywords": [
+            "address",
+            "venue",
+            "venues"
+        ]
+    },
+    "app=calendar&module=calendars&controller=settings&searchResult=form_ipb_calendar_mon": {
+        "lang_key": "ipb_calendar_mon",
+        "restriction": "settings_manage",
+        "keywords": [
+            "calendar start",
+            "monday",
+            "sunday"
+        ]
+    },
+    "app=calendar&module=calendars&controller=venues": {
+        "lang_key": "menu__calendar_calendars_venues",
+        "restriction": null,
+        "keywords": [
+            "events"
+        ]
+    }
+}

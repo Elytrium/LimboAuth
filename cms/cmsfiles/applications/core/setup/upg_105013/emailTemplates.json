@@ -1,0 +1,17 @@
+{
+    "added": [
+        "notification_referral",
+        "onboard_reminder",
+        "notification_best_answer",
+        "password_reset_forced"
+    ],
+    "edited": [
+        "notification_new_private_message",
+        "acp_notification_ConfigurationError",
+        "notification_private_message_added",
+        "_genericContent",
+        "admin_reg",
+        "emailWrapper"
+    ],
+    "removed": []
+}

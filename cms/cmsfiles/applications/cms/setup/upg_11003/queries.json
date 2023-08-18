@@ -1,0 +1,93 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_record_approve",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_has_perms",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_comments",
+            {
+                "name": "comment_approved",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_comment_approve",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_approve_record",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_approve_comment",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_pin_record",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

@@ -1,0 +1,48 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "downloads_view_method",
+                "columns": {
+                    "member_id": {
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "method": {
+                        "name": "method",
+                        "type": "VARCHAR",
+                        "length": 16,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "table",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "uniquemember": {
+                        "type": "unique",
+                        "name": "uniquemember",
+                        "columns": [
+                            "member_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "1": {
+    "method": "addColumn",
+    "params": [
+      "forums_forums",
+      {
+        "name": "last_poster_anon",
+        "type": "TINYINT",
+        "length": null,
+        "decimals": null,
+        "values": null,
+        "allow_null": true,
+        "default": "0",
+        "comment": "",
+        "unsigned": true,
+        "auto_increment": false
+      }
+    ]
+  }
+}

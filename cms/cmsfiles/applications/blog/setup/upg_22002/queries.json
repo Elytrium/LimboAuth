@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "blog_lastinfo",
+            "blog_tag_cloud",
+            {
+                "name": "blog_tag_cloud",
+                "type": "MEDIUMTEXT",
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "blog_lastinfo",
+            {
+                "blog_tag_cloud": ""
+            }
+        ]
+    }
+}

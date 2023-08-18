@@ -1,0 +1,929 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "gallery_albums_temp"
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "gallery_categories"
+        ]
+    },
+    "3": {
+        "method": "dropTable",
+        "params": [
+            "gallery_ecardlog"
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "gallery_favorites"
+        ]
+    },
+    "5": {
+        "method": "dropTable",
+        "params": [
+            "gallery_subscriptions"
+        ]
+    },
+    "6": {
+        "method": "dropTable",
+        "params": [
+            "gallery_upgrade_history"
+        ]
+    },
+    "7": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_images",
+            "category_id"
+        ]
+    },
+    "8": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_bandwidth",
+            "date"
+        ]
+    },
+    "9": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key IN ( 'gallery_display_category', 'gallery_display_album', 'gallery_default_view', 'gallery_enable_both_views', 'gallery_full_image', 'gallery_display_block_row', 'gallery_web_accessible', 'gallery_display_photostrip', 'gallery_last_updated', 'gallery_show_lastpic', 'gallery_display_subcats', 'gallery_dir_images', 'gallery_cache_albums', 'gallery_stats_where', 'gallery_images_per_block', 'gallery_last5_images',  'gallery_random_images', 'gallery_stats', 'gallery_feature_image', 'gallery_thumbnail_link', 'gallery_thumb_width', 'gallery_thumb_height', 'gallery_allowed_domains', 'gallery_antileech_image', 'gallery_use_rate', 'gallery_rate_display', 'gallery_bandwidth_thumbs', 'gallery_use_ecards', 'display_hotlinking', 'gallery_guests_ecards', 'gallery_comment_order', 'gallery_allow_usercopyright', 'gallery_copyright_default', 'gallery_exif', 'gallery_iptc', 'gallery_exif_sections', 'gallery_notices_cat', 'gallery_notices_album', 'gallery_notices_img', 'gallery_idx_num_col', 'gallery_idx_num_row', 'gallery_stats_col', 'gallery_stats_row', 'gallery_stats_cols', 'gallery_stats_rows' )"
+        ]
+    },
+    "10": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_comments",
+            "use_sig"
+        ]
+    },
+    "11": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_comments",
+            "use_emo"
+        ]
+    },
+    "12": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_comments",
+            "edit_name"
+        ]
+    },
+    "13": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_comments",
+            "append_edit"
+        ]
+    },
+    "14": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_comments",
+            "img_id_2"
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images_uploads",
+            {
+                "name": "upload_category_id",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "16": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "album_id"
+        ]
+    },
+    "17": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "approved"
+        ]
+    },
+    "18": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "album_id_2"
+        ]
+    },
+    "19": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "gb_select"
+        ]
+    },
+    "20": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "image_feature_flag"
+        ]
+    },
+    "21": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "lastcomment"
+        ]
+    },
+    "22": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "rnd_lookup"
+        ]
+    },
+    "23": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_ecard"
+        ]
+    },
+    "24": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_rate"
+        ]
+    },
+    "25": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_slideshows"
+        ]
+    },
+    "26": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_favorites"
+        ]
+    },
+    "27": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_comment"
+        ]
+    },
+    "28": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_move_on"
+        ]
+    },
+    "29": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_mod_albums"
+        ]
+    },
+    "30": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_album_private"
+        ]
+    },
+    "31": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_gal_avatar"
+        ]
+    },
+    "32": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_max_notes"
+        ]
+    },
+    "33": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_gallery_cat_cover"
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_create_albums_private",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0,
+                "unsigned": true
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_create_albums_fo",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0,
+                "unsigned": true
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_delete_own_albums",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "37": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "gallery_categories",
+                "columns": {
+                    "category_id": {
+                        "name": "category_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true
+                    },
+                    "category_parent_id": {
+                        "name": "category_parent_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_name": {
+                        "name": "category_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_name_seo": {
+                        "name": "category_name_seo",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_description": {
+                        "name": "category_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_count_imgs": {
+                        "name": "category_count_imgs",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_count_comments": {
+                        "name": "category_count_comments",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_count_imgs_hidden": {
+                        "name": "category_count_imgs_hidden",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_count_comments_hidden": {
+                        "name": "category_count_comments_hidden",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_cover_img_id": {
+                        "name": "category_cover_img_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_img_id": {
+                        "name": "category_last_img_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_img_date": {
+                        "name": "category_last_img_date",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_type": {
+                        "name": "category_type",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_sort_options": {
+                        "name": "category_sort_options",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_allow_comments": {
+                        "name": "category_allow_comments",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_allow_rating": {
+                        "name": "category_allow_rating",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_approve_img": {
+                        "name": "category_approve_img",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_approve_com": {
+                        "name": "category_approve_com",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_rules": {
+                        "name": "category_rules",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_rating_aggregate": {
+                        "name": "category_rating_aggregate",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_rating_count": {
+                        "name": "category_rating_count",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_rating_total": {
+                        "name": "category_rating_total",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_after_forum_id": {
+                        "name": "category_after_forum_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_watermark": {
+                        "name": "category_watermark",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_position": {
+                        "name": "category_position",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_can_tag": {
+                        "name": "category_can_tag",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_preset_tags": {
+                        "name": "category_preset_tags",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_public_albums": {
+                        "name": "category_public_albums",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_nonpublic_albums": {
+                        "name": "category_nonpublic_albums",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "category_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "category_last_img_id": {
+                        "type": "key",
+                        "name": "category_last_img_id",
+                        "columns": [
+                            "category_last_img_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "38": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "gallery_moderators",
+                "columns": {
+                    "mod_id": {
+                        "name": "mod_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true
+                    },
+                    "mod_type": {
+                        "name": "mod_type",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "group",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_type_id": {
+                        "name": "mod_type_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_type_name": {
+                        "name": "mod_type_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_categories": {
+                        "name": "mod_categories",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_approve": {
+                        "name": "mod_can_approve",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_edit": {
+                        "name": "mod_can_edit",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_hide": {
+                        "name": "mod_can_hide",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_delete": {
+                        "name": "mod_can_delete",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_approve_comments": {
+                        "name": "mod_can_approve_comments",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_edit_comments": {
+                        "name": "mod_can_edit_comments",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_delete_comments": {
+                        "name": "mod_can_delete_comments",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_can_move": {
+                        "name": "mod_can_move",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_set_cover_image": {
+                        "name": "mod_set_cover_image",
+                        "type": "tinyint",
+                        "length": 4,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "mod_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "mod_type": {
+                        "type": "key",
+                        "name": "mod_type",
+                        "columns": [
+                            "mod_type",
+                            "mod_type_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

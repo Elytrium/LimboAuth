@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_modules",
+            [
+                "sys_module_application=? and sys_module_key=?",
+                "core",
+                "dashboard"
+            ]
+        ]
+    }
+}

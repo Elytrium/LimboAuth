@@ -1,0 +1,27 @@
+{
+    "normal": {
+        "added": [
+            "userbar_messages_disabled",
+            "inbox_disabled",
+            "inbox_disabled_tooltip",
+            "inbox_enable",
+            "disable_messenger_desc",
+            "history_spam_defense_5",
+            "alert_filter_active",
+            "alert_filter_inactive"
+        ],
+        "edited": [
+            "messenger_quota_disabled_self",
+            "icons_favicon_desc",
+            "messenger_disabled",
+            "messenger_enabled",
+            "disable_messenger"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

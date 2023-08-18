@@ -1,0 +1,33 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "nexus\/front\/controllers\/checkout\/ips.checkout.billingForm.js",
+            "nexus\/global\/controllers\/forms\/ips.forms.businessAddressVat.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.authorizenet.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.braintree.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.stripe.js",
+            "nexus\/admin\/controllers\/payments\/ips.payments.braintreeSetup.js",
+            "nexus\/admin\/controllers\/store\/ips.store.productoptions.js",
+            "nexus\/admin\/controllers\/store\/ips.store.productselector.js",
+            "nexus\/front\/controllers\/store\/ips.store.category.js",
+            "nexus\/front\/controllers\/store\/ips.store.giftCard.js",
+            "nexus\/front\/controllers\/store\/ips.store.packagePage.js",
+            "nexus\/front\/controllers\/store\/ips.store.register.js",
+            "nexus\/admin\/controllers\/support\/ips.support.list.js",
+            "nexus\/admin\/controllers\/support\/ips.support.message.js",
+            "nexus\/admin\/controllers\/support\/ips.support.metamenu.js",
+            "nexus\/admin\/controllers\/support\/ips.support.multimod.js",
+            "nexus\/admin\/controllers\/support\/ips.support.replyArea.js",
+            "nexus\/admin\/templates\/ips.templates.store.js",
+            "nexus\/front\/templates\/ips.templates.store.js",
+            "nexus\/global\/templates\/ips.templates.gateways.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

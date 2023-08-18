@@ -1,0 +1,8 @@
+{
+    "added": [],
+    "edited": [],
+    "removed": [
+        "app=cms&module=databases&controller=categories&do=manage",
+        "app=cms&module=databases&controller=records&do=manage"
+    ]
+}

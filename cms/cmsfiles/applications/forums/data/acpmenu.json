@@ -1,0 +1,50 @@
+{
+    "forums": {
+        "forums": {
+            "tab": "community",
+            "controller": "forums",
+            "do": "",
+            "restriction": "forums_manage"
+        },
+        "savedActions": {
+            "tab": "community",
+            "controller": "savedActions",
+            "do": "",
+            "restriction": "savedActions_manage"
+        },
+        "settings": {
+            "tab": "community",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_access"
+        }
+    },
+    "stats": {
+        "topics": {
+            "tab": "stats",
+            "controller": "topics",
+            "do": "",
+            "restriction": "topics_manage"
+        },
+        "posts": {
+            "tab": "stats",
+            "controller": "posts",
+            "do": "",
+            "restriction": "posts_manage"
+        },
+        "questions": {
+            "tab": "stats",
+            "controller": "questions",
+            "do": "",
+            "restriction": "questions_manage",
+            "subcontrollers": ""
+        },
+        "solved": {
+            "tab": "stats",
+            "controller": "solved",
+            "do": "",
+            "restriction": "topics_manage",
+            "subcontrollers": ""
+        }
+    }
+}

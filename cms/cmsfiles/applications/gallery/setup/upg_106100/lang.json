@@ -1,0 +1,25 @@
+{
+    "normal": {
+        "added": [
+            "__defart_gallery_image_comment_plural",
+            "__defart_gallery_image_plural",
+            "__defart_gallery_album_comment_plural",
+            "__defart_gallery_album_plural",
+            "__defart_gallery_image_review_plural",
+            "__defart_gallery_album_review_plural",
+            "gallery_bandwidth_period_desc",
+            "gallery_unset_cover",
+            "gallery_unset_cover_error",
+            "gallery_cover_photo_isunset"
+        ],
+        "edited": [
+            "gallery_bandwidth_period"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

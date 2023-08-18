@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_fraud_rules",
+            {
+                "name": "f_subscriptions",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

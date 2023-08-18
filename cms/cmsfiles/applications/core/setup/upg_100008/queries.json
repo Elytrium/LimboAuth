@@ -1,0 +1,38 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_queue",
+            {
+                "name": "priority",
+                "type": "TINYINT",
+                "length": "1",
+                "allow_null": false,
+                "default": "5",
+                "comment": "Order to run. Values 1 to 5 are allowed, 1 being highest priority.",
+                "unsigned": true,
+                "zerofill": null,
+                "auto_increment": null,
+                "binary": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_tasks",
+            {
+                "name": "lock_count",
+                "type": "TINYINT",
+                "length": "1",
+                "allow_null": false,
+                "default": "0",
+                "comment": "How many times the task has been in a locked state without a successful run. A count of 3 will trigger a dashboard warning.",
+                "unsigned": true,
+                "zerofill": null,
+                "auto_increment": null,
+                "binary": null
+            }
+        ]
+    }
+}

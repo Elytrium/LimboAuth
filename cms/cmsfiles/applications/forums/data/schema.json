@@ -1,0 +1,3067 @@
+{
+    "forums_forums": {
+        "name": "forums_forums",
+        "columns": {
+            "id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 5,
+                "name": "id",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topics": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topics",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "posts": {
+                "name": "posts",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "last_post": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "last_post",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_poster_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "last_poster_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "last_poster_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "last_poster_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "position": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "position",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "password": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 32,
+                "name": "password",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "password_override": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "password_override",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_title": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "last_title",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_id": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "last_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "sort_key": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 32,
+                "name": "sort_key",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "show_rules": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 1,
+                "name": "show_rules",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "preview_posts": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 1,
+                "name": "preview_posts",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "allow_poll": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "allow_poll",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "inc_postcount": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "inc_postcount",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "skin_id": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "skin_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "parent_id": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "-1",
+                "length": 5,
+                "name": "parent_id",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "redirect_url": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 250,
+                "name": "redirect_url",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "redirect_on": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "redirect_on",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "redirect_hits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "redirect_hits",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "sub_can_post": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "sub_can_post",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "permission_showtopic": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "permission_showtopic",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "queued_topics": {
+                "name": "queued_topics",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "queued_posts": {
+                "name": "queued_posts",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "forum_allow_rating": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "forum_allow_rating",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "min_posts_post": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "min_posts_post",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "min_posts_view": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "min_posts_view",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "can_view_others": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "can_view_others",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "name_seo": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "name_seo",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "seo_last_title": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "seo_last_title",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "seo_last_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "seo_last_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_x_topic_ids": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "last_x_topic_ids",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "forums_bitoptions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "forums_bitoptions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "disable_sharelinks": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "disable_sharelinks",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "tag_predefined": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "tag_predefined",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archived_topics": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archived_topics",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archived_posts": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archived_posts",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "ipseo_priority": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 3,
+                "name": "ipseo_priority",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "qa_rate_questions": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "qa_rate_questions",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "qa_rate_answers": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "qa_rate_answers",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "icon": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "icon",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "club_id": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The club ID if this forum belongs to a club, or NULL",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "club_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "feature_color": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Feature color",
+                "decimals": null,
+                "default": null,
+                "length": 15,
+                "name": "feature_color",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "card_image": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Card image file name",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "card_image",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "allow_anonymous": {
+                "name": "allow_anonymous",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "last_poster_anon": {
+                "name": "last_poster_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "solved_stats_from": {
+                "name": "solved_stats_from",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "id"
+                ]
+            },
+            "position": {
+                "type": "key",
+                "name": "position",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "parent_id",
+                    "position"
+                ]
+            },
+            "min_posts_view": {
+                "type": "key",
+                "name": "min_posts_view",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "min_posts_view"
+                ]
+            },
+            "can_view_others": {
+                "type": "key",
+                "name": "can_view_others",
+                "columns": [
+                    "can_view_others"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "forum_password": {
+                "type": "key",
+                "name": "forum_password",
+                "columns": [
+                    "password"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "widget_performance": {
+                "type": "key",
+                "name": "widget_performance",
+                "columns": [
+                    "min_posts_view",
+                    "password",
+                    "password_override",
+                    "can_view_others"
+                ],
+                "length": [
+                    null,
+                    null,
+                    250,
+                    null
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB",
+        "inserts": [
+            {
+                "id": 1,
+                "topics": 1,
+                "posts": 1,
+                "last_post": "<%TIME%>",
+                "last_poster_id": 1,
+                "last_poster_name": "<%ADMIN_NAME%>",
+                "position": 1,
+                "password": null,
+                "password_override": "",
+                "last_title": "Welcome!",
+                "last_id": 1,
+                "sort_key": "last_post",
+                "show_rules": 0,
+                "preview_posts": 0,
+                "allow_poll": 1,
+                "inc_postcount": 1,
+                "skin_id": 0,
+                "parent_id": -1,
+                "redirect_url": "",
+                "redirect_on": 0,
+                "redirect_hits": 0,
+                "sub_can_post": 0,
+                "permission_showtopic": 0,
+                "queued_topics": 0,
+                "queued_posts": 0,
+                "forum_allow_rating": 0,
+                "min_posts_post": 0,
+                "min_posts_view": 0,
+                "can_view_others": 1,
+                "name_seo": "a-test-category",
+                "seo_last_title": "welcome",
+                "seo_last_name": "<%ADMIN_NAME%>",
+                "last_x_topic_ids": null,
+                "forums_bitoptions": 0,
+                "disable_sharelinks": 0,
+                "tag_predefined": null,
+                "archived_topics": 0,
+                "archived_posts": 0,
+                "ipseo_priority": "-1",
+                "qa_rate_questions": "*",
+                "qa_rate_answers": "*",
+                "icon": null
+            },
+            {
+                "id": 2,
+                "topics": 1,
+                "posts": 1,
+                "last_post": "<%TIME%>",
+                "last_poster_id": 1,
+                "last_poster_name": "<%ADMIN_NAME%>",
+                "position": 1,
+                "password": null,
+                "password_override": "",
+                "last_title": "Welcome!",
+                "last_id": 1,
+                "sort_key": "last_post",
+                "show_rules": 0,
+                "preview_posts": 0,
+                "allow_poll": 1,
+                "inc_postcount": 1,
+                "skin_id": 0,
+                "parent_id": 1,
+                "redirect_url": "",
+                "redirect_on": 0,
+                "redirect_hits": 0,
+                "sub_can_post": 1,
+                "permission_showtopic": 0,
+                "queued_topics": 0,
+                "queued_posts": 0,
+                "forum_allow_rating": 0,
+                "min_posts_post": 0,
+                "min_posts_view": 0,
+                "can_view_others": 1,
+                "name_seo": "a-test-forum",
+                "seo_last_title": "welcome",
+                "seo_last_name": "<%ADMIN_NAME%>",
+                "last_x_topic_ids": null,
+                "forums_bitoptions": 0,
+                "disable_sharelinks": 0,
+                "tag_predefined": null,
+                "archived_topics": 0,
+                "archived_posts": 0,
+                "ipseo_priority": "-1",
+                "qa_rate_questions": "*",
+                "qa_rate_answers": "*",
+                "icon": null
+            }
+        ],
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_topics": {
+        "name": "forums_topics",
+        "columns": {
+            "tid": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "tid",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "title": {
+                "name": "title",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "state": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 8,
+                "name": "state",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "posts": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "posts",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "starter_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "starter_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "start_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "start_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_poster_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "last_poster_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "last_post": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "last_post",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "starter_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "starter_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_poster_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "last_poster_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "poll_state": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 8,
+                "name": "poll_state",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_vote": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "last_vote",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "views": {
+                "name": "views",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "forum_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "forum_id",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "approved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "approved",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "author_mode": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 1,
+                "name": "author_mode",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "pinned": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 1,
+                "name": "pinned",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "moved_to": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 64,
+                "name": "moved_to",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_firstpost": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_firstpost",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_queuedposts": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_queuedposts",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_open_time": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_open_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_close_time": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_close_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_rating_total": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "topic_rating_total",
+                "type": "SMALLINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_rating_hits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "topic_rating_hits",
+                "type": "SMALLINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "title_seo": {
+                "name": "title_seo",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "moved_on": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "moved_on",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_archive_status": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "topic_archive_status",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "last_real_post": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "last_real_post",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_answered_pid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_answered_pid",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "popular_time": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Timestamp of when this topic will stop being popular.",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "popular_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "featured": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Topic is featured?",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "featured",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "question_rating": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "If this topic is a question, it's current rating",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "question_rating",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_hiddenposts": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "topic_hiddenposts",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_meta_data": {
+                "name": "topic_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "is_anon": {
+                "name": "is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "last_poster_anon": {
+                "name": "last_poster_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "solved_reminder_sent": {
+                "name": "solved_reminder_sent",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "is_future_entry": {
+                "name": "is_future_entry",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            },
+            "publish_date": {
+                "name": "publish_date",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "tid"
+                ]
+            },
+            "topic_firstpost": {
+                "type": "key",
+                "name": "topic_firstpost",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "topic_firstpost"
+                ]
+            },
+            "last_post": {
+                "type": "key",
+                "name": "last_post",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "forum_id",
+                    "pinned",
+                    "last_real_post",
+                    "state"
+                ]
+            },
+            "forum_id": {
+                "type": "key",
+                "name": "forum_id",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "forum_id",
+                    "pinned",
+                    "approved"
+                ]
+            },
+            "starter_id": {
+                "type": "key",
+                "name": "starter_id",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "starter_id",
+                    "forum_id",
+                    "approved",
+                    "start_date"
+                ]
+            },
+            "start_date": {
+                "type": "key",
+                "name": "start_date",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "start_date"
+                ]
+            },
+            "last_x_topics": {
+                "type": "key",
+                "name": "last_x_topics",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "forum_id",
+                    "approved",
+                    "start_date"
+                ]
+            },
+            "approved": {
+                "type": "key",
+                "name": "approved",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "approved"
+                ]
+            },
+            "moved_redirects": {
+                "type": "key",
+                "name": "moved_redirects",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "moved_on",
+                    "moved_to",
+                    "pinned"
+                ]
+            },
+            "topic_archive_status": {
+                "type": "key",
+                "name": "topic_archive_status",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "topic_archive_status",
+                    "forum_id"
+                ]
+            },
+            "featured_topics": {
+                "type": "key",
+                "name": "featured_topics",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "featured",
+                    "start_date"
+                ]
+            },
+            "popular_topics": {
+                "type": "key",
+                "name": "popular_topics",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "popular_time",
+                    "approved",
+                    "forum_id",
+                    "start_date"
+                ]
+            },
+            "most_recent_post": {
+                "type": "key",
+                "name": "most_recent_post",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "forum_id",
+                    "approved",
+                    "last_post"
+                ]
+            },
+            "last_true_post": {
+                "type": "key",
+                "name": "last_true_post",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "forum_id",
+                    "pinned",
+                    "last_post"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB",
+        "inserts": [
+            {
+                "tid": "1",
+                "title": "Welcome!",
+                "state": "open",
+                "posts": "1",
+                "starter_id": "1",
+                "start_date": "<%TIME%>",
+                "last_poster_id": "1",
+                "last_post": "<%TIME%>",
+                "starter_name": "<%ADMIN_NAME%>",
+                "last_poster_name": "<%ADMIN_NAME%>",
+                "poll_state": null,
+                "last_vote": "0",
+                "views": "0",
+                "forum_id": "2",
+                "approved": "1",
+                "author_mode": "0",
+                "pinned": "0",
+                "moved_to": "",
+                "topic_firstpost": "1",
+                "topic_queuedposts": "0",
+                "topic_open_time": "0",
+                "topic_close_time": "0",
+                "topic_rating_total": "0",
+                "topic_rating_hits": "0",
+                "title_seo": "welcome",
+                "moved_on": "0",
+                "topic_archive_status": "0",
+                "last_real_post": "<%TIME%>",
+                "topic_answered_pid": "0",
+                "popular_time": "0",
+                "featured": "0",
+                "question_rating": "0",
+                "topic_hiddenposts": "0",
+                "topic_meta_data": "0"
+            }
+        ],
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_posts": {
+        "name": "forums_posts",
+        "columns": {
+            "pid": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "pid",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "append_edit": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "append_edit",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "edit_time": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "edit_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "author_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "author_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "author_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "author_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "ip_address": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 46,
+                "name": "ip_address",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "post_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "post",
+                "type": "MEDIUMTEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "queued": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "queued",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "topic_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "new_topic": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "new_topic",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "edit_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "edit_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_key": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 32,
+                "name": "post_key",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_htmlstate": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "post_htmlstate",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_edit_reason": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "post_edit_reason",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_bwoptions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "post_bwoptions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "pdelete_time": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "pdelete_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_field_int": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "post_field_int",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_field_t1": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "post_field_t1",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "post_field_t2": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "post_field_t2",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "pid"
+                ]
+            },
+            "topic_id": {
+                "type": "key",
+                "name": "topic_id",
+                "columns": [
+                    "topic_id",
+                    "queued",
+                    "post_date",
+                    "author_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            },
+            "author_id": {
+                "type": "key",
+                "name": "author_id",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "author_id",
+                    "post_date",
+                    "queued"
+                ]
+            },
+            "post_date": {
+                "type": "key",
+                "name": "post_date",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "post_date"
+                ]
+            },
+            "ip_address": {
+                "type": "key",
+                "name": "ip_address",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "ip_address"
+                ]
+            },
+            "post_key": {
+                "type": "key",
+                "name": "post_key",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "post_key"
+                ]
+            },
+            "queued": {
+                "type": "key",
+                "name": "queued",
+                "columns": [
+                    "queued",
+                    "post_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            },
+            "first_post": {
+                "type": "key",
+                "name": "first_post",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "topic_id",
+                    "post_date"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "inserts": [
+            {
+                "pid": "1",
+                "append_edit": "0",
+                "edit_time": "0",
+                "author_id": "1",
+                "author_name": "<%ADMIN_NAME%>",
+                "ip_address": "<%IP_ADDRESS%>",
+                "post_date": "<%TIME%>",
+                "post": "<p>Welcome to your new Invision Community!<\/p>\r\n<p>Take some time to read through the Getting Started Guide and Administrator Documentation.<\/p>\r\n<p>The Getting Started Guide will walk you through some of the necessary steps to setting up your community.<\/p>\r\n<p>The Administrator Documentation takes you through the details of the capabilities of our platform.<\/p>\r\n<p><a href='https:\/\/remoteservices.invisionpower.com\/docs\/getting-started' rel='external'>Go to the Documentation<\/a><\/p><br \/><p>Nulled by IPBMafia.ru<\/p>",
+                "queued": "0",
+                "topic_id": "1",
+                "new_topic": "1",
+                "edit_name": "",
+                "post_key": "25ialm35ohecq4d80a69ljufn3",
+                "post_htmlstate": "0",
+                "post_edit_reason": "",
+                "post_bwoptions": "0",
+                "pdelete_time": "0",
+                "post_field_int": "0",
+                "post_field_t1": null,
+                "post_field_t2": null
+            }
+        ],
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_answer_ratings": {
+        "name": "forums_answer_ratings",
+        "columns": {
+            "id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "ID Number",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "post": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The post ID",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "post",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "member": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The member giving the rating",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "member",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "rating": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The rating; 1 for positive or -1 for negative",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "rating",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Unix timestamp of when the rating was given",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "date",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "topic": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The topic ID",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "topic",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "id"
+                ]
+            },
+            "member_rating": {
+                "type": "unique",
+                "name": "member_rating",
+                "columns": [
+                    "member",
+                    "post"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            },
+            "post": {
+                "type": "key",
+                "name": "post",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "post"
+                ]
+            },
+            "member_topic_rating": {
+                "type": "key",
+                "name": "member_topic_rating",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "topic",
+                    "member"
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_question_ratings": {
+        "name": "forums_question_ratings",
+        "columns": {
+            "id": {
+                "name": "id",
+                "type": "BIGINT",
+                "length": "20",
+                "unsigned": true,
+                "zerofill": false,
+                "binary": false,
+                "allow_null": false,
+                "default": null,
+                "auto_increment": true,
+                "comment": "ID Number"
+            },
+            "topic": {
+                "name": "topic",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "The topic ID",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "forum": {
+                "name": "forum",
+                "type": "SMALLINT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "The forum ID",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "member": {
+                "name": "member",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The member giving the rating",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "rating": {
+                "name": "rating",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The rating; 1 for positive or -1 for negative",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "date": {
+                "name": "date",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "Unix timestamp of when the rating was given",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "columns": [
+                    "id"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "member_rating": {
+                "type": "unique",
+                "name": "member_rating",
+                "columns": [
+                    "member",
+                    "topic"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            },
+            "forum": {
+                "type": "key",
+                "name": "forum",
+                "columns": [
+                    "forum"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "topic": {
+                "type": "key",
+                "name": "topic",
+                "columns": [
+                    "topic",
+                    "member"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_archive_rules": {
+        "name": "forums_archive_rules",
+        "columns": {
+            "archive_key": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 32,
+                "name": "archive_key",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_app": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "core",
+                "length": 32,
+                "name": "archive_app",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_field": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "archive_field",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_value": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "archive_value",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_text": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 0,
+                "name": "archive_text",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_unit": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "archive_unit",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_skip": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "archive_skip",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "archive_key"
+                ]
+            }
+        },
+        "comment": "",
+        "inserts": [
+            {
+                "archive_key": "c3485230ea085e37cc68f29246a7c973",
+                "archive_app": "forums",
+                "archive_field": "lastpost",
+                "archive_value": ">",
+                "archive_text": "1",
+                "archive_unit": "y",
+                "archive_skip": 0
+            },
+            {
+                "archive_key": "c8fe1d1ca056fe65ed274aeba8067ce2",
+                "archive_app": "forums",
+                "archive_field": "pinned",
+                "archive_value": "0",
+                "archive_text": "",
+                "archive_unit": "",
+                "archive_skip": 0
+            },
+            {
+                "archive_key": "fab089c977b4314d5ee538e1da95b77f",
+                "archive_app": "forums",
+                "archive_field": "featured",
+                "archive_value": "0",
+                "archive_text": "",
+                "archive_unit": "",
+                "archive_skip": 0
+            }
+        ],
+        "reporting": "count"
+    },
+    "forums_archive_posts": {
+        "name": "forums_archive_posts",
+        "columns": {
+            "archive_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_author_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "archive_author_id",
+                "type": "BIGINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_author_name": {
+                "name": "archive_author_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "archive_ip_address": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 46,
+                "name": "archive_ip_address",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_content_date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_content_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_content": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "archive_content",
+                "type": "MEDIUMTEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_queued": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "archive_queued",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_topic_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_topic_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_is_first": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "archive_is_first",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_bwoptions": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_bwoptions",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_attach_key": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 32,
+                "name": "archive_attach_key",
+                "type": "CHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_html_mode": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "archive_html_mode",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_show_edited_by": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "archive_show_edited_by",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_edit_time": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_edit_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_edit_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "archive_edit_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_edit_reason": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "archive_edit_reason",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_added": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_added",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_restored": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "archive_restored",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_forum_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "archive_forum_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "archive_field_int": {
+                "name": "archive_field_int",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "archive_id"
+                ]
+            },
+            "archive_topic_id": {
+                "type": "key",
+                "name": "archive_topic_id",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "archive_topic_id",
+                    "archive_queued",
+                    "archive_content_date"
+                ]
+            },
+            "archive_author_id": {
+                "type": "key",
+                "name": "archive_author_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "archive_author_id"
+                ]
+            },
+            "archive_restored": {
+                "type": "key",
+                "name": "archive_restored",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "archive_restored"
+                ]
+            },
+            "archive_content_date": {
+                "type": "key",
+                "name": "archive_content_date",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "archive_content_date",
+                    "archive_topic_id"
+                ]
+            },
+            "archive_forum_id": {
+                "type": "key",
+                "name": "archive_forum_id",
+                "columns": [
+                    "archive_forum_id"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "archive_ip_address": {
+                "type": "key",
+                "name": "archive_ip_address",
+                "columns": [
+                    "archive_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "archive_queued": {
+                "type": "key",
+                "name": "archive_queued",
+                "columns": [
+                    "archive_queued",
+                    "archive_content_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        }
+    },
+    "forums_topic_mmod": {
+        "name": "forums_topic_mmod",
+        "columns": {
+            "mm_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 5,
+                "name": "mm_id",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "mm_enabled": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "mm_enabled",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_state": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "leave",
+                "length": 10,
+                "name": "topic_state",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_pin": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "leave",
+                "length": 10,
+                "name": "topic_pin",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_move": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "topic_move",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_move_link": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "topic_move_link",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_title_st": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 250,
+                "name": "topic_title_st",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_title_end": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 250,
+                "name": "topic_title_end",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_reply": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "topic_reply",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_reply_content": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "topic_reply_content",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_reply_postcount": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "topic_reply_postcount",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "mm_forums": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "mm_forums",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "topic_approve": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "topic_approve",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "mm_id"
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "forums_view_method": {
+        "name": "forums_view_method",
+        "columns": {
+            "member_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "member_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "method": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "table",
+                "length": 10,
+                "name": "method",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "type": {
+                "name": "type",
+                "type": "VARCHAR",
+                "length": 16,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "index",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "member_id": {
+                "type": "unique",
+                "name": "member_id",
+                "columns": [
+                    "member_id",
+                    "type"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB"
+    }
+}

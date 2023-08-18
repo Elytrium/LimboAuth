@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_settings_titles",
+            "conf_title_keyword='nexus'"
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key='nexus_donations_on'"
+        ]
+    }
+}

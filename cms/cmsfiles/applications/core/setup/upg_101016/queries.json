@@ -1,0 +1,128 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_image_proxy",
+                "columns": {
+                    "md5_url": {
+                        "name": "md5_url",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The md5sum of the URL",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "location": {
+                        "name": "location",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The stored location or NULL if it's invalid",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cache_time": {
+                        "name": "cache_time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Timestamp of when the image was cached",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "md5_url"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "cache_time": {
+                        "type": "key",
+                        "name": "cache_time",
+                        "columns": [
+                            "cache_time"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_view_updates",
+                "columns": {
+                    "classname": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Name of the class the view is for",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "classname",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "id": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The ID number for the object",
+                        "decimals": null,
+                        "default": null,
+                        "length": 20,
+                        "name": "id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "classname_and_id": {
+                        "type": "key",
+                        "name": "classname_and_id",
+                        "length": [
+                            171,
+                            null
+                        ],
+                        "columns": [
+                            "classname",
+                            "id"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

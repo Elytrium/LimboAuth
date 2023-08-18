@@ -1,0 +1,523 @@
+/**
+ * Friendly URL Structure
+ *
+ * For each value in the $furl array:
+ *	The key should be the "SEO Template" - an identifier which you'll use when displaying a URL.
+ *	The value should be an associative array with two or three elements: 'friendly' and 'real', and optionally 'verify':
+ *		'friendly'
+ *			The friendly URL to use - encase variables in {curly braces} containing a symbol, followed by the name of the parameter that matches in the "real" URL
+ *			The symbol should be # for numbers or @ for strings
+ *			For example, if the "real" URL contains id=XXX, where XXX is a number, you should include {#id} somewhere in the friendly URL.
+ *			You can also use the tag {?} for the "SEO Title" (that is, any variables that shouldn't be part of the real URL, such as the name of the topipc being viewed).
+ *			If you want to support more than one SEO Title, you can give them zero-indexed keys like so: {?0} {?1} {?2}
+ *		'real'
+ *			This should be the base of the real URL. You should not include parameters which will be parsed out from the friendly URL.
+ *      'verify'
+ *          This should be the name of a class that contains a loadFromUrl() and an url() method.  The dynamic URL (i.e. app=core&...) will be passed to loadFromUrl(), and the url()
+ *          method will subsequently be called to retrieve the correct URL, ideal with ActiveRecord pattern classes.
+ *
+ * IMPORTANT: Ensure values are listed with the most specific ones first. This is to ensure that non-FURL redirects are done correctly. For example, if you have these FURLs:
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller&do=myaction	->	/myfolder/myaction
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller				->	/myfolder
+ * They must be provided in that order, otherwise the former will redirec to /myfolder/?do=myaction rather than /myfolder/myaction
+ */
+{
+	"topLevel": "",
+	"pages": {
+	
+		/* Login */
+	    "login": {
+	        "friendly": "login",
+	        "real": "app=core&module=system&controller=login"
+	    },
+	    "logout": {
+	        "friendly": "logout",
+	        "real": "app=core&module=system&controller=login&do=logout"
+	    },
+	    "lostpassword": {
+	    	"friendly": "lostpassword",
+	    	"real": "app=core&module=system&controller=lostpass"
+	    },
+	        
+	    /* User CP */
+	    "settings_email": {
+	        "friendly": "settings/email",
+	        "real": "app=core&module=system&controller=settings&area=email"
+	    },
+	    "settings_password": {
+	        "friendly": "settings/password",
+	        "real": "app=core&module=system&controller=settings&area=password"
+	    },
+	    "settings_devices": {
+	        "friendly": "settings/devices",
+	        "real": "app=core&module=system&controller=settings&area=devices"
+	    },
+	    "settings_secure": {
+	        "friendly": "settings/secure-account",
+	        "real": "app=core&module=system&controller=settings&do=secureAccount"
+	    },
+	    "settings_mfa": {
+	        "friendly": "settings/account-security",
+	        "real": "app=core&module=system&controller=settings&area=mfa"
+	    },
+	    "mfarecovery": {
+	        "friendly": "account-recovery",
+	        "real": "app=core&module=system&controller=settings&do=mfarecovery"
+	    },
+	    "mfarecoveryvalidate": {
+	        "friendly": "account-recovery/validate",
+	        "real": "app=core&module=system&controller=settings&do=mfarecoveryvalidate"
+	    },
+	    "settings_username": {
+	        "friendly": "settings/username",
+	        "real": "app=core&module=system&controller=settings&area=username"
+	    },
+		"settings_links": {
+		  "friendly": "settings/links",
+		  "real": "app=core&module=system&controller=settings&area=links"
+		},
+		"settings_signature": {
+	        "friendly": "settings/signature",
+	        "real": "app=core&module=system&controller=settings&area=signature"
+	    },  
+	    "settings_login": {
+	        "friendly": "settings/login",
+	        "real": "app=core&module=system&controller=settings&area=login"
+	    },  
+	    "settings_apps": {
+	        "friendly": "settings/apps",
+	        "real": "app=core&module=system&controller=settings&area=apps"
+	    },
+		"settings_referrals": {
+		  "friendly": "settings/referrals",
+		  "real": "app=core&module=system&controller=settings&area=referrals"
+		},
+	    "settings": {
+	        "friendly": "settings",
+	        "real": "app=core&module=system&controller=settings"
+	    },
+	    "unsubscribe": {
+	        "friendly": "unsubscribe",
+	        "real": "app=core&module=system&controller=unsubscribe"
+	    },
+	    "privacy": {
+	        "friendly": "privacy",
+	        "real": "app=core&module=system&controller=privacy",
+	        "alias": "privacypolicy"
+	    },
+	    "register": {
+	        "friendly": "register",
+	        "real": "app=core&module=system&controller=register"
+	    },
+	    "attachments": {
+	        "friendly": "attachments",
+	        "real": "app=core&module=system&controller=attachments"
+	    },
+	    "cookies": {
+	        "friendly": "cookies",
+	        "real": "app=core&module=system&controller=cookies",
+	        "alias": "cookies"
+	    },
+	    
+	    /* Messenger */
+	    "messenger_compose": {
+		  	"friendly": "messenger/compose",
+		  	"real": "app=core&module=messaging&controller=messenger&do=compose"  
+	    },
+	    "messenger_convo": {
+		  	"friendly": "messenger/{#id}",
+		  	"real": "app=core&module=messaging&controller=messenger"  
+	    },
+	    "messenger_unread": {
+		  	"friendly": "messenger/unread",
+		  	"real": "app=core&module=messaging&controller=messenger&folder=unread"  
+	    },
+	    "messenger_drafts": {
+		  	"friendly": "messenger/drafts",
+		  	"real": "app=core&module=messaging&controller=messenger&folder=drafts"  
+	    },
+	    "messaging": {
+		  	"friendly": "messenger",
+		  	"real": "app=core&module=messaging&controller=messenger"  
+	    },
+	    
+	    /* Profiles */
+	    "warn_add": {
+		   "friendly": "profile/{#id}-{?}/warnings/add",
+		   "real": "app=core&module=system&controller=warnings&do=warn",
+		   "seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "warn_view": {
+		   "friendly": "profile/{#id}-{?}/warnings/{#w}",
+		   "real": "app=core&module=system&controller=warnings&do=view",
+	       "verify": "\\IPS\\core\\Warnings\\Warning"
+	    },
+	    "warn_list": {
+		   "friendly": "profile/{#id}-{?}/warnings",
+		   "real": "app=core&module=system&controller=warnings",
+		   "seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	   	"profile_content": {
+	    	"friendly": "profile/{#id}-{?}/content",
+	    	"real": "app=core&module=members&controller=profile&do=content",
+	    	"seoPagination": true,
+	    	"seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "profile_reputation": {
+	    	"friendly": "profile/{#id}-{?}/reputation",
+	    	"real": "app=core&module=members&controller=profile&do=reputation",
+	    	"seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "profile_badges": {
+	    	"friendly": "profile/{#id}-{?}/badges",
+	    	"real": "app=core&module=members&controller=profile&do=badges",
+	    	"seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "profile_solutions": {
+	    	"friendly": "profile/{#id}-{?}/solutions",
+	    	"real": "app=core&module=members&controller=profile&do=solutions",
+	    	"seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "edit_profile": {
+	     "friendly": "profile/{#id}-{?}/edit",
+	     "real": "app=core&module=members&controller=profile&do=edit",
+	     "seoTitles": [
+	      {
+	        "class": "\\IPS\\Member",
+	        "queryParam": "id",
+	        "property": "members_seo_name"
+	      }
+	     ]
+	    },
+	    "edit_profile_photo": {
+	     "friendly": "profile/{#id}-{?}/photo",
+	     "real": "app=core&module=members&controller=profile&do=editPhoto",
+	     "seoTitles": [
+	      {
+	        "class": "\\IPS\\Member",
+	        "queryParam": "id",
+	        "property": "members_seo_name"
+	      }
+	     ]
+	    },
+	    "flag_as_spammer": {
+		   "friendly": "profile/{#id}-{?}/spammer",
+		   "real": "app=core&module=system&controller=moderation&do=flagAsSpammer",
+		   "seoTitles": [
+		   	{
+		   		"class": "\\IPS\\Member",
+		   		"queryParam": "id",
+		   		"property": "members_seo_name"
+		   	}
+		   ]
+	    },
+	    "profile_followers": {
+		    "friendly": "profile/{#id}-{?}/followers",
+		    "real": "app=core&module=members&controller=profile&do=followers",
+		    "seoTitles": [
+		    {
+			    "class": "\\IPS\\Member",
+			    "queryParam": "id",
+			    "property": "members_seo_name"
+		    }
+		   ]
+	    },
+	    "profile": {
+		   "friendly": "profile/{#id}-{?}",
+		   "real": "app=core&module=members&controller=profile",
+	       "verify": "\\IPS\\Member",
+	       "alias": "user/{#id}-{?}"
+	    },
+		
+	    /* Mod CP */
+	    "modcp_announcements": {
+		    "friendly": "modcp/announcements",
+		    "real": "app=core&module=modcp&controller=modcp&tab=announcements"
+	    },
+	    "modcp_report": {
+		    "friendly": "modcp/reports/{#id}",
+		    "real": "app=core&module=modcp&controller=modcp&tab=reports&action=view"
+	    },
+	    "modcp": {
+		    "friendly": "modcp",
+		    "real": "app=core&module=modcp&controller=modcp"
+	    },
+	    "modcp_members": {
+		    "friendly": "modcp/members",
+		    "real": "app=core&module=modcp&controller=modcp&tab=members"
+	    },
+	    "modcp_reports": {
+		    "friendly": "modcp/reports",
+		    "real": "app=core&module=modcp&controller=modcp&tab=reports"
+	    },
+	    "modcp_content": {
+		    "friendly": "modcp/content",
+		    "real": "app=core&module=modcp&controller=modcp&tab=hidden"
+	    },
+	    "modcp_approval": {
+		    "friendly": "modcp/approval-queue",
+		    "real": "app=core&module=modcp&controller=modcp&tab=approval"
+	    },
+	    "modcp_recent_warnings": {
+		    "friendly": "modcp/recent-warnings",
+		    "real": "app=core&module=modcp&controller=modcp&tab=recent_warnings"
+	    },
+	    "modcp_ip_tools": {
+		    "friendly": "modcp/ip-tools",
+		    "real": "app=core&module=modcp&controller=modcp&tab=ip_tools"
+	    },
+	    "modcp_deleted": {
+		    "friendly": "modcp/deleted",
+		    "real": "app=core&module=modcp&controller=modcp&tab=deleted"
+	    },
+		"modcp_alerts": {
+			"friendly": "modcp/alerts",
+			"real": "app=core&module=modcp&controller=modcp&tab=alerts"
+		},
+	    
+	    /* Ignore */
+	   "ignore": {
+		   "friendly": "ignore",
+		   "real": "app=core&module=system&controller=ignore"
+	   },
+	   
+	   /* Online Users */
+	   "online": {
+		   "friendly": "online",
+		   "real": "app=core&module=online&controller=online"
+	   },
+	
+	   /* Staff directory */
+	   "staffdirectory": {
+	       "friendly": "staff",
+	       "real": "app=core&module=staffdirectory&controller=directory"
+	   },
+	   
+	   /* Guidelines */
+	   "guidelines": {
+		   "friendly": "guidelines",
+		   "real": "app=core&module=system&controller=guidelines"
+	   },
+	   
+	   /* Notifications */
+	   "notifications_options": {
+		   "friendly": "notifications/options",
+		   "real": "app=core&module=system&controller=notifications&do=options"
+	   },
+	   "notifications": {
+		   "friendly": "notifications",
+		   "real": "app=core&module=system&controller=notifications"
+	   },
+	   "terms": {
+		   "friendly": "terms",
+		   "real": "app=core&module=system&controller=terms"
+	   },
+	   "announcement": {
+		   "friendly": "announcement/{#id}-{?}",
+		   "real": "app=core&module=system&controller=announcement"
+	   },
+	   "contact": {
+		   "friendly": "contact",
+		   "real": "app=core&module=contact&controller=contact"
+	   },
+	   "followed_content": {
+		   "friendly": "followed",
+		   "real": "app=core&module=system&controller=followed"
+	   },
+		"alert": {
+			"friendly": "alert/{#id}",
+			"real": "app=core&module=system&controller=alerts"
+		},
+	   
+	   /* Search */
+	   "search": {
+		   "friendly": "search",
+		   "real": "app=core&module=search&controller=search"
+	   },
+	   	   
+	   /* Discover */
+	   "discover_unread": {
+		   "friendly": "discover/unread",
+		   "real": "app=core&module=discover&controller=streams&id=1"
+	   },
+	   "discover_istarted": {
+		   "friendly": "discover/content-started",
+		   "real": "app=core&module=discover&controller=streams&id=2"
+	   },
+	   "discover_followed": {
+		   "friendly": "discover/followed-content",
+		   "real": "app=core&module=discover&controller=streams&id=3"
+	   },
+	   "discover_following": {
+		   "friendly": "discover/followed-members",
+		   "real": "app=core&module=discover&controller=streams&id=4"
+	   },
+	   "discover_posted": {
+		   "friendly": "discover/content-posted",
+		   "real": "app=core&module=discover&controller=streams&id=5"
+	   },
+	   "discover_stream": {
+		   "friendly": "discover/{#id}",
+		   "real": "app=core&module=discover&controller=streams"
+	   },
+	   "discover_rss_all_activity": {
+		   "friendly": "discover/all.xml",
+		   "real": "app=core&module=discover&controller=streams&rss=1"
+	   },
+	   "discover_rss": {
+		   "friendly": "discover/{#id}.xml",
+		   "real": "app=core&module=discover&controller=streams&rss=1"
+	   },
+	   "discover_all": {
+		   "friendly": "discover",
+		   "real": "app=core&module=discover&controller=streams"
+	   },
+	   
+	   /* RSS */
+	   "rss_feed": {
+	   		"friendly": "rss/{#id}-{?}.xml",
+	   		"real": "app=core&module=discover&controller=rss",
+	   		"verify": "\\IPS\\core\\Rss"
+	   },
+
+	   /* Language Selector */
+	   "language": {
+		    "friendly": "language",
+		    "real": "app=core&module=system&controller=language"
+	    },
+	   
+	   /* Theme Selector */
+	   "theme": {
+		    "friendly": "theme",
+		    "real": "app=core&module=system&controller=theme"
+	    },
+	    
+	    /* Mark site as read */
+	    "mark_site_as_read": {
+	        "friendly": "markallread",
+	        "real": "app=core&module=system&controller=markread"
+	    },
+	  	
+	  	/* Tags */
+	  	"tags": {
+			"friendly": "tags/{@tags}",
+			"real": "app=core&module=search&controller=search"
+		},
+		
+		/* Legacy */
+	  	"activity": {
+			"friendly": "activity",
+			"real": "app=core&module=activity&controller=activity"
+	  	},
+		"vnc": {
+			"friendly": "new-content",
+			"real": "app=core&module=discover&controller=vnc"
+		},
+		
+		/* Leaderboard */
+		"leaderboard_leaderboard": {
+			"friendly": "leaderboard",
+			"real": "app=core&module=discover&controller=popular&tab=leaderboard"
+		},
+		"leaderboard_history": {
+			"friendly": "pastleaders",
+			"real": "app=core&module=discover&controller=popular&tab=history"
+		},
+		"leaderboard_members": {
+			"friendly": "topmembers",
+			"real": "app=core&module=discover&controller=popular&tab=members"
+		},
+		"leaderboard_trending": {
+			"friendly": "trending",
+			"real": "app=core&module=discover&controller=popular&tab=trending"
+		},
+		
+		/* Clubs */
+		"clubs_list": {
+			"friendly": "clubs",
+			"real": "app=core&module=clubs&controller=directory"
+		},
+		"clubs_view": {
+			"friendly": "clubs/{#id}-{?}",
+			"real": "app=core&module=clubs&controller=view",
+			"verify": "\\IPS\\Member\\Club"
+		},
+		"clubs_page": {
+			"friendly": "clubs/page/{#id}-{?}",
+			"real": "app=core&module=clubs&controller=page",
+			"verify": "\\IPS\\Member\\Club\\Page"
+		},
+		
+		/* Promote */
+		"promote_history": {
+			"friendly": "promote/history-{#promote_id}",
+			"real": "app=core&module=promote&controller=promote&do=history"
+		},
+		"promote_manage": {
+			"friendly": "promote/manage",
+			"real": "app=core&module=promote&controller=promote&do=view"
+		},
+		"promote_show": {
+			"friendly": "ourpicks",
+			"real": "app=core&module=promote&controller=ourpicks"
+		},
+		"promote": {
+			"friendly": "promote",
+			"real": "app=core&module=promote&controller=promote"
+		},
+
+		/* Meta-data files */
+		"manifest": {
+			"friendly": "manifest.webmanifest",
+			"real": "app=core&module=system&controller=metatags&do=manifest"
+		},
+		"iebrowserconfig": {
+			"friendly": "browserconfig.xml",
+			"real": "app=core&module=system&controller=metatags&do=iebrowserconfig"
+		},
+		"referral": {
+		  "friendly": "refer/{#id}",
+		  "real": "app=core&module=system&controller=referrals"
+		},
+		"user_offline": {
+			"friendly": "offline",
+			"real": "app=core&module=system&controller=offline"
+		}
+	}
+}

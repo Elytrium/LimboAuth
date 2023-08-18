@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "forums_forums",
+            {
+                "type": "key",
+                "name": "widget_performance",
+                "columns": [
+                    "min_posts_view",
+                    "password",
+                    "password_override",
+                    "can_view_others"
+                ],
+                "length": [
+                    null,
+                    null,
+                    250,
+                    null
+                ]
+            }
+        ]
+    }
+}

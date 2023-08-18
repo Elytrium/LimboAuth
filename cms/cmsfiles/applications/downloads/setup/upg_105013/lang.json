@@ -1,0 +1,57 @@
+{
+    "normal": {
+        "added": [
+            "__indefart_downloads_file_pending",
+            "cmultiple_files",
+            "cmultiple_files_desc",
+            "downloads_file_pending",
+            "downloads_file_pending_pl",
+            "downloads_file_pending_pl_lc",
+            "file_pending_approval_version",
+            "file_pending_version_button",
+            "err_too_many_files",
+            "upload_new_version_pending",
+            "select_your_file",
+            "save_and_submit_file",
+            "save_and_submit_new_version",
+            "downloads_single_upload",
+            "stats_overview_downloads",
+            "stats_overview_downloads_desc",
+            "notification__new_file_version_with",
+            "backgroundQueue_new_version",
+            "file_subscribe",
+            "file_unsubscribe",
+            "file_subscribed",
+            "file_unsubscribed",
+            "file_notify_heading",
+            "file_notify_current",
+            "file_notify_none",
+            "file_version_pending_approval",
+            "pending_no_new_files",
+            "pending_no_changelog",
+            "pending_version",
+            "pending_version_reject",
+            "pending_version_reject_title",
+            "pending_version_reject_desc"
+        ],
+        "edited": [
+            "cbitoptions_moderation_edits",
+            "idm_bulk_submit",
+            "file_auto_follow_suffix",
+            "notifications__downloads_Files_desc"
+        ],
+        "removed": [
+            "idm_rss_desc",
+            "upload_files"
+        ]
+    },
+    "js": {
+        "added": [
+            "file_subscribe",
+            "file_unsubscribe",
+            "files_optional"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

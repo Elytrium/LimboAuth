@@ -1,0 +1,39 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "forums_archive_posts",
+            {
+                "type": "key",
+                "name": "archive_forum_id",
+                "columns": [
+                    "archive_forum_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "forums_topics",
+            "last_post",
+            {
+                "name": "last_post",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "admin": {
+        "gallery": {
+            "default_controller": "categories",
+            "protected": 0,
+            "default": 1
+        },
+        "stats": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        }
+    },
+    "front": {
+        "gallery": {
+            "default_controller": "browse",
+            "protected": 0,
+            "default": 1
+        }
+    }
+}

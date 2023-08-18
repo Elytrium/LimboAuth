@@ -1,0 +1,8 @@
+{
+    "added": [
+        "app=core&module=discovery&controller=streams&do=allActivitySettings",
+        "app=core&module=editor&controller=storedreplies"
+    ],
+    "edited": [],
+    "removed": []
+}

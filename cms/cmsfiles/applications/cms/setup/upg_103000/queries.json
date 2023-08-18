@@ -1,0 +1,93 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_reviews",
+            {
+                "name": "review_author_response",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "cms_database_reviews",
+            "review_author",
+            {
+                "type": "key",
+                "name": "review_author",
+                "columns": [
+                    "review_author",
+                    "review_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_reviews",
+            {
+                "type": "key",
+                "name": "review_item",
+                "columns": [
+                    "review_item",
+                    "review_author"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_categories",
+            {
+                "type": "key",
+                "name": "category_select",
+                "columns": [
+                    "category_parent_id",
+                    "category_position"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_comments",
+            {
+                "type": "key",
+                "name": "comment_ip_address",
+                "columns": [
+                    "comment_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

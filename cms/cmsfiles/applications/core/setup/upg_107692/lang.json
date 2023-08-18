@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "cookie_standard_desc",
+            "acplog__deletionrequest__approved",
+            "acplog__deletionrequest__rejected"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

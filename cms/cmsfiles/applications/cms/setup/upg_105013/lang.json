@@ -1,0 +1,50 @@
+{
+    "normal": {
+        "added": [
+            "moving_database_comments",
+            "moving_database_comments_single",
+            "rebuilding_cms_comment_attachments",
+            "content_templates_inherit",
+            "cms_templates_export_description_app",
+            "cms_template_title_exists",
+            "database_form_template_link",
+            "cms_block_list_key",
+            "cms_theme_template_custom",
+            "cms_theme_template_default",
+            "cms_tag_lang",
+            "add_word_reason_pages",
+            "rss_import_record_open",
+            "rss_import_record_hide",
+            "__api_cms_databases",
+            "__api_cms_categories",
+            "block_pagebuildertext",
+            "block_pagebuildertext_desc",
+            "block_pagebuilderoembed",
+            "block_pagebuilderoembed_desc",
+            "block_pagebuilderupload",
+            "block_pagebuilderupload_desc",
+            "pagebuilderupload_upload",
+            "pagebuilder_text",
+            "video_url",
+            "video_cannot_embed",
+            "block_testimonials",
+            "block_testimonials_desc",
+            "widget_testimonials_name",
+            "widget_testimonials_content",
+            "testimonials",
+            "pagebuilderupload_slideshow",
+            "pagebuilderupload_captions",
+            "pagebuilderupload_captions_desc",
+            "pagebuilderupload_urls",
+            "pagebuilderupload_urls_desc",
+            "pagebuilderupload_height"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

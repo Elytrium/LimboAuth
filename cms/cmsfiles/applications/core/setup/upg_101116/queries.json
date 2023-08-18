@@ -1,0 +1,55 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "`key` =? and app=?",
+                "grouppromote",
+                "core"
+            ]
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_reputation_index",
+            "class_type_id_hash",
+            {
+                "type": "key",
+                "name": "class_type_id_hash",
+                "columns": [
+                    "class_type_id_hash",
+                    "rep_date",
+                    "rep_rating"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "core_reputation_index",
+            "member_received",
+            {
+                "type": "key",
+                "name": "member_received",
+                "columns": [
+                    "member_received",
+                    "rep_date",
+                    "rep_rating"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

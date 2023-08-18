@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            [
+                "app=? AND `key`=?",
+                "gallery",
+                "recentImages"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            [
+                "app=? AND `key`=?",
+                "gallery",
+                "topImages"
+            ]
+        ]
+    }
+}

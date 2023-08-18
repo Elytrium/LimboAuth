@@ -1,0 +1,2266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="calendar">
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/browse" javascript_name="ips.browse.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.browse.main.js - Calendar main browsing controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.browse.main', {
+
+		_ajaxObj: null,
+		
+		initialize: function () {
+			this.on( 'click', '[data-action="changeView"]', this.changeView );
+			this.on( window, 'statechange', this.stateChange );
+			this.setup();
+		},
+
+		/**
+		 * Controller setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			History.pushState( { controller: 'calendarView' }, document.title, window.location.href );	
+		},
+
+		/**
+		 * Changes the calendar view dynamically
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		changeView: function (e) {
+			e.preventDefault();
+
+			// Load the url via ajax instead
+			var self = this;
+			var title = $( e.currentTarget ).attr('title');
+			var url = $( e.currentTarget ).attr('href');
+
+			History.pushState( { controller: 'calendarView' }, title, url );
+		},
+
+		/**
+		 * Event handler for history state changes
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		stateChange: function () {
+			var state = History.getState();
+
+			if( _.isUndefined( state.data.controller ) || state.data.controller != 'calendarView' ) {
+				return;
+			}
+
+			// Track page view
+			ips.utils.analytics.trackPageView( state.url );
+
+			this._updateView( state.url, state.title )
+		},
+
+		/**
+		 * Loads a new view 
+		 *
+		 * @param 	{string} 	url 	URL to load
+		 * @param 	{string} 	title 	New browser title
+		 * @returns {void}
+		 */
+		_updateView: function (url, title) {
+			var self = this;
+
+			if( this._ajaxObj && _.isFunction( this._ajaxObj.abort ) ){
+				this._ajaxObj.abort();
+			}
+
+			this._setLoading( true );
+
+			this._ajaxObj = ips.getAjax()( url, {
+				showLoading: true
+			} )
+				.done( function (response) {
+					self.scope.html( response );
+
+					$( document ).trigger( 'contentChange', [ self.scope ] );
+
+					History.pushState( { controller: 'calendarView' }, title, url );
+				})
+				.always( function () {
+					self._setLoading( false );
+				});
+		},
+
+		/**
+		 * Toggles the loading state on the view
+		 *
+		 * @param 	{boolean} 	state 		Enable the loading state?
+		 * @returns {void}
+		 */
+		_setLoading: function (state) {
+			if( state ){
+				this.scope.animate( { opacity: "0.6" }, 'fast' );
+			} else {
+				this.scope.animate( { opacity: "1" }, 'fast' );
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/browse" javascript_name="ips.browse.monthView.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.browse.monthView.js - Month view controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.browse.monthView', {
+
+		_emptyEvent: "<li class='cEvents_event cEvents_empty' data-eventid='0'><span></span></a></li>",
+
+		initialize: function () {
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+			this._alignEvents();
+		},
+
+
+		_alignEvents: function () {
+			// Lets start by getting all active days in the current calendar
+			var days = this.scope.find('.cCalendar_date');
+			var currentPositions = [];
+			var self = this;
+
+			_.each( days, function (day) {
+				var day = $( day );
+				var dayNumber = day.find('.cCalendar_dayNumber').text();
+				var weekStart = false;
+
+				if( day.closest('td').is('tr > td:first-child') ){
+					weekStart = true;
+				}
+
+				// Get events for this day
+				var events = day.find('.cEvents_ranged [data-eventID]');
+
+				// If there's no events, we can skip this day
+				if( !events.length ){
+					currentPositions = [];
+					return;
+				}
+
+				// Build a wrapper into which we'll move our events
+				var wrapper = $("<ul/>").addClass('cEvents');
+				var spaces = 0;
+				
+				// Now we loop over currentPositions (from the previous day), and try and arrange today's events
+				// in the same order
+				if( currentPositions.length ){
+					var doneEvent = false;
+
+					for( var i = 0; i < currentPositions.length; i++ ){	
+						if( events.filter('[data-eventID="' + currentPositions[i] + '"]').length ){
+							wrapper.append( events.filter('[data-eventID="' + currentPositions[i] + '"]') );
+							doneEvent = true;
+						} else {
+
+							// If this is the first day of the week, we won't bother adding spacers unless we've already done an event today
+							// This prevents lots of unnecessary spacers carrying over from the previous row
+							if( !weekStart || doneEvent ){
+								wrapper.append( self._emptyEvent );
+								spaces++;
+							}
+						}
+					}
+				}
+
+				var remainingEvents = day.find('.cEvents_ranged [data-eventID]');
+
+				// If we have any remaining events, and there's gaps available, we can move those events into the gaps rather than
+				// just putting them at the end
+				if( spaces && remainingEvents.length ){
+					var availableSpaces = wrapper.find('[data-eventID="0"]');
+
+					// If we have a space and an event, move the event into that space
+					for( var i = 0; i <= spaces; i++ ){
+						if( remainingEvents[ i ] && availableSpaces[ i ] ){
+							$( availableSpaces[ i ] ).replaceWith( $( remainingEvents[ i ] ) );
+						}
+					}
+
+					// Update remaining events again
+					remainingEvents = day.find('.cEvents_ranged [data-eventID]');
+				}
+
+				// Add in remaining events
+				wrapper.append( remainingEvents );
+
+				// Replace the existing wrapper with the new, correctly-ordered one
+				day.find('.cEvents_ranged > .cEvents').replaceWith( wrapper );
+
+				// Now we need to build a new currentPositions array for this day, so that the following
+				// day can use it to do its thing
+				currentPositions = [];
+
+				_.each( day.find('.cEvents_ranged [data-eventID]'), function (event) {
+					var eventID = parseInt( $( event ).attr('data-eventID') );
+
+					if( eventID === 0 ){
+						currentPositions.push('-');
+					} else if( _.isNumber( eventID ) && !_.isNaN( eventID ) ){
+						currentPositions.push( eventID );
+					}
+				});
+			});
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/overview" javascript_name="ips.overview.carousel.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * Author: Ehren Harber
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.overview.carousel', {
+
+		initialize: function () {
+			this.on('mouseenter', this.stopTimer);
+            this.on('mouseleave', this.startTimer);
+			this.on('click', '.cFeaturedEvents__dots', this.dotClick);
+			this.setup();
+		},
+
+		setup: function () {
+			this._scroller = this.scope[0].querySelector('.cFeaturedEvents__scroller');
+			this._dotContainer = this.scope[0].querySelector('.cFeaturedEvents__dots');
+			this.scrollPercentage();
+			this.startTimer();
+		},
+
+		scrollPercentage: function() {
+			this._scroller.addEventListener('scroll', e => {
+				let percentage = Math.floor(100 * this._scroller.scrollLeft / (this._scroller.scrollWidth-this._scroller.clientWidth));
+				this._dotContainer.style.setProperty('--percentage', percentage);
+			}, {
+				passive: true,
+			});
+		},
+
+		autoPlay: function(){
+			let currentScroll = this._scroller.scrollLeft,
+				carouselChildWidth = this._scroller.firstElementChild.offsetWidth;
+			if ((currentScroll >= this._scroller.scrollWidth - this._scroller.clientWidth)){
+				this._scroller.scrollLeft = 0;
+			} else {
+				this._scroller.scrollLeft = currentScroll + carouselChildWidth;
+			}
+			this.startTimer();
+		},
+
+		dotClick: function(ev){
+			let slide = this.scope[0].querySelector(`.cFeaturedEvents__scroller [data-item='${ev.target.dataset.carouselDot}']`);
+			slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+		},
+
+        stopTimer: function () {
+            clearInterval(this._timer);
+        },
+
+        startTimer: function () {
+            this._timer = setTimeout(this.autoPlay.bind(this), 5000);
+        }
+
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/overview" javascript_name="ips.overview.eventList.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.overview.eventList.js - Controller for event listing
+ *
+ * Author: Rikki Tissier
+ */
+var PER_PAGE = 16;
+
+;( function($, _, undefined){
+    "use strict";
+
+    ips.controller.register('calendar.front.overview.eventList', {
+        initialize: function () {
+            this.on( 'click', '[data-action="loadMore"]', this.loadMore );
+            this.on( 'click', '[data-action="changeMonth"]', this.changeMonth );
+            this.setup();
+        },
+
+        /**
+         * Setup method
+         * Hides categories the user has already hidden
+         *
+         * @returns {void}
+         */
+        setup: function () {
+            this._eventList = this.scope.find('[data-role="eventList"]');
+            this._loadMore = this.scope.find('[data-action="loadMore"]');
+            this._monthNav = this.scope.find('[data-role="monthNav"]');
+        },
+
+        loadMore: function (e) {
+            e.preventDefault();
+
+            var placeholders = this.getPlaceholders();
+            this._eventList.append( placeholders );
+            this._loadMore.prop('disabled', true);
+
+            // Get the current month/year
+            var self = this;
+            var current = this.getCurrentDate();
+            var total = this.scope.find('[data-eventID]').length;
+            var url = ips.getSetting('baseURL') + '?app=calendar&module=calendar&controller=view&view=overview&get=byMonth&m=' + current.month + '&y=' + current.year + '&offset=' + total;
+
+            ips.getAjax()( url )
+                .done( function (response) {
+                    self._eventList.append( response.html );
+                    self.removePlaceholders();
+                    self.checkMoreButton( response.count );
+                    self._loadMore.prop('disabled', false);
+                    $( document ).trigger('contentChange', [ self.scope ]);
+                });
+        },
+
+        changeMonth: function (e) {
+            e.preventDefault();
+
+            var placeholders = this.getPlaceholders(4);
+            this._eventList.html( placeholders );
+            this._loadMore.prop('disabled', true);
+
+            // Toggle the correct month
+            this._monthNav.find('[data-action="changeMonth"]').removeClass('cEvents__monthNav__monthItem--active');
+            $( e.currentTarget ).addClass('cEvents__monthNav__monthItem--active');
+
+            // Now fetch results
+            var self = this;
+            var current = this.getCurrentDate();
+            var url = ips.getSetting('baseURL') + '?app=calendar&module=calendar&controller=view&view=overview&get=byMonth&m=' + current.month + '&y=' + current.year + '&offset=0';
+
+            ips.getAjax()( url )
+                .done( function (response) {
+                    self._eventList.html( response.html );
+                    self.checkMoreButton( response.count );
+                    self._loadMore.prop('disabled', false);
+                    $( document ).trigger('contentChange', [ self.scope ]);
+                });
+        },
+
+        getPlaceholders: function (count) { //@todo get actual count
+            var events = [];
+
+            if( _.isUndefined( count ) ){
+                count = 4;
+            }
+
+            for( var i = 0; i < count; i++ ){
+                events.push( ips.templates.render('eventLoading') );
+            }
+
+            return events.join('');
+        },
+
+        removePlaceholders: function () {
+            this.scope.find('.event--loading').remove();
+        },
+
+        checkMoreButton: function (count) {
+            if( _.isNumber( count ) && count < PER_PAGE ){
+                this.scope.find('[data-action="loadMore"]').hide();
+                this.scope.find('[data-role="noMoreResults"]').show();
+            } else {
+                this.scope.find('[data-action="loadMore"]').show();
+                this.scope.find('[data-role="noMoreResults"]').hide();
+            }
+        },
+
+        getCurrentDate: function () {
+            var current = this.scope.find('[data-role="monthNav"] .cEvents__monthNav__monthItem--active');
+
+            return {
+                month: current.attr('data-month'),
+                year: current.attr('data-year')
+            };
+        }
+    });
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/overview" javascript_name="ips.overview.nearMe.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.overview.nearMe.js - Controller for near me
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+    "use strict";
+
+    ips.controller.register('calendar.front.overview.nearMe', {
+        useGoogleMaps: false,
+        events: {},
+        useGeolocation: false,
+
+        initialize: function () {
+            this.setup();
+
+            this.on( 'change', 'input#useCurrentLocation', this.useCurrentLocation );
+        },
+
+        /**
+         * Setup method
+         *
+         * @returns {void}
+         */
+        setup: function () {
+            var self = this;
+
+            if ( ips.utils.geolocation.getGeolocationIsAllowed() ) {
+                self.scope.find('input[type="checkbox"]').attr('checked', true);
+                this.useGeolocation = true;
+            }
+
+            // Are we using Mapbox or Google Maps?
+            if ('nearmeUseGoogle' in this.scope.data()) {
+                let apiKey = this.scope.data()['googlemapsApiKey'];
+                if ( !apiKey ) {
+                    // handle failure
+                }
+
+                this.useGoogleMaps = true;
+                window.ipsGoogleMapsCallback = this.setupGoogleMaps.bind(self);
+                window.ips.loader.get([`https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=ipsGoogleMapsCallback&v=weekly`]); // will call this.setupGoogleMaps() when loaded
+            }
+            else {
+                // Pull in the CSS
+                $('head').append(
+                    `<link rel='stylesheet' type='text/css' media='all' href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css'>
+                        <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' />
+                        <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' />
+                        <link rel='stylesheet' type='text/css' media='all' href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' />`
+                );
+
+
+                // Now the JS
+                window.ips.loader.get( [ 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js' ] )
+                    .then(
+                        () => ips.loader.get([
+                            'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js',
+                            'https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'
+                        ])
+                    )
+                    .then( () => {
+
+                        if ( this.useGeolocation ) {
+                            self.getEventsByLocation();
+                        } else {
+                            self.fetchEvents();
+                        }
+
+                        self._mapReady = true;
+                    });
+            }
+        },
+
+        googleMap: undefined,
+
+        /**
+         * setup the map for google maps; really just a callback for the google maps api response
+         */
+        setupGoogleMaps: function() {
+            // just enter the fetch event flow; the response will be handled on return
+            if ( this.useGeolocation ) {
+                this.getEventsByLocation();
+            } else {
+                this.fetchEvents();
+            }
+
+            window.ipsGoogleMapsCallback = undefined;
+
+            this._mapReady = true;
+        },
+
+        /**
+         * Handles use current location checkbox 
+         */
+        useCurrentLocation: function() {
+
+            // Not the best way to go about this but we clear the map with fetchEvents response
+            if ( this.useGoogleMaps ) {
+                this.googleMap = false;
+            }
+
+            if( this.scope.find('#useCurrentLocation').is(':checked') ) {
+                this.getEventsByLocation();
+            } else {
+                ips.utils.geolocation.setGeolocationIsAllowed( ips.utils.geolocation.permissions.DENIED );
+                this.fetchEvents();
+            }
+        },
+        /**
+         * Uses the browser's geolocation to set the lat and long of the map; those are then sent to community to get a listing of nearby events
+         */
+        getEventsByLocation: function () {
+            // Save the contents just in case we need it again
+            this.showPlaceholders();
+            ips.utils.geolocation.getCurrentPosition().then( coords => {
+                var lat = coords.latitude;
+                var long = coords.longitude;
+
+                // Update the near me link
+                this.scope.find('[data-role="nearMeLink"]')
+                    .attr('href', ips.getSetting('baseURL') + '?app=calendar&do=search&form_submitted=1&lat=' + lat + '&lon=' + long )
+                    .attr('data-lat', lat)
+                    .attr('data-long', long);
+
+                this.fetchEvents(lat, long);
+
+            }).catch( () => {
+                ips.ui.alert.show( {
+                    type: 'alert',
+                    message: ips.getString('event_your_current_location_sorry'),
+                    icon: 'warn'
+                });
+                this.scope.find('#useCurrentLocation').closest('li').remove();
+                this.fetchEvents();
+            });
+        },
+
+        fetchEvents: function (lat, long) {
+            var self = this;
+
+            this.showPlaceholders();
+
+            ips.getAjax()( ips.getSetting('baseURL') + '?app=calendar&module=calendar&controller=view&view=overview&get=nearMe' + ( lat && long ? '&lat=' + lat + '&lon=' + long : '' ) )
+                .done( function (response) {
+                    self.scope.find('[data-role="locationEvents"]').html(response.content);
+                    self.setUpMap(response.lat, response.long);
+                    $(document).trigger('contentChange', [self.scope]);
+                });
+        },
+
+        setUpMap: function (lat, long) {
+            var self = this;
+            var mapDiv = this.scope.find('#map');
+
+            if (!mapDiv.length) {
+                Debug.log("No map container");
+                return;
+            }
+
+            if ( this.useGoogleMaps ) {
+                // Make sure these are numbers. They might come in as string encoded Floats
+                lat = Number(lat);
+                long = Number(long);
+
+                if ( !this.googleMap ) {
+                    const mapContainer = mapDiv.get(0);
+                    mapContainer.style.width = '100%';
+                    mapContainer.style.height = '400px';
+                    this.googleMap = new window.google.maps.Map(mapContainer, {zoom: 4, center: {lat, lng: long}});
+                } else {
+                    this.googleMap.setCenter({ lat, lng: long });
+                }
+
+
+                // Update the near me link
+                self.scope.find('[data-role="nearMeLink"]')
+                    .attr('href', ips.getSetting('baseURL') + '?app=calendar&do=search&form_submitted=1&lat=' + lat + '&lon=' + long )
+                    .attr('data-lat', lat)
+                    .attr('data-long', long);
+
+                // If we have the map now, set its contents
+                if ( this.googleMap ) {
+                    let markers;
+                    try {
+
+                        // We first copy the JSON and make sure lat an long are all numeric
+                        let _markers = JSON.parse(mapDiv.attr('data-markers'));
+                        let markers = [];
+                        for ( let marker of Object.values(_markers) ) {
+                            markers.push({
+                                ...marker,
+                                lat: Number(marker.lat),
+                                long: Number(marker.long)
+                            });
+                        }
+                
+                        for ( let marker of Object.values(markers) ) {
+                            let mapMarker = new window.google.maps.Marker({
+                                position: {lat: marker.lat, lng: marker.long},
+                                map: this.googleMap,
+                                title: marker.title
+                            });
+                        }
+
+                        if ( Object.values(markers).length ) {
+                            const cb = (() => {
+                                let bounds = this.googleMap.getBounds();
+                                if ( !bounds ) {
+                                    return window.setTimeout( cb, 200 );
+                                }
+                                let firstMarker = null;
+                                let markerVisible = false;
+                                let markerBounds = {latMax: null, latMin: null, lngMax: null, lngMin: null};
+                                for (let marker of Object.values(markers)) {
+                                    markerBounds.latMax = markerBounds.latMax === null ? marker.lat : Math.max(markerBounds.latMax, marker.lat);
+                                    markerBounds.latMin = markerBounds.latMin === null ? marker.lat : Math.min(markerBounds.latMin, marker.lat);
+                                    markerBounds.lngMax = markerBounds.lngMax === null ? marker.long : Math.max(markerBounds.lngMax, marker.long);
+                                    markerBounds.lngMin = markerBounds.lngMin === null ? marker.long : Math.min(markerBounds.lngMin, marker.long);
+                                    firstMarker = firstMarker || marker;
+                                    if ( bounds.contains({lat: marker.lat, lng: marker.long}) ) {
+                                        markerVisible = true;
+                                    }
+                                }
+                                if (!markerVisible && firstMarker) {
+                                    // find the centermost event
+                                    let evtMidpoint = {
+                                        lat: ((markerBounds.latMax + markerBounds.latMin) / 2),
+                                        lng: ((markerBounds.lngMax + markerBounds.lngMin) / 2)
+                                    };
+
+                                    let minDistance = null;
+                                    let mostMiddleMarker = null;
+                                    if ( Object.values(markers).length > 1 ) {
+                                        for (let marker of Object.values(markers)) {
+                                            // we need to use the haversine formula to get he distance
+                                            let distance = this.getDistance(evtMidpoint.lat, marker.lat, evtMidpoint.lng, marker.long);
+                                            if (minDistance === null || distance < minDistance) {
+                                                minDistance = distance;
+                                                mostMiddleMarker = {lat: marker.lat, lng: marker.long};
+                                            }
+                                        }
+                                    } else {
+                                        mostMiddleMarker = {lat: firstMarker.lat, lng: firstMarker.long};
+                                    }
+
+                                    this.googleMap.panTo(mostMiddleMarker);
+                                }
+                            }).bind(this);
+                            window.setTimeout(cb, 0);
+                        }
+
+                    } catch (e) {}
+                }
+            } else {
+
+                L.mapbox.accessToken = ips.getSetting('mapApiKey');
+                this._map = L.mapbox
+                    .map(mapDiv.get(0))
+                    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+
+                // Map prefs
+                this._map.zoomControl = false;
+                this._map.minZoom = 2;
+                this._map.dragging = false;
+                this._map.zoomControl = false;
+
+                // Reposition zoom control
+                /*L.control.zoom({
+                     position: 'bottomright'
+                }).addTo(this._map);*/
+
+                // Add and position fullscreen control
+                /*this._map.addControl(new L.Control.Fullscreen({
+                    position: 'bottomleft'
+                }));*/
+
+                var markersGroup = new L.featureGroup([]);
+                var markers = $.parseJSON(mapDiv.attr('data-markers'));
+
+                for (var id in markers) {
+                    var marker = L.marker([Number(markers[id].lat), Number(markers[id].long)], {
+                        title: markers[id].title,
+                        draggable: false,
+                        eventId: parseInt(id)
+                    });
+
+                    //self._map.addLayer( marker );
+                    markersGroup.addLayer(marker);
+
+                    // Build info popup for this marker
+                    marker.on('mouseover', _.bind(this._markerMouseOver, this));
+                    marker.on('mouseout', _.bind(this._markerMouseOut, this));
+                }
+
+                markersGroup.addTo(this._map);
+                this._map.fitBounds(markersGroup.getBounds(), {maxZoom: 5});
+            }
+        },
+
+        /**
+         * Use the haversine formula to get a COOEFFICIENT of the distance between two points. This coefficient must be multiplied by 2*3956 to get the miles and by 2*6371 to get the kilometers
+         *
+         * @param lat1
+         * @param lat2
+         * @param lng1
+         * @param lng2
+         *
+         *
+         * @return {number}
+         */
+        getDistance: function (lat1, lat2, lng1, lng2) {
+            // The math module contains a function
+            // named toRadians which converts from
+            // degrees to radians.
+            lng1 =  lng1 * Math.PI / 180;
+            lng2 = lng2 * Math.PI / 180;
+            lat1 = lat1 * Math.PI / 180;
+            lat2 = lat2 * Math.PI / 180;
+
+            // Haversine formula
+            let dlng = lng2 - lng1;
+            let dlat = lat2 - lat1;
+            let a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlng / 2),2);
+
+            let c = Math.asin(Math.sqrt(a));
+
+            // Radius of earth in kilometers. Use 3956
+            // for miles
+            //let r = 6371;
+
+            // calculate the result; multiply by 2*6371 for kilometers and 2*3956 for miles; at the time of writing this, the distance is only being compared so no need to factor in all these constants
+            return c;
+        },
+
+        _markerMouseOver: function (e) {
+            var eventId = e.target.options.eventId;
+
+            // Fade out all events except this one
+            this.scope.find('[data-eventid]').stop(false, true);
+            this.scope.find('[data-eventid]:not([data-eventid="' + eventId + '"])').animate({ opacity: 0.4 }, 'fast');
+        },
+
+        _markerMouseOut: function (e) {
+            this.scope.find('[data-eventid]').stop(false, true);
+            this.scope.find('[data-eventid]').animate({ opacity: 1 }, 'fast');
+        },
+
+        showPlaceholders: function (count) {
+            var events = [];
+
+            for( var i = 0; i < 6; i++ ){
+                events.push( ips.templates.render('eventLoading') );
+            }
+
+            this.scope
+                .find('[data-role="locationEvents"]')
+                .removeClass('ipsJS_hide')
+                .html( ips.templates.render('nearMe', { events: events.join('') }) );
+        }
+    });
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/overview" javascript_name="ips.overview.search.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.overview.search.js - Controller for event search
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+    "use strict";
+
+    ips.controller.register('calendar.front.overview.search', {
+        initialize: function () {
+            this.on('click', '[data-action="useMyLocation"]', this.useMyLocation);
+            this.on('click', '[data-action="cancelLocation"]', this.cancelLocation);
+            this.on('submit', this.doSearch);
+            this.on( document, 'click', '[data-action="backToOverview"]', this.backToOverview);
+            this.on( document, 'click', '[data-action="loadMoreSearch"]', this.loadMore);
+            this.on( document, 'menuItemSelected', '#elSortMenu', this.changeSort);
+            this.on( document, 'click', '[data-action="moreNearMe"]', this.moreNearMe);
+            this.on( document, 'click', '[data-action="moreExhibitions"]', this.moreExhibitions);
+            History.Adapter.bind( window, 'statechange', _.bind( this.stateChange, this ) );
+            this.setup();
+        },
+
+        /**
+         * Setup method
+         *
+         * @returns {void}
+         */
+        setup: function () {
+
+            // Other setup
+            this._gotCoords = false;
+            this._offset = 0;
+            this._limit = 20;
+            this._currentSort = $('body').find('#elSortMenu_menu .ipsMenu_itemChecked').attr('data-ipsMenuValue');
+            this._baseURL = this.scope.attr('action');
+            this._initialURL = window.location.href;
+            this._cancelledLookup = false;
+            this._searchBox = this.scope.find('input[name="location"]');
+            this._previousValue = this._searchBox.val();
+            this._originalPlaceholder = this.scope.attr('data-placeholder');
+            this._locationLink = this.scope.find('[data-action="useMyLocation"]');
+            this._cancelLocationLink = this.scope.find('[data-action="cancelLocation"]');
+            this._page = this.scope.closest('[data-role="eventsPage"]');
+            this._resultsContainer = $('body').find('[data-role="searchResults"]');
+            this._noResults = $('body').find('[data-role="noSearchResults"]');
+            this._loadMore = $('body').find('[data-action="loadMoreSearch"]');
+            this._noMore = $('body').find('[data-role="noMoreSearchResults"]');
+            this._map = null;
+            this._mapContainer = $('body').find('[data-role="searchResultsMap"]');
+            this._markers = {};
+
+           
+            this.getInitialLocation();
+        
+
+            // Get map ready to show
+            if( ips.getSetting( 'mapProvider' ) === 'google' ){
+                this.setupGoogle();
+            } else {
+                this.setupMapbox();
+            }
+        },
+
+        setupGoogle: function(){
+            var self = this;
+            self._mapReady = true;
+            Debug.log( self._resultsContainer.find('[data-eventid]') );
+            Debug.log( self._mapContainer.attr('data-markers') );
+
+            if( self._resultsContainer.find('[data-eventid]').length && self._mapContainer.attr('data-markers') ){
+                Debug.log('here');
+                try {
+                    var markers = JSON.parse( self._mapContainer.attr('data-markers') );
+                    Debug.log( markers );
+                    self._updateGoogleMap( markers );
+                } catch (err) {
+                    Debug.log("Invalid marker JSON");
+                    Debug.log(err);
+                }
+            }
+        },
+
+        setupMapbox: function(){
+            var self = this;
+            $('head').append( "<link rel='stylesheet' type='text/css' media='all' href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css'><link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css' rel='stylesheet' /><link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css' rel='stylesheet' /><link rel='stylesheet' type='text/css' media='all' href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' />" );
+
+            ips.loader.get( [ 'https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js' ] ).then( function () {
+                ips.loader.get( [ 'https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js',
+                    'https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js' ] ).then( function () {
+
+                    self._mapReady = true;
+                    
+                    if( self._resultsContainer.find('[data-eventid]').length && self._mapContainer.attr('data-markers') ){
+
+                        try {
+                            var markers = JSON.parse( self._mapContainer.attr('data-markers') );
+                            self._updateMapboxMap( markers );
+                        } catch (err) {
+                            Debug.log("Invalid marker JSON");
+                            Debug.log(err);
+                        }
+                    }
+                });
+            });
+        },
+
+        getInitialLocation: function () {
+            if ( ips.utils.geolocation.getGeolocationIsAllowed() ) {
+                
+                ips.utils.geolocation.getCurrentPosition().then( coords => {
+                    this.setCoords( coords.latitude, coords.longitude );
+                })
+
+                // Update useMyLocation link
+                this.setSearchToLocation();
+                this._locationLink.hide();
+                this._cancelLocationLink.show();
+            }
+        },
+
+        setCoords: function (lat, long) {
+            this.scope.prepend("<input type='hidden' name='lat' value='" + lat + "'>");
+            this.scope.prepend("<input type='hidden' name='lon' value='" + long + "'>");
+            this._gotCoords = true;
+        },
+
+        clearCoords: function () {
+            this.scope.find( 'input[name="lat"]' ).remove();
+            this.scope.find( 'input[name="lon"]' ).remove();
+            this._gotCoords = false;
+        },
+
+        moreNearMe: function (e) {
+            e.preventDefault();
+
+            // Get the lat/long from the link
+            var lat = $( e.currentTarget ).attr('data-lat');
+            var long = $( e.currentTarget ).attr('data-long');
+            var self = this;
+
+            this.setSearchToLocation();
+            this.scope.find('[name="date[start]"]').val('');
+            this.scope.find('[name="date[end]"]').val('');
+            this.scope.find('[name="show"]').val('regular');
+
+            $("html, body").animate({ scrollTop: "300px" }, function () {
+                self.doSearch();
+            });
+        },
+
+        moreExhibitions: function (e) {
+            e.preventDefault();
+
+            var self = this;
+
+            this.cancelLocation();
+            this.scope.find('[name="date[start]"]').val('');
+            this.scope.find('[name="date[end]"]').val('');
+            this.scope.find('[name="show"]').val('exhibitions');
+
+            $("html, body").animate({ scrollTop: "300px" }, function () {
+                self.doSearch();
+            });
+        },
+
+        /**
+         * Submit handler for the search form
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        doSearch: function (e) {
+            if( e ){
+                e.preventDefault();
+            }
+
+            var url = this._getUrlFromData();
+
+            History.replaceState( {
+                controller: 'calendar.front.overview.search',
+                url: url
+            }, document.title, url );
+        },
+
+        /**
+         * Build placeholder elements from a template
+         *
+         * @param 		{number} 	count 		Number to build (10 default)
+         * @returns 	{string}
+         */
+        getPlaceholders: function (count) {
+            var events = [];
+
+            if( _.isUndefined( count ) ){
+                count = 10;
+            }
+
+            for( var i = 0; i < count; i++ ){
+                events.push( ips.templates.render('eventLoading') );
+            }
+
+            return events.join('');
+        },
+
+        /**
+         * Main state change event handler that responds to URL changes
+         *
+         * @param 		{event} 	e 		Event object
+         * @param 		{object} 	data 	Event data object
+         * @returns 	{void}
+         */
+        stateChange: function () {
+            var state = History.getState();
+
+            if( ( !state.data.controller || state.data.controller != 'calendar.front.overview.search' ) && this._initialURL !== state.url ){
+                return;
+            }
+
+            if( this._initialURL == state.url ){
+                // If our URLs match but we have no state data, we can assume we've gone back to the intital search form, so let's reset
+                this.hideResults();
+            } else if( this._initialURL == state.url && _.isUndefined( state.data.url ) ){
+                // If we don't have a URL, get it from our initial data
+                this._loadResults( this._getUrlFromData( this._initialData ) );
+            } else {
+                // Otherwise use the state url
+                this._loadResults( state.data.url );
+            }
+        },
+
+        /**
+         * Builds a search URL based on on the form values
+         *
+         * @param 		{event} 	e 		Event object
+         * @param 		{object} 	data 	Event data object
+         * @returns 	{string}
+         */
+        changeSort: function (e, data) {
+            e.preventDefault();
+            this._currentSort = data.selectedItemID;
+            var title = data.menuElem.find('[data-ipsMenuValue="' + this._currentSort + '"]').text();
+            $('body').find('[data-role="searchOrder"]').text( title );
+            this.doSearch();
+        },
+
+        /**
+         * Builds a search URL based on on the form values
+         *
+         * @param 		{event} 	e 		Event object
+         * @param 		{object} 	data 	Event data object
+         * @returns 	{string}
+         */
+        _getUrlFromData: function () {
+            var formData = this.scope.serializeArray();
+            var params = [];
+
+            _.each( formData, function (item){
+                if( $.trim( item.value ) !== '' ){
+                    params.push( item.name + "=" + encodeURIComponent( item.value ) );
+                }
+            });
+
+            // @todo sort
+            params.push("sortBy=" + this._currentSort);
+
+            return this._baseURL + '&' + params.join('&');
+        },
+
+        /**
+         * Handles performing a new search
+         *
+         * @param 		{string} 	url 		URL to request
+         * @returns 	{void}
+         */
+        _loadResults: function (url) {
+            var self = this;
+
+            // Do we need to hide the overview stuff?
+            if( this._page.length ){
+                this._page.find('[data-role="eventsOverview"]').hide();
+                this._page.find('[data-role="searchResultsWrapper"]').show();
+            }
+
+            this._resultsContainer.removeClass('ipsHide').html( this.getPlaceholders(6) );
+            this._mapContainer.addClass('cEvents__searchMap--loading').show();
+            this._currentUrl = url;
+
+            ips.getAjax()( url )
+                .done( function (response){
+                    if( response.count ){
+                        self._resultsContainer.html( response.content );
+                        self._noResults.addClass('ipsHide');
+                        self._updateMap( _.extend( {}, self._markers, response.markers ) );
+
+                        if( response.totalCount > ( response.count + self._offset ) ){
+                            self._loadMore.show();
+                            self._noMore.hide();
+                        } else {
+                            self._loadMore.hide();
+                            self._noMore.hide();
+                        }
+                    } else {
+                        self._resultsContainer.html('').addClass('ipsHide');
+                        self._noResults.removeClass('ipsHide');
+                        self._loadMore.hide();
+                        self._noMore.hide();
+                        self._mapContainer.hide();
+                    }
+
+                    if( response.virtual ){
+                        self._mapContainer.hide();
+                    }
+
+                    $( document ).trigger('contentChange', [ self._resultsContainer ]);
+                });
+        },
+
+        _updateMap: function ( markers ){
+            if( ips.getSetting( 'mapProvider' ) === 'google' ){
+                this._updateGoogleMap( markers );
+            } else {
+                this._updateMapboxMap( markers );
+            }
+        },
+
+        _updateGoogleMap: function (markers){
+
+            if( !this._map ){
+                this._map = new window.google.maps.Map( document.querySelector( '[data-role="searchResultsMap"]' ) );
+                this._mapMarkers = [];
+            }
+
+            this._mapContainer.removeClass('cEvents__searchMap--loading');
+
+            /* Clear existing markers before we rebuild */
+            if( this._mapMarkers.length ){
+                for ( let marker of Object.values(this._mapMarkers) ) {
+                    marker.setMap(null);
+                }
+                this._mapMarkers = [];
+            }
+
+            var bounds = new google.maps.LatLngBounds();
+            for ( let marker of Object.values(markers) ) {
+                let mapMarker = new window.google.maps.Marker({
+                    position: {lat: marker.lat, lng: marker.long},
+                    map: this._map,
+                    title: marker.title
+                });
+                this._mapMarkers.push( mapMarker );
+
+                var coords = new google.maps.LatLng( marker.lat, marker.long );
+                if( !( bounds.contains( coords ) ) ){
+                    bounds.extend( coords );
+                }
+            }
+
+            /* If we have only one marker in here, fitting to the bounds zooms in way too much */
+            if( this._mapMarkers.length === 1 ){
+                this._map.setZoom(15);
+                this._map.setCenter(bounds.getCenter());
+            } else {
+                this._map.fitBounds(  bounds );
+            }
+            this._mapContainer.show();
+        },
+
+        _updateMapboxMap: function (markers) {
+            if( !this._map ){
+                L.mapbox.accessToken = ips.getSetting('mapApiKey');
+                this._map = L.mapbox
+                    .map( this._mapContainer.get(0) )
+                    .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+
+                // Map prefs
+                this._map.zoomControl = false;
+                this._map.minZoom = 2;
+                this._map.dragging = false;
+                this._map.zoomControl = false;
+
+                // Reposition zoom control
+                /*L.control.zoom({
+                    position: 'bottomright'
+                }).addTo(this._map);
+
+                // Add and position fullscreen control
+                this._map.addControl(new L.Control.Fullscreen({
+                    position: 'bottomleft'
+                }));*/
+
+                this._markersGroup = new L.featureGroup([]);
+                this._markersGroup.addTo( this._map );
+            }
+
+            this._mapContainer.removeClass('cEvents__searchMap--loading');
+            this._markersGroup.clearLayers(); // Remove all existing markers
+
+            for( var id in markers ){
+                var marker = L.marker([markers[id].lat, markers[id].long], {
+                    title: markers[id].title,
+                    draggable: false,
+                    eventId: parseInt(id)
+                });
+
+                //self._map.addLayer( marker );
+                this._markersGroup.addLayer( marker );
+
+                // Build info popup for this marker
+                marker.on('click', _.bind( this._markerClick, this ) );
+            }
+
+            this._mapContainer.show();
+            this._map.fitBounds(this._markersGroup.getBounds(), { maxZoom: 5 });
+        },
+
+        _markerClick: function (e, data) {
+            var targetEvent = e.target.options.eventId;
+
+            // Find that event in our listing
+            var eventBlock = this._resultsContainer.find('[data-eventId="' + targetEvent + '"]');
+
+            // Get position
+            var topPos = eventBlock.offset().top;
+
+            // Scroll to it
+            $('html, body').animate({ scrollTop: topPos }, function () {
+                eventBlock.css({ transform: 'scale(1.1)' });
+
+                setTimeout( function () {
+                    eventBlock.css({ transform: 'scale(1)' });
+                }, 2000);
+            });
+        },
+
+        /**
+         * Handles loading more results into the current search
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        loadMore: function (e) {
+            e.preventDefault();
+
+            var placeholders = this.getPlaceholders(2);
+            this._resultsContainer.append( placeholders );
+            this._loadMore.prop('disabled', true);
+
+            var self = this;
+            var currentCount = this._resultsContainer.find('[data-eventid]').length;
+
+            ips.getAjax()( this._currentUrl + "&offset=" + currentCount + "&limit=" + this._limit)
+                .done( function (response) {
+                    self._resultsContainer.find('.event--loading').remove();
+                    self._resultsContainer.append( response.content );
+                    self._updateMap( response.markers );
+                    self._loadMore.prop('disabled', false);
+
+                    if( self._resultsContainer.find('[data-eventid]').length >= response.totalCount ){
+                        self._loadMore.hide();
+                        self._noMore.show();
+                    } else {
+                        self._loadMore.show();
+                        self._noMore.hide();
+                    }
+
+                    $( document ).trigger('contentChange', [ self._resultsContainer ]);
+                });
+        },
+
+        /**
+         * Remove current location as the search term
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        cancelLocation: function (e) {
+            if( e ){
+                e.preventDefault();
+            }
+
+            let geolocation = ips.utils.geolocation.setGeolocationIsAllowed( ips.utils.geolocation.permissions.DENIED );
+
+            this._cancelledLookup = true;
+            this._searchBox.val( this._previousValue ).attr('placeholder', this._originalPlaceholder).prop('disabled', false).removeClass('ipsField_loading');
+            this._locationLink.show();
+            this._cancelLocationLink.hide();
+
+            this.scope.find('[name="searchNearLocation"]').remove();
+        },
+
+        /**
+         * Fetch current location and use it as the current search param
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        useMyLocation: function (e) {
+            e.preventDefault();
+
+            var self = this;
+
+            self._cancelledLookup = false;
+            self._searchBox.val('').attr('placeholder', ips.getString('event_finding_location')).prop('disabled', true).addClass('ipsField_loading');
+            self._locationLink.hide();
+            self._cancelLocationLink.show();
+
+            var afterCoords = function () {
+                if( self._cancelledLookup ){
+                    self._cancelledLookup = false;
+                    return;
+                }
+
+                self.setSearchToLocation();
+                self._cancelledLookup = false;
+            };
+
+            if( self._gotCoords ){
+                afterCoords()
+            } else {
+                ips.utils.geolocation.getCurrentPosition().then( coords  => {
+                    self.setCoords(coords.latitude, coords.longitude);
+                    this.setSearchToLocation();
+                });
+            }
+        },
+        
+        setSearchToLocation: function () {
+            this._searchBox.val('').attr('placeholder', ips.getString('event_your_current_location')).prop('disabled', true).removeClass('ipsField_loading');
+            this.scope.prepend("<input type='hidden' name='searchNearLocation' value='1'>");
+        },
+
+        /**
+         * Cancal searching and show the overview page again
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        backToOverview: function (e) {
+            if( !this._page.length ){
+                return;
+            }
+
+            e.preventDefault();
+
+            History.replaceState( {
+                controller: 'calendar.front.overview.search',
+                url: this._initialURL
+            }, document.title, this._initialURL );
+        },
+
+        /**
+         * Hide the search results panel
+         *
+         * @param 		{event} 	e 		Event object
+         * @returns 	{void}
+         */
+        hideResults: function (e) {
+            this._page.find('[data-role="eventsOverview"]').show();
+            this._page.find('[data-role="searchResultsWrapper"]').hide();
+        }
+    });
+}(jQuery, _));
+]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/submit" javascript_name="ips.submit.dates.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.submit.dates.js - Helper for date selection enhancements
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.submit.dates', {
+
+		initialize: function () {
+			this._hasFocusedEventEnd = false;
+
+			this.on( 'click', '[data-action="updateTimezone"]', this.updateTimezone );
+
+			// Monitor focus in recurring event input fields and select appropriate radio button
+			this.on( 'focus', 'input[name="repeat_end_occurrences"]', function(){ $('#event_repeat_end_afterx').prop('checked', true); } );
+			this.on( 'focus', 'input[name="repeat_end_date"]', function(){ $('#event_repeat_end_ondate').prop('checked', true); } );
+			
+			this.on( 'change', 'input, select', this.checkForSummaryChange );
+			this.on( 'change', '#check_single_day, #check_all_day', this.toggleFields );
+			this.on( 'change', '#check_no_end_time', this.toggleEndtimeFields );
+			this.on( 'click', '#elRecurRemove', this.disableRecurring );
+			this.on( 'change', 'input[name="event_dates[start_date]"]', this.setEndDateOnStartChange );
+			this.on( 'change', '#event_end_date', this.setHasFocusedEventOnEndChange );
+
+			$( window ).on( 'resize', _.bind( this._resizeEndGrid, this ) );
+
+			this.on( 'click', '[data-action="updateRepeat"]', this.finishRepeat );
+
+			this._checkAndSetEventEndState();
+			this.evaluateRecurringOptions();
+
+			this.setup();
+		},
+
+		/**
+		 * On page load check to see what the current state of the end date is. If its set lets just go ahead and ignore any start date changes
+		 *
+		 * @returns 	{void}
+		 */
+		_checkAndSetEventEndState: function() {
+			var eventEndDate = $("#event_end_date");
+			var date = eventEndDate.val();
+
+			if (!this._hasFocusedEventEnd && this._isValidEndDate(date)) {
+				this._hasFocusedEventEnd = true;
+			}
+		},
+
+		/**
+		 * Is the date passed in a valid date?
+		 *
+		 * @param		{date} 		date 	Date to check
+		 * @returns 	{boolean}
+		 */
+		_isValidEndDate: function(date) {
+
+			var tempDate = new Date(date);
+
+			if(!isNaN(tempDate.getDate())) {
+				return true;
+			}
+
+			return false;
+		},
+
+		/**
+		 * If the end field has changed from input go ahead and ignore any start date changes
+		 *
+		 * @returns 	{void}
+		 */
+		setHasFocusedEventOnEndChange: function() {
+			this._hasFocusedEventEnd = true;
+
+			this.evaluateRecurringOptions();
+		},
+
+		/**
+		 * Event handler, handles changes to the start date
+		 *
+		 * @returns 	{void}
+		 */
+		setEndDateOnStartChange: function() {
+			var isSameDay = $("#check_single_day").is(":checked");
+			var eventStartDate = $('input[name="event_dates[start_date]');
+			var eventEndDate = $("#event_end_date");
+
+			if(!isSameDay && !this._hasFocusedEventEnd) {
+				if( ips.utils.time.supportsHTMLDate() ) {
+					eventEndDate.val(eventStartDate.val());
+				}
+			}
+		},
+
+		/**
+		 * When an end date is set, adjust the available recurrence options
+		 *
+		 * @returns		{void}
+		 */
+		 evaluateRecurringOptions: function() {
+			var startDate	= $("#event_start_date").val();
+			var endDate		= $("#event_end_date").val();
+
+			if (!this._isValidEndDate(endDate) || $('#check_single_day').prop('checked') ) {
+				// If the summary isn't visible, make sure the checkbox row is
+				if( !$('#elRepeatRow_shown').is(':visible') )
+				{
+					$('#elRepeatRow_hidden').show();
+				}
+
+				$('#elSelect_event_repeats').find('option').prop( 'disabled', false );
+
+				if( $('#elRepeatOn_back').length )
+				{
+					$('#elRepeatOn_back').attr( 'id', 'elRepeatOn' );
+				}
+
+				if( $('#elSelect_event_repeats').val() == 'weekly' )
+				{
+					$('#elRepeatOn').show();
+				}
+
+				this._updateSummary();
+
+				return;
+			}
+
+			startDate	= new Date( startDate );
+			endDate		= new Date( endDate );
+
+			var dayDifference = parseInt( ( endDate.getTime() - startDate.getTime() ) / ( 24 * 3600 * 1000 ) );
+
+			var currentlySelected = $('#elSelect_event_repeats').val();
+
+			// If the event spans more than one day, remove "daily" as a recurrence option and hide the "day of the week" options for monthly
+			if( dayDifference > 1 ) {
+				$('#elSelect_event_repeats').find('option[value="daily"]').prop( 'disabled', true );
+				$('#elRepeatOn').hide();
+				$('#elRepeatOn').attr( 'id', 'elRepeatOn_back' );
+
+				if( !currentlySelected || currentlySelected == 'daily' )
+				{
+					$('#elSelect_event_repeats').find('option[value="daily"]').prop( 'selected', false );
+					$('#elSelect_event_repeats').find('option[value="weekly"]').prop( 'selected', true );
+					currentlySelected = 'weekly';
+				}
+			} else {
+				$('#elSelect_event_repeats').find('option[value="daily"]').prop( 'disabled', false );
+
+				if( $('#elRepeatOn_back').length )
+				{
+					$('#elRepeatOn_back').attr( 'id', 'elRepeatOn' );
+				}
+
+				if( $('#elSelect_event_repeats').val() == 'weekly' )
+				{
+					$('#elRepeatOn').show();
+				}
+			}
+
+			// If the event spans more than one week, remove "daily" and "weekly" as recurrence options
+			if( dayDifference > 7 ) {
+				$('#elSelect_event_repeats').find('option[value="weekly"]').prop( 'disabled', true );
+
+				if( !currentlySelected || currentlySelected == 'weekly' )
+				{
+					$('#elSelect_event_repeats').find('option[value="weekly"]').prop( 'selected', false );
+					$('#elSelect_event_repeats').find('option[value="monthly"]').prop( 'selected', true );
+					currentlySelected = 'monthly';
+				}
+			} else {
+				$('#elSelect_event_repeats').find('option[value="weekly"]').prop( 'disabled', false );
+			}
+
+			// If the event spans more than one month, remove "daily", "weekly" and "monthly" recurrence options
+			if(
+				// If there's more than one month between the dates, then we block
+				( endDate.getMonth() - startDate.getMonth() + ( 12 * ( endDate.getFullYear() - startDate.getFullYear() ) ) > 1 )
+				||
+				// Else if there is one month between the dates, then we check the end date is greater than the start date
+				(
+					endDate.getMonth() - startDate.getMonth() + ( 12 * ( endDate.getFullYear() - startDate.getFullYear() ) ) == 1 && endDate.getDate() > startDate.getDate()
+				)
+			 ) {
+				$('#elSelect_event_repeats').find('option[value="monthly"]').prop( 'disabled', true );
+
+				if( !currentlySelected || currentlySelected == 'monthly' )
+				{
+					$('#elSelect_event_repeats').find('option[value="monthly"]').prop( 'selected', false );
+					$('#elSelect_event_repeats').find('option[value="yearly"]').prop( 'selected', true );
+					currentlySelected = 'yearly';
+				}
+			} else {
+				$('#elSelect_event_repeats').find('option[value="monthly"]').prop( 'disabled', false );
+			}
+
+			// If the event spans more than one year, remove ability for event to repeat entirely
+			if( dayDifference > 365 )
+			{
+				$('#elSelect_event_repeats').find('option[value="yearly"]').prop( 'selected', false );
+				this.disableRecurring();
+				$('#elRepeatRow_hidden').hide();
+			}
+			else
+			{
+				$('#elRepeatRow_hidden').show();
+			}
+
+			// And update the summary in case anything changed
+			this._updateSummary();
+		 },
+
+		/**
+		 * Finish setting the options
+		 *
+		 * @returns 	{void}
+		 */
+		finishRepeat: function () {
+			this._updateSummary();
+			$('#elRecurEdit_menu').trigger('closeMenu');
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+			this._updateSummary();
+			this.toggleFields();
+			this.updateTimezone();
+
+			// Make Event End cell as big as Event Start cell
+			this._resizeEndGrid();
+		},
+
+		/**
+		 * Toggle the end time enabled/disabled status
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		 toggleEndtimeFields: function(e) {
+		 	if( this.scope.find('#check_no_end_time').is(':checked') )
+		 	{
+		 		this.scope.find('#end_time').prop('disabled', true);
+		 	}
+		 	else
+		 	{
+		 		this.scope.find('#end_time').prop('disabled', false);
+		 	}
+		 },
+
+		/**
+		 * Manual toggle functionality for the Single/All Day checkboxes
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		toggleFields: function (e) {
+			this.toggleEndtimeFields();
+
+			var singleDay = this.scope.find('#check_single_day');
+			var allDay = this.scope.find('#check_all_day');
+			var self = this;
+
+			var toggles = {
+				start_time_wrap: true,
+				end_time_wrap: true,
+				event_end_date_wrap: true,
+				elDateGrid_arrow: true,
+				elDateGrid_end: true,
+				end_date_controls: true
+			};
+
+			// Single day, not all day
+			if( singleDay.is(':checked') && !allDay.is(':checked') ){
+				toggles.event_end_date_wrap = false;
+			// Single day, all day
+			} else if( singleDay.is(':checked') && allDay.is(':checked') ){
+				toggles.elDateGrid_arrow = false;
+				toggles.elDateGrid_end = false;
+				toggles.start_time_wrap = false;
+			// Multiple days, all day
+			} else if( !singleDay.is(':checked') && allDay.is(':checked') ){
+				toggles.start_time_wrap = false;
+				toggles.end_time_wrap = false;
+				toggles.end_date_controls = false;
+			}
+			// Multiple days, not all day
+			else
+			{
+				toggles.end_date_controls = false;
+				this.scope.find('#end_time').prop('disabled', false);
+			}
+
+			// Hide appropriate elements
+			_.each( toggles, function (val, key) {
+				self.scope.find( '#' + key ).toggle( val );
+			});
+
+			// Manual check for ful;-width start date
+			this.scope.find('#elDateGrid_start').toggleClass('ipsGrid_span5', this.scope.find('#elDateGrid_end').is(':visible') );
+		},
+
+		/**
+		 * Monitor changes to the repeat options and update the summary
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object
+		 * @returns 	{void}
+		 */
+		checkForSummaryChange: function (e) {
+			if( $( e.currentTarget ).attr('name').startsWith('event_dates[') ){
+				this._updateSummary();
+			}
+		},
+
+		/**
+		 * Updates the timezone value both in the hidden field and in the display to the end user
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		updateTimezone: function (e) {
+			if( e ){
+				e.preventDefault();
+			}
+
+			// Update displayed timezone
+			this.scope.find('[data-role="timezone_display"]').text( $('#event_timezone option:selected').data('abbreviated') ).trigger('closeMenu');
+		},
+
+		/**
+		 * Removes the Repeat summary and unchecks the Repeat checkbox
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object
+		 * @returns 	{void}
+		 */
+		disableRecurring: function (e) {
+			if( e )
+			{
+				e.preventDefault();
+			}
+
+			this.scope.find('#elRepeatCb').prop( 'checked', false  );
+			this._updateSummary();
+		},
+
+		/**
+		 * Finalize our recurring options
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object
+		 * @returns 	{void}
+		 */
+		finishRepeatConfiguration: function (e, data) {
+			e.preventDefault();
+
+			// Copy the summary from the menu to the main display and close the menu
+			this.scope.find('[data-role="recur_summary_final"]').text( this.scope.find('[data-role="recur_summary"]').text() );
+			this.scope.find('#elRecurEdit').trigger('closeMenu');
+		},
+
+		/**
+		 * Update the recurring string
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object
+		 * @returns 	{void}
+		 */
+		_updateSummary: function () {
+			var summary = this.scope.find('[data-role="recurringSummary"]');
+
+			// Update repeating text
+			if( this.scope.find('#elRepeatCb').is(':checked') ){
+				summary.text( this._getSummary() );
+				this.scope.find('#elRepeatRow_hidden').hide();
+				this.scope.find('#elRepeatRow_shown').show();
+			} else {
+				summary.html( "<em class='ipsType_light'>" + ips.getString('doesnt_repeat') + "</em>" );
+				this.scope.find('#elRepeatRow_hidden').show();
+				this.scope.find('#elRepeatRow_shown').hide();
+			}
+
+			// Update the dates
+			this.scope.find('[data-role="dateSummary"]').html( this._dateSummary() );
+		},
+
+		/**
+		 * Builds a summary of the selected dates/times
+		 *
+		 * @returns 	{string}
+		 */
+		_dateSummary: function () {
+			// Build start date
+			var startDate = ips.utils.time.getDateFromInput( this.scope.find('input[name="event_dates[start_date]"]') );
+			var singleDay = this.scope.find('#check_single_day');
+			var allDay = this.scope.find('#check_all_day');
+
+			// If there's no start time, then abandon showing any summary for now
+			if( !ips.utils.time.isValidDateObj( startDate ) || startDate.getFullYear() < 1900 ) {
+				return '';
+			}		
+
+			ips.utils.time.removeTimezone( startDate );
+
+			var startDateString = ips.utils.time.localeDateString( startDate, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' } );
+			var startTime = this._getTime( this.scope.find('input[name="event_dates[start_time]"]').val() );
+			var endTime = this._getTime( this.scope.find('input[name="event_dates[end_time]"]').val() );
+			var endDate = ips.utils.time.getDateFromInput( this.scope.find('input[name="event_dates[end_date]"]') );
+			var endDateString = '';
+
+			// If we have a valid end date...
+			if( !singleDay.is(':checked') && ips.utils.time.isValidDateObj( endDate ) ){
+				ips.utils.time.removeTimezone( endDate );
+				endDateString = ips.utils.time.localeDateString( endDate, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' } );
+			}
+
+			// Now build strings
+			var finalString = '';
+
+			if( singleDay.is(':checked') && !allDay.is(':checked') ){
+				if( this.scope.find('#check_no_end_time').is(':checked') )
+				{
+					finalString = ips.getString( 'single_not_allday_noendtime', { startDate: startDateString, startTime: startTime } );
+				}
+				else
+				{
+					finalString = ips.getString( 'single_not_allday', { startDate: startDateString, startTime: startTime, endTime: endTime } );
+				}
+			} else if ( ( !singleDay.is(':checked') && !allDay.is(':checked') ) && endDateString && startTime && endTime ) {
+				finalString = ips.getString( 'not_single_not_allday', { startDate: startDateString, endDate: endDateString, startTime: startTime, endTime: endTime } );
+			} else if( !singleDay.is(':checked') && allDay.is(':checked') && endDateString ) {
+				finalString = ips.getString( 'not_single_allday', { startDate: startDateString, endDate: endDateString } );
+			} else {
+				finalString = ips.getString( 'single_allday', { startDate: startDateString } );
+			}
+
+			return finalString;
+		},
+
+		/**
+		 * Returns the given time, or a placeholder string if empty
+		 *
+		 * @param 		{string} 	time 		Time string
+		 * @returns 	{string}
+		 */
+		_getTime: function (time) {
+			if( !time ){
+				return "<em class='ipsType_light ipsType_unbold ipsFaded'>" + ips.getString('select_time') + "</em>";
+			}
+
+			var date = new Date('1970-01-01T' + time + 'Z');
+			var time = date.toLocaleTimeString( $('html').attr('lang'), { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' } );
+
+			return time;
+		},
+
+		/**
+		 * Returns the summary string for recurring events
+		 *
+		 * @returns 	{string}
+		 */
+		_getSummary: function () {
+			var type = this.scope.find('#elSelect_event_repeats').val();
+			var intervalString = '';
+			var endString = '';
+
+			// Build the 'interval' string
+			switch( type ){
+				case 'daily':
+				case 'monthly':
+				case 'yearly':
+					intervalString = this._buildString( type );
+				break;
+				case 'weekly':
+					intervalString = this._buildWeekly();
+				break;
+			}
+
+			// Build the 'end after' string
+			if( this.scope.find('#event_repeat_end_afterx').is(':checked') ){
+				var occurrences = parseInt( this.scope.find('input[name="event_dates[repeat_end_occurrences]"]').val() );
+
+				if( _.isNumber( occurrences ) && !_.isNaN( occurrences ) ){
+					endString = ips.pluralize( ips.getString( 'x_times' ), occurrences );				
+				}
+			} else if( this.scope.find('#event_repeat_end_ondate').is(':checked') ){
+				var dateObj = ips.utils.time.getDateFromInput( this.scope.find('input[name="event_dates[repeat_end_date]"]') );
+
+				if( ips.utils.time.isValidDateObj( dateObj ) && dateObj.getFullYear() > 1900 ){ // > 1900 just so it doesn't start updating on year 19 etc.
+					ips.utils.time.removeTimezone( dateObj );
+					endString = ips.getString('until', { date: ips.utils.time.localeDateString( dateObj, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' } ) } );
+				}
+			}
+
+			// Put it together
+			if( endString ){
+				return ips.getString( 'with_end', { interval: intervalString, endAfter: endString } );
+			} else {
+				return intervalString;
+			}
+		},
+
+		/**
+		 * Builds a summary string for daily, monthly and yearly repeats
+		 *
+		 * @param 		{string} 	type 	The type of repeat
+		 * @returns 	{string}
+		 */
+		_buildString: function ( type ) {
+			var val = parseInt( this.scope.find('#elSelect_event_repeat_freq').val() ) || 1;
+			return ips.pluralize( ips.getString( 'every_x', { period: ips.pluralize( ips.getString( 'x_' + type ), val ) } ), val );
+		},
+
+		/**
+		 * Builds a summary string for weekly repeats
+		 *
+		 * @returns 	{string}
+		 */
+		_buildWeekly: function () {
+			var selectedDays = this.scope.find('[data-iCal]:checked');
+			var val = parseInt( this.scope.find('#elSelect_event_repeat_freq').val() ) || 1;
+			var weekString = '';
+
+			weekString = ips.pluralize( ips.getString( 'x_weekly' ), val );
+
+			// If no days are selected, we can bypass and finish now
+			if( !selectedDays.length ){
+				return weekString;
+			}
+
+			// Get full days
+			var fullDays = _.map( selectedDays, function (day, key) {
+				return ips.getString( $( day ).attr('data-iCal') );
+			});
+
+			// Build string
+			var dayString = '';
+
+			if( fullDays.length === 1 ){
+				dayString = ips.getString( 'one_day', { first: fullDays[0] } );
+			} else {
+				dayString = ips.getString( 'multiple_day', { days: fullDays.slice(0, -1).join(', '), last: fullDays[ fullDays.length - 1 ] });
+			}
+
+			return ips.getString( 'week_string', { week: weekString, days: dayString } );
+		},
+
+		/**
+		 * Resizes the "Event End" grid box to be the same height as the start box
+		 *
+		 * @returns 	{void}
+		 */
+		_resizeEndGrid: function () {
+			var height = 'auto';
+
+			if( !ips.utils.responsive.enabled() || !ips.utils.responsive.currentIs('phone') ){
+				height = this.scope.find('#elDateGrid_start').outerHeight() + 'px';
+			}
+
+			this.scope.find('#elDateGrid_end').css({
+				height: height
+			});
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/venue" javascript_name="ips.venue.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.venue.main.js - Venue main browsing controller
+ *
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.venue.main', {
+
+		_ajaxObj: null,
+		
+		initialize: function () {
+			this.on( 'click', '[data-action="changeView"]', this.changeView );
+			this.on( window, 'statechange', this.stateChange );
+			this.setup();
+		},
+
+		/**
+		 * Controller setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			History.pushState( { controller: 'venueView' }, document.title, window.location.href );
+		},
+
+		/**
+		 * Changes the calendar view dynamically
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		changeView: function (e) {
+			e.preventDefault();
+
+			// Load the url via ajax instead
+			var self = this;
+			var title = $( e.currentTarget ).attr('title');
+			var url = $( e.currentTarget ).attr('href');
+
+			History.pushState( { controller: 'venueView' }, title, url );
+		},
+
+		/**
+		 * Event handler for history state changes
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		stateChange: function () {
+			var state = History.getState();
+
+			if( _.isUndefined( state.data.controller ) || state.data.controller != 'venueView' ) {
+				return;
+			}
+
+			// Track page view
+			ips.utils.analytics.trackPageView( state.url );
+
+			this._updateView( state.url, state.title )
+		},
+
+		/**
+		 * Loads a new view 
+		 *
+		 * @param 	{string} 	url 	URL to load
+		 * @param 	{string} 	title 	New browser title
+		 * @returns {void}
+		 */
+		_updateView: function (url, title) {
+			var self = this;
+
+			if( this._ajaxObj && _.isFunction( this._ajaxObj.abort ) ){
+				this._ajaxObj.abort();
+			}
+
+			this._setLoading( true );
+
+			this._ajaxObj = ips.getAjax()( url, {
+				showLoading: true
+			} )
+				.done( function (response) {
+					console.log( response );
+					self.scope.html( response );
+
+					$( document ).trigger( 'contentChange', [ self.scope ] );
+
+					History.pushState( { controller: 'venueView' }, title, url );
+				})
+				.always( function () {
+					self._setLoading( false );
+				});
+		},
+
+		/**
+		 * Toggles the loading state on the view
+		 *
+		 * @param 	{boolean} 	state 		Enable the loading state?
+		 * @returns {void}
+		 */
+		_setLoading: function (state) {
+			if( state ){
+				this.scope.animate( { opacity: "0.6" }, 'fast' );
+			} else {
+				this.scope.animate( { opacity: "1" }, 'fast' );
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/view" javascript_name="ips.view.reminderButton.js" javascript_type="controller" javascript_version="107704" javascript_position="1000250"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.calendar.reminderButton.js - Controller for event reminder button
+ *
+ * Author: Andrew Millne
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('calendar.front.view.reminderButton', {
+
+		initialize: function () {
+			this.setup();
+			this.on( document, 'reminderItem', this.reminderItemChange );
+		},
+
+		setup: function () {
+			this._id = this.scope.attr('data-reminderID');
+			this._button = this.scope.find('[data-role="reminderButton"]');
+		},
+
+		/**
+		 * Responds to events indicating the reminder status has changed
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object
+		 * @returns 	{void}
+		 */
+		reminderItemChange: function (e, data) {
+			this._reloadButton();
+		},
+
+		/**
+		 * Gets a new reminder button from the server and replaces the current one with the response
+		 *
+		 * @returns 	{void}
+		 */
+		_reloadButton: function () {
+			// Show button as loading
+			this._button.addClass('ipsFaded ipsFaded_more');
+			
+			var self = this;
+			var pos = ips.utils.position.getElemPosition( this._button );
+			var dims = ips.utils.position.getElemDims( this._button );
+
+			this.scope.append( ips.templates.render('calendar.reminder.loading') );
+
+			// Adjust sizing
+			this.scope
+				.css({
+					position: 'relative'
+				})
+				.find('.ipsLoading')
+					.css({
+						width: dims.outerWidth + 'px',
+						height: dims.outerHeight + 'px',
+						top: "0",
+						left: "0",
+						position: 'absolute',
+						zIndex: ips.ui.zIndex()
+					});
+
+			// Load new contents
+			ips.getAjax()( ips.getSetting('baseURL') + 'index.php?app=calendar&module=calendar&controller=event&do=reminderButton', {
+				data: _.extend({
+					id: this._id
+				}, ( this.scope.attr('data-buttonType') ) ? { button_type: this.scope.attr('data-buttonType') } : {} )
+			})
+				.done( function (response) {
+					self.scope.html( response );
+					$( document ).trigger( 'contentChange', [ self.scope ] );
+				})
+				.fail( function () {
+					self._button.removeClass('ipsFaded ipsFaded_more');
+				})
+				.always( function () {
+					self.scope.find('.ipsLoading').remove();
+				});
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="controllers/view" javascript_name="ips.view.reminderForm.js" javascript_type="controller" javascript_version="107704" javascript_position="1000250">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.calendar.reminderButton.js - Controller for reminder button
+ *
+ * Author: Andrew Millne
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('calendar.front.view.reminderForm', {
+
+		initialize: function () {
+			this.on( 'submit', this.submitForm );
+			this.on( 'click', '[data-action=&quot;removereminder&quot;]', this.removereminder );
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+		},
+
+		/**
+		 * Event handler for removing reminder
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		removereminder: function (e) {
+			e.preventDefault();
+			this._doRemindAction( $( e.currentTarget ).attr('href'), {}, true );
+		},
+
+		/**
+		 * Event handler for submitting the reminder form
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		submitForm: function (e) {
+			e.preventDefault();
+			this._doRemindAction( this.scope.attr('action'), this.scope.serialize(), false );
+		},
+
+		/**
+		 * Performs an ajax action.
+		 *
+		 * @param 		{string} 	url		URL to call
+		 * @param 		{object} 	data 	Object of data to include in the request
+		 * @returns 	{void}
+		 */
+		_doRemindAction: function (url, data, removereminder ) {
+			var self = this;
+			var dims = ips.utils.position.getElemDims( this.scope.parent('div') );
+
+			// Set it to loading
+			this.scope
+				.hide()
+				.parent('div')
+					.css({
+						width: dims.outerWidth + 'px',
+						height: dims.outerHeight + 'px'
+					})
+					.addClass('ipsLoading');
+
+			// Update reminder preference via ajax
+			ips.getAjax()( url, {
+				data: data,
+				type: 'post'
+			})
+				.done( function (response, status, jqXHR) {
+
+					if( jqXHR.getAllResponseHeaders().indexOf('X-IPS-FormError: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('X-IPS-FormNoSubmit: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('x-ips-formerror: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('x-ips-formnosubmit: true') !== -1 ){
+						self.scope
+							.show()
+							.html( response )
+							.parent('div')
+								.removeClass('ipsLoading')
+								.css({
+									width: 'auto',
+									height: 'auto'
+								});
+					} else {
+						// Success, so trigger event to update button
+						self.trigger('reminderItem');
+						if( removereminder ) {
+							ips.ui.flashMsg.show(ips.getString('event_reminder_removed'));
+						}
+						else {
+							ips.ui.flashMsg.show(ips.getString('event_reminder_added'));
+						}
+
+						self.scope.parents('.ipsHovercard').remove();
+					}
+				})
+				.fail( function (jqXHR, textStatus, errorThrown) {
+					window.location = url;
+				})
+				.always( function () {
+					// If we're in a hovercard, remove it					
+				});
+		}
+	});
+}(jQuery, _));
+</file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="templates" javascript_name="ips.calendar.templates.js" javascript_type="framework" javascript_version="107704" javascript_position="1000300"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ */
+
+/* REMINDER BUTTON LOADING */
+ips.templates.set('calendar.reminder.loading', " \
+<div class='ipsLoading ipsLoading_tiny'></div>\
+");]]></file>
+ <file javascript_app="calendar" javascript_location="front" javascript_path="templates" javascript_name="ips.templates.overview.js" javascript_type="template" javascript_version="107704" javascript_position="1000300"><![CDATA[ips.templates.set("eventLoading", "\
+	<li class='ipsBox ipsBox--child event event--withImage event--loading'>\
+		<div class='cEvents__skeleton cEvents__skeleton--eventImage'></div>\
+		<div class='cEvents__details'>\
+			<div class='cEvents__skeleton cEvents__skeleton--eventDate'></div>\
+			<div class='cEvents__skeleton cEvents__skeleton--eventTitle'></div>\
+			<div class='cEvents__skeleton cEvents__skeleton--eventBlurb'></div>\
+		</div>\
+	</li>\
+");
+
+ips.templates.set("nearMe", "\
+	<ul class='eventList nearMe__events'>\
+		<li class='nearMe__map cEvents__skeleton cEvents__skeleton--map' id='map'></li>\
+		{{{events}}}\
+	</ul>\
+");]]></file>
+ <order app="global" path="/dev/js//framework/">templates
+common/ips.loader.js
+common/ui
+common/utils
+common
+controllers</order>
+ <order app="global" path="/dev/js//library/">underscore
+jquery
+mustache
+Debug.js
+app.js</order>
+ <order app="global" path="/dev/js//library//jquery">jquery.js
+jquery-migrate.js
+jquery.history.js
+jquery.transform.js</order>
+ <order app="global" path="/dev/js//library//linkify">linkify.min.js
+linkify-jquery.min.js</order>
+</javascript>

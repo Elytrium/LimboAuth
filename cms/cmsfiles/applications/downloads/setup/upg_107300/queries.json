@@ -1,0 +1,21 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_files_notify",
+            "member_file",
+            {
+                "type": "unique",
+                "name": "member_file",
+                "columns": [
+                    "notify_member_id",
+                    "notify_file_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

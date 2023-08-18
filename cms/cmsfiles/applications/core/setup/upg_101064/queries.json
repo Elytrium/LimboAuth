@@ -1,0 +1,357 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_tasks",
+            {
+                "name": "last_run",
+                "type": "BIGINT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "The timestamp the task was last run, 0 if never.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "digest_area_category"
+            ]
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_search_index_item_map"
+        ]
+    },
+    "4": {
+        "method": "dropIndex",
+        "params": [
+            "core_search_index_item_map",
+            "search_map"
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index_item_map",
+            {
+                "type": "unique",
+                "name": "search_map",
+                "columns": [
+                    "index_item_id",
+                    "index_class",
+                    "index_author_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_prune",
+                "columns": [
+                    "index_item_id",
+                    "index_date_updated"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_security_questions",
+                "columns": {
+                    "question_id": {
+                        "name": "question_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "question_order": {
+                        "name": "question_order",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Index for ordering questions",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "question_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                },
+                "inserts": [
+                    {
+                        "question_id": "1",
+                        "question_order": "1"
+                    },
+                    {
+                        "question_id": "2",
+                        "question_order": "2"
+                    },
+                    {
+                        "question_id": "3",
+                        "question_order": "3"
+                    },
+                    {
+                        "question_id": "4",
+                        "question_order": "4"
+                    },
+                    {
+                        "question_id": "5",
+                        "question_order": "5"
+                    },
+                    {
+                        "question_id": "6",
+                        "question_order": "6"
+                    },
+                    {
+                        "question_id": "7",
+                        "question_order": "7"
+                    },
+                    {
+                        "question_id": "8",
+                        "question_order": "8"
+                    },
+                    {
+                        "question_id": "9",
+                        "question_order": "9"
+                    },
+                    {
+                        "question_id": "10",
+                        "question_order": "10"
+                    },
+                    {
+                        "question_id": "11",
+                        "question_order": "11"
+                    },
+                    {
+                        "question_id": "12",
+                        "question_order": "12"
+                    },
+                    {
+                        "question_id": "13",
+                        "question_order": "13"
+                    },
+                    {
+                        "question_id": "14",
+                        "question_order": "14"
+                    },
+                    {
+                        "question_id": "15",
+                        "question_order": "15"
+                    },
+                    {
+                        "question_id": "16",
+                        "question_order": "16"
+                    },
+                    {
+                        "question_id": "17",
+                        "question_order": "17"
+                    },
+                    {
+                        "question_id": "18",
+                        "question_order": "18"
+                    },
+                    {
+                        "question_id": "19",
+                        "question_order": "19"
+                    }
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_security_answers",
+                "columns": {
+                    "answer_question_id": {
+                        "name": "answer_question_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID number of the question this is an answer for",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "answer_member_id": {
+                        "name": "answer_member_id",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID this answer is for",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "answer_answer": {
+                        "name": "answer_answer",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The answer, stored as an \\IPS\\Text\\Encrypt tag",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "answer_is_chosen": {
+                        "name": "answer_is_chosen",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "When the authentication form is chosen, one answer is remembered with this flag so that refreshing produces the same question",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "question_and_member": {
+                        "type": "unique",
+                        "name": "question_and_member",
+                        "columns": [
+                            "answer_question_id",
+                            "answer_member_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "core_validating",
+            {
+                "name": "forgot_security",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "failed_security_answers",
+                "type": "SMALLINT",
+                "length": 3,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "core_announcements",
+            {
+                "name": "announce_permissions",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Comma-delimited list of Group IDs, or * for all",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

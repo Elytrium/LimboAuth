@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.carousel.js",
+            "global\/framework\/common\/ui\/ips.ui.editor.js",
+            "global\/framework\/common\/ui\/ips.ui.truncate.js",
+            "core\/admin\/controllers\/core\/ips.core.changeTheme.js",
+            "global\/front\/controllers\/core\/ips.core.commentFeed.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

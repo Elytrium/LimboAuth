@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "forums",
+                "today"
+            ]
+        ]
+    }
+}

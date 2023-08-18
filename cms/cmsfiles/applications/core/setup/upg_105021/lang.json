@@ -1,0 +1,36 @@
+{
+    "normal": {
+        "added": [
+            "themesetting_tag_font",
+            "ref_member_id",
+            "app_ignore",
+            "app_unignore",
+            "app_ignore_options",
+            "app_error_ignoring_member",
+            "app_error_ignore_type",
+            "app_error_ignore_member",
+            "app_error_ignore_no_self",
+            "mobile_app_itunes_id",
+            "mobile_app_itunes_id_desc",
+            "mobile_app_itunes_url",
+            "mobile_app_play_id",
+            "mobile_app_play_id_desc",
+            "mobile_app_play_url"
+        ],
+        "edited": [],
+        "removed": [
+            "core_theme_set_logo_maxwidth_large",
+            "core_theme_set_logo_maxwidth_medium",
+            "core_theme_set_logo_maxwidth_small",
+            "core_theme_set_logo_size_do_not_set",
+            "core_theme_set_logo_maxwidth_large_desc",
+            "core_theme_set_logo_maxwidth_medium_desc",
+            "core_theme_set_logo_maxwidth_small_desc"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

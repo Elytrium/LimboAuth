@@ -1,0 +1,22 @@
+{
+    "html": {
+        "added": [
+            "front\/view\/purchaseTerms"
+        ],
+        "edited": [
+            "front\/global\/searchResultFileSnippet",
+            "front\/view\/view"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

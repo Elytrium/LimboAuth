@@ -1,0 +1,21 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_moderator_logs",
+            "member_id",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id",
+                    "ctime"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

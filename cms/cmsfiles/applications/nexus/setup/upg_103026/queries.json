@@ -1,0 +1,43 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_credit",
+                "type": "DECIMAL",
+                "length": 10,
+                "decimals": 3,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "If transaction has been partially credited (refund to account credit), the amount that was credited",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_reviews",
+            "review_ip_address",
+            {
+                "name": "review_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

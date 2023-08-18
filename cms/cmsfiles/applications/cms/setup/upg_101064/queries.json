@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "cms_templates",
+            "template_group=REPLACE(template_group,'.','_')"
+        ]
+    }
+}

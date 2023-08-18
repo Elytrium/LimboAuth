@@ -1,0 +1,63 @@
+<?php
+/**
+ * @brief		Contact Us extension
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\ContactUs;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Contact Us extension
+ */
+class _{class}
+{
+	/**
+	 * Process Form
+	 *
+	 * @param	\IPS\Helpers\Form		$form	    The form
+	 * @param	array                   $formFields Additional Configuration Formfields
+	 * @param	array                   $options    Type Radio Form Options
+	 * @param	array                   $toggles    Type Radio Form Toggles
+	 * @param	array                   $disabled   Type Radio Form Disabled Options
+	 * @return	void
+	 */
+	public function process( &$form, &$formFields, &$options, &$toggles, &$disabled  )
+	{
+
+	}
+
+	/**
+	 * Allows extensions to do something before the form is shown... e.g. add your own custom fields, or redirect the page
+	 *
+	 * @param	\IPS\Helpers\Form		$form	    The form
+     * @return	void
+     */
+	public function runBeforeFormOutput( &$form )
+	{
+
+	}
+
+	/**
+	 * Handle the Form
+	 *
+	 * @param	array                   $values     Values from form
+	 * @return	void
+	 */
+	public function handleForm( array $values )
+	{
+        return FALSE;
+	}
+
+}

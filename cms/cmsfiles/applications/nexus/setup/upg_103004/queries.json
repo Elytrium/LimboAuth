@@ -1,0 +1,18 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_replies",
+            {
+                "type": "key",
+                "name": "reply_member",
+                "columns": [
+                    "reply_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_ip",
+                "type": "varchar",
+                "length": "46",
+                "allow_null": false,
+                "default": "0"
+            }
+        ]
+    }
+}

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>downloads</template_app><template_name>digests__comment</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' align='center' valign='top'>
+		{{if $comment->item()->primary_screenshot_thumb}}
+			<img src='{file="$comment->item()->primary_screenshot_thumb" extension="downloads_Screenshots"}' style='border: 1px solid #000; vertical-align: middle;' width='100' height='100'>
+		{{else}}
+			<div style='width: 100px; height: 100px; background: #f5f5f5'>&nbsp;</div>
+		{{endif}}
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_commented_file", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; font-weight: 500 !important; margin: 0;">
+			<a href='{$comment->item()->url()}' style='text-decoration: none;'>{$comment->item()->name}</a>
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 5px; margin-bottom: 5px; border-left: 3px solid #8c8c8c; padding-left: 15px; font-size: 14px; margin-left: 15px'>
+			{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+		</div>
+	</td>
+</tr>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_commented_file", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}: {$comment->item()->name} ({$comment->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>downloads</template_app><template_name>notification_new_file_version</template_name><template_content_html><![CDATA[
+{{if $content->author()->member_id}}
+{$email->language->addToStack("email_new_file_version", FALSE, array( 'sprintf' => array( $content->author()->url(), $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{$content->mapped('title')}</a>
+{{else}}
+{$email->language->addToStack("email_new_file_version_guest", FALSE, array( 'sprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{$content->mapped('title')}</a>
+{{endif}}
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$content->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px; color: #8d8d8d">
+									{$email->language->addToStack("email_posted_in", FALSE, array( 'sprintf' => array( $content->container()->getTitleForLanguage( $email->language ) ) ) )}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{{if $content->container()->version_numbers}}{$content->version} - {{endif}}{$email->language->addToStack("file_changelog", FALSE)}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $content->changelog, $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' height='6' style='line-height: 6px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{$email->language->addToStack("file_desc", FALSE)}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $content->content(), $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$content->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_new_file_version_plain", FALSE, array( 'htmlsprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} {$content->mapped('title')}
+
+----------------------------------------------------
+
+{{if $content->container()->version_numbers}}{$content->version} - {{endif}}{$email->language->addToStack("file_changelog", FALSE)}
+{$email->parseTextForEmail( $content->changelog, $email->language )|raw}
+
+----------------------------------------------------
+
+{$email->language->addToStack("file_desc", FALSE)}
+{$email->parseTextForEmail( $content->content(), $email->language )|raw}
+
+----------------------------------------------------
+
+{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}: {$content->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>downloads</template_app><template_name>digests__item</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' align='center' valign='top'>
+		{{if $file->primary_screenshot_thumb}}
+			<img src='{file="$file->primary_screenshot_thumb" extension="downloads_Screenshots"}' style='border: 1px solid #000; vertical-align: middle;' width='100' height='100'>
+		{{else}}
+			<div style='width: 100px; height: 100px; background: #f5f5f5'>&nbsp;</div>
+		{{endif}}
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_created_file_in", FALSE, array( 'sprintf' => array( $file->author()->name, $file->container()->getTitleForLanguage( $email->language ) ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 18px; font-weight: 500 !important; margin: 0;">
+			<a href='{$file->url()}' style='text-decoration: none;'>{$file->name}{{if $file->container()->version_numbers}} ({$file->version}){{endif}}</a>
+			{{if $file->mapped('featured')}}&nbsp;&nbsp;<span style='color: #68a72f; font-weight: bold; font-size: 12px; text-transform: uppercase;'>{$email->language->addToStack("featured", FALSE)}</span>{{endif}}
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px'>
+			{$email->parseTextForEmail( $file->content(), $email->language )|raw}
+		</div>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px;'>
+			{{if $file->container()->bitoptions['reviews']}}
+				{{foreach range( 1, 5 ) as $i}}{{if $i <= $file->averageReviewRating()}}<img src='{resource="email/rating_on.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{elseif ( $i - 0.5 ) <= $file->averageReviewRating()}}<img src='{resource="email/rating_half.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{else}}<img src='{resource="email/rating_off.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{endif}}{{endforeach}}
+				&nbsp;&nbsp;
+ 			{{endif}}
+
+			<strong style='font-family: "Helvetica Neue", helvetica, sans-serif; '>
+				<img src='{resource="email/download.png" location="interface" app="core"}' width='13' height='12' style='vertical-align: middle'>&nbsp; {$email->language->addToStack("num_downloads", FALSE, array( 'pluralize' => array( $file->downloads ) ) )}&nbsp;&nbsp;&nbsp;&nbsp;
+				{{if $file->container()->bitoptions['comments']}}
+					<img src='{resource="email/comment.png" location="interface" app="core"}' width='13' height='12' style='vertical-align: middle'>&nbsp; {$email->language->addToStack("num_comments", FALSE, array( 'pluralize' => array( $file->comments ) ) )}
+				{{endif}}
+			</strong>
+		</p>
+	</td>
+</tr>]]></template_content_html><template_data>$file, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_created_file_in", FALSE, array( 'htmlsprintf' => array( $file->author()->name, $file->container()->getTitleForLanguage( $email->language ) ) ) )}: {$file->title} ({$file->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

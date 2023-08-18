@@ -1,0 +1,441 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "downloads_files_notify",
+                "columns": {
+                    "notify_id": {
+                        "name": "notify_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "notify_member_id": {
+                        "name": "notify_member_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_file_id": {
+                        "name": "notify_file_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_sent": {
+                        "name": "notify_sent",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "notify_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member_file": {
+                        "type": "key",
+                        "name": "member_file",
+                        "columns": [
+                            "notify_member_id",
+                            "notify_file_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "key",
+                "name": "file_cat",
+                "columns": [
+                    "file_cat"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_edit_time",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_edit_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_appened_edit",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_appened_edit",
+            {
+                "name": "file_append_edit",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_edit_reason",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_edit_time",
+            {
+                "name": "file_edit_time",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "idm_rss_desc"
+            ]
+        ]
+    },
+    "10": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "downloads_files_pending",
+                "columns": {
+                    "pending_file_id": {
+                        "name": "pending_file_id",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_id": {
+                        "name": "pending_id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "auto_increment": true
+                    },
+                    "pending_date": {
+                        "name": "pending_date",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_approved": {
+                        "name": "pending_approved",
+                        "type": "TINYINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_member_id": {
+                        "name": "pending_member_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_record_deletions": {
+                        "name": "pending_record_deletions",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_save_version": {
+                        "name": "pending_save_version",
+                        "type": "TINYINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "pending_form_values": {
+                        "name": "pending_form_values",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "pending_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "file_id": {
+                        "type": "unique",
+                        "name": "file_id",
+                        "columns": [
+                            "pending_file_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files_records",
+            {
+                "name": "record_hidden",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cmultiple_files",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "Allow multiple files to be uploaded",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_meta_data",
+            {
+                "name": "file_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "14": {
+        "method": "addIndex",
+        "params": [
+            "downloads_categories",
+            {
+                "type": "key",
+                "name": "category_open",
+                "columns": [
+                    "copen",
+                    "cposition"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

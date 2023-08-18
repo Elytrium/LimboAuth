@@ -1,0 +1,37 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "blog_entries",
+            {
+                "type": "key",
+                "name": "entry_author_id",
+                "columns": [
+                    "entry_author_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "blog_entries",
+            "entry_author_id",
+            {
+                "type": "key",
+                "name": "entry_author_id",
+                "columns": [
+                    "entry_author_id",
+                    "entry_last_update"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

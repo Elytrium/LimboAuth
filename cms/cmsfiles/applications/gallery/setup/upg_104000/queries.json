@@ -1,0 +1,17 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_download_original",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "unsigned": true,
+                "comment": "Can this group download the original image?"
+            }
+        ]
+    }
+}

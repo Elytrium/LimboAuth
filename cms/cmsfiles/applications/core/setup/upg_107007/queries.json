@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_alerts",
+            {
+                "name": "alert_enabled",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    }
+}

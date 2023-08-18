@@ -1,0 +1,16 @@
+{
+    "admin": {
+        "blogs": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 1
+        }
+    },
+    "front": {
+        "blogs": {
+            "default_controller": "browse",
+            "protected": 0,
+            "default": 1
+        }
+    }
+}

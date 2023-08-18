@@ -1,0 +1,22 @@
+{
+    "normal": {
+        "added": [
+            "google_maps_static_use_embed",
+            "google_maps_static_use_embed_desc",
+            "rebuilding_report_index_data",
+            "report_status_1_app"
+        ],
+        "edited": [
+            "download_upgrade_initial_resource_upgrade_noupdate",
+            "report_status_1",
+            "report_status_2",
+            "report_status_3"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

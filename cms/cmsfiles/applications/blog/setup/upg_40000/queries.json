@@ -1,0 +1,779 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "blog_comments",
+            "comment_text"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "blog_entries",
+            "entry_name"
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "blog_entries",
+            "entry_content"
+        ]
+    },
+    "4": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_type"
+        ]
+    },
+    "5": {
+        "method": "changeIndex",
+        "params": [
+            "blog_blogs",
+            "blog_grabber",
+            {
+                "type": "key",
+                "name": "blog_grabber",
+                "length": {
+                    "0": null,
+                    "2": null
+                },
+                "columns": {
+                    "0": "blog_disabled",
+                    "2": "blog_view_level"
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            [
+                "blog_exturl",
+                "blog_num_exthits",
+                "blog_private",
+                "blog_last_delete",
+                "blog_skin_id",
+                "blog_friendly_url",
+                "blog_theme_id",
+                "blog_theme_custom",
+                "blog_theme_final",
+                "blog_theme_approved",
+                "blog_categories",
+                "blog_lentry_banish",
+                "blog_last_udate"
+            ]
+        ]
+    },
+    "7": {
+        "method": "dropColumn",
+        "params": [
+            "blog_entries",
+            [
+                "entry_trackbacks",
+                "entry_sent_trackbacks",
+                "entry_hastags",
+                "entry_category",
+                "entry_tag_cache",
+                "entry_banish",
+                "entry_rating_total",
+                "entry_rating_count",
+                "entry_last_vote",
+                "entry_last_comment",
+                "entry_last_comment_date",
+                "entry_last_comment_name",
+                "entry_has_attach",
+                "entry_html_state",
+                "entry_use_emo",
+                "entry_short",
+                "entry_rss_import"
+            ]
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "blog_blogs",
+            "member_id",
+            {
+                "name": "blog_member_id",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "blog_id",
+            {
+                "name": "entry_blog_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "blog_comments",
+            "entry_id",
+            {
+                "name": "comment_entry_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "changeColumn",
+        "params": [
+            "blog_comments",
+            "member_id",
+            {
+                "name": "comment_member_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "changeColumn",
+        "params": [
+            "blog_comments",
+            "member_name",
+            {
+                "name": "comment_member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "blog_comments",
+            "ip_address",
+            {
+                "name": "comment_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_hidden",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_pinned",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "17": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "entry",
+            {
+                "name": "entry_content",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_count_entries",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "19": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_count_comments",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "20": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_count_entries_hidden",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_count_comments_hidden",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "22": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_rating_average",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "23": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "entry_hidden",
+            {
+                "name": "entry_hidden",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "entry_future_date",
+            {
+                "name": "entry_publish_date",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "dropColumn",
+        "params": [
+            "blog_rssimport",
+            [
+                "rss_cats",
+                "rss_per_go",
+                "rss_count",
+                "rss_in_progress"
+            ]
+        ]
+    },
+    "26": {
+        "method": "renameTable",
+        "params": [
+            "blog_rssimport",
+            "blog_rss_import"
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "blog_rss_import",
+            {
+                "name": "rss_member",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "blog_comments",
+            {
+                "name": "comment_edit_member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "blog_comments",
+            {
+                "name": "comment_edit_show",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "entry_poll_state",
+            {
+                "name": "entry_poll_state",
+                "type": "INT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "addColumn",
+        "params": [
+            "blog_rss_import",
+            {
+                "name": "rss_import_show_link",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Text to show for link to full article",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_cover_photo",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "33": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_cover_photo_offset",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_cover_photo",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_cover_photo_offset",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_social_group",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The social group ID, is this is a private blog",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_future_date",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_count_entries_future",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "39": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "blog_rss_imported",
+                "columns": {
+                    "rss_imported_guid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 32,
+                        "name": "rss_imported_guid",
+                        "type": "CHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_imported_entry_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_imported_entry_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_imported_impid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_imported_impid",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_imported_guid"
+                        ]
+                    },
+                    "rss_imported_impid": {
+                        "type": "key",
+                        "name": "rss_imported_impid",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_imported_impid"
+                        ]
+                    }
+                },
+                "comment": ""
+            }
+        ]
+    }
+}

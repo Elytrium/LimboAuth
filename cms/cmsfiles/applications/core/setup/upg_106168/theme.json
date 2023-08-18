@@ -1,0 +1,53 @@
+{
+    "html": {
+        "added": [
+            "admin\/applications\/enhancementsLabel",
+            "front\/global\/includeDataLayer",
+            "front\/global\/includeDataLayerBody",
+            "admin\/settings\/dataLayerContext",
+            "admin\/settings\/dataLayerSelector",
+            "admin\/settings\/dataLayerTab",
+            "admin\/settings\/dataLayerTitleContent",
+            "admin\/settings\/formWrapper",
+            "admin\/settings\/handlers"
+        ],
+        "edited": [
+            "global\/editor\/attachedImage",
+            "front\/forms\/commentTemplate",
+            "global\/forms\/matrixRows",
+            "global\/forms\/rowDesc",
+            "admin\/global\/appmenu",
+            "admin\/global\/globalTemplate",
+            "front\/global\/globalTemplate",
+            "global\/global\/includeJS",
+            "front\/profile\/hovercard",
+            "front\/system\/searchResultSnippet",
+            "front\/system\/settingsMfa"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/flags.css",
+            "admin\/core\/global.css",
+            "global\/framework\/blocks.css",
+            "global\/framework\/compose.css",
+            "global\/framework\/forms.css",
+            "global\/framework\/misc.css",
+            "admin\/promotion\/meta.css",
+            "global\/responsive\/compose.css",
+            "admin\/settings\/general.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "admin\/welcome.svg",
+            "front\/notification.svg"
+        ],
+        "removed": []
+    }
+}

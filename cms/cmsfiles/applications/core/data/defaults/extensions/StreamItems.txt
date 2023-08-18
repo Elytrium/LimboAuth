@@ -1,0 +1,43 @@
+<?php
+/**
+ * @brief		Activity stream items extension: {class}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\StreamItems;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * @brief	Activity stream items extension: {class}
+ */
+class _{class}
+{
+	/**
+	 * Is there content to display?
+	 *
+	 * @param	\IPS\Member|NULL	$author		The author to limit extra items to
+	 * @param	Timestamp|NULL	$lastTime	If provided, only items since this date are included. If NULL, it works out which to include based on what results are being shown
+	 * @param	Timestamp|NULL	$firstTime	If provided, only items before this date are included. If NULL, it works out which to include based on what results are being shown
+	 * @return	array	Array of \IPS\Content\Search\Result\Custom objects
+	 */
+	public function extraItems( $author=NULL, $lastTime=NULL, $firstTime=NULL ): array
+	{
+		// Note!
+		// Your application must define a setting and a language string in the format of "all_activity_{application}_{extensionname}" all in lower case. Without this, this plugin will not be executed.
+		// This setting will automatically be used to store the administrators choice of whether to show this data or not.
+
+		return array();
+	}
+
+}

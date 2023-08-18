@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            [
+                "app=? AND `key`=?",
+                "forums",
+                "latestTopics"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            [
+                "app=? AND `key`=?",
+                "forums",
+                "featuredTopics"
+            ]
+        ]
+    }
+}

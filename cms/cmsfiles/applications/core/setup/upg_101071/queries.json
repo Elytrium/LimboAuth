@@ -1,0 +1,686 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members_warn_reasons",
+            {
+                "name": "wr_notes",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='core' AND word_key='support_request_log_desc'"
+            ]
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_rss_export",
+                "columns": {
+                    "rss_id": {
+                        "name": "rss_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "rss_seo_title": {
+                        "name": "rss_seo_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rss_configuration": {
+                        "name": "rss_configuration",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rss_count": {
+                        "name": "rss_count",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rss_position": {
+                        "name": "rss_position",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rss_enabled": {
+                        "name": "rss_enabled",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rss_groups": {
+                        "name": "rss_groups",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "rss_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_announcements",
+            {
+                "announce_permissions": "*"
+            },
+            "announce_permissions IS NULL"
+        ]
+    },
+    "5": {
+        "method": "dropIndex",
+        "params": [
+            "core_sessions",
+            "member_id"
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_sessions",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "core_polls",
+            "votes",
+            {
+                "name": "votes",
+                "type": "INT",
+                "length": 9,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "core_admin_logs",
+            {
+                "name": "member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_moderator_logs",
+            {
+                "name": "member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "core_reputation_index",
+            {
+                "name": "lookup_hash",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "MD5 hash of app,type,type_id",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "core_reputation_index",
+            {
+                "name": "rep_class",
+                "type": "VARCHAR",
+                "length": 100,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_class_and_object_id",
+                "columns": [
+                    "index_class",
+                    "index_object_id"
+                ],
+                "length": [
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "core_reputation_index",
+            {
+                "name": "item_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "core_reputation_index",
+            "lookup_hash",
+            {
+                "name": "lookup_hash",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "MD5 hash of app,type,item_id",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_reputation_leaderboard_history",
+                "columns": {
+                    "leader_date": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "leader_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "leader_member_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "leader_member_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "leader_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "leader_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "leader_rep_total": {
+                        "name": "leader_rep_total",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "leader_date": {
+                        "type": "unique",
+                        "name": "leader_date",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "leader_date",
+                            "leader_member_id"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "17": {
+        "method": "addColumn",
+        "params": [
+            "core_reputation_index",
+            {
+                "name": "lookup_type_id_hash",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "MD5 hash of app, type, type_id",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "18": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "hash_lookup",
+                "columns": [
+                    "lookup_type_id_hash",
+                    "rep_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "19": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "rep_class",
+                "columns": [
+                    "rep_class"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "20": {
+        "method": "addColumn",
+        "params": [
+            "core_validating",
+            {
+                "name": "do_not_delete",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "A flag to specify that the account should not be deleted in the normal cleanup of unvalidated accounts. Used for accounts created in Commerce checkout.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "core_advertisements",
+            {
+                "name": "ad_new_window",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Open advertisement in a new window",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "22": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_upload_animated_photos",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_view_displaynamehistory",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "core_profanity_filters",
+            {
+                "name": "action",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "swap",
+                    "moderate"
+                ],
+                "allow_null": false,
+                "default": "swap",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "update",
+        "params": [
+            "core_profanity_filters",
+            {
+                "action": "swap"
+            }
+        ]
+    },
+    "26": {
+        "method": "changeColumn",
+        "params": [
+            "core_sessions",
+            "location_url",
+            {
+                "name": "location_url",
+                "type": "TEXT",
+                "length": 1024,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "changeColumn",
+        "params": [
+            "core_sessions",
+            "location_data",
+            {
+                "name": "location_data",
+                "type": "TEXT",
+                "length": 1024,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "dropIndex",
+        "params": [
+            "core_tags_perms",
+            "tag_lookup"
+        ]
+    },
+    "29": {
+        "method": "changeColumn",
+        "params": [
+            "core_tags_perms",
+            "tag_perm_text",
+            {
+                "name": "tag_perm_text",
+                "type": "VARCHAR",
+                "length": 2000,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "addIndex",
+        "params": [
+            "core_tags_perms",
+            {
+                "type": "key",
+                "name": "tag_lookup",
+                "columns": [
+                    "tag_perm_text",
+                    "tag_perm_visible"
+                ],
+                "length": [
+                    249,
+                    null
+                ]
+            }
+        ]
+    }
+}

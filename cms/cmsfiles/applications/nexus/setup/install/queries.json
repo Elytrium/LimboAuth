@@ -1,0 +1,39 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "cm_credits",
+                "type": "TEXT",
+                "comment": ""
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "cm_no_sev",
+                "type": "TINYINT",
+                "length": 1,
+                "default": "0",
+                "comment": ""
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "cm_return_group",
+                "type": "SMALLINT",
+                "length": 3,
+                "default": "0",
+                "comment": ""
+            }
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "html": {
+        "added": [
+            "global\/global\/decision",
+            "front\/global\/memberEmailBlockedMessage",
+            "global\/login\/verifyAuthenticate",
+            "global\/login\/verifyError",
+            "global\/login\/verifySetup",
+            "global\/login\/verifySetupLockout",
+            "admin\/settings\/verifySetupProtection"
+        ],
+        "edited": [
+            "front\/clubs\/header",
+            "front\/clubs\/membersRows",
+            "global\/forms\/text",
+            "front\/global\/mobileNavigation",
+            "front\/global\/mobileNavigationIcon",
+            "front\/global\/userBar",
+            "front\/profile\/hovercard",
+            "front\/system\/settings"
+        ],
+        "removed": [
+            "admin\/global\/decision"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/framework\/cards.css",
+            "global\/framework\/menus.css",
+            "global\/framework\/misc.css",
+            "admin\/members\/view.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

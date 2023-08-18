@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_tax",
+                "type": "INT",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

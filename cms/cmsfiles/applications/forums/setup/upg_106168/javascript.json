@@ -1,0 +1,19 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "forums\/front\/controllers\/forum\/ips.forum.flow.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ]
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "html": {
+        "added": [
+            "front\/events\/event",
+            "front\/events\/featured",
+            "front\/events\/featuredEvent",
+            "front\/events\/nearMe",
+            "front\/events\/nearMeContent",
+            "front\/events\/online",
+            "front\/events\/searchResults",
+            "front\/events\/searchResultsWrapper",
+            "front\/overview\/byMonth",
+            "front\/overview\/header",
+            "front\/overview\/search",
+            "front\/overview\/searchBar",
+            "front\/overview\/wrapper"
+        ],
+        "edited": [
+            "front\/browse\/calendarDay",
+            "front\/browse\/calendarHeader",
+            "front\/browse\/calendarMonth",
+            "front\/browse\/calendarWeek",
+            "front\/browse\/calendarWrapper",
+            "front\/view\/coverPhotoOverlay",
+            "front\/view\/eventSidebar",
+            "front\/view\/eventStreamBlock",
+            "front\/view\/rsvpControls",
+            "front\/view\/view"
+        ],
+        "removed": [
+            "front\/browse\/birthday",
+            "front\/browse\/birthdaysTable",
+            "front\/browse\/calendarFeatured",
+            "front\/browse\/calendarStream",
+            "front\/widgets\/todaysBirthdays"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/calendar_responsive.css",
+            "front\/calendar.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "calendars": {
+        "calendars": {
+            "calendars_manage": "calendars_manage",
+            "calendars_add": "calendars_add",
+            "calendars_edit": "calendars_edit",
+            "calendars_permissions": "calendars_permissions",
+            "calendars_massManageContent": "calendars_massManageContent",
+            "calendars_delete": "calendars_delete"
+        },
+        "ical": {
+            "calendar_feeds_manage": "calendar_feeds_manage",
+            "calendar_feeds_add": "calendar_feeds_add",
+            "calendar_feeds_edit": "calendar_feeds_edit",
+            "calendar_feeds_delete": "calendar_feeds_delete"
+        },
+        "settings": {
+            "settings_manage": "settings_manage"
+        }
+    },
+    "venues": {
+        "venues": {
+            "venues_manage": "venues_manage"
+        }
+    },
+    "stats": {
+        "rsvp": {
+            "rsvp_manage": "rsvp_manage"
+        }
+    }
+}

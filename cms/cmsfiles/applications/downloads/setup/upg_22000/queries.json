@@ -1,0 +1,48 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_cost",
+                "type": "float",
+                "length": null,
+                "allow_null": false,
+                "default": "0.00"
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bypass_paid",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_add_paid",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key='idm_guest_report'"
+        ]
+    }
+}

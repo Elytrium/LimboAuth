@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "database_forum_comments_in_progress"
+        ],
+        "edited": [
+            "database_forum_comments_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

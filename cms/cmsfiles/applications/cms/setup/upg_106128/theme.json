@@ -1,0 +1,28 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/widgets\/Blocks"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/blocks\/form.css",
+            "front\/database_index\/featured.css",
+            "front\/pages\/page.css",
+            "front\/records\/form.css",
+            "front\/records\/index.css",
+            "front\/records\/list.css",
+            "front\/records\/record.css",
+            "admin\/templates\/view.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

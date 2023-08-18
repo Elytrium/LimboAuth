@@ -1,0 +1,60 @@
+<?php
+/**
+ * @brief		Admin CP Group Form
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\GroupForm;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Admin CP Group Form
+ */
+class _{class}
+{
+	/**
+	 * Process Form
+	 *
+	 * @param	\IPS\Helpers\Form		$form	The form
+	 * @param	\IPS\Member\Group		$group	Existing Group
+	 * @return	void
+	 */
+	public function process( &$form, $group )
+	{		
+		$form->add( new \IPS\Helpers\Form\Text( 'example' ) );
+	}
+	
+	/**
+	 * Save
+	 *
+	 * @param	array				$values	Values from form
+	 * @param	\IPS\Member\Group	$group	The group
+	 * @return	void
+	 */
+	public function save( $values, &$group )
+	{
+		$group->example = $values['example'];
+	}
+
+	/**
+	 * Can this group be deleted?
+	 *
+	 * @param	\IPS\Member\Group	$group	The group
+	 * @return	void
+	 */
+	public function canDelete( $group ): bool
+	{
+		return TRUE;
+	}
+}

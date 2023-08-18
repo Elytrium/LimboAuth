@@ -1,0 +1,20 @@
+<?php
+/**
+ * @brief		{subpackage} Application Class
+ * @author		<a href='{website}'>{author}</a>
+ * @copyright	(c) {year} {author}
+ * @package		Invision Community
+ * @subpackage	{subpackage}
+ * @since		{date}
+ * @version		
+ */
+ 
+namespace IPS\{app};
+
+/**
+ * {subpackage} Application Class
+ */
+class _Application extends \IPS\Application
+{
+	
+}

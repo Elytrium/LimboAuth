@@ -1,0 +1,33 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/forums\/forumDisplay",
+            "front\/forums\/forumTable",
+            "front\/forums\/topicRowSnippet",
+            "front\/index\/forumGridItem",
+            "front\/index\/forumRow",
+            "front\/index\/indexButtons",
+            "front\/index\/simplifiedForumTable",
+            "front\/index\/simplifiedTopicRowSnippet",
+            "front\/index\/simplifiedView",
+            "front\/topics\/activity",
+            "front\/topics\/post",
+            "front\/topics\/postContainer",
+            "front\/topics\/topic"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/forums.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

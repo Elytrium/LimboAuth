@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "filestorage__core_Badges"
+        ],
+        "edited": [
+            "acp_rebuild_achievements_checkbox_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

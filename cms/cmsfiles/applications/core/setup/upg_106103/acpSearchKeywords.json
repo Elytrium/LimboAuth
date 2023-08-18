@@ -1,0 +1,19 @@
+{
+    "added": [
+        "app=core&module=members&controller=groups&searchResult=g_promote_exclude",
+        "app=core&module=members&controller=groups&searchResult=g_upload_animated_photos",
+        "app=core&module=members&controller=groups&searchResult=gbw_can_post_anonymously",
+        "app=core&module=members&controller=groups&searchResult=gbw_hide_group",
+        "app=core&module=members&controller=groups&searchResult=gbw_post_highlight"
+    ],
+    "edited": [
+        "app=core&module=achievements&controller=settings"
+    ],
+    "removed": [
+        "app=core&module=members&controller=groups&do=form&searchResult=g_promote_exclude",
+        "app=core&module=members&controller=groups&do=form&searchResult=g_upload_animated_photos",
+        "app=core&module=members&controller=groups&do=form&searchResult=gbw_can_post_anonymously",
+        "app=core&module=members&controller=groups&do=form&searchResult=gbw_hide_group",
+        "app=core&module=members&controller=groups&do=form&searchResult=gbw_post_highlight"
+    ]
+}

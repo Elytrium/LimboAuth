@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "events_search_search_location",
+            "events_near_you_soon"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "event_your_current_location",
+            "event_your_current_location_sorry",
+            "event_finding_location"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

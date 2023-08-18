@@ -1,0 +1,54 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_default_value",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_format_opts",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_display_listing",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_display_display",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

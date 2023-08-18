@@ -1,0 +1,17 @@
+{
+    "added": [
+        "all_activity_calendar_streamitems",
+        "calendar_block_past_changes",
+        "calendar_date_format",
+        "calendar_date_format_custom",
+        "calendar_default_view",
+        "calendar_rss_feed",
+        "calendar_rss_feed_days",
+        "calendar_rss_feed_order",
+        "calendar_venues_enabled",
+        "ipb_calendar_mon",
+        "show_bday_calendar"
+    ],
+    "edited": [],
+    "removed": []
+}

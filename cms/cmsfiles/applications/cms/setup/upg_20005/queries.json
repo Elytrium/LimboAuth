@@ -1,0 +1,10 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "ccs_pages",
+            "page_view_perms=CONCAT(',',page_view_perms,',')",
+            "page_view_perms != '*'"
+        ]
+    }
+}

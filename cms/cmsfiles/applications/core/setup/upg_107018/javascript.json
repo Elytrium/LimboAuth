@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.uploader.js",
+            "global\/front\/controllers\/core\/ips.core.quickSearch.js",
+            "global\/front\/controllers\/core\/ips.core.reaction.js",
+            "global\/admin\/ui\/ips.ui.tree.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

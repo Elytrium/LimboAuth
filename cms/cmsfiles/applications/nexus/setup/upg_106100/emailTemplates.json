@@ -1,0 +1,19 @@
+{
+    "added": [
+        "invoiceNotify"
+    ],
+    "edited": [
+        "staffReplyPending",
+        "newInvoice",
+        "invoiceWarning",
+        "invoiceMarkedPaid",
+        "transactionGatewayPending",
+        "transactionApproved",
+        "transactionHeld",
+        "transactionWaiting",
+        "transactionFailed",
+        "transactionRefunded",
+        "acp_notification_Transaction"
+    ],
+    "removed": []
+}

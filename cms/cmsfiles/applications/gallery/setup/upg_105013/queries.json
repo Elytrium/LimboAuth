@@ -1,0 +1,79 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "gallery_rss_enabled_desc"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? and word_key=?",
+                "gallery",
+                "category_allow_rating"
+            ]
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images",
+            "image_meta_data",
+            {
+                "name": "image_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_albums",
+            "album_meta_data",
+            {
+                "name": "album_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images_uploads",
+            {
+                "name": "upload_exif",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

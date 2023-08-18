@@ -1,0 +1,32 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "blog_entries",
+            "entry_category_id"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "blog_rss_import",
+            "rss_blog_id"
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "blog_rss_import",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "rss_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

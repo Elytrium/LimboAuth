@@ -1,0 +1,102 @@
+[
+    {
+        "method": "addIndex",
+        "params": [
+            "nexus_customer_addresses",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    {
+        "method": "update",
+        "params": [
+            "nexus_support_replies",
+            {
+                "reply_hidden": 1
+            },
+            [
+                "reply_hidden=? AND reply_type=?",
+                0,
+                "h"
+            ]
+        ]
+    },
+    {
+        "method": "addColumn",
+        "params": [
+            "nexus_package_fields",
+            {
+                "name": "cf_invoice",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_default_content",
+                "columns": {
+                    "staff_id": {
+                        "name": "staff_id",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number of staff member",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "content": {
+                        "name": "content",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Default editor content",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "staff_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+]

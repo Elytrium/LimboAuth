@@ -1,0 +1,59 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/browse\/album",
+            "front\/browse\/albumComments",
+            "front\/browse\/albumReviews",
+            "front\/browse\/albums",
+            "front\/browse\/category",
+            "front\/browse\/imageTable",
+            "front\/browse\/index",
+            "front\/forms\/commentTemplate",
+            "front\/forms\/reviewTemplate",
+            "front\/global\/comment",
+            "front\/global\/commentContainer",
+            "front\/global\/embedAlbumComment",
+            "front\/global\/embedAlbumReview",
+            "front\/global\/embedAlbums",
+            "front\/global\/embedImage",
+            "front\/global\/embedImageComment",
+            "front\/global\/embedImageReview",
+            "front\/global\/featuredComment",
+            "front\/global\/review",
+            "front\/global\/reviewContainer",
+            "front\/global\/searchResultAlbumSnippet",
+            "admin\/stats\/uploadersTable",
+            "front\/submit\/chooseCategory",
+            "front\/submit\/createAlbum",
+            "front\/submit\/existingAlbumForm",
+            "front\/submit\/postingInformation",
+            "front\/submit\/wrapper",
+            "front\/view\/comments",
+            "front\/view\/imageInfo",
+            "front\/view\/imageLightbox",
+            "front\/view\/imageLightboxInfo",
+            "front\/view\/reviews"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [
+            "front\/global.css"
+        ],
+        "edited": [
+            "front\/embed.css",
+            "front\/gallery_responsive.css",
+            "front\/gallery.css",
+            "front\/profile.css",
+            "front\/submit.css",
+            "front\/widgets.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

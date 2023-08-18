@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/utils\/ips.utils.notification.js",
+            "core\/front\/controllers\/profile\/ips.profile.main.js",
+            "core\/admin\/controllers\/support\/ips.support.dashboard.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

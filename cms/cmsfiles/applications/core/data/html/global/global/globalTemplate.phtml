@@ -1,0 +1,37 @@
+<ips:template parameters="$output, $title" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>{$title}</title>
+	<style type="text/css">
+		* { font-family: Helvetica, Arial, sans-serif; font-size: 14px; }
+		body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0; background-color: #d7d7d7 } 
+		a img {border:none;} 
+
+		p {margin: 1em 0;}
+
+		a {color: #4a8aca;}
+		
+		#strip { background-color: #262e33; height: 35px; padding: 12px; }
+		#logo { height: 25px; font-size: 20px; color: #ffffff; }
+			#logo img { vertical-align: bottom; }
+		#wrapper { width: 800px; margin: 0px auto; background: #ffffff; -webkit-box-shadow: 0px 3px 45px rgba(0,0,0,0.04); box-shadow: 0px 3px 45px rgba(0,0,0,0.04); }
+		#content { line-height: 120%; min-height: 500px; padding: 30px; background: #ffffff;  }
+	</style>
+</head>
+<body>
+	<div id='strip'>
+		<div id='logo'>
+			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZZJREFUeNq8lr9Lw0AUx2OETAUhIAiZBMFBKLg4+R8IroKbWCgOxY7+GYIiWAKCjl0rZHKJ4CqCg3RyKBWhQqmLgRK/py/hcn13TWzqFz5D837de7xcasdxbP0HtvWraxDPCZE7LfRozU8/uRdEW5ADnsB6yUVeQBVESUcRqIFxiUVErgPKnY5O6B6cl1hI5HpIfynbUQHdeHZ1KdfE1iX6BPUSuqlTrlQ243QHWjMUaVGOjJKtU7UEnoFXsEgPbICharA1AcM/jrDGFTEVEroFNwWKCN9Aa51yR7mgn2PL+uQ79a7b1pzjAzRydNMgX05bckchODGcqG3opm2IO6bcmUJfYE0TsAIGTJEB2biYVTBKCsnLIC7WK037b6DJPG+SjZMPKuoyhNIpjwyj6Eh+HYPfoeQ3MbpEol3PMMJ3QjcyTxlzyN11FrV7aRjhJqEb2QVw876wO2DfcM30NLY9sGu6GSLGdsadzCCXYlRlPnxBgUCdTsEy8zyQt84BPvOuvILFHH+nHPJV3zGfbNrPROn6FmAANAMI1RO30/8AAAAASUVORK5CYII=" width="26" height="25" />
+			Invision Community
+		</div>
+	</div>
+	<div id='wrapper'>
+		<div id='content'>
+			{$output|raw}
+		</div>
+	</div>
+</body>
+</html>

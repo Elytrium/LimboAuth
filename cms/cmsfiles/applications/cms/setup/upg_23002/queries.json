@@ -1,0 +1,773 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "ccs_pages",
+            "page_description"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "ccs_pages",
+            "page_seo_name"
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_pages",
+            {
+                "name": "page_title",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "ccs_pages",
+            {
+                "name": "page_quicknav",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "ccs_pages",
+            {
+                "name": "page_seo_name",
+                "type": "key",
+                "columns": [
+                    "page_seo_name",
+                    "page_folder"
+                ],
+                "length": [
+                    100,
+                    100
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "dropColumn",
+        "params": [
+            "ccs_page_wizard",
+            "wizard_description"
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "ccs_page_wizard",
+            {
+                "name": "wizard_started",
+                "type": "key",
+                "columns": [
+                    "wizard_started"
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "ccs_page_wizard",
+            {
+                "name": "wizard_page_title",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "ccs_page_wizard",
+            {
+                "name": "wizard_page_quicknav",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "10": {
+        "method": "addIndex",
+        "params": [
+            "ccs_block_wizard",
+            {
+                "type": "key",
+                "name": "wizard_started",
+                "columns": [
+                    "wizard_started"
+                ]
+            }
+        ]
+    },
+    "11": {
+        "method": "dropColumn",
+        "params": [
+            "ccs_databases",
+            "database_meta_keywords"
+        ]
+    },
+    "12": {
+        "method": "dropColumn",
+        "params": [
+            "ccs_databases",
+            "database_meta_description"
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_rss_cached",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_tags_enabled",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_tags_noprefixes",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_tags_predefined",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "17": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_rss_cached",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_rss_exclude",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "19": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_page_title",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "20": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_record_comments",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_record_comments_queued",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "22": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_tags_override",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_tags_enabled",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_tags_noprefixes",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_tags_predefined",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_edit_comment",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_restore_revision",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_extras",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_comments",
+            {
+                "name": "comment_author",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_comments",
+            {
+                "name": "comment_edit_date",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "31": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": ""
+            },
+            "conf_key='ccs_template_type' AND conf_value='codepress'"
+        ]
+    },
+    "32": {
+        "method": "delete",
+        "params": [
+            "ccs_template_blocks",
+            "tpb_name='block__watched_content'"
+        ]
+    },
+    "33": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_human_name",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_app_type",
+                "type": "varchar",
+                "length": 30,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_content_type",
+                "type": "varchar",
+                "length": 30,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_image",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_position",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "38": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_protected",
+                "type": "tinyint",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "39": {
+        "method": "addColumn",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_desc",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "40": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_slug_memory",
+                "columns": {
+                    "memory_id": {
+                        "name": "memory_id",
+                        "type": "INT",
+                        "length": "10",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true
+                    },
+                    "memory_url": {
+                        "name": "memory_url",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "memory_type": {
+                        "name": "memory_type",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "memory_type_id": {
+                        "name": "memory_type_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "memory_type_id_2": {
+                        "name": "memory_type_id_2",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "memory_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "memory_url": {
+                        "type": "key",
+                        "name": "memory_url",
+                        "columns": [
+                            "memory_url"
+                        ],
+                        "length": [
+                            150
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "41": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_menus",
+                "columns": {
+                    "memory_id": {
+                        "name": "menu_id",
+                        "type": "INT",
+                        "length": "10",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true
+                    },
+                    "menu_parent_id": {
+                        "name": "menu_parent_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_title": {
+                        "name": "menu_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_url": {
+                        "name": "menu_url",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_submenu": {
+                        "name": "menu_submenu",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_position": {
+                        "name": "menu_position",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_description": {
+                        "name": "menu_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_attributes": {
+                        "name": "menu_attributes",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "menu_permissions": {
+                        "name": "menu_permissions",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "menu_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "menu_parent_id": {
+                        "type": "key",
+                        "name": "menu_parent_id",
+                        "columns": [
+                            "menu_parent_id",
+                            "menu_position"
+                        ],
+                        "length": [
+                            null,
+                            150
+                        ]
+                    },
+                    "menu_position": {
+                        "type": "key",
+                        "name": "menu_position",
+                        "columns": [
+                            "menu_position"
+                        ],
+                        "length": [
+                            150
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "42": {
+        "method": "dropTable",
+        "params": [
+            "ccs_database_notifications"
+        ]
+    },
+    "43": {
+        "method": "addColumn",
+        "params": [
+            "ccs_blocks",
+            {
+                "name": "block_template",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "44": {
+        "method": "addIndex",
+        "params": [
+            "ccs_blocks",
+            {
+                "name": "block_template",
+                "type": "key",
+                "columns": [
+                    "block_template"
+                ]
+            }
+        ]
+    }
+}

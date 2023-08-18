@@ -1,0 +1,2525 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='core' AND word_key IN ( 'menu__core_support_dashboard', 'theme_is_front_default_with_id', 'theme_is_acp_default_with_id', 'default_acp_no_parenthesis', 'default_front_no_parenthesis', 'acp_skin', 'core_theme_set_is_acp_default', 'subs_autoprune', 'member_deletion_keep_name_desc', 'member_timezone_override', 'auto_follow_replied_to_desc', 'auto_follow_new_content_desc', 'stream_unread_links', 'stream_unread_links_normal', 'stream_unread_links_unread', 'stream_unread_links_normal_inline', 'stream_unread_links_unread_inline', 'stream_unread_links_desc', 'email_plz_change_password', 'google_maps_api_key_desc' )"
+            ]
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "core_streams",
+            "unread_links"
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "show_membertab",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "member",
+                    "moderator",
+                    "nonmember"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_referral_banners",
+                "columns": {
+                    "rb_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 5,
+                        "name": "rb_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rb_url": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "rb_url",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rb_upload": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "rb_upload",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rb_order": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 5,
+                        "name": "rb_order",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rb_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_referrals",
+                "columns": {
+                    "member_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "referred_by": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "referred_by",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "amount": {
+                        "name": "amount",
+                        "type": "TEXT",
+                        "length": 0,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "member_id"
+                        ]
+                    },
+                    "referred_by": {
+                        "type": "key",
+                        "name": "referred_by",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "referred_by"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_club_pages",
+                "columns": {
+                    "page_id": {
+                        "name": "page_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "page_club": {
+                        "name": "page_club",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "page_title": {
+                        "name": "page_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "page_seo_title": {
+                        "name": "page_seo_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "page_content": {
+                        "name": "page_content",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "page_can_view": {
+                        "name": "page_can_view",
+                        "type": "SET",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "member",
+                            "moderator",
+                            "nonmember"
+                        ],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "page_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "page_club": {
+                        "type": "key",
+                        "name": "page_club",
+                        "columns": [
+                            "page_club"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "7": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "g_hide_online_list_desc"
+            ]
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_members_features",
+                "columns": {
+                    "feature_id": {
+                        "name": "feature_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "feature_title": {
+                        "name": "feature_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "Feature highlight title",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_text": {
+                        "name": "feature_text",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Feature highlight text",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_url": {
+                        "name": "feature_url",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "URL for more information",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_version_added": {
+                        "name": "feature_version_added",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Version feature was added in",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_app": {
+                        "name": "feature_app",
+                        "type": "VARCHAR",
+                        "length": 64,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "Application feature belongs to",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_unique_key": {
+                        "name": "feature_unique_key",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "Unique key for feature management",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "feature_image": {
+                        "name": "feature_image",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Feature preview image",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "feature_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "feature_version_added": {
+                        "type": "key",
+                        "name": "feature_version_added",
+                        "columns": [
+                            "feature_version_added"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "feature_app": {
+                        "type": "key",
+                        "name": "feature_app",
+                        "columns": [
+                            "feature_app"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "9": {
+        "method": "delete",
+        "params": [
+            "core_members_feature_seen"
+        ]
+    },
+    "10": {
+        "method": "changeIndex",
+        "params": [
+            "core_members_feature_seen",
+            "PRIMARY",
+            {
+                "type": "primary",
+                "name": "PRIMARY",
+                "columns": [
+                    "feature_id",
+                    "member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "11": {
+        "method": "dropColumn",
+        "params": [
+            "core_sys_cp_sessions",
+            "session_cookie_key"
+        ]
+    },
+    "12": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key=?",
+                "subs_autoprune"
+            ]
+        ]
+    },
+    "13": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_rss_import",
+                "columns": {
+                    "rss_import_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "rss_import_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_enabled": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "rss_import_enabled",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_title": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "rss_import_title",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_url": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "rss_import_url",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_auth_user": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "rss_import_auth_user",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_auth_pass": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "rss_import_auth_pass",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_class": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "rss_import_class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_node_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_import_node_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_member": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "rss_import_member",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_time": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 3,
+                        "name": "rss_import_time",
+                        "type": "SMALLINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_last_import": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_import_last_import",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_showlink": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "rss_import_showlink",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_topic_pre": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 50,
+                        "name": "rss_import_topic_pre",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_auto_follow": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 4,
+                        "name": "rss_import_auto_follow",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_settings": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Json array of the extensions settings",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "rss_import_settings",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_import_has_enclosures": {
+                        "name": "rss_import_has_enclosures",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_import_id"
+                        ]
+                    },
+                    "rss_grab": {
+                        "type": "key",
+                        "name": "rss_grab",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "rss_import_enabled",
+                            "rss_import_last_import"
+                        ]
+                    },
+                    "member": {
+                        "type": "key",
+                        "name": "member",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_import_member"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "14": {
+        "method": "dropTable",
+        "params": [
+            "core_rss_imported",
+            true
+        ]
+    },
+    "15": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_rss_imported",
+                "columns": {
+                    "rss_imported_guid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 32,
+                        "name": "rss_imported_guid",
+                        "type": "CHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_imported_content_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_imported_content_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rss_imported_import_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rss_imported_import_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_imported_guid"
+                        ]
+                    },
+                    "rss_imported_import_id": {
+                        "type": "key",
+                        "name": "rss_imported_import_id",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rss_imported_import_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "16": {
+        "method": "dropColumn",
+        "params": [
+            "core_members",
+            "acp_skin"
+        ]
+    },
+    "17": {
+        "method": "dropColumn",
+        "params": [
+            "core_themes",
+            "set_is_acp_default"
+        ]
+    },
+    "18": {
+        "method": "addIndex",
+        "params": [
+            "core_members",
+            {
+                "type": "key",
+                "name": "member_posts",
+                "columns": [
+                    "member_posts",
+                    "member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "19": {
+        "method": "addIndex",
+        "params": [
+            "core_clubs",
+            {
+                "type": "key",
+                "name": "rebuilt",
+                "columns": [
+                    "rebuilt"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "20": {
+        "method": "addIndex",
+        "params": [
+            "core_validating",
+            {
+                "type": "key",
+                "name": "user_verified",
+                "columns": [
+                    "user_verified"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "21": {
+        "method": "changeIndex",
+        "params": [
+            "core_validating",
+            "user_verified",
+            {
+                "type": "key",
+                "name": "user_verified",
+                "columns": [
+                    "user_verified",
+                    "entry_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "22": {
+        "method": "addIndex",
+        "params": [
+            "core_streams",
+            {
+                "type": "key",
+                "name": "default",
+                "columns": [
+                    "default"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "core_advertisements",
+            {
+                "name": "ad_nocontent_page_output",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": ""
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_authorization_codes",
+            {
+                "name": "code_challenge",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The PKCE code challenge, if one was provided by the client",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_authorize_prompts",
+            {
+                "name": "code_challenge",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The PKCE code challenge, if one was provided by the client",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_authorization_codes",
+            {
+                "name": "code_challenge_method",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "plain",
+                    "S256"
+                ],
+                "allow_null": true,
+                "default": "plain",
+                "comment": "The PKCE code challenge method, if applicable",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_authorize_prompts",
+            {
+                "name": "code_challenge_method",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "plain",
+                    "S256"
+                ],
+                "allow_null": true,
+                "default": "plain",
+                "comment": "The PKCE code challenge method, if applicable",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_clients",
+            {
+                "name": "oauth_pkce",
+                "type": "ENUM",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "S256",
+                    "plain",
+                    "none"
+                ],
+                "allow_null": false,
+                "default": "none",
+                "comment": "Required PKCE method.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "dashboard_tasks_cron_broken_desc_cic"
+            ]
+        ]
+    },
+    "30": {
+        "method": "addIndex",
+        "params": [
+            "core_members_known_devices",
+            {
+                "type": "key",
+                "name": "last_seen",
+                "columns": [
+                    "last_seen"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "31": {
+        "method": "addIndex",
+        "params": [
+            "core_members_known_ip_addresses",
+            {
+                "type": "key",
+                "name": "last_seen",
+                "columns": [
+                    "last_seen"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "32": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='core' AND ( word_key IN ( 'delicious_text', 'digg_text' ) )"
+            ]
+        ]
+    },
+    "33": {
+        "method": "delete",
+        "params": [
+            "core_share_links",
+            [
+                "share_key='delicious' OR share_key='digg'"
+            ]
+        ]
+    },
+    "34": {
+        "method": "replace",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_key": "onboard_complete",
+                "conf_value": 1,
+                "conf_default": 0,
+                "conf_app": "core"
+            }
+        ]
+    },
+    "35": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_follow_count_cache",
+                "columns": {
+                    "id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "id",
+                        "type": "BIGINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "class": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "count": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "count",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "added": {
+                        "name": "added",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "added": {
+                        "type": "key",
+                        "name": "added",
+                        "columns": [
+                            "added"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "id_class": {
+                        "type": "unique",
+                        "name": "id_class",
+                        "columns": [
+                            "id",
+                            "class"
+                        ],
+                        "length": [
+                            null,
+                            250
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "core_moderators",
+            {
+                "name": "show_badge",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "Show a badge?",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_solved_index",
+                "columns": {
+                    "id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": []
+                    },
+                    "member_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": []
+                    },
+                    "app": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 32,
+                        "name": "app",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "comment_class": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 100,
+                        "name": "comment_class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "comment_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "comment_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": []
+                    },
+                    "item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "item_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": []
+                    },
+                    "solved_date": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "solved_date",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": []
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "id"
+                        ]
+                    },
+                    "member_solved": {
+                        "type": "key",
+                        "name": "member_solved",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "member_id",
+                            "solved_date"
+                        ]
+                    },
+                    "solved_date": {
+                        "type": "key",
+                        "name": "solved_date",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "solved_date"
+                        ]
+                    },
+                    "app": {
+                        "type": "key",
+                        "name": "app",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "app",
+                            "comment_class"
+                        ]
+                    },
+                    "solved_class": {
+                        "type": "key",
+                        "name": "solved_class",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "comment_class",
+                            "comment_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "38": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_clients",
+            {
+                "name": "oauth_graphql",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "A boolean indicating if this client (and access tokens issued by it) can access the GraphQL API",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "39": {
+        "method": "changeColumn",
+        "params": [
+            "core_oauth_clients",
+            "oauth_prompt",
+            {
+                "name": "oauth_prompt",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "login",
+                    "reauthorize",
+                    "automatic",
+                    "none"
+                ],
+                "allow_null": true,
+                "default": "reauthorize",
+                "comment": "How to prompt users. login = Users must always login. reauthorize = Users are shown authorize screen. automatic = Users with an existing access token skip authorise screen. none = Never show screen",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "40": {
+        "method": "changeColumn",
+        "params": [
+            "core_oauth_clients",
+            "oauth_type",
+            {
+                "name": "oauth_type",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "invision",
+                    "wordpress",
+                    "mobile"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "A hint for how to display the form (NULL is generic custom)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "41": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_authorize_prompts",
+            {
+                "name": "prompt",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "login",
+                    "reauthorize"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "The requested prompt type",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "42": {
+        "method": "addColumn",
+        "params": [
+            "core_validating",
+            {
+                "name": "ref",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "URL to redirect the user to after validation is complete",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "43": {
+        "method": "changeColumn",
+        "params": [
+            "core_notification_defaults",
+            "default",
+            {
+                "name": "default",
+                "type": "SET",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "email",
+                    "inline",
+                    "push"
+                ],
+                "allow_null": false,
+                "default": "",
+                "comment": "Default options",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "44": {
+        "method": "changeColumn",
+        "params": [
+            "core_notification_defaults",
+            "disabled",
+            {
+                "name": "disabled",
+                "type": "SET",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "email",
+                    "inline",
+                    "push"
+                ],
+                "allow_null": false,
+                "default": "",
+                "comment": "Disabled options",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "changeColumn",
+        "params": [
+            "core_notification_preferences",
+            "preference",
+            {
+                "name": "preference",
+                "type": "SET",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "email",
+                    "inline",
+                    "push"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "The chosen notification method(s)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "46": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_access_tokens",
+            {
+                "name": "auth_user_agent",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The user agent that the user performed authentication on, if known",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "47": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_access_tokens",
+            {
+                "name": "issue_user_agent",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The user agent that the access token was issued to, if known",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "48": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_access_tokens",
+            {
+                "name": "device_key",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The device key of the device used to obtain this access token, if known",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "49": {
+        "method": "addIndex",
+        "params": [
+            "core_oauth_server_access_tokens",
+            {
+                "type": "key",
+                "name": "device_lookup",
+                "columns": [
+                    "member_id",
+                    "device_key"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "50": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_authorization_codes",
+            {
+                "name": "user_agent",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The user agent that the user performed authentication on, if known",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "51": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_authorization_codes",
+            {
+                "name": "device_key",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The device key of the device used to obtain this authorization code, if known",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "52": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_mobileapp_menu",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "app": {
+                        "name": "app",
+                        "type": "VARCHAR",
+                        "length": 250,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The application key for the item",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "extension": {
+                        "name": "extension",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The MobileNavigation extension key",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "config": {
+                        "name": "config",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Any additional configuration",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "position": {
+                        "name": "position",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "This item's position within the bar",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "permissions": {
+                        "name": "permissions",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of group IDs, or * for all, NULL to inherit",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "53": {
+        "method": "insert",
+        "params": [
+            "core_mobileapp_menu",
+            {
+                "app": "forums",
+                "extension": "Topics",
+                "config": null,
+                "position": 1,
+                "permissions": null
+            }
+        ]
+    },
+    "54": {
+        "method": "insert",
+        "params": [
+            "core_mobileapp_menu",
+            {
+                "app": "forums",
+                "extension": "Forums",
+                "config": null,
+                "position": 2,
+                "permissions": null
+            }
+        ]
+    },
+    "55": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "member_timezone_override"
+            ]
+        ]
+    },
+    "56": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_update_url",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "57": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_update_check",
+                "type": "BIGINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "58": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_version",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "59": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_version_long",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "60": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_update_data",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "61": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang_words",
+            {
+                "name": "word_is_custom",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "b'0'",
+                "comment": "Word is custom to the site?",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "62": {
+        "method": "addIndex",
+        "params": [
+            "core_sys_lang_words",
+            {
+                "type": "key",
+                "name": "word_is_custom",
+                "columns": [
+                    "word_is_custom"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "63": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_author_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "64": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_author_url",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "65": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_api_webhooks",
+                "columns": {
+                    "id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "ID Number",
+                        "decimals": null,
+                        "default": null,
+                        "length": 20,
+                        "name": "id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "api_key": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The API key which owns this webhook",
+                        "decimals": null,
+                        "default": "",
+                        "length": 32,
+                        "name": "api_key",
+                        "type": "CHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "events": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Comma-delimited list of events to fire for",
+                        "decimals": null,
+                        "default": "",
+                        "length": 0,
+                        "name": "events",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "url": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The URL to send webhook to",
+                        "decimals": null,
+                        "default": "",
+                        "length": 0,
+                        "name": "url",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "enabled": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "1",
+                        "length": 1,
+                        "name": "enabled",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "filters": {
+                        "name": "filters",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "JSON-encoded array of filters for each event",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "id"
+                        ]
+                    },
+                    "enabled": {
+                        "type": "key",
+                        "name": "enabled",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "enabled"
+                        ]
+                    },
+                    "api_key": {
+                        "type": "key",
+                        "name": "api_key",
+                        "columns": [
+                            "api_key"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "66": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_api_webhook_fires",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "webhook": {
+                        "name": "webhook",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The webhook ID",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "event": {
+                        "name": "event",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The event being fired",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when it was requested",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "status": {
+                        "name": "status",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "pending",
+                            "successful",
+                            "failed"
+                        ],
+                        "allow_null": false,
+                        "default": "pending",
+                        "comment": "The status",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "response_code": {
+                        "name": "response_code",
+                        "type": "CHAR",
+                        "length": 3,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The HTTP response code",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "response_body": {
+                        "name": "response_body",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The response body",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "fails": {
+                        "name": "fails",
+                        "type": "TINYINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "The number of times we have tried (and failed) to send",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "data": {
+                        "name": "data",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The data to send",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "queue": {
+                        "type": "key",
+                        "name": "queue",
+                        "columns": [
+                            "status",
+                            "time"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "time": {
+                        "type": "key",
+                        "name": "time",
+                        "columns": [
+                            "time"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "67": {
+        "method": "addColumn",
+        "params": [
+            "core_mail_error_logs",
+            {
+                "name": "mlog_notification_sent",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Whether this has been sent in an AdminCP notification",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "68": {
+        "method": "addIndex",
+        "params": [
+            "core_mail_error_logs",
+            {
+                "type": "key",
+                "name": "mlog_notified",
+                "columns": [
+                    "mlog_notification_sent"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "69": {
+        "method": "update",
+        "params": [
+            "core_mail_error_logs",
+            {
+                "mlog_notification_sent": true
+            }
+        ]
+    },
+    "70": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_cp_sessions",
+            "session_app_data",
+            {
+                "name": "session_app_data",
+                "type": "MEDIUMBLOB",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "71": {
+        "method": "addColumn",
+        "params": [
+            "core_acronyms",
+            {
+                "name": "a_type",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "acronym",
+                    "link"
+                ],
+                "allow_null": false,
+                "default": "acronym",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "72": {
+        "method": "update",
+        "params": [
+            "core_acronyms",
+            {
+                "a_type": "acronym"
+            }
+        ]
+    },
+    "73": {
+        "method": "changeColumn",
+        "params": [
+            "core_admin_login_logs",
+            "admin_username",
+            {
+                "name": "admin_username",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "74": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "rules",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "75": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "rules_required",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "76": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs_memberships",
+            {
+                "name": "rules_acknowledged",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "77": {
+        "method": "addColumn",
+        "params": [
+            "core_login_links",
+            {
+                "name": "token_id_token",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "ID token for Open ID Connect implementations",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "78": {
+        "method": "addColumn",
+        "params": [
+            "core_files_temp",
+            {
+                "name": "exif",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

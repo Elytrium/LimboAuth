@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "blog_blogs",
+            "blog_rating_average",
+            {
+                "name": "blog_rating_average",
+                "type": "DECIMAL",
+                "length": 11,
+                "decimals": 1,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

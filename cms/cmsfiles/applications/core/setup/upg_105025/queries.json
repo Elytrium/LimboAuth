@@ -1,0 +1,182 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_marketplace_tokens",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "token": {
+                        "name": "token",
+                        "type": "CHAR",
+                        "length": 97,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "expires_at": {
+                        "name": "expires_at",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Token expires at",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_applications",
+            {
+                "name": "app_marketplace_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_applications",
+            {
+                "type": "key",
+                "name": "app_marketplace",
+                "columns": [
+                    "app_marketplace_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_plugins",
+            {
+                "name": "plugin_marketplace_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_themes",
+            {
+                "name": "set_marketplace_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_themes",
+            {
+                "type": "key",
+                "name": "set_marketplace",
+                "columns": [
+                    "set_marketplace_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_lang",
+            {
+                "name": "lang_marketplace_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "core_sys_lang",
+            {
+                "type": "key",
+                "name": "lang_marketplace",
+                "columns": [
+                    "lang_marketplace_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

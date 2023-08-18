@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "core_themes",
+            "set_is_acp_default"
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "added": [
+        "notification_my_solution",
+        "notification_new_rank",
+        "notification_approved_content",
+        "notification_mine_solved",
+        "notification_new_recognize",
+        "notification_new_badge"
+    ],
+    "edited": [
+        "notification_warning_mods",
+        "account_locked",
+        "emailWrapper",
+        "emailNoWrapper",
+        "warning"
+    ],
+    "removed": [
+        "notification_best_answer"
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_sys_lang_words",
+            {
+                "word_custom": "Standard"
+            },
+            [
+                "word_key=?",
+                "login_method_1"
+            ]
+        ]
+    }
+}

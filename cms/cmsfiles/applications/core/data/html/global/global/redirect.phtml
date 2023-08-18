@@ -1,0 +1,13 @@
+<ips:template parameters="$url, $message" />
+<meta http-equiv="refresh" content="2; url={$url}">
+<p>
+	<strong>$message</strong><br>
+	<br>
+	Please wait while we redirect you
+</p>
+<script type="text/javascript">
+setTimeout( function()
+{
+	window.location = "{$url}".replace( /&amp;/g, '&' );
+}, 2000 );
+</script>

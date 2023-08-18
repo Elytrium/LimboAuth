@@ -1,0 +1,17 @@
+{
+    "added": [
+        "capture",
+        "sendInvoiceWarnings",
+        "generateRenewalInvoices",
+        "expirePurchases",
+        "expireInvoices",
+        "supportAutoresolve",
+        "supportAssignedReminder",
+        "monitor",
+        "terminateHosting",
+        "expectedOutputMonitoring",
+        "cartCleanup"
+    ],
+    "edited": [],
+    "removed": []
+}

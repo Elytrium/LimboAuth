@@ -1,0 +1,1846 @@
+{
+    "1": {
+        "method": "renameTable",
+        "params": [
+            "ccs_pages",
+            "cms_pages"
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_folder_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "renameTable",
+        "params": [
+            "ccs_containers",
+            "cms_containers"
+        ]
+    },
+    "4": {
+        "method": "renameTable",
+        "params": [
+            "ccs_blocks",
+            "cms_blocks"
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "cms_containers",
+            {
+                "name": "container_parent_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_plugin",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_templates",
+                "columns": {
+                    "template_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "template_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_key": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "template_key",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_title": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "template_title",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_desc": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "template_desc",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_content": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "template_content",
+                        "type": "MEDIUMTEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_location": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "template_location",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_group": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "template_group",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_container": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "template_container",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 3,
+                        "name": "template_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_rel_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "template_rel_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_updated": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "template_updated",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_user_created": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "template_user_created",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_user_edited": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "template_user_edited",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "template_params": {
+                        "name": "template_params",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "template_app": {
+                        "name": "template_app",
+                        "type": "VARCHAR",
+                        "length": 100,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "template_rel_type": {
+                        "name": "template_rel_type",
+                        "type": "VARCHAR",
+                        "length": 150,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "template_master": {
+                        "name": "template_master",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "template_type": {
+                        "name": "template_type",
+                        "type": "SET",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "css",
+                            "template",
+                            "js"
+                        ],
+                        "allow_null": false,
+                        "default": "template",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "template_original_group": {
+                        "name": "template_original_group",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "template_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "cms_containers",
+            {
+                "name": "container_key",
+                "type": "VARCHAR",
+                "length": 150,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "changeIndex",
+        "params": [
+            "cms_pages",
+            "page_seo_name",
+            {
+                "type": "key",
+                "name": "page_seo_name",
+                "length": [
+                    100
+                ],
+                "columns": [
+                    "page_seo_name"
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_full_path",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_has_error",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_show_sidebar",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "Display the standard suite sidebar",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_default",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "dropIndex",
+        "params": [
+            "cms_blocks",
+            "block_template"
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "cms_blocks",
+            "block_template",
+            {
+                "name": "block_template",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15.1": {
+        "method": "changeColumn",
+        "params": [
+            "cms_blocks",
+            "block_key",
+            {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "block_key",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        ]
+    },
+    "16": {
+        "method": "addIndex",
+        "params": [
+            "cms_blocks",
+            {
+                "type": "key",
+                "name": "block_template",
+                "length": [
+                    150
+                ],
+                "columns": [
+                    "block_template"
+                ]
+            }
+        ]
+    },
+    "17": {
+        "method": "dropColumn",
+        "params": [
+            "cms_blocks",
+            [
+                "block_cache_output",
+                "block_cache_last",
+                "block_cache_ttl"
+            ]
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_template_params",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Vars for any ad-hoc template",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "19": {
+        "method": "renameTable",
+        "params": [
+            "ccs_databases",
+            "cms_databases"
+        ]
+    },
+    "20": {
+        "method": "renameTable",
+        "params": [
+            "ccs_database_categories",
+            "cms_database_categories"
+        ]
+    },
+    "21": {
+        "method": "renameTable",
+        "params": [
+            "ccs_database_fields",
+            "cms_database_fields"
+        ]
+    },
+    "22": {
+        "method": "renameTable",
+        "params": [
+            "ccs_database_comments",
+            "cms_database_comments"
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_allowed_extensions",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_is_multiple",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_full_path",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_last_title",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_last_seo_title",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_allow_rating",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_fixed_field_perms",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Contains a JSON object of fixed field permissions.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_is_searchable",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_validator_custom",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_fields",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON object of permitted form fields to show.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "33": {
+        "method": "renameTable",
+        "params": [
+            "ccs_database_revisions",
+            "cms_database_revisions"
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_cat_index_type",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_page_widget_areas",
+                "columns": {
+                    "area_page_id": {
+                        "name": "area_page_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The page ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "area_widgets": {
+                        "name": "area_widgets",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "area_area": {
+                        "name": "area_area",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "area_page_area": {
+                        "type": "unique",
+                        "name": "area_page_area",
+                        "columns": [
+                            "area_page_id",
+                            "area_area"
+                        ],
+                        "length": [
+                            null,
+                            191
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "36": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_url_store",
+                "columns": {
+                    "store_current_id": {
+                        "name": "store_current_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "store_type": {
+                        "name": "store_type",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                }
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_theme",
+                "type": "INT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "changeColumn",
+        "params": [
+            "cms_databases",
+            "database_template_listing",
+            {
+                "name": "database_template_listing",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "listing",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "39": {
+        "method": "changeColumn",
+        "params": [
+            "cms_databases",
+            "database_template_display",
+            {
+                "name": "database_template_display",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "display",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "40": {
+        "method": "changeColumn",
+        "params": [
+            "cms_databases",
+            "database_template_categories",
+            {
+                "name": "database_template_categories",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "category_index",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "41": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_display_commentform",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "Determines if this field should show and be editable on the comment reply form.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "42": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_page_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Page ID this database is used on (if any)",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "43": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_page_menu",
+                "columns": {
+                    "menu_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "menu_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_parent_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "menu_parent_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "menu_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_type": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "menu_type",
+                        "type": "SET",
+                        "unsigned": false,
+                        "values": [
+                            "url",
+                            "page",
+                            "separator",
+                            "folder"
+                        ],
+                        "zerofill": false
+                    },
+                    "menu_content": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "menu_content",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_title": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "menu_title",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_permission": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "menu_permission",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "menu_attributes": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "menu_attributes",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "menu_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "44": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_template_form",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "form",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_template_featured",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "category_articles",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "46": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_featured_settings",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "47": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_records_future",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "48": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_js_css_ids",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array storing CSS and JS template IDs for inclusion on this page.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "49": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_js_css_objects",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of file objects",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "50": {
+        "method": "addColumn",
+        "params": [
+            "cms_templates",
+            {
+                "name": "template_file_object",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The URL for the file object that corresponds with this item.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "51": {
+        "method": "addColumn",
+        "params": [
+            "cms_pages",
+            {
+                "name": "page_wrapper_template",
+                "type": "VARCHAR",
+                "length": 100,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "52": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_plugin_config",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "53": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_plugin_app",
+                "type": "VARCHAR",
+                "length": 100,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "54": {
+        "method": "changeColumn",
+        "params": [
+            "cms_pages",
+            "page_wrapper_template",
+            {
+                "name": "page_wrapper_template",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "55": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_use_categories",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "56": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_default_category",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "57": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_use_categories",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "58": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_default_category",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "59": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_record_reviews",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "60": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_record_reviews_queued",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "61": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_categories",
+            {
+                "name": "category_options",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "62": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_options",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "63": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_database_reviews",
+                "columns": {
+                    "review_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 20,
+                        "name": "review_id",
+                        "type": "BIGINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_database_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_database_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_item": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_item",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_author": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_author",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_author_name": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "review_author_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_content": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "review_content",
+                        "type": "MEDIUMTEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_date": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_ip_address": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 46,
+                        "name": "review_ip_address",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_time": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_edit_time",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_member_name": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "review_edit_member_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_show": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "review_edit_show",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_rating": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_rating",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes_total": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_votes_total",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes_helpful": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_votes_helpful",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes_data": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "review_votes_data",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_approved": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "review_approved",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_id"
+                        ]
+                    },
+                    "review_database_id": {
+                        "type": "key",
+                        "name": "review_database_id",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_database_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

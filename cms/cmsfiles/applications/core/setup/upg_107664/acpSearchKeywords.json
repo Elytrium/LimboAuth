@@ -1,0 +1,15 @@
+{
+    "added": [
+        "app=core&module=settings&controller=webapp",
+        "app=core&module=settings&controller=webapp&searchResult=form_configure_manifest",
+        "app=core&module=settings&controller=webapp&searchResult=form_icons_apple_startup",
+        "app=core&module=settings&controller=webapp&searchResult=form_icons_homescreen_maskable",
+        "app=core&module=settings&controller=webapp&searchResult=form_icons_mask_color",
+        "app=core&module=settings&controller=webapp&searchResult=form_icons_mask_icon",
+        "app=core&module=settings&controller=webapp&searchResult=manifest_display"
+    ],
+    "edited": [
+        "app=core&module=customization&controller=icons"
+    ],
+    "removed": []
+}

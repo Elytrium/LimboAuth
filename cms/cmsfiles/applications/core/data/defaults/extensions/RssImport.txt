@@ -1,0 +1,62 @@
+<?php
+/**
+ * @brief		RSS Import extension: {class}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\RssImport;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * @brief	RSS Import extension: {class}
+ */
+class _{class}
+{
+	/**
+	 * @brief	RSSImport Classes
+	 */
+	public $classes = array();
+	
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		$this->classes[] = 'IPS\{app}\{example}';
+	}
+
+	/**
+	 * Display Form
+	 *
+	 * @param	\IPS\Helpers\Form		$form	The form
+	 * @return	void
+	 */
+	public function form( \IPS\Helpers\Form &$form )
+	{		
+		$form->add( new \IPS\Helpers\Form\Text( 'example' ) );
+	}
+	
+	/**
+	 * Save
+	 *
+	 * @param	array				$values	Values from form
+	 * @return	void
+	 */
+	public function saveForm( $values)
+	{
+		return $values;
+	}
+}

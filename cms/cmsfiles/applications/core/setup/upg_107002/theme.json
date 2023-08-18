@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/memberprofile\/basicInformation",
+            "admin\/members\/acpRestrictions",
+            "admin\/support\/dashboard",
+            "front\/system\/searchResultSnippet"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/framework\/data-lists.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="front/store"><![CDATA[{"default_controller":"store","protected":0,"default":1}]]></module>
+ <module key="front/checkout"><![CDATA[{"default_controller":null,"protected":1,"default":0}]]></module>
+ <module key="front/support"><![CDATA[{"default_controller":"home","protected":0,"default":0}]]></module>
+ <module key="front/clients"><![CDATA[{"default_controller":"purchases","protected":0,"default":0}]]></module>
+ <module key="front/promotion"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="front/subscriptions"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/payments"><![CDATA[{"default_controller":"transactions","protected":0,"default":1}]]></module>
+ <module key="admin/customers"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/support"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/store"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/reports"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/subscriptions"><![CDATA[{"default_controller":"subscriptions","protected":0,"default":0}]]></module>
+ <task frequency="P0Y0M0DT1H0M0S">capture</task>
+ <task frequency="P0Y0M0DT1H0M0S">sendInvoiceWarnings</task>
+ <task frequency="P0Y0M0DT0H30M0S">generateRenewalInvoices</task>
+ <task frequency="P0Y0M0DT1H0M0S">expirePurchases</task>
+ <task frequency="P0Y0M0DT1H0M0S">expireInvoices</task>
+ <task frequency="P0Y0M0DT1H0M0S">supportAutoresolve</task>
+ <task frequency="P0Y0M1DT0H0M0S">supportAssignedReminder</task>
+ <task frequency="P0Y0M1DT0H0M0S">cartCleanup</task>
+ <task frequency="P0Y0M0DT0H10M0S">billingAgreements</task>
+ <task frequency="P0Y0M0DT0H10M0S">gatewayPending</task>
+ <task frequency="P0Y0M0DT0H10M0S">payoutPending</task>
+ <setting key="billing_agreement_gateways"><![CDATA[{"key":"billing_agreement_gateways","default":"0","report":"bool"}]]></setting>
+ <setting key="card_storage_gateways"><![CDATA[{"key":"card_storage_gateways","default":"0","report":"bool"}]]></setting>
+ <setting key="cm_invoice_expireafter"><![CDATA[{"key":"cm_invoice_expireafter","default":"30","report":"full"}]]></setting>
+ <setting key="cm_invoice_generate"><![CDATA[{"key":"cm_invoice_generate","default":"12","report":"full"}]]></setting>
+ <setting key="cm_invoice_warning"><![CDATA[{"key":"cm_invoice_warning","default":"72","report":"full"}]]></setting>
+ <setting key="cm_protected"><![CDATA[{"key":"cm_protected","default":"","report":"bool"}]]></setting>
+ <setting key="customer_fields"><![CDATA[{"key":"customer_fields","default":"0","report":"bool"}]]></setting>
+ <setting key="donation_goals"><![CDATA[{"key":"donation_goals","default":"0","report":"bool"}]]></setting>
+ <setting key="easypost_address"><![CDATA[{"key":"easypost_address","default":"","report":"bool"}]]></setting>
+ <setting key="easypost_api_key"><![CDATA[{"key":"easypost_api_key","default":"","report":"bool"}]]></setting>
+ <setting key="easypost_delivery_adjustment"><![CDATA[{"key":"easypost_delivery_adjustment","default":"0","report":"full"}]]></setting>
+ <setting key="easypost_phone"><![CDATA[{"key":"easypost_phone","default":"","report":"bool"}]]></setting>
+ <setting key="easypost_price_adjustment"><![CDATA[{"key":"easypost_price_adjustment","default":"","report":"bool"}]]></setting>
+ <setting key="easypost_show_rates"><![CDATA[{"key":"easypost_show_rates","default":"0","report":"full"}]]></setting>
+ <setting key="easypost_tax"><![CDATA[{"key":"easypost_tax","default":"0","report":"bool"}]]></setting>
+ <setting key="gateways_counts"><![CDATA[{"key":"gateways_counts","default":"{}","report":"none"}]]></setting>
+ <setting key="idm_nexus_display"><![CDATA[{"key":"idm_nexus_display","default":"purchases","report":"full"}]]></setting>
+ <setting key="idm_nexus_gateways"><![CDATA[{"key":"idm_nexus_gateways","default":"","report":"bool"}]]></setting>
+ <setting key="idm_nexus_mincost"><![CDATA[{"key":"idm_nexus_mincost","default":"{}","report":"bool"}]]></setting>
+ <setting key="idm_nexus_on"><![CDATA[{"key":"idm_nexus_on","default":"0","report":"full"}]]></setting>
+ <setting key="idm_nexus_percent"><![CDATA[{"key":"idm_nexus_percent","default":"100","report":"full"}]]></setting>
+ <setting key="idm_nexus_tax"><![CDATA[{"key":"idm_nexus_tax","default":"0","report":"bool"}]]></setting>
+ <setting key="idm_nexus_transfee"><![CDATA[{"key":"idm_nexus_transfee","default":"{}","report":"bool"}]]></setting>
+ <setting key="maxmind_error"><![CDATA[{"key":"maxmind_error","default":"okay","report":"full"}]]></setting>
+ <setting key="maxmind_gateways"><![CDATA[{"key":"maxmind_gateways","default":"*","report":"bool"}]]></setting>
+ <setting key="maxmind_id"><![CDATA[{"key":"maxmind_id","default":"","report":"none"}]]></setting>
+ <setting key="maxmind_key"><![CDATA[{"key":"maxmind_key","default":"","report":"bool"}]]></setting>
+ <setting key="maxmind_tracking_code"><![CDATA[{"key":"maxmind_tracking_code","default":"0","report":"bool"}]]></setting>
+ <setting key="nexus_autoresolve_applicable"><![CDATA[{"key":"nexus_autoresolve_applicable","default":"3","report":"full"}]]></setting>
+ <setting key="nexus_autoresolve_days"><![CDATA[{"key":"nexus_autoresolve_days","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_autoresolve_departments"><![CDATA[{"key":"nexus_autoresolve_departments","default":"*","report":"bool"}]]></setting>
+ <setting key="nexus_autoresolve_notify"><![CDATA[{"key":"nexus_autoresolve_notify","default":"24","report":"full"}]]></setting>
+ <setting key="nexus_autoresolve_status"><![CDATA[{"key":"nexus_autoresolve_status","default":"4","report":"full"}]]></setting>
+ <setting key="nexus_checkreg_captcha"><![CDATA[{"key":"nexus_checkreg_captcha","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_checkreg_usernames"><![CDATA[{"key":"nexus_checkreg_usernames","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_checkreg_validate"><![CDATA[{"key":"nexus_checkreg_validate","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_com_rules"><![CDATA[{"key":"nexus_com_rules","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_currency"><![CDATA[{"key":"nexus_currency","default":"USD","report":"none"}]]></setting>
+ <setting key="nexus_donate_loggedin"><![CDATA[{"key":"nexus_donate_loggedin","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_gift_vouchers"><![CDATA[{"key":"nexus_gift_vouchers","default":"{}","report":"bool"}]]></setting>
+ <setting key="nexus_gift_vouchers_free"><![CDATA[{"key":"nexus_gift_vouchers_free","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_invoice_footer"><![CDATA[{"key":"nexus_invoice_footer","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_invoice_header"><![CDATA[{"key":"nexus_invoice_header","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_max_credit"><![CDATA[{"key":"nexus_max_credit","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_min_topup"><![CDATA[{"key":"nexus_min_topup","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_minimum_order"><![CDATA[{"key":"nexus_minimum_order","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_no_commission"><![CDATA[{"key":"nexus_no_commission","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_notify_copy_email"><![CDATA[{"key":"nexus_notify_copy_email","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_notify_copy_types"><![CDATA[{"key":"nexus_notify_copy_types","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_payout"><![CDATA[{"key":"nexus_payout","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_payout_approve"><![CDATA[{"key":"nexus_payout_approve","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_payout_max"><![CDATA[{"key":"nexus_payout_max","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_payout_max_period"><![CDATA[{"key":"nexus_payout_max_period","default":"[\"1\",\"day\"]","report":"bool"}]]></setting>
+ <setting key="nexus_payout_min"><![CDATA[{"key":"nexus_payout_min","default":"","report":"bool"}]]></setting>
+ <setting key="nexus_payout_unlimited_times"><![CDATA[{"key":"nexus_payout_unlimited_times","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_reg_force"><![CDATA[{"key":"nexus_reg_force","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_reg_group"><![CDATA[{"key":"nexus_reg_group","default":"0","report":"bool"}]]></setting>
+ <setting key="nexus_require_billing"><![CDATA[{"key":"nexus_require_billing","default":"product,giftvoucher,donation,other,subscriptions","report":"bool"}]]></setting>
+ <setting key="nexus_revw_sa"><![CDATA[{"key":"nexus_revw_sa","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_severities"><![CDATA[{"key":"nexus_severities","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_show_renew_option_savings"><![CDATA[{"key":"nexus_show_renew_option_savings","default":"amount","report":"full"}]]></setting>
+ <setting key="nexus_show_stock"><![CDATA[{"key":"nexus_show_stock","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_show_tax"><![CDATA[{"key":"nexus_show_tax","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_sout_autoreply"><![CDATA[{"key":"nexus_sout_autoreply","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_sout_chrome"><![CDATA[{"key":"nexus_sout_chrome","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_sout_from"><![CDATA[{"key":"nexus_sout_from","default":"staff","report":"full"}]]></setting>
+ <setting key="nexus_split_payments"><![CDATA[{"key":"nexus_split_payments","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_store_new"><![CDATA[{"key":"nexus_store_new","default":"10,30","report":"bool"}]]></setting>
+ <setting key="nexus_store_popular"><![CDATA[{"key":"nexus_store_popular","default":"10,365","report":"bool"}]]></setting>
+ <setting key="nexus_subs_downgrade"><![CDATA[{"key":"nexus_subs_downgrade","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_subs_enabled"><![CDATA[{"key":"nexus_subs_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_subs_exclude_groups"><![CDATA[{"key":"nexus_subs_exclude_groups","default":"4","report":"bool"}]]></setting>
+ <setting key="nexus_subs_invoice_grace"><![CDATA[{"key":"nexus_subs_invoice_grace","default":"3","report":"none"}]]></setting>
+ <setting key="nexus_subs_register"><![CDATA[{"key":"nexus_subs_register","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_subs_show_public"><![CDATA[{"key":"nexus_subs_show_public","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_subs_upgrade"><![CDATA[{"key":"nexus_subs_upgrade","default":"0","report":"full"}]]></setting>
+ <setting key="nexus_support_satisfaction"><![CDATA[{"key":"nexus_support_satisfaction","default":"1","report":"full"}]]></setting>
+ <setting key="nexus_tac"><![CDATA[{"key":"nexus_tac","default":"none","report":"full"}]]></setting>
+ <setting key="nexus_tac_link"><![CDATA[{"key":"nexus_tac_link","default":"","report":"bool"}]]></setting>
+ <setting key="reply_request_resolved"><![CDATA[{"key":"reply_request_resolved","default":"reopen","report":"full"}]]></setting>
+ <widget key="pendingActions"><![CDATA[{"class":"\\IPS\\Widget","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="donations"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="subscriptions"><![CDATA[{"class":"\\IPS\\Widget","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="bestSellers"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="latestProducts"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="recentCommerceReviews"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="featuredProduct"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=nexus_EasyPost&amp;searchResult=form_easypost_enable"><![CDATA[{"lang_key":"easypost_enable","restriction":"enhancements_manage","keywords":["easy post","easypost"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=nexus_MaxMind&amp;searchResult=form_maxmind_enable"><![CDATA[{"lang_key":"maxmind_enable","restriction":"enhancements_manage","keywords":["fraud","maxmind"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=customers&amp;controller=fields"><![CDATA[{"lang_key":"menu__nexus_customers_fields","restriction":null,"keywords":["custom customer fields","custom fields","custom nexus fields","customer fields","nexus fields"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=customers&amp;controller=search"><![CDATA[{"lang_key":"menu__nexus_customers_search","restriction":"customers_view","keywords":["clients","customers"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=donations"><![CDATA[{"lang_key":"menu__nexus_payments_donations","restriction":"donations_manage","keywords":["donate","donations","goals"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices"><![CDATA[{"lang_key":"menu__nexus_payments_invoices","restriction":"invoices_manage","keywords":["invoices","orders"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices&amp;do=settings&amp;searchResult=form_cm_invoice_expireafter"><![CDATA[{"lang_key":"cm_invoice_expireafter","restriction":"invoices_settings","keywords":["invoices"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices&amp;do=settings&amp;searchResult=form_cm_invoice_generate"><![CDATA[{"lang_key":"cm_invoice_generate","restriction":"invoices_settings","keywords":["invoices","renewal"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices&amp;do=settings&amp;searchResult=form_cm_invoice_warning"><![CDATA[{"lang_key":"cm_invoice_warning","restriction":"invoices_settings","keywords":["cards","invoices","renewal"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices&amp;do=settings&amp;searchResult=form_nexus_invoice_footer"><![CDATA[{"lang_key":"nexus_invoice_footer","restriction":"invoices_manage","keywords":["invoice footer"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=invoices&amp;do=settings&amp;searchResult=form_nexus_invoice_header"><![CDATA[{"lang_key":"nexus_invoice_header","restriction":"invoices_manage","keywords":["invoice header"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings"><![CDATA[{"lang_key":"checkout_settings","restriction":"checkout_settings","keywords":["checkout"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_checkreg_captcha"><![CDATA[{"lang_key":"nexus_checkreg_captcha","restriction":"paymentsettings_overview","keywords":["question and answer guest checkout"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_checkreg_usernames"><![CDATA[{"lang_key":"nexus_checkreg_usernames","restriction":null,"keywords":["full name","guest check out","guest checkout","guest display name","guest full name","guest purchases","guest username"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_checkreg_validate"><![CDATA[{"lang_key":"nexus_checkreg_validate","restriction":"paymentsettings_overview","keywords":["Validate email on checkout"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_require_billing"><![CDATA[{"lang_key":"nexus_require_billing","restriction":"paymentsettings_overview","keywords":["Name Required","require name and address on checkout"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_split_payments_on"><![CDATA[{"lang_key":"nexus_split_payments_on","restriction":"checkout_settings","keywords":["cards","split","split payments"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=form_nexus_tac"><![CDATA[{"lang_key":"nexus_tac","restriction":"checkout_settings","keywords":["checkout","terms and conditions"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=checkoutsettings&amp;searchResult=nexus_split_payments"><![CDATA[{"lang_key":"nexus_split_payments","restriction":"paymentsettings_overview","keywords":["Minimum amount split"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=currencies"><![CDATA[{"lang_key":"currencies","restriction":"currencies_manage","keywords":["currencies","currency","dollar","euro","money","pound"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=emails"><![CDATA[{"lang_key":"notification_copies","restriction":null,"keywords":["customer emails","emails","invoice emails","nexus emails","payment emails","store emails","transaction emails"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=emails&amp;searchResult=form_nexus_notify_copy_email"><![CDATA[{"lang_key":"nexus_notify_copy_email","restriction":"paymentsettings_overview","keywords":["email notification","email notifications list commerce"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=emails&amp;searchResult=form_nexus_notify_copy_types"><![CDATA[{"lang_key":"nexus_notify_copy_types","restriction":"paymentsettings_overview","keywords":["commission notification","email notifications commerce","payment notification","transaction notification"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=fraud"><![CDATA[{"lang_key":"anti_fraud_rules","restriction":"fraud_manage","keywords":["anti fraud rules","anti-fraud rules","antifraud rules","fraud","fraud rules"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=gateways"><![CDATA[{"lang_key":"payment_methods","restriction":"gateways_manage","keywords":["2checkout","auth.net","authorize.net","bank","cards","checks","cheques","credit","credit cards","debit","gateways","methods","paypal","stripe"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=review"><![CDATA[{"lang_key":"transaction_review","restriction":null,"keywords":["flag for review","hold for review","transaction flag","transaction review"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=review&amp;searchResult=form_nexus_revw_sa_on"><![CDATA[{"lang_key":"nexus_revw_sa_on","restriction":"paymentsettings_overview","keywords":["transaction review support ticket"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=paymentsettings&amp;tab=tax"><![CDATA[{"lang_key":"tax_rates","restriction":"tax_manage","keywords":["sales tax","tax","tax rate","vat"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts"><![CDATA[{"lang_key":"menu__nexus_payments_payouts","restriction":"payouts_manage","keywords":["account credit","credit","pay outs","payouts","withdrawals"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings"><![CDATA[{"lang_key":"menu__nexus_payments_payouts","restriction":"payouts_manage","keywords":["account credit","account credit settings","credit","credit settings","pay out","pay out settings","pay outs settings","payout settings","payouts","payouts settings","withdrawal settings","withdrawals","withdrawals settings"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=form_allow_topups"><![CDATA[{"lang_key":"allow_topups","restriction":"payouts_manage","keywords":["account credit","add credit","buy credit","credit","top ups","topups"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=form_nexus_no_commission"><![CDATA[{"lang_key":"nexus_no_commission","restriction":"payouts_settings","keywords":["comision","comission","commission","no commission"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=form_nexus_payout"><![CDATA[{"lang_key":"nexus_payout","restriction":"payouts_settings","keywords":["bank","check","cheque","credit card","pay outs","payouts","paypal","stripe","withdrawals"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=nexus_max_credit"><![CDATA[{"lang_key":"nexus_max_credit","restriction":"payouts_manage","keywords":["maximum account credit","maximum credit"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=nexus_payout_approve"><![CDATA[{"lang_key":"nexus_payout_approve","restriction":"payouts_manage","keywords":["approve pay outs","approve payouts","approve withdrawals","pay out approve","payout approve","withdrawal approve"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=payouts&amp;do=settings&amp;searchResult=nexus_payout_min"><![CDATA[{"lang_key":"nexus_payout_min","restriction":"payouts_manage","keywords":["minimum pay out","minimum payout","minimum withdrawal"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=shipping"><![CDATA[{"lang_key":"menu__nexus_payments_shipping","restriction":"shiporders_manage","keywords":["handling","orders","postage","ship","shipments","shipping"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=shippingrates"><![CDATA[{"lang_key":"shipping_rates","restriction":"shipmethods_manage","keywords":["air mail","airmail","fedex","mail","orders","post","royal mail","shipments","shipping","tracking","ups","usps"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=payments&amp;controller=transactions"><![CDATA[{"lang_key":"menu__nexus_payments_transactions","restriction":"transactions_manage","keywords":["approve","payments","sales","transactions"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=income"><![CDATA[{"lang_key":"menu__nexus_reports_income","restriction":"income_manage","keywords":["income","income stats","revenue"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=income&amp;tab=totals"><![CDATA[{"lang_key":"nexus_report_income_totals","restriction":"income_manage","keywords":["income","total income"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=income&amp;tab=USD"><![CDATA[{"lang_key":"USD Income by Method","restriction":"income_manage","keywords":["income method stats"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=markets"><![CDATA[{"lang_key":"menu__nexus_reports_markets","restriction":"markets_manage","keywords":["markets","regional sales"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=markets&amp;tab=count"><![CDATA[{"lang_key":"nexus_report_count","restriction":"markets_manage","keywords":["sales numbers"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=markets&amp;tab=USD"><![CDATA[{"lang_key":"USD Income","restriction":"markets_manage","keywords":["income reports"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=reports&amp;controller=purchases"><![CDATA[{"lang_key":"menu__nexus_reports_purchases","restriction":"purchases_manage","keywords":["order stats","sale stats","sales stats"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=coupons"><![CDATA[{"lang_key":"menu__nexus_store_coupons","restriction":"coupons_manage","keywords":["coupons","discounts","gift","promotions","vouchers"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=fields"><![CDATA[{"lang_key":"menu__nexus_store_fields","restriction":"package_fields_manage","keywords":["custom package fields","custom product fields","package fields","product fields"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=packages"><![CDATA[{"lang_key":"menu__nexus_store_packages","restriction":"packages_manage","keywords":["items","packages","plans","products","stock","store"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_cm_protected"><![CDATA[{"lang_key":"cm_protected","restriction":"settings_manage","keywords":["protected groups"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_gift_vouchers"><![CDATA[{"lang_key":"nexus_gift_vouchers","restriction":"settings_manage","keywords":["gift cards","gift vouchers","vouchers"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_gift_vouchers_free"><![CDATA[{"lang_key":"nexus_gift_vouchers_free","restriction":"settings_manage","keywords":["gift card amount"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_minimum_order"><![CDATA[{"lang_key":"nexus_minimum_order","restriction":"settings_manage","keywords":["minimum order","minimum order amount","minimum purchase"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_reg_force"><![CDATA[{"lang_key":"nexus_reg_force","restriction":"settings_manage","keywords":["force purchase","force purchase on registration","register","registration"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_show_stock"><![CDATA[{"lang_key":"nexus_show_stock","restriction":"settings_manage","keywords":["show stock","show stock levels","stock","stock levels"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_show_tax"><![CDATA[{"lang_key":"nexus_show_tax","restriction":"settings_manage","keywords":["sales tax","tax","vat"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_store_new"><![CDATA[{"lang_key":"nexus_store_new","restriction":"settings_manage","keywords":["new products","store index options"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_store_popular"><![CDATA[{"lang_key":"nexus_store_popular","restriction":"settings_manage","keywords":["best sellers","popular products"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=store&amp;controller=settings&amp;searchResult=form_nexus_tax_explain"><![CDATA[{"lang_key":"nexus_tax_explain","restriction":"settings_manage","keywords":["price description"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=subscriptions&amp;controller=subscribers"><![CDATA[{"lang_key":"menu__nexus_subscriptions_subscribers","restriction":"subscribers_manage","keywords":["subscribers"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=subscriptions&amp;controller=subscriptions"><![CDATA[{"lang_key":"menu__nexus_subscriptions_subscriptions","restriction":"subscriptions_manage","keywords":["monetize","package","subscription"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=subscriptions&amp;controller=subscriptions&amp;do=settings&amp;searchResult=nexus_subs_enabled"><![CDATA[{"lang_key":"nexus_subs_enabled","restriction":"subscriptions_manage","keywords":["member subscription","package","subscription"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=subscriptions&amp;controller=subscriptions&amp;do=settings&amp;searchResult=nexus_subs_register"><![CDATA[{"lang_key":"nexus_subs_register","restriction":"subscriptions_manage","keywords":["require subscription"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=reports"><![CDATA[{"lang_key":"menu__nexus_support_reports","restriction":"reports_manage","keywords":["customer feedback","customer satisfaction","staff performance","support performance","support ratings","support replies","support reports","support reviews","support staff"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=reports&amp;tab=feedback_ratings"><![CDATA[{"lang_key":"feedback_ratings","restriction":"reports_manage","keywords":["support feedback"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=reports&amp;tab=latest_feedback"><![CDATA[{"lang_key":"latest_feedback","restriction":"reports_manage","keywords":["latest support feedback"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=reports&amp;tab=overview"><![CDATA[{"lang_key":"overview","restriction":"reports_manage","keywords":["support overview"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=reports&amp;tab=replies"><![CDATA[{"lang_key":"replies","restriction":"reports_manage","keywords":["support replies"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=requests"><![CDATA[{"lang_key":"menu__nexus_support_requests","restriction":"requests_manage","keywords":["support","support requests","support tickets","tickets"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=autoresolve"><![CDATA[{"lang_key":"autoresolve","restriction":"autoresolve_manage","keywords":["auto resolve","auto-resolve","automatic resolve","automatically resolve","autoresolve","resolve"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=customerfeedback"><![CDATA[{"lang_key":"customer_feedback","restriction":"customerfeedback_manage","keywords":["feedback","performance","ratings","satisfaction"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=departments"><![CDATA[{"lang_key":"departments","restriction":"departments_manage","keywords":["categories","departments","email"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=fields"><![CDATA[{"lang_key":"custom_support_fields","restriction":"scfields_manage","keywords":["custom support fields","custom ticket fields","support custom fields","support fields","support form","support information","ticket custom fields","ticket fields","ticket information"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=incomingemail"><![CDATA[{"lang_key":"incoming_emails","restriction":"incomingemail_manage","keywords":["email filters","email piping","incoming emails","pop3","spam filters","support emails","ticket emails"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=outgoingemail"><![CDATA[{"lang_key":"outgoing_emails","restriction":"outgoingemail_manage","keywords":["support emails","ticket emails"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=outgoingemail&amp;searchResult=form_nexus_sout_autoreply"><![CDATA[{"lang_key":"nexus_sout_autoreply","restriction":"settings_manage","keywords":["support confirmation","ticket confirmation"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=outgoingemail&amp;searchResult=form_nexus_sout_chrome"><![CDATA[{"lang_key":"nexus_sout_chrome","restriction":"settings_manage","keywords":["email format","email template"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=outgoingemail&amp;searchResult=form_nexus_sout_from"><![CDATA[{"lang_key":"nexus_sout_from","restriction":"settings_manage","keywords":["email from"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=severities"><![CDATA[{"lang_key":"severities","restriction":"severities_manage","keywords":["critical","emergency","severities","severity","urgency","urgent"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=statuses"><![CDATA[{"lang_key":"statuses","restriction":"settings_manage","keywords":["closed","open","resolved","statuses","tags"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=settings&amp;tab=stockactions"><![CDATA[{"lang_key":"stock_actions","restriction":"stockactions_manage","keywords":["defined","pre defined","pre set","predefined","preset","stock","stock actions","stock messages","stock replies"]}]]></acpsearch>
+ <acpsearch key="app=nexus&amp;module=support&amp;controller=volume"><![CDATA[{"lang_key":"menu__nexus_support_volume","restriction":"volume_manage","keywords":["new ticket stats","support statistics","support stats"]}]]></acpsearch>
+ <hook key="clientAreaLinkLoad"><![CDATA[{"type":"C","class":"\\IPS\\Data\\Store\\Database"}]]></hook>
+ <hook key="register"><![CDATA[{"type":"C","class":"\\IPS\\core\\modules\\front\\system\\register"}]]></hook>
+ <hook key="clientAreaLink"><![CDATA[{"type":"S","class":"\\IPS\\Theme\\class_core_front_global"}]]></hook>
+ <hook key="Database"><![CDATA[{"type":"C","class":"\\IPS\\Data\\Store\\Database"}]]></hook>
+ <hook key="DispatcherAdmin"><![CDATA[{"type":"C","class":"\\IPS\\Dispatcher\\Admin"}]]></hook>
+ <themesetting key="cm_store_view"><![CDATA[{"sc_key":"cm_store_view","sc_type":"Select","sc_multiple":0,"sc_content":"[{\"key\":\"grid\",\"value\":\"cm_store_view_grid\"},{\"key\":\"list\",\"value\":\"cm_store_view_list\"}]","sc_app":"nexus","sc_default":"grid","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"themesetting_cm_store_view","sc_order":12,"sc_condition":null}]]></themesetting>
+</build>

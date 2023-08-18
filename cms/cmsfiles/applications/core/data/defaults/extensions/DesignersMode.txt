@@ -1,0 +1,55 @@
+<?php
+/**
+ * @brief		DesignersMode extension: {class}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\DesignersMode;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * @brief	DesignersMode extension: {class}
+ */
+class _{class}
+{
+	/**
+	 * Anything need building?
+	 *
+	 * @return bool
+	 */
+	public function toBuild()
+	{
+
+	}
+
+	/**
+	 * Designer's mode on
+	 *
+	 * @return bool
+	 */
+	public function on( $data=NULL )
+	{
+
+	}
+
+	/**
+	 * Designer's mode off
+	 *
+	 * @return bool
+	 */
+	public function off( $data=NULL )
+	{
+
+	}
+}

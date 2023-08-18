@@ -1,0 +1,151 @@
+<?php
+
+/**
+ * @brief		Converter <#CLASS#> Class
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @package		Invision Community
+ * @subpackage	Converter
+ * @since		21 Jan 2015
+ */
+
+namespace <#NAMESPACE#>;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+class _<#CLASS#> extends \IPS\convert\Software
+{
+	/**
+	 * Software Name
+	 *
+	 * @return	string
+	 */
+	public static function softwareName()
+	{
+		/* Child classes must override this method */
+		return "<#CLASS#>";
+	}
+	
+	/**
+	 * Software Key
+	 *
+	 * @return	string
+	 */
+	public static function softwareKey()
+	{
+		/* Child classes must override this method */
+		return "<#CLASS_LOWER#>";
+	}
+	
+	/**
+	 * Content we can convert from this software. 
+	 *
+	 * @return	array|NULL
+	 * @note	NULL indicates this converter cannot be used yet, useful to move redirect scripts into the 4.x framework
+	 */
+	public static function canConvert()
+	{
+		return array(
+			
+		);
+	}
+	
+	/**
+	 * Can we convert passwords from this software.
+	 *
+	 * @return 	boolean
+	 */
+	public static function loginEnabled()
+	{
+		return FALSE;
+	}
+	
+	/**
+	 * Can we convert settings?
+	 *
+	 * @return	boolean
+	 */
+	public static function canConvertSettings()
+	{
+		return FALSE;
+	}
+	
+	/**
+	 * Settings Map
+	 *
+	 * @return	array
+	 */
+	public function settingsMap()
+	{
+		return array();
+	}
+	
+	/**
+	 * Settings Map Listing
+	 *
+	 * @return	array
+	 */
+	public function settingsMapList()
+	{
+		return array();
+	}
+	
+	/**
+	 * Returns a block of text, or a language string, that explains what the admin must do to start this conversion
+	 *
+	 * @return	string|NULL
+	 */
+	public static function getPreConversionInformation()
+	{
+		return NULL;
+	}
+	
+	/**
+	 * List of conversion methods that require additional information
+	 *
+	 * @return	array
+	 */
+	public static function checkConf()
+	{
+		return array();
+	}
+	
+	/**
+	 * Get More Information
+	 *
+	 * @param	string	$method	Conversion method
+	 * @return	array
+	 */
+	public function getMoreInfo( $method )
+	{
+		return array();
+	}
+	
+	/**
+	 * Finish - Adds everything it needs to the queues and clears data store
+	 *
+	 * @return	array		Messages to display
+	 */
+	public function finish()
+	{
+		return array();
+	}
+	
+	/**
+	 * Fix post data
+	 *
+	 * @param 	string		raw post data
+	 * @return 	string		parsed post data
+	 */
+	public static function fixPostData( $post )
+	{
+		return $post;
+	}
+	
+	// Insert convertX methods here
+}

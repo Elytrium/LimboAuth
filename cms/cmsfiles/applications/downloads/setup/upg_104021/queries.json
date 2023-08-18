@@ -1,0 +1,67 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "key",
+                "name": "file_submitted",
+                "columns": [
+                    "file_submitted"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_open"
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_cat"
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_paid_restrictions",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Download restrictions apply to Paid files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cversion_numbers",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "0 = Disable version numbers, 1 = Allow version numbers, 2 = Require version numbers",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

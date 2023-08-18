@@ -1,0 +1,551 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_replies",
+            {
+                "type": "key",
+                "name": "reply_email",
+                "columns": [
+                    "reply_email"
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_cost",
+                "type": "FLOAT",
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_monitor",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_monitor_fails",
+                "type": "INT",
+                "length": 2,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_monitor_last_sucess",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_monitor_version",
+                "type": "INT",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_dedicated",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_accounts",
+            {
+                "name": "account_exists",
+                "type": "TINYINT",
+                "length": "1",
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_service",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_tracknumber",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "11": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_package_images",
+                "columns": {
+                    "image_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "image_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "image_product": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "image_product",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "image_location": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "image_location",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "image_primary": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "image_primary",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "image_temp": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 32,
+                        "name": "image_temp",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "image_id"
+                        ]
+                    },
+                    "image_product": {
+                        "type": "key",
+                        "name": "image_product",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "image_product"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "12": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_reviews",
+                "columns": {
+                    "review_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "review_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_product": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 10,
+                        "name": "review_product",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_author_id": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "review_author_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_author_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "review_author_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_ip_address": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 16,
+                        "name": "review_ip_address",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_date": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "review_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_date": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "review_edit_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_approved": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "review_approved",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_text": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "review_text",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_rating": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "review_rating",
+                        "type": "SMALLINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_useful": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 5,
+                        "name": "review_useful",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 5,
+                        "name": "review_votes",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_id"
+                        ]
+                    },
+                    "review_product": {
+                        "type": "key",
+                        "name": "review_product",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_product"
+                        ]
+                    },
+                    "review_author_id": {
+                        "type": "key",
+                        "name": "review_author_id",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_author_id"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_reviewable",
+                "type": "TINYINT",
+                "length": "1",
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_review_moderate",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "15": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_review_rates",
+                "columns": {
+                    "rr_review": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 10,
+                        "name": "rr_review",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rr_member": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 8,
+                        "name": "rr_member",
+                        "type": "MEDIUMINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rr_rate": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "rr_rate",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "rr_review",
+                            "rr_member"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "nexus_coupons",
+            {
+                "name": "c_renewals",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

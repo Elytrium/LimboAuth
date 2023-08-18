@@ -1,0 +1,44 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": "cron"
+            },
+            "conf_key='task_use_cron' and conf_value='1'"
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": "normal"
+            },
+            "conf_key='task_use_cron' and conf_value='0'"
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "calendar",
+                "yesterday"
+            ]
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "core",
+                "task_use_cron_warning"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,383 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "rep_date",
+                "columns": [
+                    "rep_date"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_sitemap",
+            {
+                "name": "last_id",
+                "type": "BIGINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Stores the last ID included in this sitemap",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_log",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "exception_class": {
+                        "name": "exception_class",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "If the log was an exception, the class name",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "exception_code": {
+                        "name": "exception_code",
+                        "type": "INT",
+                        "length": 3,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "If the log was an exception, the code",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "message": {
+                        "name": "message",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The log message",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "backtrace": {
+                        "name": "backtrace",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The backtrace",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Unix timestamp of log",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category": {
+                        "name": "category",
+                        "type": "VARCHAR",
+                        "length": 128,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Optional string identifying the type of log",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "time": {
+                        "type": "key",
+                        "name": "time",
+                        "columns": [
+                            "time"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "category": {
+                        "type": "key",
+                        "name": "category",
+                        "columns": [
+                            "category"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "5": {
+        "method": "dropIndex",
+        "params": [
+            "core_search_index",
+            "index_item_author"
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "core_search_index",
+            "index_permissions",
+            {
+                "name": "index_permissions",
+                "type": "TEXT",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "*",
+                "comment": "A comma-delimited list of groups which have permission to view",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_streams",
+            {
+                "name": "unread_links",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Should a item link take you to the first unread item?",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "core_rc_index",
+            "last_updated=first_report_date",
+            "last_updated IS NULL"
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_ignored_users",
+            {
+                "name": "ignore_mentions",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "core_mail_error_logs",
+            "mlog_content",
+            {
+                "name": "mlog_content",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "core_search_index_tags",
+            {
+                "name": "index_is_prefix",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Signifies if this tag is the item prefix",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_pm_flood_mins",
+            {
+                "name": "g_pm_flood_mins",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "-1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_pm_perday",
+            {
+                "name": "g_pm_perday",
+                "type": "SMALLINT",
+                "length": 6,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "-1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_mass_pm",
+            {
+                "name": "g_max_mass_pm",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "-1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_messages",
+            {
+                "name": "g_max_messages",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "-1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

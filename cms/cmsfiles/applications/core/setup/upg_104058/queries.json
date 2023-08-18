@@ -1,0 +1,33 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_announcements",
+            "announce_url",
+            {
+                "name": "announce_url",
+                "type": "VARCHAR",
+                "length": 2048,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Announcement URL",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "dashboard_tasks_cron_broken_desc_cic"
+            ]
+        ]
+    }
+}

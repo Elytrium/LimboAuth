@@ -1,0 +1,52 @@
+{
+    "html": {
+        "added": [
+            "admin\/system\/upgradeExtractCic2"
+        ],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "admin\/customization\/emoticons",
+            "admin\/customization\/templateEditorAddForm",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "global\/forms\/address",
+            "admin\/forms\/blurb",
+            "global\/forms\/message",
+            "global\/forms\/radio",
+            "global\/forms\/sort",
+            "global\/forms\/stack",
+            "global\/forms\/uploadDisplay",
+            "global\/global\/applePieChart",
+            "front\/global\/userPhoto",
+            "admin\/marketplace\/customHeader",
+            "admin\/marketplace\/fileView",
+            "front\/myAttachments\/rows",
+            "front\/streams\/filterInlineForm",
+            "front\/widgets\/topContributorRows"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core_responsive.css",
+            "front\/core.css",
+            "admin\/core\/menu.css",
+            "admin\/core\/tabs.css",
+            "admin\/core\/typography.css",
+            "global\/framework\/compose.css",
+            "global\/framework\/tabs.css",
+            "global\/framework\/typography.css",
+            "admin\/members\/view.css",
+            "global\/responsive\/data-lists.css",
+            "global\/responsive\/global.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

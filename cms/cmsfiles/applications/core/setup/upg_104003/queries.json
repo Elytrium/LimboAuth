@@ -1,0 +1,11 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key IN( 'emailtpl_', 'emailtpl_friend_added' )"
+            ]
+        ]
+    }
+}

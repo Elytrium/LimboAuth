@@ -1,0 +1,44 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_package_fields",
+            "cf_type",
+            {
+                "name": "cf_type",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_fields",
+            "sf_type",
+            {
+                "name": "sf_type",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

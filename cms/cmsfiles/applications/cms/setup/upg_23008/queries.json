@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "ccs_database_fields",
+            {
+                "field_is_numeric": 1
+            },
+            [
+                "field_key=?",
+                "article_date"
+            ]
+        ]
+    }
+}

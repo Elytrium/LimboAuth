@@ -1,0 +1,44 @@
+{
+    "core": {
+        "AchievementAction": {
+            "Rsvp": "IPS\\calendar\\extensions\\core\\AchievementAction\\Rsvp"
+        },
+        "Announcements": {
+            "Calendars": "IPS\\calendar\\extensions\\core\\Announcements\\Calendars"
+        },
+        "ContentRouter": {
+            "calendar": "IPS\\calendar\\extensions\\core\\ContentRouter\\calendar"
+        },
+        "CreateMenu": {
+            "Event": "IPS\\calendar\\extensions\\core\\CreateMenu\\Event"
+        },
+        "EditorLocations": {
+            "Calendar": "IPS\\calendar\\extensions\\core\\EditorLocations\\Calendar",
+            "Venue": "IPS\\calendar\\extensions\\core\\EditorLocations\\Venue"
+        },
+        "FileStorage": {
+            "Events": "IPS\\calendar\\extensions\\core\\FileStorage\\Events"
+        },
+        "FrontNavigation": {
+            "Calendar": "IPS\\calendar\\extensions\\core\\FrontNavigation\\Calendar"
+        },
+        "LiveSearch": {
+            "Calendars": "IPS\\calendar\\extensions\\core\\LiveSearch\\Calendars"
+        },
+        "MemberSync": {
+            "Calendar": "IPS\\calendar\\extensions\\core\\MemberSync\\Calendar"
+        },
+        "Notifications": {
+            "Events": "IPS\\calendar\\extensions\\core\\Notifications\\Events"
+        },
+        "Permissions": {
+            "Permissions": "IPS\\calendar\\extensions\\core\\Permissions\\Permissions"
+        },
+        "Statistics": {
+            "Rsvp": "IPS\\calendar\\extensions\\core\\Statistics\\Rsvp"
+        },
+        "StreamItems": {
+            "StreamItems": "IPS\\calendar\\extensions\\core\\StreamItems\\StreamItems"
+        }
+    }
+}

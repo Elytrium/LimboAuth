@@ -1,0 +1,1 @@
+﻿(function(){CKEDITOR.plugins.add("ipspage",{icons:"ipspage",init:function(a){a.addCommand("ipspage",ips.utils.defaultEditorPlugins.block("ipspage","span",!1,"",!0,"\x3chr data-role\x3d'contentPageBreak'\x3e"));a.ui.addButton&&a.ui.addButton("ipspage",{label:ips.getString("editorbutton_ipspage"),command:"ipspage",toolbar:""})}})})();

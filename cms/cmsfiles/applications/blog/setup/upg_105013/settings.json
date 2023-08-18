@@ -1,0 +1,12 @@
+{
+    "added": [
+        "blog_allow_grid",
+        "blog_allow_rss",
+        "blog_allow_rssimport",
+        "blog_enable_rating",
+        "blog_enable_sidebar",
+        "blog_view_mode"
+    ],
+    "edited": [],
+    "removed": []
+}

@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_widget_areas",
+            [
+                "app=?",
+                "cms"
+            ]
+        ]
+    }
+}

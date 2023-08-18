@@ -1,0 +1,29 @@
+{
+  "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_announcements",
+            "announce_content",
+            {
+                "name": "announce_content",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_output_cache"
+        ]
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [
+            "core\/admin\/controllers\/members\/ips.members.allowedCharacters.js"
+        ],
+        "edited": [
+            "global\/front\/controllers\/core\/ips.core.instantNotifications.js",
+            "core\/front\/templates\/ips.templates.streams.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

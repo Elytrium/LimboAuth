@@ -1,0 +1,22 @@
+{
+    "html": {
+        "added": [
+            "admin\/customization\/templateEditorSimple"
+        ],
+        "edited": [
+            "admin\/customization\/templateEditorMenu",
+            "front\/global\/globalTemplate"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/global\/guestTermsBar",
+            "front\/popular\/popularItem",
+            "front\/popular\/tabs",
+            "front\/streams\/streamWrapper",
+            "front\/system\/registerSetPassword",
+            "front\/system\/searchResultSnippet"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

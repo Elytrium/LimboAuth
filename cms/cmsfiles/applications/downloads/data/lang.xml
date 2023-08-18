@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="downloads" version="107704">
+  <word key="__app_downloads" js="0">Downloads</word>
+  <word key="frontnavigation_downloads" js="0">Downloads</word>
+  <word key="__indefart_downloads_file_comment" js="0">a comment on a file</word>
+  <word key="__indefart_downloads_file" js="0">a file</word>
+  <word key="__indefart_downloads_file_review" js="0">a review on a file</word>
+  <word key="__indefart_downloads_file_pending" js="0">a new version</word>
+  <word key="__defart_downloads_file_comment" js="0">comment on a file</word>
+  <word key="__defart_downloads_file_comment_plural" js="0">{!#[1:comment][?:comments]} on a file</word>
+  <word key="__defart_downloads_file" js="0">file</word>
+  <word key="__defart_downloads_file_plural" js="0">{!#[1:file][?:files]}</word>
+  <word key="__defart_downloads_file_review" js="0">review on a file</word>
+  <word key="__defart_downloads_file_review_plural" js="0">{!#[1:review][?:reviews]} on a file</word>
+  <word key="__defart_downloads_file_pending" js="0">new versions</word>
+  <word key="menu__downloads_downloads" js="0">Downloads</word>
+  <word key="module__downloads_downloads" js="0">Downloads</word>
+  <word key="menu__downloads_stats" js="0">Downloads</word>
+  <word key="module__downloads_stats" js="0">Statistics</word>
+  <word key="file_download" js="0">File Download</word>
+  <word key="downloads_file_container" js="0">category</word>
+  <word key="search_contextual_item_downloads_categories" js="0">This Category</word>
+  <word key="search_contextual_item_downloads_file" js="0">This File</word>
+  <word key="downloads_categories" js="0">Downloads Categories</word>
+  <word key="download_categories_lc" js="0">downloads categories</word>
+  <word key="filestorage__downloads_Files" js="0">Downloads Files</word>
+  <word key="filestorage__downloads_Screenshots" js="0">Downloads Screenshots</word>
+  <word key="filestorage__downloads_FileField" js="0">Downloads Custom Fields</word>
+  <word key="downloads_files" js="0">Downloads Files</word>
+  <word key="downloads_file" js="0">File</word>
+  <word key="downloads_file_sg_lc" js="0">downloads file</word>
+  <word key="modlog__action_restorebackup" js="0"><![CDATA[Restored a previous version for a file: <a href='%s'>%s</a>]]></word>
+  <word key="modlog__action_visibilitybackup" js="0"><![CDATA[Toggled visibility for a previous version for a file: <a href='%s'>%s</a>]]></word>
+  <word key="modlog__action_deletebackup" js="0"><![CDATA[Deleted a previous version for a file: <a href='%s'>%s</a>]]></word>
+  <word key="modlog__action_purchasestatus" js="0"><![CDATA[Toggled purchase status for a file: <a href='%s'>%s</a>]]></word>
+  <word key="modlog__action_newversion_reject" js="0"><![CDATA[Rejected a new version for a file: <a href='%s'>%s</a>]]></word>
+  <word key="modlog__action_newversion_approved" js="0"><![CDATA[Approved a new version for a file: <a href='%s'>%s</a>]]></word>
+  <word key="mark_category_read" js="0">Mark category read</word>
+  <word key="mark_category_read_title" js="0">Mark this category as read</word>
+  <word key="editor__downloads_Categories" js="0">Download Categories</word>
+  <word key="editor__downloads_Downloads" js="0">File Downloads</word>
+  <word key="editorMedia_downloads_Files" js="0">File Downloads</word>
+  <word key="downloads_rebuilding_screenshots" js="0">Rebuilding Screenshot Watermarks</word>
+  <word key="member_restrictions__downloads_Downloads" js="0">Downloads</word>
+  <word key="restriction_no_downloads" js="0">Restricted from submitting files</word>
+  <word key="content_stats__downloads_Downloads" js="0">Downloads</word>
+  <word key="menu__downloads_downloads_categories" js="0">Categories</word>
+  <word key="subcategories" js="0">Subcategories</word>
+  <word key="cname" js="0">Name</word>
+  <word key="cbitoptions_disfiles" js="0">Allow files?</word>
+  <word key="cbitoptions_disfiles_desc" js="0">You may want to disable to use this category as a container for other subcategories.</word>
+  <word key="ctypes" js="0">Allowed file extensions</word>
+  <word key="cparent" js="0">Parent Category</word>
+  <word key="any_extensions" js="0">any extensions</word>
+  <word key="cmaxfile" js="0">Maximum file size</word>
+  <word key="ccfields" js="0">Extra fields</word>
+  <word key="category_screenshots" js="0">Screenshots</word>
+  <word key="cbitoptions_allowss" js="0">Allow screenshots?</word>
+  <word key="cbitoptions_allowss_desc" js="0">Images can be submitted with files to provide screenshots or other accompanying images to show in the file listing.</word>
+  <word key="cbitoptions_reqss" js="0">Require screenshots?</word>
+  <word key="cmaxss" js="0">Maximum screenshot filesize</word>
+  <word key="cmaxdims" js="0">Maximum screenshot dimensions</word>
+  <word key="category_display" js="0">Category Display</word>
+  <word key="csortorder" js="0">Default sort order</word>
+  <word key="cbitoptions_comments" js="0">Allow comments?</word>
+  <word key="cbitoptions_reviews" js="0">Allow reviews?</word>
+  <word key="cbitoptions_reviews_mod" js="0">Reviews must be approved?</word>
+  <word key="cbitoptions_reviews_download" js="0">Users must download before reviewing?</word>
+  <word key="cbitoptions_reviews_download_desc" js="0">Requires download log to be on.</word>
+  <word key="cdisclaimer" js="0">Download Terms</word>
+  <word key="cdisclaimer_placeholder" js="0">Before downloading you must agree to the following terms...</word>
+  <word key="category_errors" js="0">Error Messages</word>
+  <word key="category_errors_blurb" js="0">You can define specific error messages to use within this category. If not provided, a generic error message will be used.</word>
+  <word key="noperm_view" js="0">Cannot view files</word>
+  <word key="noperm_view_placeholder" js="0">Add an error message...</word>
+  <word key="noperm_dl" js="0">Cannot download</word>
+  <word key="noperm_dl_placeholder" js="0">Add an error message...</word>
+  <word key="perm_file_perm__label" js="0"></word>
+  <word key="perm_file_perm__view" js="0">See Category</word>
+  <word key="perm_file_perm__read" js="0">View Files</word>
+  <word key="perm_file_perm__add" js="0">Upload Files</word>
+  <word key="perm_file_perm__download" js="0">Download Files</word>
+  <word key="perm_file_perm__comment" js="0">Comment</word>
+  <word key="perm_file_perm__rate" js="0">Rate Files</word>
+  <word key="perm_file_perm__reply" js="0">Comment</word>
+  <word key="perm_file_perm__review" js="0">Review Files</word>
+  <word key="cbitoptions_moderation" js="0">Files must be approved?</word>
+  <word key="cbitoptions_moderation_edits" js="0">New versions must be approved?</word>
+  <word key="cbitoptions_show_approver" js="0">Show who approved the file?</word>
+  <word key="cbitoptions_show_approver_desc" js="0">Other staff members are always able to see this information.</word>
+  <word key="cbitoptions_comment_moderation" js="0">Comments must be approved?</word>
+  <word key="cversion_numbers" js="0">Version Numbers</word>
+  <word key="version_numbers_disabled" js="0">Disabled</word>
+  <word key="version_numbers_enabled" js="0">Available</word>
+  <word key="version_numbers_required" js="0">Required</word>
+  <word key="cversioning_on" js="0">Keep previous versions?</word>
+  <word key="cversioning_on_desc" js="0">If enabled, when a new version of a file is uploaded, the previous version is stored and remains available.</word>
+  <word key="cversioning" js="0">Number of revisions to keep</word>
+  <word key="crequire_changelog" js="0">Require Changelog?</word>
+  <word key="category_moderation" js="0">Moderation</word>
+  <word key="category_downloading" js="0">Downloading</word>
+  <word key="category_comments_and_reviews" js="0">Comments</word>
+  <word key="category_logs" js="0">Logs</word>
+  <word key="clog_on" js="0">Log downloads?</word>
+  <word key="clog" js="0">Keep logs for</word>
+  <word key="clog_recount" js="0">Recalculate Download Counts</word>
+  <word key="clog_recount_desc" js="0">This will reset the number of downloads for each file in this category to the number of records currently in the log. If you have updated the log settings, you will need to save them before running this tool. This action is irreversible.</word>
+  <word key="clog_recount_done" js="0">Counts Recalculated</word>
+  <word key="r__categories_recount_downloads" js="0">Can recalculate download counts?</word>
+  <word key="cbitoptions_submitter_log" js="0">Allow file submitter to view log?</word>
+  <word key="cbitoptions_submitter_log_desc" js="0">You can also control which members can view the log from the group settings.</word>
+  <word key="category_submissions" js="0">Submissions</word>
+  <word key="category_allowed_files" js="0">Allowed Files</word>
+  <word key="category_versioning" js="0">Versioning</word>
+  <word key="csubmissionterms" js="0">Submission Terms</word>
+  <word key="csubmissionterms_placeholder" js="0">By submitting a file you agree to the following terms:</word>
+  <word key="file_cat" js="0">Category</word>
+  <word key="file_ipaddress" js="0">IP Address</word>
+  <word key="log_days" js="0">The log is pruned after {# [1:day][?:days]}</word>
+  <word key="category_forums_integration" js="0">Forum Topics</word>
+  <word key="cforum_on" js="0">Post a topic when a file is submitted?</word>
+  <word key="cforum_on_desc" js="0">Post a topic to the specific forum each time a new file is submitted.</word>
+  <word key="cforum_id" js="0">Forum</word>
+  <word key="ctopic_prefix" js="0">Topic prefix</word>
+  <word key="ctopic_suffix" js="0">Topic suffix</word>
+  <word key="cbitoptions_topic_delete" js="0">Delete topic if file is deleted?</word>
+  <word key="cbitoptions_topic_screenshot" js="0">Include screenshot in topic?</word>
+  <word key="node_no_parentd" js="0">No Parent</word>
+  <word key="view_all_files" js="0">View All Files</word>
+  <word key="downloadcategory_topic_rebuild" js="0"><![CDATA[<a href='%s' data-confirm data-confirmMessage='Rebuild Topics' data-confirmSubMessage='This will edit the first post of all topics created by files in this category to match the current settings. This may be useful if you have changed some settings. Any files which do not already have a topic will also have one generated.The rebuild will be processed in the background and you will be able to see the progress on the AdminCP Dashboard.'>Rebuild topic content</a>]]></word>
+  <word key="cmultiple_files" js="0">Allow Multiple Files</word>
+  <word key="cmultiple_files_desc" js="0">If enabled, the file author can upload multiple files at once when creating/updating a file record.</word>
+  <word key="cdisclaimer_location" js="0">Show Download Terms</word>
+  <word key="cdisclaimer_purchase" js="0">Before Purchase</word>
+  <word key="cdisclaimer_download" js="0">Before Download</word>
+  <word key="cdisclaimer_both" js="0">Before Purchase and Download</word>
+  <word key="modperms__core_Content_downloads_File" js="0">Downloads</word>
+  <word key="download_categories" js="0">Categories</word>
+  <word key="can_pin_downloads_file" js="0">Can pin files?</word>
+  <word key="can_unpin_downloads_file" js="0">Can unpin files?</word>
+  <word key="can_feature_downloads_file" js="0">Can feature files?</word>
+  <word key="can_unfeature_downloads_file" js="0">Can unfeature files?</word>
+  <word key="can_move_downloads_file" js="0">Can move files?</word>
+  <word key="can_move_downloads_file_desc" js="0">Will be able to move files only between the categories they can create new content within.</word>
+  <word key="can_lock_downloads_file" js="0">Can lock files?</word>
+  <word key="can_unlock_downloads_file" js="0">Can unlock files?</word>
+  <word key="can_reply_to_locked_downloads_file" js="0">Can comment on locked files?</word>
+  <word key="can_edit_downloads_file" js="0">Can edit files?</word>
+  <word key="can_hide_downloads_file" js="0">Can hide files?</word>
+  <word key="can_unhide_downloads_file" js="0">Can unhide files?</word>
+  <word key="can_view_hidden_downloads_file" js="0">Can view hidden files?</word>
+  <word key="can_delete_downloads_file" js="0">Can delete files?</word>
+  <word key="can_edit_downloads_file_comment" js="0">Can edit comments?</word>
+  <word key="can_hide_downloads_file_comment" js="0">Can hide comments?</word>
+  <word key="can_unhide_downloads_file_comment" js="0">Can unhide comments?</word>
+  <word key="can_view_hidden_downloads_file_comment" js="0">Can view hidden comments?</word>
+  <word key="can_delete_downloads_file_comment" js="0">Can delete comments?</word>
+  <word key="can_edit_downloads_file_review" js="0">Can edit reviews?</word>
+  <word key="can_hide_downloads_file_review" js="0">Can hide reviews?</word>
+  <word key="can_unhide_downloads_file_review" js="0">Can unhide reviews?</word>
+  <word key="can_view_hidden_downloads_file_review" js="0">Can view hidden reviews?</word>
+  <word key="can_delete_downloads_file_review" js="0">Can delete reviews?</word>
+  <word key="can_feature_comments_downloads_file" js="0">Can recommend comments on a file?</word>
+  <word key="can_unfeature_comments_downloads_file" js="0">Can remove comment recommendations on a file?</word>
+  <word key="can_add_item_message_downloads_file" js="0">Can add messages to files?</word>
+  <word key="can_edit_item_message_downloads_file" js="0">Can edit messages on files?</word>
+  <word key="can_delete_item_message_downloads_file" js="0">Can delete messages on files?</word>
+  <word key="modperms__downloads_Files" js="0">Downloads</word>
+  <word key="can_make_purchasable" js="0">Can enable purchases on files?</word>
+  <word key="can_make_unpurchasable" js="0">Can disable purchases on files?</word>
+  <word key="menu__downloads_downloads_fields" js="0">Extra Fields</word>
+  <word key="cf_topic" js="0">Include field in topics?</word>
+  <word key="cf_format_desc" js="0"><![CDATA[Example: &lt;strong&gt;{title}:&lt;/strong&gt; {content}]]></word>
+  <word key="downloads_field_location" js="0">Display Location</word>
+  <word key="idm_cfield_below" js="0">Below the description</word>
+  <word key="idm_cfield_tab" js="0">In a separate tab</word>
+  <word key="idm_cfield_sidebar" js="0">In the sidebar</word>
+  <word key="downloads_field_paid" js="0">Purchase Required?</word>
+  <word key="downloads_field_paid_desc" js="0">If enabled, this field's contents will only be shown to members's who have purchased the file. This setting has no effect on free files.</word>
+  <word key="menu__downloads_downloads_settings" js="0">Settings</word>
+  <word key="acplogs__downloads_settings" js="0">Updated downloads settings</word>
+  <word key="group__downloads_Downloads" js="0">Downloads</word>
+  <word key="idm_rss" js="0">Enable Latest Files RSS feed?</word>
+  <word key="idm_link_blacklist" js="0">URL Submissions Blacklist</word>
+  <word key="idm_link_blacklist_desc" js="0">Users that are allowed to make URL submissions will not be able to use URLs from the specified domains.</word>
+  <word key="idm_antileech" js="0">Prevent direct linking?</word>
+  <word key="idm_antileech_desc" js="0">If enabled, users will not be able to obtain a URL which directly downloads a file; users will always have to go through the file's page.</word>
+  <word key="idm_watermarkpath" js="0">Screenshot watermark</word>
+  <word key="idm_watermarkpath_desc" js="0">The image provided will be overlaid on all screenshot images (for example, to show a copyright message). For best results, use a small image with a transparent background.</word>
+  <word key="acplogs__downloads_recount_downloads" js="0">Recounted downloads for category: %s</word>
+  <word key="download_settings_saved_rebuilding" js="0">Saved. Your screenshots are rebuilding in the background.</word>
+  <word key="idm_default_view" js="0">Default category view</word>
+  <word key="idm_default_view_choose" js="0">Member can choose?</word>
+  <word key="downloads_default_view_table" js="0">Table: A traditional table view</word>
+  <word key="downloads_default_view_grid" js="0">Grid: Display files as cards in a grid</word>
+  <word key="downloads_default_view_choose" js="0">Members can choose?</word>
+  <word key="downloads_default_view_choose_desc" js="0">Select the views you will allow members to choose from</word>
+  <word key="downloads_default_view_choose_none" js="0">Do not allow members to choose</word>
+  <word key="idm_view_approvers" js="0">Can view who approved files?</word>
+  <word key="idm_bypass_revision" js="0">Can manage versions?</word>
+  <word key="idm_view_downloads" js="0">Can view who has downloaded files?</word>
+  <word key="idm_view_downloads_desc" js="0">Note that the download log can be disabled per-category and cleared periodically.</word>
+  <word key="idm_throttling" js="0">Maximum Download Speed</word>
+  <word key="idm_max_size" js="0">Maximum submission size</word>
+  <word key="idm_max_size_desc" js="0">Categories can have maximum submission size restrictions as well. Regular submissions will be limited to the lower of the group maximum submission size or the category maximum submission size, while club submissions will be limited to this value.</word>
+  <word key="idm_maxsize_suffix" js="0">kB</word>
+  <word key="idm_throttling_suffix" js="0">kB/second</word>
+  <word key="idm_throttling_desc" js="0"><![CDATA[This will <em>throttle</em> downloads to the maximum speed set. If set too low, this may cause your server to time out and the download to fail.]]></word>
+  <word key="idm_throttling_unlimited" js="0">No restriction</word>
+  <word key="idm_wait_period" js="0">Time user must wait before download starts</word>
+  <word key="idm_bypass_revision_desc" js="0"><![CDATA[When an author uploads a new version of a file within a category that has versioning enabled, the previous version is stored and is available for download. When this setting is enabled, the user will be given the option to not store the previous version when uploading a new version, and will be able to restore, hide and delete their previous versions.<br>The user needs permission to edit the file.]]></word>
+  <word key="limit_sim" js="0">Maximum simultaneous downloads</word>
+  <word key="min_posts" js="0">Posts required to download</word>
+  <word key="download_min_posts" js="0">You may only download files after you have made {# [1:post][?:posts]}.</word>
+  <word key="daily_bw" js="0">Maximum bandwidth usage per day</word>
+  <word key="weekly_bw" js="0">Maximum bandwidth usage per week</word>
+  <word key="monthly_bw" js="0">Maximum bandwidth usage per month</word>
+  <word key="kb_per_day" js="0">kB/day</word>
+  <word key="kb_per_week" js="0">kB/week</word>
+  <word key="kb_per_month" js="0">kB/month</word>
+  <word key="daily_dl" js="0">Maximum downloads per day</word>
+  <word key="weekly_dl" js="0">Maximum downloads per week</word>
+  <word key="monthly_dl" js="0">Maximum downloads per month</word>
+  <word key="downloads_requires_log" js="0">These settings rely on the download log which can be disabled per-category and cleared periodically. If using these settings, it is recommended that you leave the log turned on and set not to clear otherwise you may experience unexpected behavior.</word>
+  <word key="file_management" js="0">File Management</word>
+  <word key="download_restrictions" js="0">Download Restrictions</word>
+  <word key="bandwidth_limits" js="0">Bandwidth Limits</word>
+  <word key="download_limits" js="0">Download Limits</word>
+  <word key="downloads_per_day" js="0">downloads/day</word>
+  <word key="downloads_per_week" js="0">downloads/week</word>
+  <word key="downloads_per_month" js="0">downloads/month</word>
+  <word key="submission_permissions" js="0">Submission Permissions</word>
+  <word key="idm_linked_files" js="0">Can submit URLs?</word>
+  <word key="idm_import_files" js="0">Can import files from the filesystem?</word>
+  <word key="idm_import_files_desc" js="0">When enabled, users will be able to import files located on your server. You should only enable this for staff groups where all the users are trusted.</word>
+  <word key="idm_bulk_submit" js="0">Can submit multiple Downloads Files at once?</word>
+  <word key="idm_paid_restrictions" js="0">Restrictions apply to purchased files?</word>
+  <word key="idm_paid_restrictions_desc" js="0">If enabled, any restrictions set below will also apply to files purchased by the user.</word>
+  <word key="idm_screenshot_for" js="0">Screenshot for %s</word>
+  <word key="rss_offline" js="0">This RSS feed is disabled</word>
+  <word key="rss_offline_admin" js="0">The IP.Downloads option &quot;Enable Latest Files RSS feed&quot; is currently disabled. Toggle this option to yes in the admin control panel to enable the latest files RSS feed.</word>
+  <word key="submit_a_file" js="0">Submit a file</word>
+  <word key="submit_single_file" js="0">Submit single file</word>
+  <word key="submit_multiple_files" js="0">Submit multiple files</word>
+  <word key="submit_first_file" js="0">Submit the first file</word>
+  <word key="write_review" js="0">Write a review</word>
+  <word key="file_auto_follow" js="0"></word>
+  <word key="file_auto_follow_suffix" js="0">Follow this file</word>
+  <word key="file" js="0">File</word>
+  <word key="dl_get_support" js="0">Get Support</word>
+  <word key="dl_get_support_title" js="0">Get support for this download</word>
+  <word key="file_information" js="0">File Information</word>
+  <word key="url_files" js="0">Linked Files</word>
+  <word key="url_files_no_perm" js="0">This file has a linked file, but you are no longer permitted to edit it. Please contact an administrator if you need to change it.</word>
+  <word key="import_files" js="0">Import Files</word>
+  <word key="screenshots" js="0">Screenshots</word>
+  <word key="screenshots_ct" js="0">{# [1:Screenshot][?:Screenshots]}</word>
+  <word key="url_screenshots" js="0">Linked Screenshots</word>
+  <word key="file_title" js="0">File Name</word>
+  <word key="file_submitter" js="0">Submitter</word>
+  <word key="file_submitted" js="0">Submitted</word>
+  <word key="view_file" js="0">View File</word>
+  <word key="version" js="0">Version</word>
+  <word key="file_version" js="0">Version number</word>
+  <word key="file_tags" js="0">Tags</word>
+  <word key="file_changelog" js="0">What's New</word>
+  <word key="new_version_details" js="0">New Version Details</word>
+  <word key="with_version" js="0">With version %s:</word>
+  <word key="file_desc" js="0">About This File</word>
+  <word key="file_primary_screenshot" js="0">Primary Screenshot</word>
+  <word key="file_primary_screenshot_desc" js="0">The primary screenshot is used in category listings.</word>
+  <word key="download_now" js="0">Download this file</word>
+  <word key="file_view_details" js="0">View file</word>
+  <word key="downloads" js="0">Downloads</word>
+  <word key="x_downloads" js="0">{# [1:download][?:downloads]}</word>
+  <word key="idm_purchases" js="0">Purchases</word>
+  <word key="x_purchases" js="0">{# [1:purchase][?:purchases]}</word>
+  <word key="num_downloads" js="0">{# [1:download][?:downloads]}</word>
+  <word key="files_no_number" js="0">{!# [1:file][?:files]}</word>
+  <word key="downloads_file_comment" js="0">File Comment</word>
+  <word key="downloads_file_review" js="0">File Review</word>
+  <word key="downloads_file_pl" js="0">Files</word>
+  <word key="downloads_file_pl_lc" js="0">files</word>
+  <word key="downloads_file_comment_pl" js="0">File Comments</word>
+  <word key="downloads_file_comment_pl_lc" js="0">file comments</word>
+  <word key="downloads_file_review_pl" js="0">File Reviews</word>
+  <word key="downloads_file_review_pl_lc" js="0">file reviews</word>
+  <word key="downloads_file_pending" js="0">New Version</word>
+  <word key="downloads_file_pending_pl" js="0">New File Versions</word>
+  <word key="downloads_file_pending_pl_lc" js="0">new file versions</word>
+  <word key="downloads_category_select" js="0">Category:</word>
+  <word key="report_file" js="0">Report this file</word>
+  <word key="file_review_count" js="0">{# [1:Review][?:Reviews]}</word>
+  <word key="file_comment_count" js="0">{# [1:Comment][?:Comments]}</word>
+  <word key="subcategory" js="0">Sub Category</word>
+  <word key="download_no_perm" js="0">You are not allowed to download that file.</word>
+  <word key="add_files_no_perm" js="0">You are not allowed to upload files to this category.</word>
+  <word key="new_version_versioning" js="0">The previous version will be archived and users will still be able to download it.</word>
+  <word key="file_save_revision" js="0">Save Previous Version?</word>
+  <word key="downloads_edit_details" js="0">Edit Details</word>
+  <word key="downloads_edit_details_title" js="0">Edit this file's details</word>
+  <word key="file__comment_placeholder" js="0">Add a comment...</word>
+  <word key="file_submit_comment" js="0">Submit Comment</word>
+  <word key="whats_new_in_version" js="0"><![CDATA[What's New in Version <span data-role='versionTitle'>%s</span>]]></word>
+  <word key="see_changelog" js="0">See changelog</word>
+  <word key="see_changelog_for" js="0">See changelog for version %s</word>
+  <word key="see_changelog_title" js="0">See the version history for this file</word>
+  <word key="view_downloader_list" js="0">View list of downloaders</word>
+  <word key="who_downloaded" js="0">Who downloaded this?</word>
+  <word key="downloaders" js="0">Downloaders</word>
+  <word key="download_your_files" js="0">Download your files</word>
+  <word key="download_terms" js="0">Download Terms</word>
+  <word key="download_terms_desc" js="0">Your file is ready for download. Before downloading, you must agree to the following terms:</word>
+  <word key="download_file_count" js="0">{# [1:file][?:files]}</word>
+  <word key="agree_and_download" js="0"><![CDATA[Agree &amp; Download]]></word>
+  <word key="cancel_downloading" js="0">Cancel download</word>
+  <word key="agree_and_download_full" js="0">Agree to the terms above and download file</word>
+  <word key="download_version" js="0">Download</word>
+  <word key="restore_version" js="0">Restore</word>
+  <word key="delete_version" js="0">Delete</word>
+  <word key="download_purchase_terms" js="0"><![CDATA[Terms & Conditions]]></word>
+  <word key="download_purchase_terms_desc" js="0">Before purchasing, you must agree to the following terms:</word>
+  <word key="agree_and_purchase" js="0"><![CDATA[Agree &amp; Purchase]]></word>
+  <word key="hide_version" js="0">Hide from members</word>
+  <word key="filesize" js="0">File Size</word>
+  <word key="file_pending_approval" js="0">This file is not yet approved and is only visible to staff.</word>
+  <word key="file_pending_approval_version" js="0">A new version of this file is waiting for approval.</word>
+  <word key="file_pending_version_button" js="0">Review New Version</word>
+  <word key="file_approved_by" js="0">(approved by %s, %s)</word>
+  <word key="file_requires_approval_g" js="0">The file you submitted must be approved by a staff member before it will be visible</word>
+  <word key="file_no_changelog" js="0">No changelog available for this version.</word>
+  <word key="file_version_released" js="0">Released %s</word>
+  <word key="file_published" js="0">Published</word>
+  <word key="restore" js="0">Restore</word>
+  <word key="hide_from_members" js="0">Hide from members</word>
+  <word key="unhide_from_members" js="0">Unhide from members</word>
+  <word key="version_restore_confirm" js="0">Are you sure you want to restore this version?</word>
+  <word key="version_restore_confirm_desc" js="0">All versions since %1$s will be deleted and the file will be restored to the state it was at version %1$s.</word>
+  <word key="version_delete_confirm" js="0">Are you sure you want to delete this version?</word>
+  <word key="idm_rss_title" js="0">Latest Files</word>
+  <word key="wait_x_seconds_noscript" js="0">Wait {# [1:second][?:seconds]}, then click Download again</word>
+  <word key="download_begins_in" js="0">Download begins in </word>
+  <word key="file_actions" js="0">File Actions</word>
+  <word key="max_simultaneous_downloads" js="0">You may only download {# [1:file][?:files]} at a time. Wait until {!# [1:your other download has][?:some of your other downloads have]} finished, then try again.</word>
+  <word key="bandwidth_limit_daily" js="0">You may only download %s per day. You will be able to download this file after %s.</word>
+  <word key="bandwidth_limit_week" js="0">You may only download %s per week. You will be able to download this file after %s.</word>
+  <word key="bandwidth_limit_month" js="0">You may only download %s per month. The file you are trying to download is %s which is above your limit.</word>
+  <word key="bandwidth_limit_daily_never" js="0">You may only download %s per day. The file you are trying to download is %s which is above your limit.</word>
+  <word key="bandwidth_limit_weekly" js="0">You may only download %s per week. The file you are trying to download is %s which is above your limit.</word>
+  <word key="download_limit_daily" js="0">You may only download {# [1:file][?:files]} per day. You will be able to download this file after %s.</word>
+  <word key="download_limit_weekly" js="0">You may only download {# [1:file][?:files]} per week. You will be able to download this file after %s.</word>
+  <word key="download_limit_monthly" js="0">You may only download {# [1:file][?:files]} per month. You will be able to download this file after %s.</word>
+  <word key="file_rating_value" js="0">Your rating</word>
+  <word key="file_review_text" js="0">Your review</word>
+  <word key="file__review_placeholder" js="0">Add a review...</word>
+  <word key="err_no_files" js="0">You must upload or link to at least one file.</word>
+  <word key="err_too_many_files" js="0">You can only upload or link to a maximum of one file.</word>
+  <word key="err_no_screenshots" js="0">You must upload or link to at least one screenshot.</word>
+  <word key="err_url_file_blacklist" js="0">URLs from %s are not allowed.</word>
+  <word key="err_import_files" js="0">The file %s does not exist or is not readable.</word>
+  <word key="err_import_files_dir" js="0">%s is a directory. You must specify the path to a file.</word>
+  <word key="change_author_d" js="0">Change Author</word>
+  <word key="change_author_title" js="0">Change the member who owns this file</word>
+  <word key="err_submissions_blocked" js="0">You have been blocked from submitting files.</word>
+  <word key="upload_new_version_title" js="0">Upload a new version of this file</word>
+  <word key="upload_new_version_pending" js="0">New version is pending approval</word>
+  <word key="feature_title_file" js="0">Feature this file</word>
+  <word key="unfeature_title_file" js="0">Unfeature this file</word>
+  <word key="pin_title_file" js="0">Pin this file</word>
+  <word key="unpin_title_file" js="0">Unpin this file</word>
+  <word key="hide_title_file" js="0">Hide this file</word>
+  <word key="unhide_title_file" js="0">Unhide this file</word>
+  <word key="approve_title_file" js="0">Approve this file</word>
+  <word key="lock_title_file" js="0">Lock this file</word>
+  <word key="unlock_title_file" js="0">Unlock this file</word>
+  <word key="downloads_move_title" js="0">Move this file to another category</word>
+  <word key="downloads_delete_title" js="0">Delete this file from the community</word>
+  <word key="find_users_files" js="0">Find their other files</word>
+  <word key="file_versioning_info" js="0"></word>
+  <word key="file_versioning_info_text" js="0">Click here if you would like to upload a new version of the file or screenshot</word>
+  <word key="browse_whats_new" js="0">What's New</word>
+  <word key="browse_highest_rated" js="0">Highest Rated</word>
+  <word key="browse_most_downloaded" js="0">Most Downloaded</word>
+  <word key="no_new_files" js="0">There have been no uploaded files yet.</word>
+  <word key="no_rated_files" js="0">No files have been rated yet.</word>
+  <word key="no_downloaded_files__week" js="0">No files have been downloaded yet this week.</word>
+  <word key="no_downloaded_files__month" js="0">No files have been downloaded yet this month.</word>
+  <word key="no_downloaded_files__year" js="0">No files have been downloaded yet this year.</word>
+  <word key="no_downloaded_files" js="0">No files have been downloaded yet.</word>
+  <word key="no_download_review" js="0">You may only provide a review once you have downloaded the file.</word>
+  <word key="index_discover" js="0">Discover</word>
+  <word key="index_explore" js="0">Explore Categories</word>
+  <word key="browse_categories_d" js="0">Browse Categories</word>
+  <word key="no_files_in_cat" js="0">No files in this category yet.</word>
+  <word key="submit_form_title" js="0">Adding New File</word>
+  <word key="submit_form_title_bulk" js="0">Adding New Files</word>
+  <word key="submit_form_desc" js="0"><![CDATA[Adding a file to <em>%s</em>]]></word>
+  <word key="submit_form_desc_bulk" js="0"><![CDATA[Adding files to <em>%s</em>]]></word>
+  <word key="select_your_files" js="0">Select your files</word>
+  <word key="select_your_file" js="0">Select your file</word>
+  <word key="add_files_by_url" js="0">Add files by URL</word>
+  <word key="add_files_by_path" js="0">Add files from server path</word>
+  <word key="submit_menu_confirm" js="0">Confirm</word>
+  <word key="add_screenshots" js="0">Add screenshots</word>
+  <word key="add_screenshots_by_url" js="0">Add screenshots by URL</word>
+  <word key="submit_file_information" js="0">File Information</word>
+  <word key="save_and_submit_files" js="0"><![CDATA[Save &amp; Submit Files]]></word>
+  <word key="save_and_submit_file" js="0"><![CDATA[Save &amp; Submit File]]></word>
+  <word key="save_and_submit_new_version" js="0"><![CDATA[Save &amp; Submit New Version]]></word>
+  <word key="submit_bulk_information" js="0">Enter File Information</word>
+  <word key="bulk_upload_button" js="0">I want to add multiple records at once</word>
+  <word key="upload_more_files" js="0">Upload more files</word>
+  <word key="featured_downloads" js="0">Featured Downloads</word>
+  <word key="next_file" js="0">Next File</word>
+  <word key="prev_file" js="0">Previous File</word>
+  <word key="downloads_category_id" js="0">Category</word>
+  <word key="announce_download_categories" js="0">Categories</word>
+  <word key="view_this_file" js="0">View the file %s</word>
+  <word key="file_locked_can_comment" js="0">This file is locked, but your permissions allow you to add new comments.</word>
+  <word key="file_locked_cannot_comment" js="0">This file is now closed to further comments.</word>
+  <word key="file__save" js="0">Save</word>
+  <word key="downloads_no_file" js="0">File not found</word>
+  <word key="download_teaser" js="0">Create an account or sign in to download this</word>
+  <word key="download_no_permission" js="0">Sorry, you aren't permitted to download this file.</word>
+  <word key="download_no_permission_guest" js="0">Sorry, you aren't permitted to download this file. However, you may be able to download if you sign in.</word>
+  <word key="downloads_file_info" js="0">Downloads</word>
+  <word key="sort_file_downloads" js="0">Most Downloaded</word>
+  <word key="club_node_downloads" js="0">Club Files</word>
+  <word key="file_imported_removed" js="0">The files have been imported and the original copies can now be removed from disk, if desired.</word>
+  <word key="disable_purchases" js="0">Disable Purchases</word>
+  <word key="enable_purchases" js="0">Enable Purchases</word>
+  <word key="purchasing_disabled" js="0">This file is not currently available for purchase.</word>
+  <word key="block_downloads_Overview" js="0">Downloads Overview</word>
+  <word key="total_disk_spaced" js="0">Total Diskspace Used</word>
+  <word key="total_files" js="0">Total Files</word>
+  <word key="total_downloads" js="0">Total Downloads *</word>
+  <word key="total_bandwidth" js="0">Total Bandwidth Used *</word>
+  <word key="current_month_bandwidth" js="0">Bandwidth Used This Month *</word>
+  <word key="largest_file" js="0">Largest File</word>
+  <word key="most_viewed_file" js="0">Most Viewed File</word>
+  <word key="most_downloaded_file" js="0">Most Downloaded File</word>
+  <word key="total_files_front" js="0">Files</word>
+  <word key="total_authors" js="0">Authors</word>
+  <word key="latest_file" js="0">Latest File</word>
+  <word key="latest_submitter" js="0">Latest Submitter</word>
+  <word key="top_week" js="0">Week</word>
+  <word key="top_month" js="0">Month</word>
+  <word key="top_year" js="0">Year</word>
+  <word key="top_alltime" js="0">All</word>
+  <word key="top_avg_rating" js="0">Average file rating</word>
+  <word key="top_submitters_empty__week" js="0">No ratings this week.</word>
+  <word key="top_submitters_empty__month" js="0">No ratings this month.</word>
+  <word key="top_submitters_empty__year" js="0">No ratings this year.</word>
+  <word key="top_submitters_empty__all" js="0">No ratings.</word>
+  <word key="member__downloads_Downloads" js="0">Downloads</word>
+  <word key="idm_block_submissions" js="0">Allowed to submit files?</word>
+  <word key="idm_block_submissions_desc" js="0">Each category has permissions for who can submit files within it. If this is disabled, the user will not be able to submit any files. If enabled, per-category settings will be honored.</word>
+  <word key="history_restrictions_downloads_1" js="0">disabled ability to submit files</word>
+  <word key="history_restrictions_downloads_0" js="0">restored ability to submit files</word>
+  <word key="downloads_stats" js="0">View Downloads Statistics</word>
+  <word key="submissions" js="0">{# [1:submission][?:submissions]}</word>
+  <word key="deleted_file" js="0">Deleted File</word>
+  <word key="dmid" js="0">Member</word>
+  <word key="dfid" js="0">File</word>
+  <word key="dtime" js="0">Date/Time</word>
+  <word key="dsize" js="0">Filesize</word>
+  <word key="dua" js="0">Browser</word>
+  <word key="dip" js="0">IP Address</word>
+  <word key="member_downloads_chart" js="0">%s's Downloads</word>
+  <word key="bandwidth_use" js="0">Bandwidth Use</word>
+  <word key="files_submitted" js="0">Files Submitted</word>
+  <word key="diskspace_used" js="0">Diskspace Used</word>
+  <word key="average_filesize_downloads" js="0">Average Filesize</word>
+  <word key="number_of_downloads" js="0">Number of Downloads *</word>
+  <word key="downloads_bandwidth_used" js="0">Bandwidth Used *</word>
+  <word key="downloads_stat_of_total" js="0">%s (%d%% of total)</word>
+  <word key="downloads_stat_of_total_link" js="0">%s (%d%% of total) %s</word>
+  <word key="downloads_stat_average" js="0">%s (average for all users: %s)</word>
+  <word key="downloadS_stat_average_of_total" js="0">%d% of total; average for all users: %d</word>
+  <word key="download_stats_disclaimer" js="0">* This statistic comes from the download log which may be disabled on a per-category basis or set to be pruned periodically.</word>
+  <word key="download_graph_disclaimer" js="0">This data comes from the download log which may be disabled on a per-category basis or set to be pruned periodically.</word>
+  <word key="menu__downloads_stats_downloads" js="0">Downloads</word>
+  <word key="menu__downloads_stats_downloaders" js="0">Top Downloaders</word>
+  <word key="menu__downloads_stats_submitters" js="0">Top Submitters</word>
+  <word key="menu__downloads_stats_topdownloads" js="0">Top Files</word>
+  <word key="r__downloads" js="0">Download Statistics</word>
+  <word key="r__downloads_manage" js="0">Can view Download Statistics?</word>
+  <word key="r__downloaders_manage" js="0">Can view Top Downloaders?</word>
+  <word key="r__submitters_manage" js="0">Can view Top Submitters?</word>
+  <word key="r__topdownloads_manage" js="0">Can view Top Files?</word>
+  <word key="stats_overview_downloads" js="0">File Downloads</word>
+  <word key="stats_overview_downloads_desc" js="0">Logging of downloads and the retention period for logs can be adjusted on a per-category basis</word>
+  <word key="downloads_stats_uploader_count" js="0">{# [1:member][?:members]} uploaded files.</word>
+  <word key="downloads_stats_downloader_count" js="0">{# [1:member][?:members]} downloaded files.</word>
+  <word key="ipAddresses__downloads_DownloadLog" js="0">Downloads</word>
+  <word key="acplogs__downloads_resync_topics" js="0">Resynchronized topic content for %s</word>
+  <word key="block_fileFeed" js="0">Files Feed</word>
+  <word key="block_fileFeed_desc" js="0">Create a feed of files</word>
+  <word key="widget_feed_container_downloads_file" js="0">Categories</word>
+  <word key="block_topSubmitters" js="0">Highest Rated Submitters</word>
+  <word key="block_topSubmitters_desc" js="0">Shows top submitters by file rating</word>
+  <word key="block_downloadStats" js="0">Download Statistics</word>
+  <word key="block_downloadStats_desc" js="0">Shows download application statistics</word>
+  <word key="block_topDownloads" js="0">Top Downloads</word>
+  <word key="block_topDownloads_desc" js="0">Shows most popular downloaded files</word>
+  <word key="block_recentFiles" js="0">Recent Files</word>
+  <word key="block_recentFiles_desc" js="0">Shows recent files</word>
+  <word key="loc_downloads_viewing_file" js="0">Viewing File: %s</word>
+  <word key="loc_downloads_viewing_category" js="0">Viewing Category: %s</word>
+  <word key="loc_downloads_browsing_categories" js="0">Browsing Downloads categories</word>
+  <word key="loc_downloads_adding_file" js="0">Adding a file</word>
+  <word key="loc_downloads_browsing" js="0">Viewing Downloads</word>
+  <word key="loc_downloads_viewing_file_action" js="0">%s is viewing a file</word>
+  <word key="loc_downloads_viewing_category_action" js="0">%s is browsing downloads</word>
+  <word key="loc_downloads_browsing_categories_action" js="0">%s is browsing downloads</word>
+  <word key="loc_downloads_adding_file_action" js="0">%s is adding a file</word>
+  <word key="loc_downloads_browsing_action" js="0">%s is browsing downloads</word>
+  <word key="acp_search_title_downloads_Downloads" js="0">Downloads Categories</word>
+  <word key="downloads_categories_pagetitle" js="0">Downloads Categories</word>
+  <word key="task__logCleanup" js="0">Prunes the download log.</word>
+  <word key="task__tempFileCleanup" js="0">Removes temporary file uploads.</word>
+  <word key="digest_area_downloads_category" js="0">Files</word>
+  <word key="digest_area_downloads_file" js="0">File</word>
+  <word key="x_created_file_in" js="0">%s uploaded a file to %s</word>
+  <word key="x_commented_file" js="0">%s commented on a file</word>
+  <word key="x_reviewed_file" js="0">%s reviewed a file</word>
+  <word key="paid_file_settings" js="0">Paid Files Settings</word>
+  <word key="idm_nexus_on" js="0">Enable Paid Files?</word>
+  <word key="idm_nexus_on_desc" js="0"><![CDATA[If enabled, users who have permission will be able to submit files which must be paid for in order to download.<br>You can control which groups can submit paid files from the <a href='{internal.app=core&module=members&controller=groups}'>Groups</a> page.<br>When someone purchases a paid file, the money will be added to the file submitter's account credit. You can control how users can withdraw account credit from the <a href='{internal.app=nexus&module=payments&controller=payouts&do=settings}'>Withdrawals</a> page.]]></word>
+  <word key="idm_nexus_tax" js="0">Tax Class for Paid Files</word>
+  <word key="idm_nexus_percent" js="0">Commission for Site</word>
+  <word key="idm_nexus_percent_desc" js="0">The percentage specified will be deducted from the amount given to the file submitter. For example, if you set this to 10% and someone buys a file for $10, the submitter will be given $9 and $1 will be kept for the site.</word>
+  <word key="idm_nexus_transfee" js="0">Transaction Fee for Site</word>
+  <word key="idm_nexus_transfee_desc" js="0">The amount specified will be deducted from the amount given to the file submitter. For example, if you set this to $1 and someone buys a file for $10, the submitter will be given $9 and $1 will be kept for the site.</word>
+  <word key="idm_nexus_mincost" js="0">Minimum Cost</word>
+  <word key="idm_nexus_mincost_desc" js="0">The minimum cost for paid files. Does not apply to free files.</word>
+  <word key="idm_nexus_gateways" js="0">Payment Methods</word>
+  <word key="idm_nexus_display" js="0">Statistics to Display</word>
+  <word key="idm_nexus_display_desc" js="0">Unpaid files will always show the number of downloads.</word>
+  <word key="idm_nexus_gateways_desc" js="0">Customers will only be able to pay for this product and renewals with the payment methods selected.</word>
+  <word key="idm_add_paid" js="0">Can charge for files?</word>
+  <word key="idm_add_paid_enable" js="0"><![CDATA[In order to allow users to charge for files you must <a href='{internal.app=downloads&module=downloads&controller=settings}'>enable paid files</a>.]]></word>
+  <word key="idm_bypass_paid" js="0">Can download paid files without paying?</word>
+  <word key="file_cost_type" js="0">Type</word>
+  <word key="file_free" js="0">Free</word>
+  <word key="file_free_feed" js="0">Free</word>
+  <word key="file_paid" js="0">Paid</word>
+  <word key="file_associate_nexus" js="0">Associate with product(s)</word>
+  <word key="file_associate_nexus_desc" js="0">Users who have an active purchase of one of the selected products will be able to download this file.</word>
+  <word key="file_cost" js="0">Price</word>
+  <word key="file_renewals" js="0">Renewals</word>
+  <word key="file_renewals_off" js="0">No renewals - once a user has purchased this file they will be able to download all future versions.</word>
+  <word key="file_renewals_on" js="0">I will specify renewal terms. Users must have paid the renewal fee in order to download the current version.</word>
+  <word key="file_renewal_term" js="0">Renewal Term</word>
+  <word key="file_renewal_term_desc" js="0">Once the file is saved, renewal terms cannot be edited.</word>
+  <word key="file_nexus" js="0">Associated Products</word>
+  <word key="file_not_purchased" js="0">You have not purchased this file or your purchase has expired.</word>
+  <word key="buy_now" js="0">Buy Now</word>
+  <word key="file_cost_desc_both" js="0">%s%% commission, plus a %s transaction fee will be deducted.</word>
+  <word key="file_cost_desc_percent" js="0">%s%% commission will be deducted.</word>
+  <word key="file_cost_desc_fee" js="0">A %s transaction fee will be deducted.</word>
+  <word key="file_cost_desc_minimum" js="0"> Minimum Cost: %s</word>
+  <word key="file_cost_too_low" js="0">The entered cost is less than the minimum requirement.</word>
+  <word key="file_renewal_term_val" js="0">Renewal Term: %s</word>
+  <word key="choose_file_nexus_blurb" js="0">This file is available with one of the following packages. Please add one of the following packages to your cart to continue.</word>
+  <word key="choose_file_nexus_title" js="0">Choose A Package</word>
+  <word key="file_no_price_for_currency" js="0">This file is not currently available in your chosen currency.</word>
+  <word key="nexus_file_no_longer_available" js="0">This file is no longer available for download, please contact the file author for further information.</word>
+  <word key="notifications__downloads_Files" js="0">File Updates</word>
+  <word key="notifications__downloads_Files_desc" js="0">These notifications are sent for new versions where you have opted in to these updates.</word>
+  <word key="email_new_file_version_plain" js="0">%s has uploaded a new version of %s,</word>
+  <word key="email_new_file_version" js="0"><![CDATA[<a href='%s'>%s</a> has uploaded a new version of %s,]]></word>
+  <word key="email_new_file_version_guest" js="0">%s (Guest) has uploaded a new version of %s,</word>
+  <word key="mailsub__downloads_notification_new_file_version" js="0"><![CDATA[{$content->author()->name|raw} has uploaded a new version of {$content->mapped("title")|raw}]]></word>
+  <word key="notification__new_file_version" js="0">%s uploaded a new version of %s</word>
+  <word key="notification__new_file_version_title" js="0">A file was updated</word>
+  <word key="notification__new_file_version_with" js="0">%s uploaded version %s of %s</word>
+  <word key="emailtpl_notification_new_file_version" js="0">New file version notification</word>
+  <word key="emailstats__notification_new_file_version" js="0">New file version notification</word>
+  <word key="backgroundQueue_new_version" js="0">Sending new version notifications for %s</word>
+  <word key="block_downloadsCommentFeed" js="0">Download Comments</word>
+  <word key="block_downloadsCommentFeed_desc" js="0">Display a feed of comments</word>
+  <word key="block_downloadsReviewFeed" js="0">Download Reviews</word>
+  <word key="block_downloadsReviewFeed_desc" js="0">Display a feed of reviews</word>
+  <word key="__api_downloads_files" js="0">Files</word>
+  <word key="__api_downloads_comments" js="0">Comments</word>
+  <word key="__api_downloads_reviews" js="0">Reviews</word>
+  <word key="__api_downloads_categories" js="0">Categories</word>
+  <word key="idm_landing_page" js="0">Downloads Index Page</word>
+  <word key="idm_show_featured" js="0">Show &quot;Featured Downloads&quot; box</word>
+  <word key="idm_featured_count" js="0">Number of features files to show</word>
+  <word key="idm_show_newest" js="0">Show &quot;What's New&quot; box</word>
+  <word key="idm_newest_categories" js="0">Categories</word>
+  <word key="idm_show_highest_rated" js="0">Show &quot;Highest Rated&quot; box</word>
+  <word key="idm_show_most_downloaded" js="0">Show &quot;Most Downloaded&quot; box</word>
+  <word key="idm_highest_rated_categories" js="0">Categories</word>
+  <word key="idm_show_most_downloaded_categories" js="0">Categories</word>
+  <word key="downloads_forum_used" js="0"><![CDATA[This forum is used by the Downloads App to create topics on file submission and cannot be deleted.<br/>Please remove the association from category %s to proceed]]></word>
+  <word key="file_subscribe" js="0">Send me version updates</word>
+  <word key="file_unsubscribe" js="0">Disable version updates</word>
+  <word key="file_subscribed" js="0">New version updates enabled</word>
+  <word key="file_unsubscribed" js="0">New version updates disabled</word>
+  <word key="file_notify_heading" js="0">New Version Updates</word>
+  <word key="file_notify_current" js="0">You are currently receiving these notifications by %s</word>
+  <word key="file_notify_none" js="0">You do not have any notification methods set up</word>
+  <word key="file_version_pending_approval" js="0">The new version of this file is not yet approved and is only visible to staff. The previous version of the file remains visible to members.</word>
+  <word key="file_version_pending_cannot_approve" js="0">The base version of this file is pending approval, this base version must be approved before this version can be approved.</word>
+  <word key="pending_no_new_files" js="0">This version does not have any updated files.</word>
+  <word key="pending_no_changelog" js="0">The author did not provide a change log for this version.</word>
+  <word key="pending_version" js="0">Pending version</word>
+  <word key="pending_version_reject" js="0">Reject</word>
+  <word key="pending_version_reject_title" js="0">Reject this version?</word>
+  <word key="pending_version_reject_desc" js="0">This will delete this pending version and leave the current version of the file visible</word>
+  <word key="file_new_version_date" js="0">New Version Submitted: %s</word>
+  <word key="achievement_filter_DownloadFile_nth_suffix" js="0">th download</word>
+  <word key="achievement_filter_DownloadFile_receiver" js="0">To the user who uploaded the file</word>
+  <word key="achievement_filter_DownloadFile_giver" js="0">To the user who downloaded the file</word>
+  <word key="AchievementAction__DownloadFile_log" js="0">Downloaded the file %s</word>
+  <word key="AchievementAction__DownloadFile_title_generic" js="0">file downloaded</word>
+  <word key="AchievementAction__DownloadFile_title" js="0">User downloads a file</word>
+  <word key="AchievementAction__DownloadFile" js="0">Member downloads a Downloads File</word>
+  <word key="webhook_downloads_new_version" js="0">Fired when a new version gets available</word>
+  <word key="makePrimaryScreenshot" js="1">Make this the primary screenshot for this file</word>
+  <word key="makePrimary" js="1">Primary</word>
+  <word key="removeScreenshot" js="1">Remove this screenshot</word>
+  <word key="markCategoryAsReadConfirm" js="1">Are you sure you want to mark all files as read?</word>
+  <word key="categoryMarkedRead" js="1">The category has been marked as read</word>
+  <word key="downloadsScreenshotsWatermark" js="1">Rebuild Existing Screenshots?</word>
+  <word key="downloadsScreenshotsWatermarkBlurb" js="1">Rebuilding existing screenshots will update them with your new watermark image.</word>
+  <word key="downloadsScreenshotsWatermarkYes" js="1">Yes, Rebuild</word>
+  <word key="downloadsScreenshotsWatermarkNo" js="1">No</word>
+  <word key="file_subscribe" js="1">Send me version updates</word>
+  <word key="file_unsubscribe" js="1">Disable version updates</word>
+  <word key="files_optional" js="1">Restrict file types</word>
+ </app>
+</language>

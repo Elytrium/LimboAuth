@@ -1,0 +1,50 @@
+{
+    "html": {
+        "added": [
+            "front\/index\/simplifiedTopicRowSnippet",
+            "admin\/stats\/solvedPercentage",
+            "admin\/stats\/timeToSolved"
+        ],
+        "edited": [
+            "front\/forums\/forumHome",
+            "front\/forums\/forumPasswordPopup",
+            "front\/forums\/forumTable",
+            "front\/forums\/popularQuestionRow",
+            "front\/forums\/questionRow",
+            "front\/forums\/topicHover",
+            "front\/forums\/topicRow",
+            "front\/forums\/topicRowSnippet",
+            "front\/global\/commentTableHeader",
+            "front\/global\/embedTopic",
+            "front\/global\/row",
+            "front\/index\/forumGridItem",
+            "front\/index\/forumRow",
+            "front\/index\/simplifiedForumTable",
+            "front\/index\/simplifiedTopicRow",
+            "front\/index\/simplifiedViewSidebar",
+            "front\/topics\/activity",
+            "front\/topics\/post",
+            "front\/topics\/postContainer",
+            "front\/topics\/topic",
+            "front\/widgets\/forumStatistics",
+            "front\/widgets\/hotTopics",
+            "front\/widgets\/pollFormWidget",
+            "front\/widgets\/postFeed",
+            "front\/widgets\/topicFeed"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/forums_responsive.css",
+            "front\/forums.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

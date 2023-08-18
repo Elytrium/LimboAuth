@@ -1,0 +1,39 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ads",
+            {
+                "name": "ad_start",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ads",
+            {
+                "name": "ad_end",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_adpacks",
+            {
+                "name": "ap_desc",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    }
+}

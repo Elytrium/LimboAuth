@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "forums_topics",
+            {
+                "topic_queuedposts": 0
+            },
+            [
+                "state=?",
+                "link"
+            ]
+        ]
+    }
+}

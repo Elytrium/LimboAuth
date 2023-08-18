@@ -1,0 +1,54 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "album_comment"
+            },
+            [
+                "rep_class=?",
+                "IPS\\gallery\\Album\\Comment"
+            ]
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "album_review"
+            },
+            [
+                "rep_class=?",
+                "IPS\\gallery\\Album\\Review"
+            ]
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "comment_id"
+            },
+            [
+                "rep_class=?",
+                "IPS\\gallery\\Image\\Comment"
+            ]
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "review_id"
+            },
+            [
+                "rep_class=?",
+                "IPS\\gallery\\Image\\Review"
+            ]
+        ]
+    }
+}

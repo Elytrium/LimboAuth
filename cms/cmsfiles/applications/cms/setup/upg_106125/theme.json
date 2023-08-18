@@ -1,0 +1,68 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/blocks\/embedCode",
+            "admin\/blocks\/pluginSelector",
+            "admin\/blocks\/previewBlock",
+            "admin\/databases\/downloadDialog",
+            "admin\/databases\/fieldsWrapper",
+            "admin\/databases\/manageDatabaseName",
+            "admin\/databases\/rebuildCommentCounts",
+            "admin\/databases\/rebuildTopics",
+            "front\/global\/basicRelationship",
+            "front\/global\/commentTableHeader",
+            "front\/global\/embedRecord",
+            "front\/global\/embedRecordComment",
+            "front\/global\/embedRecordItemSnippet",
+            "front\/global\/embedRecordReview",
+            "front\/global\/recordResultSnippet",
+            "front\/global\/uploadDisplay",
+            "admin\/media\/fileListing",
+            "admin\/media\/folderRow",
+            "admin\/media\/media",
+            "front\/pages\/globalWrap",
+            "front\/pages\/widgetContainer",
+            "admin\/records\/category",
+            "admin\/records\/categorySelector",
+            "front\/records\/categorySelector",
+            "admin\/records\/categoryTree",
+            "front\/records\/commentTemplate",
+            "global\/records\/customslug",
+            "admin\/records\/title",
+            "front\/revisions\/rows",
+            "front\/revisions\/table",
+            "front\/revisions\/view",
+            "front\/submit\/createRecord",
+            "front\/submit\/createRecordForm",
+            "front\/submit\/topic",
+            "admin\/templates\/addForm",
+            "admin\/templates\/editor",
+            "admin\/templates\/menu",
+            "admin\/templates\/templateConflict",
+            "admin\/templates\/templates",
+            "admin\/templates\/viewTemplate",
+            "front\/widgets\/Categories",
+            "front\/widgets\/DatabaseFilters",
+            "front\/widgets\/Editor",
+            "front\/widgets\/pagebuilderupload",
+            "front\/widgets\/RecordFeed",
+            "front\/widgets\/Rss",
+            "front\/widgets\/Wysiwyg"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/media\/media.css",
+            "admin\/templates\/templates.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

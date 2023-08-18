@@ -1,0 +1,15 @@
+[
+    {
+        "sc_key": "cm_store_view",
+        "sc_type": "Select",
+        "sc_multiple": 0,
+        "sc_content": "[{\"key\":\"grid\",\"value\":\"cm_store_view_grid\"},{\"key\":\"list\",\"value\":\"cm_store_view_list\"}]",
+        "sc_app": "nexus",
+        "sc_default": "grid",
+        "sc_tab_key": "custom",
+        "sc_show_in_vse": 0,
+        "sc_title": "themesetting_cm_store_view",
+        "sc_order": 12,
+        "sc_condition": null
+    }
+]

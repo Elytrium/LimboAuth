@@ -1,0 +1,22 @@
+{
+    "normal": {
+        "added": [
+            "cdisclaimer_location",
+            "cdisclaimer_purchase",
+            "cdisclaimer_download",
+            "cdisclaimer_both",
+            "downloads_field_paid",
+            "downloads_field_paid_desc",
+            "download_purchase_terms",
+            "download_purchase_terms_desc",
+            "agree_and_purchase"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

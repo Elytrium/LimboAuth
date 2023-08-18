@@ -1,0 +1,3260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="cms">
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/blocks" javascript_name="ips.blocks.form.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.blocks.form.js
+ *
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.blocks.form', {
+
+		initialize: function () {
+			this.on( 'change', '#elSelect_block_template_use_how', this.toggle );
+			this.on( 'click', '[data-role=viewTemplate]', this.viewTemplate );
+			
+			$('#elCodemirror_block_content-input').attr('loaded', 'false');
+		},
+		
+		/**
+		 * View a template. As the title of the method suggests.
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		viewTemplate: function (e) {
+			var span = $( e.currentTarget );
+			
+			if ( !_.isUndefined( this.scope.find('input[name=block_plugin_app]').val() ) )
+			{
+				var appOrPlugin = '&block_app=' + this.scope.find('input[name=block_plugin_app]').val();
+			}
+			else
+			{
+				var appOrPlugin = '&block_plugin=' + this.scope.find('input[name=block_plugin_plugin]').val();
+			}
+			
+			var dialogRef = ips.ui.dialog.create({
+				title: this.scope.find('input[name=block_plugin]').val(),
+				url: '?app=cms&module=pages&controller=ajax&do=loadTemplate&show=modal&t_location=block' + appOrPlugin + '&block_key=' + this.scope.find('input[name=block_plugin]').val() + '&t_key=' + this.scope.find('#elSelect_block_template_id').val(),
+				forceReload: true,
+				remoteSubmit: true
+			});
+				
+			dialogRef.show();
+		},
+
+		/**
+		 * Toggle event handler
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggle: function (e) {
+			var thisToggle = $( e.currentTarget );
+			
+			if ( thisToggle.val() === 'copy' && $('#elCodemirror_block_content-input').attr('loaded') == 'false' )
+			{
+				var save = { 't_location': 'block', 't_key': this.scope.find('#elSelect_block_template_id').val(), 'block_key': this.scope.find('input[name=block_plugin]').val(), 'block_app': this.scope.find('input[name=block_plugin_app]').val() };
+				var self = this;
+				
+				ips.getAjax()( '?app=cms&module=pages&controller=ajax&do=loadTemplate&show=json&noencode=1', {
+					dataType: 'json',
+					data: save,
+					type: 'post'
+				} )
+					.done( function (response) {
+						/* Update codemirror */
+						$('#elCodemirror_block_content-input').data('CodeMirrorInstance').setValue( response.template_content );
+						$('input[name=template_params]').val( response.template_params );
+						$('#elCodemirror_block_content-input').attr('loaded', 'true');
+					});
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/databases" javascript_name="ips.databases.download.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.databases.download.js - Present an alert to the user asking them if they want to build the app first
+ *
+ * Author: Rikki Tissier (Good bits), Matt Mecham (bad bits)
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('cms.admin.databases.download', {
+
+		initialize: function () {
+			this.on( 'click', this.launchAlert );
+		},
+
+		/**
+		 * Displays a dialog to the user with 'build and download' and 'download' options
+		 *	
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		launchAlert: function (e) {
+			var self = this;
+
+			e.preventDefault();
+
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: ips.getString('cms_download_db_explain'),
+				icon: 'fa fa-download',
+				buttons: {
+					ok: ips.getString('cms_download_db'),
+					cancel: ips.getString('cancel')
+				},
+				callbacks: {
+					ok: function () {
+						window.location = self.scope.attr('data-downloadURL');
+					},
+				}
+			});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/databases" javascript_name="ips.databases.form.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.databases.form.js
+ *
+ * Author: Matt Mecham
+ */
+
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.databases.form', {
+
+		initialize: function () {
+			this.on( 'change', '[name=database_create_page]', this.toggle );
+			this.on( 'change', '[name=database_use_categories]', this.toggleUseCategories );
+			this.on( 'click', '[data-template-view]', this.goTemplates );
+			this.toggle();
+			this.toggleUseCategories();
+		},
+
+		/**
+		 * Go view templates
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		goTemplates: function (e) {
+			e.preventDefault();
+
+			window.location = $( e.currentTarget ).attr('data-url') + '&t_group=' + $('[name="' + $( e.currentTarget ).attr('data-template-view') ).val();
+		},
+
+		/**
+		 * Toggle use categories
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleUseCategories: function (e) {
+			var label = this.scope.find('[data-lang=index_as_categories]');
+			
+			if ( $('[name=database_use_categories]:checked').val() == 1 )
+			{
+				label.html( ips.getString('index_as_categories') );
+			}
+			else
+			{
+				label.html( ips.getString('index_as_records') );
+			}
+		},
+		
+		/**
+		 * Toggle event handler
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggle: function (e) {
+			var thisToggle = $('[name=database_create_page]:checked');
+			
+			$.each( ['details', 'meta'], function( i, row)
+			{
+				if ( thisToggle.val() == 'existing' )
+				{
+					$('#form_header_content_page_form_tab__' + row ).hide();
+				}
+				else
+				{
+					$('#form_header_content_page_form_tab__' + row ).show();
+				}
+			} );
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="controllers/external" javascript_name="ips.external.communication.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.external.communication.js - External communication widget - sends messages to the parent window
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.front.external.communication', {
+
+		_blockID: '',
+		_widgetID: '',
+
+		initialize: function () {
+			this.on( window, 'message', this.windowMessage );
+
+			this.on( 'click', 'a', this.clickLink );
+			this.setup();
+		},
+
+		/**
+		 * setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			var self = this;
+			var url = ips.utils.url.getURIObject();
+			this._blockID = url.queryKey.blockid;
+			this._widgetID = url.queryKey.widgetid;
+
+			this._send( 'iframeReady' );
+			this._sendHeight();
+
+			// We'll run a loop to track the height of the document and let the parent know
+			setInterval( _.bind( this._sendHeight, this ), 500 );
+		},
+
+		/**
+		 * Handles messages received from the parent window
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		windowMessage: function (e) {
+			try {
+				var pmData = JSON.parse( e.originalEvent.data );
+				var method = pmData.method;	
+			} catch (err) {
+				return;
+			}
+
+			// Check we have a widget ID and it matches ours
+			if( _.isUndefined( pmData.widgetID ) || pmData.widgetID !== this._widgetID ){
+				return;
+			}
+
+			if( method && !_.isUndefined( this[ method ] ) ){
+				this[ method ].call( this, pmData );
+			}
+		},
+
+		/**
+		 * The parent has sent us some styles to use
+		 *
+		 * @param 	{object} 	data 	Data object containing the styles
+		 * @returns {void}
+		 */
+		probedStyles: function (data) {
+			// Create a style element to insert into the head
+			var elem = $('<style/>').attr('type', 'text/css').appendTo('head');
+			var stylesheet = "\
+				body {\
+					font-family: " + data.font + "; \
+					color: " + data.text + ";\
+				}\
+				\
+				a {\
+					color: " + data.link + ";\
+				}\
+			";
+
+			elem.text( stylesheet );
+		},
+
+		/**
+		 * Event handler for clicking a link; we'll send it to the parent to handle
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		clickLink: function (e) {
+			var link = $( e.currentTarget );
+			var href = link.attr('href');
+
+			if( href.startsWith('#') ){
+				return;
+			}
+
+			e.preventDefault();
+
+			this._send( 'goToLink', { link: href } );
+		},
+
+		/**
+		 * Shortcut for calculating and sending the height to the parent
+		 *
+		 * @returns {void}
+		 */
+		_sendHeight: function () {
+			var currentSize = $('body').outerHeight();
+			this._send( 'iframeSize', { size: currentSize } );
+		},
+
+		/**
+		 * Sends a message to the parent
+		 *
+		 * @param 	{string} 	method 	Method name to call on the parent
+		 * @param 	{object} 	data 	Data object to send
+		 * @returns {void}
+		 */
+		_send: function (method, data) {
+			var output = JSON.stringify( _.extend( data || {}, { 
+				method: method,
+				widgetID: this._widgetID,
+				blockID: this._blockID
+			}));
+
+			window.top.postMessage( output, '*' );
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/fields" javascript_name="ips.fields.form.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.fields.form.js
+ *
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('cms.admin.fields.form', {
+		currentValue: null,
+		initialize: function () {
+			$('#elTextarea_field_default_value').on( 'keypress', this.checkChange );
+			
+			if ( $('#field_default_update_existing').length )
+			{
+				this.currentValue = $('#elTextarea_field_default_value').val();
+				$('#field_default_update_existing').hide();
+			}
+		},
+		
+		/**
+		 * checkChange handler
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		checkChange: function (e) {
+			
+			if ( $('#elTextarea_field_default_value').val() != this.currentValue )
+			{
+				$('#field_default_update_existing').show();
+			}
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/media" javascript_name="ips.media.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.media.main.js - Main media controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.media.main', {
+
+		_fileListing: null,
+		_sidebar: null,
+		_folderListing: null,
+		_cachedFileInfo: {},
+		_cachedFolders: {},
+		_folderAjax: null,
+		_searchTimer: null,
+		_uploadURL: '',
+
+		initialize: function () {
+			this.on( 'click', '[data-role="mediaItem"]', this.clickItem );
+			this.on( 'click', '[data-role="fileListing"]', this.clickWrapper );
+			this.on( 'click', '[data-role="mediaFolder"] > a', this.clickMediaFolder );
+			this.on( 'click', '[data-action="deleteSelected"]', this.deleteSelected );
+			this.on( 'keydown', '[data-role="mediaSearch"]', this.searchKeyPress );
+			this.on( 'submitDialog', '[data-role="uploadButton"]', this.dialogSubmitted );
+			this.on( 'submitDialog', '[data-role="replaceFile"]', this.replaceDialogSubmitted );
+			this.on( 'click', '[data-role="replaceFile"]', this.uploadNewFile );
+			this.on( window, 'resize', this.resizePanels );
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			this._fileListing = this.scope.find('[data-role="fileListing"]');
+			this._searchResults = this.scope.find('[data-role="searchResults"]');
+			this._sidebar = this.scope.find('[data-role="mediaSidebar"]');
+			this._folderListing = this.scope.find('[data-role="folderList"]');
+			this._uploadURL = this.scope.find('[data-role="uploadButton"]').attr('href');
+			this._newFolderURL = this.scope.find('[data-role="folderButton"]').attr('href');
+			this._deleteFolderURL = this.scope.find('[data-action="deleteFolder"]').find('a').attr('href');
+			
+			this.scope.find('[data-role="uploadButton"]').attr('href', this._uploadURL + '&media_parent=0' );
+			this.scope.find('[data-role="folderButton"]').attr('href', this._newFolderURL + '&media_parent=0' );
+
+			this.resizePanels();
+		},
+
+		/**
+		 * Resize panels
+		 *
+		 * @returns {void}
+		 */
+		resizePanels: function () {
+			var windowHeight = $( window ).height();
+
+			this.scope.find('#elMedia_sidebar, #elMedia_fileList, #elMedia_searchResults').each( function () {
+				var top = $( this ).offset().top;
+				
+				$( this ).css({
+					height: ( windowHeight - top ) + 'px'
+				});
+			});
+		},
+
+		/**
+		 * Dialog submit handler from uploading process
+		 * The dialog response will include an array of media items in this folder. We'll use
+		 * this data to rebuild the file listing, thereby showing the new files immediately.
+		 * 
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		dialogSubmitted: function (e, data) {
+			var newHTML = [];
+			var folderID = data.response.folderID;
+
+			_.each( data.response.rows, function (file, key) {
+				newHTML.push( file );
+			});
+
+			this._cachedFolders[ folderID ] = newHTML;
+			this._buildFileListing( folderID, newHTML );
+
+			ips.ui.flashMsg.show( ips.pluralize( ips.getString('mediaUploadedCount'), data.response.count ) );
+		},
+
+		/**
+		 * Dialog submit handler from uploading process
+		 * The dialog response will include an array of media items in this folder. We'll use
+		 * this data to rebuild the file listing, thereby showing the new files immediately.
+		 * 
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		replaceDialogSubmitted: function (e, data) {
+			var newHTML = [];
+			var folderID = data.response.folderID;
+
+			_.each( data.response.rows, function (file, key) {
+				newHTML.push( file );
+			});
+
+			this._cachedFolders[ folderID ] = newHTML;
+			this._buildFileListing( folderID, newHTML );
+			delete this._cachedFileInfo[ data.response.fileID ];
+
+			ips.ui.flashMsg.show( ips.getString('mediaUploadedReplace') );
+
+			this._fileListing.find('[data-fileid="' + data.response.fileID + '"]').click();
+		},
+
+		/**
+		 * keypress event handler for the search text box
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		searchKeyPress: function (e) {
+			clearTimeout( this._searchTimer );
+			this._searchTimer = setTimeout( _.bind( this._doSearch, this ), 500 );
+		},
+
+		/**
+		 * Event handler for clicking a folder in the list
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		clickMediaFolder: function (e) {
+			e.preventDefault();
+
+			var self = this;
+			var allRows = this._folderListing.find('[data-role="mediaFolder"]');
+			var row = $( e.currentTarget ).closest('[data-role="mediaFolder"]');
+			var rowURL = row.find('> a').attr('href');
+			var rowID = row.attr('data-folderID');
+
+			this._resetSearch();
+
+			if( row.hasClass('ipsTreeList_activeBranch') ){
+				row
+					.removeClass('ipsTreeList_activeBranch')
+					.addClass('ipsTreeList_inactiveBranch');
+			} else {
+				row
+					.removeClass('ipsTreeList_inactiveBranch')
+					.addClass('ipsTreeList_activeBranch');
+			}
+
+			allRows.removeClass('ipsTreeList_activeNode');
+			row.addClass('ipsTreeList_activeNode');
+
+			// Update the upload/new folder buttons
+			this.scope.find('[data-role="uploadButton"]').attr('href', this._uploadURL + '&media_parent=' + rowID );
+			this.scope.find('[data-role="folderButton"]').attr('href', this._newFolderURL + '&media_parent=' + rowID );
+			this.scope.find('[data-role="folderButton"]').attr('href', this._newFolderURL + '&media_parent=' + rowID );
+			this.scope.find('[data-action="deleteFolder"]').find('a').attr('href', this._deleteFolderURL + '&id=' + rowID );
+			
+			if ( rowID > 0 ) {
+				this.scope.find('[data-action="deleteFolder"]').removeClass('ipsHide');
+			} else {
+				this.scope.find('[data-action="deleteFolder"]').addClass('ipsHide');
+			}
+			
+			// Load subfolders
+			this._loadFolders( rowID, rowURL );
+
+			// And folder contents
+			this._loadFiles( rowID, rowURL );
+
+			this._unselectAll();
+			this._updatePreview();
+			this._checkDeleteButton();
+		},
+
+		/**
+		 * Prompts and deletes selected files
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		deleteSelected: function (e) {
+			var self = this;
+			var selected = this._getSelected().closest('[data-role="mediaItem"]');
+			var selectedIDs = [];
+
+			$.each( selected, function () {
+				selectedIDs.push( $( this ).attr('data-fileid') );
+			});
+
+			// Confirm with user
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: ips.pluralize( ips.getString('mediaConfirmDelete'), selected.length ),
+				icon: 'warn',
+				callbacks: {
+					ok: function () {
+						selected.find('.cMedia_itemSelected').removeClass('cMedia_itemSelected')
+
+						// Hide and remove them
+						ips.utils.anim.go( 'fadeOutDown', selected )
+							.done( function () {
+								selected.remove();
+								self._updatePreview();
+								self._checkDeleteButton();
+							});
+
+						// Delete them on the server
+						ips.getAjax()( '?app=cms&module=pages&controller=media&do=deleteByFileIds', {
+							data: {
+								fileIds: selectedIDs
+							}
+						})
+							.fail( function () {
+								ips.ui.alert.show({
+									type: 'alert',
+									message: ips.pluralize( ips.getString('mediaErrorDeleting'), selected.length )
+								});
+							})
+					}
+				}
+			});
+		},
+
+		/**
+		 * Event handler for clicking in the whitepace of the file listing
+		 * Unselects any selected files
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		clickWrapper: function (e) {
+			if( !$( e.target ).closest('[data-role="mediaItem"]').length ) {
+				this._unselectAll();
+				this._updatePreview();
+				this._checkDeleteButton();
+			}
+		},
+
+		/**
+		 * Event handler for clicking a file in the file listing
+		 * Modifier keys change how we handle the selection in order to mimic file managers
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		clickItem: function (e) {
+			var item = $( e.currentTarget ).find('> .cMedia_item');
+			var metaPressed = e.metaKey;
+			var shiftPressed = e.shiftKey;
+
+			if( !metaPressed && !shiftPressed ){
+				// If no special keys are pressed, unhighlight all and highlight this one
+				this._unselectAll();
+				item.addClass('cMedia_itemSelected');
+				this._switchToTab('overview');
+			} else if( metaPressed ) {
+
+				// If meta key is pressed, toggle the state of the clicked image
+				item.toggleClass( 'cMedia_itemSelected', ( !item.hasClass('cMedia_itemSelected') ) );
+			} else if( shiftPressed ) {
+				// If shift is pressed, select the whole run
+				// Find the first selected file
+				var all = this._fileListing.find('.cMedia_item');
+				var indexOfFirst = all.index( all.filter('.cMedia_itemSelected').first() );
+				var indexOfClicked = all.index( item );
+				var itemsToSelect = null;
+
+				// Unselect all to start with
+				this._unselectAll();
+
+				// Select the run
+				if( indexOfFirst == indexOfClicked ){
+					itemsToSelect = item;
+				} else if( indexOfFirst < indexOfClicked ){
+					itemsToSelect = all.slice( indexOfFirst, indexOfClicked ).addBack( item );
+				} else if( indexOfFirst > indexOfClicked ){
+					itemsToSelect = all.slice( indexOfClicked, indexOfFirst + 1 );
+				}
+
+				itemsToSelect.addClass('cMedia_itemSelected');
+			}
+
+			this._updatePreview();
+			this._checkDeleteButton();
+		},
+
+		/**
+		 * Show the dialog to replace the current file we are viewing
+		 *
+		 * @returns {void}
+		 */
+		 uploadNewFile: function( e ) {
+		 	if( e ){
+		 		e.preventDefault();
+		 	}
+		 	
+		 	var itemId = this._getSelected().closest('[data-role="mediaItem"]').attr('data-fileid');
+		 	
+			$( e.currentTarget ).ipsDialog( {
+				remoteSubmit: true,
+				forceReload: true,
+				url: $( e.currentTarget ).attr('data-baseUrl') + itemId,
+                destructOnClose : true,
+				title: ips.getString('replaceMediaFile')
+			});
+		 },
+
+		/**
+		 * Checks whether any files are selected and displays the delete button if so
+		 *
+		 * @returns {void}
+		 */
+		_checkDeleteButton: function () {
+			var selected = this._getSelected().closest('[data-role="mediaItem"]');
+
+			if( selected.length == 0 ){
+				this.scope.find('[data-action="deleteSelected"]').addClass('ipsHide');
+			} else {
+				this.scope.find('[data-action="deleteSelected"]').removeClass('ipsHide');
+			}
+		},
+
+		/**
+		 * Loads sub-folders of the given folder id
+		 *
+		 * @param	{number} 	rowID 		Folder row ID to load
+		 * @param	{string} 	url 		Url for this folder
+		 * @returns {void}
+		 */
+		_loadFolders: function (rowID, url) {
+			var self = this;
+			var row = this._folderListing.find('[data-folderID="' + rowID + '"]');
+
+			if( this._folderAjax && _.isFunction( this._folderAjax.abort ) ){
+				this._folderAjax.abort();
+			}
+
+			// If this row is loaded, we can just show it
+			if( row.attr('data-loaded') ){
+				return;
+			}
+
+			this._folderAjax = ips.getAjax()( url, {
+				data: {
+					get: 'folders'
+				}
+			} )
+				.done( function (response) {
+					var subFolder = row.find('ul');
+					var newHTML = [];
+
+					_.each( response, function (folder, key) {
+						newHTML.push( folder );
+					});
+
+					subFolder.html( newHTML.join('') );
+					row.attr('data-loaded', true);
+				});
+		},
+
+		/**
+		 * Loads files inside the given folder ID
+		 *
+		 * @param	{number} 	folderID	Folder row ID to load
+		 * @param	{string} 	url 		Url for this folder
+		 * @returns {void}
+		 */
+		_loadFiles: function (folderID, url) {
+			var self = this;
+
+			if( this._filesAjax && _.isFunction( this._filesAjax.abort ) ){
+				this._filesAjax.abort();
+			}
+
+			// Are we already viewing this folder?
+			if( this._fileListing.attr('data-showing') == folderID ){
+				return;
+			}
+
+			// Do we have a cache already?
+			if( !_.isUndefined( this._cachedFolders[ folderID ] ) ){
+				this._buildFileListing( folderID, this._cachedFolders[ folderID ] );
+				return;
+			}
+
+			// No cache, so load the file listing
+			this._fileListing.addClass('ipsLoading').html('');
+
+			ips.getAjax()( url, {
+				data: {
+					get: 'files'
+				}
+			} )
+				.done( function (response) {
+					var newHTML = [];
+
+					_.each( response, function (file, key) {
+						newHTML.push( file );
+					});
+
+					self._cachedFolders[ folderID ] = newHTML;
+					self._buildFileListing( folderID, newHTML );
+				})
+				.always( function () {
+					self._fileListing.removeClass('ipsLoading');
+				});
+		},
+
+		/**
+		 * Builds the file listing for the given folder ID from the given data
+		 *
+		 * @param	{number} 	folderID	Folder row ID to build
+		 * @param	{array} 	data 		Array of file item HTML fragments
+		 * @returns {void}
+		 */
+		_buildFileListing: function (folderID, data) {
+			var output;
+
+			if( !data.length ){
+				output = ips.templates.render('templates.media.noItems');
+			} else {
+				output = ips.templates.render( 'templates.media.grid', {
+					contents: data.join('')
+				});
+			}
+
+			this._fileListing.attr( 'data-showing', folderID ).html( output );
+			$( document ).trigger( 'contentChange', [ this._fileListing ] );
+		},
+
+		/**
+		 * Updates the preview panel in the sidebar by finding the selected item and extracting
+		 * relevant information about it to display
+		 *
+		 * @returns {void}
+		 */
+		_updatePreview: function () {
+			// How many selected?
+			var self = this;
+			var selected = this._getSelected().closest('[data-role="mediaItem"]');
+
+			if( selected.length == 0 || selected.length > 1 ){
+				// Build the string
+				var language = ( selected.length == 0 ) ? ips.getString('mediaNoneSelected') : ips.pluralize( ips.getString('mediaMultipleSelected'), selected.length );
+				// Insert it
+				this._sidebar.find('[data-role="multipleItemsMessage"]').html( language );
+				// Show the message box
+				this._sidebar.find('[data-role="itemInformation"]').hide().end().find('[data-role="multipleItems"]').show();
+				this._sidebar.find('[data-role="replaceFile"]').hide();
+			} else {
+
+				// Build the file info
+				var info = {
+					itemFilename: selected.attr('data-filename'),
+					itemUploaded: selected.attr('data-uploaded'),
+					itemTag: '{media="' + selected.attr('data-fileid') + '"}',
+					itemUrl: selected.attr('data-url'),
+					itemID: selected.attr('data-fileid'),
+					itemIsImage:  selected.attr('data-fileType') === 'image',
+					itemFilesize: null,
+					itemDimensions: null
+				};
+
+				// Dimensions & filesize
+				var cache = this._cachedFileInfo[ info.itemID ];
+
+				if( !_.isUndefined( cache ) ){
+					info.itemFilesize = cache['itemFilesize'];
+					info.itemDimensions = cache['itemDimensions'];
+				} else {
+					// Do ajax
+					this._infoAjax = ips.getAjax()( '?app=cms&module=pages&controller=media&do=getFileInfo&id=' + info.itemID )
+						.done( function (response) {
+							self._cachedFileInfo[ info.itemID ] = {
+								itemFilesize: response.fileSize,
+								itemDimensions: response.dimensions
+							};
+
+							self._sidebar.find('[data-role="itemFilesize"]').text( response.fileSize );
+							self._sidebar.find('[data-role="itemDimensions"]').text( response.dimensions );
+						});
+				}
+
+				// Build thumbnail
+				if( info.itemIsImage ){
+					info.itemPreview = $('<img/>').attr( 'src', selected.attr('data-url') ).attr('data-ipsLightbox', true );
+				} else {
+					info.itemPreview = $('<div/>').addClass('ipsNoThumb');
+				}
+				// Update the easy info
+				_.each( info, function (value, key) {
+					var elem = self._sidebar.find('[data-role="' + key + '"]');
+
+					if( elem.is('input') ){
+						elem.val( value );
+					} else if( key == 'itemPreview' ) {
+						elem.html( value );
+					} else if ( key == 'itemUrl' ) {
+						elem.html( $('<a/>').attr('href', value).text( value ).attr('target', '_blank') );
+					}
+					else if( value === null ){
+						elem.html( $('<span/>').addClass('ipsType_light').text('Loading...') );
+					} else {
+						elem.text( value );
+					}
+				});
+
+				// If this is an image, show the dimensions row
+				this._sidebar.find('[data-role="itemDimensionsRow"]').toggle( info.itemIsImage );
+
+				// Pre-select the tag box
+				this._sidebar.find('[data-role="itemTag"]').get(0).select();
+
+				// Hide the 'multiple items selected' div and show our info div
+				this._sidebar.find('[data-role="itemInformation"]').show().end().find('[data-role="multipleItems"]').hide();
+				this._sidebar.find('[data-role="replaceFile"]').show();
+
+				$( document ).trigger( 'contentChange', [ this._sidebar ] );
+			}
+		},
+
+		/**
+		 * Performs a tree search and displays results
+		 *
+		 * @returns {void}
+		 */
+		_doSearch: function () {
+			if( this._searchAjax && _.isFunction( this._searchAjax.abort ) ){
+				this._searchAjax.abort();
+			}
+
+			var self = this;
+			var value = this.scope.find('[data-role="mediaSearch"]').val();
+
+			if( !_.isEmpty( value ) ){
+				this._searchResults.show().addClass('ipsLoading');
+				this._fileListing.hide();
+				this._folderListing.addClass('cMedia_treeDisabled');
+
+				this._searchAjax = ips.getAjax()( '?app=cms&module=pages&controller=media&do=search', {
+					data: {
+						input: value
+					}
+				})
+					.done( function (response) {
+						var newHTML = [];
+						var output = '';
+
+						_.each( response, function (file, key) {
+							newHTML.push( file );
+						});
+
+						if( !newHTML.length ){
+							output = ips.templates.render('templates.media.noSearchResults');
+						} else {
+							output = ips.templates.render( 'templates.media.grid', {
+								contents: newHTML.join('')
+							});
+						}
+
+						self._searchResults.removeClass('ipsLoading').html( output );
+						$( document ).trigger( 'contentChange', [ self._searchResults ] );
+
+						self._unselectAll();
+						self._updatePreview();
+						self._checkDeleteButton();
+					})
+			} else {
+				this._searchResults.hide().html('');
+				this._fileListing.show();
+				this._folderListing.removeClass('cMedia_treeDisabled');
+				this._updatePreview();
+				this._checkDeleteButton();
+			}
+		},
+
+		/**
+		 * Returns selected files, from the file listing or search results panels depending
+		 * on which is active
+		 *
+		 * @returns {object}	jQuery collection of selected files
+		 */
+		_getSelected: function () {
+			if( this._fileListing.is(':visible') ){
+				return this._fileListing.find('.cMedia_itemSelected');
+			} else {
+				return this._searchResults.find('.cMedia_itemSelected');
+			}
+		},
+
+		/**
+		 * Resets the search box, hiding the results in the process
+		 *
+		 * @returns {void}
+		 */
+		_resetSearch: function () {
+			this.scope.find('[data-role="mediaSearch"]').val('');
+			this._searchResults.hide();
+			this._fileListing.show();
+			this._unselectAll();
+			this._updatePreview();
+			this._checkDeleteButton();
+		},
+
+		/**
+		 * Unselects all files
+		 *
+		 * @returns {void}
+		 */
+		_unselectAll: function () {
+			this._fileListing.find('.cMedia_item').removeClass('cMedia_itemSelected');	
+			this._searchResults.find('.cMedia_item').removeClass('cMedia_itemSelected');	
+		},
+
+		/**
+		 * Switches the sidebar to the given tab
+		 *
+		 * @param	{string} 	tab 		Tab to switch to
+		 * @returns {void}
+		 */
+		_switchToTab: function (tab) {
+			if( tab == 'overview' ){
+				this.scope.find('#elTab_overview').removeClass('ipsTabs_itemDisabled');
+				this.scope.find('#elTab_overview').click();
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/pages" javascript_name="ips.pages.embed.js" javascript_type="controller" javascript_version="107704" javascript_position="1000250"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.pages.embed.js - Pages embed dialog
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.pages.embed', {
+
+		initialize: function () {
+			this.on( 'change', 'input[type="checkbox"]', this.toggleInherit );
+			this.on( 'mouseenter', 'textarea', this.mouseEnterTextarea );
+		},
+
+		/**
+		 * Event handler for mousing over the textareas - we'll select hem to make them easy to copy and paste
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		mouseEnterTextarea: function (e) {
+			$( e.currentTarget ).select();
+		},
+
+		/**
+		 * Event handler for toggling the 'inherit styles' check
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		toggleInherit: function (e) {
+			var toggle = this.scope.find('input[type="checkbox"]');
+			var textbox = this.scope.find('[data-role="blockCode"]');
+
+			if( toggle.is(':checked') ){
+				textbox.val( textbox.val().replace("></div>", " data-inheritStyle='true'></div>") );
+			} else {
+				textbox.val( textbox.val().replace(" data-inheritStyle='true'></div>", "></div>") );
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/pages" javascript_name="ips.pages.form.js" javascript_type="controller" javascript_version="107704" javascript_position="1000250"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.pages.form.js - Page Form Stuff That I Can't Be Bothered To Type Out Here
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.pages.form', {
+
+		initialize: function () {
+			this.on( 'change', '#check_page_ipb_wrapper', this.toggleIPSWrapper );
+			this.on( 'change', '#elSelect_page_wrapper_template', this.toggleTemplate );
+			this.on( 'click', '[data-role=viewTemplate]', this.viewTemplate );
+			this.on( 'submit', '[data-role=wordForm]', this.submitWordForm );
+			
+			/* View template */
+			if ( this.scope.find('#elSelect_page_wrapper_template').val() == '_none_' )
+			{
+				this.scope.find('[data-role=viewTemplate]').hide();
+			}
+			
+			/* Includes warning */
+			if ( $('#check_page_ipb_wrapper').prop('checked') )
+			{
+				$('.ipsCmsIncludesMessage').hide();
+			}
+			else
+			{
+				$('.ipsCmsIncludesMessage').show();
+			}
+		},
+		
+		submitWordForm: function(e) {
+			e.preventDefault();
+			
+			var form = $( e.currentTarget );
+			var url = form.attr('action');
+			
+			ips.getAjax()( url, {
+				type: 'post',
+				data: form.serialize()
+			} )
+				.done( function( response, status, jqXHR ) {
+					var tagSource = $('div[data-tagSource]');
+			
+					if ( !_.isUndefined( tagSource ) ) {
+						ips.getAjax()( tagSource.attr('data-tagSource') )
+							.done( function (response, status, jqXHR) {
+								$('ul[data-role="tagsList"]').html( response )
+							} );
+					}
+					
+					var dialogObj = ips.ui.dialog.getObj( $( 'a[data-action="wordForm"]' ) );
+					if ( !_.isUndefined( dialogObj ) )
+					{
+						dialogObj.hide();
+					}
+				} );
+		},
+		
+		/**
+		 * View a template. As the title of the method suggests.
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		viewTemplate: function (e) {
+			var span = $( e.currentTarget );
+			var template = this.scope.find('#elSelect_page_wrapper_template').val().split('__');
+			var dialogRef = ips.ui.dialog.create({
+				title: this.scope.find('#elSelect_page_wrapper_template option:selected').text(),
+				url: '?app=cms&module=pages&controller=ajax&do=loadTemplate&show=modal&t_location=page&t_key=' + template[2],
+				forceReload: true,
+				remoteSubmit: true
+			});
+				
+			dialogRef.show();
+		},
+		
+		/**
+		 * Toggle event handler
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleTemplate: function (e) {
+			var thisToggle = $( e.currentTarget );
+			
+			if ( thisToggle.val() == '_none_' )
+			{
+				this.scope.find('[data-role=viewTemplate]').hide();
+			}
+			else
+			{
+				this.scope.find('[data-role=viewTemplate]').show();
+			}
+		},
+
+		/**
+		 * Toggle event handler
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleIPSWrapper: function (e) {
+			var thisToggle = $( e.currentTarget );
+			
+			if ( thisToggle.prop('checked') )
+			{
+				$('.ipsCmsIncludesMessage').hide();
+			}
+			else
+			{
+				$('.ipsCmsIncludesMessage').show();
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="controllers/records" javascript_name="ips.records.form.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.databases.form.js
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.front.records.form', {
+		lastChecked: '',
+		
+		initialize: function () {
+			$( '#elInput_' + this.scope.attr('data-ipsTitleField') ).on( 'blur', $.proxy( this.updateSlug, this ) );
+			this.scope.find('button[data-ipsChange]').on( 'click', $.proxy( this.manualToggle, this ) );
+			this.scope.find('button[data-ipsCancel]').on( 'click', $.proxy( this.manualCancel, this ) );
+			
+			/* Stuff already populated? */
+			if ( this.scope.find('input[name=record_static_furl_set_checkbox]').prop('checked') )
+			{
+				this.scope.removeClass('ipsHide');
+				this._show();
+			}
+		},
+		
+		/**
+		 * Hide options
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		_hide: function() {
+			this.scope.find('span[data-ipsSlugManual]').addClass('ipsHide');
+			this.scope.find('span[data-ipsSlugSlug]').removeClass('ipsHide');
+			this.scope.find('span[data-ipsSlugExt]').removeClass('ipsHide');
+			this.scope.find('button[data-ipsCancel]').addClass('ipsHide');
+			this.scope.find('button[data-ipsChange]').removeClass('ipsHide');
+			
+			this.scope.find('input[name=record_static_furl_set_checkbox]').prop('checked', false);
+			this.scope.find('input[name=record_static_furl_set]').val(0);
+		},
+		
+		/**
+		 * Show options
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		_show: function() {
+			this.scope.find('button[data-ipsCancel]').removeClass('ipsHide');
+			this.scope.find('button[data-ipsChange]').addClass('ipsHide');
+			this.scope.find('span[data-ipsSlugManual]').removeClass('ipsHide');
+			this.scope.find('span[data-ipsSlugSlug]').addClass('ipsHide');
+			this.scope.find('span[data-ipsSlugExt]').addClass('ipsHide');
+			
+			this.scope.find('input[name=record_static_furl_set_checkbox]').prop('checked', true);
+			this.scope.find('input[name=record_static_furl_set]').val(1);
+		},
+		
+		/**
+		 * Changed ones mind
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		manualCancel: function (e) {
+			e.preventDefault();
+			
+			this._hide();
+		},
+		
+		/**
+		 * Enter a manual URL
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		manualToggle: function (e) {
+			e.preventDefault();
+			
+			this._show();
+		},
+		
+		/**
+		 * Slug is being updated?
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		updateSlug: function (e) {
+			var value = $( '#elInput_' + this.scope.attr('data-ipsTitleField') ).val();
+			var self  = this;
+			
+			if ( value != this.lastChecked )
+			{
+				ips.getAjax()( ips.getSetting('baseURL') + 'index.php?app=cms&module=database&controller=ajax&do=makeFurl', {
+					data: {
+						slug: value
+					}
+				})
+				.done( function (response) {
+					self.scope.removeClass('ipsHide');
+					self.scope.find('span[data-ipsSlugSlug]').html( '/' + response.slug );
+				});	
+				
+				this.lastChecked = value;
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="controllers/records" javascript_name="ips.records.revisions.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.databases.revisions.js
+ *
+ * Author: Brandon Farber
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('cms.front.records.revisions', {
+		initialize: function () {
+			var self = this;
+
+			ips.loader.get( ['core/interface/codemirror/diff_match_patch.js','core/interface/codemirror/codemirror.js'] ).then( function () {
+				self._initCodeMirror();
+			});
+		},
+		
+		/**
+		 * Initializes CodeMirror on a textarea with the provided key
+		 *
+		 * @returns {void}
+		 */
+		_initCodeMirror: function () {
+			var self = this;
+			var count = 0;
+
+			_.each( self.scope.find(&quot;[data-key]&quot;), function(elem){
+				if( $(elem).attr('data-method') == 'merge' )
+				{
+					CodeMirror.MergeView( document.getElementById( $(elem).identify().attr('id') ), {
+						value: self.scope.find( '[data-current=&quot;' + $(elem).attr('data-key') + '&quot;]' ).val(),
+						origLeft: self.scope.find( '[data-original=&quot;' + $(elem).attr('data-key') + '&quot;]' ).val(),
+						lineWrapping: true,
+						lineNumbers: false,
+						mode: 'htmlmixed',
+						revertButtons: false
+					} );
+				}
+				else if( _.isUndefined( $(elem).attr('data-complete') ) )
+				{
+					var diff			= new diff_match_patch();
+					var differences		= diff.diff_main( self.scope.find( '[data-original=&quot;' + $(elem).attr('data-key') + '&quot;]' ).html(), self.scope.find( '[data-current=&quot;' + $(elem).attr('data-key') + '&quot;]' ).html() );
+					var currentDiff		= diff.diff_prettyHtml(differences);
+
+					self.scope.find( '[data-current=&quot;' + $(elem).attr('data-key') + '&quot;]' ).html( currentDiff );
+
+					$(elem).attr( 'data-complete', 1 );
+				}
+			});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.addForm.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.addForm.js - Controller for the 'add' form in the template editor
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('core.admin.templates.addForm', {
+
+		initialize: function () {
+			this.on( 'submit', 'form.ipsForm', this.submitForm );
+			this.on( document, 'fileListRefreshed.templates', this.closeDialog );
+		},
+
+		submitForm: function (e) {
+			e.preventDefault();
+
+			var self = this;
+
+			if( !$( e.currentTarget ).attr('data-bypassValidation') ){
+				// The form hasn't been validated by the genericDialog controller yet, so bail for now
+				return;
+			}
+
+			// Gather form values and send them
+			ips.getAjax()( $( e.currentTarget ).attr('action'), {
+				dataType: 'json',
+				data: $( e.currentTarget ).serialize(),
+				type: 'post'
+			})
+				.done( function (response) {
+
+					self.trigger( 'addedFile.templates', {
+						type: self.scope.attr('data-type'),
+						fileID: response.id,
+						name: response.name
+					});
+
+				});
+		},
+
+		closeDialog: function (e, data) {
+			this.trigger('closeDialog');
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.conflict.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.conflict.js - Templates: Parent controller for the template conflict manager
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('core.admin.templates.conflict', {
+
+		initialize: function () {			
+			this.on( 'click', '.ipsButton', this.makeSelection );
+			this.setup();
+		},
+
+		setup: function () {
+			$('span[data-conflict-name] input[type=radio]').hide();
+		},
+
+		/**
+		 * &quot;Use this version&quot; button is clicked
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		makeSelection: function (e) {
+			var span  = $( e.target ).closest('span');
+			var radio = $( span ).find('input[type=radio]');
+			var name  = $( span ).attr('data-conflict-name');
+			var id    = $( radio ).attr('name').replace( /conflict_/, '' );
+			
+			// Button disabled
+			if ( span.hasClass('ipsButton_disabled') ){
+				return false;
+			}
+
+			// Undo selection 
+			else if ( span.hasClass('ipsButton_alternate') ){
+				radio.removeAttr('checked');
+				
+				span.removeClass('ipsButton_alternate')
+					   .addClass('ipsButton_primary')
+					   .find('strong')
+					   		.html( ips.getString('sc_use_this_version') );
+					   
+				$('input[type=radio][name=conflict_' + id + ']').closest('span.ipsButton[data-conflict-name=' + ( name == 'new' ? 'old' : 'new' ) +']').removeClass('ipsButton_disabled');
+				
+				$('th span[data-conflict-id=' + id + '][data-conflict-name=' + name + ']').removeClass('ipsPos_left ipsBadge ipsBadge_positive');
+
+				ips.utils.anim.go( 'blindDown', this.scope.find('div[data-conflict-id=' + id + ']') );
+			}
+			// Make selection
+			else
+			{
+				radio.attr('checked', 'checked');
+				span.removeClass('ipsButton_primary')
+					   .addClass('ipsButton_alternate')
+					   .find('strong')
+					   		.html( ips.getString('sc_remove_selection') );
+						   
+				$('input[type=radio][name=conflict_' + id + ']').closest('span.ipsButton[data-conflict-name=' + ( name == 'new' ? 'old' : 'new' ) +']').addClass('ipsButton_disabled');
+				
+				$('th span[data-conflict-id=' + id + '][data-conflict-name=' + name + ']').addClass('ipsPos_left ipsBadge ipsBadge_positive');
+				
+				ips.utils.anim.go( 'fadeOut', this.scope.find('div[data-conflict-id=' + id + ']') );
+			}
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.fileEditor.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.fileEditor.js - Templates: controller for the tabbed file editor
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.templates.fileEditor', {
+
+		_tabBar: null,
+		_tabContent: null,
+		_fileStore: {},
+		_ajaxURL: '',
+		_cmInstances: {},
+		_currentHeight: 0,
+		_editorPreferences: {
+			wrap: true,
+			lines: false
+		},
+
+		initialize: function () {
+			// Events from elsewhere
+			this.on( document, 'openFile.templates', this.openFile );
+			this.on( document, 'variablesUpdated.templates', this.updateVariables );
+
+			// Events from within
+			this.on( 'tabChanged', this.changedTab );
+			this.on( 'click', '[data-action="closeTab"]', this.closeTab );
+			this.on( 'click', '[data-action="save"]', this.save );
+			this.on( 'click', '[data-action="revert"]:not( .ipsButton_disabled )', this.revert );
+			this.on( 'savedFile.templates', this.updateFile );
+			this.on( 'revertedFile.templates', this.updateFile );
+			this.on( 'openDialog', this.openedDialog );
+			this.on( 'menuItemSelected', this.menuSelected );
+
+			var debounce = _.debounce( _.bind( this._recalculatePanelWrapper, this ), 100 );
+			this.on( window, 'resize', debounce );
+
+			// Other setup
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			var self = this;
+
+			// Set element references
+			this._tabBar = this.scope.find('#elTemplateEditor_tabbar');
+			this._tabContent = this.scope.find('#elTemplateEditor_panels');
+
+			// Get the current height of the tab bar
+			this._currentHeight = this._tabBar.outerHeight();
+
+			// Set URLs
+			this._ajaxURL = this.scope.closest('[data-ajaxURL]').attr('data-ajaxURL');
+			this._normalURL = this.scope.closest('[data-normalURL]').attr('data-normalURL');
+
+			// Get the template editor preferences
+			this._editorPreferences['wrap'] = ips.utils.db.get('templateEditor', 'wrap');
+			this._editorPreferences['lines'] = ips.utils.db.get('templateEditor', 'lines');
+
+			if( this._editorPreferences['wrap'] ){
+				$('#elTemplateEditor_preferences_menu').find('[data-ipsMenuValue="wrap"]').addClass('ipsMenu_itemChecked');
+			}
+
+			if( this._editorPreferences['lines'] ){
+				$('#elTemplateEditor_preferences_menu').find('[data-ipsMenuValue="lines"]').addClass('ipsMenu_itemChecked');
+			}			
+
+			// Initialize the initial content
+			this._tabContent.find('[data-group]').each( function (i, item) {
+				// We need to turn the variables/attributes text input into a hidden field
+				// We can't simply change the type because IE8 throws a hissy fit, so we'll make a copy
+				// then remove the original
+				var original = self._tabContent.find('[data-fileid="' + $( item ).attr('data-fileid') + 
+														'"] input[data-role="variables"]');
+
+				if( original.length ){
+					original.after( 
+						$('<input/>')
+							.attr( 'type', 'hidden' )
+							.attr( 'name', original.attr('name') )
+							.attr( 'value', original.attr('value') )
+							.attr( 'data-role', 'variables' )
+					)
+					
+					original.remove();
+				}
+
+				ips.loader.get( ['core/interface/codemirror/diff_match_patch.js','core/interface/codemirror/codemirror.js'] ).then( function () {
+					self._initCodeMirror( $( item ).attr('data-fileid'), $( item ).attr('data-type') );
+				});
+			});
+		},
+
+		/**
+		 * Event handler for the editor preference menu
+		 *
+		 * @param	{event} 	e		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		menuSelected: function (e, data) {
+			if( data.originalEvent ){
+				data.originalEvent.preventDefault();
+			}
+						
+			if( data.triggerID == 'elTemplateEditor_preferences' ){
+				if ( data.selectedItemID == 'diff' ) {
+					this.toggleDiff();
+				}
+				else if( data.selectedItemID == 'wrap' ){
+					this._changeEditorPreference( !ips.utils.db.get('templateEditor', 'wrap'), 'wrap', 'lineWrapping' );
+				} else {
+					this._changeEditorPreference( !ips.utils.db.get('templateEditor', 'lines'), 'lines', 'lineNumbers' );
+				}
+			}
+		},
+
+		/**
+		 * Method that updates an editor preference
+		 *
+		 * @param	{object} 	data	Event data object from this.menuSelected
+		 * @returns {void}
+		 */
+		_changeEditorPreference: function (toValue, type, cmName) {
+			// Set the menu appropriately
+			if( toValue ){
+				$('#elTemplateEditor_preferences_menu')
+					.find('[data-ipsMenuValue="' + type + '"]').addClass('ipsMenu_itemChecked');
+			} else {
+				$('#elTemplateEditor_preferences_menu')
+					.find('[data-ipsMenuValue="' + type + '"]').removeClass('ipsMenu_itemChecked');
+			}
+
+			// Update controller variable
+			this._editorPreferences[ type ] = toValue;
+
+			// Update local DB
+			ips.utils.db.set( 'templateEditor', type, toValue );
+
+			// Update all CM instances
+			for( var i in this._cmInstances ){
+				if ( this._cmInstances[ i ] instanceof CodeMirror.MergeView ) {					
+					this._cmInstances[ i ].edit.setOption( cmName, toValue );
+					this._cmInstances[ i ].left.orig.setOption( cmName, toValue );
+				} else {
+					this._cmInstances[ i ].setOption( cmName, toValue );
+				}
+			}
+		},
+
+		/**
+		 * A dialog has been opened
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		openedDialog: function (e, data) {
+			if( data.elemID == 'elTemplateEditor_variables' || data.elemID == 'elTemplateEditor_attributes' ){
+				this._insertVariablesIntoDialog( data );
+			}
+		},
+
+		/**
+		 * Inserts the current variables value into the dialog
+		 *
+		 * @param	{object} 	data 	Event data object from the dialog
+		 * @returns {void}
+		 */
+		_insertVariablesIntoDialog: function (data) {
+			// First get the variables
+			var active = this._getActiveTab();
+
+			if( !active.tabPanel ){
+				return;
+			}
+
+			var variablesValue   = active.tabPanel.find('[data-role="variables"]').val().trim();
+			var descriptionValue = active.tabPanel.find('[data-role="description"]').val().trim();
+			var titleValue       = active.tabPanel.find('[data-role="title"]').val().trim();
+			var groupValue       = active.tabPanel.find('[data-role="group"]').val().trim();
+
+			data.dialog
+				.find('[data-role="variables"]')
+					.val( variablesValue )
+				.end()
+				.find('[data-role="description"]')
+					.val( descriptionValue )
+				.end()
+				.find('[name="_variables_fileid"]')
+					.val( active.tabPanel.attr('data-fileid') )
+				.end()
+				.find('[name="_variables_location"]')
+					.val( active.tabPanel.attr('data-location') )
+				.end()
+				.find('[data-role="title"]')
+					.val( titleValue );
+			
+			/* Show the correct select box */
+			data.dialog.find('select[data-container-type]').addClass('ipsHide');
+			data.dialog.find('select[data-container-type=' + active.tabPanel.attr('data-location') + ']').removeClass('ipsHide');
+			data.dialog.find('select[data-container-type=' + active.tabPanel.attr('data-location') + ']').val( groupValue );
+
+            /* Reset */
+            data.dialog.find('#elTemplateEditor_container_title').show();
+            data.dialog.find('[data-role="container"]').show();
+            data.dialog.find('[data-role="variables"]').show();
+            data.dialog.find('#elTemplateEditor_attributes_title').show();
+
+			if ( active.tabPanel.attr('data-type') != 'template' )
+			{
+				data.dialog.find('#elTemplateEditor_group_title').hide();
+				
+				data.dialog.find('[data-role="variables"]').hide();
+				data.dialog.find('#elTemplateEditor_attributes_title').hide();
+			}
+			else if ( active.tabPanel.attr('data-location') == 'block')
+			{
+				data.dialog.find('#elTemplateEditor_group_title').hide();
+				data.dialog.find('[data-role="group"]').hide();
+			}
+			else if ( active.tabPanel.attr('data-location') == 'database' )
+			{
+				/* Can't move */
+				data.dialog.find('#elTemplateEditor_group_title').hide(); 
+				data.dialog.find('[data-role="group"]').hide();
+				
+				/* Can't rename */
+				data.dialog.find('#elTemplateEditor_title_title').hide(); 
+				data.dialog.find('[data-role="title"]').hide();
+			}
+			else if ( active.tabPanel.attr('data-location') == 'page' )
+			{
+				/* Hide params */
+				data.dialog.find('[data-role="variables"]').show();
+				data.dialog.find('#elTemplateEditor_attributes_title').show();
+				data.dialog.find('select[data-container-type=' + active.tabPanel.attr('data-location') + ']').show();
+			}
+		},
+
+		/**
+		 * Updates the value of the variables field in the tab with the given file ID
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{event} 	e 		Event data object from templates.variablesDialog
+		 * @returns {void}
+		 */
+		updateVariables: function (e, data) {
+			// Find the panel with the correct fileID, and update it's variables value
+
+			this._tabContent
+				.find('[data-fileid="' + data.fileID + '"]')
+					.find('[data-role="variables"]')
+						.val( data.value )
+					.end()
+					.find('[data-role="title"]')
+						.val( data.title )
+					.end()
+					.find('[data-role="description"]')
+						.val( data.description )
+					.end()
+					.find('[data-role="group"]')
+						.val( data.group );
+						
+			this._updateTabLabel( data.fileID, data.title );
+		},
+		
+		/**
+		 * Toggle diff
+		 *
+		 * @returns {void}
+		 */
+		toggleDiff: function () {
+			
+			var self = this;			
+			var active = this._getActiveTab();
+			var panel = active.tabPanel;
+			var key = panel.attr('data-fileid');
+			
+			// Toggle off
+			if ( self._cmInstances[ key ] instanceof CodeMirror.MergeView ) {
+				self.scope.find( '#editor_' + key ).val( this._cmInstances[ key ].edit.doc.getValue() );
+				panel.find('.CodeMirror-merge,.cTemplateMergeHeaders').remove();
+				self._initCodeMirror( key, panel.attr('data-type') );
+			}
+			
+			// Toggle on
+			else {
+				
+				// Get the contents from the current CodeMirror instance and remove it
+				self._cmInstances[ key ].save();
+				panel.find('.CodeMirror').remove();
+				panel.addClass('ipsLoading');
+						
+				// Fire AJAX to get the original content
+				ips.getAjax()( this._normalURL + '&do=diffTemplate', {
+					dataType: 'json',
+					data: this._getParametersFromPanel( panel )
+				})
+					.done( function (response) {
+												
+						// Initiate the merge view
+						self._cmInstances[ key ] = CodeMirror.MergeView( document.getElementById( panel.attr('id') ), {
+							value: self.scope.find( '#editor_' + key ).val(),
+						    origLeft: response,
+							lineWrapping: self._editorPreferences['wrap'],
+							lineNumbers: self._editorPreferences['lines'],
+						    mode: ( panel.attr('data-type') == 'templates' ? 'htmlmixed' : 'css' ),
+						} );
+						panel.removeClass('ipsLoading');
+						
+						// Add headers
+						var headers = $( ips.templates.render( 'templates.editor.pagesDiffHeaders' ) );
+						panel.prepend( headers );
+
+						// Set size
+						var height = self._getTabContentHeight() - panel.find('.cTemplateMergeHeaders').outerHeight();
+						self._cmInstances[ key ].edit.setSize( null, height );
+						self._cmInstances[ key ].left.orig.setSize( null, height );
+						$( self._cmInstances[ key ].left.gap ).css( 'height', height );
+												
+						// Add change handler
+						self._cmInstances[ key ].edit.on( 'change', function (doc, cm) {
+							self._setChanged( true, key );
+						});
+					});
+			}
+		},
+
+		/**
+		 * Saves the contents of the editor
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		save: function (e) {
+			e.preventDefault();
+			var self = this;
+			var active = this._getActiveTab();
+			var panel = active.tabPanel;
+			var key = panel.attr('data-fileid');
+
+			if( !active.tab || !active.tabPanel ){
+				Debug.warn('No active tab or tab panel');
+				return;
+			}
+
+			var save = this._getParametersFromPanel( panel );
+
+			// We call .save() on the CodeMirror instance, which will cause it to update the
+			// contents of the original textbox, unless we're in merge view, when we have to
+			// do that ourselves
+			if ( this._cmInstances[ key ] instanceof CodeMirror.MergeView ) {
+				self.scope.find( '#editor_' + key ).val( this._cmInstances[ key ].edit.doc.getValue() );
+			} else {
+				this._cmInstances[ key ].save();
+			}
+
+			// Add it to the save object
+			save[ 'editor_' + key ] = this.scope.find( '#editor_' + key ).val();
+			
+			// Name
+			_.extend( save, {
+				't_name': panel.find('[data-role="title"]').val()
+			});
+				
+			// Description
+			_.extend( save, {
+				't_description': panel.find('[data-role="description"]').val()
+			});
+			
+			// Group
+			_.extend( save, {
+				't_group': panel.find('input[data-role="group"]').val()
+			});
+
+			// If this is a template, add its variables
+			if( panel.attr('data-location') == 'block' || panel.attr('data-location') == 'database' || panel.attr('data-location') == 'page' ){
+				_.extend( save, {
+					't_variables': panel.find('[data-role="variables"]').val()
+				});
+			}
+
+			// Show loading
+			this.trigger( 'savingFile.templates' );
+
+			// Send it
+			ips.getAjax()( this._normalURL + '&do=save', {
+				dataType: 'json',
+				data: save,
+				type: 'post'
+			})
+				.done( function (response) {
+					if ( response.msg )
+					{
+						ips.ui.alert.show( {
+							type: 'alert',
+							message: response.msg,
+							icon: 'warn'
+						});
+					}
+					else
+					{
+						// Let everyone know
+						self.trigger( 'savedFile.templates', {
+							key: key,
+							oldID: parseInt( panel.attr('data-itemID') ),
+							newID: parseInt( response.template_id ),
+							newTitle: response.template_title,
+							oldContainer: parseInt( panel.attr('data-container') ),
+							newContainer: parseInt( response.template_container ),
+							status: ( response.template_user_added == 1 ) ? 'custom' : 'changed'
+						});
+	
+						// Remove the unsaved status from the tab
+						self._setChanged( false, key );
+	
+						// Update the toolbar
+						self._updateToolbar( active.tab );
+						
+						// Update the tab name
+						self._updateTabLabel( key, response.template_title );
+					}
+				})
+				.fail( function () {
+					ips.ui.alert.show( {
+						type: 'alert',
+						message: ips.getString('saveThemeError'),
+						icon: 'warn'
+					});
+				})
+				.always( function () {
+					self.trigger( 'saveFileFinished.templates' );
+				});
+		},
+
+		/**
+		 * Reverts or deletes a file
+		 * If the bypass parameter is false, this method will confirm the action with the user first
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{boolean} 	bypass	Bypass the user confirmation?
+		 * @returns {void}
+		 */
+		revert: function (e, bypass) {
+			e.preventDefault();
+			var self = this;
+			var active = this._getActiveTab();
+			var panel = active.tabPanel;
+			var key = panel.attr('data-fileid');
+
+			var message = ( $( e.currentTarget ).attr('data-actionType') == 'revert' ) ? 
+					ips.getString('skin_revert_confirm') : ips.getString('skin_delete_confirm');
+
+			if( bypass !== true ){
+				ips.ui.alert.show({
+					type: 'confirm',
+					message: message,
+					icon: 'warn',
+					callbacks: {
+						ok: function () {
+							self.revert( e, true );
+						}
+					}
+				});
+
+				return;
+			}
+
+			var save = this._getParametersFromPanel( panel );
+
+			// Send it
+			ips.getAjax()( this._normalURL + '&do=delete&wasConfirmed=1', {
+				dataType: 'json',
+				data: save,
+				type: 'post'
+			})
+				.done( function (response) {
+					if( response.template_id ){
+						self._revertedFile( response, key, active );
+					} else {
+						self._deletedFile( key, active );
+					}
+				});
+		},
+
+		/**
+		 * Handles updating the editor when a file is reverted
+		 *
+		 * @param 	{object} 	response 	JSON response object from ajax request
+		 * @param	{string} 	key 	 	Key of the file that's been reverted
+		 * @param 	{object} 	active 		Object containing keys 'tab' and 'tabPanel' referencing active items
+		 * @returns {void}
+		 */
+		_revertedFile: function (response, key, active) {
+			// Let the document know
+			this.trigger( 'revertedFile.templates', {
+				key: key,
+				oldID: parseInt( active.tabPanel.attr('data-itemID') ),
+				newID: parseInt( response.template_id ),
+				status: response.InheritedValue
+			});
+
+			// Update the raw textarea
+			$( '#editor_' + key ).val( response.template_content );
+
+			// Update codemirror
+			this._cmInstances[ key ].setValue( response.template_content );
+
+			// Remove the unsaved status from the tab
+			this._setChanged( false, key );
+
+			// Update the toolbar
+			this._updateToolbar( active.tab );
+		},
+
+		/**
+		 * Handles updating the editor when a file is deleted
+		 *
+		 * @param	{string} 	key 	 	Key of the file that's been reverted
+		 * @param 	{object} 	active 		Object containing keys 'tab' and 'tabPanel' referencing active items
+		 * @returns {void}
+		 */
+		_deletedFile: function (key, active) {
+			this.trigger( 'deletedFile.templates', {
+				key: key,
+				fileID: active.tabPanel.attr('data-itemID'),
+				location: active.tabPanel.attr('data-location'),
+				type: active.tabPanel.attr('data-type')
+			});
+
+			// Find close link in the tab
+			active.tab.find('[data-action="closeTab"]').click();
+		},
+
+		/**
+		 * Returns an object of parameters used by the ajax requests
+		 *
+		 * @param	{element} 	panel 	The panel being used as the source
+		 * @returns {object}
+		 */
+		_getParametersFromPanel: function (panel) {
+			return {
+				t_type: panel.attr('data-type'),
+				t_location: panel.attr('data-location'),
+				t_item_id: panel.attr('data-itemID'),
+				t_container: panel.find('input[data-role=container]').val(),
+				t_group: panel.attr('data-group'),
+				t_name: panel.attr('data-name'),
+				t_key: panel.attr('data-fileid')
+			};
+		},
+
+		/**
+		 * A file has been saved or reverted
+		 * Updates the ID of any element with the old ID, and changes the state
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		updateFile: function (e, data) {
+			this.scope
+				.find('[data-itemID="' + data.oldID + '"]')
+					.attr( 'data-itemID', data.newID )
+					.attr( 'data-container', data.newContainer )
+					.attr( 'data-inherited-value', data.status );
+		},
+
+		/**
+		 * Event handler for clicking a close tab button
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		closeTab: function (e) {
+			var tab = $( e.currentTarget ).closest('.ipsTabs_item');
+			this._doCloseTab( tab );
+		},
+
+		/**
+		 * Handles closing a tab.
+		 * We first check if the tab is in an 'unsaved' state, and if so, prompt the user to confirm losing changes.
+		 * We then destroy the codemirror instance, remove the tab and panel, and switch to another open tab.
+		 *
+		 * @param	{element} 	tab 	The tab to be closed
+		 * @param	{boolean} 	bypass 	Whether to bypass the unsaved check
+		 * @returns {void}
+		 */
+		_doCloseTab: function (tab, bypass) {
+			var self = this;
+			var tabParent = tab.closest('[data-fileid]');
+			var key = tabParent.attr('data-fileid');
+			var allTabs = this._tabBar.find('.ipsTabs_item').closest('[data-fileid]');
+			var newTab = null;
+
+			// Check if there's unsaved content
+			if( tabParent.attr('data-state') == 'unsaved' && bypass != true ){
+				ips.ui.alert.show({
+					type: 'confirm',
+					message: ips.getString('themeUnsavedContent'),
+					icon: 'warn',
+					callbacks: {
+						ok: function () {
+							self._doCloseTab( tab, true );
+						}
+					}
+				});
+
+				return;
+			} 
+
+			// Is this tab active?
+			var active = tab.hasClass('ipsTabs_activeItem');
+
+			// Let the document know what we're up to
+			this.trigger( 'closedTab.templates', {
+				fileID: key
+			});
+
+			// Remove the codemirrrrr element & instance
+			delete( this._cmInstances[ key ] );
+
+			// Find the next or prev tab, if this tab is active, and switch to it
+			if( active && allTabs.length > 1 ){
+				if( allTabs.first().attr('data-fileid') == tabParent.attr('data-fileid') ){
+					newTab = tabParent.next();
+				} else {
+					newTab = tabParent.prev();
+				}
+			}
+
+			if( newTab ){
+				newTab.find('> a').click();
+			}
+
+			// Close the tab
+			ips.utils.anim.go('fadeOutDown fast', tabParent)
+				.done( function () {
+					tabParent.remove();
+					self._recalculatePanelWrapper();
+				});
+
+			// Remove the panel
+			this._tabContent.find('[data-fileid="' + key + '"]').remove();
+		},
+
+		/**
+		 * Tab widget has indicated that the user has changed tab
+		 * If there's a file ID, trigger a new event with it, to enable the file listing to highlight it
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		changedTab: function (e, data) {
+			var tab = data.tab;
+
+			if( !_.isUndefined( tab.closest('[data-fileid]').attr('data-fileid') ) ){
+				this.trigger( 'fileSelected.templates', {
+					fileID: tab.closest('[data-fileid]').attr('data-fileid')
+				});
+			}
+
+			this._updateToolbar( tab );
+		},
+
+		/**
+		 * Updates the toolbar buttons
+		 *
+		 * @param	{element} 	tab 	The current tab
+		 * @returns {void}
+		 */
+		_updateToolbar: function (tab) {
+			var tabParent = tab.closest('[data-fileid]').attr('data-fileid');
+			var tabPanel = this._tabContent.find('[data-fileid="' + tabParent + '"]');
+			var status = tabPanel.attr('data-inherited-value');
+			var type   = tabPanel.attr('data-type');
+			var revert = this.scope.find('[data-action="revert"]');
+			var key = tabPanel.attr('data-fileid');
+			
+			switch( status ){
+				case 'original':
+				case 'inherit':
+					revert
+						.addClass('ipsButton_disabled')
+				break;
+				case 'custom':
+					revert
+						.html( ips.getString('skin_delete') )
+						.removeClass('ipsButton_disabled')
+						.attr('data-actionType', 'delete')
+						.show();
+				break;
+				case 'changed':
+					revert
+						.html( ips.getString('skin_delete') )
+						.removeClass('ipsButton_disabled')
+						.attr('data-actionType', 'delete')
+						.show();
+				break;
+			}
+
+			$('#elTemplateEditor_variables').show();
+			$('#elTemplateEditor_attributes').hide();
+			
+			if ( this._cmInstances[ key ] instanceof CodeMirror.MergeView ) {
+				$('[data-ipsmenuvalue="diff"]').addClass('ipsMenu_itemChecked');
+			} else {
+				$('[data-ipsmenuvalue="diff"]').removeClass('ipsMenu_itemChecked');
+			}
+		},
+
+		/**
+		 * Reponds to the openFile event, to open a file
+		 * Either switch to it if already open, or hand off to _buildTab to load it
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		openFile: function (e, data) {
+			// Is this file already open?
+			if( !this._tabBar.find('[data-fileid="' + data.meta.key + '"]').length ){
+				this._buildTab( data.meta );
+			} else {
+				this._tabBar.find('[data-fileid="' + data.meta.key + '"] > a').click();
+			}
+		},
+
+		/**
+		 * Builds a tab for the file with the given metadata
+		 *
+		 * @param	{object} 	meta 	Object of file metadata
+		 * @returns {void}
+		 */
+		_buildTab: function (meta) {
+			var self = this;
+			this._tabContent.attr('data-haseditor', 'true');
+			this.scope.find('#elTemplateEditor_panels_empty').hide();
+
+			// Build the actual tab
+			this._tabBar.append( ips.templates.render('templates.editor.newTab', {
+				title: meta.title,
+				fileid: meta.key,
+				location: meta.location,
+                group: meta.group,
+				container: meta.container,
+				id: 'tab_' + meta.key
+			}));
+
+			// Build the content container
+			this._tabContent.append( ips.templates.render('templates.editor.tabPanel', {
+				fileid: meta.key,
+				name: meta.name,
+				type: meta.type,
+				location: meta.location,
+				container: meta.container,
+				group: meta.group,
+				id: meta.id,
+				inherited: meta.inherited
+			}));
+
+			// We may need to rejig the tab pane wrap to account for wrapped tabs,
+			// so do that now both tab and panel have been added
+			this._recalculatePanelWrapper();
+
+			// Toggle the new tab
+			this._tabBar.find('[data-fileid="' + meta.key + '"] > a').click();
+
+			// Manually set the content area to loading since we aren't using ui.tabbar's load methods
+			this._tabContent.addClass('ipsLoading ipsTabs_loadingContent');
+
+			// Load the content
+			ips.getAjax()( this._ajaxURL + '&do=loadTemplate&show=json', {
+				dataType: 'json',
+				data: { 
+					't_container': meta.container,
+					't_group':     meta.group,
+					't_name':      meta.name,
+					't_key':       meta.key,
+					't_location':  meta.location,
+					't_type':	   meta.type
+				}
+			})
+				.done( function (response) {
+					self._postProcessNewTab( response, meta );
+				})
+				.always( function () {
+					self._tabContent.removeClass('ipsLoading ipsTabs_loadingContent');
+				});
+		},
+		
+		/**
+		 * Update the tab label
+		 *
+		 * @param	{string}	key		File key (block__foo)
+		 * @param	{string}	title	Label Title (Foo)
+		 * @return	{void}
+		 */
+		_updateTabLabel: function( key, title )
+		{
+			var span = this._tabBar.find('[data-fileid="' + key + '"] > a span').clone();
+			
+			this._tabBar.find('[data-fileid="' + key + '"] > a').html( title ).append( span );
+		},
+		
+		/**
+		 * Once tab content has been returned by ajax, this method builds the content of a tab,
+		 * and initializes codemirrior for syntax highlighting
+		 *
+		 * @param	{object} 	response  	Response JSON object from ajax request
+		 * @param 	{object} 	meta 		Object of meta data for the tab being created
+		 * @returns {void}
+		 */
+		_postProcessNewTab: function (response, meta) {
+			var content = ips.templates.render('templates.editor.tabContent', {
+				fileid: meta.key,
+				content: response.template_content,
+				variables: response.template_params,
+				description: response.template_desc,
+				title: response.template_title,
+				container: response.template_container,
+                group: response.template_group
+			});
+
+			this._tabContent.find('[data-fileid="' + meta.key + '"]').html( content );
+			this._initCodeMirror( meta.key, meta.type );
+		},
+
+		/**
+		 * Initializes CodeMirror on a textarea with the provided key
+		 *
+		 * @param 	{string}	key 	Key of the textarea to be turned into codemirrior
+		 * @returns {void}
+		 */
+		_initCodeMirror: function (key, type) {
+			var self = this;
+
+			this._cmInstances[ key ] = CodeMirror.fromTextArea( document.getElementById('editor_' + key ), { 
+				mode: (type == 'template' ? 'htmlmixed' : 'css'),
+				lineWrapping: this._editorPreferences['wrap'],
+				lineNumbers: this._editorPreferences['lines']
+			} );
+			this._cmInstances[ key ].setSize( null, this._getTabContentHeight() );
+
+			this._cmInstances[ key ].on( 'change', function (doc, cm) {
+				self._setChanged( true, key );
+			});
+		},
+
+		/**
+		 * Sets a tab to 'unsaved' state
+		 *
+		 * @returns {void}
+		 */
+		_setChanged: function (state, key) {
+
+			if( state == true ){
+				// Update 'x' in tab to an unsaved version, then set state on the tab
+				this._tabBar
+					.find('[data-fileid="' + key + '"]')
+						.attr('data-state', 'unsaved')
+						.find('[data-action="closeTab"]')
+							.html( ips.templates.render('templates.editor.unsaved') );
+			} else {
+				this._tabBar
+					.find('[data-fileid="' + key + '"]')
+						.attr('data-state', 'saved')
+						.find('[data-action="closeTab"]')
+							.html( ips.templates.render('templates.editor.saved') );
+			}
+		},
+
+		/**
+		 * Calculates whether the tab bar has wrapped, and if so, resizes the panel wrapper and updates
+		 * CodeMirror instances with the new height
+		 *
+		 * @returns {void}
+		 */
+		_recalculatePanelWrapper: function () {
+			// Get height of the tab bar
+			var tabHeight = this._tabBar.outerHeight();
+
+			// Set the top value of the panel
+			this._tabContent.css( { top: tabHeight + 'px' } );
+
+			// Get the height of it
+			var contentHeight = this._getTabContentHeight();
+
+			if ( this._tabContent.find('.cTemplateMergeHeaders').length )
+			{
+				/* We are viewing a diff, so we need to account for this bar too */
+				contentHeight -= this._tabContent.find('.cTemplateMergeHeaders').outerHeight();
+			}
+
+			// Find all codemirror instances and resize those
+			this._tabContent.find('.CodeMirror').css( { height: contentHeight + 'px' } );
+
+			// .. and any merge gap bars so they don't overrun
+			this._tabContent.find('.CodeMirror-merge-gap').css( { height: contentHeight + 'px' } );
+
+			this._currentHeight = tabHeight;
+		},
+
+		/**
+		 * Returns references to both the active tab and the active tab panel
+		 *
+		 * @returns {object} 	Contains keys 'tab' and 'tabPanel', which are jQuery objects
+		 */
+		_getActiveTab: function () {
+			var toReturn = {
+				tab: null,
+				tabPanel: null
+			};
+
+			var tab = this._tabBar.find('.ipsTabs_item.ipsTabs_activeItem').first().parent();
+
+			if( !tab.length ){
+				return toReturn;
+			}
+
+			// Get the associated panel
+			toReturn = {
+				tab: tab,
+				tabPanel: this._tabContent.find('[data-fileid="' + tab.attr('data-fileid') + '"]')
+			};
+
+			return toReturn;
+		},
+
+		/**
+		 * Returns the current height of the tab panel wrapper
+		 *
+		 * @returns {number}
+		 */
+		_getTabContentHeight: function () {
+			var tabContentTop = this._tabContent.offset().top;
+			var windowHeight = $( window ).height();
+			var infoHeight = $('#elTemplateEditor_info').outerHeight();
+
+			this._panelHeight = windowHeight - tabContentTop - infoHeight;
+			return this._panelHeight;
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.fileList.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.fileList.js - Templates: controller for the file listing component of the template manager
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.templates.fileList', {
+
+		_tabBar: null,
+		_tabContent: null,
+
+		initialize: function () {
+			// Events started here			
+			this.on( 'click', '[data-action="openFile"]', this.openFile );
+			this.on( 'click', '[data-action="toggleBranch"]', this.toggleBranch );
+			this.on( 'modifiedFile.templates', this.refreshFileList );
+			
+			// Events coming from elsewhere
+			this.on( document, 'fileSelected.templates', this.selectFile );
+			this.on( document, 'savedFile.templates revertedFile.templates', this.updateItemMeta );
+			this.on( document, 'savedFile.templates revertedFile.templates', this.fileChangedStatus );
+
+			this.on( document, 'addedFile.templates', this.refreshFileList );
+			this.on( document, 'deletedFile.templates', this.refreshFileList );
+			
+			var debounce = _.debounce( _.bind( this.resizeFileList, this ), 100 );
+			this.on( window, 'resize', debounce );
+
+			// Other setup
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			this._tabBar = this.scope.find('#elTemplateEditor_typeTabs');
+			this._tabContent = this.scope.find('#elTemplateEditor_fileList');
+			this.resizeFileList();
+		},
+
+		/**
+		 * Resizes the file list to full height
+		 *
+		 * @returns {void}
+		 */
+		resizeFileList: function () {
+			// Get height of parts we want to exclude
+			var fileListTop = this._tabContent.offset().top;
+			var infoHeight = $('#elTemplateEditor_info').height();
+			var newButtonHeight = this.scope.find('#elTemplateEditor_newButton').outerHeight();
+			var browserHeight = $( window ).height();
+
+			var fileListNewTop = browserHeight - fileListTop - infoHeight - newButtonHeight;
+
+			this._tabContent.css({
+				height: fileListNewTop + 'px'
+			});
+		},
+		
+		/**
+		 * Something has changed in the file list, so we refresh it and try and remember
+		 * the position we were at. If a new file ID is provided, we'll also select it.
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		refreshFileList: function (e, data) {
+			var self = this;
+			var type = data.type;
+			var panel = this._tabContent.find('.cTemplateList[data-type="' + type + '"]');
+			var activeItem = panel.find('.cTemplateList_activeNode > a').attr('data-key');
+
+			// If the panel isn't actually open, we'll just show it
+			if( !panel.length ){
+				this._tabBar.find('[data-type="' + type + '"]').click();
+			} else {
+				var open = this._getOpenNodes( panel );
+
+				// Now fetch the new list
+				var url = this._tabBar.find('[data-type]').attr('data-tabURL');
+
+				ips.getAjax()( url )
+					.done( function (response) {
+						panel.html( response );
+
+						// Now reopen all the nodes
+						self._openNodes( open, panel, activeItem );
+
+						if( data.fileID ){
+							// Click it
+							panel.find('[data-itemid="' + data.fileID + '"]').click();
+						}
+
+						// Let everyone know
+						self.trigger('fileListRefreshed.templates');
+					});	
+			}
+		},
+
+		/**
+		 * Opens the nodes provided in the toOpen param
+		 *
+		 * @param	{object} 	toOpen 		Object of nodes to open, containing three keys: apps, locations, groups
+		 * @returns {void}
+		 */
+		_openNodes: function (toOpen, panel, activeItem) {
+
+			var selector = [];
+
+			// Get the locations
+			if( toOpen.locations.length ){	
+				for( var i = 0; i < toOpen.locations.length; i++ ){
+					selector.push('[data-location="' + toOpen.locations[i] + '"]');
+				}
+			}
+
+			// Get groups
+			if( toOpen.groups.length ){
+				for( var i = 0; i < toOpen.groups.length; i++ ){
+					var str = '[data-location="' + toOpen.groups[i][0] + '"] ';
+						str += '[data-group="' + toOpen.groups[i][1] + '"]';
+
+					selector.push( str );
+				}
+			}
+
+			// Now close all branches, then reopen the ones matching our selector
+			panel
+				.find('.cTemplateList_activeBranch')
+					.removeClass('cTemplateList_activeBranch')
+					.addClass('cTemplateList_inactiveBranch')
+				.end()
+				.find( selector.join(',') )
+					.removeClass('cTemplateList_inactiveBranch')
+					.addClass('cTemplateList_activeBranch');
+
+			// Anything to make active?
+			if( activeItem ){
+				panel
+					.find('[data-key="' + activeItem + '"]')
+						.click();
+			}
+		},
+
+		/**
+		 * Returns an object containing the open nodes in the provided panel
+		 *
+		 * @param	{element} 	panel 	Panel element to fetch from
+		 * @returns {object}	Three array keys: apps, locations, groups
+		 */
+		_getOpenNodes: function (panel) {
+			var locations = [];
+			var groups = [];
+
+			// Fetch all open nodes
+			panel.find('.cTemplateList_activeBranch').each( function (i, item) {
+				var el = $( item );
+
+				if( el.attr('data-location') ){
+					locations.push( el.attr('data-location') );
+				}
+
+				if( el.attr('data-group') ){
+					groups.push( [ 	
+						el.closest('[data-location]').attr('data-location'), 
+						el.attr('data-group')
+					]);
+				}
+			});
+
+			return {
+				locations: locations,
+				groups: groups
+			};
+		},
+
+		/**
+		 * The editor controller has indicated that a file tab has been selected
+		 * We respond to this event by highlighting the file in the list
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		selectFile: function (e, data) {
+			if( data.fileID ){
+				this._makeActive( data.fileID );
+			}
+		},
+
+		/**
+		 * Event handler for clicking a file node in the listing.
+		 * Gather metadata from the file, then trigger an event so that the editor controller
+		 * can load it.
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		openFile: function (e) {
+			e.preventDefault();
+			var elem = $( e.currentTarget );
+
+			// Get meta data for this file
+			var meta = {
+				name: elem.attr('data-name'),
+				key: elem.attr('data-key'),
+				type: elem.closest('[data-type]').attr('data-type'),
+				title: elem.text(),
+				group: elem.closest('[data-group]').attr('data-group'),
+				location: elem.closest('[data-location]').attr('data-location'),
+				id: elem.closest('[data-itemID]').attr('data-itemID'),
+				inherited: elem.closest('[data-inherited-value]').attr('data-inherited-value')
+			};
+
+			Debug.log( meta );
+
+			this.trigger( 'openFile.templates', {
+				meta: meta
+			});
+		},
+
+		/**
+		 * Event handler for clicking a branch in the listing.
+		 * Expends or collapses the branch
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleBranch: function (e) {
+			e.preventDefault();
+			var branchTrigger = $( e.currentTarget );
+			var branchItem = branchTrigger.parent();
+
+			if( branchItem.hasClass('cTemplateList_inactiveBranch') ){
+				ips.utils.anim.go( 'fadeInDown', branchItem.find(' > ul') );
+
+				branchItem
+					.removeClass('cTemplateList_inactiveBranch')
+					.addClass('cTemplateList_activeBranch');
+			} else {
+				branchItem.find(' > ul').hide();
+
+				branchItem
+					.removeClass('cTemplateList_activeBranch')
+					.addClass('cTemplateList_inactiveBranch');
+			}
+		},
+
+		/**
+		 * Updates the ID of any element with the old ID
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		updateItemMeta: function (e, data) {
+			if( data.oldID != data.newID ){
+				this.scope
+					.find('[data-itemID="' + data.oldID + '"]')
+						.attr( 'data-itemID', data.newID );
+			}
+			
+			/* Update name */
+			this.scope
+					.find('[data-itemID="' + data.newID + '"]')
+						.attr( 'data-name', data.newTitle )
+						.html( data.newTitle );
+						
+			/* Update container */
+			if ( data.oldContainer != data.newContainer )
+			{
+				data.fileID = data.newID;
+			
+				// Let everyone know
+				this.trigger( 'modifiedFile.templates', data );
+			}
+		},
+
+		/**
+		 * A file's status has changed, so we update it with the new status
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		fileChangedStatus: function (e, data) {
+			this.scope
+				.find('[data-key="' + data.key + '"]')
+					.attr( 'data-inherited-value', data.status );
+		},
+
+		/**
+		 * Finds the provided fileID in the list, highlights it and opens all branches to it
+		 *
+		 * @param	{string} 	fileID 		fileID of node to higlight
+		 * @returns {void}
+		 */
+		_makeActive: function (fileID) {
+			// Find the file entry
+			var file = this.scope.find('[data-key="' + fileID +'"]');
+
+			// Make all others inactive
+			this.scope.find('[data-key]').parent().removeClass('cTemplateList_activeNode');
+
+			// Make this one active
+			file.parent().addClass('cTemplateList_activeNode');
+
+			// Get all parent nodes, and show them
+			file.parents('li[data-group], li[data-location]').each( function (idx, parent) {
+				if( $( parent ).hasClass('cTemplateList_inactiveBranch') ){
+					$( parent )
+						.removeClass('cTemplateList_inactiveBranch')
+						.addClass('cTemplateList_activeBranch')
+						.find('> ul')
+							.show();
+				}
+			});
+		},
+		
+		/**
+		 * Returns the currently-selected type being shown (templates or css)
+		 *
+		 * @returns {string}
+		 */
+		_currentType: function () {
+			if( this._tabBar.find('[data-type="template"]').hasClass('ipsTabs_activeItem') ){
+				return 'template';
+			}
+			if( this._tabBar.find('[data-type="js"]').hasClass('ipsTabs_activeItem') ){
+				return 'js';
+			} 
+			
+			return 'css';
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.main.js - Templates: Parent controller for the template editor
+ * Simply manages showing the loading thingy based on events coming from within
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('cms.admin.templates.main', {
+		
+		_timer: null,
+		_textField: null,
+		_lastValue: '',
+		_ajax: null,
+		
+		initialize: function () {
+			this._textField = $(this.scope).find('[data-role="templateSearch"]');
+			this.on( document, 'focus', '[data-role="templateSearch"]', this.fieldFocus );
+			this.on( document, 'blur', '[data-role="templateSearch"]', this.fieldBlur );
+			this.on( 'menuItemSelected', this.menuSelected );
+			
+			this.on( 'savingFile.templates', this.showLoading );
+			this.on( 'saveFileFinished.templates', this.hideLoading );
+		},
+
+		/**
+		 * Shows the loading thingy
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		showLoading: function (e) {
+			ips.utils.anim.go( 'fadeIn', this.scope.find('[data-role="loading"]') );
+		},
+
+		/**
+		 * Hides the loading thingy
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		hideLoading: function (e) {
+			ips.utils.anim.go( 'fadeOut', this.scope.find('[data-role="loading"]') );
+		},
+		
+		/**
+		 * Event handler for focusing in the search box
+		 * Set a timer going that will watch for value changes. If there's already a value,
+		 * we'll show the results immediately
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		fieldFocus: function (e) {
+			this._timer = setInterval( _.bind( this._timerFocus, this ), 700 );
+		},
+
+		/**
+		 * Event handler for field blur
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		fieldBlur: function (e) {
+			clearInterval( this._timer );
+		},
+		
+		/**
+		 * Timer callback from this.fieldFocus
+		 * Compares current value to previous value, and shows/loads new results if it's changed
+		 *
+		 * @returns {void}
+		 */
+		_timerFocus: function () {
+			var currentValue = this._textField.val();
+			
+			if( currentValue == this._lastValue ){
+				return;
+			}
+
+			this._lastValue = currentValue;
+			
+			this._loadResults();
+		},
+		
+		/**
+		 * Event when tab is changed
+		 *
+		 * @returns {void}
+		 */
+		_swapTab: function (e,data) {
+			if ( data.barID == 'elTemplateEditor_typeTabs' ) {
+				this._loadResults();
+			}
+		},
+		
+		/**
+		 * Event handler for the filter menu
+		 *
+		 * @param	{event} 	e		Event object
+		 * @param	{object} 	data	Event data object
+		 * @returns {void}
+		 */
+		menuSelected: function (e, data) {
+			if( data.originalEvent ){
+				data.originalEvent.preventDefault();
+			}			
+			
+			this._loadResults();
+		},
+		
+		/**
+		 * Load results from the server
+		 *
+		 * @returns {void}
+		 */
+		_loadResults: function () {			
+			if( this._ajax ){
+				this._ajax.abort();
+			}
+			
+			if ( this._lastValue ) {
+				this._textField.addClass('ipsField_loading');
+			}
+
+			var type = $('#elTemplateEditor_typeTabs').find('.ipsTabs_activeItem').attr('data-type');
+			var type = ( type == 'templates' ) ? 'template' : type; // Because it's fun to be inconsistent, the database 'type' is 'template' yet in templates we use 'templates' - thanks past Matt
+
+			$('#elTemplateEditor_fileList').find('li[data-type=' + type + ']').addClass('ipsHide');
+			
+			var filters = [];
+			$('#elTemplateFilterMenu_menu .ipsMenu_itemChecked').each(function(){
+				filters.push( $(this).attr('data-ipsMenuValue') );
+			});
+
+			var self = this;
+			this._ajax = ips.getAjax()( $(this.scope).attr('data-ajaxURL') + '&do=searchtemplates&type=' + type + '&term=' + encodeURIComponent( this._lastValue ) + '&filters=' + filters.join(',') ).done(function(response){
+				var i;
+				
+				var j;
+				for ( j in response )
+				{
+					$('#elTemplateEditor_fileList').find('[data-location="' + j + '"]').removeClass('ipsHide');
+					var k;
+					for ( k in response[j] )
+					{
+						$('#elTemplateEditor_fileList').find('[data-location="' + j + '"] [data-group="' + k + '"]').removeClass('ipsHide');
+						var l;
+						for ( l in response[j][k] )
+						{
+							if( k == '.' ){
+								$('#elTemplateEditor_fileList').find('[data-location="' + j + '"] [data-name="' + response[j][k][l] + '"]').parent().removeClass('ipsHide');
+							} else {
+								$('#elTemplateEditor_fileList').find('[data-location="' + j + '"] [data-group="' + k + '"] [data-name="' + response[j][k][l] + '"]').parent().removeClass('ipsHide');
+							}								
+						}
+					}
+				}
+				
+				self._textField.removeClass('ipsField_loading');
+			});
+		}
+
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="controllers/templates" javascript_name="ips.templates.variablesDialog.js" javascript_type="controller" javascript_version="107704" javascript_position="1000300">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.templates.variablesDialog.js - Controller for the variables dialog
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('cms.admin.templates.variablesDialog', {
+
+		initialize: function () {
+			this.on( 'click', 'input[type=&quot;submit&quot;]', this.submitChange );
+		},
+
+		/**
+		 * Event handler called when the submit button within the dialog is clicked
+		 * Fires an event that the editor controller can respond to
+		 *
+		 * @param	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		submitChange: function (e) {
+
+			var key = this.scope.find('[name=&quot;_variables_fileid&quot;]').val();
+			$('[data-fileid=&quot;' + key + '&quot;]')
+				.attr('data-state', 'unsaved')
+				.find('[data-action=&quot;closeTab&quot;]')
+				.html( ips.templates.render('templates.editor.unsaved') );
+
+			this.trigger( 'variablesUpdated.templates', {
+				fileID: this.scope.find('[name=&quot;_variables_fileid&quot;]').val(),
+				value: this.scope.find('[data-role=&quot;variables&quot;]').val(),
+				title: this.scope.find('[data-role=&quot;title&quot;]').val(),
+				description: this.scope.find('[data-role=&quot;description&quot;]').val(),
+				container: this.scope.find('[data-role=&quot;container&quot;]').val(),
+				group: this.scope.find('[data-role=&quot;group&quot;]:not(.ipsHide)').val()
+			});
+
+			this.trigger( 'closeDialog' );
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="mixins" javascript_name="ips.cms.builder.area.js" javascript_type="mixins" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.cms.builder.area.js - Front-end mixin for tables 
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.mixin('builder.area', 'core.front.widgets.area', true, function () {
+		
+		_pageID: null;
+		
+		/**
+		 * After init, init
+		 *
+		 * @returns {void}
+		 */
+		this.after('setup', function () {
+			if( ! $('.cWidgetContainer').length ) {
+				$('[data-action="openSidebar"]').hide();
+			}
+		});
+		
+		/**
+		 * Updates the ordering of widgets in this area
+		 *
+		 * @returns {void}
+		 */
+		this.updateOrdering = function (without) {
+			var body = $('body');
+			var order = this.scope.find('> ul').sortable('toArray', {
+				attribute: 'data-blockID'
+			});
+
+			order = ( without ) ? _.without( _.uniq( order ), without ) : _.uniq( order );
+
+			// Remove hidden blocks as these should not be stored
+			var self = this;
+			_.each( order, function( value, key )
+			{
+				if ( self.scope.find('li[data-blockID=' + value + ']').attr('data-hidden') == 'true' )
+				{
+					order = _.without( order, value );
+				}
+			} );
+
+			ips.getAjax()( ips.getSetting('baseURL') + 'index.php?app=cms&module=pages&controller=builder&do=saveOrder&orientation='  + this._orientation, {
+				method: 'POST',
+				data: {
+					order: order,
+					pageID: $('#elCmsPageWrap').attr('data-pageid'),
+					area: this._areaID,
+					exclude: _.isString(without) ? without : ''
+				}
+			})
+				.fail( function () {
+					ips.ui.alert.show( {
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('sidebarError'),
+						callbacks: {}
+					});
+				});
+		};
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="mixins" javascript_name="ips.cms.builder.block.js" javascript_type="mixins" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.cms.builder.block.js - Front-end mixin for CMS sidebar 
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.mixin('builder.block', 'core.front.widgets.block', true, function () {
+		
+		/**
+		 * When the menu is opened, we need to load the form into it
+		 *
+		 * @returns {void}
+		 */
+		this.menuOpened = function (e, data) {
+			/* Don't override menus inside the block */
+			if ( ! this.scope.closest('[data-widgetArea]').hasClass('cWidgetContainer_managing') )
+			{
+				return;
+			}
+			
+			var body = $('body');
+			var area = this.scope.closest('[data-widgetArea]').attr('data-widgetArea');
+			var block = this._blockID;
+			var self = this;
+			var managerBlock = $('[data-role="availableBlocks"] [data-blockID="' + this._getBlockIDWithoutUniqueKey( this._blockID ) + '"]');
+			var menuStyle = managerBlock.attr('data-menuStyle');
+		
+			if ( menuStyle == 'modal' )
+			{
+				var dialogRef = ips.ui.dialog.create({
+					title: managerBlock.find('h4').html(),
+					url: ips.getSetting('baseURL') + 'index.php?app=cms&module=pages&controller=builder&do=getConfiguration&block=' + block + '&pageID=' + $('#elCmsPageWrap').attr('data-pageid') + '&pageArea=' + area,
+					forceReload: true,
+					remoteSubmit: true
+				});
+					
+				dialogRef.show();
+				Debug.log( dialogRef );
+				$('#' + dialogRef.dialogID ).css( "height", "1000px");
+				this._modalOpen = block;
+			}
+			else
+			{
+				data.menu.html( $('<div/>').addClass('ipsLoading').css({ height: '100px' }) );
+				
+				setTimeout( function () {
+					ips.getAjax()( ips.getSetting('baseURL') + 'index.php?app=cms&module=pages&controller=builder&do=getConfiguration', {
+						data: {
+							block: block,
+							pageID: $('#elCmsPageWrap').attr('data-pageid'),
+							pageArea: area
+						}
+					} )
+					.done( function (response) {
+						data.menu
+							.html( response )
+							.find('form')
+							.on( 'submit', _.bind( self._configurationForm, self, data.menu ) );
+
+						$( document ).trigger('contentChange', [ data.menu ] );
+					});
+				}, 1000);
+			}
+		};
+		
+		/**
+		 * Event handler/method that reloads the entire contents of this widget
+		 *
+		 * @returns {void}
+		 */
+		this.reloadContent = function () {
+			var self = this;
+
+			this._setLoading( true );
+
+			// Get content
+			if( this._ajaxObj && this._ajaxObj.abort ){
+				this._ajaxObj.abort();
+			}
+			
+			var body = $('body');
+			var url = ips.getSetting('baseURL') + 'index.php?app=cms&module=pages&controller=builder&do=getBlock&blockID=' + this._blockID + '&pageID=' + $('#elCmsPageWrap').attr('data-pageid') + '&orientation=' + this._orientation;
+
+			this._ajaxObj = ips.getAjax()( url )
+				.done( function (response) {
+					self.scope.hide().html( response );
+
+					ips.utils.anim.go('fadeIn', self.scope);
+
+					self.trigger('loadedWidget.widgets', {
+						blockID: self._blockID
+					});
+				})
+				.fail( function () {
+					self.scope.html('Error');
+				})
+				.always( function () {
+					self._setLoading( false );
+				});
+		};
+			
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="cms" javascript_location="front" javascript_path="mixins" javascript_name="ips.cms.comment.js" javascript_type="mixins" javascript_version="107704" javascript_position="1000150">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.cms.comment.js - Front-end mixin for comments
+ *
+ * Author: Matt Mecham
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.mixin('comment', 'core.front.core.comment', true, function () {
+		/**
+		 * Switch off table loading after results are fetched
+		 *
+		 * @returns {void}
+		 */
+		this.after('saveEditCommentDone', function () {
+			this.scope
+				.find('[data-role=&quot;commentContent&quot;]')
+				.addClass('sm:ipsPadding_vertical:half')
+				.addClass('ipsPadding_vertical')
+				.addClass('ipsPadding_horizontal')
+				.removeClass('ipsPadding_bottom')
+		});
+	});
+}(jQuery, _));</file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="templates" javascript_name="ips.templates.media.js" javascript_type="template" javascript_version="107704" javascript_position="1000300"><![CDATA[ips.templates.set( 'templates.media.grid', "\
+	<ul class='ipsGrid' data-ipsGrid data-ipsGrid-minItemSize='100' data-ipsGrid-maxItemSize='200'>\
+		{{{contents}}}\
+	</ul>\
+");
+
+ips.templates.set( 'templates.media.noItems', "\
+	<div class='ipsType_center ipsType_large ipsType_light ipsPad_double'>\
+		{{#lang}}mediaEmptyFolder{{/lang}}\
+	</div>\
+");
+
+ips.templates.set( 'templates.media.noSearchResults', "\
+	<div class='ipsType_center ipsType_large ipsType_light ipsPad_double'>\
+		{{#lang}}mediaNoResults{{/lang}}\
+	</div>\
+");]]></file>
+ <file javascript_app="cms" javascript_location="admin" javascript_path="templates" javascript_name="ips.templates.templates.js" javascript_type="template" javascript_version="107704" javascript_position="1000300"><![CDATA[/* TEMPLATE EDITOR TEMPLATES */
+/* TEMPLATECEPTION */
+ips.templates.set('templates.editor.newTab', " \
+	<li data-fileid='{{fileid}}' data-location='{{location}}'>\
+		<a href='#' class='ipsTabs_item' id='{{id}}'>{{title}} <span data-action='closeTab'><i class='fa fa-times'></i></span></a>\
+	</li>\
+");
+
+ips.templates.set('templates.editor.tabPanel', " \
+	<div data-fileid='{{fileid}}' id='ipsTabs_elTemplateEditor_tabbar_tab_{{fileid}}_panel' class='ipsTabs_panel' style='display: none' data-location='{{location}}' data-type='{{type}}' data-group='{{group}}' data-name='{{name}}' data-type='{{type}}' data-itemID='{{id}}' data-inherited-value='{{inherited}}'>\
+		{{{content}}}\
+	</div>\
+");
+
+ips.templates.set('templates.editor.tabContent', " \
+	<input data-role='group' type='hidden' name='group_{{fileid}}' value=\"{{{group}}}\">\
+	<input data-role='variables' type='hidden' name='variables_{{fileid}}' value=\"{{{variables}}}\">\
+	<input data-role='title' type='hidden' name='title_{{fileid}}' value=\"{{{title}}}\">\
+	<input data-role='description' type='hidden' name='description_{{fileid}}' value=\"{{{description}}}\">\
+	<textarea data-fileid='{{fileid}}' id='editor_{{fileid}}'>{{{content}}}</textarea>\
+");
+
+ips.templates.set('templates.editor.unsaved', " \
+	<i class='fa fa-circle'></i>\
+");
+
+ips.templates.set('templates.editor.saved', " \
+	<i class='fa fa-times'></i>\
+");
+
+ips.templates.set('templates.editor.pagesDiffHeaders', " \
+<div class='cTemplateMergeHeaders ipsAreaBackground_light'>\
+	<div class='cTemplateMergeHeader'>\
+		<div class='ipsPad_half'><strong>{{#lang}}theme_diff_original_header{{/lang}}</strong> <span class='ipsType_small ipsType_light'>{{#lang}}theme_diff_original_desc{{/lang}}</span></div>\
+	</div>\
+	<div class='cTemplateMergeHeader ipsPos_right'>\
+		<div class='ipsPad_half'><strong>{{#lang}}theme_diff_custom_header{{/lang}}</strong> <span class='ipsType_small ipsType_light'>{{#lang}}theme_diff_custom_desc{{/lang}}</span></div>\
+	</div>\
+</div>\
+");]]></file>
+ <order app="global" path="/dev/js//framework/">templates
+common/ips.loader.js
+common/ui
+common/utils
+common
+controllers</order>
+ <order app="global" path="/dev/js//library/">underscore
+jquery
+mustache
+Debug.js
+app.js</order>
+ <order app="global" path="/dev/js//library//jquery">jquery.js
+jquery-migrate.js
+jquery.history.js
+jquery.transform.js</order>
+ <order app="global" path="/dev/js//library//linkify">linkify.min.js
+linkify-jquery.min.js</order>
+</javascript>

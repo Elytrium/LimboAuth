@@ -1,0 +1,9 @@
+{
+    "added": [],
+    "edited": [
+        "app=core&module=settings&controller=advanced&tab=settings&searchResult=form_clickjackprevention"
+    ],
+    "removed": [
+        "app=core&module=membersettings&controller=profiles&tab=profilesettings&searchResult=form_photos_url"
+    ]
+}

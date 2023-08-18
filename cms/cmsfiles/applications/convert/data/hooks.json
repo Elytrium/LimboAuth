@@ -1,0 +1,18 @@
+{
+    "LoginHandler": {
+        "type": "C",
+        "class": "\\IPS\\Login\\Handler"
+    },
+    "LegacyParser": {
+        "type": "C",
+        "class": "\\IPS\\Text\\LegacyParser"
+    },
+    "Db": {
+        "type": "C",
+        "class": "\\IPS\\Db"
+    },
+    "FrontDispatcher": {
+        "type": "C",
+        "class": "\\IPS\\Dispatcher\\Front"
+    }
+}

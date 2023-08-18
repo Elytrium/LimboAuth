@@ -1,0 +1,41 @@
+{
+    "app=cms&module=databases&controller=databases": {
+        "lang_key": "menu__cms_databases_databases",
+        "restriction": "databases_manage",
+        "keywords": [
+            "database",
+            "databases"
+        ]
+    },
+    "app=cms&module=pages&controller=blocks": {
+        "lang_key": "menu__cms_pages_blocks",
+        "restriction": "block_manage",
+        "keywords": [
+            "blocks"
+        ]
+    },
+    "app=cms&module=pages&controller=media": {
+        "lang_key": "menu__cms_pages_media",
+        "restriction": "media_manage",
+        "keywords": [
+            "media",
+            "media manager"
+        ]
+    },
+    "app=cms&module=pages&controller=pages": {
+        "lang_key": "menu__cms_pages_pages",
+        "restriction": "page_manage",
+        "keywords": [
+            "add page",
+            "articles",
+            "pages"
+        ]
+    },
+    "app=cms&module=pages&controller=templates": {
+        "lang_key": "menu__cms_pages_templates",
+        "restriction": "template_manage",
+        "keywords": [
+            "templates"
+        ]
+    }
+}

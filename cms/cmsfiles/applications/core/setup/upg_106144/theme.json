@@ -1,0 +1,35 @@
+{
+    "html": {
+        "added": [
+            "front\/modcp\/reportTableDescription"
+        ],
+        "edited": [
+            "admin\/achievements\/rebuildProgress",
+            "admin\/api\/zapier",
+            "admin\/applications\/appRowDescription",
+            "front\/clubs\/members",
+            "admin\/marketplace\/fileCard",
+            "admin\/marketplace\/fileCardMini",
+            "admin\/marketplace\/fileView",
+            "front\/profile\/userReputation",
+            "front\/sharelinks\/facebook",
+            "admin\/system\/upgradeManagedContactUs",
+            "front\/widgets\/activeUsers"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/core\/forms.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [
+            "admin\/machine.png"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

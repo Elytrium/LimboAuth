@@ -1,0 +1,15 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/front\/controllers\/core\/ips.core.navBar.js",
+            "core\/admin\/controllers\/templates\/ips.templates.fileEditor.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

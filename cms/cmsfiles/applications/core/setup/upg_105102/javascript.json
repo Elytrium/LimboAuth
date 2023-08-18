@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.flashMsg.js",
+            "core\/admin\/controllers\/core\/ips.core.changeTheme.js",
+            "core\/front\/controllers\/streams\/ips.streams.results.js",
+            "core\/front\/controllers\/vse\/ips.vse.main.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

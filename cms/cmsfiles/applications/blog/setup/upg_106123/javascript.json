@@ -1,0 +1,22 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "blog\/front\/controllers\/browse\/ips.browse.grid.js",
+            "blog\/front\/controllers\/browse\/ips.browse.list.js",
+            "blog\/front\/controllers\/view\/ips.view.manageCategories.js",
+            "blog\/front\/templates\/ips.templates.view.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "removed": []
+    }
+}

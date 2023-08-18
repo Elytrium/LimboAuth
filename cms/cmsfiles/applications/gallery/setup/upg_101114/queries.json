@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "gallery_categories",
+            {
+                "category_sort_options": "album_last_img_date"
+            },
+            [
+                "category_sort_options=?",
+                "updated"
+            ]
+        ]
+    }
+}

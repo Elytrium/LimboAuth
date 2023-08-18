@@ -1,0 +1,26 @@
+{
+    "admin": {
+        "pages": {
+            "default_controller": "pages",
+            "protected": 0,
+            "default": 1
+        },
+        "databases": {
+            "default_controller": "databases",
+            "protected": 0,
+            "default": 0
+        }
+    },
+    "front": {
+        "pages": {
+            "default_controller": "page",
+            "protected": 0,
+            "default": 1
+        },
+        "database": {
+            "default_controller": "index",
+            "protected": 0,
+            "default": 0
+        }
+    }
+}

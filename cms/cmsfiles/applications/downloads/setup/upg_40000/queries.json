@@ -1,0 +1,1217 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_comments",
+            "comment_text"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_name"
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_desc"
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cbitoptions",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Bitwise options",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctypes",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of allowed file extensions or NULL for no restriction.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "csortorder",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "submitted DESC",
+                "comment": "The default sort order",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "csortorder",
+            {
+                "name": "csortorder",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "updated DESC",
+                "comment": "The default sort order",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "maxfile",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "512000",
+                "comment": "Maximum file size",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cmaxss",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "512",
+                "comment": "Maximum screenshot size",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "maxfile",
+            {
+                "name": "cmaxfile",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "512000",
+                "comment": "Maximum file size",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "cmaxfile",
+            {
+                "name": "cmaxfile",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "512000",
+                "comment": "Maximum file size",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cmaxdims",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Maximum screenshot dimensions",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "copen",
+            {
+                "name": "copen",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "dropColumn",
+        "params": [
+            "downloads_categories",
+            [
+                "cperms",
+                "cfileinfo",
+                "cdesc",
+                "cdisclaimer",
+                "csubmissionterms"
+            ]
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "downloads_cfields",
+            {
+                "name": "cf_multiple",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_cfields",
+            "cf_search",
+            {
+                "name": "cf_search_type",
+                "type": "VARCHAR",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "loose",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "17": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cversioning",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Number of versions of files to keep. 0 means disabled, NULL means keep all versions.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "clog",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Number of days to keep download logs. 0 means disables, NULL means never delete logs.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "19": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "csubmissionterms",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The terms for submitting a file",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "20": {
+        "method": "dropColumn",
+        "params": [
+            "downloads_files_records",
+            [
+                "record_db_id",
+                "record_storagetype",
+                "record_mime"
+            ]
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files_records",
+            {
+                "name": "record_time",
+                "type": "INT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "Unix timestamp of when file was uploaded",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "22": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_primary_screenshot",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The record_id of the primary screenshot",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "23": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_comments",
+            "ip_address",
+            {
+                "name": "comment_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "dropColumn",
+        "params": [
+            "downloads_comments",
+            [
+                "use_sig",
+                "use_emo"
+            ]
+        ]
+    },
+    "25": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "downloads_reviews",
+                "columns": {
+                    "review_id": {
+                        "name": "review_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "review_fid": {
+                        "name": "review_fid",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The file ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_mid": {
+                        "name": "review_mid",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID of the review author",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_text": {
+                        "name": "review_text",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The review contents",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_append_edit": {
+                        "name": "review_append_edit",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Boolean indicating if edit message should show",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_edit_name": {
+                        "name": "review_edit_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Username of user who last edited review",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_edit_time": {
+                        "name": "review_edit_time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when the review was last edited",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_date": {
+                        "name": "review_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when review was made",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_ip": {
+                        "name": "review_ip",
+                        "type": "VARCHAR",
+                        "length": 46,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "IP address review was made from",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_author_name": {
+                        "name": "review_author_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Username of user who made review",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_rating": {
+                        "name": "review_rating",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The rating (out of 5) with the review",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_votes": {
+                        "name": "review_votes",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "The number of people who have voted \"helpful\" or \"unhelpful\"",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_votes_helpful": {
+                        "name": "review_votes_helpful",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "The number of people who have voted \"helpful\"",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_votes_data": {
+                        "name": "review_votes_data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "JSON object containing data about who has voted helpful\/unhelpful ",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_version": {
+                        "name": "review_version",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The version being reviewed",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "review_approved": {
+                        "name": "review_approved",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Review is approved?",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "review_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "review_fid": {
+                        "type": "key",
+                        "name": "review_fid",
+                        "columns": [
+                            "review_fid"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "review_mid": {
+                        "type": "key",
+                        "name": "review_mid",
+                        "columns": [
+                            "review_mid"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "review_ip": {
+                        "type": "key",
+                        "name": "review_ip",
+                        "columns": [
+                            "review_ip"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_reviews",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_locked",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "If the file is locked (no comments\/reviews allowed)",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_last_comment",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Timestamp the last comment was made",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_last_review",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Unix timestamp of last review",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_view_approvers",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can view who approved files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "31": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files_records",
+            {
+                "name": "record_no_watermark",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "If the record is for a screenshot, the URL to the un-watermarked version",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bulk_submit",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can bulk upload?",
+                "unsigned": true
+            }
+        ]
+    },
+    "33": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_files_records",
+            "record_realname",
+            {
+                "type": "key",
+                "name": "record_realname",
+                "columns": [
+                    "record_realname"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cforum_id",
+                "type": "SMALLINT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "IP.Board integration: forum ID",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctoic_prefix",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "IP.Board integration: topic prefix",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "36": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "ctoic_prefix",
+            {
+                "name": "ctopic_prefix",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "IP.Board integration: topic prefix",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctopic_suffix",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "IP.Board integration: topic suffix",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "addIndex",
+        "params": [
+            "downloads_comments",
+            {
+                "type": "fulltext",
+                "name": "comment_text",
+                "columns": [
+                    "comment_text"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "39": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "fulltext",
+                "name": "file_name",
+                "columns": [
+                    "file_name"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "40": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "fulltext",
+                "name": "file_desc",
+                "columns": [
+                    "file_desc"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "41": {
+        "method": "addIndex",
+        "params": [
+            "downloads_comments",
+            {
+                "type": "key",
+                "name": "comment_ip_address",
+                "columns": [
+                    "comment_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "42": {
+        "method": "addIndex",
+        "params": [
+            "downloads_comments",
+            {
+                "type": "key",
+                "name": "comment_author",
+                "columns": [
+                    "comment_author"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "43": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "clast_file_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "44": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "c_last_file_date",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "clast_file_id",
+            {
+                "name": "clast_file_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Latest file ID in this category or any sub-category",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "46": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "c_last_file_date",
+            {
+                "name": "c_last_file_date",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Latest file date in this category or any sub-category",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "47": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_categories",
+            "c_last_file_date",
+            {
+                "name": "clast_file_date",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Latest file date in this category or any sub-category",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "48": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_cost",
+            {
+                "name": "file_cost",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "49": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_renewal_price",
+            {
+                "name": "file_renewal_price",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "50": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_linked_files",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can submit URLs?",
+                "unsigned": true
+            }
+        ]
+    },
+    "51": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_import_files",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can import files from a path?",
+                "unsigned": true
+            }
+        ]
+    },
+    "52": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_block_submissions",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Blocked from submitting Downloads files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "53": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cversion_numbers",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "0 = Disable version numbers, 1 = Allow version numbers, 2 = Require version numbers",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

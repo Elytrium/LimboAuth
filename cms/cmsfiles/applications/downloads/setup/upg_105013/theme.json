@@ -1,0 +1,54 @@
+{
+    "html": {
+        "added": [
+            "front\/submit\/submissionForm",
+            "front\/view\/notify",
+            "front\/view\/notifyBlurb",
+            "front\/view\/pendingView"
+        ],
+        "edited": [
+            "front\/browse\/category",
+            "front\/browse\/categoryButtons",
+            "front\/browse\/categoryRow",
+            "front\/browse\/featuredFile",
+            "front\/browse\/index",
+            "front\/browse\/indexBlock",
+            "front\/browse\/rows",
+            "front\/global\/commentTableHeader",
+            "front\/global\/embedFile",
+            "front\/global\/embedFileComment",
+            "front\/global\/embedFileReview",
+            "global\/global\/link",
+            "front\/global\/manageFollowRow",
+            "front\/global\/searchResultFileSnippet",
+            "front\/nexus\/filePurchaseInfo",
+            "admin\/stats\/downloadsTable",
+            "front\/view\/changeLog",
+            "front\/view\/comments",
+            "front\/view\/reviews",
+            "front\/view\/view",
+            "front\/widgets\/downloadsCommentFeed",
+            "front\/widgets\/downloadsReviewFeed",
+            "front\/widgets\/downloadStats",
+            "front\/widgets\/fileRow"
+        ],
+        "removed": [
+            "front\/submit\/newVersion",
+            "front\/submit\/submitForm"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/downloads.css",
+            "front\/embed.css",
+            "front\/widgets.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

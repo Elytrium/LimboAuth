@@ -1,0 +1,592 @@
+{
+    "overview": {
+        "dashboard": {
+            "tab": "core",
+            "controller": "dashboard",
+            "do": "",
+            "restriction": "view_dashboard"
+        },
+        "files": {
+            "tab": "core",
+            "controller": "files",
+            "do": "",
+            "restriction": "files_view"
+        },
+        "mycharts": {
+            "tab": "stats",
+            "controller": "mycharts",
+            "do": "",
+            "restriction": "mycharts_manage",
+            "subcontrollers": ""
+        }
+    },
+    "applications": {
+        "applications": {
+            "tab": "core",
+            "controller": "applications",
+            "do": "",
+            "restriction": "app_manage"
+        },
+        "enhancements": {
+            "tab": "core",
+            "controller": "enhancements",
+            "do": "",
+            "restriction": "enhancements_manage"
+        },
+        "plugins": {
+            "tab": "core",
+            "controller": "plugins",
+            "do": "",
+            "restriction": "plugins_view"
+        },
+        "menu": {
+            "tab": "core",
+            "controller": "menu",
+            "do": "",
+            "restriction": "menu_manage"
+        },
+        "api": {
+            "tab": "core",
+            "controller": "api",
+            "do": "",
+            "restriction": "api_splash"
+        },
+        "rss": {
+            "tab": "core",
+            "controller": "rss",
+            "do": "",
+            "restriction": "rss_manage"
+        }
+    },
+    "settings": {
+        "general": {
+            "tab": "core",
+            "controller": "general",
+            "do": "",
+            "restriction": "general_manage"
+        },
+        "licensekey": {
+            "tab": "core",
+            "controller": "licensekey",
+            "do": "",
+            "restriction": "licensekey_manage"
+        },
+        "terms": {
+            "tab": "core",
+            "controller": "terms",
+            "do": "",
+            "restriction": "terms_manage"
+        },
+        "posting": {
+            "tab": "core",
+            "controller": "posting",
+            "do": "",
+            "restriction": "posting_manage,posting_manage_acronym,posting_manage_polls,posting_manage_profanity,posting_manage_tags,posting_manage_url"
+        },
+        "email": {
+            "tab": "core",
+            "controller": "email",
+            "do": "",
+            "restriction": "email_manage"
+        },
+        "login": {
+            "tab": "core",
+            "controller": "login",
+            "do": "",
+            "restriction": "login_access"
+        },
+        "contactus": {
+            "tab": "core",
+            "controller": "contactus",
+            "do": "",
+            "restriction": "contactus_manage"
+        },
+        "mfa": {
+            "tab": "core",
+            "controller": "mfa",
+            "do": "",
+            "restriction": "mfa_manage"
+        },
+        "advanced": {
+            "tab": "core",
+            "controller": "advanced",
+            "do": "",
+            "restriction": "advanced_manage"
+        },
+        "dataLayer": {
+            "tab": "core",
+            "controller": "dataLayer",
+            "do": "",
+            "restriction": "dataLayer_manage",
+            "subcontrollers": ""
+        },
+        "webapp": {
+            "tab": "core",
+            "controller": "webapp",
+            "do": "",
+            "restriction": "webapp_manage",
+            "subcontrollers": ""
+        }
+    },
+    "discovery": {
+        "search": {
+            "tab": "core",
+            "controller": "search",
+            "do": "",
+            "restriction": "search_manage"
+        },
+        "streams": {
+            "tab": "core",
+            "controller": "streams",
+            "do": "",
+            "restriction": "streams_manage"
+        },
+        "rss": {
+            "tab": "core",
+            "controller": "rss",
+            "do": "",
+            "restriction": "rss_manage"
+        }
+    },
+    "promotion": {
+        "advertisements": {
+            "tab": "core",
+            "controller": "advertisements",
+            "do": "",
+            "restriction": "advertisements_manage"
+        },
+        "seo": {
+            "tab": "core",
+            "controller": "seo",
+            "do": "",
+            "restriction": null,
+            "callback": "return ( ( !\\IPS\\CIC AND \\IPS\\Member::loggedIn()->hasAcpRestriction( 'core', 'promotion', 'seo_furls' ) ) or \\IPS\\Member::loggedIn()->hasAcpRestriction( 'core', 'promotion', 'seo_sitemap' ) or \\IPS\\Member::loggedIn()->hasAcpRestriction( 'core', 'promotion', 'seo_meta' ) );"
+        },
+        "sharelinks": {
+            "tab": "core",
+            "controller": "sharelinks",
+            "do": "",
+            "restriction": "sharelinks_manage"
+        },
+        "promote": {
+            "tab": "core",
+            "controller": "promote",
+            "do": "",
+            "restriction": "promote_manage"
+        }
+    },
+    "members": {
+        "members": {
+            "tab": "members",
+            "controller": "members",
+            "do": "",
+            "restriction": null
+        },
+        "groups": {
+            "tab": "members",
+            "controller": "groups",
+            "do": "",
+            "restriction": "groups_manage"
+        },
+        "promotions": {
+            "tab": "members",
+            "controller": "promotions",
+            "do": "",
+            "restriction": "promotions_manage"
+        },
+        "ip": {
+            "tab": "members",
+            "controller": "ip",
+            "do": "",
+            "restriction": "membertools_ip"
+        },
+        "privacy": {
+            "tab": "members",
+            "controller": "privacy",
+            "do": "",
+            "restriction": "privacy_manage",
+            "subcontrollers": ""
+        }
+    },
+    "achievements": {
+        "rules": {
+            "tab": "members",
+            "controller": "rules",
+            "do": "",
+            "restriction": "rules_manage",
+            "subcontrollers": ""
+        },
+        "ranks": {
+            "tab": "members",
+            "controller": "ranks",
+            "do": "",
+            "restriction": "ranks_manage"
+        },
+        "badges": {
+            "tab": "members",
+            "controller": "badges",
+            "do": "",
+            "restriction": "badges_manage",
+            "subcontrollers": ""
+        },
+        "settings": {
+            "tab": "members",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage",
+            "subcontrollers": ""
+        }
+    },
+    "membersettings": {
+        "profiles": {
+            "tab": "members",
+            "controller": "profiles",
+            "do": "",
+            "restriction": "profilefields_manage,profiles_manage"
+        },
+        "reputation": {
+            "tab": "members",
+            "controller": "reputation",
+            "do": "",
+            "restriction": "reps_manage"
+        },
+        "notifications": {
+            "tab": "members",
+            "controller": "notifications",
+            "do": "",
+            "restriction": "notifications_manage"
+        },
+        "ban": {
+            "tab": "members",
+            "controller": "ban",
+            "do": "",
+            "restriction": "ban_manage"
+        },
+        "referrals": {
+            "tab": "members",
+            "controller": "referrals",
+            "do": "",
+            "restriction": "referrals_manage"
+        }
+    },
+    "moderation": {
+        "reportedContent": {
+            "tab": "members",
+            "controller": "reportedContent",
+            "do": "",
+            "restriction": "reportedContent_manage"
+        },
+        "spam": {
+            "tab": "members",
+            "controller": "spam",
+            "do": "",
+            "restriction": "spam_manage"
+        },
+        "warnings": {
+            "tab": "members",
+            "controller": "warnings",
+            "do": "",
+            "restriction": "warn_settings"
+        }
+    },
+    "staff": {
+        "moderators": {
+            "tab": "members",
+            "controller": "moderators",
+            "do": "",
+            "restriction": "moderators_manage"
+        },
+        "admin": {
+            "tab": "members",
+            "controller": "admin",
+            "do": "",
+            "restriction": "restrictions_manage"
+        },
+        "directory": {
+            "tab": "members",
+            "controller": "directory",
+            "do": "",
+            "restriction": "leaders_manage"
+        }
+    },
+    "bulkmail": {
+        "bulkmail": {
+            "tab": "members",
+            "controller": "bulkmail",
+            "do": "",
+            "restriction": "bulkmail_manage"
+        }
+    },
+    "customization": {
+        "themes": {
+            "tab": "customization",
+            "controller": "themes",
+            "do": "",
+            "restriction": "theme_templates_manage"
+        },
+        "emails": {
+            "tab": "customization",
+            "controller": "emails",
+            "do": "",
+            "restriction": "emails_manage"
+        },
+        "icons": {
+            "tab": "customization",
+            "controller": "icons",
+            "do": "",
+            "restriction": "theme_sets_manage"
+        }
+    },
+    "editor": {
+        "toolbar": {
+            "tab": "customization",
+            "controller": "toolbar",
+            "do": "",
+            "restriction": "toolbar_manage"
+        },
+        "emoticons": {
+            "tab": "customization",
+            "controller": "emoticons",
+            "do": "",
+            "restriction": "emoticons_manage"
+        },
+        "settings": {
+            "tab": "customization",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage"
+        },
+        "storedreplies": {
+            "tab": "customization",
+            "controller": "storedreplies",
+            "do": "",
+            "restriction": "stored_replies_manage",
+            "subcontrollers": ""
+        }
+    },
+    "languages": {
+        "languages": {
+            "tab": "customization",
+            "controller": "languages",
+            "do": "",
+            "restriction": "lang_words"
+        }
+    },
+    "support": {
+        "support": {
+            "tab": "core",
+            "controller": "support",
+            "do": "",
+            "restriction": "get_support",
+            "subcontrollers": "systemLogs,errorLogs"
+        }
+    },
+    "activitystats": {
+        "overview": {
+            "tab": "stats",
+            "controller": "overview",
+            "do": "",
+            "restriction": "overview_manage",
+            "subcontrollers": ""
+        },
+        "communityactivity": {
+            "tab": "stats",
+            "controller": "communityactivity",
+            "do": "",
+            "restriction": "communityactivity_manage"
+        },
+        "keywords": {
+            "tab": "stats",
+            "controller": "keywords",
+            "do": "",
+            "restriction": "keywords_manage"
+        },
+        "reactions": {
+            "tab": "stats",
+            "controller": "reactions",
+            "do": "",
+            "restriction": "reactions_manage"
+        },
+        "tags": {
+            "tab": "stats",
+            "controller": "tags",
+            "do": "",
+            "restriction": "tags_manage"
+        },
+        "emailstats": {
+            "tab": "stats",
+            "controller": "emailstats",
+            "do": "",
+            "restriction": "emailstats_manage"
+        },
+        "search": {
+            "tab": "stats",
+            "controller": "search",
+            "do": "",
+            "restriction": "search_stats_manage",
+            "subcontrollers": ""
+        },
+        "reports": {
+            "tab": "stats",
+            "controller": "reports",
+            "do": "",
+            "restriction": "reports_manage",
+            "subcontrollers": ""
+        },
+        "deletedcontent": {
+            "tab": "stats",
+            "controller": "deletedcontent",
+            "do": "",
+            "restriction": "deletedcontent_manage",
+            "subcontrollers": ""
+        }
+    },
+    "stats": {
+        "overview": {
+            "tab": "stats",
+            "controller": "overview",
+            "do": "",
+            "restriction": "overview_manage",
+            "subcontrollers": ""
+        },
+        "registrationstats": {
+            "tab": "stats",
+            "controller": "registrationstats",
+            "do": "",
+            "restriction": "registrations_manage",
+            "restriction_module": "stats"
+        },
+        "membervisits": {
+            "tab": "stats",
+            "controller": "membervisits",
+            "do": "",
+            "restriction": "membervisits_manage"
+        },
+        "membersactivity": {
+            "tab": "stats",
+            "controller": "membersactivity",
+            "do": "",
+            "restriction": "membersactivity_manage"
+        },
+        "onlineusers": {
+            "tab": "stats",
+            "controller": "onlineusers",
+            "do": "",
+            "restriction": "onlineusers_manage"
+        },
+        "deviceusage": {
+            "tab": "stats",
+            "controller": "deviceusage",
+            "do": "",
+            "restriction": "deviceusage_manage"
+        },
+        "points": {
+            "tab": "stats",
+            "controller": "points",
+            "do": "",
+            "restriction": "overview_manage",
+            "subcontrollers": ""
+        },
+        "badges": {
+            "tab": "stats",
+            "controller": "badges",
+            "do": "",
+            "restriction": "overview_manage",
+            "subcontrollers": ""
+        },
+        "spam": {
+            "tab": "stats",
+            "controller": "spam",
+            "do": "",
+            "restriction": "spam_manage",
+            "subcontrollers": ""
+        },
+        "preferences": {
+            "tab": "stats",
+            "controller": "preferences",
+            "do": "",
+            "restriction": "preferences_manage",
+            "subcontrollers": ""
+        },
+        "referrals": {
+            "tab": "stats",
+            "controller": "referrals",
+            "do": "",
+            "restriction": "referrals_manage",
+            "subcontrollers": "",
+            "callback": "return \\IPS\\Settings::i()->ref_on;"
+        },
+        "follow": {
+            "tab": "stats",
+            "controller": "follow",
+            "do": "",
+            "restriction": "follow_manage",
+            "subcontrollers": ""
+        },
+        "warnings": {
+            "tab": "stats",
+            "controller": "warnings",
+            "do": "",
+            "restriction": "warnings_manage",
+            "subcontrollers": ""
+        },
+        "moderators": {
+            "tab": "stats",
+            "controller": "moderators",
+            "do": "",
+            "restriction": "moderatorstats_manage",
+            "subcontrollers": ""
+        },
+        "rankprogression": {
+            "tab": "stats",
+            "controller": "rankprogression",
+            "do": "",
+            "restriction": "rankprogression_manage",
+            "subcontrollers": ""
+        }
+    },
+    "messengerstats": {
+        "pmstats": {
+            "tab": "stats",
+            "controller": "pmstats",
+            "do": "",
+            "restriction": "messages_manage",
+            "restriction_module": "members"
+        }
+    },
+    "clubs": {
+        "clubs": {
+            "tab": "community",
+            "controller": "clubs",
+            "do": "",
+            "restriction": "clubs_manage"
+        },
+        "fields": {
+            "tab": "community",
+            "controller": "fields",
+            "do": "",
+            "restriction": "fields_manage"
+        },
+        "settings": {
+            "tab": "community",
+            "controller": "settings",
+            "do": "",
+            "restriction": "clubs_settings_manage"
+        },
+        "stats": {
+            "tab": "stats",
+            "controller": "stats",
+            "do": "",
+            "restriction": "stats_manage",
+            "subcontrollers": ""
+        }
+    },
+    "marketplace": {
+        "marketplace": {
+            "tab": "marketplace",
+            "controller": "marketplace",
+            "do": "",
+            "restriction": "marketplace_manage"
+        }
+    }
+}

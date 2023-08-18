@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "gallery_images",
+            "image_last_comment=image_date",
+            [
+                "image_last_comment=?",
+                0
+            ]
+        ]
+    }
+}

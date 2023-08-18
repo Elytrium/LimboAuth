@@ -1,0 +1,8 @@
+{
+    "added": [
+        "app=downloads&module=downloads&controller=categories&do=form&searchResult=form_1_allow_anonymous",
+        "app=downloads&module=stats&controller=topdownloads"
+    ],
+    "edited": [],
+    "removed": []
+}

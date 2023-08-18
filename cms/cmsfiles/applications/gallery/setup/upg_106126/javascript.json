@@ -1,0 +1,24 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "gallery\/front\/controllers\/browse\/ips.browse.lightbox.js",
+            "gallery\/front\/controllers\/submit\/ips.submit.chooseCategory.js",
+            "gallery\/front\/controllers\/submit\/ips.submit.existingAlbums.js",
+            "gallery\/front\/controllers\/submit\/ips.submit.uploadImages.js",
+            "gallery\/front\/controllers\/submit\/ips.submit.wrapper.js",
+            "gallery\/front\/controllers\/view\/ips.view.image.js",
+            "gallery\/front\/controllers\/view\/ips.view.note.js",
+            "gallery\/front\/controllers\/view\/ips.view.notes.js",
+            "gallery\/front\/templates\/ips.templates.browse.js",
+            "gallery\/front\/templates\/ips.templates.submit.js",
+            "gallery\/front\/templates\/ips.templates.view.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

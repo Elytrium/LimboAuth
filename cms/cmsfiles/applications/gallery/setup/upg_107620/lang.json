@@ -1,0 +1,37 @@
+{
+    "normal": {
+        "added": [
+            "from_the_category",
+            "profile_gallery_galleryImages",
+            "gallery_overview",
+            "gallery_view_categories",
+            "gallery_recently_commented_images",
+            "gallery_view_all_categories",
+            "gallery_recently_updated_albums",
+            "gallery_nsfw",
+            "gallery_nsfw_desc",
+            "gallery_image_is_nsfw",
+            "gallery_nsfw_view_anyway",
+            "nsfw_set_all",
+            "nsfw_enable_all",
+            "image_nsfw",
+            "set_gallery_image_nsfw_on",
+            "set_gallery_image_nsfw_off",
+            "gallery_album_num_comments_uc",
+            "gallery_album_num_comments_lc",
+            "gallery_album_num_reviews_uc",
+            "gallery_album_num_reviews_lc"
+        ],
+        "edited": [
+            "gallery_metadata"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "js_gallery_album_num_comments_uc"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

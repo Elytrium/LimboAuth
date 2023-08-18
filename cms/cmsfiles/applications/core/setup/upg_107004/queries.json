@@ -1,0 +1,176 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_notification_defaults",
+            [
+                "notification_key=?",
+                "approved_content"
+            ]
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_files_temp",
+            {
+                "name": "requires_moderation",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Boolean value indicating if image scanner wants to hold this for moderation",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_attachments",
+            {
+                "name": "attach_moderation_status",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "skipped",
+                    "approved",
+                    "pending"
+                ],
+                "allow_null": false,
+                "default": "skipped",
+                "comment": "If this attachment has been flagged for moderation by the image scanner, the status of that",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_image_scanner_logs",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Member ID",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "md5": {
+                        "name": "md5",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "MD5 Hash of the image",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of the request time",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "success": {
+                        "name": "success",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "success",
+                            "fail_client",
+                            "fail_server"
+                        ],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The status of the request (fail_client indicates the image was never sent to the server, for example because too large)",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "server_response": {
+                        "name": "server_response",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The server response",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "action": {
+                        "name": "action",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "allow",
+                            "hold",
+                            "reject"
+                        ],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The action taken",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "prevent_dupes": {
+                        "type": "key",
+                        "name": "prevent_dupes",
+                        "columns": [
+                            "md5",
+                            "success"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

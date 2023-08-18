@@ -1,0 +1,41 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "blog_comments",
+            {
+                "name": "comment_approved",
+                "type": "int",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "blog_comments",
+            {
+                "comment_approved": 1
+            },
+            [
+                "comment_queued=?",
+                "0"
+            ]
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "blog_comments",
+            {
+                "comment_approved": 0
+            },
+            [
+                "comment_queued=?",
+                "1"
+            ]
+        ]
+    }
+}

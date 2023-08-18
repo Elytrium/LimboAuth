@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            [
+                "app=? AND `key`=?",
+                "blog",
+                "recentEntries"
+            ]
+        ]
+    }
+}

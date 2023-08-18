@@ -1,0 +1,191 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "gallery_categories",
+            {
+                "name": "category_allow_anonymous",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "gallery_categories",
+            {
+                "name": "category_last_poster_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "gallery_comments",
+            {
+                "name": "comment_is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_last_poster_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "gallery_album_comments",
+            {
+                "name": "comment_is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "7": {
+        "method": "changeIndex",
+        "params": [
+            "gallery_images",
+            "member_id",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "image_member_id",
+                    "image_approved",
+                    "image_date"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "type": "key",
+                "name": "image_comments",
+                "columns": [
+                    "image_category_id",
+                    "image_approved",
+                    "image_comments"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "type": "key",
+                "name": "image_comments_unapproved",
+                "columns": [
+                    "image_category_id",
+                    "image_approved",
+                    "image_unapproved_comments"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "addIndex",
+        "params": [
+            "gallery_albums",
+            {
+                "type": "key",
+                "name": "album_type",
+                "columns": [
+                    "album_type",
+                    "album_owner_id",
+                    "album_hidden"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,73 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ship_orders",
+            {
+                "name": "o_shipped_date",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_seo_name",
+                "type": "VARCHAR",
+                "length": 128,
+                "allow_null": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_package_groups",
+            {
+                "name": "pg_seo_name",
+                "type": "VARCHAR",
+                "length": 32,
+                "allow_null": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_adpacks",
+            {
+                "name": "ap_name",
+                "type": "VARCHAR",
+                "length": 128,
+                "allow_null": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_departments",
+            {
+                "name": "dpt_notify",
+                "type": "TEXT",
+                "allow_null": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_departments",
+            {
+                "name": "dpt_notify_reply",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false
+            }
+        ]
+    }
+}

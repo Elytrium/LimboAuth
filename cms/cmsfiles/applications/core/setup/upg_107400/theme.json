@@ -1,0 +1,40 @@
+{
+    "html": {
+        "added": [
+            "admin\/smartcommunity\/cloud"
+        ],
+        "edited": [
+            "front\/alerts\/alertModal",
+            "global\/forms\/number",
+            "front\/global\/globalTemplate",
+            "front\/global\/mobileNavigation",
+            "front\/global\/viglink",
+            "front\/messaging\/template",
+            "front\/modcp\/alertRow",
+            "front\/modcp\/approvalQueueItem",
+            "front\/modcp\/reportToggle",
+            "front\/promote\/promoteDialogTemplate",
+            "admin\/support\/supportBlockList"
+        ],
+        "removed": [
+            "admin\/promote\/facebookOwnedBy",
+            "front\/promote\/promoteFacebookComplete",
+            "admin\/promote\/warningNoFacebookApp",
+            "admin\/promote\/warningNoFacebookPostToPagePermission",
+            "admin\/promote\/warningNoFacebookUser"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/styles\/promote_responsive.css",
+            "front\/styles\/promote.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

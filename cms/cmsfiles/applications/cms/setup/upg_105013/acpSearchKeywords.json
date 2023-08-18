@@ -1,0 +1,13 @@
+{
+    "added": [
+        "app=cms&module=databases&controller=categories&do=manage",
+        "app=cms&module=databases&controller=databases",
+        "app=cms&module=databases&controller=records&do=manage",
+        "app=cms&module=pages&controller=blocks",
+        "app=cms&module=pages&controller=media",
+        "app=cms&module=pages&controller=pages",
+        "app=cms&module=pages&controller=templates"
+    ],
+    "edited": [],
+    "removed": []
+}

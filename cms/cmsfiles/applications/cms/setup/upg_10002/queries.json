@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addQuery",
+        "params": [
+            "ccs_block_wizard",
+            {
+                "name": "wizard_started",
+                "type": "VARCHAR",
+                "length": 13,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addQuery",
+        "params": [
+            "ccs_page_wizard",
+            {
+                "name": "wizard_started",
+                "type": "VARCHAR",
+                "length": 13,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

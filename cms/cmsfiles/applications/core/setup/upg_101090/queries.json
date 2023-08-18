@@ -1,0 +1,140 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_themes",
+            {
+                "name": "set_cache_key",
+                "type": "CHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The current cache key, updated when any template is changed to force disk caches to rebuild",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_streams",
+            {
+                "name": "default_view",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "expanded",
+                    "condensed"
+                ],
+                "allow_null": false,
+                "default": "expanded",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_streams",
+            "default_view",
+            {
+                "name": "default_view",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "expanded",
+                    "condensed"
+                ],
+                "allow_null": false,
+                "default": "expanded",
+                "comment": "Should a stream show in a condensed or expanded layout by default",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_googleauth_used_codes",
+                "columns": {
+                    "member": {
+                        "name": "member",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID the code was generated for",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp the code was generated",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "member": {
+                        "type": "key",
+                        "name": "member",
+                        "columns": [
+                            "member"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "time": {
+                        "type": "key",
+                        "name": "time",
+                        "columns": [
+                            "time"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "5": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "core",
+                "bulkmail"
+            ]
+        ]
+    }
+}

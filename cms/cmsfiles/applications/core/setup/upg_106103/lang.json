@@ -1,0 +1,35 @@
+{
+    "normal": {
+        "added": [
+            "_date_month_year_short",
+            "versions_human_bad",
+            "notifications_none_selected",
+            "template_variables_save_warning_msg",
+            "categories_sg_lc",
+            "r__categories_sg_lc",
+            "health__vapid_title",
+            "health_vapid_gmp_check_fail",
+            "health_vapid_key_check_fail",
+            "health_vapid_key_check_fail_fixed",
+            "widget_member_title",
+            "widget_member_title_default",
+            "achievements_widget_title",
+            "achievements_enabled",
+            "achievements_enabled_desc",
+            "achievements_not_enabled"
+        ],
+        "edited": [
+            "AchievementAction__Reaction_title"
+        ],
+        "removed": [
+            "leader_use_custom_title",
+            "leader_custom_title_default",
+            "leader_custom_title_custom"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,150 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_use_as_page_title",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "Use database name as page title, or retain page title",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_unique",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "cms_database_fields_reciprocal_map",
+                "columns": {
+                    "map_origin_database_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "map_origin_database_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "map_foreign_database_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "map_foreign_database_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "map_origin_item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "map_origin_item_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "map_foreign_item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "map_foreign_item_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "map_field_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "map_field_id",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "map_origin": {
+                        "type": "key",
+                        "name": "map_origin",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "map_origin_database_id",
+                            "map_origin_item_id"
+                        ]
+                    },
+                    "map_foreign": {
+                        "type": "key",
+                        "name": "map_foreign",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "map_foreign_database_id",
+                            "map_foreign_item_id"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    }
+}

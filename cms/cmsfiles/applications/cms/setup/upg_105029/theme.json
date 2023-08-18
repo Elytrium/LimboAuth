@@ -1,0 +1,24 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/blocks\/pluginSelector",
+            "front\/global\/uploadDisplay",
+            "global\/records\/youtube",
+            "admin\/templates\/addForm",
+            "admin\/templates\/menu",
+            "front\/widgets\/pagebuilderupload"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,727 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_validator",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_topic_format",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_rss",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": "0"
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_rss_cache",
+                "type": "mediumtext",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_field_content",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_lang_sl",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_lang_pl",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_lang_su",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_lang_pu",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_comment_bump",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_featured_article",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_is_articles",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_meta_keywords",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_meta_description",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_record",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_comments",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "17": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_delete",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_forum",
+                "type": "mediumint",
+                "length": 9,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "19": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_prefix",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "20": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_forum_suffix",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "21": {
+        "method": "addIndex",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_is_articles",
+                "type": "key",
+                "columns": [
+                    "database_is_articles"
+                ]
+            }
+        ]
+    },
+    "22": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_rss",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_rss_cache",
+                "type": "mediumtext",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_furl_name",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_meta_keywords",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_meta_description",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_template",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_override",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_record",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_comments",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "31": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_delete",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_forum",
+                "type": "mediumint",
+                "length": 9,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "33": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_prefix",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_forum_suffix",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "35": {
+        "method": "addIndex",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_template",
+                "type": "key",
+                "columns": [
+                    "category_template"
+                ]
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_records_queued",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_moderators",
+            {
+                "name": "moderator_add_record",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "38": {
+        "method": "delete",
+        "params": [
+            "ccs_template_cache",
+            "cache_type='block'"
+        ]
+    },
+    "39": {
+        "method": "changeIndex",
+        "params": [
+            "ccs_template_cache",
+            "cache_type",
+            {
+                "name": "cache_type",
+                "type": "unique",
+                "columns": [
+                    "cache_type",
+                    "cache_type_id"
+                ]
+            }
+        ]
+    },
+    "40": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_notifications",
+                "columns": {
+                    "notify_id": {
+                        "name": "notify_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "notify_member": {
+                        "name": "notify_member",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_database": {
+                        "name": "notify_database",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_record": {
+                        "name": "notify_record",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_category": {
+                        "name": "notify_category",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_start": {
+                        "name": "notify_start",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "notify_last_sent": {
+                        "name": "notify_last_sent",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "notify_id"
+                        ]
+                    },
+                    "0": {
+                        "type": "key",
+                        "name": "notify_member",
+                        "columns": [
+                            "notify_member"
+                        ]
+                    },
+                    "1": {
+                        "type": "key",
+                        "name": "notify_category",
+                        "columns": [
+                            "notify_category",
+                            "notify_database"
+                        ]
+                    },
+                    "2": {
+                        "type": "key",
+                        "name": "notify_record",
+                        "columns": [
+                            "notify_record",
+                            "notify_database"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "41": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_modqueue",
+                "columns": {
+                    "mod_id": {
+                        "name": "mod_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "mod_database": {
+                        "name": "mod_database",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_record": {
+                        "name": "mod_record",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_comment": {
+                        "name": "mod_comment",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "mod_poster": {
+                        "name": "mod_poster",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "mod_id"
+                        ]
+                    },
+                    "0": {
+                        "type": "key",
+                        "name": "mod_database",
+                        "columns": [
+                            "mod_database",
+                            "mod_record",
+                            "mod_comment"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

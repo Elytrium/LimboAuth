@@ -1,0 +1,44 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members",
+            "last_visit=joined",
+            "last_visit=0"
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='core' AND ( word_key IN ( 'acplogs__themeset_delete', 'acplogs__themeset_updated' ) )"
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_admin_logs",
+            "appcomponent='core' AND ( lang_key IN ( 'acplogs__themeset_delete', 'acplogs__themeset_updated' ) )"
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_validating",
+            {
+                "name": "reg_cancelled",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Flag to see if the user likes soup. Kidding, timestamp of when they have cancelled their reg.",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

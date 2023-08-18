@@ -1,0 +1,16 @@
+{
+    "added": [
+        "app=forums&module=forums&controller=forums&searchResult=form_2_allow_anonymous",
+        "app=forums&module=forums&controller=forums&searchResult=forum_best_answer"
+    ],
+    "edited": [
+        "app=forums&module=forums&controller=forums",
+        "app=forums&module=forums&controller=savedActions"
+    ],
+    "removed": [
+        "app=forums&module=forums&controller=forums&do=form",
+        "app=forums&module=forums&controller=forums&do=form&searchResult=form_2_allow_anonymous",
+        "app=forums&module=forums&controller=forums&do=form&searchResult=forum_best_answer",
+        "app=forums&module=forums&controller=savedActions&do=form"
+    ]
+}

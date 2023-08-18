@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="gallery" version="107704">
+  <word key="__app_gallery" js="0">Gallery</word>
+  <word key="frontnavigation_gallery" js="0">Gallery</word>
+  <word key="gallery_title" js="0">Gallery</word>
+  <word key="__indefart_gallery_image_comment" js="0">a comment on a gallery image</word>
+  <word key="__indefart_gallery_image" js="0">a gallery image</word>
+  <word key="__defart_gallery_image_comment" js="0">comment on a gallery image</word>
+  <word key="__defart_gallery_image_comment_plural" js="0">{!#[1:comment][?:comments]} on a gallery image</word>
+  <word key="__defart_gallery_image" js="0">gallery image</word>
+  <word key="__defart_gallery_image_plural" js="0">gallery {!#[1:image][?:images]}</word>
+  <word key="__indefart_gallery_album_comment" js="0">a comment on a gallery album</word>
+  <word key="__indefart_gallery_album" js="0">a gallery album</word>
+  <word key="__defart_gallery_album_comment" js="0">comment on a gallery album</word>
+  <word key="__defart_gallery_album_comment_plural" js="0">{!#[1:comment][?:comments]} on a gallery album</word>
+  <word key="__defart_gallery_album" js="0">gallery album</word>
+  <word key="__defart_gallery_album_plural" js="0">gallery {!#[1:album][?:albums]}</word>
+  <word key="__indefart_gallery_image_review" js="0">a review on a gallery image</word>
+  <word key="__defart_gallery_image_review" js="0">review on a gallery image</word>
+  <word key="__defart_gallery_image_review_plural" js="0">{!#[1:review][?:reviews]} on a gallery image</word>
+  <word key="__indefart_gallery_album_review" js="0">a review on a gallery album</word>
+  <word key="__defart_gallery_album_review" js="0">review on a gallery album</word>
+  <word key="__defart_gallery_album_review_plural" js="0">{!#[1:review][?:reviews]} on a gallery album</word>
+  <word key="module__gallery_stats" js="0">Statistics</word>
+  <word key="search_contextual_item_gallery_image" js="0">This Image</word>
+  <word key="album_user_own_activity_item" js="0">Images added to %1$s owned by %2$s in </word>
+  <word key="club_node_gallery" js="0">Club Images</word>
+  <word key="community_image_categories" js="0">Community Images</word>
+  <word key="menu__gallery_gallery" js="0">Gallery</word>
+  <word key="menu__gallery_gallery_categories" js="0">Categories</word>
+  <word key="menu__gallery_gallery_albums" js="0">Albums</word>
+  <word key="menu__gallery_stats" js="0">Gallery</word>
+  <word key="menu__gallery_stats_diskspace" js="0">Top Uploaders</word>
+  <word key="menu__gallery_stats_bandwidth" js="0">Bandwidth Usage</word>
+  <word key="menu__gallery_gallery_settings" js="0">Settings</word>
+  <word key="image" js="0">Image</word>
+  <word key="gallery_image" js="0">Gallery Image</word>
+  <word key="filestorage__gallery_Images" js="0">Gallery Images</word>
+  <word key="acp_search_title_gallery_Categories" js="0">Gallery Categories</word>
+  <word key="acp_search_title_gallery_Albums" js="0">Gallery Albums</word>
+  <word key="gallery_images" js="0">Images</word>
+  <word key="gallery_media" js="0">Gallery Videos</word>
+  <word key="block_gallery_Overview" js="0">Gallery Overview</word>
+  <word key="total_images" js="0">Total Images</word>
+  <word key="total_disk_spaceg" js="0">Total Diskspace Used</word>
+  <word key="total_albums" js="0">Total Albums</word>
+  <word key="largest_image" js="0">Largest Image</word>
+  <word key="most_viewed_image" js="0">Most Viewed Image</word>
+  <word key="editor__gallery_Albums" js="0">Gallery Albums</word>
+  <word key="editor__gallery_Categories" js="0">Gallery Categories</word>
+  <word key="editor__gallery_Gallery" js="0">Image Comments</word>
+  <word key="editor__gallery_Images" js="0">Gallery Images</word>
+  <word key="editorMedia_gallery_Images" js="0">Gallery Images</word>
+  <word key="member_gallery_image" js="0">Keep using my Gallery Image</word>
+  <word key="member_restrictions__gallery_Gallery" js="0">Gallery</word>
+  <word key="restriction_no_gallery_access" js="0">Restricted from accessing Gallery</word>
+  <word key="restriction_no_gallery_uploads" js="0">Restricted from uploading Gallery images</word>
+  <word key="content_stats__gallery_Gallery" js="0">Gallery</word>
+  <word key="group__gallery_Gallery" js="0">Gallery</word>
+  <word key="gallery_album_permissions" js="0">Album Restrictions</word>
+  <word key="g_create_albums" js="0">Can create albums?</word>
+  <word key="g_create_albums_private" js="0">Can create private albums?</word>
+  <word key="g_create_albums_private_desc" js="0">Private albums are albums that only the creator can view</word>
+  <word key="g_create_albums_fo" js="0">Can create restricted access albums?</word>
+  <word key="g_create_albums_fo_desc" js="0">Restricted access albums are albums that only the creator and designated users can view</word>
+  <word key="g_album_limit" js="0">Maximum number of albums</word>
+  <word key="g_img_album_limit" js="0">Maximum number of images per album</word>
+  <word key="gallery_restrictions" js="0">Usage Restrictions</word>
+  <word key="g_movies" js="0">Can upload movies?</word>
+  <word key="g_movie_size" js="0">Maximum size of movies</word>
+  <word key="g_max_upload" js="0">Maximum size of images</word>
+  <word key="g_max_transfer" js="0">Maximum bandwidth consumption</word>
+  <word key="g_max_views" js="0">Maximum image and movie views</word>
+  <word key="gallery_suffix_kb" js="0">kB</word>
+  <word key="gallery_suffix_day" js="0">per day</word>
+  <word key="gallery_suffix_kb_day" js="0">kB/day</word>
+  <word key="gallery_requires_log" js="0">These settings rely on the detailed bandwidth log which can be disabled in the Gallery Settings and cleared periodically. If using these settings, it is recommended that you leave the log turned on and set not to clear more often than every 48 hours otherwise you may experience unexpected behavior.</word>
+  <word key="g_download_original" js="0">Can download original image?</word>
+  <word key="g_download_original_desc" js="0">Users will still be able to download the large size image through their browser</word>
+  <word key="g_download_raw" js="0">Yes, without watermark</word>
+  <word key="g_download_watermarked" js="0">Yes, with watermark</word>
+  <word key="g_download_none" js="0">No</word>
+  <word key="r__albums" js="0">Albums</word>
+  <word key="r__albums_manage" js="0">Can view albums?</word>
+  <word key="r__diskspace" js="0">Diskspace</word>
+  <word key="r__diskspace_manage" js="0">Can view diskspace statistics?</word>
+  <word key="r__bandwidth" js="0">Bandwidth</word>
+  <word key="r__bandwidth_manage" js="0">Can view bandwidth statistics?</word>
+  <word key="gcategory_parent_id" js="0">Parent Category</word>
+  <word key="category_sort_options" js="0">Album sort order</word>
+  <word key="category_sort_options_img" js="0">Image sort order</word>
+  <word key="category_approve_img" js="0">Images must be approved?</word>
+  <word key="category_comments_and_ratings" js="0">Comments and Ratings</word>
+  <word key="category_allow_comments" js="0">Allow comments?</word>
+  <word key="category_approve_com" js="0">Comments must be approved?</word>
+  <word key="gcategory_allow_rating" js="0">Allow ratings?</word>
+  <word key="category_can_tag" js="0">Allow tags?</word>
+  <word key="category_tag_prefixes" js="0">Allow prefixes?</word>
+  <word key="category_allow_albums_club" js="0">Allow albums?</word>
+  <word key="category_allow_albums" js="0">Albums</word>
+  <word key="category_allow_albums_desc" js="0"><![CDATA[You can control which groups are allowed to create albums from <a href='{internal.app=core&module=members&controller=groups}'>Group Settings</a>. If you require albums but the user does not have permission to create albums, they will not be able to submit to this category.]]></word>
+  <word key="cat_no_allow_albums" js="0">Do not allow albums</word>
+  <word key="cat_no_allow_albums_desc" js="0">Images can only be submitted directly to the category</word>
+  <word key="cat_allow_albums" js="0">Allow albums</word>
+  <word key="cat_allow_albums_desc" js="0">Images can be submitted directly to the category or to albums within the category</word>
+  <word key="cat_require_albums" js="0">Require albums</word>
+  <word key="cat_require_albums_desc" js="0">Images can only be submitted to albums within the category</word>
+  <word key="category_watermark" js="0">Watermark images?</word>
+  <word key="category_preset_tags" js="0">Preset tags</word>
+  <word key="category_preset_tags_desc" js="0">If using a closed system, users will have to choose from these tags. If using an open system, tags entered here will show as suggestions.</word>
+  <word key="perm__view" js="0">See Category</word>
+  <word key="perm__read" js="0">View Images</word>
+  <word key="perm__add" js="0">Upload Images</word>
+  <word key="perm__comment" js="0">Comment</word>
+  <word key="perm__rate" js="0">Rate Images</word>
+  <word key="perm__review" js="0">Review Images</word>
+  <word key="perm__reply" js="0">Comment</word>
+  <word key="category_rules" js="0">Rules</word>
+  <word key="category_show_rules" js="0">Show rules?</word>
+  <word key="category_show_rules_none" js="0">Do not show</word>
+  <word key="category_show_rules_link" js="0">Show link to rules</word>
+  <word key="category_show_rules_link_desc" js="0">The rules will be shown on a separate page with a link added in the category header</word>
+  <word key="category_show_rules_full" js="0">Show rules</word>
+  <word key="category_show_rules_full_desc" js="0">The rules will be shown inline in the category header</word>
+  <word key="category_rules_title" js="0">Rules title</word>
+  <word key="category_rules_text" js="0">Rules</word>
+  <word key="category_rules_link" js="0">Link to rules</word>
+  <word key="node_move_catsalbums" js="0">Move child categories and albums to</word>
+  <word key="node_move_subalbums" js="0">Move albums to</word>
+  <word key="node_mass_move_delete_albums" js="0">Move albums to / Delete</word>
+  <word key="node_delete_children_catsalbums" js="0">Delete child categories and albums</word>
+  <word key="node_delete_children_cats" js="0">Delete child categories</word>
+  <word key="node_delete_children_albums" js="0">Delete albums</word>
+  <word key="delete_or_move_pick_one" js="0">If you choose not to delete images in this category, you must select a new category or album to move them to instead</word>
+  <word key="acplog__catalbum_mass_move" js="0">Mass Moved %s albums from %s to %s</word>
+  <word key="acplog__catalbum_mass_delete" js="0">Mass Deleted %s albums From %s</word>
+  <word key="galnode_mass_content_move_blurb" js="0"><![CDATA[<strong>%s albums</strong> will be moved to %s]]></word>
+  <word key="galnode_mass_content_delete_blurb" js="0"><![CDATA[<strong>%s albums</strong> will be <strong>deleted</strong>.]]></word>
+  <word key="error_messages" js="0">Error Messages</word>
+  <word key="category_permission_custom_error" js="0">Custom permission denied message</word>
+  <word key="category_permission_custom_error_desc" js="0">This error message will be shown to anyone who can browse the category but cannot view images within it</word>
+  <word key="gallery_permerror_placeholder" js="0">Add an error message...</word>
+  <word key="image_category_id" js="0">Category</word>
+  <word key="node_no_parentg" js="0">No Parent</word>
+  <word key="category_allow_reviews" js="0">Allow reviews?</word>
+  <word key="category_review_moderate" js="0">Reviews must be approved?</word>
+  <word key="albums" js="0">Albums</word>
+  <word key="album_settings" js="0">Settings</word>
+  <word key="album_name" js="0">Name</word>
+  <word key="album_description" js="0">Description</word>
+  <word key="album_owner" js="0">Owner's Name</word>
+  <word key="album_category" js="0">Category</word>
+  <word key="album_sort_options" js="0">Default sort order</word>
+  <word key="album_comments_and_ratings" js="0">Comments and Ratings</word>
+  <word key="album_allow_comments" js="0">Allow comments on images?</word>
+  <word key="album_allow_rating" js="0">Allow ratings?</word>
+  <word key="album_allow_reviews" js="0">Allow reviews of images?</word>
+  <word key="album_use_comments" js="0">Allow comments on this album?</word>
+  <word key="album_use_reviews" js="0">Allow reviews of this album?</word>
+  <word key="album_type" js="0">Privacy</word>
+  <word key="album_public" js="0">Everyone can see this album</word>
+  <word key="album_private" js="0">Only I can see this album</word>
+  <word key="album_private_mod" js="0">Only the owner can see this album</word>
+  <word key="album_private_badge" js="0">Private album</word>
+  <word key="album_friend_only" js="0">I want to choose who can see this album</word>
+  <word key="album_submit_type" js="0">Submissions</word>
+  <word key="album_submit_access_members" js="0">Allowed members</word>
+  <word key="album_submit_access_groups" js="0">Allowed groups</word>
+  <word key="album_friend_only_badge" js="0">Invite-only album</word>
+  <word key="album_allowed_access" js="0">Members with access</word>
+  <word key="album_submittype_owner" js="0">Only I can submit to this album</word>
+  <word key="album_submittype_public" js="0">Anyone can submit to this album</word>
+  <word key="album_submittype_groups" js="0">I want to choose which groups can submit to this album</word>
+  <word key="album_submittype_members" js="0">I want to choose which members can submit to this album</word>
+  <word key="album_submittype_club" js="0">Anyone in this club can submit to this album</word>
+  <word key="set_album_owner" js="0">Owner</word>
+  <word key="set_album_owner_me" js="0">This album is for me</word>
+  <word key="set_album_owner_other" js="0">This album is for someone else</word>
+  <word key="album_sort_caption" js="0">Caption</word>
+  <word key="modperms__core_Content_gallery_Image" js="0">Gallery Images</word>
+  <word key="modperms__core_Content_gallery_Album_Item" js="0">Gallery Albums</word>
+  <word key="gallery_categories" js="0">Categories</word>
+  <word key="can_pin_gallery_image" js="0">Can pin images?</word>
+  <word key="can_unpin_gallery_image" js="0">Can unpin images?</word>
+  <word key="can_feature_gallery_image" js="0">Can feature images?</word>
+  <word key="can_unfeature_gallery_image" js="0">Can unfeature images?</word>
+  <word key="can_move_gallery_image" js="0">Can move images?</word>
+  <word key="can_move_gallery_image_desc" js="0">Will be able to move images only between the categories they can create new content within.</word>
+  <word key="can_lock_gallery_image" js="0">Can lock images?</word>
+  <word key="can_unlock_gallery_image" js="0">Can unlock images?</word>
+  <word key="can_reply_to_locked_gallery_image" js="0">Can comment on locked images?</word>
+  <word key="can_edit_gallery_image" js="0">Can edit images?</word>
+  <word key="can_hide_gallery_image" js="0">Can hide images?</word>
+  <word key="can_unhide_gallery_image" js="0">Can unhide images?</word>
+  <word key="can_view_hidden_gallery_image" js="0">Can view hidden images?</word>
+  <word key="can_delete_gallery_image" js="0">Can delete images?</word>
+  <word key="can_edit_gallery_image_comment" js="0">Can edit comments?</word>
+  <word key="can_hide_gallery_image_comment" js="0">Can hide comments?</word>
+  <word key="can_unhide_gallery_image_comment" js="0">Can unhide comments?</word>
+  <word key="can_view_hidden_gallery_image_comment" js="0">Can view hidden comments?</word>
+  <word key="can_delete_gallery_image_comment" js="0">Can delete comments?</word>
+  <word key="can_feature_gallery_album" js="0">Can feature albums?</word>
+  <word key="can_unfeature_gallery_album" js="0">Can unfeature albums?</word>
+  <word key="can_edit_gallery_album" js="0">Can edit albums?</word>
+  <word key="can_hide_gallery_album" js="0">Can hide albums?</word>
+  <word key="can_unhide_gallery_album" js="0">Can unhide albums?</word>
+  <word key="can_view_hidden_gallery_album" js="0">Can view hidden albums?</word>
+  <word key="can_move_gallery_album" js="0">Can move albums?</word>
+  <word key="can_move_gallery_album_desc" js="0">Will be able to move albums only between the categories they can create new content within.</word>
+  <word key="can_lock_gallery_album" js="0">Can lock albums?</word>
+  <word key="can_unlock_gallery_album" js="0">Can unlock albums?</word>
+  <word key="can_reply_to_locked_gallery_album" js="0">Can reply to locked albums?</word>
+  <word key="can_add_item_message_gallery_album" js="0">Can add messages to albums?</word>
+  <word key="can_edit_item_message_gallery_album" js="0">Can edit messages on albums?</word>
+  <word key="can_delete_item_message_gallery_album" js="0">Can delete messages on albums?</word>
+  <word key="can_delete_gallery_album" js="0">Can delete albums?</word>
+  <word key="can_edit_gallery_album_comment" js="0">Can edit album comments?</word>
+  <word key="can_hide_gallery_album_comment" js="0">Can hide album comments?</word>
+  <word key="can_unhide_gallery_album_comment" js="0">Can unhide album comments?</word>
+  <word key="can_view_hidden_gallery_album_comment" js="0">Can view hidden album comments?</word>
+  <word key="can_delete_gallery_album_comment" js="0">Can delete album comments?</word>
+  <word key="can_edit_gallery_album_review" js="0">Can edit album reviews?</word>
+  <word key="can_hide_gallery_album_review" js="0">Can hide album reviews?</word>
+  <word key="can_unhide_gallery_album_review" js="0">Can unhide album reviews?</word>
+  <word key="can_view_hidden_gallery_album_review" js="0">Can view hidden album reviews?</word>
+  <word key="can_delete_gallery_album_review" js="0">Can delete album reviews?</word>
+  <word key="can_edit_gallery_image_review" js="0">Can edit reviews?</word>
+  <word key="can_hide_gallery_image_review" js="0">Can hide reviews?</word>
+  <word key="can_unhide_gallery_image_review" js="0">Can unhide reviews?</word>
+  <word key="can_view_hidden_gallery_image_review" js="0">Can view hidden reviews?</word>
+  <word key="can_delete_gallery_image_review" js="0">Can delete reviews?</word>
+  <word key="can_feature_comments_gallery_image" js="0">Can recommend comments on an image?</word>
+  <word key="can_unfeature_comments_gallery_image" js="0">Can remove comment recommendations on an image?</word>
+  <word key="can_add_item_message_gallery_image" js="0">Can add messages to images?</word>
+  <word key="can_edit_item_message_gallery_image" js="0">Can edit messages on images?</word>
+  <word key="can_delete_item_message_gallery_image" js="0">Can delete messages on images?</word>
+  <word key="acplogs__gallery_settings" js="0">Gallery settings updated</word>
+  <word key="acplogs__gallery_rebuilt" js="0">Images rebuild tool run.</word>
+  <word key="gallery_dims_explanation" js="0">Copies of all images uploaded to the gallery are created at different sizes and are then used as appropriate in the interface throughout the gallery. You can control the maximum dimensions of each size below.</word>
+  <word key="gallery_large_dims" js="0">Large image dimensions</word>
+  <word key="gallery_small_dims" js="0">Thumbnail image dimensions</word>
+  <word key="gallery_use_square_thumbnails" js="0">Use square thumbnails</word>
+  <word key="gallery_watermark_path" js="0">Watermark image</word>
+  <word key="gallery_watermark_path_desc" js="0">The image provided will be overlaid on all gallery images (for example, to show a copyright message). Be aware that individual categories can disable the watermark on images. For best results, use a small image with a transparent background.</word>
+  <word key="gallery_watermark_images" js="0">Images to watermark</word>
+  <word key="gallery_use_watermarks" js="0">Watermark images?</word>
+  <word key="gallery_watermark_large" js="0">Large images</word>
+  <word key="gallery_watermark_small" js="0">Thumbnail images</word>
+  <word key="gallery_bandwidth" js="0">Bandwidth Logging</word>
+  <word key="gallery_detailed_bandwidth" js="0">Store detailed bandwidth logs</word>
+  <word key="gallery_detailed_bandwidth_desc" js="0">Enabling this setting will cause Gallery image views to tracked. You can then use the bandwidth logs to see how much bandwidth image views consume over periods of time, and you can view bandwidth statistics on a per-member basis when editing members.</word>
+  <word key="gallery_bandwidth_period" js="0">Keep logs for</word>
+  <word key="gallery_bandwidth_period_desc" js="0">Detailed bandwidth logs older than this timeframe will be pruned to improve performance. Certain statistics requiring these logs will no longer be available once the bandwidth logs are pruned.</word>
+  <word key="gallery_options" js="0">General Options</word>
+  <word key="gallery_rss_enabled" js="0">Enable latest images RSS feed</word>
+  <word key="gallery_rebuildimages" js="0">Rebuilding images</word>
+  <word key="rebuilding_gallery_images" js="0">Rebuilding gallery images</word>
+  <word key="cleaning_up_gallery_images" js="0">Cleaning up Gallery images </word>
+  <word key="gallery_maps_default" js="0">Enable maps by default</word>
+  <word key="gallery_maps_default_desc" js="0">Users can choose whether or not to show a map next to images that have geolocation data embedded into the image. This option controls whether those maps are enabled by default or not, however users can override this preference while submitting their images.</word>
+  <word key="member__gallery_Images" js="0">Gallery</word>
+  <word key="remove_gallery_access" js="0">Allowed to access gallery?</word>
+  <word key="remove_gallery_upload" js="0">Allowed to upload images?</word>
+  <word key="gallery_stats" js="0">View Gallery Statistics</word>
+  <word key="history_restrictions_remove_gallery_access_1" js="0">disabled ability to access Gallery</word>
+  <word key="history_restrictions_remove_gallery_access_0" js="0">restored ability to access Gallery</word>
+  <word key="history_restrictions_remove_gallery_upload_1" js="0">disabled ability to upload Gallery images</word>
+  <word key="history_restrictions_remove_gallery_upload_0" js="0">restored ability to upload Gallery images</word>
+  <word key="deleted_image" js="0">Deleted image</word>
+  <word key="bandwidth" js="0">Bandwidth</word>
+  <word key="image_id" js="0">Image</word>
+  <word key="bdate" js="0">Date</word>
+  <word key="bsize" js="0">Image size</word>
+  <word key="bandwidth_stats" js="0">Bandwidth Usage</word>
+  <word key="images_submitted" js="0">Images Submitted</word>
+  <word key="gdiskspace_used" js="0">Diskspace Used</word>
+  <word key="gaverage_filesize" js="0">Average Filesize</word>
+  <word key="number_of_views" js="0">Number of Views *</word>
+  <word key="gallery_bandwidth_used" js="0">Bandwidth Used *</word>
+  <word key="bandwidth_use_gallery" js="0">Bandwidth Use</word>
+  <word key="images_stat_of_total" js="0">%s (%d%% of total)</word>
+  <word key="images_stat_of_total_link" js="0">%s (%d%% of total) %s</word>
+  <word key="images_stat_average" js="0">%s (average for all users: %s)</word>
+  <word key="gallery_stats_disclaimer" js="0">* This statistic comes from the bandwidth log which may be disabled or set to be pruned periodically.</word>
+  <word key="gallery_graph_disclaimer" js="0">This data comes from the bandwidth log which may be disabled or set to be pruned periodically.</word>
+  <word key="member_images_chart" js="0">%s's Image Statistics</word>
+  <word key="gallery_stats_uploader_count" js="0">{# [1:member][?:members]} uploaded images.</word>
+  <word key="ad_image_lightbox" js="0">In the Gallery image lightbox</word>
+  <word key="embed_gallery_album" js="0">A gallery album by %s</word>
+  <word key="embed_gallery_image" js="0">A gallery image by %s</word>
+  <word key="module__gallery_gallery" js="0">Gallery</word>
+  <word key="add_gallery_image" js="0">Add Images</word>
+  <word key="add_gallery_image_movies" js="0">Add Images or Movies</word>
+  <word key="submit_first_image" js="0">Add the first image</word>
+  <word key="browse_categories" js="0">Browse categories</word>
+  <word key="save_submit_images" js="0">Save images</word>
+  <word key="submit_all_images" js="0">Submit all images</word>
+  <word key="allowed_file_types_link" js="0">Allowed file types</word>
+  <word key="gal_notification_options" js="0">Notification settings</word>
+  <word key="submit_help_info" js="0">Select an image to edit its details.</word>
+  <word key="add_credit" js="0">Add a credit</word>
+  <word key="add_copyright" js="0">Add a copyright</word>
+  <word key="submit_go_back" js="0">Save details</word>
+  <word key="image_info_saved" js="0">Image information saved</word>
+  <word key="gallery_submit_prefix_album" js="0">Uploading to album &quot;%s&quot;</word>
+  <word key="gallery_submit_prefix_cat" js="0">Uploading to category &quot;%s&quot;</word>
+  <word key="loc_gallery_adding_image" js="0">Uploading an image</word>
+  <word key="loc_gallery_adding_image_action" js="0">%s is uploading an image</word>
+  <word key="upload_more_images" js="0">Upload more images</word>
+  <word key="select_your_images" js="0">Select your images</word>
+  <word key="select_your_movies" js="0">Select your movies</word>
+  <word key="upload_more_movies" js="0">Upload more movies</word>
+  <word key="image_title" js="0">Caption</word>
+  <word key="image_ipaddress" js="0">IP Address</word>
+  <word key="image_tags" js="0">Tags</word>
+  <word key="image_auto_follow" js="0"></word>
+  <word key="image_auto_follow_suffix" js="0">Follow this image</word>
+  <word key="image_description" js="0">Description</word>
+  <word key="image_credit_info" js="0">Credit</word>
+  <word key="image_credit_info_desc" js="0">If credit must be provided for use of the image, supply the source of the image</word>
+  <word key="image_copyright" js="0">Copyright</word>
+  <word key="image_pending_approval" js="0">This image has not yet been approved and is only visible to staff</word>
+  <word key="image_details" js="0">About this image</word>
+  <word key="manage_image" js="0">Manage Image</word>
+  <word key="report_image" js="0">Report image</word>
+  <word key="manage_album" js="0">Manage album</word>
+  <word key="report_album" js="0">Report album</word>
+  <word key="image_uploaded_by" js="0">Uploaded by %s</word>
+  <word key="image_category" js="0">Category</word>
+  <word key="image_album" js="0">Album</word>
+  <word key="image_new_album" js="0">Create new album?</word>
+  <word key="image__comment_placeholder" js="0">Add a comment...</word>
+  <word key="image_submit_comment" js="0">Submit Comment</word>
+  <word key="map_enabled" js="0">Show map?</word>
+  <word key="map_enabled_lightbox" js="0">Show map?</word>
+  <word key="map_privacy" js="0">Map privacy</word>
+  <word key="set_image_as" js="0">Set as</word>
+  <word key="loc_gallery_browsing" js="0">Browsing Gallery</word>
+  <word key="loc_gallery_browsing_action" js="0">%s is browsing the gallery</word>
+  <word key="loc_gallery_browsing_categories" js="0">Browsing gallery categories</word>
+  <word key="loc_gallery_browsing_categories_action" js="0">%s is browsing gallery categories</word>
+  <word key="featured_images" js="0">Featured Images</word>
+  <word key="new_images" js="0">New Images</word>
+  <word key="new_image_comments_notification" js="0">Notify me of comments on these images</word>
+  <word key="images_no_number" js="0">{!# [1:image][?:images]}</word>
+  <word key="loc_gallery_viewing_image" js="0">Viewing image: %s</word>
+  <word key="loc_gallery_viewing_image_action" js="0">%s is viewing an image</word>
+  <word key="loc_gallery_viewing_category" js="0">Viewing category: %s</word>
+  <word key="loc_gallery_viewing_category_action" js="0">%s is browsing a gallery category</word>
+  <word key="loc_gallery_viewing_album" js="0">Viewing album: %s</word>
+  <word key="loc_gallery_viewing_album_action" js="0">%s is viewing an album</word>
+  <word key="gallery_rss_title" js="0">Latest Images</word>
+  <word key="gallery_rss_title_container" js="0">Latest Images: %s</word>
+  <word key="gallery_rss_offline" js="0">This RSS feed is disabled</word>
+  <word key="gallery_rss_offline_admin" js="0">The Gallery option &quot;Enable latest images RSS feed&quot; is currently disabled. Toggle this option to yes in the admin control panel to enable the latest images RSS feed.</word>
+  <word key="no_images_in_album" js="0">There are no images in this album yet</word>
+  <word key="no_images_in_cat" js="0">There are no images in this category yet</word>
+  <word key="image_gps_show" js="0">Show map?</word>
+  <word key="image_gps_show_desc" js="0">You can optionally display a map for this image showing where it was taken</word>
+  <word key="view_this_image" js="0">View the image %s</word>
+  <word key="view_this_video" js="0">View the video %s</word>
+  <word key="view_this_album" js="0">View the album %s</word>
+  <word key="num_images" js="0">{# [1:image][?:images]}</word>
+  <word key="num_images_in_album" js="0">{# [1:image][?:images]} in this album</word>
+  <word key="album_latest_images" js="0">Latest Images</word>
+  <word key="rotate_image" js="0">Rotate</word>
+  <word key="rotate_left" js="0">Rotate Left</word>
+  <word key="rotate_right" js="0">Rotate Right</word>
+  <word key="gallery_image_rotated" js="0">The image has been rotated</word>
+  <word key="add_more_images" js="0">Add more images</word>
+  <word key="set_cover_photo" js="0">Set cover photo</word>
+  <word key="set_for_album" js="0">Set for album?</word>
+  <word key="set_for_category" js="0">Set for category?</word>
+  <word key="cover_category_only" js="0">Category cover</word>
+  <word key="cover_category" js="0">Set as category cover photo</word>
+  <word key="cover_album_only" js="0">Album cover</word>
+  <word key="cover_album" js="0">Set as album cover photo</word>
+  <word key="cover_both" js="0"><![CDATA[Both Category &amp; Album cover]]></word>
+  <word key="set_as_profile_photo" js="0">This image has been set as your profile photo</word>
+  <word key="set_as_category_done" js="0">This image has been set as the category cover</word>
+  <word key="set_as_album_done" js="0">This image has been set as the album cover</word>
+  <word key="set_as_both_done" js="0">This image has been set as the category and album covers</word>
+  <word key="find_users_images" js="0">View %s's images</word>
+  <word key="change_author" js="0">Change Author</word>
+  <word key="change_author_ititle" js="0">Change the member who owns this image</word>
+  <word key="gallery_metadata" js="0">Photo Information</word>
+  <word key="gallery_no_metadata" js="0">No extra image data</word>
+  <word key="view_all_photo_info" js="0">View all photo EXIF information</word>
+  <word key="view_photo_info" js="0">View photo EXIF information</word>
+  <word key="gallery_images_no_more" js="0">You can't upload any more images to this album.</word>
+  <word key="gallery_images_too_many" js="0">You can only upload {# [1:more image][?:more images]} to this album.</word>
+  <word key="gallery_images_too_many_at_once" js="0">You can only upload 100 images at a time.</word>
+  <word key="gallery_image_or_movie" js="0">You must upload at least one image or one movie</word>
+  <word key="image_thumbnail" js="0">Thumbnail</word>
+  <word key="maximum_daily_views" js="0">You have reached the maximum number of daily image and movie views that the administrator has allowed</word>
+  <word key="maximum_daily_views_admin" js="0">You have reached the value specified for your user group for 'Maximum image and movie views' on the Gallery tab within the last 24 hours</word>
+  <word key="maximum_daily_transfer" js="0">You have reached the maximum amount of bandwidth that the administrator has allowed for image and video viewing in the gallery</word>
+  <word key="maximum_daily_transfer_admin" js="0">You have reached the value specified for your user group for 'Maximum bandwidth consumption' on the Gallery tab within the last 24 hours</word>
+  <word key="move_to_category" js="0">Move to category</word>
+  <word key="move_to_album" js="0">Move to album</word>
+  <word key="move_to_new_album" js="0">New Album</word>
+  <word key="imageLocation" js="0">Upload new image</word>
+  <word key="mediaLocation" js="0">Upload new media file</word>
+  <word key="viewfilter_thumbnails" js="0">Thumbnails</word>
+  <word key="viewfilter_large" js="0">Large Images</word>
+  <word key="set_gallery_image_photo" js="0">Set as my profile photo</word>
+  <word key="view_fullsize_image" js="0">View Full Image</word>
+  <word key="no_photo_for_media" js="0">You can only set an image as your profile photo image</word>
+  <word key="delete_album" js="0">Delete Album</word>
+  <word key="edit_album" js="0">Edit Album</word>
+  <word key="sort_album_count_comments" js="0">Most Image Comments</word>
+  <word key="sort_album_rating_aggregate" js="0">Highest Rated</word>
+  <word key="sort_album_name" js="0">Album Name</word>
+  <word key="sort_album_count_imgs" js="0">Most Images</word>
+  <word key="delete_images" js="0">Delete images?</word>
+  <word key="move_image_category" js="0">Move images to category</word>
+  <word key="move_image_album" js="0">Move images to album</word>
+  <word key="map_not_being_shown" js="0">This image is not currently being displayed to other users.</word>
+  <word key="next_image_set" js="0">Continue</word>
+  <word key="uploaded" js="0">Uploaded</word>
+  <word key="in_album" js="0">In album: </word>
+  <word key="image__save" js="0">Save Image</word>
+  <word key="gallery_move_title" js="0">Move this image</word>
+  <word key="feature_title_image" js="0">Feature this image</word>
+  <word key="unfeature_title_image" js="0">Unfeature this image</word>
+  <word key="pin_title_image" js="0">Pin this image</word>
+  <word key="unpin_title_image" js="0">Unpin this image</word>
+  <word key="hide_title_image" js="0">Hide this image</word>
+  <word key="unhide_title_image" js="0">Unhide this image</word>
+  <word key="lock_title_image" js="0">Lock this image</word>
+  <word key="unlock_title_image" js="0">Unlock this image</word>
+  <word key="approve_title_image" js="0">Approve this image</word>
+  <word key="delete_title_image" js="0">Delete this image</word>
+  <word key="galleryalbum_move_title" js="0">Move this album</word>
+  <word key="feature_title_album" js="0">Feature this album</word>
+  <word key="unfeature_title_album" js="0">Unfeature this album</word>
+  <word key="hide_title_album" js="0">Hide this album</word>
+  <word key="unhide_title_album" js="0">Unhide this album</word>
+  <word key="lock_title_album" js="0">Lock this album</word>
+  <word key="unlock_title_album" js="0">Unlock this album</word>
+  <word key="approve_title_album" js="0">Approve this album</word>
+  <word key="upload_image_too_big" js="0">Images must be smaller than %s.</word>
+  <word key="upload_movie_too_big" js="0">Movies must be smaller than %s.</word>
+  <word key="unread_cat_images" js="0">This category has new images</word>
+  <word key="image_tools" js="0">Image Tools</word>
+  <word key="image_share" js="0">Share</word>
+  <word key="cannot_download_original_image" js="0">You do not have permission to download images</word>
+  <word key="gallery_unset_cover" js="0">Remove cover photo</word>
+  <word key="gallery_unset_cover_error" js="0">You do not have permission to remove the cover photo</word>
+  <word key="gallery_cover_photo_isunset" js="0">The cover photo has been removed</word>
+  <word key="cat_img_count" js="0">{# [1:image][?:images]}</word>
+  <word key="cat_album_count" js="0">{# [1:album][?:albums]}</word>
+  <word key="cat_comment_count" js="0">{# [1:comment][?:comments]}</word>
+  <word key="image_review_count" js="0">{# [1:review][?:reviews]}</word>
+  <word key="image_comment_count" js="0">{# [1:comment][?:comments]}</word>
+  <word key="from_the_album" js="0">From the album: </word>
+  <word key="from_the_category" js="0">From the category: </word>
+  <word key="album_created_by" js="0">Album created by</word>
+  <word key="album_everything_seen" js="0">You've seen everything in this album</word>
+  <word key="album_new_content" js="0">This album has unseen content</word>
+  <word key="camera_information" js="0">Camera information</word>
+  <word key="add_image_note" js="0">Add note</word>
+  <word key="view_in_lightbox" js="0">View in lightbox</word>
+  <word key="view_entire_album" js="0">View the entire %s album</word>
+  <word key="events_in_album" js="0">{!# [1:Event][?:Events]} in this album</word>
+  <word key="notes_no_permission" js="0">You do not have permission to edit notes for this image</word>
+  <word key="view_as_thumbnails" js="0">Show as thumbnails</word>
+  <word key="view_as_large" js="0">Show as large previews</word>
+  <word key="view_as_list" js="0">Show as list</word>
+  <word key="gallery_image_comment" js="0">Image Comment</word>
+  <word key="gallery_image_pl" js="0">Images</word>
+  <word key="gallery_image_pl_lc" js="0">images</word>
+  <word key="gallery_album_item_pl" js="0">Albums</word>
+  <word key="gallery_album_item_pl_lc" js="0">albums</word>
+  <word key="gallery_image_comment_pl" js="0">Image Comments</word>
+  <word key="gallery_image_comment_pl_lc" js="0">image comments</word>
+  <word key="gallery_image_review" js="0">Image Review</word>
+  <word key="gallery_image_review_pl" js="0">Image Reviews</word>
+  <word key="gallery_image_review_pl_lc" js="0">image reviews</word>
+  <word key="gallery_album" js="0">Album</word>
+  <word key="gallery_album_pl" js="0">Albums</word>
+  <word key="gallery_album_pl_lc" js="0">albums</word>
+  <word key="gallery_album_comment" js="0">Album Comment</word>
+  <word key="gallery_album_comment_pl" js="0">Album Comments</word>
+  <word key="gallery_album_comment_pl_lc" js="0">album comments</word>
+  <word key="gallery_image_comments_s" js="0">{# [1:image comment][?:image comments]}</word>
+  <word key="gallery_album_review" js="0">Album Review</word>
+  <word key="gallery_album_review_lc" js="0">album review</word>
+  <word key="gallery_album_review_pl" js="0">Album Reviews</word>
+  <word key="gallery_album_review_pl_lc" js="0">album reviews</word>
+  <word key="image_locked_can_comment" js="0">This image is locked, but your permissions allow you to add new comments.</word>
+  <word key="image_locked_cannot_comment" js="0">This image is now closed to further comments.</word>
+  <word key="album_locked_can_comment" js="0">This album is locked, but your permissions allow you to add new comments.</word>
+  <word key="album_locked_cannot_comment" js="0">This album is now closed to further comments.</word>
+  <word key="gallery_edit_details" js="0">Edit Details</word>
+  <word key="gallery_edit_details_title" js="0">Edit this image's details</word>
+  <word key="image_rating_value" js="0">Your rating</word>
+  <word key="image_review_text" js="0">Your review</word>
+  <word key="image__review_placeholder" js="0">Add a review...</word>
+  <word key="block_imageFeed" js="0">Image Feed</word>
+  <word key="block_imageFeed_desc" js="0">Create a feed of images</word>
+  <word key="widget_feed_container_gallery_image" js="0">Categories</word>
+  <word key="block_galleryStats" js="0">Gallery Statistics</word>
+  <word key="block_galleryStats_desc" js="0">Shows gallery application statistics</word>
+  <word key="block_recentComments" js="0">Recent Comments</word>
+  <word key="block_recentComments_desc" js="0">Shows newest comments</word>
+  <word key="total_images_front_h" js="0">{!#[1:Image][?:Images]}</word>
+  <word key="total_images_front_v" js="0">{!#[?:Images]}</word>
+  <word key="stats_total_comments_v" js="0">{!#[1:Comment][?:Comments]}</word>
+  <word key="stats_total_comments_h" js="0">{!#[?:Comments]}</word>
+  <word key="total_albums_h" js="0">{!#[1:Album][?:Albums]}</word>
+  <word key="total_albums_v" js="0">{!#[?:Albums]}</word>
+  <word key="latest_image" js="0">Latest Image</word>
+  <word key="block_recentImageReviews" js="0">Image Reviews</word>
+  <word key="block_recentImageReviews_desc" js="0">Shows the most recent image reviews</word>
+  <word key="block_recentImages" js="0">Recent Images</word>
+  <word key="block_recentImages_desc" js="0">Show newest Images</word>
+  <word key="block_albums" js="0">Album Feed</word>
+  <word key="block_albums_desc" js="0">Create a listing of albums</word>
+  <word key="widget_feed_container_gallery_album" js="0">Category</word>
+  <word key="profile_gallery_album" js="0">Albums</word>
+  <word key="gallery_category_id" js="0">Category</word>
+  <word key="profile_gallery_gallery" js="0">Albums</word>
+  <word key="profile_gallery_galleryImages" js="0">Images</word>
+  <word key="choose_album" js="0">Choose Album</word>
+  <word key="choose_category" js="0">Choose Category</word>
+  <word key="upload_images" js="0">Upload Images</word>
+  <word key="image_information" js="0">Add Information</word>
+  <word key="process" js="0">Finish</word>
+  <word key="create_new_album" js="0">Create new album</word>
+  <word key="choose_selected_album" js="0">Use Selected Album</word>
+  <word key="submit_breadcrumb" js="0">Submit Image</word>
+  <word key="submit_directly_to" js="0">Post directly to the category %s</word>
+  <word key="submit_new_album" js="0">Create a brand new album for your images</word>
+  <word key="choose_existing_album_desc" js="0">Choose one of your existing albums</word>
+  <word key="use_plain_editor" js="0">Use plain editor</word>
+  <word key="use_rte_editor" js="0">Use rich text editor</word>
+  <word key="album_create_owner" js="0">Ownership</word>
+  <word key="album_create_privacy" js="0">Privacy</word>
+  <word key="album_create_features" js="0">Album Features</word>
+  <word key="add_information" js="0">Add Image Information</word>
+  <word key="add_information_desc" js="0">Add titles and descriptions to your images</word>
+  <word key="add_information_plus_album_desc" js="0">Add titles and descriptions to your images, and optionally add them to an album</word>
+  <word key="images_you_uploaded" js="0">Images you uploaded</word>
+  <word key="movies_you_uploaded" js="0">Videos you uploaded</word>
+  <word key="media_you_uploaded" js="0">Files you uploaded</word>
+  <word key="new_album" js="0"><![CDATA[Adding {# [1:image][?:images]} to album: <strong>%s</strong>]]></word>
+  <word key="with_all_images" js="0">With all images</word>
+  <word key="create_album" js="0">Create Album</word>
+  <word key="create_an_album" js="0">Create an album</word>
+  <word key="add_to_existing_album" js="0">Add to an existing album</word>
+  <word key="choose_existing_album" js="0">Use an existing album</word>
+  <word key="change_album" js="0">change</word>
+  <word key="set_tags" js="0">Set tags...</word>
+  <word key="set_copyright" js="0">Set copyright...</word>
+  <word key="set_copyright_all" js="0">Set copyright on all</word>
+  <word key="set_credit_all" js="0">Set credit on all</word>
+  <word key="set_tags_all" js="0">Set tags on all</word>
+  <word key="notify_me" js="0">Notify me when comments are posted</word>
+  <word key="album_limit_message" js="0"><![CDATA[Albums can contain up to <strong>{# [1:image or video][?:images or videos]}</strong>, but you've uploaded <strong>%d</strong>. Only the first {# [1:image or video][?:images or videos]} will be added to the album when you save; any remaining will be removed.]]></word>
+  <word key="too_many_images" js="0">Too many images</word>
+  <word key="editing_image" js="0">Editing Image</word>
+  <word key="editing_movie" js="0">Editing Video</word>
+  <word key="ready_to_submit" js="0">Ready to submit</word>
+  <word key="ready_to_submit_blurb" js="0"><![CDATA[Click <em>Finish editing images</em> to submit your images to our gallery.]]></word>
+  <word key="x_of_y" js="0">%d of %d</word>
+  <word key="continue_next_image" js="0">Save this image</word>
+  <word key="finish_all_images" js="0">Finish and save all images</word>
+  <word key="image_info_finish" js="0">Finish editing images</word>
+  <word key="add_gallery_image_desc" js="0">Choose the images you want to add to the gallery</word>
+  <word key="add_gallery_image_limit" js="0"><![CDATA[Planning to add these to an album? Albums can contain up to <strong>{# [1:image or video][?:images or videos]}</strong>.]]></word>
+  <word key="add_gallery_album_limit" js="0"><![CDATA[You can upload up to <strong>{# [1:image or video][?:images or videos]}</strong> to this album]]></word>
+  <word key="album_full" js="0">Album full</word>
+  <word key="album_full_desc" js="0">You can't add any more images to this album</word>
+  <word key="x_more_images_album" js="0">You can add {# [1:more image][?:more images]} to this album</word>
+  <word key="saving_images" js="0">Saving Images</word>
+  <word key="saving_images_desc" js="0">Your images are being stored, please wait...</word>
+  <word key="adding_to_category_x" js="0"><![CDATA[Adding images to <strong>%s</strong>]]></word>
+  <word key="add_copyright_image" js="0">Add a copyright for this image</word>
+  <word key="add_credit_image" js="0">Add a credit for this image</word>
+  <word key="cannot_create_album" js="0">Sorry, you don't have permission to create a new album in this category.</word>
+  <word key="used_max_albums" js="0">You can't create any more albums (maximum of %d).</word>
+  <word key="no_existing_albums" js="0">You have no albums in this category to choose from</word>
+  <word key="use_no_album" js="0">Continue without using an album</word>
+  <word key="uploading_to_x" js="0">Uploading to %s</word>
+  <word key="files_had_errors" js="0">Some files had errors</word>
+  <word key="copyright" js="0">Copyright</word>
+  <word key="set_copyright_desc" js="0">Sets the copyright for each image you're uploading except ones you individually add a copyright for.</word>
+  <word key="credit" js="0">Credit</word>
+  <word key="credit_desc" js="0">Sets the credit for each image you're uploading except ones you individually add a credit for.</word>
+  <word key="tags_all_desc" js="0">Sets the tags for each image you're uploading except ones you individually specify tags for.</word>
+  <word key="gallery_clear_uploads_error" js="0">Could not delete file %s : %s'</word>
+  <word key="specify_image_tags" js="0">Set tags</word>
+  <word key="gallery_guest_post_normal_header" js="0">You are posting as a guest</word>
+  <word key="gallery_guest_post_pbr_blurb" js="0">You can submit your images now and register an account later.</word>
+  <word key="gallery_guest_post_mod_approval" js="0"><![CDATA[<strong>Note:</strong> your images will require approval by a moderator after posting.]]></word>
+  <word key="gallery_this_will_be_moderated" js="0">Because of a warning you received, your images will be hidden until a moderator approves them.</word>
+  <word key="emailtpl__imageContent" js="0">Gallery image table</word>
+  <word key="exif_title" js="0">Full EXIF data</word>
+  <word key="gallery_focal_length_mm" js="0">%s mm</word>
+  <word key="gallery_shutterspeed" js="0">1/%s second</word>
+  <word key="gallery_exif_camera" js="0">Taken with</word>
+  <word key="gallery_exif_isospeed" js="0">ISO Speed</word>
+  <word key="gallery_exif_iso" js="0">ISO</word>
+  <word key="FILE.FileName" js="0"></word>
+  <word key="FILE.SectionsFound" js="0"></word>
+  <word key="FILE.FileDateTime" js="0"></word>
+  <word key="FILE.FileType" js="0"></word>
+  <word key="FILE.MimeType" js="0">Mime Type</word>
+  <word key="FILE.FileSize" js="0">Original File Size</word>
+  <word key="COMPUTED.html" js="0"></word>
+  <word key="COMPUTED.ApertureFNumber" js="0">Aperture</word>
+  <word key="COMPUTED.Thumbnail.MimeType" js="0"></word>
+  <word key="COMPUTED.Height" js="0">Image Height</word>
+  <word key="COMPUTED.Width" js="0">Image Width</word>
+  <word key="COMPUTED.IsColor" js="0">Color</word>
+  <word key="COMPUTED.IsColor_map_0" js="0">FALSE</word>
+  <word key="COMPUTED.IsColor_map_1" js="0">TRUE</word>
+  <word key="COMPUTED.ByteOrderMotorola" js="0">Byte Order Motorola</word>
+  <word key="COMPUTED.ByteOrderMotorola_map_0" js="0">FALSE</word>
+  <word key="COMPUTED.ByteOrderMotorola_map_1" js="0">TRUE</word>
+  <word key="COMPUTED.CCDWidth" js="0">CCD Width</word>
+  <word key="COMPUTED.UserCommentEncoding" js="0"></word>
+  <word key="COMPUTED.UserComment" js="0"></word>
+  <word key="COMPUTED.Thumbnail.FileType" js="0"></word>
+  <word key="COMPUTED.FocusDistance" js="0">Focus Distance</word>
+  <word key="IFD0.ImageDescription" js="0">Image Description</word>
+  <word key="IFD0.Make" js="0">Camera Make</word>
+  <word key="IFD0.Model" js="0">Camera Model</word>
+  <word key="IFD0.Artist" js="0">Artist</word>
+  <word key="IFD0.Copyright" js="0">Copyright</word>
+  <word key="IFD0.XResolution" js="0">X-Resolution</word>
+  <word key="IFD0.YResolution" js="0">Y-Resolution</word>
+  <word key="IFD0.DateTime" js="0">Last Modified</word>
+  <word key="IFD0.Orientation" js="0">Orientation</word>
+  <word key="IFD0.Orientation_map_1" js="0">The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side</word>
+  <word key="IFD0.Orientation_map_2" js="0">The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side</word>
+  <word key="IFD0.Orientation_map_3" js="0">The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side</word>
+  <word key="IFD0.Orientation_map_4" js="0">The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side</word>
+  <word key="IFD0.Orientation_map_5" js="0">The 0th row is the visual left-hand side of the image, and the 0th column is the visual top</word>
+  <word key="IFD0.Orientation_map_6" js="0">The 0th row is the visual right-hand side of the image, and the 0th column is the visual top</word>
+  <word key="IFD0.Orientation_map_7" js="0">The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom</word>
+  <word key="IFD0.Orientation_map_8" js="0">The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom</word>
+  <word key="IFD0.ResolutionUnit" js="0">Resolution Unit</word>
+  <word key="IFD0.Software" js="0">Software</word>
+  <word key="IFD0.YCbCrPositioning" js="0">YCbCr Positioning</word>
+  <word key="IFD0.YCbCrPositioning_map_1" js="0">centered</word>
+  <word key="IFD0.YCbCrPositioning_map_2" js="0">co-sited</word>
+  <word key="IFD0.Exif_IFD_Pointer" js="0"></word>
+  <word key="IFD0.GPS_IFD_Pointer" js="0"></word>
+  <word key="EXIF.ExposureTime" js="0">Exposure Time</word>
+  <word key="EXIF.FNumber" js="0">F Number</word>
+  <word key="EXIF.ExifVersion" js="0">Exif Version</word>
+  <word key="EXIF.DateTimeOriginal" js="0">Date Taken</word>
+  <word key="EXIF.DateTimeDigitized" js="0">Date Digitized</word>
+  <word key="EXIF.ComponentsConfiguration" js="0"></word>
+  <word key="EXIF.CompressedBitsPerPixel" js="0">Compressed bits/pixel</word>
+  <word key="EXIF.ExposureBiasValue" js="0">Exposure Bias Value</word>
+  <word key="EXIF.MaxApertureValue" js="0">Max Aperture Value</word>
+  <word key="EXIF.FocalLength" js="0">Focal Length</word>
+  <word key="EXIF.MakerNote" js="0"></word>
+  <word key="EXIF.ShutterSpeedValue" js="0">Shutter Speed</word>
+  <word key="EXIF.ApertureValue" js="0">Aperture Value</word>
+  <word key="EXIF.BrightnessValue" js="0">Brightness Value</word>
+  <word key="EXIF.SubSecTimeOriginal" js="0"></word>
+  <word key="EXIF.SubSecTimeDigitized" js="0"></word>
+  <word key="EXIF.ExposureIndex" js="0">Exposure Index</word>
+  <word key="EXIF.CustomRendered" js="0"></word>
+  <word key="EXIF.DigitalZoomRatio" js="0">Digital Zoom Ratio</word>
+  <word key="EXIF.FocalLengthIn35mmFilm" js="0">Focal Length (35mm equiv)</word>
+  <word key="EXIF.SubjectDistanceRange" js="0">Distance Range</word>
+  <word key="EXIF.SubjectDistance" js="0">Subject Distance</word>
+  <word key="EXIF.FlashPixVersion" js="0">Flashpix Version</word>
+  <word key="EXIF.FlashPixVersion_map_0100" js="0">Flashpix Format Version 1.0</word>
+  <word key="EXIF.FileSource" js="0"></word>
+  <word key="EXIF.SceneType" js="0"></word>
+  <word key="EXIF.SceneCaptureType" js="0">Scene Capture Type</word>
+  <word key="EXIF.SceneCaptureType_map_0" js="0">Standard</word>
+  <word key="EXIF.SceneCaptureType_map_1" js="0">Landscape</word>
+  <word key="EXIF.SceneCaptureType_map_2" js="0">Portrait</word>
+  <word key="EXIF.SceneCaptureType_map_3" js="0">Night scene</word>
+  <word key="EXIF.GainControl" js="0">Gain Control</word>
+  <word key="EXIF.GainControl_map_0" js="0">None</word>
+  <word key="EXIF.GainControl_map_1" js="0">Low gain up</word>
+  <word key="EXIF.GainControl_map_2" js="0">High gain up</word>
+  <word key="EXIF.GainControl_map_3" js="0">Low gain down</word>
+  <word key="EXIF.GainControl_map_4" js="0">High gain down</word>
+  <word key="EXIF.Contrast" js="0">Contrast</word>
+  <word key="EXIF.Contrast_map_0" js="0">Normal</word>
+  <word key="EXIF.Contrast_map_1" js="0">Soft</word>
+  <word key="EXIF.Contrast_map_2" js="0">Hard</word>
+  <word key="EXIF.Saturation" js="0">Saturation</word>
+  <word key="EXIF.Saturation_map_0" js="0">Normal</word>
+  <word key="EXIF.Saturation_map_1" js="0">Low saturation</word>
+  <word key="EXIF.Saturation_map_2" js="0">High saturation</word>
+  <word key="EXIF.Sharpness" js="0">Sharpness</word>
+  <word key="EXIF.Sharpness_map_0" js="0">Normal</word>
+  <word key="EXIF.Sharpness_map_1" js="0">Soft</word>
+  <word key="EXIF.Sharpness_map_2" js="0">Hard</word>
+  <word key="EXIF.ExposureMode" js="0">Exposure Mode</word>
+  <word key="EXIF.ExposureMode_map_0" js="0">Auto exposure</word>
+  <word key="EXIF.ExposureMode_map_1" js="0">Manual exposure</word>
+  <word key="EXIF.ExposureMode_map_2" js="0">Auto bracket</word>
+  <word key="EXIF.WhiteBalance" js="0">White Balance</word>
+  <word key="EXIF.WhiteBalance_map_0" js="0">Auto white balance</word>
+  <word key="EXIF.WhiteBalance_map_1" js="0">Manual white balance</word>
+  <word key="EXIF.ExposureProgram" js="0">Exposure Program</word>
+  <word key="EXIF.ExposureProgram_map_0" js="0">Not defined</word>
+  <word key="EXIF.ExposureProgram_map_1" js="0">Manual</word>
+  <word key="EXIF.ExposureProgram_map_2" js="0">Normal program</word>
+  <word key="EXIF.ExposureProgram_map_3" js="0">Aperture priority</word>
+  <word key="EXIF.ExposureProgram_map_4" js="0">Shutter priority</word>
+  <word key="EXIF.ExposureProgram_map_5" js="0">Creative program (biased toward depth of field)</word>
+  <word key="EXIF.ExposureProgram_map_6" js="0">Action program (biased toward fast shutter speed)</word>
+  <word key="EXIF.ExposureProgram_map_7" js="0">Portrait mode (for closeup photos with the background out of focus)</word>
+  <word key="EXIF.ExposureProgram_map_8" js="0">Landscape mode (for landscape photos with the background in focus)</word>
+  <word key="EXIF.ISOSpeedRatings" js="0">ISO Speed Ratings</word>
+  <word key="EXIF.MeteringMode" js="0">Metering Mode</word>
+  <word key="EXIF.MeteringMode_map_0" js="0">Unknown</word>
+  <word key="EXIF.MeteringMode_map_1" js="0">Average</word>
+  <word key="EXIF.MeteringMode_map_2" js="0">CenterWeightedAverage</word>
+  <word key="EXIF.MeteringMode_map_3" js="0">Spot</word>
+  <word key="EXIF.MeteringMode_map_4" js="0">MultiSpot</word>
+  <word key="EXIF.MeteringMode_map_5" js="0">Pattern</word>
+  <word key="EXIF.MeteringMode_map_6" js="0">Partial</word>
+  <word key="EXIF.MeteringMode_map_255" js="0">Other</word>
+  <word key="EXIF.LightSource" js="0">Light Source</word>
+  <word key="EXIF.LightSource_map_0" js="0">Unknown</word>
+  <word key="EXIF.LightSource_map_1" js="0">Daylight</word>
+  <word key="EXIF.LightSource_map_2" js="0">Fluorescent</word>
+  <word key="EXIF.LightSource_map_3" js="0">Tungsten (incandescent light)</word>
+  <word key="EXIF.LightSource_map_4" js="0">Flash</word>
+  <word key="EXIF.LightSource_map_9" js="0">Fine weather</word>
+  <word key="EXIF.LightSource_map_10" js="0">Cloudy weather</word>
+  <word key="EXIF.LightSource_map_11" js="0">Shade</word>
+  <word key="EXIF.LightSource_map_12" js="0">Daylight fluorescent (D 5700 - 7100K)</word>
+  <word key="EXIF.LightSource_map_13" js="0">Day white fluorescent (N 4600 - 5400K)</word>
+  <word key="EXIF.LightSource_map_14" js="0">Cool white fluorescent (W 3900 - 4500K)</word>
+  <word key="EXIF.LightSource_map_15" js="0">White fluorescent (WW 3200 - 3700K)</word>
+  <word key="EXIF.LightSource_map_17" js="0">Standard light A</word>
+  <word key="EXIF.LightSource_map_18" js="0">Standard light B</word>
+  <word key="EXIF.LightSource_map_19" js="0">Standard light C</word>
+  <word key="EXIF.LightSource_map_20" js="0">D55</word>
+  <word key="EXIF.LightSource_map_21" js="0">D65</word>
+  <word key="EXIF.LightSource_map_22" js="0">D75</word>
+  <word key="EXIF.LightSource_map_23" js="0">D50</word>
+  <word key="EXIF.LightSource_map_24" js="0">ISO studio tungsten</word>
+  <word key="EXIF.LightSource_map_255" js="0">Other light source</word>
+  <word key="EXIF.Flash" js="0">Flash</word>
+  <word key="EXIF.Flash_map_0" js="0">Flash did not fire</word>
+  <word key="EXIF.Flash_map_1" js="0">Flash fired</word>
+  <word key="EXIF.Flash_map_5" js="0">Strobe return light not detected</word>
+  <word key="EXIF.Flash_map_7" js="0">Strobe return light detected</word>
+  <word key="EXIF.Flash_map_9" js="0">Flash fired, compulsory flash mode</word>
+  <word key="EXIF.Flash_map_D" js="0">Flash fired, compulsory flash mode, return light not detected</word>
+  <word key="EXIF.Flash_map_F" js="0">Flash fired, compulsory flash mode, return light detected</word>
+  <word key="EXIF.Flash_map_10" js="0">Flash did not fire, compulsory flash mode</word>
+  <word key="EXIF.Flash_map_18" js="0">Flash did not fire, auto mode</word>
+  <word key="EXIF.Flash_map_19" js="0">Flash fired, auto mode</word>
+  <word key="EXIF.Flash_map_1D" js="0">Flash fired, auto mode, return light not detected</word>
+  <word key="EXIF.Flash_map_1F" js="0">Flash fired, auto mode, return light detected</word>
+  <word key="EXIF.Flash_map_20" js="0">No flash function</word>
+  <word key="EXIF.Flash_map_41" js="0">Flash fired, red-eye reduction mode</word>
+  <word key="EXIF.Flash_map_45" js="0">Flash fired, red-eye reduction mode, return light not detected</word>
+  <word key="EXIF.Flash_map_47" js="0">Flash fired, red-eye reduction mode, return light detected</word>
+  <word key="EXIF.Flash_map_49" js="0">Flash fired, compulsory flash mode, red-eye reduction mode</word>
+  <word key="EXIF.Flash_map_4D" js="0">Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected</word>
+  <word key="EXIF.Flash_map_4F" js="0">Flash fired, compulsory flash mode, red-eye reduction mode, return light detected</word>
+  <word key="EXIF.Flash_map_59" js="0">Flash fired, auto mode, red-eye reduction mode</word>
+  <word key="EXIF.Flash_map_5D" js="0">Flash fired, auto mode, return light not detected, red-eye reduction mode</word>
+  <word key="EXIF.Flash_map_5F" js="0">Flash fired, auto mode, return light detected, red-eye reduction mode</word>
+  <word key="EXIF.UserComment" js="0"></word>
+  <word key="EXIF.ColorSpace" js="0">Color Space</word>
+  <word key="EXIF.ColorSpace_map_1" js="0">sRGB</word>
+  <word key="EXIF.ColorSpace_map_FFFF" js="0">Uncalibrated</word>
+  <word key="EXIF.ExifImageWidth" js="0">Image Width</word>
+  <word key="EXIF.ExifImageLength" js="0">Image Length</word>
+  <word key="EXIF.InteroperabilityOffset" js="0">Interoperability Offset</word>
+  <word key="EXIF.SensingMethod" js="0">Sensing Method</word>
+  <word key="EXIF.SensingMethod_map_1" js="0">Not Defined</word>
+  <word key="EXIF.SensingMethod_map_2" js="0">One-chip color area sensor</word>
+  <word key="EXIF.SensingMethod_map_3" js="0">Two-chip color area sensor</word>
+  <word key="EXIF.SensingMethod_map_4" js="0">Three-chip color area sensor</word>
+  <word key="EXIF.SensingMethod_map_5" js="0">Color sequential area sensor</word>
+  <word key="EXIF.SensingMethod_map_7" js="0">Trilinear sensor</word>
+  <word key="EXIF.SensingMethod_map_8" js="0">Color sequential linear sensor</word>
+  <word key="EXIF.FocalPlaneXResolution" js="0">Focal Plane X-Resolution</word>
+  <word key="EXIF.FocalPlaneYResolution" js="0">Focal Plane Y-Resolution</word>
+  <word key="EXIF.FocalPlaneResolutionUnit" js="0">Focal Plane Resolution Unit</word>
+  <word key="INTEROP.InterOperabilityIndex" js="0">Inter-operability Index</word>
+  <word key="INTEROP.InterOperabilityVersion" js="0">Inter-operability Version</word>
+  <word key="INTEROP.RelatedImageWidth" js="0"></word>
+  <word key="INTEROP.RelatedImageHeight" js="0"></word>
+  <word key="MAKERNOTE.ImageType" js="0">Camera (Maker Note)</word>
+  <word key="MAKERNOTE.FirmwareVersion" js="0">Firmware Version</word>
+  <word key="MAKERNOTE.ImageNumber" js="0"></word>
+  <word key="MAKERNOTE.OwnerName" js="0"></word>
+  <word key="GPS.GPSVersion" js="0"></word>
+  <word key="GPS.GPSAltitudeRef" js="0"></word>
+  <word key="GPS.GPSProcessingMode" js="0"></word>
+  <word key="EXIF.CFAPattern" js="0"></word>
+  <word key="THUMBNAIL.Make" js="0"></word>
+  <word key="THUMBNAIL.Model" js="0"></word>
+  <word key="THUMBNAIL.XResolution" js="0"></word>
+  <word key="THUMBNAIL.YResolution" js="0"></word>
+  <word key="THUMBNAIL.DateTime" js="0"></word>
+  <word key="THUMBNAIL.Compression" js="0"></word>
+  <word key="THUMBNAIL.Compression_map_1" js="0"></word>
+  <word key="THUMBNAIL.Compression_map_6" js="0"></word>
+  <word key="THUMBNAIL.Orientation" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_1" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_2" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_3" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_4" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_5" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_6" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_7" js="0"></word>
+  <word key="THUMBNAIL.Orientation_map_8" js="0"></word>
+  <word key="THUMBNAIL.ResolutionUnit" js="0"></word>
+  <word key="THUMBNAIL.JPEGInterchangeFormat" js="0"></word>
+  <word key="THUMBNAIL.JPEGInterchangeFormatLength" js="0"></word>
+  <word key="THUMBNAIL.YCbCrPositioning" js="0"></word>
+  <word key="THUMBNAIL.YCbCrPositioning_map_1" js="0"></word>
+  <word key="THUMBNAIL.YCbCrPositioning_map_2" js="0"></word>
+  <word key="EXIF.UndefinedTag:0xA434" js="0">Lens Model</word>
+  <word key="digest_area_gallery_image" js="0">Images</word>
+  <word key="digest_area_gallery_album" js="0">Albums</word>
+  <word key="digest_area_gallery_category" js="0">Categories</word>
+  <word key="x_added_image_in" js="0">%s added an image in %s</word>
+  <word key="x_added_video_in" js="0">%s added a video in %s</word>
+  <word key="x_added_album_in" js="0">%s created an album in %s</word>
+  <word key="x_commented_photo" js="0">%s commented on a photo</word>
+  <word key="x_reviewed_photo" js="0">%s reviewed a photo</word>
+  <word key="x_commented_album" js="0">%s commented on an album</word>
+  <word key="x_reviewed_album" js="0">%s reviewed an album</word>
+  <word key="__api_gallery_albums" js="0">Albums</word>
+  <word key="__api_gallery_images" js="0">Images</word>
+  <word key="__api_gallery_comments" js="0">Comments</word>
+  <word key="__api_gallery_reviews" js="0">Reviews</word>
+  <word key="__api_gallery_categories" js="0">Categories</word>
+  <word key="gallery_bm_filters" js="0">Gallery</word>
+  <word key="mf_has_album" js="0">Member has an Album?</word>
+  <word key="sitemap_gallery_Images" js="0">Gallery Images</word>
+  <word key="sitemap_gallery_Videos" js="0">Gallery Videos</word>
+  <word key="webhook_galleryAlbum_create" js="0">Fired when an album is created</word>
+  <word key="gallery_overview" js="0">Overview</word>
+  <word key="gallery_view_categories" js="0">View Categories</word>
+  <word key="gallery_recently_commented_images" js="0">Recently Commented Images</word>
+  <word key="gallery_view_all_categories" js="0">View all categories</word>
+  <word key="gallery_recently_updated_albums" js="0">Recently Updated Albums</word>
+  <word key="gallery_overview_settings" js="0">Overview</word>
+  <word key="gallery_featured_images" js="0">Featured Images Carousel</word>
+  <word key="gallery_overview_show_carousel" js="0">Show carousel?</word>
+  <word key="gallery_overview_carousel_type" js="0">Show</word>
+  <word key="gallery_overview_carousel_featured" js="0">Featured images</word>
+  <word key="gallery_overview_carousel_new" js="0">New images</word>
+  <word key="gallery_overview_carousel_count" js="0">Number of images to show</word>
+  <word key="gallery_overview_recent_comments" js="0">Recent Comments</word>
+  <word key="gallery_show_recent_comments" js="0">Show recent comments?</word>
+  <word key="gallery_overview_categories" js="0">Categories</word>
+  <word key="gallery_overview_show_categories" js="0">Show categories?</word>
+  <word key="gallery_overview_recent_updated_albums" js="0">Recently Updated Albums</word>
+  <word key="gallery_show_recent_updated_albums" js="0">Show recently updated albums?</word>
+  <word key="gallery_recent_updated_albums_count" js="0">Number of recently updated albums to show</word>
+  <word key="gallery_overview_new_images" js="0">New Images</word>
+  <word key="gallery_show_new_images" js="0">Show new images?</word>
+  <word key="gallery_new_images_count" js="0">Number of new images to show</word>
+  <word key="gallery_nsfw" js="0">Enable NSFW?</word>
+  <word key="gallery_nsfw_desc" js="0">Images can be set as not safe for work (NSFW) and will appear blurred unless the member opts in to viewing them.</word>
+  <word key="gallery_image_is_nsfw" js="0">This image is NSFW</word>
+  <word key="gallery_nsfw_view_anyway" js="0">View anyway</word>
+  <word key="nsfw_set_all" js="0">Set NSFW on all</word>
+  <word key="nsfw_enable_all" js="0">Mark all images as not safe for work</word>
+  <word key="image_nsfw" js="0">Not safe for work?</word>
+  <word key="set_gallery_image_nsfw_on" js="0">Set as NSFW off</word>
+  <word key="set_gallery_image_nsfw_off" js="0">Set as NSFW on</word>
+  <word key="gallery_album_num_comments_uc" js="0">{# [1:Album Comment][?:Album Comments]}</word>
+  <word key="gallery_album_num_comments_lc" js="0">{# [1:album comment][?:album comments]}</word>
+  <word key="gallery_album_num_reviews_uc" js="0">{# [1:Album Review][?:Album Reviews]}</word>
+  <word key="gallery_album_num_reviews_lc" js="0">{# [1:album review][?:album reviews]}</word>
+  <word key="delete_note" js="1">Delete note</word>
+  <word key="save_note" js="1">Save</word>
+  <word key="saving_note" js="1">Saving...</word>
+  <word key="cancel_note" js="1">Cancel</word>
+  <word key="count_image" js="1">{# [1:image][?:images]}</word>
+  <word key="delete_note_confirm" js="1">Are you sure you want to delete this note?</word>
+  <word key="new_album" js="1"><![CDATA[Adding {{count}} to new album: <strong>{{album}}</strong>]]></word>
+  <word key="existing_album" js="1"><![CDATA[Adding {{count}} to existing album: <strong>{{album}}</strong>]]></word>
+  <word key="unsaved_image_data" js="1">You haven't saved your changes for this image. Are you sure you want to switch image?</word>
+  <word key="unsaved_image_data_desc" js="1">Information for this image will be lost.</word>
+  <word key="images_without_data" js="1">You haven't added any information for {{count}}. Are you sure you want to continue?</word>
+  <word key="images_without_data_desc" js="1">You can edit the images later to update them.</word>
+  <word key="set_as_photo_confirm" js="1">Are you sure you want to update your profile photo?</word>
+  <word key="rebuildGalleryThumbnails" js="1">Rebuild existing thumbnails?</word>
+  <word key="rebuildGalleryThumbnailsBlurb" js="1">Rebuilding existing thumbnails is recommended when you upload a new watermark image or adjust your thumbnail dimensions</word>
+  <word key="rebuildGalleryThumbnailsYes" js="1">Yes</word>
+  <word key="rebuildGalleryThumbnailsNo" js="1">No</word>
+  <word key="uploader_add_images" js="1">Add Images</word>
+  <word key="confirmSubmitClose" js="1">Are you sure you want to exit? Any images you have uploaded won't be saved.</word>
+  <word key="addImages" js="1">Add Images</word>
+  <word key="createAlbum" js="1">Create Album</word>
+  <word key="existingAlbum" js="1">Choose Existing Album</word>
+  <word key="chooseCategory" js="1">Choose Category</word>
+  <word key="chooseAlbum" js="1">Choose Album</word>
+  <word key="imageUploadErrors" js="1">{# [1:image][?:images]} had errors</word>
+  <word key="imageUploadErrorsDesc" js="1">Correct the errors on the marked {!# [1:image][?:images]} and submit again.</word>
+  <word key="js_gallery_album_num_comments_uc" js="1">{# [1:Album Comment][?:Album Comments]}</word>
+ </app>
+</language>

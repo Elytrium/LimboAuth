@@ -1,0 +1,14 @@
+{
+    "start": [],
+    "manage": {
+        "manage": {
+            "manage_manage": "manage_manage"
+        },
+        "convert": {
+            "convert_manage": "convert_manage"
+        },
+        "create": {
+            "create_manage": "create_manage"
+        }
+    }
+}

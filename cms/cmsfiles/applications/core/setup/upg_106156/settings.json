@@ -1,0 +1,18 @@
+{
+    "added": [
+        "club_max_cover",
+        "icons_homescreen_maskable"
+    ],
+    "edited": [],
+    "removed": [
+        "mobile_app_home_blocks_order",
+        "mobile_app_id",
+        "mobile_app_itunes_id",
+        "mobile_app_itunes_url",
+        "mobile_app_play_id",
+        "mobile_app_play_url",
+        "mobile_app_prompt",
+        "mobile_app_redirect_scheme",
+        "mobile_app_secret"
+    ]
+}

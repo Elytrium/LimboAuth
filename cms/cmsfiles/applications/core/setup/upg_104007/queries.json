@@ -1,0 +1,40 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_sessions",
+            "member_id",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id",
+                    "ip_address"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_sessions",
+            "ip_address",
+            {
+                "type": "key",
+                "name": "ip_address",
+                "columns": [
+                    "ip_address",
+                    "member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

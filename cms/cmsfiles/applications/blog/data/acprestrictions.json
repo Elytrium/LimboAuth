@@ -1,0 +1,10 @@
+{
+    "blogs": {
+        "settings": {
+            "settings_manage": "settings_manage"
+        },
+        "blogs": {
+            "blogs_manage": "blogs_manage"
+        }
+    }
+}

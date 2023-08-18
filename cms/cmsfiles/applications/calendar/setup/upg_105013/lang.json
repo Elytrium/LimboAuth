@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [
+            "recur_human__xyearly",
+            "recur_human__xmonthly",
+            "recur_human__xweekly",
+            "recur_human__xdaily"
+        ],
+        "edited": [
+            "event_auto_follow_suffix",
+            "recur_human_yearly_multi",
+            "recur_human_monthly_multi",
+            "recur_human_weekly_multi",
+            "recur_human_weekly_multi_days",
+            "recur_human_daily_multi"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

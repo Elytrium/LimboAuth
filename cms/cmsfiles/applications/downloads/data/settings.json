@@ -1,0 +1,72 @@
+[
+    {
+        "key": "idm_antileech",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_default_view",
+        "default": "table",
+        "report": "bool"
+    },
+    {
+        "key": "idm_default_view_choose",
+        "default": "1",
+        "report": "bool"
+    },
+    {
+        "key": "idm_featured_count",
+        "default": "4",
+        "report": "full"
+    },
+    {
+        "key": "idm_highest_rated_categories",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "idm_link_blacklist",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "idm_newest_categories",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "idm_rss",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_show_featured",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_show_highest_rated",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_show_most_downloaded",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_show_most_downloaded_categories",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "idm_show_newest",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "idm_watermarkpath",
+        "default": "",
+        "report": "bool"
+    }
+]

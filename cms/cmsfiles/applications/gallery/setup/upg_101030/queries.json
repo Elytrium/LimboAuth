@@ -1,0 +1,44 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_albums",
+            "album_rating_aggregate",
+            {
+                "name": "album_rating_aggregate",
+                "type": "DECIMAL",
+                "length": 11,
+                "decimals": 1,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images",
+            "image_rating",
+            {
+                "name": "image_rating",
+                "type": "DECIMAL",
+                "length": 10,
+                "decimals": 1,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

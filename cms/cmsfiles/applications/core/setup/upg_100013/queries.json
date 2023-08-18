@@ -1,0 +1,36 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_theme_resources",
+            {
+                "name": "resource_user_edited",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "core_modules",
+            "sys_module_version"
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "core_modules",
+            "sys_module_description"
+        ]
+    }
+}

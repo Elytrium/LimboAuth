@@ -1,0 +1,78 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_invoice_tracker",
+                "columns": {
+                    "member_id": {
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "invoice_id": {
+                        "name": "invoice_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "member_id",
+                            "invoice_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_fields",
+            "sf_max_input",
+            {
+                "name": "sf_max_input",
+                "type": "MEDIUMINT",
+                "length": 6,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "nexus_alternate_contacts",
+            [
+                "main_id = alt_id"
+            ]
+        ]
+    }
+}

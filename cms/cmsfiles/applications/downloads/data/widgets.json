@@ -1,0 +1,59 @@
+{
+    "topSubmitters": {
+        "class": "\\IPS\\Widget\\StaticCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": false,
+        "menu_style": "menu",
+        "embeddable": true
+    },
+    "downloadStats": {
+        "class": "\\IPS\\Widget\\StaticCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": false,
+        "menu_style": "menu",
+        "embeddable": true
+    },
+    "topDownloads": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": false,
+        "menu_style": "menu",
+        "embeddable": true
+    },
+    "fileFeed": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [
+            "sidebar",
+            "cms"
+        ],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    },
+    "downloadsCommentFeed": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [
+            "sidebar",
+            "cms"
+        ],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    },
+    "downloadsReviewFeed": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [
+            "sidebar",
+            "cms"
+        ],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    }
+}

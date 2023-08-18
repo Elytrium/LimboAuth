@@ -1,0 +1,20 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/library\/app.js",
+            "global\/framework\/common\/ui\/ips.ui.drawer.js",
+            "global\/framework\/common\/ui\/ips.ui.uploader.js",
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.launcher.js",
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.onboardRow.js",
+            "global\/admin\/mixins\/ips.core.table.js",
+            "global\/front\/mixins\/ips.core.table.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

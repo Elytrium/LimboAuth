@@ -1,0 +1,53 @@
+<?php
+/**
+ * @brief		Editor Media: {class}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\EditorMedia;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Editor Media: {class}
+ */
+class _{class}
+{
+	/**
+	 * Get Counts
+	 *
+	 * @param	\IPS\Member	$member		The member
+	 * @param	string		$postKey	The post key
+	 * @param	string|null	$search		The search term (or NULL for all)
+	 * @return	int
+	 */
+	public function count( $member, $postKey, $search=NULL )
+	{
+		return array();
+	}
+	
+	/**
+	 * Get Files
+	 *
+	 * @param	\IPS\Member	$member	The member
+	 * @param	string|null	$search	The search term (or NULL for all)
+	 * @param	string		$postKey	The post key
+	 * @param	int			$page	Page
+	 * @param	int			$limit	Number to get
+	 * @return	array		array( 'Title' => array( 'http://www.example.com/file1.txt' => \IPS\File, 'http://www.example.com/file2.txt' => \IPS\File, ... ), ... )
+	 */
+	public function get( $member, $search, $postKey, $page, $limit ): array
+	{
+		return array();
+	}
+}

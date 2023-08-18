@@ -1,0 +1,58 @@
+{
+  "1": {
+    "method": "dropIndex",
+    "params": [
+      "core_achievements_log_milestones",
+      "lookup"
+    ]
+  },
+  "2": {
+    "method": "addColumn",
+    "params": [
+      "core_achievements_log_milestones",
+      {
+        "name": "milestone_type",
+        "type": "VARCHAR",
+        "length": 100,
+        "decimals": null,
+        "values": null,
+        "allow_null": true,
+        "default": "subject",
+        "comment": "",
+        "unsigned": false,
+        "auto_increment": false
+      }
+    ]
+  },
+  "3": {
+    "method": "addIndex",
+    "params": [
+      "core_achievements_log_milestones",
+      {
+        "type": "unique",
+        "name": "lookup",
+        "columns": [
+          "milestone_member_id",
+          "milestone_rule",
+          "milestone_type"
+        ],
+        "length": [
+          null,
+          null,
+          null
+        ]
+      }
+    ]
+  },
+  "4": {
+    "method": "delete",
+    "params": [
+      "core_notifications",
+      [
+        "notification_app=? AND notification_key=?",
+        "core",
+        "best_answer"
+      ]
+    ]
+  }
+}

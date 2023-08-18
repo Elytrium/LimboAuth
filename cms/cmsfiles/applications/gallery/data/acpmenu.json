@@ -1,0 +1,30 @@
+{
+    "gallery": {
+        "categories": {
+            "tab": "community",
+            "controller": "categories",
+            "do": "",
+            "restriction": "categories_manage"
+        },
+        "settings": {
+            "tab": "community",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage"
+        }
+    },
+    "stats": {
+        "diskspace": {
+            "tab": "stats",
+            "controller": "diskspace",
+            "do": "",
+            "restriction": "diskspace_manage"
+        },
+        "bandwidth": {
+            "tab": "stats",
+            "controller": "bandwidth",
+            "do": "",
+            "restriction": "bandwidth_manage"
+        }
+    }
+}

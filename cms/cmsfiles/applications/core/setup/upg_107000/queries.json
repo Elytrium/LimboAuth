@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_streams",
+            {
+                "name": "solved",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "all",
+                    "solved",
+                    "unsolved"
+                ],
+                "allow_null": false,
+                "default": "all",
+                "comment": "The solved status of the item",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

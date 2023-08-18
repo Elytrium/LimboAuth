@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_ips_bulletins",
+            [
+                "id=?",
+                1
+            ]
+        ]
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "added": [
+        "map_center_lat",
+        "map_center_lon"
+    ],
+    "edited": [],
+    "removed": [
+        "show_bday_calendar"
+    ]
+}

@@ -1,0 +1,25 @@
+{
+    "normal": {
+        "added": [
+            "editor__core_ClubRules",
+            "custom_field_type_deprecated",
+            "emailtpl_notification_new_rank",
+            "emailtpl_notification_my_solution",
+            "emailtpl_emailNoWrapper",
+            "emailtpl_notification_new_badge",
+            "emailtpl_notification_new_recognize",
+            "emailtpl_password_reset_forced",
+            "emailtpl_unsubscribeStream",
+            "emailtpl_notification_mine_solved",
+            "emailtpl_activity_stream_subscription",
+            "marketplace_card_byline"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

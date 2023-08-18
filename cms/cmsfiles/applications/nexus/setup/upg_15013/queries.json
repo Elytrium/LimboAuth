@@ -1,0 +1,75 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_renewal_days_advance",
+                "type": "INT",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_package_groups",
+            "pg_seo_name",
+            {
+                "name": "pg_seo_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_replies",
+            {
+                "name": "reply_ip_address",
+                "type": "VARCHAR",
+                "length": 46
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_customer_history",
+            {
+                "name": "log_ip_address",
+                "type": "VARCHAR",
+                "length": 46
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_replies",
+            {
+                "name": "reply_ip_address",
+                "columns": [
+                    "reply_ip_address"
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "nexus_customer_history",
+            {
+                "name": "log_ip_address",
+                "columns": [
+                    "log_ip_address"
+                ]
+            }
+        ]
+    }
+}

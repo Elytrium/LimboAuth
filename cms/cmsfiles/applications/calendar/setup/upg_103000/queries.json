@@ -1,0 +1,92 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "calendar_event_reviews",
+            {
+                "name": "review_author_response",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "calendar_event_reviews",
+            "review_mid",
+            {
+                "type": "key",
+                "name": "review_mid",
+                "columns": [
+                    "review_mid",
+                    "review_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "calendar_event_rsvp",
+            {
+                "type": "key",
+                "name": "rsvp_search",
+                "columns": [
+                    "rsvp_date",
+                    "rsvp_member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "event_album",
+                "columns": [
+                    "event_album",
+                    "event_approved",
+                    "event_saved"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "update",
+        "params": [
+            "core_sys_lang_words",
+            {
+                "word_app": "calendar"
+            },
+            [
+                "word_app=? AND word_key LIKE '%calendar_venue_%'",
+                "venues"
+            ]
+        ]
+    }
+}

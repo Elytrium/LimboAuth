@@ -1,0 +1,78 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_shipping",
+            "s_cost"
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_shipping",
+            "s_weight"
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_shipping",
+            {
+                "name": "s_locations",
+                "type": "TEXT",
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_shipping",
+            {
+                "name": "s_type",
+                "type": "CHAR",
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_shipping",
+            {
+                "name": "s_rates",
+                "type": "TEXT",
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_shipping",
+            {
+                "name": "s_tax",
+                "type": "INT",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_invoice_pending",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

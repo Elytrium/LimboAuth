@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [
+            "core\/global\/controllers\/core\/ips.core.googlemap.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.editor.js",
+            "global\/front\/controllers\/core\/ips.core.commentFeed.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

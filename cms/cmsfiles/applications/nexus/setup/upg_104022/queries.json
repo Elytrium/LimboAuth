@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "nexus_purchases",
+            {
+                "ps_active": 0
+            },
+            [
+                "ps_cancelled=?",
+                1
+            ]
+        ]
+    }
+}

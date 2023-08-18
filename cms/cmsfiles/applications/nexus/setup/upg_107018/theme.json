@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/purchases\/lkey",
+            "admin\/support\/request"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/global.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "front\/cards\/venmo.svg",
+            "front\/cards\/venmo_white.svg"
+        ],
+        "removed": []
+    }
+}

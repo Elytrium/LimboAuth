@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_comments",
+            {
+                "type": "key",
+                "name": "comment_indexing",
+                "columns": [
+                    "comment_record_id",
+                    "comment_user"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

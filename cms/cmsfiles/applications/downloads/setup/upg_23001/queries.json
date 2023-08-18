@@ -1,0 +1,41 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bypass_revision",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "downloads_temp_records",
+            {
+                "type": "key",
+                "name": "record_added",
+                "columns": [
+                    "record_added"
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "downloads_downloads",
+            {
+                "type": "key",
+                "name": "dtime",
+                "columns": [
+                    "dtime"
+                ]
+            }
+        ]
+    }
+}

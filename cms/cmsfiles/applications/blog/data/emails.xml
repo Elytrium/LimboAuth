@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>blog</template_app><template_name>digests__item</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='40' align='center' valign='top' class=' '>
+		<img src='{$entry->author()->get_photo( true, true )}' width='32' height='32' style='border: 1px solid #000; vertical-align: middle;'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_created_entry_in", FALSE, array( 'sprintf' => array( $entry->author()->name, $entry->container()->getTitleForLanguage( $email->language ) ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 18px; font-weight: 500 !important; margin: 0">
+			<a href='{$entry->url()}' style='text-decoration: none;'>{$entry->title}</a>
+			{{if $entry->mapped('featured')}}&nbsp;&nbsp;<span style='color: #68a72f; font-weight: bold; font-size: 12px; text-transform: uppercase;'>{$email->language->addToStack("featured", FALSE)}</span>{{endif}}
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px'>
+			{$email->parseTextForEmail( $entry->content() )|raw}
+		</div>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; margin-bottom: 15px'>
+
+			{{if \IPS\Settings::i()->blog_enable_rating}}
+				{{foreach range( 1, 5 ) as $i}}{{if $i <= $entry->averageRating()}}<img src='{resource="email/rating_on.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{elseif ( $i - 0.5 ) <= $entry->averageRating()}}<img src='{resource="email/rating_half.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{else}}<img src='{resource="email/rating_off.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{endif}}{{endforeach}}
+				&nbsp;&nbsp;
+ 			{{endif}}	
+			<strong style='font-family: "Helvetica Neue", helvetica, sans-serif; font-size: 13px;'>
+				<img src='{resource="email/comment.png" location="interface" app="core"}' width='13' height='12' style='vertical-align: middle'>&nbsp; {$email->language->addToStack("num_comments", FALSE, array( 'pluralize' => array( $entry->num_comments ) ) )}
+			</strong>
+		</p>
+	</td>
+</tr>]]></template_content_html><template_data>$entry, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_created_entry_in", FALSE, array( 'htmlsprintf' => array( $entry->author()->name, $entry->container()->getTitleForLanguage( $email->language ) ) ) )}: {$entry->title} ({$entry->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>blog</template_app><template_name>digests__comment</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='40' align='center' valign='top' class=' '>
+		<img src='{$comment->author()->get_photo( true, true )}' width='32' height='32' style='border: 1px solid #000; vertical-align: middle;'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_commented_entry", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; font-weight: 500 !important; margin: 0;">
+			<a href='{$comment->item()->url()}' style='text-decoration: none;'>{$comment->item()->name}</a>
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 5px; margin-bottom: 5px; border-left: 3px solid #8c8c8c; padding-left: 15px; font-size: 14px; margin-left: 15px'>
+			{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+		</div>
+	</td>
+</tr>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_commented_entry", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}: {$comment->item()->name} ({$comment->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

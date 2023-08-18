@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=?",
+                "gallery_use_square_thumbnails_desc"
+            ]
+        ]
+    }
+}

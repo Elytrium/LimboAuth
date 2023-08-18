@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/global\/footer",
+            "front\/global\/guestTermsBar",
+            "global\/global\/includeJS",
+            "front\/system\/cookies",
+            "front\/system\/settings"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

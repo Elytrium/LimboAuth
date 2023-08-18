@@ -1,0 +1,268 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_emoticons",
+            "image",
+            {
+                "name": "image",
+                "type": "TEXT",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "core_plugin_hooks",
+            true
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_follow",
+            {
+                "type": "key",
+                "name": "followers",
+                "columns": [
+                    "follow_app",
+                    "follow_area",
+                    "follow_rel_id",
+                    "follow_notify_freq"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "author_lookup",
+                "columns": [
+                    "index_author",
+                    "index_hidden",
+                    "index_date_updated"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "changeIndex",
+        "params": [
+            "core_sessions",
+            "running_time",
+            {
+                "type": "key",
+                "name": "running_time",
+                "columns": [
+                    "running_time",
+                    "member_id",
+                    "uagent_type"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "dropIndex",
+        "params": [
+            "core_login_handlers",
+            "login_order"
+        ]
+    },
+    "7": {
+        "method": "changeIndex",
+        "params": [
+            "core_login_handlers",
+            "login_enabled",
+            {
+                "type": "key",
+                "name": "login_enabled",
+                "columns": [
+                    "login_enabled",
+                    "login_order"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "changeIndex",
+        "params": [
+            "core_tags",
+            "tag_app",
+            {
+                "type": "key",
+                "name": "tag_app",
+                "columns": [
+                    "tag_meta_app",
+                    "tag_meta_area",
+                    "tag_meta_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_index",
+            {
+                "type": "key",
+                "name": "report_count",
+                "columns": [
+                    "perm_id",
+                    "status"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "changeIndex",
+        "params": [
+            "core_member_status_replies",
+            "reply_status_id",
+            {
+                "type": "key",
+                "name": "reply_status_id",
+                "columns": [
+                    "reply_status_id",
+                    "reply_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "11": {
+        "method": "dropIndex",
+        "params": [
+            "core_sessions",
+            "running_time"
+        ]
+    },
+    "12": {
+        "method": "addIndex",
+        "params": [
+            "core_sessions",
+            {
+                "type": "key",
+                "name": "login_type",
+                "columns": [
+                    "login_type",
+                    "running_time"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "core_sessions",
+            "member_id",
+            {
+                "name": "member_id",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "changeIndex",
+        "params": [
+            "core_sessions",
+            "member_id",
+            {
+                "type": "unique",
+                "name": "member_id",
+                "columns": [
+                    "member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "core_attachments_map",
+            "temp",
+            {
+                "name": "temp",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Temporary key for content claiming attachment",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "dropTable",
+        "params": [
+            "core_spider_logs",
+            true
+        ]
+    }
+}

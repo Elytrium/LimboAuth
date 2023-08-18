@@ -1,0 +1,86 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_alerts_seen",
+                "columns": {
+                    "seen_alert_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "seen_alert_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "seen_member_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "seen_member_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "seen_date": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "seen_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    }
+                },
+                "indexes": {
+                    "alert_member": {
+                        "type": "unique",
+                        "name": "alert_member",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "seen_alert_id",
+                            "seen_member_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_alerts",
+            {
+                "type": "key",
+                "name": "look_up",
+                "columns": [
+                    "alert_start",
+                    "alert_end",
+                    "alert_recipient_type",
+                    "alert_recipient_user"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

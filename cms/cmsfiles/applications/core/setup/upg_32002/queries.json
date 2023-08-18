@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key=?",
+                "topic_attach_no_per_row"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,321 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "calendar_event_reminders",
+                "columns": {
+                    "reminder_id": {
+                        "name": "reminder_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "reminder_event_id": {
+                        "name": "reminder_event_id",
+                        "type": "BIGINT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Event to remind about",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "reminder_member_id": {
+                        "name": "reminder_member_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Member to notify",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "reminder_date": {
+                        "name": "reminder_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Timestamp after which to send notification",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "reminder_days_before": {
+                        "name": "reminder_days_before",
+                        "type": "INT",
+                        "length": 2,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "reminder_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "reminder": {
+                        "type": "key",
+                        "name": "reminder",
+                        "columns": [
+                            "reminder_event_id",
+                            "reminder_member_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "date": {
+                        "type": "key",
+                        "name": "date",
+                        "columns": [
+                            "reminder_date"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_venue",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_meta_data",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "calendar_import_feeds",
+            {
+                "name": "feed_venue_id",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "calendar_venues",
+                "columns": {
+                    "venue_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "ID Number",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "venue_id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "venue_position": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 5,
+                        "name": "venue_position",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "venue_enabled": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "1",
+                        "length": 1,
+                        "name": "venue_enabled",
+                        "type": "TINYINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "venue_title_seo": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "venue_title_seo",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "venue_address": {
+                        "name": "venue_address",
+                        "type": "TEXT",
+                        "length": 0,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "Physical Address",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "venue_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "event_venue",
+                "columns": [
+                    "event_venue"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_club_id",
+                "type": "BIGINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The club ID if this calendar belongs to a club, or NULL",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_bitoptions",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

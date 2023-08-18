@@ -1,0 +1,15 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "nexus\/front\/controllers\/checkout\/ips.checkout.register.js",
+            "nexus\/global\/controllers\/forms\/ips.forms.businessAddressVat.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

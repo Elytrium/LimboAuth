@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "history_removed_from_club",
+            "history_added_to_club",
+            "log_type_title_club_membership"
+        ],
+        "edited": [
+            "history_name_changed_manual",
+            "history_email_changed_manual"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,170 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_downloads"
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_cfields",
+            "cf_format",
+            {
+                "name": "cf_format",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_comments",
+            "comment_text"
+        ]
+    },
+    "4": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_name"
+        ]
+    },
+    "5": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_files",
+            "file_desc"
+        ]
+    },
+    "6": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_reviews",
+            "review_text"
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_cost",
+            {
+                "name": "file_cost",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_renewal_price",
+            {
+                "name": "file_renewal_price",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "dropTable",
+        "params": [
+            "downloads_favorites",
+            true
+        ]
+    },
+    "10": {
+        "method": "dropTable",
+        "params": [
+            "downloads_filestorage",
+            true
+        ]
+    },
+    "11": {
+        "method": "dropTable",
+        "params": [
+            "downloads_fileviews",
+            true
+        ]
+    },
+    "12": {
+        "method": "dropTable",
+        "params": [
+            "downloads_mime",
+            true
+        ]
+    },
+    "13": {
+        "method": "dropTable",
+        "params": [
+            "downloads_mimemask",
+            true
+        ]
+    },
+    "14": {
+        "method": "dropTable",
+        "params": [
+            "downloads_mods",
+            true
+        ]
+    },
+    "15": {
+        "method": "dropTable",
+        "params": [
+            "downloads_temp_records",
+            true
+        ]
+    },
+    "16": {
+        "method": "dropTable",
+        "params": [
+            "downloads_upgrade_history",
+            true
+        ]
+    },
+    "17": {
+        "method": "dropTable",
+        "params": [
+            "downloads_urls",
+            true
+        ]
+    },
+    "18": {
+        "method": "dropColumn",
+        "params": [
+            "downloads_cfields",
+            "cf_file_format"
+        ]
+    }
+}

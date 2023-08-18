@@ -1,0 +1,32 @@
+{
+    "html": {
+        "added": [
+            "front\/alerts\/alertModal",
+            "front\/modcp\/alertRow",
+            "front\/modcp\/alerts"
+        ],
+        "edited": [
+            "admin\/memberprofile\/oauth",
+            "front\/messaging\/conversation",
+            "front\/messaging\/template",
+            "front\/modcp\/announcementRow",
+            "front\/profile\/hovercard",
+            "front\/profile\/profile"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [
+            "front\/styles\/alerts.css"
+        ],
+        "edited": [
+            "global\/framework\/badges.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "normal": {
+        "added": [
+            "avatar_gallery_location",
+            "convert_vb_avatar_gallery_path",
+            "convert_woltlab_avatar",
+            "convert_woltlab_avatar_desc",
+            "convert_woltlab_cover",
+            "convert_woltlab_cover_desc",
+            "convert_woltlab_attach_path",
+            "convert_blog_categories",
+            "convert_blog_entry_categories",
+            "_convert_blog_categories",
+            "_convert_blog_entry_categories",
+            "_convert_blog_attachments",
+            "convert_club_pages",
+            "_convert_club_pages",
+            "club_photo_location_desc",
+            "club_photo_location_nodb_desc"
+        ],
+        "edited": [
+            "converted_x_of_x",
+            "convert_blog_attachments"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

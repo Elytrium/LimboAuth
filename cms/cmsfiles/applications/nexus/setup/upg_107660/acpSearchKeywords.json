@@ -1,0 +1,22 @@
+{
+    "added": [],
+    "edited": [
+        "app=nexus&module=store&controller=packages"
+    ],
+    "removed": [
+        "app=core&module=applications&controller=enhancements&do=edit&id=nexus_Enom&searchResult=form_nexus_enom_un",
+        "app=nexus&module=hosting&controller=errors",
+        "app=nexus&module=hosting&controller=monitoring",
+        "app=nexus&module=hosting&controller=monitoring&searchResult=form_monitoring_on",
+        "app=nexus&module=hosting&controller=monitoring&searchResult=network_status",
+        "app=nexus&module=hosting&controller=monitoring&tab=eom",
+        "app=nexus&module=hosting&controller=monitoring&tab=settings",
+        "app=nexus&module=hosting&controller=queues",
+        "app=nexus&module=hosting&controller=servers",
+        "app=nexus&module=hosting&controller=settings",
+        "app=nexus&module=hosting&controller=settings&searchResult=form_domain_options",
+        "app=nexus&module=hosting&controller=settings&searchResult=form_nexus_hosting_terminate",
+        "app=nexus&module=hosting&controller=settings&searchResult=nexus_hosting_nameservers",
+        "app=nexus&module=hosting&controller=settings&searchResult=nexus_hosting_subdomains"
+    ]
+}

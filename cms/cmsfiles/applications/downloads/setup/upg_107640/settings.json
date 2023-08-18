@@ -1,0 +1,12 @@
+{
+    "added": [
+        "idm_default_view",
+        "idm_default_view_choose"
+    ],
+    "edited": [
+        "idm_highest_rated_categories",
+        "idm_newest_categories",
+        "idm_show_most_downloaded_categories"
+    ],
+    "removed": []
+}

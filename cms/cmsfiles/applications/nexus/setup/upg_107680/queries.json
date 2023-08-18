@@ -1,0 +1,21 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_reviews",
+            "review_text",
+            {
+                "name": "review_text",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

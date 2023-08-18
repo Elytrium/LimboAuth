@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_custom",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "core_members",
+            "cm_first_name, DROP cm_last_name, DROP cm_address_1, DROP cm_address_2, DROP cm_city, DROP cm_state, DROP cm_zip, DROP cm_country, DROP cm_phone"
+        ]
+    }
+}

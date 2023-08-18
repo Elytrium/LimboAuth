@@ -1,0 +1,1515 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_paymethods",
+            "m_gateway",
+            {
+                "name": "m_gateway",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_customer_addresses",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "address": {
+                        "name": "address",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The address",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "primary_billing": {
+                        "name": "primary_billing",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Is the primary billing address?",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "primary_shipping": {
+                        "name": "primary_shipping",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Is the primary shipping address?",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "added": {
+                        "name": "added",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when added",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_billaddress",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Billing address",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_currency",
+                "type": "CHAR",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "Currency code for t_amount",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "core_members",
+            "cm_credits",
+            {
+                "name": "cm_credits",
+                "type": "TEXT"
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_partial_refund",
+                "type": "DECIMAL",
+                "length": 10,
+                "decimals": 3,
+                "values": [],
+                "allow_null": false,
+                "default": 0,
+                "comment": "If transaction has been partially refunded, the amount refunded",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_auth",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "If authorised but not captured, the auth date",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_fraud_rules",
+            "f_amount_unit",
+            {
+                "name": "f_amount_unit",
+                "type": "TEXT",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_fraud_rules",
+            "f_maxmind_riskyusername"
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_fraud_rules",
+            "f_maxmind_proxy_unit",
+            {
+                "name": "f_maxmind_proxy_unit",
+                "type": "DECIMAL",
+                "length": 3,
+                "decimals": 2,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_fraud_rules",
+            "f_maxmind_unit",
+            {
+                "name": "f_maxmind_unit",
+                "type": "DECIMAL",
+                "length": 5,
+                "decimals": 2,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "12": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_customer_cards",
+                "columns": {
+                    "card_id": {
+                        "name": "card_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "card_member": {
+                        "name": "card_member",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "card_method": {
+                        "name": "card_method",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The payment method ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "card_data": {
+                        "name": "card_data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The gateway-specific data for the card",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "card_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_currency",
+                "type": "CHAR",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "Currency code",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "nexus_customers",
+            {
+                "name": "cm_profiles",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_renewal_currency",
+                "type": "CHAR",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_invoices",
+            "i_temp"
+        ]
+    },
+    "17": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_invoices",
+            "i_ordersteps"
+        ]
+    },
+    "18": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_invoices",
+            "i_noreminder"
+        ]
+    },
+    "19": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_transactions",
+            "t_fraud_checked"
+        ]
+    },
+    "20": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_guest_data",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "If guest is checking out, details for account",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "nexus_payouts",
+            {
+                "name": "po_currency",
+                "type": "CHAR",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "22": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_payouts",
+            "po_gateway",
+            {
+                "name": "po_gateway",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "nexus_payouts",
+            {
+                "name": "po_completed",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "nexus_payouts",
+            {
+                "name": "po_gw_id",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "nexus_payouts",
+            {
+                "name": "po_ip",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "26": {
+        "method": "addColumn",
+        "params": [
+            "nexus_payouts",
+            {
+                "name": "po_processed_by",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_replies",
+            {
+                "name": "reply_bcc",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_fields",
+            "multiple",
+            {
+                "name": "sf_multiple",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_fields",
+            {
+                "name": "sf_max_input",
+                "type": "SMALLINT",
+                "length": 6,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_fields",
+            {
+                "name": "sf_input_format",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_departments",
+            "dpt_ppi",
+            {
+                "name": "dpt_ppi",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_departments",
+            {
+                "name": "dpt_staff",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "33": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_severities",
+            "sev_icon",
+            {
+                "name": "sev_icon",
+                "type": "TEXT",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_severities",
+            {
+                "name": "sev_departments",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_ppi_invoice",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_stock_actions",
+            {
+                "name": "action_show_in",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_departments",
+            {
+                "name": "dpt_ppi_tax",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_notify",
+                "columns": {
+                    "staff_id": {
+                        "name": "staff_id",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The staff member ID",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "type": {
+                        "name": "type",
+                        "type": "CHAR",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The type",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "departments": {
+                        "name": "departments",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The department IDs",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "staff_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "39": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_packages",
+            "p_perm_set"
+        ]
+    },
+    "40": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_packages",
+            "p_return_perm"
+        ]
+    },
+    "41": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_packages",
+            "p_module"
+        ]
+    },
+    "42": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_packages",
+            "p_group_renewals",
+            {
+                "name": "p_group_renewals",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "43": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_product_options",
+            "opt_base_price",
+            {
+                "name": "opt_base_price",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "44": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_product_options",
+            "opt_renew_price",
+            {
+                "name": "opt_renew_price",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "addColumn",
+        "params": [
+            "nexus_reviews",
+            {
+                "name": "review_edit_show",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "46": {
+        "method": "addColumn",
+        "params": [
+            "nexus_reviews",
+            {
+                "name": "review_edit_member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "47": {
+        "method": "addColumn",
+        "params": [
+            "nexus_reviews",
+            {
+                "name": "review_edit_reason",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "48": {
+        "method": "addColumn",
+        "params": [
+            "nexus_reviews",
+            {
+                "name": "review_edit_member_id",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "49": {
+        "method": "addColumn",
+        "params": [
+            "nexus_reviews",
+            {
+                "name": "review_vote_data",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "50": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages_products",
+            {
+                "name": "p_show",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "51": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_show",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "52": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_renewal_days_advance",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "53": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_coupons",
+            "c_discount",
+            {
+                "name": "c_discount",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "54": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_customer_fields",
+            "f_locked"
+        ]
+    },
+    "55": {
+        "method": "addColumn",
+        "params": [
+            "nexus_customer_fields",
+            {
+                "name": "f_multiple",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "56": {
+        "method": "addColumn",
+        "params": [
+            "nexus_donate_goals",
+            {
+                "name": "d_currency",
+                "type": "CHAR",
+                "length": 3,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "57": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages_products",
+            {
+                "name": "p_length",
+                "type": "FLOAT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Length (in metres)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "58": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages_products",
+            {
+                "name": "p_width",
+                "type": "FLOAT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Width (in metres)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "59": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages_products",
+            {
+                "name": "p_height",
+                "type": "FLOAT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Height (in metres)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "60": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_billcountry",
+                "type": "CHAR",
+                "length": 2,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The country code of the billing address (used for reports).",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "61": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referral_rules",
+            "rrule_by_purchases_unit",
+            {
+                "name": "rrule_by_purchases_unit",
+                "type": "TEXT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "62": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referral_rules",
+            "rrule_for_purchases_unit",
+            {
+                "name": "rrule_for_purchases_unit",
+                "type": "TEXT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "63": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referral_rules",
+            "rrule_purchase_amount_unit",
+            {
+                "name": "rrule_purchase_amount_unit",
+                "type": "TEXT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "64": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referral_rules",
+            "rrule_commission_limit",
+            {
+                "name": "rrule_commission_limit",
+                "type": "TEXT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "65": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referrals",
+            "amount",
+            {
+                "name": "amount",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "66": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_referral_banners",
+            "rb_url",
+            {
+                "name": "rb_url",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "67": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_customer_fields",
+            "f_type",
+            {
+                "name": "f_type",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "68": {
+        "method": "addColumn",
+        "params": [
+            "nexus_fraud_rules",
+            {
+                "name": "f_coupon",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "69": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_package_base_prices",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "70": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_reviews",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "71": {
+        "method": "addColumn",
+        "params": [
+            "nexus_package_fields",
+            {
+                "name": "cf_multiple",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

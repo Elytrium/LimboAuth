@@ -1,0 +1,58 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "nexus_reviews",
+            "review_approved"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "nexus_reviews",
+            "review_ip"
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "nexus_reviews",
+            {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "nexus_reviews",
+            {
+                "type": "key",
+                "name": "review_ip",
+                "columns": [
+                    "review_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "update",
+        "params": [
+            "nexus_support_severities",
+            {
+                "sev_departments": "*"
+            },
+            "sev_departments IS NULL"
+        ]
+    }
+}

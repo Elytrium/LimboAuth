@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "cookie_cm_reg_description",
+            "cookie_location_description",
+            "cookie_currency_description",
+            "cookie_guestTransactionKey_description"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

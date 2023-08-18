@@ -1,0 +1,232 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_stream_subscriptions",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "member_id": {
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "stream_id": {
+                        "name": "stream_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "frequency": {
+                        "name": "frequency",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "daily",
+                            "weekly"
+                        ],
+                        "allow_null": false,
+                        "default": "weekly",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "sent": {
+                        "name": "sent",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "added": {
+                        "name": "added",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member_stream": {
+                        "type": "unique",
+                        "name": "member_stream",
+                        "columns": [
+                            "member_id",
+                            "stream_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_ips_bulletins",
+            [
+                "id=?",
+                1
+            ]
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs_node_map",
+            {
+                "name": "public",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_editor_stored_replies",
+                "columns": {
+                    "reply_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "reply_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "reply_title": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "reply_title",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "reply_text": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "reply_text",
+                        "type": "MEDIUMTEXT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "reply_added_by": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "reply_added_by",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "reply_enabled": {
+                        "name": "reply_enabled",
+                        "type": "TINYINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "auto_increment": false
+                    },
+                    "reply_position": {
+                        "name": "reply_position",
+                        "type": "INT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "reply_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    }
+}

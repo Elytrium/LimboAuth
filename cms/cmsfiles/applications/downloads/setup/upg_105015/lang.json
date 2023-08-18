@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "idm_nexus_mincost",
+            "idm_nexus_mincost_desc",
+            "file_cost_desc_minimum",
+            "file_cost_too_low"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

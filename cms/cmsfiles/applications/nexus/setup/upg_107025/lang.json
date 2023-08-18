@@ -1,0 +1,23 @@
+{
+    "normal": {
+        "added": [
+            "acplogs__nexus_added_gateway",
+            "acplogs__nexus_package_hidden",
+            "acplogs__nexus_store_settings",
+            "acplogs__nexus_sub_converted",
+            "acplogs__nexus_sub_hidden",
+            "removing_subscriptions"
+        ],
+        "edited": [
+            "cm_invoice_generate_desc"
+        ],
+        "removed": [
+            "reply"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

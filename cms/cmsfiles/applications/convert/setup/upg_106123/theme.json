@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/forms\/reactionmapper",
+            "admin\/forms\/settingsToConvert",
+            "admin\/table\/convertMenuRow",
+            "admin\/table\/postConversionInformation",
+            "admin\/table\/settingsMessage"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

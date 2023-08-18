@@ -1,0 +1,21 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "convert_logs",
+            "log_message",
+            {
+                "name": "log_message",
+                "type": "TEXT",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Log Message",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

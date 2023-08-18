@@ -1,0 +1,33 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/api\/zapier",
+            "global\/forms\/editorRaw",
+            "front\/global\/globalTemplate",
+            "global\/global\/includeMeta",
+            "global\/global\/poll",
+            "global\/login\/mfaAuthenticate",
+            "admin\/members\/deviceInfo",
+            "front\/system\/notificationSettingsIndex"
+        ],
+        "removed": [
+            "admin\/mobile\/details",
+            "admin\/mobile\/splash"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/misc.css",
+            "global\/framework\/typography.css",
+            "admin\/system\/dashboard.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

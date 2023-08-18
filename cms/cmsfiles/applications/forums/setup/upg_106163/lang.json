@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "bw_fluid_view",
+            "bw_fluid_view_desc",
+            "bw_fluid_view__warning",
+            "combined_fluid_view"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "convert_apps",
+            {
+                "app_key": "vbulletin"
+            },
+            [
+                "app_key=?",
+                "vbuletin_legacy"
+            ]
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "convert_apps",
+            {
+                "app_key": "vbulletin"
+            },
+            [
+                "app_key=?",
+                "vbulletin_legacy36"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,112 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_plugins",
+            "plugin_version_human",
+            {
+                "name": "plugin_version_human",
+                "type": "VARCHAR",
+                "length": 14,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1.0.0",
+                "comment": "Currently installed version (human-readable)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_theme_settings_fields",
+            {
+                "name": "sc_condition",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_themes",
+            {
+                "name": "set_is_acp_default",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Is default ACP theme?",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_themes",
+            {
+                "set_is_acp_default": 1
+            },
+            [
+                "set_is_default=1"
+            ]
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "core_sessions",
+            {
+                "type": "key",
+                "name": "running_time",
+                "columns": [
+                    "running_time"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "core",
+                "mail_method_desc"
+            ]
+        ]
+    },
+    "7": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key LIKE 'mandrill_%'",
+                "core"
+            ]
+        ]
+    }
+}

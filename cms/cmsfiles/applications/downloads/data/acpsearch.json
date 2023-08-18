@@ -1,0 +1,829 @@
+{
+    "app=core&module=members&controller=groups&searchResult=4_idm_add_paid": {
+        "lang_key": "idm_add_paid",
+        "restriction": "groups_manage",
+        "keywords": [
+            "charge for files",
+            "paid downloads",
+            "paid files",
+            "submit paid download",
+            "submit paid files"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=4_idm_bulk_submit": {
+        "lang_key": "idm_bulk_submit",
+        "restriction": "groups_manage",
+        "keywords": [
+            "files",
+            "multiple files",
+            "multiple files permisison",
+            "several files submit",
+            "submit",
+            "submit multiple files"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=4_idm_linked_files": {
+        "lang_key": "idm_linked_files",
+        "restriction": "groups_manage",
+        "keywords": [
+            "downloads upload via URL",
+            "file via URL",
+            "submit file URL",
+            "submit file via URL",
+            "upload file via URL"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=4_idm_view_downloads": {
+        "lang_key": "idm_view_downloads",
+        "restriction": "groups_manage",
+        "keywords": [
+            "downloaded files",
+            "files",
+            "view who downloaded"
+        ]
+    },
+    "app=core&module=members&controller=members&searchResult=form_idm_block_submissions": {
+        "lang_key": "idm_block_submissions",
+        "restriction": null,
+        "keywords": [
+            "Files",
+            "Submit"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories": {
+        "lang_key": "menu__downloads_downloads_categories",
+        "restriction": "categories_manage",
+        "keywords": [
+            "categories",
+            "download categories"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&do=form": {
+        "lang_key": "menu__downloads_downloads_categories",
+        "restriction": "categories_manage",
+        "keywords": [
+            "add category",
+            "downloads category"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&do=permissions": {
+        "lang_key": "menu__downloads_downloads_categories",
+        "restriction": "categories_manage",
+        "keywords": [
+            "category permissions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_allowss": {
+        "lang_key": "cbitoptions_allowss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow screenshots",
+            "screenshots"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_comment_moderation": {
+        "lang_key": "cbitoptions_comment_moderation",
+        "restriction": "categories_manage",
+        "keywords": [
+            "comments approved",
+            "comments must",
+            "must approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_comments": {
+        "lang_key": "cbitoptions_comments",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow comments"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_reqss": {
+        "lang_key": "cbitoptions_reqss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "require",
+            "require screenshots"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_reviews_download": {
+        "lang_key": "cbitoptions_reviews_download",
+        "restriction": "categories_manage",
+        "keywords": [
+            "download before",
+            "must download",
+            "must download before"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cbitoptions_reviews_mod": {
+        "lang_key": "cbitoptions_reviews_mod",
+        "restriction": "categories_manage",
+        "keywords": [
+            "approved",
+            "must approved",
+            "reviews approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cdisclaimer-editor": {
+        "lang_key": "cdisclaimer",
+        "restriction": "categories_manage",
+        "keywords": [
+            "download terms",
+            "terms"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=clog": {
+        "lang_key": "clog",
+        "restriction": "categories_manage",
+        "keywords": [
+            "keep logs",
+            "retain logs"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cmaxdims": {
+        "lang_key": "cmaxdims",
+        "restriction": "categories_manage",
+        "keywords": [
+            "maximum screenshot",
+            "maximum screenshot dimensions",
+            "screenshot dimensions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cmaxfile": {
+        "lang_key": "cmaxfile",
+        "restriction": "categories_manage",
+        "keywords": [
+            "file size",
+            "maximum file size",
+            "maximum size"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cmaxss": {
+        "lang_key": "cmaxss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "maximum flesize",
+            "maximum screenshot filesize",
+            "screenshot filesize"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=csortorder": {
+        "lang_key": "csortorder",
+        "restriction": "categories_manage",
+        "keywords": [
+            "default sort",
+            "sort order"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=ctags_disabled": {
+        "lang_key": "ctags_disabled",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow tags",
+            "tags"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=ctags_noprefixes": {
+        "lang_key": "ctags_noprefixes",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow prefixes",
+            "prefixes"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=ctypes": {
+        "lang_key": "ctypes",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allowed extensions",
+            "allowed file",
+            "allowed file extensions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=cversioning": {
+        "lang_key": "cversioning",
+        "restriction": "categories_manage",
+        "keywords": [
+            "number revisions",
+            "revisions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_1_allow_anonymous": {
+        "lang_key": "allow_anonymous",
+        "restriction": "categories_manage",
+        "keywords": [
+            "anonymous",
+            "anonymously"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cbitoptions_moderation": {
+        "lang_key": "cbitoptions_moderation",
+        "restriction": "categories_manage",
+        "keywords": [
+            "approved",
+            "fies must",
+            "files approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cbitoptions_reviews": {
+        "lang_key": "cbitoptions_reviews",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow reviews",
+            "reviews"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cdesc": {
+        "lang_key": "cdesc",
+        "restriction": "categories_manage",
+        "keywords": [
+            "subcategory description"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cforum_on": {
+        "lang_key": "cforum_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "file submitted",
+            "post topic",
+            "submitted"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_clog_on": {
+        "lang_key": "clog_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "log downloads"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cname": {
+        "lang_key": "cname",
+        "restriction": "categories_manage",
+        "keywords": [
+            "category name",
+            "subcategory name"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cparent": {
+        "lang_key": "cparent",
+        "restriction": "categories_manage",
+        "keywords": [
+            "parent category"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_csubmissionterms": {
+        "lang_key": "csubmissionterms",
+        "restriction": "categories_manage",
+        "keywords": [
+            "submission",
+            "submission terms",
+            "terms"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_cversioning_on": {
+        "lang_key": "cversioning_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "keep previous",
+            "keep previous versions",
+            "previous"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_noperm_dl": {
+        "lang_key": "noperm_dl",
+        "restriction": "categories_manage",
+        "keywords": [
+            "cannot download",
+            "error messages"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=form_2_noperm_view": {
+        "lang_key": "noperm_view",
+        "restriction": "categories_manage",
+        "keywords": [
+            "cannot view files",
+            "error messages"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&searchResult=submitter_log": {
+        "lang_key": "cbitoptions_submitter_log",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow submitter",
+            "submitter view logs",
+            "view logs"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_allowss": {
+        "lang_key": "cbitoptions_allowss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow screenshots",
+            "screenshots"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_comment_moderation": {
+        "lang_key": "cbitoptions_comment_moderation",
+        "restriction": "categories_manage",
+        "keywords": [
+            "approved",
+            "comments approved",
+            "must approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_comments": {
+        "lang_key": "cbitoptions_comments",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow comments",
+            "comments"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_reqss": {
+        "lang_key": "cbitoptions_reqss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "require",
+            "require screenshots"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_reviews_download": {
+        "lang_key": "cbitoptions_reviews_download",
+        "restriction": "categories_manage",
+        "keywords": [
+            "before reviewing",
+            "download before",
+            "download before reviewing"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cbitoptions_reviews_mod": {
+        "lang_key": "cbitoptions_reviews_mod",
+        "restriction": "categories_manage",
+        "keywords": [
+            "before approved",
+            "reviews approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cdisclaimer-editor": {
+        "lang_key": "cdisclaimer",
+        "restriction": "categories_manage",
+        "keywords": [
+            "download terms",
+            "terms"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=clog": {
+        "lang_key": "clog",
+        "restriction": "categories_manage",
+        "keywords": [
+            "keep logs",
+            "retain logs"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cmaxdims": {
+        "lang_key": "cmaxdims",
+        "restriction": "categories_manage",
+        "keywords": [
+            "dimensions",
+            "maximum demensions",
+            "maximum screenshot",
+            "maximum screenshot demensions",
+            "screenshot dimensions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cmaxfile": {
+        "lang_key": "cmaxfile",
+        "restriction": "categories_manage",
+        "keywords": [
+            "file size",
+            "maximum file size",
+            "maximum size"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cmaxss": {
+        "lang_key": "cmaxss",
+        "restriction": "categories_manage",
+        "keywords": [
+            "maximum",
+            "maximum screenshot",
+            "maximum screenshot filesize",
+            "screenshot filesize"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=csortorder": {
+        "lang_key": "csortorder",
+        "restriction": "categories_manage",
+        "keywords": [
+            "default sort order",
+            "sort order"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=ctags_disabled": {
+        "lang_key": "ctags_disabled",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow tags",
+            "tags"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=ctags_noprefixes": {
+        "lang_key": "ctags_noprefixes",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow prefixes",
+            "prefixes"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=ctypes": {
+        "lang_key": "ctypes",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allowed extensions",
+            "allowed file extensions",
+            "file extensions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=cversioning": {
+        "lang_key": "cversioning",
+        "restriction": "categories_manage",
+        "keywords": [
+            "number",
+            "number revisions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cbitoptions_moderation": {
+        "lang_key": "cbitoptions_moderation",
+        "restriction": "categories_manage",
+        "keywords": [
+            "approved",
+            "must approved"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cbitoptions_reviews": {
+        "lang_key": "cbitoptions_reviews",
+        "restriction": "categories_manage",
+        "keywords": [
+            "allow reviews",
+            "reviews"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cdesc": {
+        "lang_key": "cdesc",
+        "restriction": "categories_manage",
+        "keywords": [
+            "category description"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cforum_on": {
+        "lang_key": "cforum_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "file submitted",
+            "post topic",
+            "post topic when"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_clog_on": {
+        "lang_key": "clog_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "log downloads"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cname": {
+        "lang_key": "cname",
+        "restriction": "categories_manage",
+        "keywords": [
+            "category name"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cparent": {
+        "lang_key": "cparent",
+        "restriction": "categories_manage",
+        "keywords": [
+            "parent category"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_csubmissionterms": {
+        "lang_key": "csubmissionterms",
+        "restriction": "categories_manage",
+        "keywords": [
+            "submission",
+            "submission terms"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_cversioning_on": {
+        "lang_key": "cversioning_on",
+        "restriction": "categories_manage",
+        "keywords": [
+            "keep previous",
+            "keep previous versions",
+            "previous versions"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_noperm_dl": {
+        "lang_key": "noperm_dl",
+        "restriction": "categories_manage",
+        "keywords": [
+            "cannot download",
+            "download",
+            "error messages"
+        ]
+    },
+    "app=downloads&module=downloads&controller=categories&subnode=0&parent=1&searchResult=form_new_noperm_view": {
+        "lang_key": "noperm_view",
+        "restriction": "categories_manage",
+        "keywords": [
+            "cannot view files",
+            "error messages",
+            "view files"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields": {
+        "lang_key": "menu__downloads_downloads_fields",
+        "restriction": "fields_manage",
+        "keywords": [
+            "download custom fields",
+            "download fields",
+            "file fields"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&do=form": {
+        "lang_key": "menu__downloads_downloads_fields",
+        "restriction": "fields_manage",
+        "keywords": [
+            "downloads extra fields",
+            "downloads fields",
+            "extra fields"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_1_cf_topic": {
+        "lang_key": "cf_topic",
+        "restriction": "fields_manage",
+        "keywords": [
+            "include field",
+            "include field topics"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_1_pf_desc": {
+        "lang_key": "pf_desc",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field description"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_1_pf_format": {
+        "lang_key": "pf_format",
+        "restriction": "fields_manage",
+        "keywords": [
+            "display format",
+            "field display format"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_1_pf_title": {
+        "lang_key": "pf_title",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field name"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_1_pf_type": {
+        "lang_key": "pf_type",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field type"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_new_cf_topic": {
+        "lang_key": "cf_topic",
+        "restriction": "fields_manage",
+        "keywords": [
+            "include field",
+            "include field in topics"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_new_pf_desc": {
+        "lang_key": "pf_desc",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field description"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_new_pf_format": {
+        "lang_key": "pf_format",
+        "restriction": "fields_manage",
+        "keywords": [
+            "display format",
+            "field display format"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_new_pf_title": {
+        "lang_key": "pf_title",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field name"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=form_new_pf_type": {
+        "lang_key": "pf_type",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field type"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=pf_input_format": {
+        "lang_key": "pf_input_format",
+        "restriction": "fields_manage",
+        "keywords": [
+            "regex",
+            "regular expression"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=pf_max_input": {
+        "lang_key": "pf_max_input",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field length",
+            "field maximum length",
+            "length",
+            "maximum length"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=pf_not_null": {
+        "lang_key": "pf_not_null",
+        "restriction": "fields_manage",
+        "keywords": [
+            "field required",
+            "required"
+        ]
+    },
+    "app=downloads&module=downloads&controller=fields&searchResult=pf_search_type": {
+        "lang_key": "pf_search_type",
+        "restriction": "fields_manage",
+        "keywords": [
+            "search behavior",
+            "search type"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings": {
+        "lang_key": "menu__downloads_downloads_settings",
+        "restriction": "settings_manage",
+        "keywords": [
+            "downloads",
+            "downloads settings",
+            "files"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_antileech": {
+        "lang_key": "idm_antileech",
+        "restriction": "settings_manage",
+        "keywords": [
+            "anti-leech",
+            "antileech",
+            "direct",
+            "hotlink",
+            "link",
+            "prevent direct linking"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_gridview": {
+        "lang_key": "idm_gridview",
+        "restriction": "settings_manage",
+        "keywords": [
+            "grid"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_link_blacklist": {
+        "lang_key": "idm_link_blacklist",
+        "restriction": "settings_manage",
+        "keywords": [
+            "blacklist",
+            "link",
+            "submissions",
+            "url"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_nexus_display": {
+        "lang_key": "idm_nexus_display",
+        "restriction": "settings_manage",
+        "keywords": [
+            "downloads statistics",
+            "statistics"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_nexus_on": {
+        "lang_key": "idm_nexus_on",
+        "restriction": "settings_manage",
+        "keywords": [
+            "downloads",
+            "marketplace",
+            "nexus",
+            "paid downloads",
+            "paid files"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_rss": {
+        "lang_key": "idm_rss",
+        "restriction": "settings_manage",
+        "keywords": [
+            "files rss",
+            "latest files",
+            "rss export"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_show_featured": {
+        "lang_key": "idm_show_featured",
+        "restriction": "settings_manage",
+        "keywords": [
+            "featured"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_show_highest_rated": {
+        "lang_key": "idm_show_highest_rated",
+        "restriction": "settings_manage",
+        "keywords": [
+            "highest rated"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_show_most_downloaded": {
+        "lang_key": "idm_show_most_downloaded",
+        "restriction": "settings_manage",
+        "keywords": [
+            "most downloaded"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_show_newest": {
+        "lang_key": "idm_show_newest",
+        "restriction": "settings_manage",
+        "keywords": [
+            "new files",
+            "what's new"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=form_idm_watermarkpath": {
+        "lang_key": "idm_watermarkpath",
+        "restriction": "settings_manage",
+        "keywords": [
+            "screenshot",
+            "watermark"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=idm_nexus_gateways": {
+        "lang_key": "idm_nexus_gateways",
+        "restriction": "settings_manage",
+        "keywords": [
+            "payment methods"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=idm_nexus_percent": {
+        "lang_key": "idm_nexus_percent",
+        "restriction": "settings_manage",
+        "keywords": [
+            "commission"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=idm_nexus_tax": {
+        "lang_key": "idm_nexus_tax",
+        "restriction": "settings_manage",
+        "keywords": [
+            "tax"
+        ]
+    },
+    "app=downloads&module=downloads&controller=settings&searchResult=idm_nexus_transfee": {
+        "lang_key": "idm_nexus_transfee",
+        "restriction": "settings_manage",
+        "keywords": [
+            "fee"
+        ]
+    },
+    "app=downloads&module=stats&controller=downloaders": {
+        "lang_key": "menu__downloads_stats_downloaders",
+        "restriction": "downloaders_manage",
+        "keywords": [
+            "download statistics",
+            "downloads stats",
+            "top downloaders"
+        ]
+    },
+    "app=downloads&module=stats&controller=downloads": {
+        "lang_key": "menu__downloads_stats_downloads",
+        "restriction": "downloads_manage",
+        "keywords": [
+            "download statistics",
+            "downloads stats"
+        ]
+    },
+    "app=downloads&module=stats&controller=submitters": {
+        "lang_key": "menu__downloads_stats_submitters",
+        "restriction": "submitters_manage",
+        "keywords": [
+            "top submitters"
+        ]
+    },
+    "app=downloads&module=stats&controller=topdownloads": {
+        "lang_key": "menu__downloads_stats_topdownloads",
+        "restriction": "topdownloads_manage",
+        "keywords": [
+            "top files"
+        ]
+    }
+}

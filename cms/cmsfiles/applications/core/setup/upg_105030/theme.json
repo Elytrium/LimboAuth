@@ -1,0 +1,44 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "global\/forms\/upload",
+            "front\/global\/globalTemplate",
+            "global\/global\/includeMeta",
+            "front\/global\/userPhoto",
+            "front\/profile\/profile",
+            "front\/streams\/streamWrapper",
+            "admin\/support\/diagnostics",
+            "admin\/support\/fixDatabase",
+            "front\/system\/notificationsTable",
+            "admin\/system\/upgradeDeltaDatabaseCheck",
+            "admin\/system\/upgradeFinished",
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/userPhoto"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core_responsive.css",
+            "admin\/core\/buttons.css",
+            "admin\/core\/forms.css",
+            "admin\/members\/view.css",
+            "front\/styles\/messaging_responsive.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

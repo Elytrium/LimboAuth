@@ -1,0 +1,27 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/events\/featuredEvent",
+            "front\/events\/searchResultsWrapper",
+            "front\/overview\/header",
+            "front\/submit\/submitPage",
+            "front\/view\/eventSidebar",
+            "front\/view\/rsvpControls",
+            "front\/view\/view",
+            "front\/widgets\/recentReviews",
+            "front\/widgets\/upcomingEvents"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

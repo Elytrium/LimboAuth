@@ -1,0 +1,23 @@
+{
+    "id": 107660,
+    "name": "4.7.9 Beta 1",
+    "steps": {
+        "queries": true,
+        "lang": true,
+        "theme": true,
+        "themeSettings": false,
+        "javascript": true,
+        "emailTemplates": true,
+        "hooks": false,
+        "acpSearchKeywords": true,
+        "settings": true,
+        "tasks": true,
+        "modules": true,
+        "widgets": false,
+        "customOptions": false,
+        "customRoutines": true
+    },
+    "forceMainUpgrader": false,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

@@ -1,0 +1,15 @@
+{
+    "normal": {
+        "added": [
+            "can_future_publish_topic",
+            "can_view_future_topic"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

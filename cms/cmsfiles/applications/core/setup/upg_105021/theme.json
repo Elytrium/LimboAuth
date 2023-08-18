@@ -1,0 +1,49 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "admin\/global\/globalTemplate",
+            "global\/global\/includeMeta",
+            "admin\/global\/mobileNavigation",
+            "front\/global\/quickSearch",
+            "front\/global\/review",
+            "front\/global\/userPhoto",
+            "admin\/mobile\/details",
+            "admin\/mobile\/splash",
+            "front\/modcp\/report",
+            "front\/modcp\/template",
+            "front\/promote\/promoteTableRows",
+            "front\/staffdirectory\/template",
+            "front\/widgets\/activeUsers",
+            "front\/widgets\/whosOnline"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "admin\/core\/forms.css",
+            "global\/framework\/_vars.css",
+            "global\/framework\/compose.css",
+            "global\/framework\/global.css",
+            "global\/framework\/pagination.css",
+            "global\/framework\/popup.css",
+            "global\/framework\/tabs.css",
+            "global\/framework\/tags.css",
+            "global\/responsive\/global.css",
+            "front\/styles\/promote.css",
+            "admin\/system\/dashboard.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

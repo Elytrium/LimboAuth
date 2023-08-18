@@ -1,0 +1,23 @@
+{
+    "id": 107037,
+    "name": "4.7.2.1",
+    "steps": {
+        "queries": false,
+        "lang": false,
+        "theme": false,
+        "themeSettings": false,
+        "javascript": false,
+        "emailTemplates": false,
+        "hooks": false,
+        "acpSearchKeywords": false,
+        "settings": false,
+        "tasks": false,
+        "modules": false,
+        "widgets": false,
+        "customOptions": false,
+        "customRoutines": false
+    },
+    "forceMainUpgrader": false,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

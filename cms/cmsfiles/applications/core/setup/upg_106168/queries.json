@@ -1,0 +1,45 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_files_temp",
+            {
+                "name": "labels",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_attachments",
+            {
+                "name": "attach_labels",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Labels from image scanner",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropTable",
+        "params": [
+            "core_image_scanner_logs",
+            true
+        ]
+    }
+}

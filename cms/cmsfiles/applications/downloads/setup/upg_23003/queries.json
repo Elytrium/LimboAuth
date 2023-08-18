@@ -1,0 +1,119 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_renewal_term",
+                "type": "int",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_renewal_units",
+                "type": "char",
+                "length": 1,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_renewal_price",
+                "type": "float",
+                "length": null,
+                "allow_null": false,
+                "default": "0.00"
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "downloads_mods",
+            {
+                "name": "modusefeature",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_featured",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "key",
+                "name": "file_featured",
+                "columns": [
+                    "file_featured"
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_pinned",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "downloads_mods",
+            {
+                "name": "modcanpin",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_comments",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

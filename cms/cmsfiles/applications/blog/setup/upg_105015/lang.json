@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [
+            "blog_category_confirm_delete"
+        ],
+        "removed": []
+    }
+}

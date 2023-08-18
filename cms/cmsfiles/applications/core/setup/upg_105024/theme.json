@@ -1,0 +1,62 @@
+{
+    "html": {
+        "added": [
+            "admin\/applications\/appRowAdditional",
+            "admin\/customization\/langRowAdditional",
+            "admin\/customization\/langRowTitle",
+            "admin\/customization\/themeRowTitle",
+            "admin\/marketplace\/categoryIndex",
+            "admin\/marketplace\/customHeader",
+            "admin\/marketplace\/dashboard",
+            "admin\/marketplace\/fileCard",
+            "admin\/marketplace\/fileCardList",
+            "admin\/marketplace\/fileCardMini",
+            "admin\/marketplace\/fileChangelogGrid",
+            "admin\/marketplace\/fileView",
+            "admin\/marketplace\/onboardRow",
+            "admin\/marketplace\/onboardSearch",
+            "admin\/marketplace\/onboardTemplate",
+            "admin\/marketplace\/termsAndConditions",
+            "admin\/notifications\/marketplaceSetup"
+        ],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/applications\/appRowTitle",
+            "admin\/applications\/pluginVersionData",
+            "admin\/clubs\/statsOverview",
+            "admin\/customization\/langDescription",
+            "admin\/customization\/themeDescription",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/mobileNavigation",
+            "front\/global\/userLink",
+            "front\/global\/userPhoto",
+            "front\/profile\/hovercard",
+            "front\/profile\/profile",
+            "front\/profile\/profileHeader",
+            "admin\/support\/diagnostics",
+            "front\/tables\/commentRows",
+            "front\/widgets\/streamItem"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [
+            "admin\/marketplace\/marketplace.css"
+        ],
+        "edited": [
+            "admin\/core\/buttons.css",
+            "admin\/core\/misc.css",
+            "global\/framework\/data-lists.css",
+            "global\/framework\/misc.css",
+            "global\/framework\/streams.css",
+            "global\/responsive\/data-lists.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

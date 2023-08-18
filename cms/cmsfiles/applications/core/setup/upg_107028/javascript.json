@@ -1,0 +1,15 @@
+{
+    "files": {
+        "added": [],
+        "edited": [],
+        "removed": [
+            "core\/admin\/controllers\/core\/ips.core.newFeatures.js",
+            "core\/admin\/templates\/ips.templates.newFeatures.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

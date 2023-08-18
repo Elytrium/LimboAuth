@@ -1,0 +1,65 @@
+{
+    "html": {
+        "added": [
+            "front\/global\/nsfwOverlay"
+        ],
+        "edited": [
+            "front\/browse\/album",
+            "front\/browse\/albumComments",
+            "front\/browse\/albums",
+            "front\/browse\/categories",
+            "front\/browse\/category",
+            "front\/browse\/categoryButtons",
+            "front\/browse\/categoryGrid",
+            "front\/browse\/categoryRow",
+            "front\/browse\/imageTable",
+            "front\/browse\/index",
+            "front\/browse\/miniAlbum",
+            "front\/browse\/tableRowsLarge",
+            "front\/browse\/tableRowsRows",
+            "front\/browse\/tableRowsThumbs",
+            "front\/global\/embedAlbumComment",
+            "front\/global\/embedAlbumReview",
+            "front\/global\/embedAlbums",
+            "front\/global\/embedImage",
+            "front\/global\/embedImageComment",
+            "front\/global\/embedImageReview",
+            "front\/global\/manageFollowNodeRow",
+            "front\/global\/searchResultAlbumCommentSnippet",
+            "front\/global\/searchResultAlbumSnippet",
+            "front\/global\/searchResultCommentSnippet",
+            "front\/global\/searchResultImageSnippet",
+            "front\/submit\/uploadImages",
+            "front\/submit\/wrapper",
+            "front\/view\/image",
+            "front\/view\/imageFrame",
+            "front\/view\/imageInfo",
+            "front\/view\/metadata",
+            "front\/widgets\/albums",
+            "front\/widgets\/imageFeed",
+            "front\/widgets\/imageRow",
+            "front\/widgets\/latestImage",
+            "front\/widgets\/recentComments",
+            "front\/widgets\/recentImageReviews"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/embed.css",
+            "front\/gallery_responsive.css",
+            "front\/gallery.css",
+            "front\/global.css",
+            "front\/submit_responsive.css",
+            "front\/submit.css",
+            "front\/widgets.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

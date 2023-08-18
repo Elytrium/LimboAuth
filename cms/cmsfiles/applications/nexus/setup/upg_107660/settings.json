@@ -1,0 +1,31 @@
+{
+    "added": [
+        "maxmind_id",
+        "maxmind_tracking_code"
+    ],
+    "edited": [
+        "nexus_require_billing"
+    ],
+    "removed": [
+        "monitoring_alert",
+        "monitoring_allowed_fails",
+        "monitoring_backup",
+        "monitoring_from",
+        "monitoring_panic",
+        "monitoring_script",
+        "network_status",
+        "nexus_domain_prices",
+        "nexus_domain_tax",
+        "nexus_enom_pw",
+        "nexus_enom_un",
+        "nexus_hosting_allow_change_domain",
+        "nexus_hosting_allow_own_domain",
+        "nexus_hosting_bandwidth",
+        "nexus_hosting_error_emails",
+        "nexus_hosting_nameservers",
+        "nexus_hosting_own_domain_sub",
+        "nexus_hosting_own_domains",
+        "nexus_hosting_subdomains",
+        "nexus_hosting_terminate"
+    ]
+}

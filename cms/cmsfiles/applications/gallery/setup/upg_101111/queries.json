@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "gallery_categories",
+            {
+                "category_sort_options": "album_count_imgs"
+            },
+            [
+                "category_sort_options=?",
+                "album_count_images"
+            ]
+        ]
+    }
+}

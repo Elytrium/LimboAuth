@@ -1,0 +1,93 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_reviews",
+            {
+                "name": "review_author_response",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_comments",
+            "comment_author",
+            {
+                "type": "key",
+                "name": "comment_mid",
+                "columns": [
+                    "comment_mid"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_comments",
+            "comment_mid",
+            {
+                "type": "key",
+                "name": "comment_mid",
+                "columns": [
+                    "comment_mid",
+                    "comment_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_reviews",
+            "review_mid",
+            {
+                "type": "key",
+                "name": "review_mid",
+                "columns": [
+                    "review_mid",
+                    "review_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "downloads_downloads",
+            {
+                "type": "key",
+                "name": "dip",
+                "columns": [
+                    "dip"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

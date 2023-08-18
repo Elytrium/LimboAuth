@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [
+            "front\/events\/noEvents"
+        ],
+        "edited": [
+            "front\/browse\/calendarWrapper",
+            "front\/overview\/byMonth",
+            "front\/overview\/header",
+            "front\/view\/eventSidebar",
+            "front\/view\/view"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

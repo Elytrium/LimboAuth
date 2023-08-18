@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="convert">
+ <file javascript_app="convert" javascript_location="admin" javascript_path="controllers/convert" javascript_name="ips.convert.menu.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.convert.menu.js - 
+ *
+ * Author: Ryan Ashbrook
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('convert.admin.convert.menu', {
+
+		initialize: function () {
+			this.on( 'click', &quot;[data-action='reConvert']&quot;, this.areYouSure );
+			this.on( 'click', &quot;[data-action='remove_converted_data']&quot;, this.removeConverted );
+		},
+		
+		areYouSure: function(e) {
+			var self = this;
+			
+			e.preventDefault();
+			
+			ips.ui.alert.show( {
+				type: 'confirm',
+				icon: 'warning',
+				message: 'Are you sure you wish to reconvert this?',
+				subText: 'Reconverting can cause data inconsistency. If you reconvert this step, you must also reconvert each step below it.',
+			} );
+		},
+		
+		removeConverted: function(e) {
+			var self = this;
+			
+			e.preventDefault();
+			
+			ips.ui.alert.show( {
+				type: 'confirm',
+				icon: 'warning',
+				message: 'Are you sure you wish to remove all converted data for this step?',
+				subText: 'Removing all converted data will remove all data that has been converted for this step. This action cannot be undone.',
+			} );
+		}
+	} );
+}(jQuery, _));</file>
+ <file javascript_app="convert" javascript_location="admin" javascript_path="controllers/forms" javascript_name="ips.forms.reactionmapper.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.forms.reactionmapper.js - Conversion specific Reaction map form
+ *
+ * Author: Stuart Silvester
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('convert.admin.forms.reactionmapper', {
+
+		initialize: function () {
+			var id = $(this.scope).data( 'reactionid' );
+
+			this.on( document, 'click', &quot;#elReactionMapper&quot; + id + &quot;_menu .ipsMenu_item&quot;, this.selectReaction );
+
+			this.setup();
+		},
+
+		/**
+		 * Set up the default reaction
+		 *
+		 * @returns		{void}
+		 */
+		setup: function () {
+			this.scope.find('a[data-default=&quot;true&quot;]').click();
+		},
+
+		/**
+		 * Select Reaction
+		 *
+		 * @param		{event}		e		Event object
+		 * @returns		{void}
+		 */
+		selectReaction: function ( e ) {
+			e.preventDefault();
+			var menuItem = $( e.target );
+			this.scope.find('.elMenuSelect_replace').html( menuItem.html() );
+			this.scope.find('input[type=hidden]').val( menuItem.data('id') );
+		}
+	});
+}(jQuery, _));</file>
+ <order app="global" path="/dev/js//framework/">templates
+common/ips.loader.js
+common/ui
+common/utils
+common
+controllers</order>
+ <order app="global" path="/dev/js//library/">underscore
+jquery
+mustache
+Debug.js
+app.js</order>
+ <order app="global" path="/dev/js//library//jquery">jquery.js
+jquery-migrate.js
+jquery.history.js
+jquery.transform.js</order>
+ <order app="global" path="/dev/js//library//linkify">linkify.min.js
+linkify-jquery.min.js</order>
+</javascript>

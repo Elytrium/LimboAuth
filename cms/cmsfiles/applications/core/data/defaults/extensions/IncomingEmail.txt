@@ -1,0 +1,54 @@
+<?php
+/**
+ * @brief		Incoming Email Handler
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\IncomingEmail;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Incoming Email Handler
+ */
+class _{class}
+{
+	/**
+	 * Handle email
+	 *
+	 * @param	\IPS\Email\Incoming\Email	$email	The email
+	 * @return	bool
+	 */
+	public function process( \IPS\Email\Incoming\Emails $email ): bool
+	{
+		if ( FALSE )
+		{
+			// Do something with the email...
+			
+			/* Save attachments */
+			foreach ( $files as $file )
+			{
+				$attachment = $file->makeAttachment('');
+				
+				\IPS\Db::i()->insert( 'core_attachments_map', array(
+					'attachment_id'	=> $attachment['attach_id'],
+					'location_key'	=> '',
+					'id1'			=> '',
+					'id2'			=> '',
+				) );
+			}
+		}
+		
+		return FALSE; // Must return false if not processing
+	}
+}

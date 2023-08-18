@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [
+            "account_credit_remove_commission"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

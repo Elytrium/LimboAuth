@@ -1,0 +1,204 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "forums",
+                "rss_import_topic_hide"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "forums",
+                "rss_import_topic_open"
+            ]
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "forums",
+                "rss_import_topic_pre"
+            ]
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "forums",
+                "rss_import_topic_pre_desc"
+            ]
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "core_sitemap",
+            "data",
+            {
+                "name": "data",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "The sitemap XML",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "core",
+                "paid"
+            ]
+        ]
+    },
+    "7": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "8": {
+        "method": "dropColumn",
+        "params": [
+            "core_search_index",
+            "index_tags"
+        ]
+    },
+    "9": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_search_index_tags",
+                "columns": {
+                    "index_id": {
+                        "name": "index_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Related rows index ID from core_search_index",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "index_tag": {
+                        "name": "index_tag",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "index_id": {
+                        "type": "key",
+                        "name": "index_id",
+                        "columns": [
+                            "index_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "index_tag": {
+                        "type": "key",
+                        "name": "index_tag",
+                        "columns": [
+                            "index_tag"
+                        ],
+                        "length": [
+                            250
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "core_polls",
+            {
+                "name": "poll_closed",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+			}
+		]
+	},
+	"11": {			
+        "method": "addIndex",
+        "params": [
+            "core_members",
+            {
+                "type": "key",
+                "name": "photo_last_update",
+                "columns": [
+                    "photo_last_update"
+                ],
+                "length": [
+                    null
+                ]
+
+            }
+        ]
+    },
+	"12": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_hidden",
+                "columns": [
+                    "index_hidden"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

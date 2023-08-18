@@ -1,0 +1,134 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_approval_queue",
+                "columns": {
+                    "approval_id": {
+                        "name": "approval_id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "auto_increment": true
+                    },
+                    "approval_held_reason": {
+                        "name": "approval_held_reason",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "approval_held_data": {
+                        "name": "approval_held_data",
+                        "type": "BLOB",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "approval_content_class": {
+                        "name": "approval_content_class",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    },
+                    "approval_content_id": {
+                        "name": "approval_content_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "approval_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "approval_content": {
+                        "type": "key",
+                        "name": "approval_content",
+                        "columns": [
+                            "approval_content_class",
+                            "approval_content_id"
+                        ],
+                        "length": [
+                            191,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_widget_areas",
+            {
+                "widgets": "[]"
+            },
+            [
+                "app='core' AND ( controller IN ( 'login', 'register' ) )"
+            ]
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "core_applications",
+            {
+                "app_requires_manual_intervention": 0
+            },
+            [
+                "app_enabled=?",
+                1
+            ]
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_plugins",
+            {
+                "plugin_requires_manual_intervention": 0
+            },
+            [
+                "plugin_enabled=?",
+                1
+            ]
+        ]
+    }
+}

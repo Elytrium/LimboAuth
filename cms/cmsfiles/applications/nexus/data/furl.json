@@ -1,0 +1,158 @@
+/**
+ * Friendly URL Structure
+ *
+ * For each value in the $furl array:
+ *	The key should be the "SEO Template" - an identifier which you'll use when displaying a URL.
+ *	The value should be an associative array with two or three elements: 'friendly' and 'real', and optionally 'verify':
+ *		'friendly'
+ *			The friendly URL to use - encase variables in {curly braces} containing a symbol, followed by the name of the parameter that matches in the "real" URL
+ *			The symbol should be # for numbers or @ for strings
+ *			For example, if the "real" URL contains id=XXX, where XXX is a number, you should include {#id} somewhere in the friendly URL.
+ *			You can also use the tag {?} for the "SEO Title" (that is, any variables that shouldn't be part of the real URL, such as the name of the topipc being viewed).
+ *			If you want to support more than one SEO Title, you can give them zero-indexed keys like so: {?0} {?1} {?2}
+ *		'real'
+ *			This should be the base of the real URL. You should not include parameters which will be parsed out from the friendly URL.
+ *      'verify'
+ *          This should be the name of a class that contains a loadFromUrl() and an url() method.  The dynamic URL (i.e. app=core&...) will be passed to loadFromUrl(), and the url()
+ *          method will subsequently be called to retrieve the correct URL, ideal with ActiveRecord pattern classes.
+ *
+ * IMPORTANT: Ensure values are listed with the most specific ones first. This is to ensure that non-FURL redirects are done correctly. For example, if you have these FURLs:
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller&do=myaction	->	/myfolder/myaction
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller				->	/myfolder
+ * They must be provided in that order, otherwise the former will redirec to /myfolder/?do=myaction rather than /myfolder/myaction
+ */
+{
+	"topLevel": "",
+	"pages": {
+	    "nexus_checkout": {
+	        "friendly": "checkout/{#id}",
+	        "real": "app=nexus&module=checkout&controller=checkout"
+	    },
+	    "support_create": {
+	        "friendly": "support/create",
+	        "real": "app=nexus&module=support&controller=home&do=create"
+	    },
+	    "support_view": {
+	        "friendly": "support/{#id}",
+	        "real": "app=nexus&module=support&controller=view",
+	        "verify": "\\IPS\\nexus\\Support\\Request"
+	    },
+	    "support": {
+	        "friendly": "support",
+	        "real": "app=nexus&module=support&controller=home"
+	    },
+	    "store_group": {
+	        "friendly": "store/category/{#cat}-{?}",
+	        "real": "app=nexus&module=store&controller=store",
+	        "verify": "\\IPS\\nexus\\Package\\Group"
+	    },
+	    "store_product": {
+	        "friendly": "store/product/{#id}-{?}",
+	        "real": "app=nexus&module=store&controller=product",
+	        "verify": "\\IPS\\nexus\\Package\\Item"
+	    },
+	    "store_cart": {
+	        "friendly": "store/cart",
+	        "real": "app=nexus&module=store&controller=cart"
+	    },
+	    "store_giftvouchers_redeem": {
+	        "friendly": "store/redeem",
+	        "real": "app=nexus&module=store&controller=gifts&do=redeem"
+	    },
+	    "store_giftvouchers": {
+	        "friendly": "store/gift-cards",
+	        "real": "app=nexus&module=store&controller=gifts"
+	    },
+	    "store": {
+	        "friendly": "store",
+	        "real": "app=nexus&module=store&controller=store"
+	    },
+	    "clientspurchasecancel": {
+		    "friendly": "clients/purchases/{#id}-{?}/cancel",
+		    "real": "app=nexus&module=clients&controller=purchases&do=cancel"
+	    },
+	    "clientspurchaserenew": {
+			"friendly": "clients/purchases/{#id}-{?}/renew",
+			"real": "app=nexus&module=clients&controller=purchases&do=renew"
+	    },
+	    "clientspurchaseextra": {
+		    "friendly": "clients/purchases/{#id}-{?}/extra",
+		    "real": "app=nexus&module=clients&controller=purchases&do=extra"
+	    },
+	    "clientspurchase": {
+		    "friendly": "clients/purchases/{#id}-{?}",
+	        "real": "app=nexus&module=clients&controller=purchases&do=view",
+	        "verify": "\\IPS\\nexus\\Purchase"
+	    },
+	    "clientspurchases": {
+		    "friendly": "clients/purchases",
+	        "real": "app=nexus&module=clients&controller=purchases"
+	    },
+	    "clientsinvoice": {
+		    "friendly": "clients/orders/{#id}",
+	        "real": "app=nexus&module=clients&controller=invoices&do=view",
+	        "verify": "\\IPS\\nexus\\Invoice"
+	    },
+	    "clientsinvoices": {
+		    "friendly": "clients/orders",
+	        "real": "app=nexus&module=clients&controller=invoices"
+	    },
+	    "clientsaddresses": {
+		    "friendly": "clients/addresses",
+	        "real": "app=nexus&module=clients&controller=addresses"
+	    },
+	    "clientscards": {
+		    "friendly": "clients/cards",
+	        "real": "app=nexus&module=clients&controller=cards"
+	    },
+	    "clientsbillingagreements": {
+		    "friendly": "clients/billing-agreements",
+	        "real": "app=nexus&module=clients&controller=billingagreements"
+	    },
+	    "clientsbillingagreement": {
+		    "friendly": "clients/billing-agreements/{#id}",
+	        "real": "app=nexus&module=clients&controller=billingagreements&do=view"
+	    },
+	    "clientsalternatives": {
+		    "friendly": "clients/alternative-contacts",
+	        "real": "app=nexus&module=clients&controller=alternatives"
+	    },
+	    "clientscredit": {
+		    "friendly": "clients/credit",
+	        "real": "app=nexus&module=clients&controller=credit"
+	    },
+	    "clientsdonate": {
+		    "friendly": "clients/donations/{#id}-{?}",
+	        "real": "app=nexus&module=clients&controller=donations&do=donate",
+	        "verify": "\\IPS\\nexus\\Donation\\Goal"
+	    },
+	    "clientsdonations": {
+		    "friendly": "clients/donations",
+	        "real": "app=nexus&module=clients&controller=donations"
+	    },
+	    "clientsreferrals": {
+		    "friendly": "clients/referrals",
+	        "real": "app=nexus&module=clients&controller=referrals"
+	    },
+	    "clientsinfo": {
+		    "friendly": "clients/info",
+	        "real": "app=nexus&module=clients&controller=info"
+	    },
+	    "clients": {
+		    "friendly": "clients",
+	        "real": "app=nexus&module=clients&controller=splash"
+	    },
+	    "nexus_subscription": {
+	        "friendly": "subscriptions/{#id}",
+	        "real": "app=nexus&module=subscriptions&controller=subscriptions"
+	    },
+	    "nexus_subscriptions": {
+	        "friendly": "subscriptions",
+	        "real": "app=nexus&module=subscriptions&controller=subscriptions"
+	    },
+		"apple_verification": {
+			"friendly": ".well-known/apple-developer-merchantid-domain-association",
+			"real": "app=nexus&module=checkout&controller=checkout&do=appleVerification"
+		}
+	}
+}

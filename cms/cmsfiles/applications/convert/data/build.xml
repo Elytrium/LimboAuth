@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="admin/manage"><![CDATA[{"default_controller":"manage","protected":0,"default":1}]]></module>
+ <hook key="LoginHandler"><![CDATA[{"type":"C","class":"\\IPS\\Login\\Handler"}]]></hook>
+ <hook key="LegacyParser"><![CDATA[{"type":"C","class":"\\IPS\\Text\\LegacyParser"}]]></hook>
+ <hook key="Db"><![CDATA[{"type":"C","class":"\\IPS\\Db"}]]></hook>
+ <hook key="FrontDispatcher"><![CDATA[{"type":"C","class":"\\IPS\\Dispatcher\\Front"}]]></hook>
+</build>

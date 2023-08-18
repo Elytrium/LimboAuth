@@ -1,0 +1,27 @@
+{
+    "html": {
+        "added": [
+            "global\/embed\/brightcove"
+        ],
+        "edited": [
+            "front\/modcp\/warnHovercard",
+            "front\/profile\/hovercard",
+            "front\/profile\/profile",
+            "front\/system\/warningRow"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/badges.css",
+            "global\/framework\/post-content.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "id": 106147,
+    "name": "4.6.9",
+    "steps": {
+        "queries": false,
+        "lang": false,
+        "theme": false,
+        "themeSettings": false,
+        "javascript": false,
+        "emailTemplates": false,
+        "hooks": false,
+        "acpSearchKeywords": false,
+        "settings": false,
+        "tasks": false,
+        "modules": false,
+        "widgets": false,
+        "whatsnew": false,
+        "customOptions": false,
+        "customRoutines": false
+    },
+    "forceMainUpgrader": false,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

@@ -1,0 +1,49 @@
+{
+    "normal": {
+        "added": [
+            "__defart_post_plural",
+            "__defart_topic_plural",
+            "__defart_answer_plural",
+            "__defart_question_plural",
+            "topic_posted_in_groups",
+            "filter_hidden_topics",
+            "filter_hidden_posts_in_topics",
+            "stats_percentagesolved",
+            "stats_percentagesolved_desc",
+            "stats_solved_tooltip",
+            "stats_solved_tooltip_prev",
+            "stats_averagetimesolved",
+            "stats_averagetimesolved_desc",
+            "forums_topic_show_meta_moderation_desc",
+            "forums_mod_actions_anon",
+            "forums_mod_actions_anon_desc",
+            "404_forums_topic",
+            "403_forums_topic",
+            "AchievementAction__AnswerMarkedBest",
+            "achievement_filter_AnswerMarkedBest_forum",
+            "achievement_filter_AnswerMarkedBest_forum_prefix",
+            "achievement_filter_AnswerMarkedBest_poster",
+            "achievement_filter_AnswerMarkedBest_asker",
+            "achievement_filter_AnswerMarkedBest_nth",
+            "achievement_filter_AnswerMarkedBest_nth_suffix",
+            "AchievementAction__AnswerMarkedBest_log_subject",
+            "AchievementAction__AnswerMarkedBest_log_other",
+            "AchievementAction__AnswerMarkedBest_log_deleted",
+            "AchievementAction__AnswerMarkedBest_title"
+        ],
+        "edited": [
+            "forum_allow_poll",
+            "forum_inc_postcount",
+            "forum_use_feature_color_desc"
+        ],
+        "removed": [
+            "first_unread_post",
+            "get_last_post"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

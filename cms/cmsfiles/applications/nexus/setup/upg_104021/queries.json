@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_member_subscription_packages",
+            {
+                "name": "sp_renew_upgrade",
+                "type": "TINYINT",
+                "length": 2,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "Upgrade options for non-renewable subscriptions",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

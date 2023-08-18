@@ -1,0 +1,255 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_severities",
+                "columns": {
+                    "sev_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 5,
+                        "name": "sev_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "sev_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_icon": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "sev_icon",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_color": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 6,
+                        "name": "sev_color",
+                        "type": "CHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_default": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "sev_default",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_public": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "sev_public",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_position": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 5,
+                        "name": "sev_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "sev_action": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "sev_action",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "sev_id"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "2": {
+        "method": "insert",
+        "params": [
+            "nexus_support_severities",
+            {
+                "sev_id": 1,
+                "sev_name": "Normal",
+                "sev_icon": null,
+                "sev_color": "000000",
+                "sev_default": 1,
+                "sev_public": 1,
+                "sev_position": null,
+                "sev_action": ""
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_severity",
+                "type": "int",
+                "length": 5,
+                "allow_null": true,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_support_severity",
+                "type": "int",
+                "length": 5,
+                "allow_null": true,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "cm_no_sev",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": true,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_package_groups",
+            "pg_name",
+            {
+                "name": "pg_name",
+                "type": "VARCHAR",
+                "length": 255
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_notify",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "nexus_adpacks",
+            {
+                "name": "ap_max_height",
+                "type": "INT",
+                "length": 3
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "nexus_adpacks",
+            {
+                "name": "ap_max_width",
+                "type": "INT",
+                "length": 3
+            }
+        ]
+    },
+    "10": {
+        "method": "update",
+        "params": [
+            "nexus_adpacks",
+            {
+                "ap_max_height": -1
+            }
+        ]
+    },
+    "11": {
+        "method": "update",
+        "params": [
+            "nexus_adpacks",
+            {
+                "ap_max_width": -1
+            }
+        ]
+    }
+}

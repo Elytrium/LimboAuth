@@ -1,0 +1,25 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_paymethods",
+            {
+                "name": "m_countries",
+                "type": "TEXT"
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_ads",
+            {
+                "name": "ad_https",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

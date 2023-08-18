@@ -1,0 +1,26 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_original_invoice",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_renewal_ids",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "gallery_albums",
+            {
+                "album_sort_options": "updated"
+            },
+            [
+                "album_sort_options IS NULL OR album_sort_options=''"
+            ]
+        ]
+    }
+}

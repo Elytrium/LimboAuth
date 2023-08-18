@@ -1,0 +1,9 @@
+{
+    "added": [
+        "activity_stream_subscriptions",
+        "activity_stream_subscriptions_inactive_limit",
+        "activity_stream_subscriptions_max"
+    ],
+    "edited": [],
+    "removed": []
+}

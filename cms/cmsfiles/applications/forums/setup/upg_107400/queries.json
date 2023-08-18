@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "forums_forums",
+            "viglink"
+        ]
+    }
+}

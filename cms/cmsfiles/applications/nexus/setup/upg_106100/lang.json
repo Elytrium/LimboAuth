@@ -1,0 +1,49 @@
+{
+    "normal": {
+        "added": [
+            "__defart_support_request_plural",
+            "__defart_product_reviews_plural",
+            "__defart_product_plural",
+            "product_groups_sg",
+            "mailsub__nexus_invoiceNotify",
+            "invoice_track",
+            "invoice_untrack",
+            "can_not_reactivate",
+            "nexus_payout_confirm_title",
+            "nexus_payout_proceed",
+            "nexus_payout_confirm_text",
+            "nexus_payout_unlimited_times",
+            "nexus_payout_unlimited_times_desc",
+            "not_enough_in_stock_checkout",
+            "email_tracked_invoice_paid",
+            "emailtpl_invoiceNotify",
+            "view_this_product",
+            "not_with_existing_subscription",
+            "achievement_filter_Subscriptions_node_prefix",
+            "achievement_filter_Subscriptions_nth",
+            "achievement_filter_Subscriptions",
+            "achievement_filter_Subscription_nth_suffix",
+            "AchievementAction__Subscription",
+            "AchievementAction__Subscription_title",
+            "AchievementAction__Subscription_title_generic",
+            "achievement_filter_Subscriptions_active",
+            "achievements_filter_Subscription_type",
+            "achievements_filter_Subscription_pl"
+        ],
+        "edited": [
+            "manage_orders_in_billing",
+            "track_orders_in_billing",
+            "altcontact_email_desc",
+            "altcontact_none",
+            "nexus_subs_non_available"
+        ],
+        "removed": [
+            "r__stats"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

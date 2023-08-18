@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "mailsub__core_acp_notification_PiiDataRequest",
+            "email_notification_pii_data_request",
+            "mailsub__core_acp_notification_AccountDeletion",
+            "email_notification_pii_accout_delete_request",
+            "pii_review"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

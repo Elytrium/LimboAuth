@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "cookie_hasJS_description",
+            "cookie_language_description",
+            "cookie_guestTermsDismissed_description",
+            "history_pii_downloaded"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

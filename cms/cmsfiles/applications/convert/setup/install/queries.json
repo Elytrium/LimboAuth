@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "conv_password",
+                "type": "VARCHAR",
+                "length": 255,
+                "null": true,
+                "default": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "conv_password_extra",
+                "type": "VARCHAR",
+                "length": 255,
+                "null": true,
+                "default": null
+            }
+        ]
+    }
+}

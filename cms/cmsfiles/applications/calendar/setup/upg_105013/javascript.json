@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "calendar\/front\/controllers\/browse\/ips.browse.main.js",
+            "calendar\/front\/controllers\/venue\/ips.venue.main.js",
+            "calendar\/front\/controllers\/view\/ips.view.reminderButton.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/\/jquery"
+        ],
+        "removed": []
+    }
+}

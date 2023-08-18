@@ -1,0 +1,2820 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>core</template_app><template_name>notification_new_private_message</template_name><template_content_html><![CDATA[{$email->language->addToStack("messenger_notify_title", FALSE, array( 'sprintf' => array( $message->author()->name ) ) )}
+<br /><br />
+
+<a href='{$message->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("messenger_inline_button", FALSE)}</a>
+
+<br />
+<br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>
+
+<br />
+<br />
+<hr style='height: 0px; border-top: 1px solid #f0f0f0;' />
+
+<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}'>
+			<strong>{$email->language->addToStack("members_in_convo", FALSE, array( 'pluralize' => array( $message->item()->activeParticipants ) ) )}</strong>
+		</td>
+	</tr>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' class='responsive_table'>
+				{{$i = 0;}}
+				{{foreach $message->item()->maps() as $map}}
+					{{if $map['map_user_active']}}
+						{{if ( $i % 4 ) == 0}}
+							<tr>
+						{{endif}}
+						<td dir='{dir}' width='200' class='responsive_row'>
+							<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+								<tr>
+									<td dir='{dir}' width='50'>
+										<img src='{expression="\IPS\Member::load( $map['map_user_id'] )->get_photo( true, true )"}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+									</td>
+									<td dir='{dir}'>
+										<strong>{member="name" id="$map['map_user_id']"}</strong><br />
+										{{$mapGroup = \IPS\Member\Group::constructFromData( \IPS\Member::load( $map['map_user_id'] )->group );}}
+										<span style='font-size: 14px'>{expression="$mapGroup->formatName( $email->language->addToStack( 'core_group_' . $mapGroup->g_id ) )" raw="true"}</span>
+									</td>
+								</tr>
+							</table>
+						</td>
+						{{if ( ( $i + 1 ) % 4 ) == 0}}
+							</tr>
+						{{endif}}
+						{{$i++;}}
+					{{endif}}
+				{{endforeach}}
+				{{while ( ( ( $i ) % 4 ) != 0 ):}}
+					<td dir='{dir}'>&nbsp;</td>
+					{{if ( ( $i + 1 ) % 4 ) == 0}}
+						</tr>
+					{{endif}}
+					{{$i++;}}
+				{{endwhile;}}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f5f5f5'>
+	<tr>
+		<td dir='{dir}'>
+			<h2 style='margin: 0; font-size: 19px; font-weight: 500'>{$message->item()->title}</h2>
+		</td>
+	</tr>
+</table>
+
+{{$emailContent = $email->parseTextForEmail( $message->post, $email->language, ( \IPS\Settings::i()->email_truncate ? 150 : NULL ) );}}
+{{if $emailContent}}
+<br />
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+		<td dir='{dir}' width='100' valign='top' align='center' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$message->author()->get_photo( true, true )}' width='75' height='75' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+		<td dir='{dir}' valign='top'>
+			<div style='line-height: 1.5'>
+				{$emailContent|raw}{{if \IPS\Settings::i()->email_truncate}}...{{endif}}
+			</div>
+			<br />
+			<hr style='height: 0px; border-top: 1px solid #f0f0f0;' />
+			<br />
+
+			<a href='{$message->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("messenger_inline_button", FALSE)}</a>
+		</td>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+	</tr>
+</table>
+{{endif}}]]></template_content_html><template_data>$message, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("messenger_notify_title", FALSE, array( 'htmlsprintf' => array( $message->author()->name ) ) )}
+
+{$email->language->addToStack("email_url_to_message", FALSE)}: {$message->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>registration_validate</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_registration_validate", FALSE)}
+<br /><br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=register&do=validate&vid={$vid}&mid={$member->member_id}" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_validate_link", FALSE)}</a>
+		</td>
+	</tr>
+</table>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $vid, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_registration_validate", FALSE)}
+
+=====
+{$email->language->addToStack("email_validate_link", FALSE)}: {url="app=core&module=system&controller=register&do=validate&vid={$vid}&mid={$member->member_id}" plain="true" base="front"}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_ConfigurationError</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("acp_notification_ConfigurationError_email")}<br />
+<br />
+{{if $notification->extra === 'dangerousFunctions'}}
+	<strong>{$email->language->addToStack("disable_functions_title")}</strong><br />
+	<br />
+	{$email->language->addToStack("disable_functions_desc_1")}<br />
+	<br />
+	{$email->language->addToStack("disable_functions_desc_2")}<br />
+	<br />
+	{{foreach \IPS\core\extensions\core\AdminNotifications\ConfigurationError::enabledDangerousFunctions() as $function}}
+		<code>{$function}</code> &nbsp;
+	{{endforeach}}
+{{elseif $notification->extra === 'displayErrors'}}
+	<strong>{$email->language->addToStack("display_errors_title")}</strong><br />
+	<br />
+	{$email->language->addToStack("display_errors_desc")}<br />
+{{elseif $notification->extra === 'recommendations'}}
+	<strong>{$email->language->addToStack("requirements_checker")}</strong><br />
+	<br />
+	{$email->language->addToStack("system_check_recommended_blurb")}<br />
+	<br />
+	{$email->language->addToStack("system_check_recommended_email")}
+{{elseif mb_substr( $notification->extra, 0, 8 ) === 'taskLock'}}
+	<strong>{$email->language->addToStack( "dashboard_tasks_broken", FALSE, array( 'sprintf' => array( \IPS\Task::load( \intval( mb_substr( $notification->extra, 9 ) ) )->key ) ) )}</strong><br />
+	<br />
+	{$email->language->addToStack("dashboard_tasks_broken_desc")}
+{{elseif $notification->extra === 'failedMail'}}
+	<strong>{$email->language->addToStack("dashboard_email_broken")}</strong><br />
+	<br />
+	{$email->language->addToStack( "dashboard_email_broken_desc_1", FALSE, array( 'sprintf' => $email->language->formatNumber( \IPS\Email::countFailedMail() ) ) )}<br />
+	<br />
+	{$email->language->addToStack("dashboard_email_broken_desc_email")}
+{{elseif $notification->extra === 'dataStorageBroken'}}
+	<strong>{$email->language->addToStack("dashboard_datastore_broken")}</strong><br />
+	<br />
+	{$email->language->addToStack("dashboard_datastore_broken_desc")}
+{{elseif $notification->extra === 'cacheBroken'}}
+	<strong>{$email->language->addToStack("dashboard_invalid_cachesetup")}</strong><br />
+	<br />
+	{$email->language->addToStack("dashboard_invalid_cachesetup_desc")}
+{{elseif $notification->extra === 'cicEmailQuota'}}
+	<strong>{$email->language->addToStack("dashboard_cic_email_quota")}</strong><br />
+	<br />
+	{$email->language->addToStack("dashboard_cic_email_quota_desc")}
+{{endif}}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=overview&controller=notifications" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("see_all_notifications", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$notification, $extra, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("acp_notification_ConfigurationError_email")}
+{{if $notification->extra === 'dangerousFunctions'}}
+**{$email->language->addToStack("disable_functions_title")}**
+
+{$email->language->addToStack("disable_functions_desc_1")}
+
+{$email->language->addToStack("disable_functions_desc_2")}
+
+{{foreach \IPS\core\extensions\core\AdminNotifications\ConfigurationError::enabledDangerousFunctions() as $function}}<code>{$function}</code> {{endforeach}}
+{{elseif $notification->extra === 'displayErrors'}}
+**{$email->language->addToStack("display_errors_title")}**
+
+{$email->language->addToStack("display_errors_desc")}
+{{elseif $notification->extra === 'recommendations'}}
+**{$email->language->addToStack("requirements_checker")}**
+
+{$email->language->addToStack("system_check_recommended_blurb")}
+
+{$email->language->addToStack("system_check_recommended_email")}
+{{elseif mb_substr( $notification->extra, 0, 8 ) === 'taskLock'}}
+**{$email->language->addToStack( "dashboard_tasks_broken", FALSE, array( 'htmlsprintf' => array( \IPS\Task::load( \intval( mb_substr( $notification->extra, 9 ) ) )->key ) ) )}**
+
+{$email->language->addToStack("dashboard_tasks_broken_desc")}
+{{elseif $notification->extra === 'failedMail'}}
+**{$email->language->addToStack("dashboard_email_broken")}**
+
+{$email->language->addToStack( "dashboard_email_broken_desc_1", FALSE, array( 'htmlsprintf' => $email->language->formatNumber( \IPS\Email::countFailedMail() ) ) )}
+
+{$email->language->addToStack("dashboard_email_broken_desc_email")}
+{{elseif $notification->extra === 'dataStorageBroken'}}
+**{$email->language->addToStack("dashboard_datastore_broken")}**
+{{elseif $notification->extra === 'cacheBroken'}}
+**{$email->language->addToStack("dashboard_invalid_cachesetup")}**
+{{elseif $notification->extra === 'cicEmailQuota'}}
+**{$email->language->addToStack("dashboard_cic_email_quota")}**
+{{endif}}
+-----
+
+{$email->language->addToStack("see_all_notifications", FALSE)}: {url="app=core&module=overview&controller=notifications" base="admin" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_club_request</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("notification__club_request", FALSE, array( 'sprintf' => array( $member->name, $club->name ) ) )}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{$club->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("club_view", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$club, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__club_request", FALSE, array( 'htmlsprintf' => array( $member->name, $club->name ) ) )}
+
+{$email->language->addToStack("view_club", FALSE)}: {$club->url()}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_AccountDeletion</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_notification_pii_accout_delete_request', FALSE, array( 'sprintf' => array( $member->url(), $member->name ) ) )}
+<br/>
+<br/>
+
+<a href='{url="app=core&module=members&controller=privacy" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack('pii_review', FALSE)}</a>
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$notification, $member, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack('email_notification_pii_accout_delete_request', FALSE, array( 'sprintf' => array( $member->url(), $member->name ) ) )}
+
+{url="app=core&module=members&controller=privacy" seoTemplate="privacy" base="admin"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_warning_mods</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_mod_warned_other", FALSE, array( 'sprintf' => array( \IPS\Member::load( $warning->member )->url(), \IPS\Member::load( $warning->member )->name, \IPS\Member::load( $warning->moderator )->name ) ) )}
+
+<br />
+<br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				{{if $warning->canViewDetails()}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_warn_reason", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->language->addToStack("core_warn_reason_" . $warning->reason, FALSE)}</td>
+					</tr>	
+				{{endif}}
+				{{if $warning->canViewDetails() or $warning->mq or $warning->rpa or $warning->suspend}}				
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_warn_penalty", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+							<ul style="margin: 0; padding: 0; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+								{{if $warning->canViewDetails()}}
+									<li>
+										{{if $warning->expire_date}}
+											{{if $warning->expire_date < time()}}
+												{{if $warning->expire_date == -1}}
+													{$email->language->addToStack("warn_action_points_never_expire", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+												{{else}}
+													{$email->language->addToStack("warn_action_points_expired", FALSE, array( 'pluralize' => array( $warning->points ), 'sprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+												{{endif}}
+											{{else}}
+												{$email->language->addToStack("warn_action_points_expire", FALSE, array( 'pluralize' => array( $warning->points ), 'sprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+											{{endif}}
+										{{else}}
+											{$email->language->addToStack("warn_action_points", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+										{{endif}}			
+									</li>
+								{{endif}}
+								{{if $warning->mq}}
+									<li>
+										{$email->language->addToStack("moderation_modq", FALSE)} - 
+										{{if $warning->mq == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+										{{elseif $mq = $warning->mq_interval}}
+											{expression="\IPS\DateTime::formatInterval( $mq, 2, $email->language )"}
+										{{endif}}
+									</li>
+								{{endif}}
+								{{if $warning->rpa}}
+									<li>
+										{$email->language->addToStack("moderation_nopost", FALSE)} - 
+										{{if $warning->rpa == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+										{{elseif $rpa = $warning->rpa_interval}}
+											{expression="\IPS\DateTime::formatInterval( $rpa, 2, $email->language )"}
+										{{endif}}
+									</li>
+								{{endif}}
+								{{if $warning->suspend}}
+									<li>
+										{$email->language->addToStack("moderation_banned", FALSE)} - 
+										{{if $warning->suspend == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+										{{elseif $suspend = $warning->suspend_interval}}
+											{expression="\IPS\DateTime::formatInterval( $suspend, 2, $email->language )"}
+										{{endif}}
+									</li>
+								{{endif}}
+							</ul>							
+						</td>
+					</tr>
+				{{endif}}
+				{{if $warning->note_member}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_warn_note_member", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->parseTextForEmail( $warning->note_member, $email->language )|raw}</td>
+					</tr>
+				{{endif}}
+				{{if $warning->note_mods and member.modPermission('mod_see_warn')}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_warn_note_moderator", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->parseTextForEmail( $warning->note_mods, $email->language )|raw}</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>
+
+]]></template_content_html><template_data>$warning, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_mod_warned_other_plain", FALSE, array( 'htmlsprintf' => array( \IPS\Member::load( $warning->member )->name, \IPS\Member::load( $warning->moderator )->name ) ) )}
+
+=====
+{{if $warning->canViewDetails()}}{$email->language->addToStack("email_warn_reason", FALSE)}:{$email->language->addToStack("core_warn_reason_" . $warning->reason, FALSE)}{{endif}}
+{{if $warning->canViewDetails() or $warning->mq or $warning->rpa or $warning->suspend}}{$email->language->addToStack("email_warn_penalty", FALSE)}:
+	{{if $warning->canViewDetails()}}
+		{{if $warning->expire_date}}
+			{{if $warning->expire_date < time()}}
+				{{if $warning->expire_date == -1}}
+					{$email->language->addToStack("warn_action_points_never_expire", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+				{{else}}
+					{$email->language->addToStack("warn_action_points_expired", FALSE, array( 'pluralize' => array( $warning->points ), 'htmlsprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+				{{endif}}
+			{{else}}
+				{$email->language->addToStack("warn_action_points_expire", FALSE, array( 'pluralize' => array( $warning->points ), 'htmlsprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+			{{endif}}
+		{{else}}
+			{$email->language->addToStack("warn_action_points", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+		{{endif}}			
+	{{endif}}
+	{{if $warning->mq}}
+		{$email->language->addToStack("moderation_modq", FALSE)} - {{if $warning->mq == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $mq = $warning->mq_interval}}{expression="\IPS\DateTime::formatInterval( $mq, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+	{{if $warning->rpa}}
+		{$email->language->addToStack("moderation_nopost", FALSE)} - {{if $warning->rpa == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $rpa = $warning->rpa_interval}}{expression="\IPS\DateTime::formatInterval( $rpa, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+	{{if $warning->suspend}}
+		{$email->language->addToStack("moderation_banned", FALSE)} - {{if $warning->suspend == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $suspend = $warning->suspend_interval}}{expression="\IPS\DateTime::formatInterval( $suspend, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+{{endif}}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_pii_data</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_notification_pii_data')}
+<br/>
+<br/>
+<a href="{url="app=core&module=system&controller=settings&area=mfa" seoTemplate="settings_mfa" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack('pii_download', FALSE)}</a>
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$request, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack('email_notification_pii_data')}
+
+{url="app=core&module=system&controller=settings&area=mfa" seoTemplate="settings_mfa" base="front"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_private_message_added</template_name><template_content_html><![CDATA[{$email->language->addToStack("messenger_notify_add_title", FALSE, array( 'sprintf' => array( $added->name ) ) )}
+<br /><br />
+
+<a href='{$message->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("messenger_inline_button", FALSE)}</a>
+
+<br />
+<br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>
+
+<br />
+<br />
+<hr style='height: 0px; border-top: 1px solid #f0f0f0;' />
+
+<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}'>
+			<strong>{$email->language->addToStack("members_in_convo", FALSE, array( 'pluralize' => array( $message->activeParticipants ) ) )}</strong>
+		</td>
+	</tr>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' class='responsive_table'>
+				{{$i = 0;}}
+				{{foreach $message->maps() as $map}}
+					{{if $map['map_user_active']}}
+						{{if ( $i % 4 ) == 0}}
+							<tr>
+						{{endif}}
+						<td dir='{dir}' width='200' class='responsive_row'>
+							<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+								<tr>
+									<td dir='{dir}' width='50'>
+										<img src='{expression="\IPS\Member::load( $map['map_user_id'] )->get_photo( true, true )"}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+									</td>
+									<td dir='{dir}'>
+										<strong>{member="name" id="$map['map_user_id']"}</strong><br />
+										{{$mapGroup = \IPS\Member\Group::constructFromData( \IPS\Member::load( $map['map_user_id'] )->group );}}
+										<span style='font-size: 14px'>{expression="$mapGroup->formatName( $email->language->addToStack( 'core_group_' . $mapGroup->g_id ) )" raw="true"}</span>
+									</td>
+								</tr>
+							</table>
+						</td>
+						{{if ( ( $i + 1 ) % 4 ) == 0}}
+							</tr>
+						{{endif}}
+						{{$i++;}}
+					{{endif}}
+				{{endforeach}}
+				{{while ( ( ( $i ) % 4 ) != 0 ):}}
+					<td dir='{dir}'>&nbsp;</td>
+					{{if ( ( $i + 1 ) % 4 ) == 0}}
+						</tr>
+					{{endif}}
+					{{$i++;}}
+				{{endwhile;}}
+			</table>
+		</td>
+	</tr>
+</table>
+
+<br />
+<br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f5f5f5'>
+	<tr>
+		<td dir='{dir}'>
+			<h2 style='margin: 0; font-size: 19px; font-weight: 500'>{$message->title}</h2>
+		</td>
+	</tr>
+</table>
+
+{{$emailContent = $email->parseTextForEmail( $message->post, $email->language, ( \IPS\Settings::i()->email_truncate ? 150 : NULL ) );}}
+{{if $emailContent}}
+<br />
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+		<td dir='{dir}' width='100' valign='top' align='center' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$message->author()->get_photo( true, true )}' width='100' height='100' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+		<td dir='{dir}' valign='top'>
+			<div style='line-height: 1.5'>
+				{$emailContent|raw}{{if \IPS\Settings::i()->email_truncate}}...{{endif}}
+			</div>
+			<br />
+			<hr style='height: 0px; border-top: 1px solid #f0f0f0;' />
+			<br />
+
+			<a href='{$message->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("messenger_inline_button", FALSE)}</a>
+		</td>
+		<td dir='{dir}' width='20' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>&nbsp;</td>
+	</tr>
+</table>
+{{endif}}]]></template_content_html><template_data>$message, $added, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("messenger_notify_add_title", FALSE, array( 'htmlsprintf' => array( $added->name ) ) )}
+
+{$email->language->addToStack("email_url_to_message", FALSE)}: {$message->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_my_solution</template_name><template_content_html><![CDATA[
+<br />
+
+{$email->language->addToStack("mail_your_post_is_solution", FALSE, array( 'htmlsprintf' => array( $comment->url('find'), $content->url(), $content->mapped('title') ) ) )}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $comment, $solver, $email</template_data><template_content_plaintext><![CDATA[
+
+{$email->language->addToStack("mail_your_post_is_solution", FALSE, array( 'htmlsprintf' => array( $comment->url('find'), $content->url(), $content->mapped('title') ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_unapproved_content</template_name><template_content_html><![CDATA[
+{{if $content->author()->member_id}}
+{$email->language->addToStack("email_new_content_unapproved", FALSE, array( 'sprintf' => array( $content->author()->url(), $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{{if $content instanceof \IPS\Content\Comment OR $content instanceof \IPS\Content\Review}}{$content->item()->mapped('title')}{{else}}{$content->mapped('title')}{{endif}}</a>
+{{elseif $content->author()->real_name}}
+{$email->language->addToStack("email_new_content_unapproved_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $content->author()->real_name ) ) ), $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{{if $content instanceof \IPS\Content\Comment OR $content instanceof \IPS\Content\Review}}{$content->item()->mapped('title')}{{else}}{$content->mapped('title')}{{endif}}</a>
+{{else}}
+{$email->language->addToStack("email_new_content_unapproved_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $email->language->addToStack('guest') ) ) ), $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{{if $content instanceof \IPS\Content\Comment OR $content instanceof \IPS\Content\Review}}{$content->item()->mapped('title')}{{else}}{$content->mapped('title')}{{endif}}</a>
+{{endif}}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $member, $email</template_data><template_content_plaintext><![CDATA[
+{{if $content->author()->member_id}}
+{$email->language->addToStack("email_new_content_unapproved_plain", FALSE, array( 'htmlsprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} {$content->mapped('title')}
+{{else}}
+{$email->language->addToStack("email_new_content_unapproved_plain", FALSE, array( 'htmlsprintf' => array( $content->author()->real_name ? $email->language->addToStack( 'guest_name_shown', FALSE, array( 'htmlsprintf' => array( $content->author()->real_name ) ) ) : $email->language->addToStack( 'guest_name_shown', FALSE, array( 'htmlsprintf' => array( $email->language->addToStack('guest') ) ) ), $content->indefiniteArticle( $email->language ) ) ) )} {$content->mapped('title')}
+{{endif}}
+
+
+
+{$content->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_referral</template_name><template_content_html><![CDATA[{$email->language->addToStack("notification__referral", FALSE, array( 'sprintf' => array( $member->name ) ) )}
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<table width='100' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+				<tr>
+					<td dir='{dir}'>
+						<img src='{$member->get_photo( true, true )}' width='100' height='100' style='border: 1px solid #777777; vertical-align: middle;'>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr style='line-height: 10px'>
+		<td dir='{dir}' height='10'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 20px; font-weight: bold">{$member->name}</td>
+	</tr>
+	<tr style='line-height: 2px'>
+		<td dir='{dir}' height='2'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">
+			<a href='{$member->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_go_to_x_profile", FALSE, array( 'sprintf' => array( $member->name ) ) )}</a>
+		</td>
+	</tr>
+</table>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__referral", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}
+
+=====
+{$email->language->addToStack("email_go_to_x_profile", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}: {$member->url()}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_automatic_moderation</template_name><template_content_html><![CDATA[{{$item = $reportedContent instanceof \IPS\Content\Item ? $reportedContent : $reportedContent->item();}}
+{$email->language->addToStack("email_content_automatic_moderation", FALSE, array( 'sprintf' => array( $reportedContent->indefiniteArticle( $email->language ), $reportedContent->url(), $item->mapped('title') ) ) )} 
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$report->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $latestReport['report'], $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$report->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $report::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$report, $latestReport, $reportedContent, $email</template_data><template_content_plaintext><![CDATA[{{$item = $reportedContent instanceof \IPS\Content\Item ? $reportedContent : $reportedContent->item();}}
+{$email->language->addToStack("email_content_automatic_moderation_plain", FALSE, array( 'htmlsprintf' => array( $reportedContent->indefiniteArticle( $email->language ), $item->mapped('title') ) ) )}
+
+{$email->language->addToStack("go_to_the_report", FALSE)}: {$report->url()}
+{$email->language->addToStack("go_to_this_x", FALSE, array( 'htmlsprintf' => array( mb_strtolower( $email->language->addToStack( $reportedContent::$title, FALSE ) ) ) ) )}: {$reportedContent->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>account_locked</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("email_account_locked", FALSE, array( 'sprintf' => array( \IPS\Settings::i()->ipb_bruteforce_attempts, $location ) ) )}
+<br /><br />
+{$email->language->addToStack("email_account_locked_change_password")}
+<br /><br />
+{{if $unlockTime}}
+{$email->language->addToStack("email_account_locked_safely_ignore", FALSE, array( 'sprintf' => $unlockTime ) )}
+{{else}}
+{$email->language->addToStack("email_account_locked_no_unlock")}
+{{endif}}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=settings&do=secureAccount" seoTemplate="settings_secure" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_secure_account", FALSE)}</a>
+			{$email->language->addToStack("or", FALSE)}
+			<a href='{url="app=core&module=system&controller=lostpass" seoTemplate="lostpassword" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_reset_password", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$member, $location, $unlockTime=NULL, $email=NULL</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_account_locked", FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->ipb_bruteforce_attempts, $location ) ) )}
+
+{$email->language->addToStack("email_account_locked_change_password")}
+{{if $unlockTime}}
+{$email->language->addToStack("email_account_locked_safely_ignore", FALSE, array( 'htmlsprintf' => $unlockTime ) )}
+{{else}}
+{$email->language->addToStack("email_account_locked_no_unlock")}
+{{endif}}
+
+{$email->language->addToStack("email_secure_account", FALSE)}: {url="app=core&module=system&controller=settings&do=secureAccount" seoTemplate="settings_secure" base="front" plain="true"}
+{$email->language->addToStack("or", FALSE)}
+{$email->language->addToStack("email_reset_password", FALSE)}: {url="app=core&module=system&controller=lostpass" seoTemplate="lostpassword" base="front" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_rank</template_name><template_content_html><![CDATA[<br />
+
+{$email->language->addToStack( "notification__new_rank", FALSE, array( 'sprintf' => array( $email->language->addToStack( "core_member_rank_" . $rank->id ) ) ) )}
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='400px' cellpadding='0' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<img src='{$member->get_photo( true, true )}' width='80' height='80' style='border: 1px solid #777777; vertical-align: middle;'>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<span style="font-size:48px;">+</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<img src='{setting="base_url"}applications/core/interface/email/trophy.png' width='80' height='80' alt=''>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<span style="font-size:48px;">=</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<img src='{setting="base_url"}applications/core/interface/email/tada.png' width='80' height='80' alt=''>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+{{if $days = $member->daysSinceLastRank()}}
+	{{if $days < 365}}
+		{$email->language->addToStack("notification_email_days_rank_took_low", NULL, ['sprintf'=>[$days]])}
+	{{else}}
+		{$email->language->addToStack("notification_email_days_rank_took_high", NULL, ['sprintf'=>[$days]])}
+	{{endif}}
+{{endif}}
+<br><br>
+{$email->language->addToStack("notification_email_keep_it_going")}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$rank, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack( "notification__new_rank", FALSE, array( 'sprintf' => array( $email->language->addToStack( "core_member_rank_" . $rank->id ) ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_License</template_name><template_content_html><![CDATA[
+<br />
+
+{{if $notification->extra === 'missing' or $notification->extra === 'url'}}
+	{$email->language->addToStack("license_error_none")}<br />
+	<br />
+{{else}}
+	{{if $notification->extra === 'expireSoon'}}
+		{$email->language->addToStack("license_renewal_soon_email")}<br />
+	{{else}}
+		{$email->language->addToStack("license_expired_email")}<br />
+	{{endif}}
+	<br />
+	{$email->language->addToStack("license_benefits_info")}
+	<br /><br />
+	<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+		<tr>
+			<td dir='{dir}' align='center'>
+				<a href='{url="renew_my_license" ips="true"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("license_renew_now", FALSE)}</a>
+			</td>
+		</tr>
+	</table>
+
+{{endif}}]]></template_content_html><template_data>$notification, $extra, $email</template_data><template_content_plaintext><![CDATA[{{if $notification->extra === 'missing' or $notification->extra === 'url'}}{$email->language->addToStack("license_error_none_email")}{{else}}{{if $notification->extra === 'expireSoon'}}{$email->language->addToStack("license_renewal_soon_email")}{{else}}{$email->language->addToStack("license_expired_email")}{{endif}}
+
+{$email->language->addToStack("license_benefits_info")}
+
+{$email->language->addToStack("license_renew_now", FALSE)}: {url="renew_my_license" ips="true" plain="true"}{{endif}}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeDigest</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+		{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="{url="app=core&module=system&controller=followed&filter=digest" base="front" seoTemplate="followed_content"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'adjust_digest_prefs', FALSE )}</a> or <a href="{url="app=core&module=system&controller=notifications&do=options" base="front" seoTemplate="notifications_options"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'adjust_digest_stop_email', FALSE )}</a>.
+		<br />
+	</td>
+</tr>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'adjust_digest_prefs', FALSE )}: {url="app=core&module=system&controller=followed&filter=digest" base="front" seoTemplate="followed_content" plain="true"} or {$email->language->addToStack( 'adjust_digest_stop_email', FALSE )}: {url="app=core&module=system&controller=notifications&do=options" base="front" seoTemplate="notifications_options" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_Error</template_name><template_content_html><![CDATA[
+{expression="$email->language->addToStack( 'email_error_log', FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )"}
+<br />
+<br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;'>
+				<tr>
+					<td dir='{dir}' style="font-family: monaco, 'courier new', courier, monospace; font-size: 18px; font-weight: bold;">
+						#{$details[0]}
+					</td>
+				</tr>
+				<tr style='line-height: 10px'>
+					<td dir='{dir}' height='10'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+				</tr>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+						{$details[1]}
+					</td>
+				</tr>
+				<tr style='line-height: 10px'>
+					<td dir='{dir}' height='10'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+				</tr>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px; color: #8d8d8d;">
+						{$email->language->addToStack("email_error_user", FALSE)}: {member="name"} ({expression="\IPS\Request::i()->ipAddress()"})<br />
+						{$email->language->addToStack("email_error_date_app", FALSE, array( 'sprintf' => array( \IPS\DateTime::ts(time())->localeDate(), \IPS\Dispatcher::i()->application->_title ) ) )}
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<br />
+{$email->language->addToStack("email_error_log_info", FALSE)}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$notification, $details, $email</template_data><template_content_plaintext><![CDATA[{expression="$email->language->addToStack( 'email_error_log', FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )" raw="true"}
+
+=====
+{$email->language->addToStack("email_error_code", FALSE)}: #{$details[0]}
+{$email->language->addToStack("email_error_error", FALSE)}: {$details[1]}
+{$email->language->addToStack("email_error_app", FALSE)}: {expression="\IPS\Dispatcher::i()->application->_title" raw="true"}
+{$email->language->addToStack("email_error_user", FALSE)}: {member="name" raw="true"} ({expression="\IPS\Request::i()->ipAddress()" raw="true"})
+{$email->language->addToStack("email_error_date", FALSE)}: {datetime="time()" dateonly="true"}
+=====
+
+{$email->language->addToStack("email_error_log_info", FALSE)}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>digests__areaWrapper</template_name><template_content_html><![CDATA[<!-- Add item counts and link to remaining items on site -->
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f5f5f5'>
+	<tr>
+		<td dir='{dir}'>
+			{{$langKey = "digest_area_{$app}_{$area}";}}
+			<h2 style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 18px; font-weight: 500'>{$email->language->addToStack( $langKey, FALSE)}</h2>
+		</td>
+		<td dir='{dir}' width='30%' align='right' style='font-family: "Helvetica Neue", helvetica, sans-serif; color: #8c8c8c; font-size: 12px'>
+			{$email->language->addToStack("digest_showing_x", FALSE, array( 'pluralize' => array( $count ) ) )} (<a href='{url="app=core&module=system&controller=followed&type={$app}_{$area}" seoTemplate="followed_content" base="front"}' style='text-decoration: none'>{$email->language->addToStack("digest_see_all", FALSE)}</a>)
+		</td>
+	</tr>
+</table>
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0'>
+	{$output|raw}
+</table>
+<br /><br />]]></template_content_html><template_data>$output, $app, $area, $max, $count, $email</template_data><template_content_plaintext>{$output|raw}
+</template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_club_join</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("notification__club_join", FALSE, array( 'sprintf' => array( $member->name, $club->name ) ) )}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{$club->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("club_view", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$club, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__club_join", FALSE, array( 'htmlsprintf' => array( $member->name, $club->name ) ) )}
+
+{$email->language->addToStack("view_club", FALSE)}: {$club->url()}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_unapproved_club</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("notification__new_club_unapproved", FALSE, array( 'sprintf' => array( $club->owner->name, $club->name ) ) )}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{$club->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("club_view", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$club, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__new_club_unapproved", FALSE, array( 'htmlsprintf' => array( $club->owner->name, $club->name ) ) )}
+
+{$email->language->addToStack("club_view", FALSE)}: {$club->url()}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_likes</template_name><template_content_html><![CDATA[
+{{$item = ( $comment instanceof \IPS\Content\Item ) ? $comment : $comment->item();}}
+
+{$email->language->addToStack("email_new_likes", FALSE, array( 'sprintf' => array( ( $comment->author()->group['gbw_view_reps'] ) ? $member->name : $email->language->get( 'notifications_anonymous' ), $comment->indefiniteArticle( $email->language ) ) ) )} <a href='{$item->url()}'>{$item->mapped('title')}</a>
+
+<br />
+<br />
+{$comment->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $member, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = ( $comment instanceof \IPS\Content\Item ) ? $comment : $comment->item();}}{$email->language->addToStack("email_new_likes", FALSE, array( 'htmlsprintf' => array( ( $comment->author()->group['gbw_view_reps'] ) ? $member->name : $email->language->get( 'notifications_anonymous' ), $item->indefiniteArticle( $email->language ) ) ) )} {$item->mapped('title')}
+
+{$comment->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>email_address_changed</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_email_address_changed", FALSE, array( 'sprintf' => \IPS\Settings::i()->board_name ) )}
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' height='20' style='line-height: 20px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 17px;"><strong>{$email->language->addToStack("email_new_email", FALSE)}</strong></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='6' style='line-height: 6px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 22px;">{$member->email}</td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='20' style='line-height: 20px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 17px;"><strong>{$email->language->addToStack("email_old_email", FALSE)}</strong></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='6' style='line-height: 6px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 22px;">{$oldEmail}</td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='6' style='line-height: 6px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+</table>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $oldEmail, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_email_address_changed", FALSE, array( 'htmlsprintf' => \IPS\Settings::i()->board_name ) )}
+
+=====
+{$email->language->addToStack("email_new_email", FALSE)}: {$member->email}
+{$email->language->addToStack("email_old_email", FALSE)}: {$oldEmail}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>_genericContent</template_name><template_content_html><![CDATA[{{if $includeAuthor}}
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$content->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+{{endif}}
+<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+				{{if $content instanceof \IPS\Content\Review}}
+					<tr>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+							{{foreach range( 1, 5 ) as $i}}
+								{{if $i <= $content->mapped('rating')}}<img src='{resource="email/rating_on.png" location="interface" app="core"}' width='14' height='13' alt='*'>{{elseif ( $i - 0.5 ) <= $content->mapped('rating')}}<img src='{resource="email/rating_half.png" location="interface" app="core"}' width='14' height='13' alt='*'>{{else}}<img src='{resource="email/rating_off.png" location="interface" app="core"}' width='14' height='13' alt=''>{{endif}}
+							{{endforeach}}
+						</td>
+					</tr>
+				{{elseif $content instanceof \IPS\Content\Item}}
+					{{if $container = $content->containerWrapper()}}
+						<tr>
+							<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px; color: #8d8d8d">
+								{$email->language->addToStack("email_posted_in", FALSE, array( 'sprintf' => array( $container->getTitleForLanguage( $email->language ) ) ) )}
+							</td>
+						</tr>
+					{{endif}}
+				{{else}}
+					<tr>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px; color: #8d8d8d">
+							{$email->language->addToStack("email_posted_in", FALSE, array( 'sprintf' => array( $content->item()->mapped('title') ) ) )}
+						</td>
+					</tr>
+				{{endif}}
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+						<strong>{$content->mapped('title')}</strong>
+					</td>
+				</tr>
+				{{$emailContent = $email->parseTextForEmail( $content->content(), $email->language, ( \IPS\Settings::i()->email_truncate ? 150 : NULL ) );}}
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+						{$emailContent|raw}{{if \IPS\Settings::i()->email_truncate AND \mb_strlen( $content->content() ) > 150}}...{{endif}}
+					</td>
+				</tr>
+				{{if $includeLinks}}
+					<tr>
+						<td dir='{dir}'>
+							<a href='{$content->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}</a>
+						</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+{{if $includeAuthor}}
+		</td>
+	</tr>
+</table>
+{{endif}}]]></template_content_html><template_data>$content, $includeLinks, $includeAuthor, $email</template_data><template_content_plaintext><![CDATA[{{if $includeLinks}}{$email->language->addToStack("go_to_this_x", FALSE, array( 'htmlsprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}: {$content->url()}{{endif}}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_unapproved_content_bulk</template_name><template_content_html><![CDATA[
+{{if $member->member_id}}
+{$email->language->addToStack("email_new_content_unapproved_bulk", FALSE, array( 'sprintf' => array( $member->url(), $member->name, $email->language->addToStack( $contentClass::$title . '_pl', FALSE ) ) ) )} <a href='{$container->url()}'>{$container->getTitleForLanguage( $email->language )}</a>
+{{else}}
+{$email->language->addToStack("email_new_content_unapproved_bulk_guest", FALSE, array( 'sprintf' => array( $member->name, $email->language->addToStack( $contentClass::$title . '_pl', FALSE ) ) ) )} <a href='{$container->url()}'>{$container->getTitleForLanguage( $email->language )}</a>
+{{endif}}
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$container, $member, $contentClass, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_new_content_unapproved_bulk_plain", FALSE, array( 'htmlsprintf' => array( $member->name, $email->language->addToStack( $contentClass::$title . '_pl', FALSE ) ) ) )} {$container->getTitleForLanguage( $email->language )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeAcpNotification</template_name><template_content_html><![CDATA[{{if $member instanceof \IPS\Member}}
+	<tr>
+		<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+		<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+			{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="{url="app=core&module=overview&controller=notifications&do=settings&type={$key}" base="admin_redirect"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'adjust_notification_prefs', FALSE )}</a>.
+			<br />
+		</td>
+	</tr>
+{{endif}}]]></template_content_html><template_data>$key, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'adjust_notification_prefs', FALSE )}: {url="app=core&module=overview&controller=notifications&do=settings&type={$key}" base="admin_redirect" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_approved_content</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_approved_content", FALSE, array( 'sprintf' => array( $content->definiteArticle( $email->language ) ) ) )}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_approved_content", FALSE, array( 'sprintf' => array( $content->definiteArticle( $email->language ) ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>onboard_reminder</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("onboard_welcome_message_email", FALSE)}
+<br />
+<a href='{url="app=core&module=overview&controller=onboard" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("onboard_finish_setup", FALSE)}</a>
+
+
+
+<br /><br />
+{$email->language->addToStack("onboard_email_thanks", FALSE)}
+<br />
+<em style='color: #8c8c8c'>&mdash; {$email->language->addToStack("onboard_email_tic", FALSE)}</em>]]></template_content_html><template_data>$email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("onboard_welcome_message_email")}
+
+{$email->language->addToStack("onboard_finish_setup", FALSE)}: {url="app=core&module=overview&controller=onboard" base="admin" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>activity_stream_subscription</template_name><template_content_html><![CDATA[{{if $subscription['frequency'] == 'daily'}}
+	{$email->language->addToStack( 'email_core_activity_stream_subscription_daily', FALSE, ['sprintf' => $stream->_title])}
+{{else}}
+	{$email->language->addToStack( 'email_core_activity_stream_subscription_weekly', FALSE, ['sprintf' => $stream->_title])}
+{{endif}}
+
+<br /><br />
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	{{foreach $items as $item}}
+		{{$content = $item['object'];}}
+		<tr>
+			<td>
+				<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+					<tr>
+						<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left; padding-top: 15px'>
+							<img src='{$content->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+						</td>
+						<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+							<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid; margin-top: 23px;'></span>
+						</td>
+						<td dir='{dir}' width='100%' valign='top' style='background: #f9f9f9;'>
+							<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+								<tr>
+									<td width='100%'>
+										<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+											<tr>
+												<td dir='{dir}' width='100%' style="font-family: 'Helvetica Neue', helvetica, sans-serif; color: #8d8d8d; font-size: 14px;">
+													{{$itemClass = $item['itemClass'];}}
+
+													<h2 style="color: #333333; font-weight: bold; line-height: 1.1; font-size: {{if !$item['indexData']['index_title']}}16px{{else}}20px{{endif}}; margin: 0 0 3px 0;">
+														<a href='{$content->url()}' style='text-decoration: none; color: #333333;'>{$item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['title'] ]}</a>
+													</h2>
+
+													{expression="$itemClass::searchResultSummaryLanguage( $item['authorData'], $itemClass::articlesFromIndexData( $itemClass, $item['containerData'] ), $item['indexData'], $item['itemData'], FALSE )"} <a href='{$item['containerUrl']}'>{$item['containerTitle']|raw}</a>
+												</td>
+											</tr>
+											<tr>
+												<td dir='{dir}' width='100%' style="font-family: 'Helvetica Neue', helvetica, sans-serif; color: #333; font-size: 15px;">
+													{{$emailContent = $email->parseTextForEmail( $content->content(), $email->language, ( \IPS\Settings::i()->email_truncate ? 150 : NULL ) );}}
+													{$emailContent|raw}{{if \IPS\Settings::i()->email_truncate AND \mb_strlen( $content->content() ) > 150}}...{{endif}}
+												</td>
+											</tr>
+											<tr>
+												<td width='100%'>
+													<table cellpadding='0' cellspacing='0' border='0'>
+														<tr>
+															<td style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+																<a href='{$content->url()}'>{$email->language->addToStack('read_more')}</a>
+															</td>
+															<td>
+																<img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="20" height="1" />
+															</td>
+															<td style="color: #8d8d8d; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+																<img src="{setting="base_url"}applications/core/interface/email/clock.png" alt='' width="13" height="13" style="vertical-align: middle" />
+																<img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" />
+																<a href='{$content->url()}' style='color: inherit; text-decoration: none;'>{expression="\IPS\DateTime::ts( $item['indexData']['index_date_created'] )->localeDate( $recipient )"}</a>
+															</td>
+															{{if isset( $itemClass::$databaseColumnMap['num_comments'] ) and isset( $item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['num_comments'] ] ) and $item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['num_comments'] ] > ( $itemClass::$firstCommentRequired ? 1 : 0 )}}
+																<td>
+																	<img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="20" height="1" />
+																</td>
+																<td style="color: #8d8d8d; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+																	<img src="{setting="base_url"}applications/core/interface/email/comment_alt.png" alt='' width="13" height="13" style="vertical-align: middle" />
+																	<img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" />
+																	<a href='{$content->url()}' style='color: inherit; text-decoration: none;'>
+																		{{if $itemClass::$firstCommentRequired}}
+																			{expression="$item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['num_comments'] ]-1"}
+																		{{else}}
+																			{expression="$item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['num_comments'] ]"}
+																		{{endif}}
+																	</a>
+																</td>
+															{{endif}}
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td height="20">&nbsp;</td>
+		</tr>
+	{{endforeach}}
+    {{if $viewMoreLink}}
+
+        <tr>
+            <td dir='{dir}' align='center'>
+                <a href='{$stream->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack('stream_view_more', FALSE)}</a>
+            </td>
+        </tr>
+    {{endif}}
+</table>]]></template_content_html><template_data>$stream, $items, $recipient, $subscription, $viewMore, $email</template_data><template_content_plaintext><![CDATA[{{if $subscription['frequency'] == 'daily'}}{$email->language->addToStack( 'email_core_activity_stream_subscription_daily', FALSE, ['sprintf' => $stream->_title])}{{else}}{$email->language->addToStack( 'email_core_activity_stream_subscription_weekly', FALSE, ['sprintf' => $stream->_title])}{{endif}}
+
+{{foreach $items as $item}}{{$content = $item['object'];}}{{$itemClass = $item['itemClass'];}}
+{$item['itemData'][ $itemClass::$databasePrefix . $itemClass::$databaseColumnMap['title'] ]}
+{expression="\IPS\DateTime::ts( $item['indexData']['index_date_created'] )->localeDate( $recipient )"}: {expression="$itemClass::searchResultSummaryLanguage( $item['authorData'], $itemClass::articlesFromIndexData( $itemClass, $item['containerData'] ), $item['indexData'], $item['itemData'], FALSE )"} {expression="strip_tags( $item['containerTitle'] )"}
+-------{{$emailContent = $email->parseTextForEmail( $content->content(), $email->language, ( \IPS\Settings::i()->email_truncate ? 150 : NULL ) );}}
+{$emailContent|raw}{{if \IPS\Settings::i()->email_truncate AND \mb_strlen( $content->content() ) > 150}}...{{endif}}
+-------
+URL: {$content->url()}
+
+
+=========================
+
+{{endforeach}}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>contact_form</template_name><template_content_html><![CDATA[{$email->language->addToStack("email_contact_form", FALSE)}
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$member->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{$email->language->addToStack("email_contact_said", FALSE, array( 'sprintf' => array( $name, $fromEmail ) ) )}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $message, $email->language )|raw}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $name, $fromEmail, $message, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_contact_form", FALSE)}
+
+----
+
+{$email->language->addToStack("email_contact_said", FALSE, array( 'htmlsprintf' => array( $name, $fromEmail ) ) )}
+
+{expression="\IPS\Email::buildPlaintextBody( $message )" raw="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_NewVersion</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("new_version_email_header", FALSE, array( 'sprintf' => $notification->_details['version'] ))}
+<br />
+<br />
+{{if $notification->_details['security']}}
+	<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #b52b38; color: #fff;'>
+		<tr>
+			<td dir='{dir}'>
+				{$email->language->addToStack('this_is_a_security_update')}
+			</td>
+		</tr>
+	</table>
+	<br />
+{{endif}}
+
+{$email->language->addToStack("new_version_email_whatsnew")}
+<br /><br />
+
+<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			{$notification->_details['releasenotes']|raw}
+		</td>
+	</tr>
+</table>
+<br /><br />
+
+<a href='{url="&app=core&module=system&controller=upgrade&_new=1" base="admin"}' style="color: #fff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("upgrade_now")}</a>
+]]></template_content_html><template_data>$notification, $extra, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("dashboard_version_info", FALSE, array( 'htmlsprintf' => $notification->_details['version'], 'striptags' => TRUE ))}
+{{if $notification->details['security']}}
+***** {$email->language->addToStack('this_is_a_security_update')} *****
+{{endif}}
+{$email->language->addToStack("upgrade_now")}: {url="&app=core&module=system&controller=upgrade&_new=1" base="admin" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_profile_comment</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_new_profile_comment", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name ) ) )}
+
+<br />
+<br />
+
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$comment->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{$email->language->addToStack("email_said", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$comment->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $comment::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<p style="margin: 0; font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 12px; color: #8d8d8d">
+	{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+</p>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_new_profile_comment_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeNotification</template_name><template_content_html><![CDATA[{{if $member instanceof \IPS\Member}}
+	<tr>
+		<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+		<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+			{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="{url="app=core&module=system&controller=notifications&do=options&type={$key}" seoTemplate="notifications_options"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'adjust_notification_prefs', FALSE )}</a>.
+			<br />
+		</td>
+	</tr>
+{{endif}}]]></template_content_html><template_data>$key, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'adjust_notification_prefs', FALSE )}: {url="app=core&module=system&controller=notifications&do=options&type={$key}"  base="front" seoTemplate="notifications_options" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_content</template_name><template_content_html><![CDATA[
+{{if $content->author()->member_id}}
+{$email->language->addToStack("email_new_content", FALSE, array( 'sprintf' => array( $content->author()->url(), $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{$content->mapped('title')}</a>
+{{elseif $content->author()->real_name}}
+{$email->language->addToStack("email_new_content_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $content->author()->real_name ) ) ), $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{$content->mapped('title')}</a>
+{{else}}
+{$email->language->addToStack("email_new_content_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $email->language->addToStack('guest') ) ) ), $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()}'>{$content->mapped('title')}</a>
+{{endif}}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_new_content_plain", FALSE, array( 'sprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ) ) ) )} {$content->mapped('title')}
+
+{$content->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_Spammer</template_name><template_content_html><![CDATA[{{$member = \IPS\Member::load( $memberId );}}
+
+{$email->language->addToStack("email_flagged_as_spammer", FALSE)}
+<br />
+<br />
+<table width="100%" cellpadding="15" cellspacing="0" border="0" bgcolor="#f9f9f9" style='color: #5b5b5b; font-size: 13px'>
+	<tr>
+		<td dir='{dir}' width="80" valign="top" class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$member->get_photo( true, true )}' width='80' height='80' style='border: 1px solid #d7d7d7; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}'>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0" class='responsive_table'>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width="115" style="font-family: 'Helvetica Neue', helvetica, sans-serif;"><strong>{$email->language->addToStack("username", FALSE)}:</strong>&nbsp;&nbsp;</td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">{$member->name}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width="115" style="font-family: 'Helvetica Neue', helvetica, sans-serif;"><strong>{$email->language->addToStack("email_address", FALSE)}:</strong>&nbsp;&nbsp;</td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">{$member->email}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width="115" style="font-family: 'Helvetica Neue', helvetica, sans-serif;"><strong>{$email->language->addToStack("members_ip_address", FALSE)}:</strong>&nbsp;&nbsp;</td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">{$member->ip_address}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width="115" style="font-family: 'Helvetica Neue', helvetica, sans-serif;"><strong>{$email->language->addToStack("members_joined", FALSE)}:</strong>&nbsp;&nbsp;</td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">{$member->joined->localeDate( $email->language )}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<a href='{$member->url()}' style="color: #fff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_view_other_profile", FALSE, array( 'sprintf' => array( $member->name ) ) )}</a>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$notification, $memberId, $email</template_data><template_content_plaintext><![CDATA[{{$member = \IPS\Member::load( $memberId );}}{$email->language->addToStack("email_flagged_as_spammer", FALSE)}
+
+======
+{$email->language->addToStack("username", FALSE)}: {$member->name}</a>
+{$email->language->addToStack("email_address", FALSE)}: {$member->email}
+{$email->language->addToStack("members_ip_address", FALSE)}: {$member->ip_address}
+{$email->language->addToStack("members_joined", FALSE)}: {$member->joined->localeDate( $email->language )}
+
+{$email->language->addToStack("email_view_other_profile", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}: {$member->url()}
+======
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_club_response</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack( $response ? "notification__club_response_accepted" : "notification__club_response_declined", FALSE, array( 'sprintf' => array( $club->name ) ) )}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{$club->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("club_view", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$club, $response, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack( $response ? "notification__club_response_accepted" : "notification__club_response_declined", FALSE, array( 'htmlsprintf' => array($club->name ) ) )}
+
+{$email->language->addToStack("view_club", FALSE)}: {$club->url()}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>email_change</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_complete_email", FALSE)}
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' height='20' style='line-height: 20px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 17px;"><strong>{$email->language->addToStack("email_new_email", FALSE)}</strong></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='6' style='line-height: 6px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 22px;">{$member->email}</td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='20' style='line-height: 20px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 22px;">
+			<a href='{url="app=core&module=system&controller=register&do=validate&vid={$vid}&mid={$member->member_id}" seoTemplate="register" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;"><strong>{$email->language->addToStack("email_confirm_address", FALSE)}</strong></a>
+		</td>
+	</tr>
+	<tr>
+		<td dir='{dir}' height='20' style='line-height: 20px'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+	</tr>
+</table>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $vid, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_complete_email_plain", FALSE)}
+
+=====
+{$email->language->addToStack("email_new_email", FALSE)}: {$member->email}
+{$email->language->addToStack("email_confirm_address", FALSE)}: {url="app=core&module=system&controller=register&do=validate&vid={$vid}&mid={$member->member_id}" seoTemplate="register" base="front" plain="true"}
+=====
+
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_PiiDataRequest</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_notification_pii_data_request', FALSE, array( 'sprintf' => array( $member->url(), $member->name ) ) )}
+<br/>
+<br/>
+
+<a href='{url="app=core&module=members&controller=privacy" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack('pii_review', FALSE)}</a>
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$notification, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack('email_notification_pii_data_request', FALSE, array( 'sprintf' => array( $member->url(), $member->name ) ) )}
+
+{url="app=core&module=members&controller=privacy" seoTemplate="privacy" base="admin"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_mine_solved</template_name><template_content_html><![CDATA[
+<br />
+
+{$email->language->addToStack("mail_your_content_is_solved", FALSE, array( 'htmlsprintf' => array( $comment->url('find'), $content->url(), $content->mapped('title'), $content->definiteArticle( $email->language ) ) ) )}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $comment, $solver, $email</template_data><template_content_plaintext><![CDATA[
+
+{$email->language->addToStack("mail_your_content_is_solved", FALSE, array( 'htmlsprintf' => array( $comment->url('find'), $content->url(), $content->mapped('title'), $content->definiteArticle( $email->language ) ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>lost_password_init</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_lost_pass", FALSE)}
+<br /><br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0'>
+	<tr style='background: #f9f9f9;'>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=lostpass&do=validate&vid={$vid}&mid={$member->member_id}" seoTemplate="lostpassword" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_reset_password", FALSE)}</a>
+		</td>
+    </tr>
+    <tr>
+        <td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 10px;">
+            {$email->language->addToStack("email_lost_pass_timelimit", FALSE)}
+        </td>
+	</tr>
+</table>]]></template_content_html><template_data>$member, $vid, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_lost_pass_plain", FALSE)}
+
+=====
+{$email->language->addToStack("email_reset_password", FALSE)}: {url="app=core&module=system&controller=lostpass&do=validate&vid={$vid}&mid={$member->member_id}" seoTemplate="lostpassword" plain="true" base="front"}
+
+{$email->language->addToStack("email_lost_pass_timelimit", FALSE)}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>admin_reg</template_name><template_content_html><![CDATA[
+{expression="$email->language->addToStack( 'email_admin_reg', FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )"}
+<br />
+<br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				{{if $member->name}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack("username", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->name}</td>
+					</tr>
+				{{endif}}
+				{{if $member->email}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack("email_address", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->email}</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+
+{{if $forcePass}}
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=register&do=setPassword&mid={$member->member_id}&passkey={$passSetKey}" base="front" seoTemplate="register"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("set_password", FALSE)}</a>
+		</td>
+	</tr>
+</table>
+{{endif}}
+<br />
+
+<a href='{setting="base_url"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{expression="$email->language->addToStack( 'email_go_to_site', FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )"}</a>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $forcePass, $passSetKey, $email</template_data><template_content_plaintext><![CDATA[{expression="$email->language->addToStack( 'email_admin_reg', FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )" raw="true"}
+
+=====
+{{if $member->name}}{$email->language->addToStack("username", FALSE)}: {$member->name}{{endif}}
+{{if $member->email}}{$email->language->addToStack("email_address", FALSE)}: {$member->email}{{endif}}
+=====
+
+{{if $forcePass}}{$email->language->addToStack("set_password", FALSE)}: {url="app=core&module=system&controller=register&do=setPassword&mid={$member->member_id}&key={$passSetKey}" base="front"}{{endif}}
+
+{expression="$email->language->addToStack( 'email_go_to_site', FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )" raw="true"}: {setting="base_url"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeStream</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+		{$email->language->addToStack("unsubscribe_blurb_stream", FALSE, array( 'sprintf' => array( $streamTitle )))}<br>
+		{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="{url="app=core&module=discover&controller=streams&do=unsubscribeFromEmail&id={$streamId}&gkey={$key}" base="front"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'unsubscribe', FALSE )}</a>.
+		<br />
+	</td>
+</tr>]]></template_content_html><template_data>$streamId, $streamTitle, $key, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_blurb_stream", FALSE, array( 'sprintf' => array( $streamTitle )))}
+{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'unsubscribe', FALSE )}: {url="app=core&module=discover&controller=streams&do=unsubscribeFromEmail&id={$streamId}&gkey={$key}"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_quote</template_name><template_content_html><![CDATA[
+{{$item = $comment instanceof \IPS\Content\Item ? $comment : $comment->item();}}
+
+{$email->language->addToStack("email_quoted_you", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )}
+
+<br />
+<br />
+{$comment->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = $comment instanceof \IPS\Content\Item ? $comment : $comment->item();}}{$email->language->addToStack("email_quoted_you_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )}
+
+{$email->language->addToStack("go_to_this_x", FALSE, array( 'htmlsprintf' => array( mb_strtolower( $email->language->addToStack( $comment::$title, FALSE ) ) ) ) )}: {$comment->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_content_bulk</template_name><template_content_html><![CDATA[{{if $member->member_id}}
+{$email->language->addToStack("email_new_content_bulk", FALSE, array( 'sprintf' => array( $member->url(), $member->name, $email->language->addToStack( $contentClass::$title . '_pl_lc', FALSE ) ) ) )} <a href='{$container->url()}'>{$container->getTitleForLanguage( $email->language )}</a>
+{{else}}
+{$email->language->addToStack("email_new_content_bulk_guest", FALSE, array( 'sprintf' => array( $member->name, $email->language->addToStack( $contentClass::$title . '_pl_lc', FALSE ) ) ) )} <a href='{$container->url()}'>{$container->getTitleForLanguage( $email->language )}</a>
+{{endif}}
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$container, $member, $contentClass, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_new_content_bulk_plain", FALSE, array( 'htmlsprintf' => array( $member->name, $email->language->addToStack( $contentClass::$title . '_pl_lc', FALSE ) ) ) )} {$container->getTitleForLanguage( $email->language )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_NewRegComplete</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("email_registration_notify", FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )} {$email->language->addToStack("email_registration_notify_complete")}
+<br />
+<br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("username", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->name}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_address", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->email}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("ip_address", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->ip_address}</td>
+				</tr>
+				{{if $fieldGroups = $member->profileFields() and \count( $fieldGroups )}}
+					{{foreach $fieldGroups as $fields}}
+						{{foreach $fields as $field => $data}}
+							<tr class='responsive_row'>
+								<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack($field, FALSE)}:</strong></td>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{expression="preg_replace( '/^<p>(.*)<\/p>$/', '$1', trim( $email->parseTextForEmail( $data, $email->language ) ) )" raw="true"}</td>
+							</tr>
+						{{endforeach}}
+					{{endforeach}}
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+
+<a href='{$member->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_user", FALSE, array( 'sprintf' => array( $member->name ) ) )}</a>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$notification, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_registration_notify", FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )}{$email->language->addToStack("email_registration_notify_complete")}
+
+{$email->language->addToStack("go_to_this_user", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}: {$member->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>emailWrapper</template_name><template_content_html><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{dir}">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{$subject}</title>
+		<style type="text/css">
+		
+			#outlook a {padding:0;}
+			body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;} 
+			.ExternalClass {width:100%;}
+			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+			#backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+
+			img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;} 
+			a img {border:none;} 
+			.image_fix {display:block;}
+
+			p {margin: 1em 0;}
+
+			h1 { color: white !important; }
+			h2, h3, h4, h5, h6 {color: #333333 !important;}
+
+			h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+				color: red !important;
+			}
+
+			h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+				color: purple !important;
+			}
+
+			table td {border-collapse: collapse;}
+
+			table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+			a {color: #4a8aca;}
+			
+			/* Unhides cells that we set to hide in the HTML in case the client doesn't support style properly */
+			*[class~=hidePhone] {
+			    display : block !important;
+			    width : auto !important;
+			    max-height: inherit !important;
+			    overflow : visible !important;
+			    float : none !important;
+			}
+
+			*[class~=hidePhone][width="30"] {
+				width: 30px !important;
+			}
+
+			*[class~=hidePhone][width="40"] {
+				width: 40px !important;
+			}
+
+			td[class~=hidePhone] {
+				display: table-cell !important;
+			}
+
+			.ipsImage {
+				max-width: 100% !important;
+				height: auto !important;
+			}
+
+			/* Attachment styles for rich text */
+			.ipsAttachLink_image,
+			.ipsAttachLink {
+				margin-bottom: 15px;
+			}
+			
+			html[dir="ltr"] .ipsAttachLink_image.ipsAttachLink_right,
+			html[dir="ltr"] .ipsAttachLink.ipsAttachLink_right,
+			html[dir="rtl"] .ipsAttachLink_image.ipsAttachLink_left,
+			html[dir="rtl"] .ipsAttachLink.ipsAttachLink_left {
+				margin-left: 30px;
+			}
+			html[dir="ltr"] .ipsAttachLink_image.ipsAttachLink_left, 
+			html[dir="ltr"] .ipsAttachLink.ipsAttachLink_left, 
+			html[dir="rtl"] .ipsAttachLink_image.ipsAttachLink_right, 
+			html[dir="rtl"] .ipsAttachLink.ipsAttachLink_right {
+				margin-right: 30px;
+			}
+
+			@media only screen and (max-width: 480px) {
+				a[href^="tel"], a[href^="sms"] {
+					text-decoration: none;
+					color: blue;
+					pointer-events: none;
+					cursor: default;
+				}
+
+				.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+					text-decoration: default;
+					color: orange !important;
+					pointer-events: auto;
+					cursor: default;
+				}
+
+				#userPhoto, .hidePhone, *[class~=hidePhone], td[class~=hidePhone] {
+					display: none !important;
+				}
+
+				.responsive_table > tr > td, .responsive_table > tbody > tr > td,
+				.responsive_table > tr, .responsive_table > tbody > tr {
+					display: block;
+					text-align: left;
+				}
+
+				html[dir="rtl"] .responsive_table > tr > td, html[dir="rtl"] .responsive_table > tbody > tr > td,
+				html[dir="rtl"] .responsive_table > tr, html[dir="rtl"] .responsive_table > tbody > tr {
+					text-align: right;
+				}
+
+				.responsive_row {
+					margin-bottom: 10px;
+				}
+
+				.responsive_fullwidth {
+					width: 100% !important;
+				}
+
+				.cOurPicksRow {
+					margin-bottom: 30px;
+					padding-bottom: 30px;
+					border-bottom: 1px solid #e0e0e0;
+				}
+			}
+
+			@media only screen and (min-width: 768px) and (max-width: 1024px) {
+				a[href^="tel"], a[href^="sms"] {
+					text-decoration: none;
+					color: blue;
+					pointer-events: none;
+					cursor: default;
+				}
+
+				.mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+					text-decoration: default;
+					color: orange !important;
+					pointer-events: auto;
+					cursor: default;
+				}
+			}
+
+			/* Share Links */
+			.cShareLink:hover {
+				color: white;
+			}
+		</style>
+	</head>
+	<body bgcolor="#f1f1f1" style='direction: {dir}'>
+		<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f1f1f1">
+			<tr height='25'>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+			</tr>
+			<tr>
+				<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}' valign='middle' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 30px; font-weight: 300; color: #262e33; line-height: 48px; padding-left: 10px;">
+					<a href='{setting="base_url"}' style='text-decoration: none; color: #262e33; border: 0;'>
+						{{$imgDims=NULL;}}
+						{{if \IPS\Settings::i()->email_logo}}
+							{{try { $imgDims = \IPS\File::get( 'core_Theme', \IPS\Settings::i()->email_logo )->getImageDimensions(); } catch( \Exception $e ) {} }}
+						{{endif}}
+						{{if $imgDims}}
+							<img src='{file="\IPS\Settings::i()->email_logo" extension="core_Theme"}' alt="{setting="board_name"}" width='{$imgDims[0]}' height='{$imgDims[1]}' />
+						{{else}}
+							{setting="board_name"}
+						{{endif}}
+					</a>
+				</td>
+				<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+			</tr>
+			<tr height='25'>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+			</tr>
+			<tr>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}' width='800' id='main' bgcolor='#ffffff' style='border-top: 10px solid {setting="email_color"}; line-height: 1.5;'>
+					<table width='100%' cellpadding='20' style="table-layout: fixed;">
+						{$email->getAdvertisement()|raw}
+						<tr>
+							<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 21px; overflow-wrap: break-word;">
+								{{if $introText}}
+									<h1 style="font-family: 'Helvetica Neue', helvetica, sans-serif; color: {setting="email_color"} !important; font-size: 28px; font-weight: 500 !important;"><center>{$introText}</center></h1>
+									<br>
+								{{endif}}
+								{{if $member->member_id }}
+									<strong style='font-size: 17px'>{$email->language->addToStack("email_greeting_member", FALSE, array( 'sprintf' => array( $member->name ) ) )}</strong>
+									<br />
+								{{elseif $placeholderRecipient}}
+									<strong style='font-size: 17px'>{$email->language->addToStack("email_greeting_member", FALSE, array( 'sprintf' => array( '*|member_name|*' ) ) )}</strong>
+									<br />
+								{{endif}}
+
+								{$content|raw}
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+			</tr>
+			<tr height='25'>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+			</tr>
+			{{if $ourPicks AND \count( $ourPicks )}}
+				<tr>
+					<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}' width='800' bgcolor='#ffffff' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 21px;">
+						<table width='100%' cellpadding='0' cellspacing='0' border='0' style='border-bottom: 1px solid #e0e0e0;'>
+							<tr height='15'>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+							</tr>
+							<tr>
+								<td dir='{dir}' width='30'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+								<td dir='{dir}'><strong>{$email->language->addToStack("email_also_interesting")}</strong></td>
+								<td dir='{dir}' width='30'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+							</tr>
+							<tr height='15'>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+								<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+							</tr>
+						</table>
+						<table width='100%' cellpadding='30' cellspacing='0' border='0' class='responsive_table'>
+							<tr>
+								<td>
+									<table width='100%' cellpadding='0' cellspacing='0' border='0' class='responsive_table'>
+										<tr>
+											{{$count = 0;}}
+											{{foreach $ourPicks as $item}}
+												{{if $count == 2}}
+													</tr>
+													<tr height='30'>
+														<td colspan='3' dir='{dir}' class='hidePhone' style='border-bottom: 1px solid #e0e0e0;'>
+															<img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''>
+														</td>
+													</tr>
+													<tr height='30'>
+														<td colspan='3' dir='{dir}' class='hidePhone'>
+															<img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''>
+														</td>
+													</tr>
+													<tr>
+												{{endif}}
+												<td class='responsive_fullwidth cOurPicksRow' dir='{dir}' width='48%' valign='top' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px;">
+													{{$staff = \IPS\Member::load( $item->added_by );}}
+													<h2 style='font-size: 20px; margin: 0;'>
+														<a href="{$item->object()->url()}" style='color: #4a8aca; text-decoration: none;'>{$item->ourPicksTitle}</a>
+													</h2>
+													<p style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 13px; color: #8c8c8c; line-height: 21px; margin: 0">
+														{$item->objectMetaDescription( $email->language )}
+													</p>
+													{{if $text = $item->getText('internal', false)}}
+														<p style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; line-height: 21px; margin-bottom: 0">
+															{truncate="$text" length="100"}
+														</p>
+													{{endif}}
+													<p style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; color: #8c8c8c; line-height: 21px; margin-top: 5px; margin-bottom: 0">
+														<a href="{$item->object()->url()}" style='color: #4a8aca; text-decoration: none;'>{$email->language->addToStack("digests_read_more")}</a>
+														{{if $counts = $item->objectDataCount( $email->language )}}
+															&nbsp;&nbsp;({$counts['words']})
+														{{endif}}
+													</p>
+													<br>
+
+													<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+														<tr>
+															<td dir='{dir}' width='40' valign='top'>
+																<img src='{$staff->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+															</td>
+															<td dir='{dir}' width='10'>
+																<img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='10' height='1' alt=''>
+															</td>
+															<td dir='{dir}' width='100%' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 13px; color: #8c8c8c;">
+																<strong>{$email->language->addToStack("promoted_by")}</strong><br>
+																{$staff->name}, {expression="\IPS\DateTime::ts( $item->sent )->localeDate( $email->language )"} {expression="\IPS\DateTime::ts( $item->sent )->localeTime( TRUE, TRUE, $email->language )"}
+															</td>
+														</tr>
+													</table>
+												</td>
+												{{$count++;}}
+												{{if $count == 1 || $count == 3}}
+													<td dir='{dir}' width='4%' class='hidePhone'>
+														<img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''>
+													</td>
+												{{endif}}
+												{{if ( \count( $ourPicks ) === 1 && $count == 1 ) || ( \count( $ourPicks ) == 3 && $count == 3 )}}
+													<td width='48%' class='hidePhone'>
+														<img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''>
+													</td>
+												{{endif}}
+											{{endforeach}}
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				</tr>
+				<tr height='25'>
+					<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				</tr>
+			{{endif}}
+			{{if $unsubscribe}}
+				{$unsubscribe|raw}
+			{{endif}}
+			{{if \IPS\Settings::i()->privacy_type != "none"}}
+				<tr>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+						<a href='{{if \IPS\Settings::i()->privacy_type == "internal"}}{url="app=core&module=system&controller=privacy" seoTemplate="privacy" base="front"}{{else}}{setting="privacy_link"}{{endif}}' style='color: #4a8aca; text-decoration: none;  display: inline-block'>{$email->language->addToStack("privacy_policy_link", FALSE)}</a>
+					</td>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				</tr>
+			{{endif}}
+
+			{{if \IPS\Settings::i()->site_social_profiles AND \IPS\Settings::i()->social_links_in_email AND $links = json_decode( \IPS\Settings::i()->site_social_profiles, TRUE ) AND \count( $links )}}
+				{{$socialColors = array('internal' => '#008b00;', 'deviantart' => '#16A085;', 'email' => '#444;', 'facebook' => '#3B5998;', 'linkedin' => '#007FB1;', 'reddit' => '#FF4500;', 'stumble' => '#EB4924;', 'twitter' => '#00ACED;', 'vk' => '#507299;', 'weibo' => '#D32F2F;', 'youtube' => '#E62117;', 'foursquare' => '#2D5BE3;', 'etsy' => '#F56400;', 'flickr' => '#202022;', 'github' => '#000000;', 'instagram' => '#E13D62;', 'pinterest' => '#BD081C;', 'slack' => '#42C299;', 'xing' => '#B0D400;', 'tumblr' => '#EB4924;', 'twitch' => '#772ce8;', 'discord' => '#000000;');}}
+				<tr>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}' valign='top' width='800' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; color: #bdbdbd; line-height: 18px; padding-left: 10px;">
+						{{foreach $links as $profile}}
+							<a href='{$profile['key']}' target='_blank' rel="noopener" class='cShareLink' style='width: 28px; height: 28px; line-height: 34px; text-align: center; border-radius: 16px; display: inline-block; color: white !important; font-size: 15px; margin: 4px 2px; background-color: {$socialColors[ $profile['value'] ]}'><img src='{setting="base_url"}applications/core/interface/email/{$profile['value']}.png' width='18' height='18' alt="{$profile['value']}"></a>
+						{{endforeach}}
+					</td>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				</tr>
+			{{endif}}
+			{{if \IPS\Settings::i()->board_name}}
+				<tr>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+					<td dir='{dir}' valign='top' width='800' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; color: #bdbdbd; line-height: 18px; padding-left: 10px;">
+						{setting="board_name"}{{if \IPS\Settings::i()->site_address and \IPS\Settings::i()->site_address != 'null'}}, {address="\IPS\Settings::i()->site_address"}{{endif}}
+					</td>
+					<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+				</tr>
+			{{endif}}
+		</table>
+	</body>
+</html>
+]]></template_content_html><template_data>$subject, $member, $content, $unsubscribe, $placeholderRecipient=FALSE, $introText='', $email=NULL, $ourPicks=NULL</template_data><template_content_plaintext><![CDATA[
+{$email->getAdvertisement('plaintext')|raw}
+{{if $member->member_id }}{$email->language->addToStack("email_greeting_member", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}{{elseif $placeholderRecipient}}{$email->language->addToStack("email_greeting_member", FALSE, array( 'htmlsprintf' => array( '*|member_name|*' ) ) )}{{endif}}
+{$content|raw}
+
+-----
+{{if $unsubscribe}}{$unsubscribe}{{endif}}
+
+{{if \IPS\Settings::i()->privacy_type != "none"}}{{if \IPS\Settings::i()->privacy_type == "internal"}}{url="app=core&module=system&controller=privacy" seoTemplate="privacy" base="front" plain="true"}{{else}}{setting="privacy_link"}){{endif}}{{endif}}
+
+{setting="board_name"}{{if \IPS\Settings::i()->site_address and \IPS\Settings::i()->site_address != 'null'}}, {address="\IPS\Settings::i()->site_address"}{{endif}}]]></template_content_plaintext><template_pinned>1</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_status</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_new_status", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name ) ) )}
+
+<br />
+<br />
+
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$comment->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{$email->language->addToStack("email_said", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<p style="margin: 0; font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 12px; color: #8d8d8d">
+	{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+</p>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_new_status_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>password_reset_forced</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("password_reset_forced", FALSE, array( 'sprintf' => \IPS\Settings::i()->board_name ) )}
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=register&do=setPassword&mid={$member->member_id}&passkey={$key}" base="front" seoTemplate="register"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("set_password", FALSE)}</a>
+		</td>
+	</tr>
+</table>
+
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member,$key,$email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack('password_reset_forced', FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )}
+
+{$email->language->addToStack("set_password", FALSE)}: {url="app=core&module=system&controller=register&do=setPassword&mid={$member->member_id}&passkey={$key}" base="front" seoTemplate="register"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_recognize</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack( 'notification_new_recognized_mail', FALSE, [ 'sprintf' => [ $recognize->content()->url() ] ] )}
+{{if $recognize->message}}
+<p style='border-bottom: 1px solid #e0e0e0;border-top: 1px solid #e0e0e0; padding: 10px 0px'>
+<strong><em>{$recognize->message}</em></strong>
+{{if $awardedBy = $recognize->awardedBy()}}
+<br>- <a href="{$awardedBy->url()}">{$awardedBy->name}</a>
+{{endif}}
+</p>
+{{endif}}
+{{if $recognize->points}}
+<p>{$email->language->addToStack("recognize_points_awarded", NULL, [ 'sprintf' => [ $recognize->points ] ] )}</p>
+{{endif}}
+{{if $badge = $recognize->badge()}}
+{$email->language->addToStack("recognize_badge_awarded", NULL, [ 'sprintf' => [ $badge->_title ] ] )}
+<br><br>
+{$email->language->addToStack("notification_email_check_it_out")}
+<br>
+<br><strong>{$badge->_title}</strong>
+<br>
+<img src="{file="$badge->image" extension="core_Badges"}">
+{{endif}}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $recognize, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__new_recognized")}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_member_follow</template_name><template_content_html><![CDATA[{$email->language->addToStack("notification__member_follow", FALSE, array( 'sprintf' => array( $member->name ) ) )}
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<table width='100' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+				<tr>
+					<td dir='{dir}'>
+						<img src='{$member->get_photo( true, true )}' width='100' height='100' style='border: 1px solid #777777; vertical-align: middle;'>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr style='line-height: 10px'>
+		<td dir='{dir}' height='10'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 20px; font-weight: bold">{$member->name}</td>
+	</tr>
+	<tr style='line-height: 2px'>
+		<td dir='{dir}' height='2'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px;">{expression="\IPS\Member\Group::load( $member->member_group_id )->formattedName" raw="true"}</td>
+	</tr>
+	<tr style='line-height: 2px'>
+		<td dir='{dir}' height='2'><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	</tr>
+	<tr>
+		<td dir='{dir}' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif;">
+			<a href='{$member->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_go_to_x_profile", FALSE, array( 'sprintf' => array( $member->name ) ) )}</a>
+		</td>
+	</tr>
+</table>
+<br>
+
+<p style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 13px; color: ">{$email->language->addToStack("email_member_following_tip", FALSE)}</p>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__member_follow", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}
+
+=====
+{$member->name}
+-----
+{expression="\IPS\Member\Group::load( $member->member_group_id )->name" raw="true"}
+{$email->language->addToStack("email_go_to_x_profile", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}: {$member->url()}
+=====
+
+{$email->language->addToStack("email_member_following_tip", FALSE)}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_mention</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_mentioned", FALSE, array( 'sprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ), ( $content instanceof \IPS\Content\Comment ) ? $content->item()->mapped('title') : $content->mapped('title') ) ) )}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_mentioned", FALSE, array( 'htmlsprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ), ( $content instanceof \IPS\Content\Comment ) ? $content->item()->mapped('title') : $content->mapped('title') ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>advertisement</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' align='center' style="text-align: center; margin: 0 auto; width: 100%; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; color: #333333; line-height: 21px">
+		{{if $advertisement->link}}
+			{{$hmacKey = hash_hmac( "sha256", $advertisement->link, \IPS\Settings::i()->site_secret_key . 'a' );}}
+			<a href='{url="app=core&module=system&controller=redirect&do=advertisement&ad={$advertisement->id}&key={$hmacKey}" base="front"}' target='_blank' rel='nofollow noopener'>
+		{{endif}}
+			<img src='{file="$advertisement->_images['large']" extension="$advertisement->storageExtension()"}' alt="{{if $advertisement->image_alt}}{$advertisement->image_alt}{{else}}{lang="advertisement_alt"}{{endif}}" class='ipsImage ipsContained'>
+		{{if $advertisement->link}}
+			</a>
+		{{endif}}
+	</td>
+</tr>]]></template_content_html><template_data>$advertisement, $email</template_data><template_content_plaintext><![CDATA[{$advertisement->image_alt}
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>solved_reengagement</template_name><template_content_html><![CDATA[{{$member = $item->author();}}
+<br />
+{$email->language->addToStack("mail_solved_reengagement", FALSE, array( 'htmlsprintf' => array( $item->definiteArticle( $email->language ), $item->url(), $item->mapped('title') ) ) )}
+<br /><br />
+<em>{$email->language->addToStack("mail_solved_reengagement_wyw")}</em>
+<br /><br />
+{$comment->emailContent( $email, 'html', false )|raw}
+<br /><br />
+<em>{$email->language->addToStack("mail_solved_reengagement_others")}</em>
+<br><br>
+{{foreach $replies as $reply}}
+	{$reply->emailContent( $email, 'html' )|raw}
+{{endforeach}}
+<br><br>
+{$email->language->addToStack("mail_solved_reengagement_solved")}
+<br /><br />
+<a style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;" href="{$item->url()}">{$email->language->addToStack("mail_solved_reengagement_action")}</a>
+<br /><br />
+<a href="{url="app=core&module=system&controller=unsubscribe&action=markSolved&email=" seoTemplate="unsubscribe" base="front"}{$member->email}&key={expression="md5( $member->email . ':' . $member->members_pass_hash )"}" style='color: #8c8c8c; text-decoration: none; display: inline-block'>{lang="solved_reengagement_stop"}</a>.
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$item, $comment, $replies, $email</template_data><template_content_plaintext><![CDATA[
+
+{$email->language->addToStack("mail_solved_reengagement", FALSE, array( 'htmlsprintf' => array( $item->definiteArticle( $email->language ), $item->url(), $item->mapped('title') ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>registration_complete</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_reg_complete", FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )}{{if $member->members_pass_hash}} {$email->language->addToStack("email_reg_complete_pass")}{{endif}}
+
+<br />
+<br />
+<a href='{setting="base_url"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_go_to_site", FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )}</a>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_reg_complete", FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )}{{if $member->members_pass_hash}} {$email->language->addToStack("email_reg_complete_pass")}{{endif}}
+
+{$email->language->addToStack("email_go_to_site", FALSE, array( 'htmlsprintf' => array( \IPS\Settings::i()->board_name ) ) )}: {setting="base_url"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_NewRegValidate</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("email_registration_notify", FALSE, array( 'sprintf' => array( \IPS\Settings::i()->board_name ) ) )}
+<br />
+<br />
+<strong style="color: #a72336; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->language->addToStack("email_admin_approval_msg", FALSE)}</strong>
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("username", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->name}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("email_address", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->email}</td>
+				</tr>
+				<tr class='responsive_row'>
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack("ip_address", FALSE)}:</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$member->ip_address}</td>
+				</tr>
+				{{if $fieldGroups = $member->profileFields() and \count( $fieldGroups )}}
+					{{foreach $fieldGroups as $fields}}
+						{{foreach $fields as $field => $data}}
+							<tr class='responsive_row'>
+								<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;" valign='top'><strong>{$email->language->addToStack($field, FALSE)}:</strong></td>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{expression="preg_replace( '/^<p>(.*)<\/p>$/', '$1', trim( $email->parseTextForEmail( $data, $email->language ) ) )" raw="true"}</td>
+							</tr>
+						{{endforeach}}
+					{{endforeach}}
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+
+<a href='{$member->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_user", FALSE, array( 'sprintf' => array( $member->name ) ) )}</a>
+
+<a href='{url="app=core&module=members&controller=members&filter=members_filter_validating" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("block_awaiting_validation_all")}</a>
+
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$notification, $member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_registration_notify_validate")}
+
+{$email->language->addToStack("go_to_this_user", FALSE, array( 'htmlsprintf' => array( $member->name ) ) )}: {$member->url()}
+{$email->language->addToStack("block_awaiting_validation_all")}: {url="app=core&module=members&controller=members&filter=members_filter_validating" base="admin" plain="true"}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_club_invitation</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("notification__club_invitation_by", FALSE, array( 'sprintf' => array( $invitedBy->name, $club->name ) ) )}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{$club->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("club_join", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$club, $invitedBy, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__club_invitation_by", FALSE, array( 'htmlsprintf' => array( $invitedBy->name, $club->name ) ) )}
+
+{$email->language->addToStack("club_join", FALSE)}: {$club->url()}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeBulk</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+		{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="{{if $member instanceof \IPS\Member}}{url="app=core&module=system&controller=unsubscribe&email=" seoTemplate="unsubscribe" base="front"}{$member->email}&key={expression="md5( $member->email . ':' . $member->members_pass_hash )"}{{else}}{url="app=core&module=system&controller=unsubscribe&email=" seoTemplate="unsubscribe" base="front"}*|member_email|*&key=*|unsubscribe_key|*{{endif}}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'unsubscribe', FALSE )}</a>.
+		<br />
+	</td>
+</tr>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'unsubscribe', FALSE )}: {{if $member instanceof \IPS\Member}}{url="app=core&module=system&controller=unsubscribe&email=" seoTemplate="unsubscribe" base="front" plain="true"}{$member->email}&key={expression="md5( $member->email . ':' . $member->members_pass_hash )" raw="true"}{{else}}*|unsubscribe_url|*{{endif}}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_review</template_name><template_content_html><![CDATA[
+{{$item = $comment->item();}}
+
+{{if $comment->author()->member_id}}
+{$email->language->addToStack("email_new_review", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{elseif $comment->author()->real_name}}
+{$email->language->addToStack("email_new_review_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $comment->author()->real_name ) ) ), $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{else}}
+{$email->language->addToStack("email_new_review_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $email->language->addToStack('guest') ) ) ), $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{endif}}
+
+<br />
+<br />
+
+{$comment->emailContent( $email, 'html' )|raw}
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = $comment->item();}}{$email->language->addToStack("email_new_review_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )} {$comment->item()->mapped('title')}
+
+{$comment->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_badge</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack("notification__new_badge", NULL, [ 'sprintf' => [$badge->_title]])}
+<br><br>
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='400px' cellpadding='0' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<img src='{$member->get_photo( true, true )}' width='80' height='80' style='border: 1px solid #777777; vertical-align: middle;'>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<span style="font-size:48px;">=</span>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td dir='{dir}' align='center'>
+						<table width='80' cellpadding='15' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}'>
+									<img src='{setting="base_url"}applications/core/interface/email/tada.png' width='80' height='80' alt=''>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+{{if $count = $badge->ownedByCount(TRUE)}}
+	{$email->language->addToStack("notification_email_did_you_know_count", NULL, ['sprintf'=>[$count]])}
+{{endif}}
+<br><br>
+{$email->language->addToStack("notification_email_keep_it_going")}
+
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$member, $badge, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("notification__new_badge")}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_profile_reply</template_name><template_content_html><![CDATA[
+{{$item = $comment->item();}}
+
+{$email->language->addToStack("email_new_profile_reply", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name ) ) )}
+
+<br /><br />
+<a href='{$item->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 12px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_go_to_your_profile", FALSE)}</a>
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$item->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+						<strong>{$email->language->addToStack("email_said", FALSE, array( 'sprintf' => array( $item->author()->name ) ) )}</strong>
+					</td>
+				</tr>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $item->content(), $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$item->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $item::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40'>&nbsp;</td>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$comment->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									<strong>{$email->language->addToStack("email_replied", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}</strong>
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+<p style="margin: 0; font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 12px; color: #8d8d8d">
+	{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+</p>
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = $comment->item();}}{$email->language->addToStack("email_new_profile_reply_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+{$email->language->addToStack("email_ignore_user_pm", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>new_device</template_name><template_content_html><![CDATA[<br />
+{$email->language->addToStack('new_device_email_intro')}
+<br />
+<br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				<tr class='responsive_row' height="35">
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack('members_device')}</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+						<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f9f9f9">
+							<tr>
+								<td dir='{dir}' width="40" valign="top" class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+									{{if $device->userAgent()->platform === 'Macintosh'}}
+										<img src="{resource="logos/devices/mac.png" location="interface" app="core"}" width="30" height="30" alt="{$device->userAgent()->platform}" style='border: 0; vertical-align: middle;'>
+									{{elseif $device->userAgent()->platform === 'Android' or $device->userAgent()->platform === 'Windows Phone'}}
+										<img src="{resource="logos/devices/android.png" location="interface" app="core"}" width="30" height="30" alt="{$device->userAgent()->platform}" style='border: 0; vertical-align: middle;'>
+									{{elseif $device->userAgent()->platform === 'iPad'}}
+										<img src="{resource="logos/devices/ipad.png" location="interface" app="core"}" width="30" height="30" alt="{$device->userAgent()->platform}" style='border: 0; vertical-align: middle;'>
+									{{elseif $device->userAgent()->platform === 'iPhone'}}
+										<img src="{resource="logos/devices/iphone.png" location="interface" app="core"}" width="30" height="30" alt="{$device->userAgent()->platform}" style='border: 0; vertical-align: middle;'>
+									{{else}}
+										<img src="{resource="logos/devices/pc.png" location="interface" app="core"}" width="30" height="30" alt="{$device->userAgent()->platform}" style='border: 0; vertical-align: middle;'>
+									{{endif}}
+								</td>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+									{$device->userAgent()->platform}
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr class='responsive_row' height="35">
+					<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack('device_table_user_agent')}</strong></td>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+						<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f9f9f9">
+							<tr>
+								{{if \in_array( $device->userAgent()->browser, array( 'Android Browser', 'AppleWebKit', 'Camino', 'Chrome', 'Edge', 'Firefox', 'IEMobile', 'Midori', 'MSIE', 'Opera', 'Puffin', 'Safari', 'SamsungBrowser', 'Silk', 'UCBrowser', 'Vivaldi' ) )}}
+									<td dir='{dir}' width="40" valign="top" class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+                                        {{$img = str_replace( ' ', '', $device->userAgent()->browser );}}
+                                        &nbsp;<img src="{resource="logos/browsers/{$img}.png" location="interface" app="core"}" width="20" height="20" alt="{$device->userAgent()->browser}" style='border: 0; vertical-align: middle;'>
+									</td>
+								{{endif}}
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+									{$device->userAgent()->browser}
+								</td>
+							</tr>
+						</table>
+					</td>
+					</td>
+				</tr>
+				{{if $loginMethod = $device->loginMethod() and $logo = $loginMethod->logoForDeviceInformation()}}
+					<tr class='responsive_row' height="35">
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack('device_table_login_handler')}</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+							<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f9f9f9">
+								<tr>
+									<td dir='{dir}' width="40" valign="top" class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+										&nbsp;<img src="{$logo}" width="20" height="20" alt="{$email->language->addToStack( 'login_method_' . $loginMethod->id )}" style='border: 0; vertical-align: middle;'>
+									</td>
+									<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+										{$email->language->addToStack( 'login_method_' . $loginMethod->id )}
+									</td>
+								</tr>
+							</table>
+						</td>
+						</td>
+					</tr>
+				{{endif}}
+				{{if $location}}
+					<tr class='responsive_row' height="35">
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;"><strong>{$email->language->addToStack('device_table_location')}</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+							{$location}
+						</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 10px;">
+			* {$email->language->addToStack('ip_geolocation_info')}
+		</td>
+	</tr>
+</table>
+<br />
+{$email->language->addToStack('new_device_email_footer')}
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			{{if settings.device_management}}
+				<a href='{url="app=core&module=system&controller=settings&area=devices" seoTemplate="settings_devices" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("new_device_email_action_1", FALSE)}</a>
+			{{else}}
+				<a href='{url="app=core&module=system&controller=settings&do=secureAccount" seoTemplate="settings_secure" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("new_device_email_action_2", FALSE)}</a>
+			{{endif}}
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$member, $device, $location, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack('new_device_email_intro')}
+
+{$email->language->addToStack('members_device')}: {$device->userAgent()->platform}
+{$email->language->addToStack('device_table_user_agent')}: {$device->userAgent()->browser}
+{{if $loginMethod = $device->loginMethod() and $logo = $loginMethod->logoForDeviceInformation()}}{$email->language->addToStack('device_table_login_handler')}: {$email->language->addToStack( 'login_method_' . $loginMethod->id )}{{endif}}
+{{if $location}}{$email->language->addToStack('device_table_location')}: {$location}
+* {$email->language->addToStack('ip_geolocation_info')}{{endif}}
+
+{$email->language->addToStack('new_device_email_footer')}
+
+{{if settings.device_management}}{$email->language->addToStack("new_device_email_action_1", FALSE)}: {url="app=core&module=system&controller=settings&area=devices" seoTemplate="settings_devices" base="front" plain="true"}{{else}}{$email->language->addToStack("new_device_email_action_2", FALSE)}: {url="app=core&module=system&controller=settings&do=secureAccount" seoTemplate="settings_secure" base="front" plain="true"}{{endif}}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeNotNeeded</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+		{$email->language->addToStack("unsubscribe_not_needed", FALSE)}
+		<br />
+	</td>
+</tr>]]></template_content_html><template_data>$member, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("unsubscribe_not_needed", FALSE)}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>emailNoWrapper</template_name><template_content_html><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{dir}">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>{$subject}</title>
+	</head>
+	<body>
+		{$content|raw}
+	</body>
+</html>
+]]></template_content_html><template_data>$subject, $member, $content, $unsubscribe, $placeholderRecipient=FALSE, $introText='', $email=NULL, $ourPicks=NULL</template_data><template_content_plaintext>{$content|raw}</template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>digest</template_name><template_content_html><![CDATA[{$email->language->addToStack("digest_$frequency", FALSE)}
+<br />
+<br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>
+
+<br />
+<br />
+<br />
+___digest___]]></template_content_html><template_data>$member, $frequency, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("digest_$frequency", FALSE)}
+
+___digest___]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_report_center</template_name><template_content_html><![CDATA[{{$item = $reportedContent instanceof \IPS\Content\Item ? $reportedContent : $reportedContent->item();}}
+{$email->language->addToStack("email_content_reported", FALSE, array( 'sprintf' => array( \IPS\Member::load( $latestReport['report_by'] )->name, $reportedContent->indefiniteArticle( $email->language ), $reportedContent->url(), $item->mapped('title') ) ) )} 
+
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$report->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $latestReport['report'], $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$report->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $report::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$report, $latestReport, $reportedContent, $email</template_data><template_content_plaintext><![CDATA[{{$item = $reportedContent instanceof \IPS\Content\Item ? $reportedContent : $reportedContent->item();}}
+{$email->language->addToStack("email_content_reported_plain", FALSE, array( 'htmlsprintf' => array( \IPS\Member::load( $latestReport['report_by'] )->name, $reportedContent->indefiniteArticle( $email->language ), $item->mapped('title') ) ) )}
+
+{$email->language->addToStack("go_to_the_report", FALSE)}: {$report->url()}
+{$email->language->addToStack("go_to_this_x", FALSE, array( 'htmlsprintf' => array( mb_strtolower( $email->language->addToStack( $reportedContent::$title, FALSE ) ) ) ) )}: {$reportedContent->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>account_deletion_confirmation</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_account_deletion_confirm', FALSE)}
+<br/><br/>
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=settings&do=confirmAccountDeletion&vid={$vid}" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_account_delete_link", FALSE)}</a>
+		</td>
+	</tr>
+</table>
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$member, $vid, $email</template_data><template_content_plaintext><![CDATA[
+
+{$email->language->addToStack("email_account_deletion_confirm", FALSE)}
+
+=====
+{$email->language->addToStack("email_account_delete_link", FALSE)}: {url="app=core&module=system&controller=settings&do=confirmAccountDeletion&vid={$vid}" plain="true" base="front"}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>unsubscribeFollow</template_name><template_content_html><![CDATA[<tr>
+	<td dir='{dir}' valign="top"><img src='{setting="base_url"}applications/core/interface/email/spacer.png' width='1' height='1' alt=''></td>
+	<td dir='{dir}' valign='middle' align='center' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 12px; line-height: 18px; padding-left: 10px;">
+		*|unsubscribe_blurb|*<br>
+		{$email->language->addToStack("unsubscribe_blurb", FALSE)} <a href="*|unfollow_link|*" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'unfollow', FALSE )}</a> {$email->language->addToStack("or", FALSE)} <a href="{url="app=core&module=system&controller=notifications&do=options&type={$key}" base="front" seoTemplate="notifications_options"}" style='color: #4a8aca; text-decoration: none; display: inline-block'>{$email->language->addToStack( 'adjust_notification_prefs', FALSE)}</a>.
+		<br />
+	</td>
+</tr>
+]]></template_content_html><template_data>$key, $member, $email</template_data><template_content_plaintext><![CDATA[*|unsubscribe_blurb|*
+{$email->language->addToStack("unsubscribe_blurb", FALSE)} {$email->language->addToStack( 'unfollow', FALSE )} ( *|unfollow_link|* ) {$email->language->addToStack( 'or', FALSE )} {$email->language->addToStack( 'adjust_notification_prefs', FALSE )} ( {url="app=core&module=system&controller=notifications&do=options&type={$key}" base="front" seoTemplate="notifications_options" plain="true"} )]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_comment</template_name><template_content_html><![CDATA[
+{{$item = $comment->item();}}
+
+{{if $comment->author()->member_id}}
+{$email->language->addToStack("email_new_comment", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{elseif $comment->author()->real_name}}
+{$email->language->addToStack("email_new_comment_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $comment->author()->real_name ) ) ), $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{else}}
+{$email->language->addToStack("email_new_comment_guest", FALSE, array( 'sprintf' => array( $email->language->addToStack( 'guest_name_shown', FALSE, array( 'sprintf' => array( $email->language->addToStack('guest') ) ) ), $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$comment->item()->url()}'>{$comment->item()->mapped('title')}</a>
+{{endif}}
+
+<br />
+<br />
+
+{$comment->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = $comment->item();}}{$email->language->addToStack("email_new_comment_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )} {$comment->item()->mapped('title')}
+
+{$comment->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>warning</template_name><template_content_html><![CDATA[{{$content = $warning->content();}}
+
+{{if $content && $content instanceof \IPS\Content\Comment}}
+	{{$item = $content->item();}}
+	{$email->language->addToStack("email_warned_comment", FALSE, array( 'sprintf' => array( \IPS\Member::load( $warning->moderator )->name, $item->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()->setQueryString( '_warn', $warning->id )}'>{$content->item()->mapped('title')}</a>
+{{elseif $content}}
+	{$email->language->addToStack("email_warned_item", FALSE, array( 'sprintf' => array( \IPS\Member::load( $warning->moderator )->name, $content->indefiniteArticle( $email->language ) ) ) )} <a href='{$content->url()->setQueryString( '_warn', $warning->id )}'>{$content->mapped('title')}</a>
+{{else}}
+	{$email->language->addToStack("email_warned_other", FALSE, array( 'sprintf' => array( \IPS\Member::load( $warning->moderator )->name ) ) )}
+{{endif}}
+
+<br />
+<br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;' class='responsive_table'>
+				{{if $warning->canViewDetails()}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px; vertical-align: top;"><strong>{$email->language->addToStack("email_warn_reason", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->language->addToStack("core_warn_reason_". $warning->reason, FALSE)}</td>
+					</tr>	
+				{{endif}}
+				{{if $content}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px; vertical-align: top;"><strong>{$email->language->addToStack("email_warn_source", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+							<a href='{$content->url()->setQueryString( '_warn', $warning->id )}'>{{if $content instanceof \IPS\Content\Comment}}{$content->item()->mapped('title')}{{else}}{$content->mapped('title')}{{endif}}</a>
+						</td>
+					</tr>					
+				{{endif}}
+				{{if $warning->canViewDetails() or $warning->mq or $warning->rpa or $warning->suspend}}				
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px; vertical-align: top;"><strong>{$email->language->addToStack("email_warn_penalty", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+							<ul style="margin: 0; padding: 0; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+								{{if $warning->canViewDetails()}}
+									<li>
+										{{if $warning->expire_date}}
+											{{if $warning->expire_date < time()}}
+												{{if $warning->expire_date == -1}}
+													{$email->language->addToStack("warn_action_points_never_expire", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+												{{else}}
+													{$email->language->addToStack("warn_action_points_expired", FALSE, array( 'pluralize' => array( $warning->points ), 'sprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+												{{endif}}
+											{{else}}
+												{$email->language->addToStack("warn_action_points_expire", FALSE, array( 'pluralize' => array( $warning->points ), 'sprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+											{{endif}}
+										{{else}}
+											{$email->language->addToStack("warn_action_points", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+										{{endif}}
+									</li>
+								{{endif}}
+								{{if $warning->cheev_point_reduction}}
+									<li>
+										{$email->language->addToStack("warn_deduct_cheev_points", FALSE, array( 'pluralize' => array( $warning->cheev_point_reduction ) ) )}
+									</li>
+								{{endif}}
+								{{if $warning->mq}}
+									<li>
+										{$email->language->addToStack("moderation_modq", FALSE)} - 
+										{{if $warning->mq == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+                                        {{elseif $mq = $warning->mq_interval}}
+                                            {expression="\IPS\DateTime::formatInterval( $mq, 2, $email->language )"}
+                                        {{endif}}
+									</li>
+								{{endif}}
+								{{if $warning->rpa}}
+									<li>
+										{$email->language->addToStack("moderation_nopost", FALSE)} - 
+										{{if $warning->rpa == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+                                        {{elseif $rpa = $warning->rpa_interval}}
+                                            {expression="\IPS\DateTime::formatInterval( $rpa, 2, $email->language )"}
+										{{endif}}
+									</li>
+								{{endif}}
+								{{if $warning->suspend}}
+									<li>
+										{$email->language->addToStack("moderation_banned", FALSE)} - 
+										{{if $warning->suspend == -1}}
+											{$email->language->addToStack("indefinitely", FALSE)}
+                                        {{elseif $suspend = $warning->suspend_interval}}
+                                            {expression="\IPS\DateTime::formatInterval( $suspend, 2, $email->language )"}
+										{{endif}}
+									</li>
+								{{endif}}
+							</ul>							
+						</td>
+					</tr>
+				{{endif}}
+				{{if $warning->note_member}}
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' height='25'>&nbsp;</td>
+						<td dir='{dir}'>&nbsp;</td>
+					</tr>
+					<tr class='responsive_row'>
+						<td dir='{dir}' width='150' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px; vertical-align: top;"><strong>{$email->language->addToStack("email_warn_note", FALSE)}:</strong></td>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->parseTextForEmail( $warning->note_member, $email->language )|raw}</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+<br />
+
+{{if \IPS\Settings::i()->warnings_acknowledge && !$warning->acknowledged && $warning->canAcknowledge( \IPS\Member::load($warning->member))}}
+    <strong style="color: #a72336; font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">{$email->language->addToStack("email_warn_acknowledge", FALSE)}</strong><br />
+    <a href='{$warning->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("email_warn_acknowledge_button", FALSE)}</a>
+{{endif}}
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>
+]]></template_content_html><template_data>$warning, $email</template_data><template_content_plaintext><![CDATA[
+{{$content = $warning->content();}}
+{{if $content && $content instanceof \IPS\Content\Comment}}
+	{{$item = $content->item();}}
+	{$email->language->addToStack("email_warned_comment", FALSE, array( 'htmlsprintf' => array( \IPS\Member::load( $warning->moderator )->name, $item->indefiniteArticle( $email->language ) ) ) )} {$content->item()->mapped('title')}
+{{elseif $content}}
+	{$email->language->addToStack("email_warned_item", FALSE, array( 'htmlsprintf' => array( \IPS\Member::load( $warning->moderator )->name, $content->indefiniteArticle( $email->language ) ) ) )} {$content->mapped('title')}
+{{else}}
+	{$email->language->addToStack("email_warned_other", FALSE, array( 'htmlsprintf' => array( \IPS\Member::load( $warning->moderator )->name ) ) )}
+{{endif}}
+
+=====
+{{if $warning->canViewDetails()}}{$email->language->addToStack("email_warn_reason", FALSE)}:{$email->language->addToStack("core_warn_reason_" . $warning->reason, FALSE)}{{endif}}
+{{if $content}}{$email->language->addToStack("email_warn_source", FALSE)}: {{if $content instanceof \IPS\Content\Comment}}{$content->item()->mapped('title')}{{else}}{$content->mapped('title')}{{endif}}{{endif}}
+{{if $warning->canViewDetails() or $warning->mq or $warning->rpa or $warning->suspend}}{$email->language->addToStack("email_warn_penalty", FALSE)}:
+	{{if $warning->canViewDetails()}}
+		{{if $warning->expire_date}}
+			{{if $warning->expire_date < time()}}
+				{{if $warning->expire_date == -1}}
+					{$email->language->addToStack("warn_action_points_never_expire", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+				{{else}}
+					{$email->language->addToStack("warn_action_points_expired", FALSE, array( 'pluralize' => array( $warning->points ), 'htmlsprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+				{{endif}}
+			{{else}}
+				{$email->language->addToStack("warn_action_points_expire", FALSE, array( 'pluralize' => array( $warning->points ), 'htmlsprintf' => array( \IPS\DateTime::ts( $warning->expire_date ) ) ) )}
+			{{endif}}
+		{{else}}
+			{$email->language->addToStack("warn_action_points", FALSE, array( 'pluralize' => array( $warning->points ) ) )}
+		{{endif}}			
+	{{endif}}
+	{{if $warning->mq}}
+		{$email->language->addToStack("moderation_modq", FALSE)} - {{if $warning->mq == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $mq = $warning->mq_interval}}{expression="\IPS\DateTime::formatInterval( $mq, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+	{{if $warning->rpa}}
+		{$email->language->addToStack("moderation_nopost", FALSE)} - {{if $warning->rpa == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $rpa = $warning->rpa_interval}}{expression="\IPS\DateTime::formatInterval( $rpa, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+	{{if $warning->suspend}}
+		{$email->language->addToStack("moderation_banned", FALSE)} - {{if $warning->suspend == -1}}{$email->language->addToStack("indefinitely", FALSE)}{{elseif $suspend = $warning->suspend_interval}}{expression="\IPS\DateTime::formatInterval( $suspend, 2, $email->language )" raw="true"}{{endif}}
+	{{endif}}
+{{endif}}
+=====
+
+{{if \IPS\Settings::i()->warnings_acknowledge && !$warning->acknowledged && $warning->canAcknowledge(\IPS\Member::load($warning->member))}}
+	**{$email->language->addToStack("email_warn_acknowledge", FALSE)}**
+	{$email->language->addToStack("email_warn_acknowledge_button", FALSE)}: {$warning->url()}
+{{endif}}
+
+-- {setting="board_name"}
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_pii_data_rejected</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_notification_pii_data_rejected')}
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$request, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack('email_notification_pii_data_rejected')}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>mfaRecovery</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("mfa_recovery_email_html", FALSE)}
+<br /><br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=system&controller=settings&do=mfarecoveryvalidate&vid={$vid}&mid={$member->member_id}" seoTemplate="mfarecoveryvalidate" base="front"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("mfa_recovery_email_confirm", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$member, $vid, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("mfa_recovery_email_plain", FALSE)}
+
+=====
+{$email->language->addToStack("mfa_recovery_email_confirm", FALSE)}: {url="app=core&module=system&controller=settings&do=mfarecoveryvalidate&vid={$vid}&mid={$member->member_id}" seoTemplate="mfarecoveryvalidate" plain="true" base="front"}
+=====
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_account_del_request_rejected</template_name><template_content_html><![CDATA[
+{$email->language->addToStack('email_account_del_request_rejected')}
+
+<br/>
+<br/>
+
+<br/><br/>
+<em style='color: #8c8c8c'>&mdash; {setting='board_name'}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[
+{$email->language->addToStack("email_account_del_request_rejected")}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>password_changed</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_password_changed", FALSE, array( 'sprintf' => \IPS\Settings::i()->board_name ) )}
+
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_password_changed", FALSE, array( 'htmlsprintf' => \IPS\Settings::i()->board_name ) )}
+
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>postBeforeRegisterFollowup</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("post_before_register_followup_text", FALSE)}
+<br />
+<br />
+<a href='{url="app=core&module=system&controller=register&pbr={$secret}&hidereminder=1" base="front" seoTemplate="register"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("finish_this_submission", FALSE)}</a>
+
+
+
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$allContent, $secret, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("post_before_register_followup_text")}
+
+{$email->language->addToStack("finish_this_submission", FALSE)}: {url="app=core&module=system&controller=register&pbr={$secret}&hidereminder=1" base="front" seoTemplate="register" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>acp_notification_Bulletin</template_name><template_content_html><![CDATA[<br />
+
+{$email->language->addToStack("acp_notification_bulletin_email")}
+<br /><br />
+
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}'>
+			<table width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #f9f9f9;'>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 18px; font-weight: bold;">
+						{$notification->title()}
+					</td>
+				</tr>
+				<tr style='line-height: 10px'>
+					<td dir='{dir}' height='10'><img src="{setting="base_url"}applications/core/interface/email/spacer.png" alt='' width="1" height="1" /></td>
+				</tr>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 14px;">
+						{$email->parseTextForEmail( $notification->body() )|raw}
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+
+<br /><br />
+<table width='100%' cellpadding='15' cellspacing='0' border='0' style='background: #f9f9f9;'>
+	<tr>
+		<td dir='{dir}' align='center'>
+			<a href='{url="app=core&module=overview&controller=notifications" base="admin"}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("see_all_notifications", FALSE)}</a>
+		</td>
+	</tr>
+</table>]]></template_content_html><template_data>$notification, $extra, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("acp_notification_bulletin_email")} **{$notification->title()}**
+
+{$email->language->addToStack("app_view_details")}: {url="app=core&module=overview&controller=notifications" base="admin" plain="true"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_new_react</template_name><template_content_html><![CDATA[
+{{$item = ( $comment instanceof \IPS\Content\Item ) ? $comment : $comment->item();}}
+
+{$email->language->addToStack("email_new_reacted", FALSE, array( 'sprintf' => array( ( $comment->author()->group['gbw_view_reps'] ) ? $member->name : $email->language->get( 'notifications_anonymous' ), $comment->indefiniteArticle( $email->language ) ) ) )} <a href='{$item->url()}'>{$item->mapped('title')}</a>
+
+<br />
+<br />
+{$comment->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $member, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = ( $comment instanceof \IPS\Content\Item ) ? $comment : $comment->item();}}{$email->language->addToStack("email_new_reacted", FALSE, array( 'htmlsprintf' => array( ( $comment->author()->group['gbw_view_reps'] ) ? $member->name : $email->language->get( 'notifications_anonymous' ), $item->indefiniteArticle( $email->language ) ) ) )} {$item->mapped('title')}
+
+{$comment->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>core</template_app><template_name>notification_embed</template_name><template_content_html><![CDATA[
+{{$item = $comment instanceof \IPS\Content\Item ? $comment : $comment->item();}}
+
+{$email->language->addToStack("email_embedded_your_content", FALSE, array( 'sprintf' => array( $comment->author()->url(), $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )}
+
+<br />
+<br />
+{$comment->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[
+{{$item = $comment instanceof \IPS\Content\Item ? $comment : $comment->item();}}{$email->language->addToStack("email_embedded_your_content_plain", FALSE, array( 'htmlsprintf' => array( $comment->author()->name, $item->indefiniteArticle( $email->language ) ) ) )}
+
+{$comment->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

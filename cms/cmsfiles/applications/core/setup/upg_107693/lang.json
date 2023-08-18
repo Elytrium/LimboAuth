@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "approved",
+            "guest_terms_close",
+            "cookie_cookie_consent_optional_description",
+            "pii_download"
+        ],
+        "edited": [
+            "guest_terms_bar_text_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

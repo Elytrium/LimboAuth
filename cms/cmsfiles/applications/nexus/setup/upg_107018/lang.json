@@ -1,0 +1,22 @@
+{
+    "normal": {
+        "added": [
+            "f_subscriptions",
+            "f_blurb_subscriptions",
+            "next_request_not_found",
+            "nexus_queue_missing_sub_purchases"
+        ],
+        "edited": [
+            "prev_request",
+            "email_held_approval",
+            "email_gateway_pending",
+            "nexus_subs_register_reg_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

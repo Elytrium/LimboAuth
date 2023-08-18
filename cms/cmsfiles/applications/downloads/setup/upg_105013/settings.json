@@ -1,0 +1,18 @@
+{
+    "added": [
+        "idm_antileech",
+        "idm_featured_count",
+        "idm_highest_rated_categories",
+        "idm_link_blacklist",
+        "idm_newest_categories",
+        "idm_rss",
+        "idm_show_featured",
+        "idm_show_highest_rated",
+        "idm_show_most_downloaded",
+        "idm_show_most_downloaded_categories",
+        "idm_show_newest",
+        "idm_watermarkpath"
+    ],
+    "edited": [],
+    "removed": []
+}

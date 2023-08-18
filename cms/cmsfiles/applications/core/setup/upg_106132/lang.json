@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "added": [
+            "notification__approved_content_grouped",
+            "email_lost_pass_timelimit",
+            "log_type_title_badges",
+            "log_type_title_points"
+        ],
+        "edited": [
+            "mailsub__core_notification_my_solution",
+            "email_log_do_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

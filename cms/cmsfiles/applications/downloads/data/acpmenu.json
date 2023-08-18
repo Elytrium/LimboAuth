@@ -1,0 +1,49 @@
+{
+    "downloads": {
+        "categories": {
+            "tab": "community",
+            "controller": "categories",
+            "do": "",
+            "restriction": "categories_manage"
+        },
+        "fields": {
+            "tab": "community",
+            "controller": "fields",
+            "do": "",
+            "restriction": "fields_manage"
+        },
+        "settings": {
+            "tab": "community",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage"
+        }
+    },
+    "stats": {
+        "downloads": {
+            "tab": "stats",
+            "controller": "downloads",
+            "do": "",
+            "restriction": "downloads_manage"
+        },
+        "downloaders": {
+            "tab": "stats",
+            "controller": "downloaders",
+            "do": "",
+            "restriction": "downloaders_manage"
+        },
+        "submitters": {
+            "tab": "stats",
+            "controller": "submitters",
+            "do": "",
+            "restriction": "submitters_manage"
+        },
+        "topdownloads": {
+            "tab": "stats",
+            "controller": "topdownloads",
+            "do": "",
+            "restriction": "topdownloads_manage",
+            "subcontrollers": ""
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "message_topic_user_map",
+            "map_user_active=0 AND map_is_system=0 AND map_user_banned=0 AND map_is_starter=1"
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_lang",
+            "lang_title",
+            {
+                "name": "lang_title",
+                "type": "VARCHAR",
+                "length": "255",
+                "unsigned": false,
+                "zerofill": false,
+                "binary": false,
+                "allow_null": false,
+                "default": "",
+                "auto_increment": false,
+                "comment": ""
+            }
+        ]
+    }
+}

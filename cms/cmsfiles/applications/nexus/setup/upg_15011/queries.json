@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_requests",
+            {
+                "type": "fulltext",
+                "name": "r_title",
+                "columns": [
+                    "r_title"
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_replies",
+            {
+                "type": "fulltext",
+                "name": "reply_post",
+                "columns": [
+                    "reply_post"
+                ]
+            }
+        ]
+    }
+}

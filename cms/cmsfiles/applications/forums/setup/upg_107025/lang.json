@@ -1,0 +1,28 @@
+{
+    "normal": {
+        "added": [
+            "menu__forums_stats_solved",
+            "forums_solved_topic_reengage",
+            "forums_solved_topic_reengage_prefix",
+            "forums_solved_topic_reengage_suffix",
+            "forums_solved_topic_reengage_never",
+            "forums_solved_stats_time",
+            "forums_solved_stats_percentage",
+            "solved_stats_rebuild_started",
+            "solved_stats_rebuild_button",
+            "solved_rebuilding_stats",
+            "solved_stats_chart_desc"
+        ],
+        "edited": [
+            "bw_enable_answers_moderator_desc"
+        ],
+        "removed": [
+            "show_all"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "filestorage__nexus_Gateways"
+        ],
+        "edited": [
+            "email_held_approval",
+            "email_gateway_pending"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

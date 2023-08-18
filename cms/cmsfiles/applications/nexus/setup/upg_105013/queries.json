@@ -1,0 +1,161 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='nexus' AND word_key IN( 'filestorage__nexus_ReferralBanners','customer_manage_referrers','no_referrals','r__referrals','r__referrals_manage','r__referrals_banners','referrals_desc','cm_ref_on','cm_ref_on_desc','referral_banners','referral_banners_blurb','referral_link','referral_directlink','referral_html','referral_bbcode' )"
+            ]
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_package_groups",
+            "pg_seo_name",
+            {
+                "name": "pg_seo_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropTable",
+        "params": [
+            "nexus_referrals",
+            true
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "nexus_referral_banners",
+            true
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "nexus_transactions",
+            {
+                "type": "key",
+                "name": "t_auth",
+                "columns": [
+                    "t_auth"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "nexus_purchases",
+            {
+                "type": "key",
+                "name": "ps_expire",
+                "columns": [
+                    "ps_active",
+                    "ps_expire",
+                    "ps_grace_period"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "nexus_packages",
+            {
+                "type": "key",
+                "name": "p_store",
+                "columns": [
+                    "p_store",
+                    "p_date_added"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "nexus_tax",
+            {
+                "name": "t_type",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "single",
+                    "business",
+                    "eu"
+                ],
+                "allow_null": false,
+                "default": "single",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages",
+            {
+                "name": "p_initial_term",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_packages",
+            "p_meta_data",
+            {
+                "name": "p_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    }
+}

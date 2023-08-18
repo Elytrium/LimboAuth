@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? and word_key IN('database','file_system')",
+                "convert"
+            ]
+        ]
+    }
+}

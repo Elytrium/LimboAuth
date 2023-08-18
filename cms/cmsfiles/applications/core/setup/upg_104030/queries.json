@@ -1,0 +1,149 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_follow",
+            "digest_task",
+            {
+                "type": "key",
+                "name": "digest_task",
+                "columns": [
+                    "follow_notify_do",
+                    "follow_notify_freq",
+                    "follow_notify_sent",
+                    "follow_member_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_plugins",
+            "plugin_location",
+            {
+                "name": "plugin_location",
+                "type": "VARCHAR",
+                "length": 80,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "Folder name for IN_DEV mode",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_deletion_log",
+            "dellog_deleted_by_name",
+            {
+                "name": "dellog_deleted_by_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_deletion_log",
+            "dellog_deleted_by_seo_name",
+            {
+                "name": "dellog_deleted_by_seo_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "core_deletion_log",
+            "dellog_deleted_by",
+            {
+                "name": "dellog_deleted_by",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "core_deletion_log",
+            {
+                "name": "dellog_content_container_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_deletion_log",
+            {
+                "name": "dellog_content_container_class",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

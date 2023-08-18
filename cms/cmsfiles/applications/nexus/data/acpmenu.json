@@ -1,0 +1,120 @@
+{
+    "payments": {
+        "transactions": {
+            "tab": "nexus",
+            "controller": "transactions",
+            "do": "&attn=1",
+            "restriction": "transactions_manage"
+        },
+        "invoices": {
+            "tab": "nexus",
+            "controller": "invoices",
+            "do": "",
+            "restriction": "invoices_manage"
+        },
+        "shipping": {
+            "tab": "nexus",
+            "controller": "shipping",
+            "do": "",
+            "restriction": "shiporders_manage"
+        },
+        "donations": {
+            "tab": "nexus",
+            "controller": "donations",
+            "do": "",
+            "restriction": "donations_manage"
+        },
+        "payouts": {
+            "tab": "nexus",
+            "controller": "payouts",
+            "do": "",
+            "restriction": "payouts_manage"
+        },
+        "paymentsettings": {
+            "tab": "nexus",
+            "controller": "paymentsettings",
+            "do": "",
+            "restriction": "paymentsettings_overview"
+        }
+    },
+    "customers": {
+        "search": {
+            "tab": "nexus",
+            "controller": "search",
+            "do": "",
+            "restriction": "customers_view"
+        },
+        "fields": {
+            "tab": "nexus",
+            "controller": "fields",
+            "do": "",
+            "restriction": "fields_manage"
+        }
+    },
+    "subscriptions": {
+        "subscriptions": {
+            "tab": "nexus",
+            "controller": "subscriptions",
+            "do": "",
+            "restriction": "subscriptions_manage"
+        },
+        "subscribers": {
+            "tab": "nexus",
+            "controller": "subscribers",
+            "do": "",
+            "restriction": "subscribers_manage"
+        }
+    },
+    "store": {
+        "packages": {
+            "tab": "nexus",
+            "controller": "packages",
+            "do": "",
+            "restriction": "packages_manage"
+        },
+        "filters": {
+            "tab": "nexus",
+            "controller": "filters",
+            "do": "",
+            "restriction": "packages_manage"
+        },
+        "fields": {
+            "tab": "nexus",
+            "controller": "fields",
+            "do": "",
+            "restriction": "package_fields_manage"
+        },
+        "coupons": {
+            "tab": "nexus",
+            "controller": "coupons",
+            "do": "",
+            "restriction": "coupons_manage"
+        },
+        "settings": {
+            "tab": "nexus",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage"
+        }
+    },
+    "reports": {
+        "purchases": {
+            "tab": "stats",
+            "controller": "purchases",
+            "do": "",
+            "restriction": "purchases_manage"
+        },
+        "income": {
+            "tab": "stats",
+            "controller": "income",
+            "do": "",
+            "restriction": "income_manage"
+        },
+        "markets": {
+            "tab": "stats",
+            "controller": "markets",
+            "do": "",
+            "restriction": "markets_manage"
+        }
+    }
+}

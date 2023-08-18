@@ -1,0 +1,37 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "nexus_hosting_accounts",
+            true
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "nexus_hosting_errors",
+            true
+        ]
+    },
+    "3": {
+        "method": "dropTable",
+        "params": [
+            "nexus_hosting_queues",
+            true
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "nexus_hosting_servers",
+            true
+        ]
+    },
+    "5": {
+        "method": "dropTable",
+        "params": [
+            "nexus_packages_hosting",
+            true
+        ]
+    }
+}

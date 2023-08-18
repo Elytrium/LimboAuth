@@ -1,0 +1,16 @@
+{
+    "blogs": {
+        "blogs": {
+            "tab": "community",
+            "controller": "blogs",
+            "do": "",
+            "restriction": "blogs_manage"
+        },
+        "settings": {
+            "tab": "community",
+            "controller": "settings",
+            "do": "",
+            "restriction": "settings_manage"
+        }
+    }
+}

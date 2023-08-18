@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "cms_templates",
+            "template_content=REPLACE(template_content, '\\\\IPS\\\\HTMLENTITIES', 'ENT_DISALLOWED' )"
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "cms_templates",
+            "template_content=REPLACE( template_content, '$record->followers()->count( TRUE )', '$record->followersCount()' )"
+        ]
+    }
+}

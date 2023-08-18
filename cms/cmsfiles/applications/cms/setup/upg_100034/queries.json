@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "cms_page_database_map",
+            true
+        ]
+    }
+}

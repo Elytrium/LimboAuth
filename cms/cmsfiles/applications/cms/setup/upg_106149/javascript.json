@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "cms\/admin\/controllers\/templates\/ips.templates.fileEditor.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.main.js",
+            "cms\/admin\/templates\/ips.templates.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

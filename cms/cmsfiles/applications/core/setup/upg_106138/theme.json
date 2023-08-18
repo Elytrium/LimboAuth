@@ -1,0 +1,67 @@
+{
+    "html": {
+        "added": [
+            "admin\/activitystats\/deletedPercentage",
+            "global\/editor\/attachedAudio",
+            "global\/global\/titleWithLink",
+            "admin\/stats\/topFollow",
+            "admin\/stats\/topmembers"
+        ],
+        "edited": [
+            "admin\/customization\/templateEditor",
+            "admin\/dashboard\/backgroundQueue",
+            "global\/forms\/editorAttachments",
+            "global\/forms\/editorTags",
+            "global\/forms\/matrix",
+            "global\/forms\/matrixNested",
+            "global\/forms\/matrixRows",
+            "global\/forms\/poll",
+            "front\/global\/featuredComment",
+            "front\/global\/followButton",
+            "front\/global\/globalTemplate",
+            "global\/global\/includeJS",
+            "front\/global\/userLink",
+            "front\/global\/userLinkFromData",
+            "front\/global\/userPhoto",
+            "front\/global\/userPhotoFromData",
+            "admin\/memberprofile\/tabTemplate",
+            "admin\/memberprofile\/warnings",
+            "front\/popular\/popularWrapper",
+            "front\/popular\/topMembers",
+            "front\/profile\/profileHeader",
+            "front\/search\/filters",
+            "front\/sharelinks\/facebook",
+            "front\/sharelinks\/linkedin",
+            "front\/sharelinks\/pinterest",
+            "front\/sharelinks\/reddit",
+            "front\/sharelinks\/twitter",
+            "front\/staffdirectory\/template",
+            "admin\/stats\/memberactivity",
+            "admin\/support\/dashboard",
+            "front\/system\/notificationSettingsIndex",
+            "front\/system\/searchResult",
+            "front\/tables\/table",
+            "front\/widgets\/activeUsers",
+            "front\/widgets\/whosOnline"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/core\/compose.css",
+            "admin\/core\/tables.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [
+            "admin\/enhancements\/google_tag_manager.png",
+            "admin\/enhancements\/matomo.png"
+        ],
+        "edited": [
+            "admin\/enhancements\/google_analytics.png"
+        ],
+        "removed": []
+    }
+}

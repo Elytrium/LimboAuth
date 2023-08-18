@@ -1,0 +1,62 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key='gallery_create_thumbs'"
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_comments",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images",
+            "image_notes",
+            {
+                "name": "image_notes",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "4": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_comments",
+            [
+                "append_edit",
+                "use_sig",
+                "use_emo",
+                "edit_name"
+            ]
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_position",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

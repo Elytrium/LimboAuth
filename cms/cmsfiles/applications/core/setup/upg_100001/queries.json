@@ -1,0 +1,29 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_theme_settings_fields",
+            {
+                "name": "sc_title",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_theme_settings_fields",
+            "sc_title=CONCAT( 'themesetting_', sc_key )"
+        ]
+    }
+}

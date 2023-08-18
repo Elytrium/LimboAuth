@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_oauth_server_access_tokens",
+            {
+                "name": "status",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "active",
+                    "revoked"
+                ],
+                "allow_null": false,
+                "default": "active",
+                "comment": "The status. \"active\" means \"active if within expiry date\".",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

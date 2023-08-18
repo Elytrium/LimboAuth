@@ -1,0 +1,11 @@
+{
+    "manage": {
+        "manage": {
+            "tab": "core",
+            "controller": "manage",
+            "do": "",
+            "restriction": "manage_manage",
+            "subcontrollers": "convert,create"
+        }
+    }
+}

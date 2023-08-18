@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [
+            "front\/global\/subscribeMenu"
+        ],
+        "edited": [
+            "front\/browse\/calendarHeader",
+            "front\/overview\/header",
+            "front\/overview\/wrapper",
+            "front\/view\/view"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/profile.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

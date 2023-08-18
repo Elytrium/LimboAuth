@@ -1,0 +1,7 @@
+parameters:
+    level: 7
+    paths:
+        - src
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Unreachable statement \- code above always terminates\.#'

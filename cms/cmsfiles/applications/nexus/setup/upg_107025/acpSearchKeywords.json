@@ -1,0 +1,7 @@
+{
+    "added": [
+        "app=nexus&module=subscriptions&controller=subscriptions&do=settings&searchResult=nexus_subs_register"
+    ],
+    "edited": [],
+    "removed": []
+}

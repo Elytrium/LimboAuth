@@ -1,0 +1,17 @@
+{
+    "added": [
+        "app=forums&module=forums&controller=forums&do=form&searchResult=bw_enable_answers__member",
+        "app=forums&module=forums&controller=settings&searchResult=form_forums_solved_topic_reengage",
+        "app=forums&module=forums&controller=settings&tab=settings&searchResult=form_forums_solved_topic_reengage",
+        "app=forums&module=stats&controller=solved",
+        "app=forums&module=stats&controller=solved&tab=_default",
+        "app=forums&module=stats&controller=solved&tab=percentage",
+        "app=forums&module=stats&controller=solved&tab=solved",
+        "app=forums&module=stats&controller=solved&tab=time"
+    ],
+    "edited": [
+        "app=forums&module=forums&controller=forums",
+        "app=forums&module=forums&controller=savedActions"
+    ],
+    "removed": []
+}

@@ -1,0 +1,14 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "forums_archive_rules",
+            [
+                "archive_app=? AND archive_field=? AND archive_text=?",
+                "forums",
+                "member",
+                ""
+            ]
+        ]
+    }
+}

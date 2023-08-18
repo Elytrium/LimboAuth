@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/purchases\/view",
+            "admin\/support\/noteForm",
+            "admin\/support\/request",
+            "admin\/support\/requestActions",
+            "admin\/support\/staffReplyForm"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/support.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "added": [],
+    "edited": [],
+    "removed": [
+        "promote_facebook_auth",
+        "viglink_api_key",
+        "viglink_enabled",
+        "viglink_groups",
+        "viglink_norewrite",
+        "viglink_subid"
+    ]
+}

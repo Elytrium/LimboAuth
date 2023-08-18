@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "database_chart_all_series",
+            "stats_moderators_input",
+            "moderator_stats_filter_form",
+            "stats_moderators_all",
+            "stats_moderator_activity_all"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

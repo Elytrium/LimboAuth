@@ -1,0 +1,135 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_value",
+            {
+                "name": "conf_value",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_file_logs",
+            "log_type",
+            {
+                "name": "log_type",
+                "type": "ENUM",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "log",
+                    "copy",
+                    "error",
+                    "move",
+                    "orphaned"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_file_logs",
+            "log_action",
+            {
+                "name": "log_action",
+                "type": "ENUM",
+                "length": 0,
+                "decimals": null,
+                "values": [
+                    "move",
+                    "copy",
+                    "delete",
+                    "save",
+                    "orphaned"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_message_posts",
+            "msg_post",
+            {
+                "name": "msg_post",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "update",
+        "params": [
+            "core_attachments",
+            "attach_thumb_location=attach_location",
+            "attach_is_image=1 AND (attach_thumb_location='' OR attach_thumb_location IS NULL )"
+        ]
+    },
+    "6": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            "g_signature_limits=REPLACE(g_signature_limits,'-1','0')"
+        ]
+    },
+    "7": {
+        "method": "update",
+        "params": [
+            "core_widgets",
+            {
+                "default_area": ""
+            }
+        ]
+    },
+    "8": {
+	    "method": "update",
+	    "params": [
+		    "core_applications",
+		    {
+			    "app_disabled_groups": null
+		    },
+		    [
+			    "app_enabled=?",
+			    1
+		    ]
+	    ]
+    }
+}

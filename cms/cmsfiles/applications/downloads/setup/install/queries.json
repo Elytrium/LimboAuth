@@ -1,0 +1,226 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_view_approvers",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can view who approved files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bypass_revision",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can bypass revisions?",
+                "unsigned": true
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_view_downloads",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can view who downloaded files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_throttling",
+                "type": "INT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Downloads Speed Throttling kb",
+                "unsigned": true
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_wait_period",
+                "type": "INT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Seconds users must wait before download",
+                "unsigned": true
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_restrictions",
+                "type": "TEXT",
+                "null": false,
+                "default": "{}",
+                "comment": "Downloads Restrictions"
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_linked_files",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can submit URLs?",
+                "unsigned": true
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_import_files",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can import files from a path?",
+                "unsigned": true
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "idm_block_submissions",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Blocked from submitting Downloads files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bulk_submit",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can bulk upload?",
+                "unsigned": true
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_add_paid",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can submit paid files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_bypass_paid",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can download paid files without paying?",
+                "unsigned": true
+            }
+        ]
+    },
+    "13": {
+        "method": "insert",
+        "params": [
+            "core_permission_index",
+            {
+                "app": "downloads",
+                "perm_type": "category",
+                "perm_type_id": 1,
+                "perm_view": "*",
+                "perm_2": "*",
+                "perm_3": "<%NO_GUESTS%>",
+                "perm_4": "<%NO_GUESTS%>",
+                "perm_5": "<%NO_GUESTS%>",
+                "perm_6": "<%NO_GUESTS%>"
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_paid_restrictions",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Download restrictions apply to Paid files?",
+                "unsigned": true
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_max_size",
+                "type": "INT",
+                "null": false,
+                "default": -1,
+                "comment": "Maximum file size allowed",
+                "unsigned": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "cms_database_fields",
+            {
+                "field_filter": 0
+            },
+            "field_type NOT IN('CheckboxSet','Radio','Select')"
+        ]
+    }
+}

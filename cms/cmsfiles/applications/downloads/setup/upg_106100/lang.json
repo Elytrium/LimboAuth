@@ -1,0 +1,26 @@
+{
+    "normal": {
+        "added": [
+            "__defart_downloads_file_comment_plural",
+            "__defart_downloads_file_plural",
+            "__defart_downloads_file_review_plural",
+            "crequire_changelog",
+            "menu__downloads_stats_topdownloads",
+            "r__topdownloads_manage",
+            "notification__new_file_version_title"
+        ],
+        "edited": [],
+        "removed": [
+            "downloads_single_upload"
+        ]
+    },
+    "js": {
+        "added": [
+            "makePrimary"
+        ],
+        "edited": [
+            "makePrimaryScreenshot"
+        ],
+        "removed": []
+    }
+}

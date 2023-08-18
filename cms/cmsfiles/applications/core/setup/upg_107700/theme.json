@@ -1,0 +1,28 @@
+{
+    "html": {
+        "added": [
+            "global\/login\/mfaSetupOptOut"
+        ],
+        "edited": [
+            "global\/global\/includeJS",
+            "global\/login\/authySetup",
+            "global\/login\/googleAuthenticatorSetup",
+            "global\/login\/securityQuestionsSetup",
+            "global\/login\/verifySetup",
+            "front\/system\/settings",
+            "front\/system\/settingsPrivacy",
+            "front\/tables\/rows"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

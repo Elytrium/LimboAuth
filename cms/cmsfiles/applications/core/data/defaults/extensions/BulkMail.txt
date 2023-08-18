@@ -1,0 +1,52 @@
+<?php
+/**
+ * @brief		Bulk Mail Extension
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\BulkMail;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Bulk Mail Extension
+ */
+class _{class}
+{
+	/** 
+	 * Get tags that can be used in bulk mail
+	 *
+	 * @return	array
+	 */
+	public function getTags(): array
+	{
+		return array(
+			'{some_tag}'	=> 'Explanation of tag',
+		);
+	}
+	
+	/** 
+	 * Get value for tags
+	 *
+	 * @param	string				$content	Bulk Mail Content (passed in case a particular tag is computationally expensive so that the extension may "sniff" for it and elect not to perform the computation if it is not used)
+	 * @param	int					$type		0=All, 1=Global, 2=Member-specific
+	 * @param	NULL|\IPS\Member	$member		Member object if $type is 0 or 2
+	 * @return	array
+	 */
+	public function returnTagValues( string $content, int $type, ?\IPS\Member $member ): array
+	{
+		return array(
+			'{some_tag}'	=> 'Value',
+		);
+	}
+}

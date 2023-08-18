@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "nexus",
+                "billingAgreements"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "nexus",
+                "gatewayPending"
+            ]
+        ]
+    }
+}

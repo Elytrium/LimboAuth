@@ -1,0 +1,15 @@
+{
+    "normal": {
+        "added": [
+            "acplog__members_deleted_id",
+            "menu__core_membersettings_ranks"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

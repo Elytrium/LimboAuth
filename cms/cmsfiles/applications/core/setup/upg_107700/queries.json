@@ -1,0 +1,27 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_saved_charts",
+            "chart_timescale",
+            {
+                "name": "chart_timescale",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "hourly",
+                    "daily",
+                    "weekly",
+                    "monthly",
+                    "none"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

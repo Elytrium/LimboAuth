@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "pruning_pms",
+            "prune_pms",
+            "profile_settings_pms"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

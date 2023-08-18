@@ -1,0 +1,44 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files_records",
+            "record_size",
+            {
+                "name": "record_size",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_rating",
+            {
+                "name": "file_rating",
+                "type": "DECIMAL",
+                "length": 10,
+                "decimals": 1,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

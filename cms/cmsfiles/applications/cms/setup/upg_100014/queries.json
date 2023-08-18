@@ -1,0 +1,45 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cms_page_widget_areas",
+            {
+                "name": "area_orientation",
+                "type": "ENUM",
+                "length": 100,
+                "decimals": null,
+                "values": [
+                    "horizontal",
+                    "vertical"
+                ],
+                "allow_null": false,
+                "default": "horizontal",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_cache",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

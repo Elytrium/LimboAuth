@@ -1,0 +1,21 @@
+{
+    "admin": {
+        "downloads": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 1
+        },
+        "stats": {
+            "default_controller": "downloads",
+            "protected": 0,
+            "default": 0
+        }
+    },
+    "front": {
+        "downloads": {
+            "default_controller": "browse",
+            "protected": 0,
+            "default": 1
+        }
+    }
+}

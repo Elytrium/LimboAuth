@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_attachments",
+            {
+                "type": "key",
+                "name": "attachment_posting",
+                "columns": [
+                    "attach_member_id",
+                    "attach_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

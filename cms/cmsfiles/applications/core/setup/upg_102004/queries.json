@@ -1,0 +1,11 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "permission_array": null
+            }
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "forums_posts",
+            "queued",
+            {
+                "type": "key",
+                "name": "queued",
+                "columns": [
+                    "queued",
+                    "post_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "forums_archive_posts",
+            "archive_author_name",
+            {
+                "name": "archive_author_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

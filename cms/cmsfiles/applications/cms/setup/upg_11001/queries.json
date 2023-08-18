@@ -1,0 +1,274 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_categories",
+                "columns": {
+                    "category_id": {
+                        "name": "category_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "category_database_id": {
+                        "name": "category_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_name": {
+                        "name": "category_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_parent_id": {
+                        "name": "category_parent_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_record_id": {
+                        "name": "category_last_record_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_record_date": {
+                        "name": "category_last_record_date",
+                        "type": "VARCHAR",
+                        "length": 13,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_record_member": {
+                        "name": "category_last_record_member",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_record_name": {
+                        "name": "category_last_record_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_last_record_seo_name": {
+                        "name": "category_last_record_seo_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_description": {
+                        "name": "category_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_position": {
+                        "name": "category_position",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "category_records": {
+                        "name": "category_records",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "category_id"
+                        ]
+                    },
+                    "category_database_id": {
+                        "type": "key",
+                        "name": "category_database_id",
+                        "columns": [
+                            "category_database_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_html",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_template_categories",
+                "type": "mediumint",
+                "length": 9,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_databases",
+            "database_template_listing",
+            {
+                "name": "database_template_listing",
+                "type": "mediumint",
+                "length": 9,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_field_title",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_field_sort",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_field_direction",
+                "type": "varchar",
+                "length": 4,
+                "allow_null": false,
+                "default": "desc"
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_field_perpage",
+                "type": "smallint",
+                "length": 6,
+                "allow_null": false,
+                "default": "25"
+            }
+        ]
+    }
+}

@@ -1,0 +1,77 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "gallery_albums_main",
+            {
+                "album_position": 10000000
+            },
+            "album_is_global=0"
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_g_latest_imgs",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_child_tree",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_parent_tree",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_can_tag",
+                "type": "int",
+                "length": 1,
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_preset_tags",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    }
+}

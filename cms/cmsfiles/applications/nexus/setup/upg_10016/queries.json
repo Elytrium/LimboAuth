@@ -1,0 +1,26 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_pay_to",
+                "type": "MEDIUMINT",
+                "length": 8,
+                "default": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_commission",
+                "type": "INT",
+                "length": 2,
+                "default": null
+            }
+        ]
+    }
+}

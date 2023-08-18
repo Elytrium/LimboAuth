@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [
+            "site_site_elsewhere",
+            "site_site_elsewhere_desc",
+            "site_main_url",
+            "site_main_title",
+            "search_opensearch_server_unsupported_version",
+            "alert_you_cannot_receive_messages"
+        ],
+        "edited": [
+            "datalayer_event_formatted_name_desc",
+            "datalayer_handler_head_code_desc",
+            "datalayer_handler_body_code_desc",
+            "datalayer_pii"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

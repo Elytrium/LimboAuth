@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "page_meta_index",
+            "page_meta_index_desc",
+            "page_meta_index_desc_disabled"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_notifications",
+            "extra=CONCAT('[', extra, ']')",
+            "notification_key='new_content_bulk' AND item_class='IPS\\gallery\\Album'"
+        ]
+    }
+}

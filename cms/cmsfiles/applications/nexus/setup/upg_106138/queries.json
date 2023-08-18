@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "nexus_billing_agreements",
+            {
+                "ba_next_cycle": null
+            },
+            [
+                "ba_canceled=? AND ba_next_cycle IS NOT NULL",
+                1
+            ]
+        ]
+    }
+}

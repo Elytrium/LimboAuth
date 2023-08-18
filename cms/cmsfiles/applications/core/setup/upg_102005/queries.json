@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=?",
+                "chat"
+            ]
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_club_id",
+                "columns": [
+                    "index_club_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

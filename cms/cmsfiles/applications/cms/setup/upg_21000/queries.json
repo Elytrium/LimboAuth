@@ -1,0 +1,241 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_topic_format",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_databases",
+            {
+                "name": "database_search",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "ccs_databases",
+            {
+                "database_search": 1
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_template_blocks",
+            "tpb_content",
+            {
+                "name": "tpb_content",
+                "type": "mediumtext",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_revisions",
+                "columns": {
+                    "revision_id": {
+                        "name": "revision_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "revision_type": {
+                        "name": "revision_type",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_type_id": {
+                        "name": "revision_type_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_content": {
+                        "name": "revision_content",
+                        "type": "mediumtext",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_other": {
+                        "name": "revision_other",
+                        "type": "mediumtext",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_date": {
+                        "name": "revision_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_member": {
+                        "name": "revision_member",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "revision_id"
+                        ]
+                    },
+                    "0": {
+                        "type": "key",
+                        "name": "revision_type",
+                        "columns": [
+                            "revision_type",
+                            "revision_type_id",
+                            "revision_date"
+                        ]
+                    },
+                    "1": {
+                        "type": "key",
+                        "name": "revision_member",
+                        "columns": [
+                            "revision_member"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "ccs_page_wizard",
+            {
+                "name": "wizard_omit_filename",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "ccs_pages",
+            {
+                "name": "page_omit_filename",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_records_queued",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "ccs_template_blocks",
+            {
+                "name": "tpb_name",
+                "type": "key",
+                "columns": [
+                    "tpb_name"
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "addIndex",
+        "params": [
+            "ccs_containers",
+            {
+                "name": "container_type",
+                "type": "key",
+                "columns": [
+                    "container_type",
+                    "container_order"
+                ]
+            }
+        ]
+    }
+}

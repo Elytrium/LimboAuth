@@ -1,0 +1,29 @@
+{
+    "added": [
+        "app=core&module=achievements&controller=badges",
+        "app=core&module=achievements&controller=ranks",
+        "app=core&module=achievements&controller=rules",
+        "app=core&module=achievements&controller=settings",
+        "app=core&module=members&controller=groups&do=form&searchResult=gbw_can_post_anonymously",
+        "app=core&module=moderation&controller=reportedContentTypes",
+        "app=core&module=settings&controller=email&searchResult=email_truncate"
+    ],
+    "edited": [
+        "app=core&module=customization&controller=themes&do=designersmode&searchResult=form_theme_designers_mode",
+        "app=core&module=membersettings&controller=notifications&do=pruneSettings&searchResult=form_prune_notifications",
+        "app=core&module=membersettings&controller=notifications&do=pruneSettings&searchResult=prune_follows",
+        "app=core&module=membersettings&controller=profiles&tab=profilesettings&searchResult=prune_item_markers",
+        "app=core&module=membersettings&controller=profiles&tab=profilesettings&searchResult=prune_known_devices",
+        "app=core&module=membersettings&controller=profiles&tab=profilesettings&searchResult=prune_known_ips",
+        "app=core&module=membersettings&controller=profiles&tab=profilesettings&searchResult=prune_member_history",
+        "app=core&module=moderation&controller=reportedContent",
+        "app=core&module=promotion&controller=seo&tab=metatags",
+        "app=core&module=promotion&controller=seo&tab=sitemap",
+        "app=core&module=promotion&controller=seo&tab=urls",
+        "app=core&module=settings&controller=advanced&tab=datastore&searchResult=cache_guest_page"
+    ],
+    "removed": [
+        "app=core&module=membersettings&controller=notifications&do=method&id=inline&searchResult=prune_notifications",
+        "app=core&module=membersettings&controller=ranks"
+    ]
+}

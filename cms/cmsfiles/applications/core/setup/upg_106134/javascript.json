@@ -1,0 +1,19 @@
+{
+    "files": {
+        "added": [
+            "core\/front\/controllers\/core\/ips.core.contentMessage.js",
+            "global\/framework\/controllers\/editor\/ips.editor.stockReplies.js",
+            "core\/front\/controllers\/widgets\/ips.widgets.onlineUsers.js"
+        ],
+        "edited": [
+            "core\/front\/controllers\/streams\/ips.streams.main.js",
+            "global\/framework\/templates\/ips.core.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

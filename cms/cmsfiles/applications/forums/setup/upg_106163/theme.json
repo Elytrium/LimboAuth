@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [
+            "front\/index\/simplifiedViewForumSidebar",
+            "front\/index\/simplifiedViewForumSidebar_children"
+        ],
+        "edited": [
+            "front\/forums\/forumDisplay",
+            "front\/index\/simplifiedForumTable"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,59 @@
+<?php
+/**
+ * @brief		MemberHistory: {class}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\MemberHistory;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Member History: {class}
+ */
+class _{class}
+{
+	/**
+	 * Return the valid member history log types
+	 *
+	 * @return array
+	 */
+	public function getTypes(): array
+	{
+		return array();
+	}
+
+	/**
+	 * Parse LogType column
+	 *
+	 * @param	string		$value		column value
+	 * @param	array		$row		entire log row
+	 * @return	string
+	 */
+	public function parseLogType( $value, $row ): string
+	{
+		return $value;
+	}
+
+	/**
+	 * Parse LogData column
+	 *
+	 * @param	string		$value		column value
+	 * @param	array		$row		entire log row
+	 * @return	string
+	 */
+	public function parseLogData( $value, $row ): string
+	{
+		return $value;
+	}
+}

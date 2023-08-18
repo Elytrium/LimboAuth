@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/ips.controller.js",
+            "global\/framework\/common\/ips.loader.js",
+            "global\/admin\/controllers\/core\/ips.core.nodeCopySetting.js",
+            "core\/front\/controllers\/statuses\/ips.statuses.statusFeed.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

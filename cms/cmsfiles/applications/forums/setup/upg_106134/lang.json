@@ -1,0 +1,25 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "menu__forums_stats_topics",
+            "menu__forums_stats_posts",
+            "stats_new_topics",
+            "stats_new_posts",
+            "stats_topics_tab_total",
+            "stats_topics_tab_byforum",
+            "stats_topics_title",
+            "stats_topics_title_byforum",
+            "stats_posts_tab_total",
+            "stats_posts_tab_byforum",
+            "stats_posts_title",
+            "stats_posts_title_byforum"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

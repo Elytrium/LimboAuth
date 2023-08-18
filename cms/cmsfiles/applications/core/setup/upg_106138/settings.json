@@ -1,0 +1,20 @@
+{
+    "added": [
+        "custom_body_code",
+        "custom_page_view_js",
+        "ga_code",
+        "ga_enabled",
+        "googletag_enabled",
+        "googletag_head_code",
+        "googletag_noscript_code",
+        "matomo_code",
+        "matomo_enabled",
+        "robots_txt"
+    ],
+    "edited": [],
+    "removed": [
+        "ipbseo_ga_enabled",
+        "ipbseo_ga_paginatecode",
+        "ipbseo_ga_provider"
+    ]
+}

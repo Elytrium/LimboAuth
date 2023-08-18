@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "pp_photo_type": "custom"
+            },
+            [
+                "pp_photo_type=?",
+                "upload"
+            ]
+        ]
+    }
+}

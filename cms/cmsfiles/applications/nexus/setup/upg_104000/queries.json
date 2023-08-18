@@ -1,0 +1,546 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_customer_spend",
+                "columns": {
+                    "spend_member_id": {
+                        "name": "spend_member_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Member ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "spend_amount": {
+                        "name": "spend_amount",
+                        "type": "DECIMAL",
+                        "length": 20,
+                        "decimals": 2,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0.00",
+                        "comment": "Total amount spent in a specific currency",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "spend_currency": {
+                        "name": "spend_currency",
+                        "type": "CHAR",
+                        "length": 3,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Currency of customer spend",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "spend_lookup": {
+                        "type": "unique",
+                        "name": "spend_lookup",
+                        "columns": [
+                            "spend_member_id",
+                            "spend_currency"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_package_filters",
+                "columns": {
+                    "pfilter_id": {
+                        "name": "pfilter_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "pfilter_order": {
+                        "name": "pfilter_order",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The position in the list of filters",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "pfilter_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_package_filters_values",
+                "columns": {
+                    "pfv_filter": {
+                        "name": "pfv_filter",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID number of the filter",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfv_value": {
+                        "name": "pfv_value",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID number of this value",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfv_lang": {
+                        "name": "pfv_lang",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID number of the language for this value",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfv_text": {
+                        "name": "pfv_text",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The value (name in the specified language)",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfv_order": {
+                        "name": "pfv_order",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The position amongst the values for this filter",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "pfv_filter": {
+                        "type": "key",
+                        "name": "pfv_filter",
+                        "columns": [
+                            "pfv_filter"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "unique_lookup": {
+                        "type": "unique",
+                        "name": "unique_lookup",
+                        "columns": [
+                            "pfv_filter",
+                            "pfv_value",
+                            "pfv_lang"
+                        ],
+                        "length": [
+                            null,
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_package_groups",
+            {
+                "name": "pg_filters",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Comma-delimited list of filter IDs which apply in this group",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_package_filters_map",
+                "columns": {
+                    "pfm_package": {
+                        "name": "pfm_package",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The package ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfm_filter": {
+                        "name": "pfm_filter",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The filter ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "pfm_values": {
+                        "name": "pfm_values",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of value IDs",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "unique_lookup": {
+                        "type": "unique",
+                        "name": "unique_lookup",
+                        "columns": [
+                            "pfm_package",
+                            "pfm_filter"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "pfm_package": {
+                        "type": "key",
+                        "name": "pfm_package",
+                        "columns": [
+                            "pfm_package"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_package_groups",
+            {
+                "name": "pg_price_filters",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON-encoded array of price filters",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_streams",
+            "stream_started",
+            {
+                "name": "stream_started",
+                "type": "VARCHAR",
+                "length": 64,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of number of hours to restrict started time to and sort direction, or NULL for no restriction",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_streams",
+            "stream_last_reply",
+            {
+                "name": "stream_last_reply",
+                "type": "VARCHAR",
+                "length": 64,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of number of hours to restrict last reply time to and sort direction, or NULL for no restriction",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_streams",
+            "stream_last_staff_reply",
+            {
+                "name": "stream_last_staff_reply",
+                "type": "VARCHAR",
+                "length": 64,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of number of hours to restrict last staff reply time to and sort direction, or NULL for no restriction",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_streams",
+            "stream_last_new_reply",
+            {
+                "name": "stream_last_new_reply",
+                "type": "VARCHAR",
+                "length": 64,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of number of hours to restrict reopened time to and sort direction, or NULL for no restriction",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "11": {
+        "method": "addIndex",
+        "params": [
+            "nexus_billing_agreements",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "ba_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "12": {
+        "method": "addIndex",
+        "params": [
+            "nexus_customer_cards",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "card_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_requests",
+            {
+                "type": "key",
+                "name": "r_staff",
+                "columns": [
+                    "r_staff"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_requests",
+            {
+                "type": "key",
+                "name": "r_last_reply_by",
+                "columns": [
+                    "r_last_reply_by"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "15": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_ratings",
+            {
+                "type": "key",
+                "name": "rating_from",
+                "columns": [
+                    "rating_from"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "16": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_request_log",
+            {
+                "type": "key",
+                "name": "rlog_member",
+                "columns": [
+                    "rlog_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "17": {
+        "method": "update",
+        "params": [
+            "nexus_paymethods",
+            {
+                "m_countries": "*"
+            },
+            "m_countries='' OR m_countries IS NULL"
+        ]
+    },
+    "18": {
+        "method": "addIndex",
+        "params": [
+            "nexus_billing_agreements",
+            {
+                "type": "key",
+                "name": "next_cycle",
+                "columns": [
+                    "ba_next_cycle"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

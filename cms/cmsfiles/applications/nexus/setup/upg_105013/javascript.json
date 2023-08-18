@@ -1,0 +1,21 @@
+{
+    "files": {
+        "added": [
+            "nexus\/global\/controllers\/forms\/ips.forms.businessAddressVat.js"
+        ],
+        "edited": [
+            "nexus\/admin\/controllers\/support\/ips.support.list.js",
+            "nexus\/admin\/controllers\/support\/ips.support.request.js"
+        ],
+        "removed": [
+            "nexus\/front\/controllers\/clients\/ips.clients.referrals.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/\/jquery"
+        ],
+        "removed": []
+    }
+}

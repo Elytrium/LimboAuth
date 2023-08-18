@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="downloads">
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/downloads" javascript_name="ips.downloads.browse.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.downloads.browse.js - Handles general browsing controller needs
+ *
+ * Author: Brandon Farber
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.front.downloads.browse', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;markCategoryRead&quot;]', this.markCategoryRead );
+		},
+
+		/**
+		 * Marks all files in a category as read, triggering an event on the table
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		markCategoryRead: function (e) {
+			e.preventDefault();
+
+			var self = this;
+
+			ips.ui.alert.show( {
+				type: 'confirm',
+				icon: 'question',
+				message: ips.getString('markCategoryAsReadConfirm'),
+				subText: '',
+				callbacks: {
+					ok: function () {
+						var url = $( e.currentTarget ).attr('href');
+
+						ips.getAjax()( url, {
+							showLoading: true,
+							bypassRedirect: true
+						})
+							.done( function () {
+								// Trigger event on the table to hide unread markets
+								self.triggerOn( 'core.global.core.table', 'markTableRead' );
+
+								// Hide the link we've just clicked
+								ips.utils.anim.go( 'fadeOut', $( e.currentTarget ) );
+
+								ips.ui.flashMsg.show( ips.getString('categoryMarkedRead') );
+							})
+							.fail( function (jqXHR, textStatus, errorThrown) {
+								window.location = url;
+							});
+					}
+				}
+			});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/pending" javascript_name="ips.pending.buttons.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.pending.buttons.js - Pending Version
+ *
+ * Author: Stuart Silvester
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.front.pending.buttons', {
+
+	initialize: function () {
+		this.on( 'click', 'a', this.processButton );
+	},
+
+	processButton: function(e) {
+		if( $(e.currentTarget).hasClass('ipsButton_disabled') )
+		{
+			e.preventDefault();
+		}
+
+		$(e.currentTarget).addClass('ipsButton_disabled');
+	}
+
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="admin" javascript_path="controllers/settings" javascript_name="ips.settings.settings.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.settings.settings.js
+ *
+ * Author: Stuart Silvester
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.admin.settings.settings', {
+		alertOpen: false,
+
+		initialize: function () {
+			this.on( 'uploadComplete', '[data-ipsUploader]', this.promptRebuildPreference );
+			this.on( 'fileDeleted', this.promptRebuildPreference );
+		},
+
+		promptRebuildPreference: function (e) {
+
+			if( this.alertOpen )
+			{
+				return;
+			}
+
+			this.alertOpen = true;
+
+			/* Show Rebuild Prompt */
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: ips.getString('downloadsScreenshotsWatermark'),
+				subText: ips.getString('downloadsScreenshotsWatermarkBlurb'),
+				icon: 'question',
+				buttons: {
+					ok: ips.getString('downloadsScreenshotsWatermarkYes'),
+					cancel: ips.getString('downloadsScreenshotsWatermarkNo')
+				},
+				callbacks: {
+					ok: function(){
+						$('input[name=rebuildWatermarkScreenshots]').val( 1 );
+						this.alertOpen = false;
+					},
+					cancel: function(){
+						$('input[name=rebuildWatermarkScreenshots]').val( 0 );
+						this.alertOpen = false;
+					}
+				}
+			});
+		}
+
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/submit" javascript_name="ips.submit.linkedScreenshots.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.submit.linkedScreenshots.js - Controller to handle linked screenshots
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.front.submit.linkedScreenshots', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;addField&quot;]', this.addFieldButton );
+			this.on( 'click', '[data-action=&quot;removeField&quot;]', this.removeField );
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+			var initialValues = $.parseJSON( $(this.scope).attr('data-initialValue') );
+
+			if( initialValues == null )
+			{
+				return;
+			}
+
+			var i;
+			for ( i in initialValues.values ) {
+				this.addField( i, initialValues.values[i], i == initialValues.default );
+			}
+		},
+		
+		/**
+		 * Add a field
+		 *
+		 * @returns 	{void}
+		 */
+		addField: function ( id, value, isDefault ) {
+			$(this.scope).find('[data-role=&quot;fieldsArea&quot;]').append( ips.templates.render( 'downloads.submit.linkedScreenshot', {
+				'name': $(this.scope).attr('data-name'),
+				'id': id,
+				'value': value,
+				'extra': isDefault ? 'checked' : ''
+			}) );
+		},
+		
+		/**
+		 * Remove a field
+		 *
+		 * @returns 	{void}
+		 */
+		removeField: function ( e ) {
+			e.preventDefault();
+			$(e.currentTarget).closest('li').remove();
+		},
+		
+		/**
+		 * Respond to add button
+		 *
+		 * @returns 	{void}
+		 */
+		addFieldButton: function () {
+			this.addField( 'linked_' + new Date().getTime(), '', false );
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/submit" javascript_name="ips.submit.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.submit.main.js - Submit controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('downloads.front.submit.main', {
+
+		_progressbarTimeout: null,
+		_requireScreenshots: false,
+		_bulkUpload: false,
+		_ui: {},
+		_hiddenUploader: false,
+		_overriddenUploader: false,
+		_allowMultipleFiles: false,
+		_newVersion: false,
+		_uploadedCount: 0,
+
+		initialize: function () {
+			this.on( 'uploadedCountChanged', this.uploadCounter );
+			this.on( 'uploadProgress', this.uploadProgress );
+			this.on( 'fileAdded', this.fileAdded );
+			this.on( 'fileDeleted', this.fileDeleted );
+			this.on( 'click', '[data-action="confirmUrls"]', this.confirmURLs );
+			this.on( 'click', '[data-action="confirmImports"]', this.confirmImports );
+			this.on( 'click', '[data-action="confirmScreenshotUrls"]', this.confirmScreenshots );
+			this.on( 'click', '[data-action="uploadMore"]', this.uploadMore );
+
+			this.setup();
+		},
+
+		/**
+		 * Setup method - hides necessary sections of the form
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+			var self = this;
+
+			if( this.scope.attr('data-screenshotsReq') ){
+				this._requireScreenshots = true;
+			}
+
+			if( this.scope.attr('data-bulkUpload') ){
+				this._bulkUpload = true;
+			}
+
+			if( this.scope.attr('data-multipleFiles' ) ){
+				this._allowMultipleFiles = true;
+			}
+
+			if( this.scope.attr('data-newVersion' ) ){
+				this._newVersion = true;
+			}
+
+			this._ui = {
+				progressBar: this.scope.find('#elDownloadsSubmit_progress'),
+				screenshots: this.scope.find('#elDownloadsSubmit_screenshots'),
+				fileInfo: this.scope.find('#elDownloadsSubmit_otherinfo')
+			};
+
+
+			var hideProgressBar = function ( force=false ) {
+				if( !_.isUndefined( self._ui.progressBar.attr('data-ipsSticky') ) && !force ){
+					self.on( 'stickyInit', function () {
+						self._ui.progressBar.hide();
+					});
+				} else {
+					self._ui.progressBar.hide();
+				}
+			};
+
+			// Are there any existing files?
+			if( !this._hasExistingFiles() && !this._newVersion ){
+				hideProgressBar( true );
+				this._ui.screenshots.hide();
+				this._ui.fileInfo.hide();
+				this.scope.find('[data-role="submitForm"]').prop( 'disabled', true );
+				this._toggleFileImportOptions();
+			} else if( this._newVersion ) {
+				hideProgressBar( true );
+				this._toggleFileImportOptions( true );
+			} else {
+				if( !this.scope.find('input[name^="files_existing"]').length ){
+					hideProgressBar();
+				} else {
+					this._hiddenUploader = true;
+				}
+
+				if( !this._hasExistingScreenshots() && this._requireScreenshots ){
+					this._ui.fileInfo.hide();
+					this.scope.find('[data-role="submitForm"]').prop( 'disabled', true );
+				}
+			}
+		},
+
+		/**
+		 * Responds to clicking Confirm in the URLs popup. If there's URLs, we show the next steps
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		confirmURLs: function (e) {
+			e.preventDefault();
+
+			var gotURLs = this._confirmMenu( 'url_files', 'elURLFiles' );
+
+			if( gotURLs ){
+				this._doneUploadStep();
+			}
+		},
+
+		/**
+		 * Responds to clicking Confirm in the Import Files popup. If there's files, we show the next steps
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		confirmImports: function (e) {
+			e.preventDefault();
+
+			var gotImports = this._confirmMenu( 'import_files', 'elImportFiles' );
+
+			if( gotImports ){
+				this._doneUploadStep();
+			}
+		},
+
+		/**
+		 * Responds to clicking Confirm in the Import Files popup. If there's files, we show the next steps
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		confirmScreenshots: function (e) {
+			e.preventDefault();
+
+			var gotURLs = this._confirmMenu( 'url_screenshots', 'elURLScreenshots' );
+
+			if( gotURLs ){
+				this._doneScreenshotStep();
+			}
+		},
+
+		/**
+		 * Responds to clicking the 'Upload more files' button
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		uploadMore: function (e) {
+			e.preventDefault();
+
+			this._hiddenUploader = false;
+			this._overriddenUploader = true;
+		},
+
+		/**
+		 * Responds to fileAdded event from the uploader to show the screenshot and/or file information sections
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object from the uploader
+		 * @returns 	{void}
+		 */
+		fileAdded: function (e, data) {
+			if( !this._bulkUpload ){
+				if( data.uploader == 'files' ){
+					this._doneUploadStep();
+				} else if( data.uploader == 'screenshots' ){
+					this._doneScreenshotStep();
+				}
+			} else {
+				this.scope.find('[data-role="submitForm"]').prop( 'disabled', false );
+			}
+		},
+
+		/**
+		 * Responds to fileDeleted event from uploader
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object from the uploader
+		 * @returns 	{void}
+		 */
+		fileDeleted: function (e, data) {
+			if( data.uploader != 'files' ){
+				return;
+			}
+
+			if( data.count === 0 ){
+				this.scope.find( '#elDownloadsSubmit_progress .ipsProgressBar_progress')
+					.attr('data-progress', '0%')
+					.css( {
+						width: '0%'
+					});
+				this._ui.progressBar.hide();
+
+				this._hiddenUploader = false;
+				this._overriddenUploader = true;
+			}
+		},
+
+		/**
+		 * Responds to uploadCountChanged event from uploader
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object from the uploader
+		 * @returns 	{void}
+		 */
+		uploadCounter: function (e, data) {
+			if( data.uploader != 'files' ){
+				return;
+			}
+
+			this._uploadedCount = data.count;
+			this._toggleFileImportOptions();
+		},
+
+		/**
+		 * Responds to uploadProgress event from uploader, which we use to adjust the main progressbar
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object from the uploader
+		 * @returns 	{void}
+		 */
+		uploadProgress: function (e, data) {
+			if( data.uploader != 'files' ){
+				return;
+			}
+
+			var self = this;
+			this._showProgress();
+
+			this.scope.find( '#elDownloadsSubmit_progress .ipsProgressBar_progress')
+				.attr('data-progress', data.percent + '%')
+				.css( {
+					width: data.percent + '%'
+				});
+
+			if( data.percent === 100 && !this._progressbarTimeout ){
+				this._progressbarTimeout = setTimeout( function () {
+					self._ui.progressBar.find('.ipsProgressBar').removeClass('ipsProgressBar_animated');
+					self._progressbarTimeout = null;
+				}, 300 );
+			}
+		},
+
+		/**
+		 * Handles the menus for specifying urls or file paths. If there's values entered, we show a count balloon.
+		 *
+		 * @param 		{string} 	inputName 		Name of the form fields containing the values
+		 * @param 		{string} 	elemID 			ID of the menu trigger button (no #)
+		 * @returns 	{boolean}	Returns true if some urls/paths have been entered
+		 */
+		_confirmMenu: function (inputName, elemID) {
+			// Do we have a value?
+			var length = 0;
+			var invalid = 0;
+
+			this.scope.find('input[name^="' + inputName + '"]').each( function () {
+				if( $( this ).val().trim() ){
+					length++;
+				} 
+
+				if( !_.isUndefined( this.checkValidity ) && !this.checkValidity() ){
+					invalid++;
+				}
+			});
+
+			if( !invalid ){
+				this.scope.find( '#' + elemID ).trigger('closeMenu');
+			}
+
+			// Update UI if we have a file limit
+			this._toggleFileImportOptions();
+
+			this.scope.find('#' + elemID + ' [data-role="fileCount"]').text( length );
+
+			if( length ){
+				this.scope.find('#' + elemID + ' [data-role="fileCount"]').show();
+				return true;
+			} else {
+				this.scope.find('#' + elemID + ' [data-role="fileCount"]').hide();
+				return false;
+			}
+		},
+
+		/**
+		 * Returns true if there are existing files on the form (from upload, url or file path)
+		 *
+		 * @returns 	{boolean}	Returns true if there are existing files
+		 */
+		_hasExistingFiles: function () {
+			if( this._uploadedCount || this.scope.find('input[name^="files_existing"]').length ) {
+				return true;
+			}
+
+			var hasURL = [];
+			var hasImport = [];
+
+			if( this.scope.find('input[name^="url_files"]').length ){
+				hasURL = _.filter( this.scope.find('input[name^="url_files"]'), function (item) {
+					if( $( item ).val().trim() != '' ){
+						return true;
+					}
+
+					return false;
+				});
+			}
+
+			if( this.scope.find('input[name^="import_files"]').length ){
+				hasImport = _.filter( this.scope.find('input[name^="import_files"]'), function (item) {
+					if( $( item ).val().trim() != '' ){
+						return true;
+					}
+
+					return false;
+				});
+			}
+
+			if( hasURL.length || hasImport.length ){
+				return true;
+			}
+
+			return false;
+		},
+
+		/**
+		 * Returns true if there are existing screenshots on the form (from upload or url)
+		 *
+		 * @returns 	{boolean}	Returns true if there are existing screenshots
+		 */
+		_hasExistingScreenshots: function () {
+			if( this.scope.find('input[name^="screenshots_existing"]').length ){
+				return true;
+			}
+
+			var hasURL = [];
+
+			if( this.scope.find('input[name^="url_screenshots"]').length ){
+				hasURL = _.filter( this.scope.find('input[name^="url_screenshots"]'), function (item) {
+					if( $( item ).val().trim() != '' ){
+						return true;
+					}
+
+					return false;
+				});
+
+				if( hasURL.length ){
+					return true;
+				}
+			}
+
+			return false;
+		},
+
+		/**
+		 * Shows the next relevant steps of the upload process
+		 *
+		 * @returns 	{void}
+		 */
+		_doneUploadStep: function () {
+			var self = this;
+
+			// Show screenshot step
+			if( this._ui.screenshots.length && !this._ui.screenshots.is(':visible') ){
+				ips.utils.anim.go( 'fadeIn', this._ui.screenshots )
+					.done( function () {
+						$( document ).trigger('contentChange', [ self._ui.screenshots ] );
+					});
+			}
+
+			if( !this._requireScreenshots && !this._ui.fileInfo.is(':visible') ){
+				ips.utils.anim.go( 'fadeIn', this._ui.fileInfo )
+					.done( function () {
+						$( document ).trigger('contentChange', [ self._ui.fileInfo ] );
+					});
+			}
+			if( !this._requireScreenshots )
+			{
+				this.scope.find('[data-role="submitForm"]').prop( 'disabled', false );
+			}
+		},
+
+		/**
+		 * Shows the next relevant steps of the upload process
+		 *
+		 * @returns 	{void}
+		 */
+		_doneScreenshotStep: function () {
+			var self = this;
+			
+			ips.utils.anim.go( 'fadeIn', this._ui.fileInfo )
+				.done( function () {
+					$( document ).trigger('contentChange', [ self._ui.fileInfo ] );
+				});
+
+			this.scope.find('[data-role="submitForm"]').prop( 'disabled', false );
+		},
+
+		/**
+		 * Shows the progress bar and hides the dropzone
+		 *
+		 * @returns 	{void}
+		 */
+		_showProgress: function () {
+			if( !this._hiddenUploader && !this._overriddenUploader ){
+				this._ui.progressBar.show().find('.ipsProgressBar').addClass('ipsProgressBar_animated');
+				this._hiddenUploader = true;
+			}
+		},
+
+		/**
+		 * Toggle file upload/import options when a file has been uploaded and single file uploads are enforced
+		 *
+		 * @returns		{void}
+		 */
+		_toggleFileImportOptions: function ( force=false) {
+			if( this._allowMultipleFiles === true ) {
+				return;
+			}
+
+			this.scope.find('a[data-action="stackAdd"]').hide();
+
+			if( this._hasExistingFiles() || force ) {
+				this.scope.find('[data-role="stackItem"] input[name^="url_files"], [data-role="stackItem"] input[name^="import_files"]').each( function() {
+					if( $(this).val() == "" ) {
+						$(this).prop( 'disabled', true );
+					}
+				});
+			}
+			else {
+				this.scope.find('[data-role="stackItem"] input[name^="url_files"], [data-role="stackItem"] input[name^="import_files"]').each( function() {
+					$(this).prop( 'disabled', false );
+				});
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/view" javascript_name="ips.view.changeLog.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.view.changeLog.js - Changelog controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('downloads.front.view.changeLog', {
+
+		initialize: function () {
+			this.on( 'menuItemSelected', this.changeVersion );
+			this.setup();
+
+			// Primary event that watches for URL changes
+			History.Adapter.bind( window, 'statechange', _.bind( this.stateChange, this ) );
+		},
+
+		/**
+		 * Setup method
+		 * Sets an initial state that we can use to go back to the default state
+		 *
+		 * @returns 	{void}
+		 */
+		setup: function () {
+			// Update page URL
+			History.replaceState( { 
+				controller: 'changelog'
+			}, document.title, window.location.href );
+		},
+
+		/**
+		 * Updates the version changelog being shown
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{object} 	data 	Event data object from the menu
+		 * @returns 	{void}
+		 */
+		changeVersion: function (e, data) {
+			data.originalEvent.preventDefault();
+
+			var url = data.menuElem.find('[data-ipsMenuValue="' + data.selectedItemID + '"] > a').attr('href');
+
+			// Update page URL
+			History.pushState( { 
+				controller: 'changelog',
+				version: data.selectedItemID
+			}, document.title, url );
+
+			this._loadVersion( url, data.menuElem.find('[data-ipsMenuValue="' + data.selectedItemID + '"]').attr('data-changelogTitle') );
+		},
+
+		/**
+		 * Event handler for History.js
+		 * When the state changes, we locate that menu item based on the version, and then pull
+		 * the version string and URL and load it
+		 *
+		 * @returns 	{void}
+		 */
+		stateChange: function () {
+			var state = History.getState();
+
+			// Other things on the page can change the URL, so make sure this is a changelog url
+			if( state.data.controller != 'changelog' ){
+				return;
+			}
+
+			var item;
+
+			if( state.data.version ){
+				item = $('#elChangelog_menu').find('[data-ipsMenuValue="' + state.data.version + '"]');
+			} else {
+				item = $('#elChangelog_menu').find('[data-ipsMenuValue]').first();
+			}
+
+			this._loadVersion( item.find('a').attr('href'), item.attr('data-ipsMenuValue') );
+		},
+
+		/**
+		 * Loads version information
+		 *
+		 * @param 		{string} 	url 			URL of the version to load
+		 * @param 		{string} 	versionTitle 	Title of version being loaded
+		 * @returns 	{void}
+		 */
+		_loadVersion: function (url, versionTitle) {
+			var self = this;
+
+			// Update version
+			this.scope.find('[data-role="versionTitle"]').text( versionTitle );
+
+			// Set height on info area and set to loading
+			this.scope
+				.find('[data-role="changeLogData"]')
+					.css( {
+						height: this.scope.find('[data-role="changeLogData"]').height() + 'px'
+					})
+					.addClass('ipsLoading')
+					.html('');
+
+
+			// Load the new data
+			ips.getAjax()( url )
+				.done( function (response) {
+					self.scope
+						.find('[data-role="changeLogData"]')
+							.html( response )
+							.removeClass('ipsLoading')
+							.css({
+								height: 'auto'
+							});
+					ips.utils.lazyLoad.loadContent( self.scope.find('[data-role="changeLogData"]') );
+				})
+				.fail( function (jqXHR, textStatus, errorThrown) {
+					window.location = url;
+				});
+		}
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/view" javascript_name="ips.view.download.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.view.download.js - Download popup controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.front.view.download', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;dialogClose&quot;]', this.closeDialog );
+			this.on( 'click', '[data-action=&quot;selectFile&quot;]', this.selectFile );
+			this.on( 'click', '[data-action=&quot;download&quot;]', this.doDownload );
+		},
+
+		/**
+		 * Agree to the terms and update the display to show the list
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		selectFile: function (e) {
+			var url = $( e.currentTarget ).attr('href');
+			var self = this;
+
+			e.preventDefault();
+
+			// Load the download page
+			this.scope
+				.html('')
+				.css({
+					height: '250px'
+				})
+				.addClass('ipsLoading');
+
+			ips.getAjax()( url )
+				.done( function (response) {
+					self.scope
+						.html( response )
+						.css({
+							height: 'auto'
+						})
+						.removeClass('ipsLoading');
+				})
+				.fail( function (jqXHR, textStatus, errorThrown) {
+					window.location = url;
+				});
+		},
+		
+		/**
+		 * Event handler for the 'cancel' link
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		closeDialog: function (e) {
+			e.preventDefault();
+			this._closeDialog( $( e.currentTarget ).attr('href') );
+		},
+
+		/**
+		 * Closes the dialog
+		 *
+		 * @param 		{string} 	href 	Href to redirect to if not in a dialog
+		 * @returns 	{void}
+		 */
+		_closeDialog: function (href) {
+			if( this.scope.closest('.ipsDialog').length ){
+				this.scope.closest('.ipsDialog').trigger('closeDialog');
+			} else {
+				window.location = href;
+			}
+		},
+
+		/**
+		 * Initiate the actual download
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		doDownload: function (e) {
+			var that = this;
+			if ( $( e.currentTarget ).attr('data-wait') ) {
+				e.preventDefault();
+
+				ips.getAjax()( $( e.currentTarget ).attr('href') )
+					.done( function (response) {
+						// The download succeeded so we should get the cached session event
+						$(e.currentTarget).trigger('ipsDataLayerSync');
+
+						var secondsRemaining = response.download - response.currentTime;
+						
+						$( e.currentTarget )
+							.hide()
+							.siblings()
+								.find('[data-role=&quot;downloadCounter&quot;]')
+									.html( secondsRemaining )
+								.end()
+							.end()
+							.siblings('[data-role=&quot;downloadCounterContainer&quot;]')
+								.removeClass('ipsHide');
+						
+						var interval = setInterval( function () {
+							secondsRemaining--;
+							$( e.currentTarget ).siblings().find('[data-role=&quot;downloadCounter&quot;]').html( secondsRemaining );
+							if ( secondsRemaining === 0 ) {
+								clearInterval(interval);
+								window.location = $( e.currentTarget ).attr('href');
+                                that.scope.closest('.ipsDialog').trigger('closeDialog');
+							}
+						}, 1000 );						
+					})
+					.fail( function () {
+						window.location = $(e.currentTarget).attr('href');
+					})
+			}
+			else
+			{
+                this.scope.closest('.ipsDialog').trigger('closeDialog');
+			}
+		}
+		
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="controllers/view" javascript_name="ips.view.subscribe.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.view.subscribe.js - Controller to handle subscribing to new version updates
+ *
+ * Author: Andrew Millne
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('downloads.front.view.subscribe', {
+
+		ajaxObj: null,
+
+		/**
+		 * Initialize controller events
+		 *
+		 * @returns 	{void}
+		 */
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;subscribe&quot;]', this.toggle );
+		},
+
+		/**
+		 * Subscribe
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggle: function (e) {
+			e.preventDefault();
+
+			var self = this;
+			var clicked = $( e.currentTarget );
+
+
+			clicked.addClass('ipsFaded ipsFaded_more');
+
+			ips.getAjax()( clicked.attr('href') )
+				.done( function (response) {
+					if( !response.error ) {
+						if( response == 'unsubscribed' )
+						{
+							clicked.removeClass( 'ipsButton_primary' );
+							clicked.addClass( 'ipsButton_link' );
+							clicked.text( ips.getString('file_subscribe')  );
+						}
+						else
+						{
+							clicked.addClass( 'ipsButton_primary' );
+							clicked.removeClass( 'ipsButton_link' );
+							clicked.text( ips.getString('file_unsubscribe')  );
+						}
+					}
+
+				})
+				.always( function () {
+					clicked.removeClass('ipsFaded ipsFaded_more');
+				});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="downloads" javascript_location="front" javascript_path="templates" javascript_name="ips.templates.submit.js" javascript_type="template" javascript_version="107704" javascript_position="1000250"><![CDATA[/* VIEW TEMPLATES */
+ips.templates.set('downloads.submit.screenshot', " \
+	<div class='ipsUploader__row ipsUploader__row--withBorder ipsUploader__row--image ipsAttach ipsContained {{#done}}ipsAttach_done{{/done}}' id='{{id}}' data-role='file' data-fileid='{{id}}' data-filesize='{{sizeRaw}}' data-fullsizeurl='{{imagesrc}}' data-thumbnailurl='{{thumbnail}}' data-fileType='image'>\
+		<div class='ipsUploader__rowPreview ipsType_center' data-role='preview'>\
+			<label for='{{field_name}}_primary_screenshot_{{id}}' class='ipsCursor_pointer'>\
+				{{#thumb}}\
+					{{{thumb}}}\
+				{{/thumb}}\
+				<div class='ipsUploader__rowPreview__generic ipsFlex ipsFlex-ai:center ipsFlex-jc:center' {{#thumb}}style='display: none'{{/thumb}}>\
+					<i class='fa fa-{{extIcon}} ipsType_large'></i>\
+				</div>\
+			</label>\
+		</div>\
+		<div class='ipsUploader_rowMeta ipsFlex ipsFlex-fd:column ipsFlex-jc:center ipsFlex-ai:start'>\
+			<h2 class='ipsUploader_rowTitle ipsMargin:none ipsType_reset ipsAttach_title ipsTruncate ipsTruncate_line' data-role='title'>{{title}}</h2>\
+			<p class='ipsDataItem_meta ipsType_medium ipsType_light'>\
+				{{size}} {{#statusText}}&middot; <span class='ipsType_light' data-role='status'>{{statusText}}</span>{{/statusText}}\
+			</p>\
+			{{#status}}<span class='ipsAttachment_progress'><span data-role='progressbar'></span></span>{{/status}}\
+		</div>\
+		<span data-role='insert' {{#insertable}}style='display: none'{{/insertable}}>\
+			<a href='#' class='ipsAttach_selection' data-ipsTooltip title='{{#lang}}insertIntoPost{{/lang}}'>\
+				<i class='fa fa-plus'></i>\
+			</a>\
+		</span>\
+		{{#supportsDelete}}\
+			<div data-role='deleteFileWrapper' {{#newUpload}}style='display: none'{{/newUpload}}>\
+				<input type='hidden' name='{{field_name}}_keep[{{id}}]' value='1'>\
+				<a href='#' data-role='deleteFile' class='ipsUploader__rowDelete' data-ipsTooltip title='{{#lang}}attachRemove{{/lang}}'>\
+					&times;\
+				</a>\
+			</div>\
+		{{/supportsDelete}}\
+		{{^supportsDelete}}\
+			<div data-role='deleteFileWrapper' style='display: none'>\
+				<input type='hidden' name='{{field_name}}_keep[{{id}}]' value='1'>\
+				<a href='#' class='ipsUploader__rowDelete' data-role='deleteFile' data-ipsTooltip title='{{#lang}}attachRemove{{/lang}}'>&times;</a>\
+			</div>\
+		{{/supportsDelete}}\
+		<label for='{{field_name}}_primary_screenshot_{{id}}' class='cDownloadsPrimaryRadio' data-ipsTooltip title='{{#lang}}makePrimaryScreenshot{{/lang}}'>\
+			<span class='ipsCustomInput'>\
+				<input type='radio' name='{{field_name}}_primary_screenshot' id='{{field_name}}_primary_screenshot_{{id}}' value='{{id}}' {{#default}}checked{{/default}}>\
+				<span></span>\
+			</span>\
+			{{#lang}}makePrimary{{/lang}}\
+		</label>\
+	</div>\
+");
+
+ips.templates.set('downloads.submit.screenshotWrapper', " \
+	<div class='ipsUploader__container ipsUploader__container--images'>{{{content}}}</div>\
+");
+
+ips.templates.set('downloads.submit.linkedScreenshot', " \
+	<li class='cDownloadsLinkedScreenshotItem'>\
+		<input type='url' name='{{name}}[{{id}}]' value='{{value}}'>\
+		<div class='cDownloadsLinkedScreenshotItem_block'>\
+			<input type='radio' name='screenshots_primary_screenshot' value='{{id}}' title='{{#lang}}makePrimaryScreenshot{{/lang}}' data-ipsTooltip {{extra}}>\
+		</div>\
+		<div class='cDownloadsLinkedScreenshotItem_block'>\
+			<a href='#' data-action='removeField' title='{{#lang}}removeScreenshot{{/lang}}' data-ipsTooltip><i class='fa fa-times'></i></a>\
+		</div>\
+	</li>\
+");]]></file>
+ <order app="global" path="/dev/js//framework/">templates
+common/ips.loader.js
+common/ui
+common/utils
+common
+controllers</order>
+ <order app="global" path="/dev/js//library/">underscore
+jquery
+mustache
+Debug.js
+app.js</order>
+ <order app="global" path="/dev/js//library//jquery">jquery.js
+jquery-migrate.js
+jquery.history.js
+jquery.transform.js</order>
+ <order app="global" path="/dev/js//library//linkify">linkify.min.js
+linkify-jquery.min.js</order>
+</javascript>

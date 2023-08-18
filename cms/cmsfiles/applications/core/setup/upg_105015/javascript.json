@@ -1,0 +1,29 @@
+{
+    "files": {
+        "added": [
+            "global\/library\/jquery\/jquery-migrate.js",
+            "global\/library\/jquery\/jquery.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/utils\/ips.utils.color.js",
+            "core\/front\/controllers\/vse\/ips.vse.colorizer.js",
+            "core\/front\/controllers\/vse\/ips.vse.main.js",
+            "core\/front\/controllers\/vse\/ips.vse.window.js",
+            "core\/front\/templates\/ips.templates.vse.js"
+        ],
+        "removed": [
+            "core\/front\/controllers\/vse\/ips.vse.panel.js",
+            "core\/front\/controllers\/vse\/ips.vse.panelBackground.js",
+            "core\/front\/controllers\/vse\/ips.vse.panelFont.js",
+            "global\/library\/jquery\/jquery-3.5.1.min.js",
+            "global\/library\/jquery\/jquery-migrate-3.3.0.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/\/jquery"
+        ],
+        "removed": []
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/widgets\/featuredProduct",
+            "front\/widgets\/latestProducts"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "front\/cards\/paypal.png",
+            "front\/cards\/paypal@2x.png"
+        ],
+        "removed": []
+    }
+}

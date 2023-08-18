@@ -1,0 +1,111 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_cart_uploads",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "session_id": {
+                        "name": "session_id",
+                        "type": "VARCHAR",
+                        "length": 128,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The session ID which uploaded the file",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when the file was uploaded",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "item_id": {
+                        "name": "item_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The ID number of the item in the cart",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "session_id": {
+                        "type": "key",
+                        "name": "session_id",
+                        "columns": [
+                            "session_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "time": {
+                        "type": "key",
+                        "name": "time",
+                        "columns": [
+                            "time"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_attachments_map",
+            {
+                "id3": "purchase"
+            },
+            [
+                "location_key=? AND id3 IS NULL",
+                "nexus_Purchases"
+            ]
+        ]
+    }
+}

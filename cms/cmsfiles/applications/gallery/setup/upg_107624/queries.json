@@ -1,0 +1,18 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "type": "key",
+                "name": "caption",
+                "columns": [
+                    "image_caption"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    }
+}

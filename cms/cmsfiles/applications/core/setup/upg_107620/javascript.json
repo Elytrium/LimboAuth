@@ -1,0 +1,23 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/library\/app.js",
+            "global\/framework\/common\/ui\/ips.ui.editor.js",
+            "global\/framework\/common\/ui\/ips.ui.lightbox.js",
+            "global\/front\/controllers\/core\/ips.core.app.js",
+            "global\/front\/controllers\/core\/ips.core.lightboxedImages.js",
+            "global\/framework\/templates\/ips.core.templates.js"
+        ],
+        "removed": [
+            "global\/library\/jstz\/jstz.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/"
+        ],
+        "removed": []
+    }
+}

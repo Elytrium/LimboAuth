@@ -1,0 +1,27 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "forums\/front\/controllers\/forum\/ips.forum.flow.js",
+            "forums\/front\/controllers\/forum\/ips.forum.forumList.js",
+            "forums\/front\/controllers\/forum\/ips.forum.forumPage.js",
+            "forums\/front\/controllers\/forum\/ips.forum.hovercard.js",
+            "forums\/admin\/controllers\/settings\/ips.settings.archiveRules.js",
+            "forums\/front\/controllers\/topic\/ips.topic.activity.js",
+            "forums\/front\/controllers\/topic\/ips.topic.answers.js",
+            "forums\/front\/controllers\/topic\/ips.topic.reply.js",
+            "forums\/front\/controllers\/topic\/ips.topic.view.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

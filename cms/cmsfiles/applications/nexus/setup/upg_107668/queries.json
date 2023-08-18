@@ -1,0 +1,35 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "nexus",
+                "monitor"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "nexus",
+                "expectedOutputMonitoring"
+            ]
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "nexus",
+                "terminateHosting"
+            ]
+        ]
+    }
+}

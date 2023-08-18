@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "sidebar_lookup",
+                "columns": [
+                    "app",
+                    "type",
+                    "item_id",
+                    "type_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

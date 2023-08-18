@@ -1,0 +1,40 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_album_comments",
+            "comment_text",
+            {
+                "name": "comment_text",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_comments",
+            "comment_text",
+            {
+                "name": "comment_text",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

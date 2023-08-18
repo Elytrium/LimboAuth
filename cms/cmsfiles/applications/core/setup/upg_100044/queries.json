@@ -1,0 +1,145 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_sessions",
+            {
+                "name": "theme_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            "g_dname_date=1",
+            "g_dname_changes=0 AND g_dname_date=0"
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "core_validating",
+            "lost_pass",
+            {
+                "type": "key",
+                "name": "lost_pass",
+                "columns": [
+                    "lost_pass",
+                    "entry_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "core_edit_history",
+            {
+                "type": "key",
+                "name": "time",
+                "columns": [
+                    "time"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "core_tasks_log",
+            {
+                "type": "key",
+                "name": "time",
+                "columns": [
+                    "time"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_spam_service_log",
+            {
+                "type": "key",
+                "name": "log_date",
+                "columns": [
+                    "log_date"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "core_notifications",
+            {
+                "type": "key",
+                "name": "sent_time",
+                "columns": [
+                    "sent_time"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "core_widget_trash",
+            {
+                "type": "key",
+                "name": "date",
+                "columns": [
+                    "date"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "core_members",
+            {
+                "type": "key",
+                "name": "mod_posts",
+                "columns": [
+                    "mod_posts"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

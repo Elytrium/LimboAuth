@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images_uploads",
+            {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "upload_unique_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false,
+                "primary": true
+            }
+        ]
+    }
+}

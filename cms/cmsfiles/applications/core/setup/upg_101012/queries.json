@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "pp_photo_type": null
+            },
+            [
+                "pp_photo_type=? and ( pp_main_photo=? or pp_main_photo IS NULL )",
+                "custom",
+                ""
+            ]
+        ]
+    }
+}

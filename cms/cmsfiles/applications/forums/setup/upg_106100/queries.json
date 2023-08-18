@@ -1,0 +1,70 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "forums_forums",
+            {
+                "name": "allow_anonymous",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "forums_topics",
+            {
+                "name": "is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "forums_topics",
+            {
+                "name": "last_poster_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_notifications",
+            {
+                "notification_key": "my_solution"
+            },
+            [
+                "notification_app=? and notification_key=?",
+                "core",
+                "best_answer"
+            ]
+        ]
+    }
+}

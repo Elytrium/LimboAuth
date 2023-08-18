@@ -1,0 +1,3775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javascript app="nexus">
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/checkout" javascript_name="ips.checkout.billingForm.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.checkout.billingAddress.js
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.checkout.billingForm', {
+		
+		initialize: function () {
+			this.on( 'click', '[data-action="changeShippingAddress"]', this.newShippingAddress );
+			//this.setup();
+		},
+		
+		setup: function () {
+			
+		},
+
+		newShippingAddress: function (e) {
+			e.preventDefault();
+			var url = this.scope.attr('data-new-billing-address-url');
+
+			var dialogRef = ips.ui.dialog.create({
+				title: ips.getString('changeShippingAddress'),
+				fixed: false,
+			    url: url,
+			    size: 'medium'
+			});
+			dialogRef.show();
+		},
+		
+		updateSelectedAddress: function ( val, dialogUrl ) {
+			if ( val == 0 ) {
+				
+				var dialogRef = ips.ui.dialog.create({
+					title: '',
+					fixed: false,
+				    url: dialogUrl
+				});
+				dialogRef.show();
+				
+			} else {
+				window.location = window.location + '&shipping_address=' + val;
+			}
+		}
+		
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/checkout" javascript_name="ips.checkout.register.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.checkout.register.js - Register form during checkout
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.checkout.register', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;newMember&quot;]', this.showRegistrationForm );
+			if ( $(this.scope).attr('data-regform') ) {
+				this._showRegistrationForm();
+			}
+		},
+
+		showRegistrationForm: function (e) {
+			e.preventDefault();
+			this._showRegistrationForm();
+		},
+		
+		_showRegistrationForm: function() {
+			this.scope.find('[data-role=&quot;memberChoice&quot;]').hide();
+			this.scope.find('[data-role=&quot;newCustomerForm&quot;]').show();
+
+			this.scope.find('[data-role=&quot;business&quot;]').hide();
+
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/checkout" javascript_name="ips.checkout.review.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.checkout.review.js - Review page in checkout process
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.checkout.review', {
+
+		initialize: function () {
+			this.on( 'submit', '[data-role="couponForm"]', this.submitCoupon );
+			this.on( 'submit', '[data-role="paymentForm"]', this.submitPayment );
+			this.setup();
+		},
+
+		setup: function () {
+			var button = this.scope.find('[data-role="couponForm"] button[type="submit"]');
+			var textbox = this.scope.find('[data-role="couponForm"] input[type="text"]');
+
+			button.prop('disabled', !textbox.val() );
+			textbox.on('keyup', function (e) {
+				if ( textbox.val() ) {
+					button.prop( 'disabled', false );
+				} else {
+					button.prop( 'disabled', true );
+				}
+			});
+		},
+
+		submitPayment: function (e) {
+			let tAndCRequired = this.scope.find('input[type="checkbox"][name="i_agree_to_tac_checkbox"]');
+			if( tAndCRequired.length && !tAndCRequired.is( ':checked ') )
+			{
+				e.preventDefault();
+				e.stopPropagation();
+				ips.ui.alert.show( {
+					type: 'alert',
+					icon: 'warn',
+					message: ips.getString('you_must_agree_to_tac'),
+					callbacks: {}
+				});
+			}
+		},
+
+		submitCoupon: function (e) {
+			e.preventDefault();
+		},
+
+		checkTerms: function ( e, elem ) {
+			$('#paymentMethodSubmit > button').prop( 'disabled', false );
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/checkout" javascript_name="ips.checkout.shippingForm.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.checkout.shippingForm.js - Address book for shipping form
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.checkout.shippingForm', {
+
+		initialize: function () {
+			this.on( 'change', 'select', this.selectNew );
+			this.on( 'keypress', 'input[type=&quot;text&quot;]', this.selectNew );
+		},
+
+		selectNew: function () {
+			this.scope.find('[name=&quot;shipping_address&quot;][value=&quot;0&quot;]').prop( 'checked', true );
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/forms" javascript_name="ips.forms.businessAddressVat.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.forms.businessAddressVat.js - Controller for a business address form helper which will ask for a VAT number
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.global.forms.businessAddressVat', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( 'change', '[data-role="addressTypeRadio"]', this.changeRelevantField );
+			this.on( 'change', '[data-role="countrySelect"]', this.changeRelevantField );
+			this.changeRelevantField();
+		},
+		
+		/**
+		 * Change address type
+		 *
+		 * @returns 	{void}
+		 */
+		changeRelevantField: function () {
+			if ( this.scope.find('[data-role="addressTypeRadio"][value="business"]').is(':checked') && ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','GB','GP','MQ','RE','BL','GF','MF','NC','PF','PM','TF','YT','WF'].indexOf( this.scope.find('[data-role="countrySelect"]').val() ) !== -1 ) {
+				this.scope.find('[data-role="vatField"]').show();
+				this.scope.find('[data-role="business"]').show();
+			} else {
+				this.scope.find('[data-role="vatField"]').hide();
+				this.scope.find('[data-role="business"]').hide();
+			}
+		}
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/gateways" javascript_name="ips.gateways.authorizenet.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.gateways.authorizenet.js - Authorize.Net DPM controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.global.gateways.authorizenet', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( $(this.scope).closest('form')[0], 'submit', this.submitForm );
+			this.setup();
+		},
+		
+		/**
+		 * Init
+		 */
+		setup: function(){
+			this.scope.show();
+		},
+		
+		/**
+		 * Submit form action
+		 *
+		 * @param		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		submitForm: function(e) {
+			if ( !$(e.currentTarget).find( 'input[name="payment_method"]' ).length || $(e.currentTarget).find( 'input[name="payment_method"][value="' + $(this.scope).attr('data-id') + '"]' ).is(':checked') ) {
+				
+				e.stopPropagation();
+				
+				var data = $.parseJSON( $(this.scope).attr('data-fields') );
+				var i;
+				for ( i in data )
+				{
+					$( e.currentTarget ).append( $('<input type="hidden">').attr( 'name', i ).attr( 'value', data[i] ) );
+				}
+				
+				var expmonth = $(this.scope).find('[data-card="exp_month"]').val();
+				if ( expmonth && expmonth.length == 1 ) {
+					expmonth = '0' + expmonth;
+				}
+				$( e.currentTarget ).append( $('<input type="hidden">').attr( 'name', 'x_card_num' ).attr( 'value', $(this.scope).find('[data-card="number"]').val() ) );
+				$( e.currentTarget ).append( $('<input type="hidden">').attr( 'name', 'x_exp_date' ).attr( 'value', expmonth + '-' + $(this.scope).find('[data-card="exp_year"]').val() ) );
+				$( e.currentTarget ).append( $('<input type="hidden">').attr( 'name', 'x_card_code' ).attr( 'value', $(this.scope).find('[data-card="ccv"]').val() ) );
+				
+				$( e.currentTarget ).attr( 'action', $(this.scope).attr('data-url') );
+			}
+		}
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/gateways" javascript_name="ips.gateways.braintree.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.gateways.braintree.js - Braintree controller
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.global.gateways.braintree', {
+		
+		hostedFieldsInstance: null,
+		threeDSecureInstance: null,
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( $(this.scope).closest('form')[0], 'submit', this.submitForm );
+			
+			var filesToGet = [
+				'https://js.braintreegateway.com/web/3.40.0/js/client.min.js',
+				'https://js.braintreegateway.com/web/3.40.0/js/data-collector.min.js'
+			];
+
+			if ( this.scope.attr('data-method') === 'paypal' ) {
+				filesToGet.push('https://www.paypalobjects.com/api/checkout.js')
+				filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/paypal-checkout.min.js');
+			} else if ( this.scope.attr('data-method') === 'card' ) {
+				filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/hosted-fields.min.js');
+				if ( this.scope.attr('data-3dsecure') === 'true' ){
+					filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/three-d-secure.min.js');
+				}
+			} else if ( this.scope.attr('data-method') === 'venmo' ) {
+				filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/venmo.min.js');
+			} else if ( this.scope.attr('data-method') === 'applepay' ) {
+				filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/apple-pay.min.js');
+			} else if ( this.scope.attr('data-method') === 'googlepay' ) {
+				filesToGet.push('https://pay.google.com/gp/p/js/pay.js');
+				filesToGet.push('https://js.braintreegateway.com/web/3.40.0/js/google-payment.min.js');
+			}
+			
+			ips.loader.get(filesToGet).then( function () {
+				this.setup();
+			}.bind(this));
+		},
+		
+		/**
+		 * Init
+		 */
+		setup: function(){
+			braintree.client.create({
+				authorization: this.scope.attr('data-clientToken')
+			}, this._initClientCallBack.bind(this) );
+		},
+		
+		/**
+		 * Callback after Braintree client has been initiated
+		 *
+		 * @param		{object} 	err						An error, if the Braintree Client instance could not be created
+		 * @param		{object} 	clientInstance			The Client object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initClientCallBack: function(err, clientInstance) {
+									
+			/* If it failed, show an error */
+			if ( err ) {
+				console.error('Braintree Error', err); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* If using advanced fraud OR PayPal OR Venmo we need device data */
+			if ( this.scope.attr('data-method') === 'paypal' || this.scope.attr('data-method') === 'venmo' || this.scope.attr('data-advanced-fraud') === 'true' ) {
+				var dataCollectorData = { client: clientInstance };
+				if ( this.scope.attr('data-method') === 'paypal' || this.scope.attr('data-method') === 'venmo' ) {
+					dataCollectorData.paypal = true; // Yes, even for Venmo
+				} else if ( this.scope.attr('data-advanced-fraud') === 'true' ) {
+					dataCollectorData.kount = true;
+				}
+				braintree.dataCollector.create( dataCollectorData, function (err, dataCollectorInstance) {
+					if ( err ) {
+						console.error('Braintree Device Data Error', err ); // Deliberately using console
+					}
+					if ( dataCollectorInstance && dataCollectorInstance.deviceData ) {
+						this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[device]' ).val( dataCollectorInstance.deviceData ) );
+					}
+				}.bind(this) );
+			}
+						
+			/* PayPal */
+			if ( this.scope.attr('data-method') === 'paypal' ) {	
+				braintree.paypalCheckout.create({
+					client: clientInstance
+				}, this._initPayPalCheckoutCallback.bind(this) );
+			}
+			/* Credit cards */
+			else if ( this.scope.attr('data-method') === 'card' ) {
+				
+				if ( this.scope.attr('data-3dsecure') === 'true' && this.scope.attr('data-amount') > 0 ) {
+					braintree.threeDSecure.create({
+						client: clientInstance
+					}, function (threeDSecureErr, threeDSecureInstance) {
+						if (threeDSecureErr) {
+							console.error('Braintree Error', err); // Deliberately using console
+							this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+							this.scope.find('[data-role="error"]').show();
+							this.scope.find('[data-role="paymentMethodForm"]').hide();
+							return;
+						}
+						this.threeDSecureInstance = threeDSecureInstance;
+					}.bind(this) );
+				}
+				
+				braintree.hostedFields.create({
+					client: clientInstance,
+					styles: {
+						'input': {
+							'font-size': '14px'
+						}
+					},
+					fields: {
+						number: {
+							selector: '#elInput_' + this.scope.attr('data-id') + '-' + this.scope.attr('data-id') + '_card-number'
+						},
+						cvv: {
+							selector: '#elInput_' + this.scope.attr('data-id') + '-' + this.scope.attr('data-id') + '_card-ccv'
+						},
+						expirationDate: {
+							selector: '#elInput_' + this.scope.attr('data-id') + '-' + this.scope.attr('data-id') + '_card-exp',
+							placeholder: 'MM/YYYY'
+						}
+						
+					}
+				}, this._initCardFormCallback.bind(this) );
+			}
+			/* Venmo */
+			else if ( this.scope.attr('data-method') === 'venmo' ) {	
+				var options = {
+					client: clientInstance
+				};
+				if ( this.scope.attr('data-venmo-profile') ) {
+					options.profileId = this.scope.attr('data-venmo-profile');
+				}
+				braintree.venmo.create(options, this._initVenmoCallback.bind(this) );
+			}
+			/* Apple Pay */
+			else if ( this.scope.attr('data-method') === 'applepay' ) {
+				if ( window.ApplePaySession && ApplePaySession.canMakePayments() ) {
+					braintree.applePay.create({
+						client: clientInstance
+					}, this._initApplePayCallback.bind(this) );
+				} else {					
+					ips.utils.cookie.set( 'ApplePaySupported', 0 );
+					
+					var paymentMethodRadio = $( '#elRadio_payment_method_' + this.scope.attr('data-id') );
+					if ( paymentMethodRadio.length ) {
+						if ( paymentMethodRadio.is(':checked') ) {
+							paymentMethodRadio.closest('li').next('li').find('input[type="radio"]').click();
+						}
+						paymentMethodRadio.closest('li').remove();
+					} else {
+						window.location = window.location;
+					}
+					
+					return;
+				}
+			}
+			/* Google Pay */
+			else if ( this.scope.attr('data-method') === 'googlepay' ) {
+				braintree.googlePayment.create({
+					client: clientInstance,
+					googlePayVersion: 2,
+					googleMerchantId: this.scope.attr('data-googlepay-merchant')
+				}, this._initGooglePayCallback.bind(this) );
+			}
+		},
+		
+		/**
+		 * Callback after PayPal checkout has been initiated
+		 *
+		 * @param		{object} 	paypalCheckoutErr		An error, if the PayPal Checkout instance could not be created
+		 * @param		{object} 	paypalCheckoutInstance	The PayPalCheckout object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initPayPalCheckoutCallback: function (paypalCheckoutErr, paypalCheckoutInstance) {
+						
+			/* If it failed, show an error */
+			if ( paypalCheckoutErr ) {
+				console.error('Braintree Error', paypalCheckoutErr); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* Hide the loading indicator */
+			this.scope.find('[data-role="newAccountContainer"]').removeClass('ipsLoading ipsLoading_small');
+			
+			/* Work out the locale */
+			var paypalLocale = null;
+			switch ( $('html').attr('lang') ) {
+				case 'en-AL': case 'en-DZ': case 'en-AD': case 'en-AO': case 'en-AI': case 'en-AG': case 'en-AR': case 'en-AM': case 'en-AW': case 'en-AT': case 'en-AZ': case 'en-BS': case 'en-BH': case 'en-BB': case 'en-BY': case 'en-BE': case 'en-BZ': case 'en-BJ': case 'en-BM': case 'en-BT': case 'en-BO': case 'en-BA': case 'en-BW': case 'en-BR': case 'en-VG': case 'en-BN': case 'en-BG': case 'en-BF': case 'en-BI': case 'en-KH': case 'en-CM': case 'en-CA': case 'en-CV': case 'en-KY': case 'en-TD': case 'en-CL': case 'en-CN': case 'en-CO': case 'en-KM': case 'en-CG': case 'en-CD': case 'en-CK': case 'en-CR': case 'en-CI': case 'en-HR': case 'en-CY': case 'en-CZ': case 'en-DK': case 'en-DJ': case 'en-DM': case 'en-DO': case 'en-EC': case 'en-EG': case 'en-SV': case 'en-ER': case 'en-EE': case 'en-ET': case 'en-FK': case 'en-FO': case 'en-FJ': case 'en-FI': case 'en-FR': case 'en-GF': case 'en-PF': case 'en-GA': case 'en-GM': case 'en-GE': case 'en-DE': case 'en-GI': case 'en-GR': case 'en-GL': case 'en-GD': case 'en-GP': case 'en-GT': case 'en-GN': case 'en-GW': case 'en-GY': case 'en-HN': case 'en-HU': case 'en-IS': case 'en-ID': case 'en-IE': case 'en-IL': case 'en-IT': case 'en-JM': case 'en-JP': case 'en-JO': case 'en-KZ': case 'en-KE': case 'en-KI': case 'en-KW': case 'en-KG': case 'en-LA': case 'en-LV': case 'en-LS': case 'en-LI': case 'en-LT': case 'en-LU': case 'en-MK': case 'en-MG': case 'en-MW': case 'en-MY': case 'en-MV': case 'en-ML': case 'en-MT': case 'en-MH': case 'en-MQ': case 'en-MR': case 'en-MU': case 'en-YT': case 'en-MX': case 'en-FM': case 'en-MD': case 'en-MC': case 'en-MN': case 'en-ME': case 'en-MS': case 'en-MA': case 'en-MZ': case 'en-NA': case 'en-NR': case 'en-NP': case 'en-NL': case 'en-NC': case 'en-NZ': case 'en-NI': case 'en-NE': case 'en-NG': case 'en-NU': case 'en-NF': case 'en-NO': case 'en-OM': case 'en-PW': case 'en-PA': case 'en-PG': case 'en-PY': case 'en-PE': case 'en-PH': case 'en-PN': case 'en-PL': case 'en-PT': case 'en-QA': case 'en-RE': case 'en-RO': case 'en-RU': case 'en-RW': case 'en-WS': case 'en-SM': case 'en-ST': case 'en-SA': case 'en-SN': case 'en-RS': case 'en-SC': case 'en-SL': case 'en-SK': case 'en-SI': case 'en-SB': case 'en-SO': case 'en-ZA': case 'en-KR': case 'en-ES': case 'en-LK': case 'en-SH': case 'en-KN': case 'en-LC': case 'en-PM': case 'en-VC': case 'en-SR': case 'en-SJ': case 'en-SZ': case 'en-SE': case 'en-CH': case 'en-TW': case 'en-TJ': case 'en-TZ': case 'en-TG': case 'en-TO': case 'en-TT': case 'en-TN': case 'en-TM': case 'en-TC': case 'en-TV': case 'en-UG': case 'en-UA': case 'en-AE': case 'en-US': case 'en-UY': case 'en-VU': case 'en-VA': case 'en-VE': case 'en-VN': case 'en-WF': case 'en-YE': case 'en-ZM': case 'en-ZW': 
+					var paypalLocale = 'en_US';
+					break;
+				case 'ar-DZ': case 'ar-BH': case 'ar-EG': case 'ar-JO': case 'ar-KW': case 'ar-MA': case 'ar-OM': case 'ar-QA': case 'ar-SA': case 'ar-TN': case 'ar-AE': case 'ar-YE': 
+					var paypalLocale = 'ar_EG';
+					break;
+				case 'fr-DZ': case 'fr-AD': case 'fr-AO': case 'fr-AI': case 'fr-AG': case 'fr-AM': case 'fr-AW': case 'fr-AZ': case 'fr-BS': case 'fr-BH': case 'fr-BB': case 'fr-BZ': case 'fr-BJ': case 'fr-BM': case 'fr-BO': case 'fr-BW': case 'fr-VG': case 'fr-BF': case 'fr-BI': case 'fr-CM': case 'fr-CV': case 'fr-KY': case 'fr-TD': case 'fr-CL': case 'fr-CO': case 'fr-KM': case 'fr-CG': case 'fr-CD': case 'fr-CK': case 'fr-CR': case 'fr-CI': case 'fr-CZ': case 'fr-DJ': case 'fr-DM': case 'fr-DO': case 'fr-EC': case 'fr-EG': case 'fr-SV': case 'fr-ER': case 'fr-EE': case 'fr-ET': case 'fr-FK': case 'fr-FO': case 'fr-FJ': case 'fr-FI': case 'fr-GF': case 'fr-PF': case 'fr-GA': case 'fr-GM': case 'fr-GE': case 'fr-GI': case 'fr-GR': case 'fr-GL': case 'fr-GD': case 'fr-GP': case 'fr-GT': case 'fr-GN': case 'fr-GW': case 'fr-GY': case 'fr-HN': case 'fr-HU': case 'fr-IE': case 'fr-JM': case 'fr-JO': case 'fr-KZ': case 'fr-KE': case 'fr-KI': case 'fr-KW': case 'fr-KG': case 'fr-LV': case 'fr-LS': case 'fr-LI': case 'fr-LT': case 'fr-LU': case 'fr-MG': case 'fr-MW': case 'fr-ML': case 'fr-MH': case 'fr-MQ': case 'fr-MR': case 'fr-MU': case 'fr-YT': case 'fr-MC': case 'fr-MS': case 'fr-MA': case 'fr-MZ': case 'fr-NA': case 'fr-NR': case 'fr-NC': case 'fr-NZ': case 'fr-NI': case 'fr-NE': case 'fr-NU': case 'fr-NF': case 'fr-OM': case 'fr-PW': case 'fr-PA': case 'fr-PG': case 'fr-PE': case 'fr-PN': case 'fr-QA': case 'fr-RE': case 'fr-RO': case 'fr-RW': case 'fr-SM': case 'fr-ST': case 'fr-SA': case 'fr-SN': case 'fr-RS': case 'fr-SC': case 'fr-SL': case 'fr-SK': case 'fr-SI': case 'fr-SB': case 'fr-SO': case 'fr-ZA': case 'fr-SH': case 'fr-KN': case 'fr-LC': case 'fr-PM': case 'fr-VC': case 'fr-SR': case 'fr-SJ': case 'fr-SZ': case 'fr-TJ': case 'fr-TZ': case 'fr-TG': case 'fr-TT': case 'fr-TN': case 'fr-TM': case 'fr-TC': case 'fr-TV': case 'fr-UG': case 'fr-UA': case 'fr-AE': case 'fr-US': case 'fr-UY': case 'fr-VU': case 'fr-VA': case 'fr-VE': case 'fr-WF': case 'fr-YE': case 'fr-ZM': 
+					var paypalLocale = 'fr_XC';
+					break;
+				case 'es-DZ': case 'es-AD': case 'es-AO': case 'es-AI': case 'es-AG': case 'es-AR': case 'es-AM': case 'es-AW': case 'es-AZ': case 'es-BS': case 'es-BH': case 'es-BB': case 'es-BZ': case 'es-BJ': case 'es-BM': case 'es-BO': case 'es-BW': case 'es-VG': case 'es-BF': case 'es-BI': case 'es-CV': case 'es-KY': case 'es-TD': case 'es-CL': case 'es-CO': case 'es-KM': case 'es-CG': case 'es-CD': case 'es-CK': case 'es-CR': case 'es-CZ': case 'es-DJ': case 'es-DM': case 'es-DO': case 'es-EC': case 'es-EG': case 'es-SV': case 'es-ER': case 'es-EE': case 'es-ET': case 'es-FK': case 'es-FO': case 'es-FJ': case 'es-FI': case 'es-GF': case 'es-PF': case 'es-GA': case 'es-GM': case 'es-GE': case 'es-GI': case 'es-GR': case 'es-GL': case 'es-GD': case 'es-GP': case 'es-GT': case 'es-GN': case 'es-GW': case 'es-GY': case 'es-HN': case 'es-HU': case 'es-IE': case 'es-JM': case 'es-JO': case 'es-KZ': case 'es-KE': case 'es-KI': case 'es-KW': case 'es-KG': case 'es-LV': case 'es-LS': case 'es-LI': case 'es-LT': case 'es-LU': case 'es-MG': case 'es-MW': case 'es-ML': case 'es-MH': case 'es-MQ': case 'es-MR': case 'es-MU': case 'es-YT': case 'es-MX': case 'es-MS': case 'es-MA': case 'es-MZ': case 'es-NA': case 'es-NR': case 'es-NC': case 'es-NZ': case 'es-NI': case 'es-NE': case 'es-NU': case 'es-NF': case 'es-OM': case 'es-PW': case 'es-PA': case 'es-PG': case 'es-PY': case 'es-PE': case 'es-PN': case 'es-QA': case 'es-RE': case 'es-RO': case 'es-RW': case 'es-SM': case 'es-ST': case 'es-SA': case 'es-SN': case 'es-RS': case 'es-SC': case 'es-SL': case 'es-SK': case 'es-SI': case 'es-SB': case 'es-SO': case 'es-ZA': case 'es-SH': case 'es-KN': case 'es-LC': case 'es-PM': case 'es-VC': case 'es-SR': case 'es-SJ': case 'es-SZ': case 'es-TJ': case 'es-TZ': case 'es-TG': case 'es-TT': case 'es-TN': case 'es-TM': case 'es-TC': case 'es-TV': case 'es-UG': case 'es-UA': case 'es-AE': case 'es-US': case 'es-UY': case 'es-VU': case 'es-VA': case 'es-VE': case 'es-WF': case 'es-YE': case 'es-ZM': 
+					var paypalLocale = 'es_XC';
+					break;
+				case 'zh-DZ': case 'zh-AD': case 'zh-AO': case 'zh-AI': case 'zh-AG': case 'zh-AM': case 'zh-AW': case 'zh-AZ': case 'zh-BS': case 'zh-BH': case 'zh-BB': case 'zh-BZ': case 'zh-BJ': case 'zh-BM': case 'zh-BO': case 'zh-BW': case 'zh-VG': case 'zh-BF': case 'zh-BI': case 'zh-CV': case 'zh-KY': case 'zh-TD': case 'zh-CL': case 'zh-CN': case 'zh-CO': case 'zh-KM': case 'zh-CG': case 'zh-CD': case 'zh-CK': case 'zh-CR': case 'zh-CZ': case 'zh-DJ': case 'zh-DM': case 'zh-DO': case 'zh-EC': case 'zh-EG': case 'zh-SV': case 'zh-ER': case 'zh-EE': case 'zh-ET': case 'zh-FK': case 'zh-FO': case 'zh-FJ': case 'zh-FI': case 'zh-GF': case 'zh-PF': case 'zh-GA': case 'zh-GM': case 'zh-GE': case 'zh-GI': case 'zh-GR': case 'zh-GL': case 'zh-GD': case 'zh-GP': case 'zh-GT': case 'zh-GN': case 'zh-GW': case 'zh-GY': case 'zh-HN': case 'zh-HU': case 'zh-IE': case 'zh-JM': case 'zh-JO': case 'zh-KZ': case 'zh-KE': case 'zh-KI': case 'zh-KW': case 'zh-KG': case 'zh-LV': case 'zh-LS': case 'zh-LI': case 'zh-LT': case 'zh-LU': case 'zh-MG': case 'zh-MW': case 'zh-ML': case 'zh-MH': case 'zh-MQ': case 'zh-MR': case 'zh-MU': case 'zh-YT': case 'zh-MS': case 'zh-MA': case 'zh-MZ': case 'zh-NA': case 'zh-NR': case 'zh-NC': case 'zh-NZ': case 'zh-NI': case 'zh-NE': case 'zh-NU': case 'zh-NF': case 'zh-OM': case 'zh-PW': case 'zh-PA': case 'zh-PG': case 'zh-PE': case 'zh-PN': case 'zh-QA': case 'zh-RE': case 'zh-RO': case 'zh-RW': case 'zh-SM': case 'zh-ST': case 'zh-SA': case 'zh-SN': case 'zh-RS': case 'zh-SC': case 'zh-SL': case 'zh-SK': case 'zh-SI': case 'zh-SB': case 'zh-SO': case 'zh-ZA': case 'zh-SH': case 'zh-KN': case 'zh-LC': case 'zh-PM': case 'zh-VC': case 'zh-SR': case 'zh-SJ': case 'zh-SZ': case 'zh-TJ': case 'zh-TZ': case 'zh-TG': case 'zh-TT': case 'zh-TN': case 'zh-TM': case 'zh-TC': case 'zh-TV': case 'zh-UG': case 'zh-UA': case 'zh-AE': case 'zh-US': case 'zh-UY': case 'zh-VU': case 'zh-VA': case 'zh-VE': case 'zh-WF': case 'zh-YE': case 'zh-ZM': 
+					var paypalLocale = 'zh_XC';
+					break;
+				case 'en-AU': 
+					var paypalLocale = 'en_AU';
+					break;
+				case 'de-AT': case 'de-DE': case 'de-LU': case 'de-CH': 
+					var paypalLocale = 'de_DE';
+					break;
+				case 'nl-BE': case 'nl-NL': 
+					var paypalLocale = 'nl_NL';
+					break;
+				case 'fr-BE': case 'fr-FR': case 'fr-CH': 
+					var paypalLocale = 'fr_FR';
+					break;
+				case 'pt-BR': 
+					var paypalLocale = 'pt_BR';
+					break;
+				case 'fr-CA': 
+					var paypalLocale = 'fr_CA';
+					break;
+				case 'zh-CN': 
+					var paypalLocale = 'zh_CN';
+					break;
+				case 'cs-CZ': 
+					var paypalLocale = 'cs_CZ';
+					break;
+				case 'da-DK': case 'da-FO': case 'da-GL': 
+					var paypalLocale = 'da_DK';
+					break;
+				case 'ru-EE': case 'ru-LV': case 'ru-LT': case 'ru-RU': case 'ru-UA': 
+					var paypalLocale = 'ru_RU';
+					break;
+				case 'fi-FI': 
+					var paypalLocale = 'fi_FI';
+					break;
+				case 'el-GR': 
+					var paypalLocale = 'el_GR';
+					break;
+				case 'en-HK': case 'en-IN': case 'en-SG': case 'en-TH': case 'en-GB': 
+					var paypalLocale = 'en_GB';
+					break;
+				case 'zh-HK': 
+					var paypalLocale = 'zh_HK';
+					break;
+				case 'hu-HU': 
+					var paypalLocale = 'hu_HU';
+					break;
+				case 'id-ID': 
+					var paypalLocale = 'id_ID';
+					break;
+				case 'he-IL': 
+					var paypalLocale = 'he_IL';
+					break;
+				case 'it-IT': 
+					var paypalLocale = 'it_IT';
+					break;
+				case 'ja-JP': 
+					var paypalLocale = 'ja_JP';
+					break;
+				case 'no-NO': 
+					var paypalLocale = 'no_NO';
+					break;
+				case 'pl-PL': 
+					var paypalLocale = 'pl_PL';
+					break;
+				case 'pt-PT': 
+					var paypalLocale = 'pt_PT';
+					break;
+				case 'sk-SK': 
+					var paypalLocale = 'sk_SK';
+					break;
+				case 'ko-KR': 
+					var paypalLocale = 'ko_KR';
+					break;
+				case 'es-ES': 
+					var paypalLocale = 'es_ES';
+					break;
+				case 'sv-SE': 
+					var paypalLocale = 'sv_SE';
+					break;
+				case 'zh-TW': 
+					var paypalLocale = 'zh_TW';
+					break;
+				case 'th-TH': 
+					var paypalLocale = 'th_TH';
+					break;
+			}
+			
+			/* Basic PayPal options */
+			var dataForPayPal = {
+				intent: 'authorize',
+				amount: this.scope.attr('data-amount'),
+				currency: this.scope.attr('data-currency'),
+				locale: $('html').attr('lang').replace( '-', '_' ),
+			};
+			if ( this.scope.attr('data-shipping') ) {
+				dataForPayPal.enableShippingAddress = true;
+				dataForPayPal.shippingAddressOverride = $.parseJSON( this.scope.attr('data-shipping') );
+				dataForPayPal.shippingAddressEditable = false;
+			}
+			var paypalButtonOptions = {
+				/* Options */
+				env: this.scope.attr('data-env'),
+				/* Callback when user clicks to pay */
+				payment: function () {
+					dataForPayPal.flow = ( this.scope.attr('data-forceVault') === 'true' || this.scope.find('[data-role="braintreeVault"]').is(':checked') ) ? 'vault' : 'checkout';
+					return paypalCheckoutInstance.createPayment( dataForPayPal );
+				}.bind(this),
+				/* Callback when user finishes paying */
+				onAuthorize: function (data, actions) {
+					return paypalCheckoutInstance.tokenizePayment(data).then(function(payload) {
+						this._newAccountAuthorized( payload.details.email, payload.nonce );
+					}.bind(this) );
+				}.bind(this),
+				/* Callback when user cancels */
+				onCancel: function (data) {
+					/* Don't need to do anything here */
+				},
+				/* Callback for errors */
+				onError: function (err) {
+					console.error('Braintree Error', err); // Deliberately using console
+					this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+					this.scope.find('[data-role="error"]').show();
+					this.scope.find('[data-role="paymentMethodForm"]').hide();
+					return;
+				}.bind(this)
+			};
+			if ( paypalLocale ) {
+				paypalButtonOptions.locale = paypalLocale;
+			}
+			
+			/* Make the PayPal button */
+			paypal.Button.render( paypalButtonOptions, '#' + this.scope.find('[data-role="paypalButton"]').attr('id') );
+			
+			/* And the PayPal Credit button, if we want that */
+			if( this.scope.find('[data-role="paypalCreditButton"]').length ) {
+				var dataForPayPalCredit = _.clone(dataForPayPal);
+				dataForPayPalCredit.offerCredit = true;
+				
+				var paypalCreditButtonOptions = _.clone(paypalButtonOptions);
+				paypalCreditButtonOptions.style = {label: 'credit'};
+				paypalCreditButtonOptions.payment = function () {
+					dataForPayPalCredit.flow = ( this.scope.attr('data-forceVault') === 'true' || this.scope.find('[data-role="braintreeVault"]').is(':checked') ) ? 'vault' : 'checkout';
+					return paypalCheckoutInstance.createPayment( dataForPayPalCredit );
+				}.bind(this);
+				
+				paypal.Button.render( paypalCreditButtonOptions, '#' + this.scope.find('[data-role="paypalCreditButton"]').attr('id') );
+			}
+		},
+		
+		/**
+		 * Add a new account to the account selection list (for PayPal or Venmo)
+		 *
+		 * @param		{string} 	label	The account username / email
+		 * @param		{string} 	nonce	The nonce
+		 * @returns 	{void}
+		 */
+		_newAccountAuthorized: function( label, nonce ) {
+			if ( this.scope.attr('data-forceVault') === 'true' ) {
+				this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[token]' ).val( nonce ) );
+				this.scope.closest('form').submit();
+				return;
+			}
+			
+			this.scope.find('[data-role="showWhenVaultAccountAdded"]').show();
+			this.scope.find('[data-role="newVaultOption"] input').attr( 'data-toggles', this.scope.attr('data-fieldName') + '_new' );
+			var random = Math.random().toString(36).substring(7);
+			this.scope.find('[data-role="newVaultOption"]').before( ips.templates.render('nexus.gateway.vaultAccount', {
+				fieldName: this.scope.attr('data-fieldName'),
+				random: random,
+				label: label,
+				value: 'NONCE:' + ( this.scope.find('[data-role="braintreeVault"]').is(':checked') ? '1' : '0' ) + ':' + nonce
+			}) );
+			$( '#' + this.scope.attr('data-fieldName') + '_stored' + random ).prop('checked', true);
+			$( document ).trigger( 'contentChange', [ this.scope ] );
+		},
+		
+		/**
+		 * Callback after Hosted Fields instance (for taking card payments) has been created
+		 *
+		 * @param		{object} 	hostedFieldsErr			An error, if the Hosted Fields instance could not be created
+		 * @param		{object} 	hostedFieldsInstance	The HostedFields object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initCardFormCallback: function (hostedFieldsErr, hostedFieldsInstance) {
+						
+			/* If it failed, show an error */
+			if ( hostedFieldsErr ) {
+				console.error('Braintree Error', hostedFieldsErr); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* Remove the loading filter */
+			this.scope.find('.ipsLoading').removeClass('ipsLoading ipsFaded ipsFaded_more');
+			
+			/* Save the instance */
+			this.hostedFieldsInstance = hostedFieldsInstance;
+			
+			/* Set up some events */
+			hostedFieldsInstance.on('cardTypeChange', function (event) {
+				if (event.cards.length === 1) {
+					this.scope.find('.cPayment').css( 'opacity', 0.3 );
+					switch ( event.cards[0].type ) {
+						case 'visa':
+							this.scope.find('.cPayment_visa').css( 'opacity', 1 );
+							break;
+						case 'master-card':
+							this.scope.find('.cPayment_mastercard').css( 'opacity', 1 );
+							break;
+						case 'american-express':
+							this.scope.find('.cPayment_american_express').css( 'opacity', 1 );
+							break;
+						case 'discover':
+							this.scope.find('.cPayment_discover').css( 'opacity', 1 );
+							break;
+						case 'diners-club':
+							this.scope.find('.cPayment_diners_club').css( 'opacity', 1 );
+							break;
+						case 'jcb':
+							this.scope.find('.cPayment_jcb').css( 'opacity', 1 );
+							break;
+					}
+				} else {
+					this.scope.find('.cPayment').css( 'opacity', 1 );
+				}
+			}.bind(this) );
+			hostedFieldsInstance.on('validityChange', function (event) {
+				var i;
+				for ( i in event.fields ) {
+					switch ( i ) {
+						case 'number':
+							if ( !event.fields[i].isPotentiallyValid ) {
+								this.scope.find('[data-role="dummyCard"]').addClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="number"]').text( ips.getString('cardNumberInvalid') );
+							} else {
+								this.scope.find('[data-role="dummyCard"]').removeClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="number"]').text('');
+							}
+							break;
+						case 'expirationDate':
+							if ( !event.fields[i].isPotentiallyValid ) {
+								this.scope.find('[data-role="dummyExp"]').addClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="exp"]').text( ips.getString('expiryDateInvalid') );
+							} else {
+								this.scope.find('[data-role="dummyExp"]').removeClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="exp"]').text('');
+							}
+							break;
+						case 'cvv':
+							if ( !event.fields[i].isPotentiallyValid ) {
+								this.scope.find('[data-role="dummyCcv"]').addClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="ccv"]').text( ips.getString('securityCodeInvalid') );
+							} else {
+								this.scope.find('[data-role="dummyCcv"]').removeClass('ipsFieldRow_error');
+								this.scope.find('[data-warning="ccv"]').text('');
+							}
+							break;
+					}
+				}
+			}.bind(this) );
+		},
+		
+		/**
+		 * Callback after Venmo has been initiated
+		 *
+		 * @param		{object} 	venmoErr				An error, if the Venmo instance could not be created
+		 * @param		{object} 	venmoInstance			The Vemmo object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initVenmoCallback: function (venmoErr, venmoInstance) {
+						
+			/* If it failed, show an error */
+			if ( venmoErr ) {
+				console.error('Braintree Error', venmoErr); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* Hide the loading indicator */
+			this.scope.find('[data-role="newAccountContainer"]').removeClass('ipsLoading ipsLoading_small');
+			
+			/* Check browser support */
+			var browserSupported = venmoInstance.isBrowserSupported();
+			if ( !browserSupported ) {
+				ips.utils.cookie.set( 'VenmoSupported', 0 );
+				
+				if ( this.scope.find('[data-role="vaultAccountList"]').length ) {
+					this.scope.find('[data-role="newVaultOption"]').hide();
+				} else {					
+					var paymentMethodRadio = $( '#elRadio_payment_method_' + this.scope.attr('data-id') );
+					if ( paymentMethodRadio.length ) {
+						if ( paymentMethodRadio.is(':checked') ) {
+							paymentMethodRadio.closest('li').next('li').find('input[type="radio"]').click();
+						}
+						paymentMethodRadio.closest('li').remove();
+					} else {
+						window.location = window.location;
+					}
+				}
+				
+				return;
+			}
+			
+			/* Check if the user has already been redirected back by Venmo */
+			if ( venmoInstance.hasTokenizationResult() ) {
+				venmoInstance.tokenize( this._venmoTokenizeCallback.bind(this) );
+			}
+			
+			/* Show the button and set the click listener */
+			this.scope.find('[data-role="venmoButton"]').removeClass('ipsHide').on('click', function() {
+				this.scope.find('[data-role="venmoButton"]').addClass('ipsButton_disabled');
+				venmoInstance.tokenize( this._venmoTokenizeCallback.bind(this) );
+			}.bind(this) );
+			
+		},
+		
+		/**
+		 * Callback after Venmo has been tokenized
+		 *
+		 * @param		{object} 	tokenizeErr				An error, if token could not be generated
+		 * @param		{object} 	payload					The payload with the nonce if it could
+		 * @returns 	{void}
+		 */
+		_venmoTokenizeCallback: function (tokenizeErr, payload) {
+			if (tokenizeErr) {
+				this.scope.find('[data-role="venmoButton"]').removeClass('ipsButton_disabled');
+				console.error(tokenizeErr); // Deliberately using console
+				if ( tokenizeErr.code !== 'VENMO_CANCELED' && tokenizeErr.code !== 'VENMO_APP_CANCELED' ) { // This just means the user didn't have Venmo installed
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('payment_error')
+					});
+				}
+			} else {
+				this._newAccountAuthorized( payload.details.username, payload.nonce );
+			}
+			return;
+		},
+		
+		/**
+		 * Callback after Apple Pay has been initiated
+		 *
+		 * @param		{object} 	applePayErr				An error, if the Apple Pay instance could not be created
+		 * @param		{object} 	applePayInstance		The ApplePay object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initApplePayCallback: function (applePayErr, applePayInstance) {
+						
+			/* If it failed, show an error */
+			if ( applePayErr ) {
+				console.error('Braintree Error', applePayErr); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* Otherwise go ahead and see if there is an active card */
+			ApplePaySession.canMakePaymentsWithActiveCard( applePayInstance.merchantIdentifier ).then(function( canMakePaymentsWithActiveCard ){
+				
+				/* If Apple Pay IS supported... */
+				if ( canMakePaymentsWithActiveCard ) {
+					
+					/* Hide the loading indicator */
+					this.scope.find('[data-role="newAccountContainer"]').removeClass('ipsLoading ipsLoading_small');
+		
+					/* Show the button and set the click listener */
+					this.scope.find('[data-role="applePayButton"]').removeClass('ipsHide').on('click', function() {
+						var paymentRequest = applePayInstance.createPaymentRequest({
+							total: {
+								label: $('meta[property="og:site_name"]').attr('content'),
+								amount: this.scope.attr('data-amount')
+							}
+						});
+						var session = new ApplePaySession( 2, paymentRequest );
+						session.onvalidatemerchant = function (event) {
+							applePayInstance.performValidation({
+								validationURL: event.validationURL,
+								displayName: $('meta[property="og:site_name"]').attr('content')
+							}, function (err, merchantSession) {
+								if (err) {
+									console.error('Braintree Error', err); // Deliberately using console
+									ips.ui.alert.show({
+										type: 'alert',
+										icon: 'warn',
+										message: ips.getString('payment_error')
+									});
+									return;
+								}
+								session.completeMerchantValidation(merchantSession);
+							});
+						}.bind(this);
+						session.onpaymentauthorized = function (event) {
+							applePayInstance.tokenize({
+								token: event.payment.token
+							}, function (tokenizeErr, payload) {
+								if (tokenizeErr) {
+									console.error('Error tokenizing Apple Pay:', tokenizeErr);
+									session.completePayment(ApplePaySession.STATUS_FAILURE);
+									return;
+								}
+								session.completePayment(ApplePaySession.STATUS_SUCCESS);
+							
+								this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[token]' ).val( payload.nonce ) );
+								this.scope.closest('form').submit();
+							}.bind(this));
+  						}.bind(this);
+						session.begin();
+					}.bind(this));
+					
+				}
+				
+				/* If it isn't, just hide it as an option */
+				else {
+					ips.utils.cookie.set( 'ApplePaySupported', 0 );
+					
+					var paymentMethodRadio = $( '#elRadio_payment_method_' + this.scope.attr('data-id') );
+					if ( paymentMethodRadio.length ) {
+						if ( paymentMethodRadio.is(':checked') ) {
+							paymentMethodRadio.closest('li').next('li').find('input[type="radio"]').click();
+						}
+						paymentMethodRadio.closest('li').remove();
+					} else {
+						window.location = window.location;
+					}
+				}
+				
+			}.bind(this));
+		},
+		
+		/**
+		 * Callback after Google Pay has been initiated
+		 *
+		 * @param		{object} 	googlePaymentErr		An error, if the Google Pay instance could not be created
+		 * @param		{object} 	googlePaymentInstance	The GooglePay object (from the Braintree API) if it could
+		 * @returns 	{void}
+		 */
+		_initGooglePayCallback: function (googlePaymentErr, googlePaymentInstance) {
+			
+			/* If it failed, show an error */
+			if ( googlePaymentErr ) {
+				console.error('Braintree Error', googlePaymentErr); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+			}
+			
+			/* Check we can pay */
+			var paymentsClient = new google.payments.api.PaymentsClient({
+				environment: this.scope.attr('data-env') === 'sandbox' ? 'TEST' : 'PRODUCTION'
+			});
+			paymentsClient.isReadyToPay({
+				apiVersion: 2,
+				apiVersionMinor: 0,
+				allowedPaymentMethods: googlePaymentInstance.createPaymentDataRequest().allowedPaymentMethods
+			}).then(function(response) {
+				if (response.result) {
+					var button = paymentsClient.createButton({
+						onClick: function(e) {
+							e.preventDefault();
+							var paymentDataRequest = googlePaymentInstance.createPaymentDataRequest({
+								transactionInfo: {
+									currencyCode: this.scope.attr('data-currency'),
+									totalPriceStatus: 'FINAL',
+									totalPrice: this.scope.attr('data-amount'),
+								}
+							});
+							paymentsClient.loadPaymentData(paymentDataRequest).then(function(paymentData) {
+								googlePaymentInstance.parseResponse(paymentData, function (err, result) {
+									if (err) {
+										console.error('Braintree Error', err); // Deliberately using console
+										ips.ui.alert.show({
+											type: 'alert',
+											icon: 'warn',
+											message: ips.getString('payment_error')
+										});
+										return;
+									}
+																		
+									this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[token]' ).val( result.nonce ) );
+									this.scope.closest('form').submit();
+								}.bind(this));
+							}.bind(this)).catch(function (err) {
+								console.error('Braintree Error', err); // Deliberately using console
+								ips.ui.alert.show({
+									type: 'alert',
+									icon: 'warn',
+									message: ips.getString('payment_error')
+								});
+							}.bind(this));
+							
+						}.bind(this)
+					});
+					this.scope.find('[data-role="newAccountContainer"]').removeClass('ipsLoading ipsLoading_small').append( button );
+				} else {
+					console.error('Braintree Error', err); // Deliberately using console
+					this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+					this.scope.find('[data-role="error"]').show();
+					this.scope.find('[data-role="paymentMethodForm"]').hide();
+					return;
+				}
+			}.bind(this)).catch(function (err) {
+				console.error('Braintree Error', err); // Deliberately using console
+				this.scope.find('[data-role="errorMessage"]').text( ips.getString('payment_error') );
+				this.scope.find('[data-role="error"]').show();
+				this.scope.find('[data-role="paymentMethodForm"]').hide();
+				return;
+		    }.bind(this));
+		},
+				
+		/**
+		 * Submit form action
+		 *
+		 * @param		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		submitForm: function(e) {
+			if ( !$(e.currentTarget).find( 'input[type="radio"][name="payment_method"]' ).length || $(e.currentTarget).find( 'input[name="payment_method"][value="' + this.scope.attr('data-id') + '"]' ).is(':checked') ) {
+
+				/* Cards */
+				if ( this.scope.attr('data-method') === 'card' ) {
+
+					/* Already submitted */
+					if ( $(e.currentTarget).find('input[name="'+this.scope.attr('data-id')+'_card[token]"]').length ) {
+						return;
+					}
+					
+					/* Prepare the loading icon */
+					var loading = this.scope.closest('[data-ipswizard]').find('[data-role="loading"]');
+					var wizardContainer = this.scope.closest('[data-ipswizard]').find('[data-role="wizardContent"]');
+					if( !loading.length ){
+						loading = $('<div/>').attr('data-role', 'loading').addClass('ipsLoading').hide();
+						this.scope.closest('[data-ipswizard]').append( loading );
+					}
+					var dims = {
+						width: wizardContainer.outerWidth(),
+						height: wizardContainer.outerHeight()
+					};
+					loading.css({
+						width: dims.width + 'px',
+						height: dims.height + 'px',
+					});
+									
+					/* If we're using a stored card... */
+					if ( $(this.scope).find('input[name="'+this.scope.attr('data-id')+'_card[stored]"]:checked').val() > 0 ) {
+						
+						/* ... and we require 3DSecure, do that */
+						if ( this.threeDSecureInstance ) {
+							
+							e.preventDefault();
+							e.stopPropagation();
+							loading.show();
+							wizardContainer.hide().after( loading.show() );
+							
+							$(this.scope).find('#el'+this.scope.attr('data-id')+'_cardSave').prop('checked', false); // Prevents it from trying to be saved twice
+							
+ 							ips.getAjax()( $(e.currentTarget).attr('action'), {
+	 							method: 'post',
+	 							data: {
+		 							convertTokenToNonce: $(this.scope).find('input[name="'+this.scope.attr('data-id')+'_card[stored]"]:checked').val()
+	 							}
+ 							} ).done(function(response){
+	 							this._verify3DSecure( response.nonce, loading, wizardContainer );
+ 							}.bind(this));
+ 							
+ 							return;
+						}
+						/* ... and we don't require 3DSecure, just allow the form to submit */
+						else {
+							return;
+						}
+						
+					}
+													
+					/* Stop the form from actually submitting */
+					e.preventDefault();
+					e.stopPropagation();
+					
+					/* Check the form is valid */
+					var state = this.hostedFieldsInstance.getState();
+					var formValid = Object.keys(state.fields).every(function (key) {
+						return state.fields[key].isValid;
+					});
+					if ( !formValid ) {
+						ips.ui.alert.show({
+							type: 'alert',
+							icon: 'warn',
+							message: ips.getString('cardDetailsInvalid')
+						});
+						return;
+					}
+					
+					/* Hide any previous errors */
+					this.scope.find('[data-warning]').text('');
+														
+					/* Show the loading icon */
+					loading.show();
+					wizardContainer.hide().after( loading.show() );
+					
+					/* Send to Braintree */
+					this.hostedFieldsInstance.tokenize(function (tokenizeErr, payload) {
+						if (tokenizeErr) {
+							console.error(tokenizeErr); // Deliberately using console
+							ips.ui.alert.show({
+								type: 'alert',
+								icon: 'warn',
+								message: ips.getString('payment_error')
+							});
+							loading.remove();
+							wizardContainer.show();
+							return;
+						}
+						
+						if ( this.threeDSecureInstance ) {
+							this._verify3DSecure( payload.nonce, loading, wizardContainer );
+							return;
+						} else {
+							this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[token]' ).val( payload.nonce ) );
+							this.scope.closest('form').submit();
+						}
+						
+					}.bind(this));
+				}
+			}
+		},
+		
+		/**
+		 * Verify 3DSecure and then submit the form
+		 *
+		 * @param		{string} 	nonce			The payment method nonce
+		 * @param		{object}	loading			The loading element
+		 * @param		{object}	wizardContainer	The wizard container element
+		 * @returns 	{void}
+		 */
+		_verify3DSecure: function( nonce, loading, wizardContainer ){
+			this.threeDSecureInstance.verifyCard({
+				amount: this.scope.attr('data-amount'),
+				nonce: nonce,
+				customer: {
+					email: this.scope.attr('data-email'), 
+					billingAddress: $.parseJSON( this.scope.attr('data-billingAddress') )
+				},
+				addFrame: function (err, iframe) {
+					loading.removeClass('ipsLoading').css({'text-align':'center'}).html(iframe);
+				}.bind(this),
+				removeFrame: function () {
+					loading.html('').addClass('ipsLoading');
+				}.bind(this)
+			}, function (err, response) {
+				if ( err ) {
+					console.error('Braintree Error', err); // Deliberately using console
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('payment_error')
+					});
+					loading.remove();
+					wizardContainer.show();
+					return;
+				}
+				
+				if ( response.liabilityShifted || !response.liabilityShiftPossible ) {
+					this.scope.closest('form').append( $('<input type="hidden" />').attr( 'name', this.scope.attr('data-id') + '_card[token]' ).val( response.nonce ) );
+					this.scope.closest('form').submit();
+				} else {
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('payment_error')
+					});
+					loading.remove();
+					wizardContainer.show();
+					
+				}
+			}.bind(this) );
+		},
+		
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/gateways" javascript_name="ips.gateways.stripe.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.gateways.stripe.js - Stripe controller
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.global.gateways.stripe', {
+		
+		stripe: null,
+		cardNumber: null,
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( $(this.scope).closest('form')[0], 'submit', this.submitForm );
+
+			if( "Stripe" in window )
+			{
+				this.setup();
+			}
+			else
+			{
+				ips.loader.get(['https://js.stripe.com/v3/']).then( function () {
+					this.setup();
+				}.bind(this));
+			}
+		},
+		
+		/**
+		 * Init
+		 */
+		setup: function(){
+
+			this.stripe = Stripe( this.scope.attr('data-key') );
+
+			var elements = this.stripe.elements()
+			this.cardNumber = elements.create('cardNumber', {
+				'placeholder': '',
+				'style': {
+					'invalid': {
+						'color': 'inherit'
+					}
+				}
+			});
+			this.cardNumber.mount( '#elInput_' + $(this.scope).attr('data-id') + '-' + $(this.scope).attr('data-id') + '_card-number' );
+			this.cardNumber.addEventListener('change', function(event) {
+				if ( event.error ) {
+					this.scope.find('[data-role="dummyCard"]').addClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="number"]').text( event.error.message );
+				} else {
+					this.scope.find('[data-role="dummyCard"]').removeClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="number"]').text('');
+				}
+				
+				if ( event.brand != 'unknown' ) {
+					this.scope.find('.cPayment').css( 'opacity', 0.3 );
+					switch ( event.brand ) {
+						case 'visa':
+							this.scope.find('.cPayment_visa').css( 'opacity', 1 );
+							break;
+						case 'mastercard':
+							this.scope.find('.cPayment_mastercard').css( 'opacity', 1 );
+							break;
+						case 'amex':
+							this.scope.find('.cPayment_american_express').css( 'opacity', 1 );
+							break;
+						case 'discover':
+							this.scope.find('.cPayment_discover').css( 'opacity', 1 );
+							break;
+						case 'diners':
+							this.scope.find('.cPayment_diners_club').css( 'opacity', 1 );
+							break;
+						case 'jcb':
+							this.scope.find('.cPayment_jcb').css( 'opacity', 1 );
+							break;
+					}
+				} else {
+					this.scope.find('.cPayment').css( 'opacity', 1 );
+				}
+			}.bind(this) );
+			
+			var cardExp = elements.create('cardExpiry', {
+				'style': {
+					'invalid': {
+						'color': 'inherit'
+					}
+				}
+			});
+			cardExp.mount( '#elInput_' + $(this.scope).attr('data-id') + '-' + $(this.scope).attr('data-id') + '_card-exp' );
+			cardExp.addEventListener('change', function(event) {
+				if ( event.error ) {
+					this.scope.find('[data-role="dummyExp"]').addClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="exp"]').text( event.error.message );
+				} else {
+					this.scope.find('[data-role="dummyExp"]').removeClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="exp"]').text('');
+				}
+			}.bind(this) );
+			
+			var cardCvc = elements.create('cardCvc', {
+				'placeholder': '',
+				'style': {
+					'invalid': {
+						'color': 'inherit'
+					}
+				}
+			});
+			cardCvc.mount( '#elInput_' + $(this.scope).attr('data-id') + '-' + $(this.scope).attr('data-id') + '_card-ccv' );
+			cardCvc.addEventListener('change', function(event) {
+				if ( event.error ) {
+					this.scope.find('[data-role="dummyCcv"]').addClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="ccv"]').text( event.error.message );
+				} else {
+					this.scope.find('[data-role="dummyCcv"]').removeClass('ipsFieldRow_error');
+					this.scope.find('[data-warning="ccv"]').text('');
+				}
+			}.bind(this) );
+						
+			this.scope.show();
+		},
+		
+		/**
+		 * Submit form action
+		 *
+		 * @param		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		submitForm: function(e) {
+			
+			var scope = $(this.scope);
+									
+			if ( !$(e.currentTarget).find( 'input[type="radio"][name="payment_method"]' ).length || $(e.currentTarget).find( 'input[name="payment_method"][value="' + $(this.scope).attr('data-id') + '"]' ).is(':checked') ) {
+					
+				/* Already submitted */
+				if ( $(e.currentTarget).find('input[name="'+$(this.scope).attr('data-id')+'_card[token]"]').length ) {
+					return;
+				}
+																				
+				/* Stop the form from actually submitting */
+				e.preventDefault();
+				e.stopPropagation();
+								
+				/* Hide any previous errors */
+				scope.find('[data-warning]').text('');
+								
+				/* Show the loading icon */
+				var loading = scope.closest('[data-ipswizard]').find('[data-role="loading"]');
+				var wizardContainer = scope.closest('[data-ipswizard]').find('[data-role="wizardContent"]');
+				if( !loading.length ){
+					loading = $('<div/>').attr('data-role', 'loading').addClass('ipsLoading').hide();
+					scope.closest('[data-ipswizard]').append( loading );
+				}
+				var dims = {
+					width: wizardContainer.outerWidth(),
+					height: wizardContainer.outerHeight()
+				};
+				loading
+					.css({
+						width: dims.width + 'px',
+						height: dims.height + 'px'
+					})
+					.show();
+				wizardContainer
+					.hide()
+					.after( loading.show() );
+					
+				/* Stored card */
+				var savedCardId = $(this.scope).find('input[name="'+$(this.scope).attr('data-id')+'_card[stored]"]:checked').val();
+				if ( savedCardId > 0 ) {
+					this.createPaymentIntent( savedCardId );
+				}
+				
+				/* New card */
+				else {
+					var data = { billing_details: { address: {} } };
+					if ( scope.attr('data-city') ) {
+						data.billing_details.address.city = scope.attr('data-city');
+					}
+					if ( scope.attr('data-country') ) {
+						data.billing_details.address.country = scope.attr('data-country');
+					}
+					if ( scope.attr('data-address1') ) {
+						data.billing_details.address.line1 = scope.attr('data-address1');
+					}
+					if ( scope.attr('data-address2') ) {
+						data.billing_details.address.line2 = scope.attr('data-address2');
+					}
+					if ( scope.attr('data-zip') ) {
+						data.billing_details.address.postal_code = scope.attr('data-zip');
+					}
+					if ( scope.attr('data-state') ) {
+						data.billing_details.address.state = scope.attr('data-state');
+					}
+					if ( scope.attr('data-email') ) {
+						data.billing_details.email = scope.attr('data-email');
+					}
+					if ( scope.attr('data-name') ) {
+						data.billing_details.name = scope.attr('data-name');
+					}
+					if ( scope.attr('data-phone') ) {
+						data.billing_details.phone = scope.attr('data-phone');
+					}
+					
+					if ( scope.attr('data-amount') && parseFloat( scope.attr('data-amount') ) > 0 ) {
+						this.stripe.createPaymentMethod( 'card', this.cardNumber, data ).then( _.bind( this.receivedCardPaymentMethod, this ) );
+					} else {
+						this.stripe.handleCardSetup( scope.attr('data-setupSecret'), this.cardNumber, { payment_method_data: data } ).then( function( result ){
+							if (result.error) {
+								Debug.error(result.error);
+								loading.remove();
+								wizardContainer.show();
+								ips.ui.alert.show({
+									type: 'alert',
+									icon: 'warn',
+									message: result.error.message
+								});
+							} else {
+								scope.closest('form').append( $('<input type="hidden" />').attr( 'name', scope.attr('data-id') + '_card[token]' ).val( result.setupIntent.payment_method ) );
+								scope.closest('form').submit();
+							}
+						} );
+					}
+				}
+			}
+		},
+		
+		/**
+		 * Create payment intent
+		 *
+		 * @param		{mixed} 	paymentMethodId		A Stripe payment method ID or a stored card ID
+		 * @returns 	{void}
+		 */
+		createPaymentIntent: function( paymentMethodId ) {
+			var scope = $(this.scope);
+			var loading = scope.closest('[data-ipswizard]').find('[data-role="loading"]');
+			var wizardContainer = scope.closest('[data-ipswizard]').find('[data-role="wizardContent"]');
+						
+			ips.getAjax()( scope.closest('form').attr('action'), {
+				method: 'post',
+				data: {
+					createPaymentIntent: paymentMethodId,
+					savePaymentMethod: $( '#el' + scope.attr('data-id') + '_cardSave' ).prop('checked'),
+				}
+			} )
+			.done(function(response){
+				if ( response.response.status === 'requires_action' ) {
+					this.stripe.handleCardAction(
+						response.response.client_secret
+					).then(function(result) {
+						if (result.error) {
+							console.error(result.error);
+							loading.remove();
+							wizardContainer.show();
+							ips.ui.alert.show({
+								type: 'alert',
+								icon: 'warn',
+								message: result.error.message
+							});
+						} else {
+							scope.closest('form').append( $('<input type="hidden" />').attr( 'name', scope.attr('data-id') + '_card[token]' ).val( response.response.id ) );
+							scope.closest('form').submit();
+						}
+					});
+				} else {
+					scope.closest('form').append( $('<input type="hidden" />').attr( 'name', scope.attr('data-id') + '_card[token]' ).val( response.response.id ) );
+					scope.closest('form').submit();
+				}
+			}.bind(this))
+			.fail(function(response){
+				console.error(response);
+				loading.remove();
+				wizardContainer.show();
+				ips.ui.alert.show({
+					type: 'alert',
+					icon: 'warn',
+					message: ips.getString('payment_error')
+				});
+			}.bind(this));
+		},
+		
+		/**
+		 * Callback after a Stripe Payment Method has been generated for a card
+		 *
+		 * @param		{object} 	result	The result
+		 * @returns 	{void}
+		 */
+		receivedCardPaymentMethod: function( result ) {
+									
+			/* Init */
+			var scope = $(this.scope);
+			var loading = scope.closest('[data-ipswizard]').find('[data-role="loading"]');
+			var wizardContainer = scope.closest('[data-ipswizard]').find('[data-role="wizardContent"]');
+						
+			/* If there was an error, show the form again */
+			if ( result.error ) {
+				Debug.error(result.error);
+				
+				loading.remove();
+				wizardContainer.show();
+				
+				if ( result.error.type == 'card_error' || result.error.type == 'validation_error' ) {
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: result.error.message
+					});
+				} else {
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('payment_error')
+					});
+				}
+			}
+			/* Otherwise, process... */
+			else {
+				this.createPaymentIntent( result.paymentMethod.id );
+			}
+		},
+				
+		/**
+		 * Callback when the status of a source changes (i..e the customer has paid, or too much time has passed for them to be able to pay)
+		 *
+		 * @param		{int} 		status 		Status Code
+		 * @param		{Source} 	source 		Stripe Source object
+		 * @returns 	{void}
+		 */
+		pollCallback: function( status, source ) {
+			if ( source.status !== 'pending' ) {
+				$(this.scope).closest('form').submit();
+			}
+		}
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/gateways" javascript_name="ips.gateways.stripepaymentrequest.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * IPS Community Suite 4
+ * (c) 2017 Invision Power Services - http://www.invisionpower.com
+ *
+ * ips.gateways.stripepaymentrequest.js - Stripe Apple Pay Controller
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.global.gateways.stripepaymentrequest', {
+		
+		strile: null,
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.setup();
+		},
+		
+		/**
+		 * Init
+		 */
+		setup: function(){
+						
+			this.stripe = Stripe( this.scope.attr('data-key') );
+						
+			var data = {
+				country: this.scope.attr('data-country'),
+				currency: this.scope.attr('data-currency'),
+				total: {
+					label: $('meta[property=&quot;og:site_name&quot;]').attr('content'),
+					amount: parseInt( this.scope.attr('data-amountAsCents') )
+				}
+			};
+			var paymentRequest = this.stripe.paymentRequest(data);
+			
+			var elements = this.stripe.elements();
+			var prButton = elements.create('paymentRequestButton', {
+				paymentRequest: paymentRequest
+			});
+			
+			var scope = this.scope;
+			paymentRequest.canMakePayment().then(function(result) {
+				if (result) {
+					prButton.mount( '#paymentrequest-' + scope.attr('id') );
+				} else {
+					ips.utils.cookie.set( 'PaymentRequestAPI', 0 );
+						
+					var paymentMethodRadio = $( '#elRadio_payment_method_' + scope.attr('data-id') );
+					if ( paymentMethodRadio.length ) {
+						if ( paymentMethodRadio.is(':checked') ) {
+							paymentMethodRadio.closest('li').next('li').find('input[type=&quot;radio&quot;]').click();
+						}
+						paymentMethodRadio.closest('li').remove();
+					} else {
+						window.location = window.location;
+					}
+				}
+			} );
+			
+			paymentRequest.on('source', function(ev) {
+				ips.getAjax()( ips.getSetting('baseURL') + 'applications/nexus/interface/gateways/stripe-payrequest.php', { data: { token: ev.source.id, gateway: this.scope.attr('data-id'), currency: this.scope.attr('data-currency'), amount: this.scope.attr('data-amount'), invoice: this.scope.attr('data-invoice') } } )
+				.done(function(response){
+					if ( response.success ) {
+						ev.complete('success');
+						window.location = response.url;
+					} else {
+						ev.complete('fail');
+					}
+				})
+				.fail(function(){
+					ev.complete('fail');
+				});
+			}.bind(this));
+		},		
+		
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="controllers/misc" javascript_name="ips.misc.print.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.misc.print.js - Makes the page print
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.global.misc.print', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			window.print();
+		},
+				
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/notifications" javascript_name="ips.notifications.pendingTransactions.js" javascript_type="controller" javascript_version="107704" javascript_position="1000050">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.notifications.pendingTransactions.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.notifications.pendingTransactions', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;quickAction&quot;]', this.doAction );
+		},
+		
+		/**
+		 * Event handler for the buttons
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		doAction: function (e) {
+			e.preventDefault();
+			var self = this;
+			var button = $( e.currentTarget );
+			var url = button.attr('href');
+			var type = button.attr('data-action');
+			var row = button.closest('[data-role=&quot;validatingRow&quot;]');
+			var name = row.find('[data-role=&quot;userName&quot;]').text();
+			var toggles = button.closest('[data-role=&quot;buttons&quot;]');
+			
+			
+			ips.ui.alert.show({
+				type: 'confirm',
+				callbacks: {
+					'ok': function() {
+						toggles.find('a').addClass('ipsButton_disabled');
+						
+						ips.getAjax()( url )
+						.done( function ( response ) {
+																	
+							// Show flash msg
+							if ( response.message ) {
+								ips.ui.flashMsg.show( response.message );
+							}
+							
+							// Update HTML
+							if ( response.queue ) {
+								var newElement = $( response.queue );
+								$(self.scope).replaceWith( newElement );
+								$( document ).trigger( 'contentChange', [ newElement ] );
+							} else {
+								ips.utils.anim.go( 'fadeOut', $(self.scope).closest('.cNotification') );
+								$('body').trigger('updateNotificationCount');
+							}
+						})
+						.fail( function ( response ) {
+							if ( response.responseJSON ) {
+								ips.ui.alert.show({
+									type: 'alert',
+									message: response.responseJSON,
+								});
+								toggles.find('a').removeClass('ipsButton_disabled');
+							} else {
+								window.location = url;
+							}
+						});
+					}
+				},
+			});
+
+		}
+				
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/payments" javascript_name="ips.payments.braintreeSetup.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.payments.braintreeSetup.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.payments.braintreeSetup', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			ips.loader.get(['https://js.braintreegateway.com/web/3.40.0/js/client.min.js']);
+			this.on( 'submit', this.submitForm );
+		},
+		
+		/**
+		 * Submit form action
+		 *
+		 * @param		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		submitForm: function(e) {
+			
+			var scope = this.scope;
+	
+			if ( scope.find('input[name="braintree_features"]').length ) {
+				return;
+			}
+			
+			e.preventDefault();
+			e.stopPropagation();
+			
+			var scope = this.scope;
+			
+			scope.find('button[type="submit"]').addClass('ipsButton_disabled').text( ips.getString('braintreeSaving') );
+						
+			ips.getAjax()( scope.attr('action') + '&_getClientToken=1', {
+				method: 'post',
+				data: {
+					merchant_id: scope.find('input[name="braintree_merchant_id"]').val(),
+					public_key: scope.find('input[name="braintree_public_key"]').val(),
+					private_key: scope.find('input[name="braintree_private_key"]').val()
+				}
+			} ).done(function(response){				
+				if ( response.success ) {
+					ips.loader.get(['https://js.braintreegateway.com/web/3.40.0/js/client.min.js']).then( function () {
+						
+						var currency;
+						var tokensReversed = {};
+						var finalData = {};
+						for ( currency in response.tokens ) {
+							
+							tokensReversed[ response.tokens[currency] ] = currency;
+							
+							braintree.client.create({
+								authorization: response.tokens[currency]
+							}, function(err, clientInstance) {
+								if ( err ) {
+									console.error( err );
+									scope.find('button[type="submit"]').removeClass('ipsButton_disabled').text( ips.getString('save') );
+									ips.ui.alert.show({
+										type: 'alert',
+										icon: 'warn',
+										message: ips.getString('braintreeError'),
+										subText: err.message
+									});
+									return;
+								}
+								
+								var configuration = clientInstance.getConfiguration();
+								
+								finalData[ tokensReversed[ configuration.authorization ] ] = {
+									paypal: configuration.gatewayConfiguration.paypalEnabled,
+									cardTypes: configuration.gatewayConfiguration.creditCards.supportedCardTypes
+								};
+								
+								if ( Object.keys( finalData ).length == Object.keys( response.tokens ).length ) {
+									scope.append( $('<input type="hidden" />').attr( 'name', 'braintree_features' ).val( $.param( finalData ) ) );
+									scope.submit();
+								}
+							} );
+						}
+					});
+				} else {
+					scope.find('button[type="submit"]').removeClass('ipsButton_disabled').text( ips.getString('save') );
+					ips.ui.alert.show({
+						type: 'alert',
+						icon: 'warn',
+						message: response.message
+					});
+				}
+			});
+		}
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/store" javascript_name="ips.store.productoptions.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.productoptions.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.store.productoptions', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			var self = this;
+			this.on( 'change', '[data-role="field"]', this.refresh );
+			$('input[name="p_renews_checkbox"]').change(function(){
+				self.refresh();
+			});
+			
+			if ( $('input[name="p_images_primary_image"]').length ) {
+				$('input[name="p_images_primary_image"]:first').attr('checked', true);
+			}
+			
+			this.refresh();
+		},
+		
+		/**
+		 * Refresh
+		 */
+		refresh: function () {
+			var ids = [];
+			$(this.scope).find('[data-role="field"]:checked').each(function(){
+				ids.push( $(this).attr('data-id') );
+			});
+			
+			if ( $('input[name="p_renews_checkbox"]').is(':checked') ) {
+				var renews = 1;
+			} else {
+				var renews = 0;
+			}
+						
+			var scope = $(this.scope);
+			ips.getAjax()( scope.attr('data-url') + '&fields=' + ids.join(',') + '&renews=' + renews )
+				.done(function(response){
+					scope.find('[data-role="table"]').html( response );
+					$( document ).trigger( 'contentChange', [ scope ] );
+				});
+		},
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/store" javascript_name="ips.store.productselector.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.productselector.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.store.productselector', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.url = $(this.scope).attr('data-url');
+			this.on( 'click', '[data-role="group"]', this.expandCollapse );
+			this.on( 'click', '[data-role="product"]', this.increaseQty );
+		},
+		
+		/**
+		 * Expand/Collapse Group
+		 */
+		expandCollapse: function (e) {
+			var row = $( e.currentTarget );
+			var list = row.next();
+			
+			if ( row.hasClass('ipsTree_open') ) {
+				row.removeClass('ipsTree_open');
+				list.hide();		
+				
+			} else {
+				row.addClass('ipsTree_open');
+				list.show();
+				if ( !list.data('_childrenLoaded') ) {					
+					list.html( ips.templates.render('core.trees.childWrapper', {
+						content: ips.templates.render('core.trees.loadingRow')
+					} ) );
+										
+					ips.getAjax()( this.url + '&id=' + row.attr('data-groupId') ).done(function(response){
+						list.html(response);
+						list.data('_childrenLoaded', 'true');
+					})
+				}
+			}
+		},
+		
+		/**
+		 * Increase Qty
+		 */
+		increaseQty: function (e) {
+			if( !$(e.target).is('input') ) {
+				$( e.currentTarget ).find('input').val( parseInt( $( e.currentTarget ).find('input').val() ) + 1 );
+			}
+		}
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.cartReview.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.cartReview.js - Cart review screen
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.store.cartReview', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;removeFromCart&quot;]', this.removeFromCart );
+			this.on( 'submit', '[data-role=&quot;quantityForm&quot;]', this.quantityForm );
+			this.on( 'click', '[data-action=&quot;checkout&quot;]', this.checkout );
+		},
+		
+		/**
+		 * Prevent checkout button being clicked more than once
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		checkout: function (e) {
+			if ( $(e.target).hasClass('ipsButton_disabled') ) {
+				e.preventDefault();
+			} else {
+				$(e.target).addClass('ipsButton_disabled');
+			}
+		},
+
+		/**
+		 * Removes the item from the cart
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		removeFromCart: function (e) {
+			e.preventDefault();
+			var self = this;
+			var url = $( e.currentTarget ).attr('href');
+
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: ips.getString('confirmRemoveItem'),
+				icon: 'warn',
+				callbacks: {
+					ok: function () {
+						ips.getAjax()( url )
+							.done( function (response) {
+								self.scope.find('[data-role=&quot;cart&quot;]').html( response );
+							});
+					}
+				}
+			});
+		},
+
+		/**
+		 * Handles submitting the quantity form
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		quantityForm: function (e) {
+			e.preventDefault();
+			var self = this;
+			var form = $( e.currentTarget );
+			var menu = form.closest('.ipsMenu');
+
+			// Set menu to loading and hide form
+			menu
+				.css({
+					height: menu.outerHeight() + 'px'
+				})
+				.addClass('ipsLoading');
+
+			form.hide();
+
+			// Do ajax request to update it
+			ips.getAjax()( form.attr('action'), {
+				data: form.serialize()
+			})
+				.done( function (response) {
+					self.scope.find('[data-role=&quot;cart&quot;]').html( response );
+				})
+				.fail(function(response){
+					menu.removeClass( 'ipsLoading' );
+					form.show();
+					ips.ui.alert.show( {
+						type: 'alert',
+						icon: 'warn',
+						message: response.responseJSON
+					});
+
+				});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.category.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.category.js - Category screen
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.store.category', {
+
+		_ajaxObj: null,
+
+		initialize: function () {
+			this.on( 'click', '[data-action="filter"],[data-page]', this.changeView );
+			this.on( window, 'statechange', this.stateChange );
+			this.setup();
+		},
+		
+		/**
+		 * Controller setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			History.pushState( { controller: 'storeCategoryView' }, document.title, window.location.href );
+		},
+
+		/**
+		 * Changes the calendar view dynamically
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		changeView: function (e) {
+			e.preventDefault();
+			
+			if ( $(e.target).hasClass('ipsSideMenu_item') ) {
+				$(e.target).toggleClass('ipsSideMenu_itemActive');
+			}
+
+			// Load the url via ajax instead
+			var self = this;
+			var url = $( e.currentTarget ).attr('href');
+
+			History.pushState( { controller: 'storeCategoryView' }, document.title, url );
+		},
+
+		/**
+		 * Event handler for history state changes
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		stateChange: function () {
+			var state = History.getState();
+
+			if( _.isUndefined( state.data.controller ) || state.data.controller != 'storeCategoryView' ) {
+				return;
+			}
+
+			// Track page view
+			ips.utils.analytics.trackPageView( state.url );
+
+			this._updateView( state.url, state.title )
+		},
+
+		/**
+		 * Loads a new view 
+		 *
+		 * @param 	{string} 	url 	URL to load
+		 * @param 	{string} 	title 	New browser title
+		 * @returns {void}
+		 */
+		_updateView: function (url, title) {
+			var self = this;
+
+			if( this._ajaxObj && _.isFunction( this._ajaxObj.abort ) ){
+				this._ajaxObj.abort();
+			}
+
+			this._setLoading( true );
+
+			this._ajaxObj = ips.getAjax()( url )
+				.done( function (response) {
+					
+					$('[data-role="packageListContainer"]').html(response.contents);
+					$('[data-role="categorySidebar"]').html(response.sidebar);
+					$( document ).trigger( 'contentChange', [ $('[data-role="packageListContainer"]'), $('[data-role="categorySidebar"]') ] );
+
+					History.pushState( { controller: 'storeCategoryView' }, title, url );
+				})
+				.always( function () {
+					self._setLoading( false );
+				});
+		},
+
+		/**
+		 * Toggles the loading state on the view
+		 *
+		 * @param 	{boolean} 	state 		Enable the loading state?
+		 * @returns {void}
+		 */
+		_setLoading: function (state) {
+			if( state ){
+				$('[data-role="packageList"]').css( 'height', $('[data-role="packageList"]').height() ).html('').addClass('ipsLoading');
+			} else {
+				$('[data-role="packageList"]').css( 'height', 'auto' ).removeClass('ipsLoading');
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.currencySelect.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.currencySelect.js - Alert when changing currency
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.store.currencySelect', {
+
+		initialize: function () {
+			this.on( 'click', 'a', this.currencyChangeWarning );
+		},
+		
+		/**
+		 * Prevent checkout button being clicked more than once
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		currencyChangeWarning: function (e) {
+			e.preventDefault();
+
+			var url = $(e.currentTarget).attr('href');;
+
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: ips.getString('store_currency_change_warning'),
+				icon: 'warn',
+				callbacks: {
+					ok: function () {
+						window.location = url;
+					}
+				}
+			});
+			
+			
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.giftCard.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.giftCard.js - Gift card purchase screen
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.store.giftCard', {
+
+		initialize: function () {
+			this.on( 'click', '[data-color]', this.toggleColor );
+			this.on( 'change', '[name="gift_voucher_amount"], [name="x_gift_voucher_amount"]', this.changeAmount );
+			this.setup();
+		},
+
+		setup: function () {
+			this.changeAmount();
+			if ( $('input[name="gift_voucher_color"]').val() ) {
+				this.setColor( $('input[name="gift_voucher_color"]').val() );
+			}
+		},
+
+		/**
+		 * Event handler for changing the amount of the gift card
+		 *
+		 * @returns {void}
+		 */
+		changeAmount: function () {
+			var amountVal = this.scope.find('[name="gift_voucher_amount"]:checked').val();
+			var customVal = this.scope.find('[name="x_gift_voucher_amount"]').val();
+			var amount = 0;
+
+			if( amountVal == 'x' ){
+				if( !_.isUndefined( customVal ) && customVal != '' && customVal != 'x' ){
+					amount = customVal;
+				} 
+				
+				var scope = this.scope;
+				ips.getAjax()( this.scope.attr('data-formatCurrencyUrl') + '&amount=' + amount )
+					.done( function (response) {
+						scope.find('[data-role="value"]').text( response );
+					});
+			} else {
+				amount = amountVal;				
+				this.scope.find('[data-role="value"]').text( this.scope.find( 'label[for="' + this.scope.find('[name="gift_voucher_amount"]:checked').attr('id') + '"]' ).text() );
+			}
+		},
+
+		/**
+		 * Toggles the color being used for the gift card
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleColor: function (e) {
+			e.preventDefault();
+			var swatch = $( e.currentTarget );
+			var color = swatch.attr('data-color');
+			this.setColor(color);
+		},
+		
+		/**
+		 * Sets being used for the gift card
+		 *
+		 * @param 	{string} 	color	The color
+		 * @returns {void}
+		 */
+		setColor: function (color) {
+			this.scope
+				.find('[data-role="giftCard"]').css({
+					backgroundColor: '#' + color
+				})
+				.end()
+				.find('input[type="hidden"][name="gift_voucher_color"]')
+					.val( '#' + color )
+				.end()
+				.find('[data-color]')
+					.closest('li')
+					.removeAttr('data-selected');
+
+			$(this.scope).find('[data-color="' + color + '"]').closest('li').attr( 'data-selected', true );
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.packagePage.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.packagePage.js
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.store.packagePage', {
+		
+		_productURL: '',
+
+		initialize: function () {
+			this.on( 'change', 'select, input[type="radio"], [name="quantity"], [name="renewal_term"]', this.updatePriceAndStock );
+			this.on( 'submit', 'form', this.submitForm );
+			this.on( 'click', '[data-action="toggleImage"]', this.toggleScreenshot );
+			this.on( document, 'addToCart.nexus', this.addToCart );
+			this.setup();
+		},
+		
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			// Select first image if it's there
+			this.scope.find('.cNexusProduct_images [data-action="toggleImage"]').first().addClass('cNexusProduct_imageSelected');
+			
+			if ( this.scope.find('select,input[type="radio"]').length ) {
+				this.updatePriceAndStock();
+			}
+		},
+
+		/**
+		 * Switches the screenshot being shown for a product
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		toggleScreenshot: function (e) {
+			e.preventDefault();
+
+			var clickedImage = $( e.currentTarget );
+			var thumbImage = clickedImage.find('img').attr('src');
+			var fullImage = clickedImage.attr('href');
+
+			var html = ips.templates.render('nexus.store.productImage', {
+				fullURL: fullImage,
+				thumbURL: thumbImage
+			});
+
+			this.scope
+				.find('.cNexusProduct_primaryImage')
+					.replaceWith( html )
+				.end()
+				.find('[data-action="toggleImage"]')
+					.removeClass('cNexusProduct_imageSelected');
+
+			clickedImage.addClass('cNexusProduct_imageSelected');
+
+			$( document ).trigger('contentChange', [ this.scope.find('.cNexusProduct_primaryImage').parent() ] ); 
+		},
+
+		/**
+		 * Event handler for submitting the form, triggering an event that we can capture
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		submitForm: function (e) {
+
+			var self = this;
+			var form = this.scope.find('form');
+			
+			if ( form.attr('data-noajax') ) {
+				return true;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+
+			// Set form to loading
+			var formDims = ips.utils.position.getElemDims( form );
+			var formPos = ips.utils.position.getElemPosition( form );
+			var loadingElem = $('<div/>').addClass('ipsLoading');
+			form.after( loadingElem );
+
+			loadingElem.css({
+				top: formPos.offsetPos.top + 'px',
+				left: formPos.offsetPos.left + 'px',
+				width: formDims.outerWidth + 'px',
+				height: formDims.outerHeight + 'px'
+			});
+
+			this._productURL = form.attr('action');
+
+			// Trigger an event for adding to cart, so that we can capture it
+			// and do something else with it if necessary
+			this.trigger( 'addToCart.nexus', {
+				url: this._productURL,
+				formData: form.serialize()
+			});
+		},
+
+		/**
+		 * Adds the item to cart via ajax, and creates a dialog to let the user know
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @param 	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		addToCart: function (e, data) {
+			
+			// Since addToCart is responding to events at document level, we'll potentially be called for multiple
+			// products on the page. Check the URL matches the expected one here, and ignore if it's for a different product.
+			if( data.url !== this._productURL ){
+				return;
+			}
+
+			var self = this;
+			
+			ips.getAjax()( data.url, {
+				data: data.formData,
+				type: 'post'
+			})
+				.done( function (response) {
+					// Are we already running inside of a dialog?
+					if( self.scope.closest('.ipsDialog').length ){
+						var dialogContent = self.scope.closest('.ipsDialog').find('.ipsDialog_content');
+						// We need to destroy this controller before updating the content so that event handlers are unregistered,
+						// otherwise this controller will continue listening for addToCart events and trigger multiple dialogs.
+						self.trigger('destroy');						
+						dialogContent.html( response.dialog ).show();
+						$( document ).trigger( 'contentChange', [ dialogContent ] );
+					} else {
+						var contentElem = $('<div/>').html( response.dialog );
+						var loadingElem = self.scope.find('form').next('.ipsLoading');
+
+						ips.getContainer().append( contentElem );
+
+						// Show a dialog
+						var dialogRef = ips.ui.dialog.create({
+							title: self.scope.attr('data-itemTitle'),
+							content: contentElem,
+							forceReload: true,
+							size: 'medium'
+						});
+
+						dialogRef.show();
+
+						$( document ).trigger( 'contentChange', [ contentElem ] );
+
+						// Remove loading elem
+						loadingElem.remove();
+						self.updatePriceAndStock();
+					}
+					
+					if ( response.cart ) {
+						$('#elCart_container').replaceWith( $( '<div>' + response.cart + '</div>' ).find('.cUserNav_icon') );
+						$('#elCart_sep').removeClass('ipsHide');
+					}
+
+					// Did we get any CSS files to output? 
+					// We have to do this last because a stylesheet may be included in the dialog initially but replaced out and no longer exist now
+					if( !_.isUndefined( response.css ) )
+					{
+						self.insertCssUrls( response.css );
+					}
+				})
+				.fail(function(response){
+					
+					var loadingElem = self.scope.find('form').next('.ipsLoading');
+					loadingElem.remove();
+					
+					if ( response.responseJSON ) {
+						ips.ui.alert.show({
+							type: 'alert',
+							message: response.responseJSON,
+							icon: 'warn'
+						});
+					} else {
+						var form = $(e.target).find('form');
+						try {
+							var newForm = $(response.responseText);
+						} catch (err) {
+							form.attr('data-noajax', 'true');
+							form.submit();
+						}
+						form.replaceWith( newForm );
+						$( document ).trigger('contentChange' ); 
+					}
+				});
+		},
+
+		/**
+		 * Inserts CSS URLs if they are not already in the document
+		 *
+		 * @returns {void}
+		 */
+		insertCssUrls: function( urls ) {
+			// If we don't have any, return
+			if( !urls.length )
+			{
+				return;
+			}
+
+			// Loop over the URLs
+			_.each( urls, function( url ){
+				// Build the full URL with the cache bust key
+				if( url.indexOf('?') != -1 )
+				{
+					url = url + '&v=' + ips.getSetting('antiCache');
+				}
+				else
+				{
+					url = url + '?v=' + ips.getSetting('antiCache');
+				}
+
+				// Now see if it's already in the list of stylesheets loaded for the document. If not, add it, otherwise skip.
+				if( !$('link[href="' + url +'"]').length )
+				{
+					var stylesheet = document.createElement("link");
+					stylesheet.setAttribute( "href", url );
+					stylesheet.setAttribute( "rel", "stylesheet" );
+					stylesheet.setAttribute( "media", "all" );
+
+					$('head')[0].appendChild(stylesheet);
+
+					Debug.log( "Added stylesheet " + url + " to document" );
+				}
+			});
+		},
+
+		/**
+		 * Updates the stock and price information when custom fields change
+		 *
+		 * @returns {void}
+		 */
+		updatePriceAndStock: function () {
+						
+			var self = this;
+			var form = this.scope.find('form');
+
+			ips.getAjax()( form.attr('action'), {
+				dataType: 'json',
+				data: form.serialize() + '&stockCheck=1',
+				type: 'post'
+			})
+				.done( function (response) {
+					self.scope.find('[data-role="price"]').html( response.price );
+					self.scope.find('[data-role="stock"]').html( response.stock );
+					self.scope.find('[data-role="renewalTerm"]').html( response.renewal );
+					self.scope.find('[data-role="initialTerm"]').html( response.initialTerm );
+					if( response.okay ){
+						self.scope.find('button').removeAttr('disabled').text( ips.getString('add_to_cart_js') );
+					} else {
+						self.scope.find('button').attr( 'disabled','disabled' ).text( ips.getString('out_of_stock') );
+					}
+				})
+				.fail(function(response){
+					Debug.error(response);
+				});
+		}
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/store" javascript_name="ips.store.register.js" javascript_type="controller" javascript_version="107704" javascript_position="1000100"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.store.register.js - Register screen in Nexus
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.front.store.register', {
+
+		_infoPaneWrapper: null,
+		_infoPane: null,
+
+		initialize: function () {
+			this.on( 'click', '[data-role="productCarousel"] .cNexusProduct', this.selectProduct );
+			this.on( 'click', '[data-action="closeInfo"]', this.closeInfo );
+			this.on( 'addToCart.nexus', this.addToCart );
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			this._infoPaneWrapper = this.scope.find('[data-role="productInformationWrapper"]');
+			this._infoPane = this.scope.find('[data-role="productInformation"]');
+		},
+
+		/**
+		 * Event handler for closing the info panel
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		closeInfo: function (e) {
+			e.preventDefault();
+
+			this.scope.find('[data-role="productCarousel"] .cNexusProduct').removeClass('cNexusProduct_selected');
+
+			this._infoPaneWrapper
+				.hide()
+				.find('[data-action="closeInfo"]')
+					.hide();
+		},
+
+		/**
+		 * Highlights a product on the registration screen and loads its overview to display
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		selectProduct: function (e) {
+			e.preventDefault();
+			var selectedProduct = $( e.currentTarget );
+			var self = this;
+
+			this.scope.find('[data-role="productCarousel"] .cNexusProduct').removeClass('cNexusProduct_selected');
+			selectedProduct.addClass('cNexusProduct_selected');
+
+			// Get the URL of the selected product
+			var url = selectedProduct.find('[data-role="productLink"]').attr('href');
+			var height = 200;
+
+			// Set info area to loading
+			if( this._infoPaneWrapper.is(':visible') ){
+				height = this._infoPane.height();
+			}
+			
+			this._infoPaneWrapper
+				.show()
+				.find('[data-action="closeInfo"]')
+					.hide();
+
+			this._infoPane
+				.css({
+					height: height + 'px'
+				})
+				.html('')
+				.addClass('ipsLoading');
+
+			// Now load
+			ips.getAjax()( url )
+				.done( function (response) {
+						
+					self._infoPaneWrapper
+						.find('[data-action="closeInfo"]')
+							.show();
+
+					self._infoPane
+						.removeClass('ipsLoading')
+						.css({
+							height: 'auto'
+						})
+						.html( response );
+
+					$( document ).trigger( 'contentChange', [ self._infoPane ] );
+				});
+		},
+
+		/**
+		 * Adds the item to cart via ajax, and creates a dialog to let the user know
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @param 	{object} 	data 	Event data object
+		 * @returns {void}
+		 */
+		addToCart: function (e, data) {
+			e.stopPropagation();
+			var self = this;
+
+			ips.getAjax()( data.url, {
+				data: data.formData + '&registerCheckout=1',
+				type: 'post'
+			})
+				.done( function (response) {
+					self._infoPane.html( response.dialog );
+					$( document ).trigger( 'contentChange', [ self._infoPane ] );
+				})
+				.fail(function(response){
+					
+					var loadingElem = self.scope.find('form').next('.ipsLoading');
+					loadingElem.remove();
+					
+					if ( response.responseJSON ) {
+						ips.ui.alert.show({
+							type: 'alert',
+							message: response.responseJSON,
+							icon: 'warn'
+						});
+					} else {
+						var form = $(e.target).find('form');
+						try {
+							var newForm = $(response.responseText);
+						} catch (err) {
+							form.attr('data-noajax', 'true');
+							form.submit();
+						}
+						form.replaceWith( newForm );
+						$( document ).trigger('contentChange' ); 
+					}
+				});
+		},
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/subscriptions" javascript_name="ips.subscriptions.main.js" javascript_type="controller" javascript_version="107704" javascript_position="1000150">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.subscriptions.main.js - Register form during checkout
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.subscriptions.main', {
+
+		initialize: function () {
+			this.on( 'click', '[data-change-subscription]', this.showAlert );
+			if ( $(this.scope).attr('data-regform') ) {
+				this._showRegistrationForm();
+			}
+		},
+		
+		showAlert: function (e) {
+			e.preventDefault();
+			ips.ui.alert.show({
+				type: 'confirm',
+				message: $( e.currentTarget ).attr('data-change-message'),
+				icon: 'warn',
+				callbacks: {
+					ok: function () {
+						window.location = $( e.currentTarget ).attr('href');
+					},
+					cancel: function () {
+						return false;
+					}
+				}
+			});
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.emailsetup.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.emailsetup.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.emailsetup', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			var self = this;
+			var scope = $(this.scope);
+			scope.find('[data-role=&quot;toggleView&quot;]').click(function(e){
+				e.preventDefault();
+				var height = scope.height();
+				scope.html('').css( 'min-height', height ).addClass('ipsLoading');
+				ips.getAjax()( $(e.currentTarget).attr('href') )
+					.done(function( response ){
+						scope.removeClass('ipsLoading').css( 'min-height', 0 ).html( response );
+						self.initialize();
+					})
+					.fail(function(){
+						window.location = $(e.currentTarget).attr('href');
+					});
+			});
+		},
+				
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.filterCheckboxSet.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.filterForm.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.filterCheckboxSet', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;checkAll&quot;]', this.checkAll );
+			this.on( 'click', '[data-action=&quot;checkNone&quot;]', this.checkNone );
+		},
+		
+		/**
+		 * Check all
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		checkAll: function (e) {
+			e.preventDefault();
+			this.scope
+				.find('input[type=&quot;checkbox&quot;]')
+					.prop( 'checked', true )
+					.closest('.ipsSideMenu_item')
+						.addClass('ipsSideMenu_itemActive');
+		},
+		
+		/**
+		 * Uncheck all
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		checkNone: function (e) {
+			e.preventDefault();
+			this.scope
+				.find('input[type=&quot;checkbox&quot;]')
+					.prop( 'checked', false )
+					.closest('.ipsSideMenu_item')
+						.removeClass('ipsSideMenu_itemActive');
+		}
+				
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.list.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.list.js - Controller for main support request list
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.support.list', {
+		
+		_ajaxObj: null,
+		_editAjaxObj: null,
+		_storedCustomForm: '',
+				
+		initialize: function () {			
+			this.on( 'click', '[data-action="reloadTable"]', this.reloadTableClick );
+			this.on( 'menuItemSelected', this.itemSelected );
+			this.on( 'click', '[data-action="quickToggleCount"]', this.streamCountClicked );
+			this.on( 'change', '[data-action="quickToggle"]', this.toggleStream );
+			this.on( 'click', '[data-action="editStream"]', this.editStream );
+			this.on( 'click', 'tr.cNexusSupportTable_row', this.rowClick );
+		},
+		
+		/**
+		 * Event handler for menu selections
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @param 		{data} 		data	Data
+		 * @returns 	{void}
+		 */
+		itemSelected: function (e,data) {
+			if ( $(data.menuElem).attr('id') === 'elSortMenu_menu' || $(data.menuElem).attr('id') === 'elOrderMenu_menu' ) {
+				this._reloadTable( data.menuElem.find( '[data-ipsMenuValue="' + data.selectedItemID + '"] a' ).attr('href') );
+			}
+		},
+		
+		/**
+		 * Event handler for a link which should reload the table
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		reloadTableClick: function (e) {
+			e.preventDefault();
+			this._reloadTable( $(e.target).attr('href') );
+		},
+
+		/**
+		 * Event handler to toggle stream when count is clicked
+		 *
+		 * @param		{event}		e		Event object
+		 * @return		{void}
+		 */
+		 streamCountClicked: function(e) {
+		 	$(e.target).next('label').click();
+		 },
+		
+		/**
+		 * Event handler for toggling a stream radio
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		toggleStream: function (e) {
+			if ( $(e.target).attr('value') != 'custom' ) {
+				this.scope.find('[data-role="mainTable"]').show();
+				this._reloadTable( $(e.target).attr('data-url') );
+			} else {
+				if ( this._storedCustomForm ) {
+					var form = $(this.scope).find('[data-role="filterForm"]');
+					form.html( this._storedCustomForm );
+					this._storedCustomForm = '';
+					$( document ).trigger( 'contentChange', [ form ] );
+					$('#elRadio_stream_custom').click();
+				}
+
+				$( e.target )
+					.closest('.ipsTabs')
+						.find('.ipsTabs_item')
+							.removeClass('ipsTabs_activeItem')
+						.end()
+					.end()
+					.closest('.ipsTabs_item')
+						.addClass('ipsTabs_activeItem');
+
+				this.scope.find('[data-role="mainTable"]').hide();
+			}
+		},
+		
+		/**
+		 * Event handler for edit stream click
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		editStream: function (e) {
+			
+			e.preventDefault();
+						
+			this.scope.find('[data-role="mainTable"]').hide();
+
+			var url = $(e.target).attr('href');			
+			var form = $(this.scope).find('[data-role="filterForm"]');
+			this._storedCustomForm = form.html();
+			form.append( '<div class="ipsLoading ipsLoading_small cNexusFormLoading"></div>' );
+			
+			if( this._ajaxObj && _.isFunction( this._ajaxObj.abort ) ){
+				this._ajaxObj.abort();
+			}
+			
+			var self = this;			
+			this._ajaxObj = ips.getAjax()( url )
+				.done( function ( response, status, jqxhr ) {
+					form.html( response );
+					$( document ).trigger( 'contentChange', [ form ] );
+					$('#elFilterFormFull').show();
+				})
+				.fail( function () {
+					window.location = url;
+				});
+			
+		},
+
+		/**
+		 * Reload the table
+		 *
+		 * @param 		{string} 	url 	The URL
+		 * @returns 	{void}
+		 */
+		_reloadTable: function (url) {
+			
+			var scope = $(this.scope);
+			var mainTable = scope.find('[data-role="mainTable"]');
+			var resultsTable = scope.find('[data-role="resultsTable"]');
+			var form = scope.find('[data-role="filterForm"]');
+
+			resultsTable.addClass('ipsLoading').css( { opacity: "0.4" } );
+
+			if( this._ajaxObj && _.isFunction( this._ajaxObj.abort ) ){
+				this._ajaxObj.abort();
+			}
+			
+			this._ajaxObj = ips.getAjax()( url )
+				.done( function ( response, status, jqxhr ) {
+										
+					form.html(response.form);
+					mainTable.html(response.results);
+					resultsTable.removeClass('ipsLoading').css( { opacity: "1" } );
+					$( document ).trigger( 'contentChange', [ scope ] );
+										
+				})
+				.fail( function () {
+					window.location = url;
+				});
+		},
+		
+		/**
+		 * Event handler for clicking a clickable row
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		rowClick: function (e) {
+			var target = $( e.target );
+
+			// Ignore if we clicked something clickable (besides the row)
+			if ( target.is('a') || target.is('i') || target.is('input') || target.is('textarea') || target.closest('a').length || target.closest('.ipsMenu').length ) {
+				return;
+			}
+
+			// Ignore if we didn't use the left mouse button. 1 is left mouse button, 2 is middle
+			// We allow 2 through here because we'll treat it differently shortly
+			if( e.which !== 1 && e.which !== 2 ){
+				return;
+			}
+
+			// Ignore if special keys are pressed
+			if( e.altKey || e.shiftKey ){
+				return;
+			}
+			
+			// If we clicked into a cell with a checkbox, check that checkbox rather than redirect
+			if ( target.is('td') ) {
+				var checkbox = target.find('input[type="checkbox"]');
+				if ( checkbox.length ) {
+					checkbox.prop( 'checked', !checkbox.prop( 'checked' ) ).trigger('change');
+					return;
+				}
+			}
+			
+			var link = $( e.currentTarget ).find('[data-role="supportLink"]');
+
+			// If we are using the meta key or middle mouse button, we're going to adjust the link
+			// to include _blank, so that it opens in a new tab
+			if( e.metaKey || e.ctrlKey || e.which == 2 ){
+				link.attr('target', '_blank');
+ 				link.get(0).click();
+ 				link.attr('target', '');
+			} else {
+				// Okay, we can go...
+ 				link.get(0).click();
+			}			
+		}
+		
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.message.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.staffreply.js - Support reply processing
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.support.message', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			this.setup();
+		},
+
+		/**
+		 * Setup method
+		 *
+		 * @returns {void}
+		 */
+		setup: function () {
+			this.scope.find('a').each( this._obscureLink );
+		},
+
+		/**
+		 * Takes a link and makes it safe to show in the AdminCP, adding an icon to text links
+		 *
+		 * @returns {void}
+		 */
+		_obscureLink: function () {
+			var elem = $( this );
+			var realUrl = decodeURIComponent( ips.utils.url.getParam( 'url', elem.attr('href') ) );
+			elem.attr('target', '_blank');
+			
+			if( realUrl !== 'undefined' && realUrl != elem.text() ){
+								
+				var icon = $('<i class="fa fa-external-link ipsCursor_pointer ipsType_medium" title="' + ips.getString('click_to_show_url') + '" data-ipsTooltip></i>');
+				
+				icon.on( 'click', function () {
+					ips.ui.alert.show( {
+						type: 'alert',
+						icon: 'info',
+						message: _.escape( realUrl ),
+					});
+				});
+				
+				elem.after( icon ).after(' ');
+			}
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.metamenu.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.metamenu.js - Makes the page print
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.support.metamenu', {
+				
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			var scope = this.scope;
+			this.scope.parent().find('li a').on( 'click', function(e){
+				e.preventDefault();
+				var target = $( e.currentTarget );
+				
+				if ( !target.parent().attr('data-noSet') ) {
+					scope.find('[data-role="title"]').text( target.find('[data-role="title"]').text() );
+				}
+				
+				if ( target.parent().attr('data-group') ) {
+					var siblings = target.parent().parent().find( 'li[data-group="'+target.parent().attr('data-group')+'"]' );
+				} else {
+					var siblings = target.parent().parent().find( 'li' );
+				}
+				
+				siblings.removeClass( 'ipsMenu_itemChecked' );
+				target.parent().addClass( 'ipsMenu_itemChecked' );
+
+				ips.getAjax()( target.attr('href') )	
+					.done(function(response){
+						console.log(response);
+						var i;
+						for ( i in response ) {
+							if ( i == 'alert' ) {
+								ips.ui.alert.show( {
+									type: 'alert',
+									icon: 'warn',
+									message: response[i],
+								});
+							} else if ( i == 'staff' ) {
+								var staffMenu = $('[data-role="staffMenu"]');
+								staffMenu.find('[data-role="title"]').text( response[i].name );
+								$( 'li[data-group="staff"]' ).removeClass('ipsMenu_itemChecked');								
+								$( 'li[data-group="staff"][data-id="'+response[i].id+'"]' ).addClass('ipsMenu_itemChecked');
+							} else if ( i == 'staffBadge' ) {
+								if ( response[i] ) {
+									$('[data-role="requestAssignedToBadge"]').css( 'display', 'inline-block' );
+								} else {
+									$('[data-role="requestAssignedToBadge"]').hide();
+								}
+								$('[data-role="requestAssignedToText"]').text( response[i] );
+							} else if ( i == 'severityBadge' ) {
+								if ( response[i] ) {
+									$('[data-role="requestSeverityBadge"]').css( 'display', 'inline-block' ).html( response[i] );
+								} else {
+									$('[data-role="requestSeverityBadge"]').hide();
+								}
+							} else if ( i == 'statusBadge' ) {
+								$('[data-role="requestStatusBadge"]').html( response[i] );
+							} else if ( i == 'stockActions' ) {
+								$('#elSelect_stock_action').children().remove();
+								var j;
+								for ( j in response[i] ) {
+									$('#elSelect_stock_action').append( $('<option>').attr( 'value', j ).text( response[i][j] ) );
+								}
+							} else if ( i == 'purchaseWarning' ) {
+								$('[data-role="purchaseWarning"]').hide();								
+								if ( response[i] ) {
+									$('[data-purchaseWarning="' + response[i] + '"]').show();
+								}
+							} else if ( i.substr( 0, 5 ) == 'note_' ) {
+								$('#elNoteForm_form [name="' + i.substr( 5 ) + '"]').val( response[i] ); 
+							} else {
+								$('#elSupportReplyForm [name="' + i + '"]').val( response[i] ); 
+							}
+						}
+					})
+					.fail(function(){
+						ips.ui.alert.show( {
+							type: 'alert',
+							icon: 'info',
+							message: ips.getString('support_ajax_error')
+						});
+					})
+			} );
+			this.on( 'menuOpened', this.startListeningForKeyPress );
+			this.on( 'menuClosed', this.stopListeningForKeyPress );
+		},
+		
+		/**
+		 * Start listening for key presses
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		startListeningForKeyPress: function (e) {
+			$( '#' + $(this.scope).attr('id') + '_menu ul' ).find('.ipsMenu_hover').removeClass('ipsMenu_hover');
+			this._boundKeyPress = _.bind( this.keyPress, this );
+			$( document ).on( 'keydown', this._boundKeyPress );
+		},
+		
+		/**
+		 * Stop listening for key presses
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		stopListeningForKeyPress: function (e) {
+			$( '#' + $(this.scope).attr('id') + '_menu ul' ).removeClass('ipsMenu_keyNav');
+			$( '#' + $(this.scope).attr('id') + '_menu ul' ).find('.ipsMenu_hover').removeClass('ipsMenu_hover');
+			$( document ).off( 'keydown', this._boundKeyPress );
+		},
+				
+		/**
+		 * Handles key press
+		 *
+		 * @param 	{event} 	e 		Event object
+		 * @param 	{obj} 		data 	Data object
+		 * @returns {void}
+		 */
+		keyPress: function (e, data) {
+			e.preventDefault();
+			
+			var menuList = $( '#' + $(this.scope).attr('id') + '_menu ul' );
+			menuList.addClass('ipsMenu_keyNav');
+			var active = menuList.find('.ipsMenu_hover');
+						
+			switch ( e.which ) {
+				case 38: // up
+					if ( active.length ) {
+						active.removeClass('ipsMenu_hover');
+						var prev = active.prev();
+						if ( prev.length ) {
+							prev.addClass('ipsMenu_hover');
+						} else {
+							menuList.children().last().addClass('ipsMenu_hover');
+						}
+					} else {
+						menuList.children().last().addClass('ipsMenu_hover');
+					}
+					break;
+				case 40: // down
+					if ( active.length ) {
+						active.removeClass('ipsMenu_hover');
+						var next = active.next();
+						if ( next.length ) {
+							next.addClass('ipsMenu_hover');
+						} else {
+							menuList.children().first().addClass('ipsMenu_hover');
+						}
+					} else {
+						menuList.children().first().addClass('ipsMenu_hover');
+					}
+					break;
+				case 13: // enter
+					if ( active.length ) {
+						active.find('a').click();
+					}
+					break;
+				case 27: // esc
+					$(this.scope).click();
+					break;
+			}
+		}
+				
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.multimod.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.multimod.js - Controller for moderation actions in support requests
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.support.multimod', {
+		
+		initialize: function () {
+			this.on( 'submit', '[data-role="moderationTools"]', this.moderationSubmit );
+		},
+			
+		/**
+		 * Event handler called when the moderation bar submits
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		moderationSubmit: function (e) {
+			
+			var action = this.scope.find('[data-role="moderationAction"]').val();
+
+			switch (action) {
+				case 'delete':
+					this._modActionDelete(e);
+				break;
+				case 'split':
+					this._modActionDialog(e, 'split', 'wide');
+				break;
+				default:
+					 $( document ).trigger('moderationSubmitted');
+				break;
+			}
+		},
+
+		/**
+		 * Handles a delete action from the moderation bar
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		_modActionDelete: function (e) {
+			var self = this;
+			var form = this.scope.find('[data-role="moderationTools"]');
+
+			if( self._bypassDeleteCheck ){
+				return;
+			}
+
+			e.preventDefault();
+
+			// How many are we deleting?
+			var count = parseInt( this.scope.find('[data-role="moderation"]:checked').length );
+
+			ips.ui.alert.show( {
+				type: 'confirm',
+				icon: 'warn',
+				message: ( count > 1 ) ? ips.pluralize( ips.getString( 'delete_confirm_many' ), count ) : ips.getString('delete_confirm'),
+				callbacks: {
+					ok: function () {
+                        $( document ).trigger('moderationSubmitted');
+						self._bypassDeleteCheck = true;
+						self.scope.find('[data-role="moderationTools"]').submit();
+					}
+				}
+			});
+		},
+
+		/**
+		 * Handles a move/split action from the moderation bar
+		 *
+		 * @param	{event} 	e 		Event object
+		 * @returns {void}
+		 */
+		_modActionDialog: function (e, title, size) {
+			e.preventDefault();
+			
+			var form = this.scope.find('[data-role="moderationTools"]');
+			
+			// Create dialog to show the form
+			var moveDialog = ips.ui.dialog.create({
+				url: form.attr('action') + '&' + form.serialize().replace( /%5B/g, '[' ).replace( /%5D/g, ']' ),
+				modal: true,
+				title: ips.getString(title),
+				forceReload: true,
+				remoteVerify: false,
+				size: size
+			});
+			$( form ).data('_dialog', moveDialog );
+
+			moveDialog.show();
+			$( document ).trigger('moderationSubmitted');
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.packageInfo.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.packageInfo.js - Support packageInfo area
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.packageInfo', {
+
+		initialize: function () {
+			this.on( 'click', '[data-action=&quot;showMoreRows&quot;]', this.showRows );
+			this.on( 'click', '[data-action=&quot;showFewerRows&quot;]', this.hideRows );
+		},
+
+		showRows: function (e) {
+			e.preventDefault();
+			this.scope
+				.find('.cNexusSupportHeader_optional')
+					.show()
+				.end()
+				.find('[data-action=&quot;showMoreRows&quot;]')
+					.hide()
+				.end()
+				.find('[data-action=&quot;showFewerRows&quot;]')
+					.show();
+
+			ips.utils.cookie.set('showAllPackageInfo', true);
+		},
+
+		hideRows: function (e) {
+			e.preventDefault();
+			this.scope
+				.find('.cNexusSupportHeader_optional')
+					.hide()
+				.end()
+				.find('[data-action=&quot;showMoreRows&quot;]')
+					.show()
+				.end()
+				.find('[data-action=&quot;showFewerRows&quot;]')
+					.hide();
+
+			ips.utils.cookie.unset('showAllPackageInfo');
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.pendingalert.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.pendingalert.js - Shows an alert
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.pendingalert', {
+		
+		/**
+		 * Init
+		 */
+		initialize: function () {
+			ips.ui.alert.show( {
+				type: 'alert',
+				icon: 'warn',
+				message: $(this.scope).text(),
+			});
+			$(this.scope).remove();
+		},
+				
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.replyArea.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200"><![CDATA[/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.replyArea.js - Support request reply area
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	"use strict";
+
+	ips.controller.register('nexus.admin.support.replyArea', {
+
+		initialize: function () {
+			this.on( 'tabChanged', this.tabChanged );
+			this.on( 'click', '[data-action="showCCForm"]', this.showCCForm );
+			this.on( 'change', '#elSelect_stock_action', this.stockAction );
+		},
+
+		/**
+		 * Shows the form fields for to/cc/bcc
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		showCCForm: function (e) {
+			e.preventDefault();
+			this.scope.find('[data-role="sendToInfo"]').hide();
+			this.scope.find('[data-role="sendToForm"]').show();
+			this.scope.find('#elInput_cc_wrapper').click();
+		},
+
+		/**
+		 * When the reply form tabs are toggled between reply/note, toggles a class to enable styling on the nore form
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @param 	{object} 	e 	Event data object from the tab widget
+		 * @returns {void}
+		 */
+		tabChanged: function (e, data) {
+			if( data.tab.attr('data-role') == 'noteTab' ){
+				this.scope.addClass('cNexusSupportForm_note');
+			} else {
+				this.scope.removeClass('cNexusSupportForm_note');
+			}
+		},
+
+		/**
+		 * Stock action event handler - adds a reply and/or changes the form controls automatically
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		stockAction: function (e) {
+			var self = this;
+			var val = $( e.currentTarget ).val();
+			var action = this.scope.find('#elSupportReplyForm').attr('action');
+
+			ips.getAjax()( action + '&stockActionData=' + val, { showLoading: true } )
+				.done( function (response) {
+					if( _.isObject( response ) ){
+						_.each( response, function (value, key) {
+							if( key === 'message' ){
+								CKEDITOR.instances.message.setData( value );
+							} else {
+								self.scope.find( '[name="' + key + '"]' ).val( value );
+							}
+						});
+
+						// Set the focus to the submit button for ease of use
+						self.scope.find('[data-role="primarySubmit"]').focus();
+					}
+				})
+				.fail( function (response) {
+					ips.ui.alert.show( {
+						type: 'alert',
+						icon: 'warn',
+						message: ips.getString('support_ajax_error'),
+					});
+				});
+
+		}
+	});
+}(jQuery, _));]]></file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.request.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.request.js - Support request controller for keyboard shortcuts
+ *
+ * Author: Rikki Tissier
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.request', {
+
+		initialize: function () {
+			this.on( document, 'keypress', this.keyPress );
+			this.on( window, 'resize', this.resizeInfo );
+
+			this.setup();
+		},
+
+		setup: function () {
+			var self = this;
+
+			if ( navigator.userAgent.indexOf('Mac OS X') != -1 ) {
+				this.scope.find('[data-role=&quot;replyForm&quot;] [data-role=&quot;primarySubmit&quot;]').attr( { 'title': ips.getString('cmd_and_enter'), 'data-ipsTooltip': '' } );
+				this.scope.find('[data-role=&quot;noteForm&quot;] button[type=&quot;submit&quot;]').attr( { 'title': ips.getString('cmd_and_enter'), 'data-ipsTooltip': '' } );
+			} else {
+				this.scope.find('[data-role=&quot;replyForm&quot;] [data-role=&quot;primarySubmit&quot;]').attr( { 'title': ips.getString('ctrl_and_enter'), 'data-ipsTooltip': '' } );
+				this.scope.find('[data-role=&quot;noteForm&quot;] button[type=&quot;submit&quot;]').attr( { 'title': ips.getString('ctrl_and_enter'), 'data-ipsTooltip': '' } );
+			}
+
+			this.resizeInfo();
+		},
+
+		resizeInfo: function () {
+			// Set height of ticket info panel
+			if( ips.utils.responsive.currentIs('phone') ){
+				this.scope.find('#elNexusRequestInfo').css({
+					height: 'auto'
+				});
+			} else {	
+				this.scope.find('#elNexusRequestInfo').css({
+					height: $( window ).height() + 'px'
+				});
+			}
+		},
+
+		/**
+		 * Handles key press
+		 *
+		 * @param 	{event} 	e 	Event object
+		 * @returns {void}
+		 */
+		keyPress: function (e) {
+			
+			var tag = e.target.tagName.toLowerCase();
+			if ( tag != 'body' ) {
+				return;
+			}
+			
+			switch ( e.which ) {
+				case 114: // r
+					e.preventDefault();
+					this.scope.find('[data-role=&quot;replyTab&quot;]').click();
+					var editor = ips.ui.editor.getObj( this.scope.find('[data-role=&quot;replyForm&quot;] [data-ipsEditor]') );
+					editor.unminimize();
+					editor.focus();
+					break;
+				case 110: // n
+					e.preventDefault();
+					this.scope.find('[data-role=&quot;noteTab&quot;]').click();
+					var editor = ips.ui.editor.getObj( this.scope.find('[data-role=&quot;noteForm&quot;] [data-ipsEditor]') );
+					editor.unminimize();
+					editor.focus();
+					break;
+				case 115: // s
+					this.scope.find('[data-role=&quot;statusMenu&quot;]').click();
+					break;
+				case 118: // v
+					this.scope.find('[data-role=&quot;severityMenu&quot;]').click();
+					break;
+				case 100: // d
+					this.scope.find('[data-role=&quot;departmentMenu&quot;]').click();
+					break;
+				case 97: // a
+					this.scope.find('[data-role=&quot;staffMenu&quot;]').click();
+					break;
+				case 116: // t
+					this.scope.find('[data-role=&quot;trackMenu&quot;]').click();
+					break;
+				case 112: // p
+					this.scope.find('[data-role=&quot;associatePurchaseMenu&quot;]').click();
+					break;
+				case 107: // k
+					var next = this.scope.find('[data-role=&quot;nextRequestLink&quot;]');
+					if ( next.length ) {
+						window.location = next.attr('href');
+					}
+					break;
+				case 106: // j
+					var prev = this.scope.find('[data-role=&quot;prevRequestLink&quot;]');
+					if ( prev.length ) {
+						window.location = prev.attr('href');
+					}
+					break;
+			}
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="controllers/support" javascript_name="ips.support.splitForm.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.splitForm.js - Controller for link panel in editor
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.admin.support.splitForm', {
+				
+		initialize: function () {
+			this.on( 'submit', this.formSubmit );
+		},
+
+		/**
+		 * Event handler for submitting the form
+		 *
+		 * @param 		{event} 	e 		Event object
+		 * @returns 	{void}
+		 */
+		formSubmit: function (e) {
+			e.preventDefault();
+			
+			var form = $(this.scope);
+			if( form.attr('data-bypassValidation') ){
+				return false;
+			}
+			
+			var dialog = ips.ui.dialog.getObj( $('[data-role=&quot;moderationTools&quot;]') );
+			dialog.setLoading(true);
+			
+			var newWindow = window.open( '', '_blank' );
+			newWindow.opener = null;
+			newWindow.blur();
+			window.focus();
+			
+			ips.getAjax()( form.attr('action'), {
+				data: form.serialize(),
+				type: 'post'
+			} )
+				.done( function (response, status, jqXHR) {
+					if( jqXHR.getAllResponseHeaders().indexOf('X-IPS-FormError: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('X-IPS-FormNoSubmit: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('x-ips-formerror: true') !== -1 || jqXHR.getAllResponseHeaders().indexOf('x-ips-formnosubmit: true') !== -1 ){
+						dialog.setLoading( false );
+						dialog.updateContent( response );
+					} else {
+						try {
+							var json = $.parseJSON( jqXHR.responseText );
+														
+							newWindow.location = json.newUrl;
+							window.location = json.oldUrl;
+							
+						} catch (err) {
+							newWindow.close();
+							dialog.setLoading( false );
+							dialog.updateContent( response );
+						}
+					}
+				})
+				.fail(function(response){
+					newWindow.close();
+					form.attr( 'data-bypassValidation', true ).submit();
+				});
+			
+			
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="controllers/support" javascript_name="ips.support.rate.js" javascript_type="controller" javascript_version="107704" javascript_position="1000200">/**
+ * Invision Community
+ * (c) Invision Power Services, Inc. - https://www.invisioncommunity.com
+ *
+ * ips.support.rate.js
+ *
+ * Author: Mark Wade
+ */
+;( function($, _, undefined){
+	&quot;use strict&quot;;
+
+	ips.controller.register('nexus.front.support.rate', {
+
+		initialize: function () {
+			this.on( 'submitDialog', this.update );
+		},
+		
+		update: function (e, data) {
+			$(this.scope).html( data.response );
+		}
+	});
+}(jQuery, _));</file>
+ <file javascript_app="nexus" javascript_location="admin" javascript_path="templates" javascript_name="ips.templates.store.js" javascript_type="template" javascript_version="107704" javascript_position="1000250"><![CDATA[ips.templates.set('nexus.store.images', " \
+	<div class='ipsUploader__row ipsUploader__row--image ipsAttach ipsContained {{#done}}ipsAttach_done{{/done}}' id='{{id}}' data-role='file' data-fileid='{{id}}' data-fullsizeurl='{{imagesrc}}' data-thumbnailurl='{{thumbnail}}' data-fileType='image'>\
+		<div class='ipsUploader__rowPreview ipsType_center' data-role='preview'>\
+			{{#thumb}}\
+				{{{thumb}}}\
+			{{/thumb}}\
+			<div class='ipsUploader__rowPreview__generic ipsFlex ipsFlex-ai:center ipsFlex-jc:center' {{#thumb}}style='display: none'{{/thumb}}>\
+				<i class='fa fa-{{extIcon}} ipsType_large'></i>\
+			</div>\
+		</div>\
+		<div class='ipsUploader_rowMeta ipsFlex ipsFlex-flex:11 ipsFlex-fd:column ipsFlex-jc:center ipsFlex-ai:start'>\
+			<h2 class='ipsUploader_rowTitle ipsMargin:none ipsType_reset ipsAttach_title ipsTruncate ipsTruncate_line' data-role='title'>{{title}}</h2>\
+			<p class='ipsDataItem_meta ipsType_medium ipsType_light'>\
+				{{size}} {{#statusText}}&middot; <span class='ipsType_light' data-role='status'>{{statusText}}</span>{{/statusText}}\
+			</p>\
+			{{#status}}<span class='ipsAttachment_progress'><span data-role='progressbar'></span></span>{{/status}}\
+		</div>\
+		<div data-role='deleteFileWrapper'>\
+			<input type='hidden' name='{{field_name}}_keep[{{id}}]' value='1'>\
+			<a href='#' data-role='deleteFile' class='ipsUploader__rowDelete' data-ipsTooltip title='{{#lang}}removeProductImage{{/lang}}'>\
+				&times;\
+			</a>\
+		</div>\
+		<label for='{{field_name}}_primary_image' class='cNexusPrimaryRadio' data-ipsTooltip title='{{#lang}}makePrimaryProductImage{{/lang}}'>\
+			<span class='ipsCustomInput'>\
+			<input type='radio' name='{{field_name}}_primary_image' value='{{id}}' {{#default}}checked{{/default}}>\
+				<span></span>\
+			</span>\
+			{{#lang}}makePrimary{{/lang}}\
+		</label>\
+	</div>\
+");
+
+ips.templates.set('nexus.store.imagesWrapper', " \
+	<div class='ipsUploader__container ipsUploader__container--images'>{{{content}}}</div>\
+");]]></file>
+ <file javascript_app="nexus" javascript_location="front" javascript_path="templates" javascript_name="ips.templates.store.js" javascript_type="template" javascript_version="107704" javascript_position="1000250"><![CDATA[ips.templates.set('nexus.store.productImage', " \
+	<a href='{{fullURL}}' data-fullURL='{{fullURL}}' class='cNexusProduct_primaryImage ipsContained' data-ipsLightbox data-ipsLightbox-group='product' data-ipsProductZoom>\
+		<img src='{{thumbURL}}' class='ipsImage ipsImage_thumb'>\
+	</a>\
+");]]></file>
+ <file javascript_app="nexus" javascript_location="global" javascript_path="templates" javascript_name="ips.templates.gateways.js" javascript_type="template" javascript_version="107704" javascript_position="1000200"><![CDATA[ips.templates.set('nexus.gateway.vaultAccount', " \
+	<li>\
+		<span class='ipsCustomInput'>\
+			<input type='radio' name='{{fieldName}}[stored]' value='{{value}}' id='{{fieldName}}_stored{{random}}' data-control='toggle' data-toggles='{{fieldName}}_existing'>\
+			<span></span>\
+		</span>\
+		<div class='ipsField_fieldList_content'>\
+			<label for='{{fieldName}}_stored{{random}}'>{{label}}</label>\
+		</div>\
+	</li>\
+");]]></file>
+ <order app="global" path="/dev/js//framework/">templates
+common/ips.loader.js
+common/ui
+common/utils
+common
+controllers</order>
+ <order app="global" path="/dev/js//library/">underscore
+jquery
+mustache
+Debug.js
+app.js</order>
+ <order app="global" path="/dev/js//library//jquery">jquery.js
+jquery-migrate.js
+jquery.history.js
+jquery.transform.js</order>
+ <order app="global" path="/dev/js//library//linkify">linkify.min.js
+linkify-jquery.min.js</order>
+</javascript>

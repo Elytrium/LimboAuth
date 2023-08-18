@@ -1,0 +1,9 @@
+{
+    "added": [
+        "hcaptcha_secret",
+        "hcaptcha_sitekey",
+        "searchlog_exclude_groups"
+    ],
+    "edited": [],
+    "removed": []
+}

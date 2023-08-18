@@ -1,0 +1,35 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "nexus_packages_products",
+            {
+                "p_lkey": 0
+            },
+            "p_lkey NOT IN( '0', 'standard', 'mdfive' )"
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "nexus_licensekeys",
+            {
+                "lkey_type": "mdfive"
+            },
+            [
+                "lkey_type=?",
+                "md5"
+            ]
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "nexus_licensekeys",
+            {
+                "lkey_type": "standard"
+            },
+            "lkey_type NOT IN('mdfive','standard')"
+        ]
+    }
+}

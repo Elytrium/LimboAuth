@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [
+            "download_categories_lc",
+            "downloads_file_sg_lc",
+            "downloads_stats_uploader_count",
+            "downloads_stats_downloader_count",
+            "achievement_filter_DownloadFile_nth_suffix",
+            "achievement_filter_DownloadFile_receiver",
+            "achievement_filter_DownloadFile_giver",
+            "AchievementAction__DownloadFile_log",
+            "AchievementAction__DownloadFile_title_generic",
+            "AchievementAction__DownloadFile_title",
+            "AchievementAction__DownloadFile"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

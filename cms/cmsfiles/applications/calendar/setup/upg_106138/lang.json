@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "added": [
+            "menu__calendar_stats",
+            "menu__calendar_stats_rsvp",
+            "calendar_stats_rsvp_title",
+            "calendar_stats_rsvp_response_0",
+            "calendar_stats_rsvp_response_1",
+            "calendar_stats_rsvp_response_2",
+            "menu__calendar_stats_venues"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

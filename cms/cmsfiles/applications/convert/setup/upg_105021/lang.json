@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "conv_store_database",
+            "conv_store_file_system"
+        ],
+        "edited": [],
+        "removed": [
+            "database",
+            "file_system"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

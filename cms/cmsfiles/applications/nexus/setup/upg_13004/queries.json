@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_nameservers",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    }
+}

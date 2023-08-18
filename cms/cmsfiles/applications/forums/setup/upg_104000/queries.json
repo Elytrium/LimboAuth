@@ -1,0 +1,155 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "forums_rss_import",
+            {
+                "name": "rss_import_auto_follow",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "forums_forums",
+            "ipseo_priority=-1",
+            "club_id is not null"
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "forums_answer_ratings",
+            "member_rating",
+            {
+                "type": "unique",
+                "name": "member_rating",
+                "columns": [
+                    "member",
+                    "post"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "changeIndex",
+        "params": [
+            "forums_question_ratings",
+            "member_rating",
+            {
+                "type": "unique",
+                "name": "member_rating",
+                "columns": [
+                    "member",
+                    "topic"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "forums_question_ratings",
+            {
+                "type": "key",
+                "name": "topic",
+                "columns": [
+                    "topic",
+                    "member"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "forums_rss_import",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "rss_import_mid"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "forums_topics",
+            "views",
+            {
+                "name": "views",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "forums_forums",
+            {
+                "type": "key",
+                "name": "can_view_others",
+                "columns": [
+                    "can_view_others"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "forums_forums",
+            {
+                "type": "key",
+                "name": "forum_password",
+                "columns": [
+                    "password"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

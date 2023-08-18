@@ -1,0 +1,189 @@
+{
+    "1": {
+        "method": "renameTable",
+        "params": [
+            "conv_apps",
+            "convert_apps"
+        ]
+    },
+    "2": {
+        "method": "renameTable",
+        "params": [
+            "conv_link",
+            "convert_link"
+        ]
+    },
+    "3": {
+        "method": "renameTable",
+        "params": [
+            "conv_link_pms",
+            "convert_link_pms"
+        ]
+    },
+    "4": {
+        "method": "renameTable",
+        "params": [
+            "conv_link_topics",
+            "convert_link_topics"
+        ]
+    },
+    "5": {
+        "method": "renameTable",
+        "params": [
+            "conv_link_posts",
+            "convert_link_posts"
+        ]
+    },
+    "6": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "convert_logs",
+                "columns": {
+                    "log_id": {
+                        "name": "log_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "log_message": {
+                        "name": "log_message",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Log Message",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "log_app": {
+                        "name": "log_app",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "The conversion app.",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "log_severity": {
+                        "name": "log_severity",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Flag to indicate the type of log (notice, warning, error)",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "log_method": {
+                        "name": "log_method",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Conversion step that triggered this log",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "log_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "log_app": {
+                        "type": "key",
+                        "name": "log_app",
+                        "columns": [
+                            "log_app"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "convert_app_sessions",
+                "columns": {
+                    "session_app_id": {
+                        "name": "session_app_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "session_app_data": {
+                        "name": "session_app_data",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Session Data containing rows converted, completed steps, etc.",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "session_app_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

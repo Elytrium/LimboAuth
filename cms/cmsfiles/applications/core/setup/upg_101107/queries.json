@@ -1,0 +1,25 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_sessions",
+            "login_type",
+            {
+                "type": "key",
+                "name": "login_type",
+                "columns": [
+                    "login_type",
+                    "running_time",
+                    "member_id",
+                    "member_group"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

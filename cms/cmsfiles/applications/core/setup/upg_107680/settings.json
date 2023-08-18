@@ -1,0 +1,16 @@
+{
+    "added": [
+        "verify_enabled",
+        "verify_groups",
+        "verify_method",
+        "verify_onetouch",
+        "verify_service_sid",
+        "verify_setup",
+        "verify_setup_lockout",
+        "verify_setup_tries",
+        "verify_sid",
+        "verify_token"
+    ],
+    "edited": [],
+    "removed": []
+}

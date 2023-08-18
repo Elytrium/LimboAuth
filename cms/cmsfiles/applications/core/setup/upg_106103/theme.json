@@ -1,0 +1,32 @@
+{
+    "html": {
+        "added": [
+            "front\/system\/noResults"
+        ],
+        "edited": [
+            "admin\/customization\/templateEditor",
+            "front\/global\/userLink",
+            "front\/profile\/userBadgeOverview",
+            "front\/staffdirectory\/layout_blocks",
+            "front\/staffdirectory\/layout_full",
+            "front\/staffdirectory\/layout_half",
+            "front\/statuses\/statusContainer",
+            "front\/system\/notificationSettingsIndexRowDetails",
+            "front\/widgets\/achievements"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/core\/trees.css",
+            "global\/framework\/forms.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

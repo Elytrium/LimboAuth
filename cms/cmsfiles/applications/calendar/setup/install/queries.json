@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "insert",
+        "params": [
+            "core_permission_index",
+            {
+                "app": "calendar",
+                "perm_type": "calendar",
+                "perm_type_id": 1,
+                "perm_view": "*",
+                "perm_2": "*",
+                "perm_3": "<%NO_GUESTS%>",
+                "perm_4": "<%NO_GUESTS%>",
+                "perm_5": "<%NO_GUESTS%>",
+                "perm_6": "<%NO_GUESTS%>",
+                "perm_7": "<%NO_GUESTS%>"
+            }
+        ]
+    }
+}

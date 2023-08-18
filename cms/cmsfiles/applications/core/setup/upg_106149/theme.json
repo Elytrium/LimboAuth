@@ -1,0 +1,43 @@
+{
+    "html": {
+        "added": [
+            "admin\/api\/webhookDesc",
+            "admin\/api\/webhooks",
+            "admin\/api\/webhookselector",
+            "admin\/forms\/webhookselector",
+            "global\/global\/basicHover"
+        ],
+        "edited": [
+            "admin\/api\/htaccess",
+            "admin\/api\/zapier",
+            "admin\/feeds\/importRow",
+            "global\/forms\/editorTags",
+            "global\/global\/dynamicChart",
+            "front\/global\/mobileNavigation",
+            "global\/global\/offline",
+            "global\/global\/pagination",
+            "admin\/members\/acpRestrictions",
+            "global\/members\/ipLookup",
+            "front\/sharelinks\/twitter",
+            "admin\/support\/dashboard",
+            "admin\/support\/supportBlockList",
+            "admin\/system\/systemLogView",
+            "front\/widgets\/relatedContent"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [
+            "admin\/system\/webhooks.css"
+        ],
+        "edited": [
+            "global\/framework\/popup.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

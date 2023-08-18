@@ -1,0 +1,115 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_purchases",
+            "ps_renewal_unit",
+            {
+                "name": "ps_renewal_unit",
+                "type": "CHAR",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_departments",
+            {
+                "type": "key",
+                "name": "dp_staff",
+                "columns": [
+                    "dpt_staff"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "nexus_transactions",
+            "t_member",
+            {
+                "type": "key",
+                "name": "t_member",
+                "columns": [
+                    "t_member",
+                    "t_status",
+                    "t_fraud_blocked"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "dropIndex",
+        "params": [
+            "nexus_transactions",
+            "t_member_2"
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "nexus_transactions",
+            {
+                "type": "key",
+                "name": "t_status",
+                "columns": [
+                    "t_status"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "nexus_payouts",
+            {
+                "type": "key",
+                "name": "po_status",
+                "columns": [
+                    "po_status"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "nexus_support_statuses",
+            {
+                "type": "key",
+                "name": "status_open",
+                "columns": [
+                    "status_open"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

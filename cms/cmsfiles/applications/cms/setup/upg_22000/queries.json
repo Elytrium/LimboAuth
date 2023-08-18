@@ -1,0 +1,208 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_comments",
+            "comment_ip_address",
+            {
+                "name": "comment_ip_address",
+                "type": "varchar",
+                "length": 46,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_comments",
+            "comment_date",
+            {
+                "name": "comment_date",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_ratings",
+            "rating_ip_address",
+            {
+                "name": "rating_ip_address",
+                "type": "varchar",
+                "length": 46,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_ratings",
+            "rating_added",
+            {
+                "name": "rating_added",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_block_wizard",
+            "wizard_started",
+            {
+                "name": "wizard_started",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "update",
+        "params": [
+            "ccs_database_categories",
+            {
+                "category_last_record_date": 0
+            },
+            "category_last_record_date=''"
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_categories",
+            "category_last_record_date",
+            {
+                "name": "category_last_record_date",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_database_revisions",
+            "revision_date",
+            {
+                "name": "revision_date",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "9": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_folders",
+            "last_modified",
+            {
+                "name": "last_modified",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_pages",
+            "page_last_edited",
+            {
+                "name": "page_last_edited",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "11": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_pages",
+            "page_cache_last",
+            {
+                "name": "page_cache_last",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "12": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_page_templates",
+            "template_updated",
+            {
+                "name": "template_updated",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_page_wizard",
+            "wizard_started",
+            {
+                "name": "wizard_started",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "14": {
+        "method": "update",
+        "params": [
+            "core_permission_index",
+            {
+                "perm_type": "categories"
+            },
+            [
+                "app=? and perm_type=?",
+                "ccs",
+                "cat"
+            ]
+        ]
+    },
+    "15": {
+        "method": "update",
+        "params": [
+            "core_permission_index",
+            {
+                "perm_type": "databases"
+            },
+            [
+                "app=? and perm_type=?",
+                "ccs",
+                "database"
+            ]
+        ]
+    }
+}

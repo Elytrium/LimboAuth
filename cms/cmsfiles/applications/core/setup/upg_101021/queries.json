@@ -1,0 +1,356 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_geoip_cache",
+                "columns": {
+                    "ip_address": {
+                        "name": "ip_address",
+                        "type": "VARCHAR",
+                        "length": 46,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The IP address",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "date": {
+                        "name": "date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the data was retrieved ",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "data": {
+                        "name": "data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The JSON-encoded data returned by the service",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "ip_address"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "date": {
+                        "type": "key",
+                        "name": "date",
+                        "columns": [
+                            "date"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "core_polls",
+            "tid"
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "core_polls",
+            "forum_id"
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": "cron"
+            },
+            "conf_key='task_use_cron' and conf_value='1'"
+        ]
+    },
+    "5": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": "normal"
+            },
+            "conf_key='task_use_cron' and conf_value='0'"
+        ]
+    },
+    "6": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_api_keys",
+                "columns": {
+                    "api_id": {
+                        "name": "api_id",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "API Key",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "api_permissions": {
+                        "name": "api_permissions",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON encoded details of which endpoints the key can access",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "api_allowed_ips": {
+                        "name": "api_allowed_ips",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited allowed IPs",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "id": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "api_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_api_logs",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "endpoint": {
+                        "name": "endpoint",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The endpoint that was requested",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "method": {
+                        "name": "method",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The HTTP request method which was used",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "api_key": {
+                        "name": "api_key",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The API key that was used",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "ip_address": {
+                        "name": "ip_address",
+                        "type": "VARCHAR",
+                        "length": 46,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The IP address that the request came from",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "request_data": {
+                        "name": "request_data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The request body",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "response_code": {
+                        "name": "response_code",
+                        "type": "CHAR",
+                        "length": 3,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The HTTP response code",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "response_output": {
+                        "name": "response_output",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The response output",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "date": {
+                        "name": "date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Timestamp of when request was made",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "is_bad_key": {
+                        "name": "is_bad_key",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "If this log is for a request with a bad key - used to prevent brute force ",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "date": {
+                        "type": "key",
+                        "name": "date",
+                        "columns": [
+                            "date"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "bruteforce": {
+                        "type": "key",
+                        "name": "bruteforce",
+                        "columns": [
+                            "ip_address",
+                            "is_bad_key"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "admin\/global\/globalTemplate",
+            "front\/global\/updateWarning",
+            "front\/global\/userPhoto",
+            "admin\/marketplace\/customHeader",
+            "admin\/notifications\/index"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/_vars.css",
+            "global\/framework\/misc.css",
+            "global\/responsive\/layout.css",
+            "global\/responsive\/pagination.css",
+            "global\/responsive\/tabs.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

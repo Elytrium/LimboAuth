@@ -1,0 +1,71 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "api_logs",
+            "r__api_logs",
+            "r__api_logs_settings",
+            "r__api_logs_delete",
+            "acplog__api_log_deleted"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "emoji-hamsa",
+            "emoji-mirror_ball",
+            "emoji-low_battery",
+            "emoji-crutch",
+            "emoji-x-ray",
+            "emoji-bubbles",
+            "emoji-identification_card",
+            "emoji-heavy_equals_sign",
+            "emoji-playground_slide",
+            "emoji-wheel",
+            "emoji-ring_buoy",
+            "emoji-pouring_liquid",
+            "emoji-beans",
+            "emoji-jar",
+            "emoji-lotus",
+            "emoji-coral",
+            "emoji-empty_nest",
+            "emoji-nest_with_eggs",
+            "emoji-women-with-bunny-ears-partying",
+            "emoji-men-with-bunny-ears-partying",
+            "emoji-couplekiss",
+            "emoji-couple_with_heart",
+            "emoji-bow",
+            "emoji-troll",
+            "emoji-woman_with_beard",
+            "emoji-man_with_beard",
+            "emoji-pregnant_man",
+            "emoji-pregnant_person",
+            "emoji-person_with_crown",
+            "emoji-biting_lip",
+            "emoji-hand_with_index_finger_and_thumb_crossed",
+            "emoji-rightwards_hand",
+            "emoji-leftwards_hand",
+            "emoji-palm_down_hand",
+            "emoji-palm_up_hand",
+            "emoji-index_pointing_at_the_viewer",
+            "emoji-heart_hands",
+            "emoji-face_exhaling",
+            "emoji-face_with_spiral_eyes",
+            "emoji-face_in_clouds",
+            "emoji-face_holding_back_tears",
+            "emoji-melting_face",
+            "emoji-saluting_face",
+            "emoji-face_with_open_eyes_and_hand_over_mouth",
+            "emoji-face_with_peeking_eye",
+            "emoji-face_with_diagonal_mouth",
+            "emoji-dotted_line_face",
+            "emoji-heart_on_fire",
+            "emoji-mending_heart"
+        ],
+        "edited": [],
+        "removed": [
+            "emoji-woman-with-bunny-ears-partying",
+            "emoji-man-with-bunny-ears-partying"
+        ]
+    }
+}

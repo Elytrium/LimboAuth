@@ -1,0 +1,24 @@
+{
+    "id": 105013,
+    "name": "4.5.0 Beta 1",
+    "steps": {
+        "queries": true,
+        "lang": true,
+        "theme": true,
+        "themeSettings": true,
+        "javascript": true,
+        "emailTemplates": true,
+        "hooks": true,
+        "acpSearchKeywords": true,
+        "settings": true,
+        "tasks": true,
+        "modules": true,
+        "widgets": true,
+        "whatsnew": false,
+        "customOptions": false,
+        "customRoutines": true
+    },
+    "forceMainUpgrader": false,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

@@ -1,0 +1,21 @@
+{
+    "admin": {
+        "forums": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 1
+        },
+        "stats": {
+            "default_controller": "topics",
+            "protected": 0,
+            "default": 0
+        }
+    },
+    "front": {
+        "forums": {
+            "default_controller": "index",
+            "protected": 0,
+            "default": 1
+        }
+    }
+}

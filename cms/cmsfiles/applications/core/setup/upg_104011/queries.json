@@ -1,0 +1,38 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_output_cache"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "core_output_cache",
+            "cache_key"
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_output_cache",
+            {
+                "type": "primary",
+                "name": "cache_key",
+                "columns": [
+                    "cache_key"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "dropIndex",
+        "params": [
+            "core_output_cache",
+            "keyexpire"
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [],
+        "removed": [
+            "sql_toolbox",
+            "sql_table_name",
+            "sql_table_rows",
+            "sql_table_size",
+            "sql_table_engine",
+            "sql_toolbox_query",
+            "run_query",
+            "sql_toolbox_done",
+            "sql_toolbox_not_allowed",
+            "sql_toolbox_warning",
+            "r__sql_toolbox"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

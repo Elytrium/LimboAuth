@@ -1,0 +1,13 @@
+{
+    "added": [
+        "acp_css_map",
+        "mobile_app_redirect_scheme"
+    ],
+    "edited": [
+        "mobile_app_itunes_id",
+        "mobile_app_itunes_url",
+        "mobile_app_play_id",
+        "mobile_app_play_url"
+    ],
+    "removed": []
+}

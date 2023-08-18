@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "nexus_no_price_info",
+            "nexus_no_price_info_desc"
+        ],
+        "edited": [],
+        "removed": [
+            "ref_member_id"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

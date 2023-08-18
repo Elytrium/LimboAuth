@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cdisclaimer_location",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "purchase",
+                    "download",
+                    "both"
+                ],
+                "allow_null": false,
+                "default": "download",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "downloads_cfields",
+            {
+                "name": "cf_paid_field",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

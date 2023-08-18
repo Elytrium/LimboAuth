@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "nexus_subs_subscribed_with_expire_no_renewal",
+            "nexus_subs_subscribed_expired"
+        ],
+        "edited": [
+            "nexus_subs_already_got_package"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,872 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "ccs_pages",
+            {
+                "type": "key",
+                "name": "page_content_type",
+                "columns": [
+                    "page_content_type"
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_page_templates",
+            {
+                "name": "template_database",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "ccs_page_templates",
+            {
+                "type": "key",
+                "name": "template_database",
+                "columns": [
+                    "template_database"
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_fields",
+                "columns": {
+                    "field_id": {
+                        "name": "field_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "field_database_id": {
+                        "name": "field_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_name": {
+                        "name": "field_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_description": {
+                        "name": "field_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_key": {
+                        "name": "field_key",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_type": {
+                        "name": "field_type",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_required": {
+                        "name": "field_required",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_user_editable": {
+                        "name": "field_user_editable",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_position": {
+                        "name": "field_position",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_max_length": {
+                        "name": "field_max_length",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "field_extra": {
+                        "name": "field_extra",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "field_id"
+                        ]
+                    },
+                    "field_database_id": {
+                        "type": "key",
+                        "name": "field_database_id",
+                        "columns": [
+                            "field_database_id"
+                        ]
+                    },
+                    "field_key": {
+                        "type": "key",
+                        "name": "field_key",
+                        "columns": [
+                            "field_key"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_databases",
+                "columns": {
+                    "database_id": {
+                        "name": "database_id",
+                        "type": "MEDIUMINT",
+                        "length": "9",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "database_name": {
+                        "name": "database_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_key": {
+                        "name": "database_key",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_database": {
+                        "name": "database_database",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_description": {
+                        "name": "database_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_field_count": {
+                        "name": "database_field_count",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_record_count": {
+                        "name": "database_record_count",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_template_listing": {
+                        "name": "database_template_listing",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_template_display": {
+                        "name": "database_template_display",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_user_editable": {
+                        "name": "database_user_editable",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_all_editable": {
+                        "name": "database_all_editable",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_open": {
+                        "name": "database_open",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_comments": {
+                        "name": "database_comments",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_rate": {
+                        "name": "database_rate",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "database_revisions": {
+                        "name": "database_revisions",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "database_id"
+                        ]
+                    },
+                    "database_key": {
+                        "type": "unique",
+                        "name": "database_key",
+                        "columns": [
+                            "database_key"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_revisions",
+                "columns": {
+                    "revision_id": {
+                        "name": "revision_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "revision_database_id": {
+                        "name": "revision_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_record_id": {
+                        "name": "revision_record_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_data": {
+                        "name": "revision_data",
+                        "type": "LONGTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_date": {
+                        "name": "revision_date",
+                        "type": "VARCHAR",
+                        "length": 13,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "revision_member_id": {
+                        "name": "revision_member_id",
+                        "type": "INT",
+                        "length":11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "revision_id"
+                        ]
+                    },
+                    "revision_database_id": {
+                        "type": "key",
+                        "name": "revision_database_id",
+                        "columns": [
+                            "revision_database_id",
+                            "revision_record_id"
+                        ]
+                    },
+                    "revision_member_id": {
+                        "type": "key",
+                        "name": "revision_member_id",
+                        "columns": [
+                            "revision_member_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_attachments_map",
+                "columns": {
+                    "map_id": {
+                        "name": "map_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "map_attach_id": {
+                        "name": "map_attach_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "map_database_id": {
+                        "name": "map_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "map_field_id": {
+                        "name": "map_field_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "map_record_id": {
+                        "name": "map_record_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "map_id"
+                        ]
+                    },
+                    "map_database_id": {
+                        "type": "key",
+                        "name": "map_database_id",
+                        "columns": [
+                            "map_database_id"
+                        ]
+                    },
+                    "map_attach_id": {
+                        "type": "key",
+                        "name": "map_attach_id",
+                        "columns": [
+                            "map_attach_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_ratings",
+                "columns": {
+                    "rating_id": {
+                        "name": "rating_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "rating_user_id": {
+                        "name": "rating_user_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating_database_id": {
+                        "name": "rating_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating_record_id": {
+                        "name": "rating_record_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating_rating": {
+                        "name": "rating_rating",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating_added": {
+                        "name": "rating_added",
+                        "type": "VARCHAR",
+                        "length": 13,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating_ip_address": {
+                        "name": "rating_ip_address",
+                        "type": "VARCHAR",
+                        "length": 16,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "rating_id"
+                        ]
+                    },
+                    "rating_user_id": {
+                        "type": "key",
+                        "name": "rating_user_id",
+                        "columns": [
+                            "rating_user_id",
+                            "rating_database_id",
+                            "rating_record_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "9": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_comments",
+                "columns": {
+                    "comment_id": {
+                        "name": "comment_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "comment_user": {
+                        "name": "comment_user",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "comment_database_id": {
+                        "name": "comment_database_id",
+                        "type": "MEDIUMINT",
+                        "length": 9,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "comment_record_id": {
+                        "name": "comment_record_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "comment_date": {
+                        "name": "comment_date",
+                        "type": "VARCHAR",
+                        "length": 13,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "comment_ip_address": {
+                        "name": "comment_ip_address",
+                        "type": "VARCHAR",
+                        "length": 16,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "comment_post": {
+                        "name": "comment_post",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "comment_id"
+                        ]
+                    },
+                    "comment_user": {
+                        "type": "key",
+                        "name": "comment_user",
+                        "columns": [
+                            "comment_user"
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,946 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="admin/overview"><![CDATA[{"default_controller":"dashboard","protected":0,"default":1}]]></module>
+ <module key="admin/system"><![CDATA[{"default_controller":"login","protected":1,"default":0}]]></module>
+ <module key="admin/applications"><![CDATA[{"default_controller":"applications","protected":0,"default":0}]]></module>
+ <module key="admin/settings"><![CDATA[{"default_controller":"general","protected":0,"default":0}]]></module>
+ <module key="admin/members"><![CDATA[{"default_controller":"members","protected":0,"default":0}]]></module>
+ <module key="admin/membersettings"><![CDATA[{"default_controller":"general","protected":0,"default":0}]]></module>
+ <module key="admin/staff"><![CDATA[{"default_controller":"moderators","protected":0,"default":0}]]></module>
+ <module key="admin/customization"><![CDATA[{"default_controller":"skins","protected":0,"default":0}]]></module>
+ <module key="admin/languages"><![CDATA[{"default_controller":"languages","protected":0,"default":0}]]></module>
+ <module key="admin/editor"><![CDATA[{"default_controller":"toolbar","protected":0,"default":0}]]></module>
+ <module key="admin/bulkmail"><![CDATA[{"default_controller":"bulkmail","protected":0,"default":0}]]></module>
+ <module key="admin/livesearch"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/promotion"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/stats"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/support"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/logs"><![CDATA[{"default_controller":"admin","protected":0,"default":0}]]></module>
+ <module key="admin/logsettings"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/diagnostics"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="admin/discovery"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/clubs"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/activitystats"><![CDATA[{"default_controller":"overview","protected":0,"default":0}]]></module>
+ <module key="admin/messengerstats"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/moderation"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/marketplace"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/achievements"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/smartcommunity"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="front/system"><![CDATA[{"default_controller":"splash","protected":1,"default":0}]]></module>
+ <module key="front/members"><![CDATA[{"default_controller":"profile","protected":0,"default":0}]]></module>
+ <module key="front/search"><![CDATA[{"default_controller":"search","protected":0,"default":0}]]></module>
+ <module key="front/messaging"><![CDATA[{"default_controller":"messenger","protected":0,"default":0}]]></module>
+ <module key="front/online"><![CDATA[{"default_controller":"online","protected":0,"default":0}]]></module>
+ <module key="front/modcp"><![CDATA[{"default_controller":"modcp","protected":0,"default":0}]]></module>
+ <module key="front/sitemap"><![CDATA[{"default_controller":null,"protected":0,"default":0}]]></module>
+ <module key="front/contact"><![CDATA[{"default_controller":"contact","protected":0,"default":0}]]></module>
+ <module key="front/status"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="front/discover"><![CDATA[{"default_controller":"streams","protected":0,"default":1}]]></module>
+ <module key="front/staffdirectory"><![CDATA[{"default_controller":"directory","protected":0,"default":0}]]></module>
+ <module key="front/clubs"><![CDATA[{"default_controller":"directory","protected":0,"default":0}]]></module>
+ <module key="front/promote"><![CDATA[{"default_controller":"ourpicks","protected":0,"default":0}]]></module>
+ <module key="front/referral"><![CDATA[{"default":0,"default_controller":"","protected":0}]]></module>
+ <task frequency="P0Y0M0DT1H0M0S">profilesync</task>
+ <task frequency="P0Y0M1DT0H0M0S">updatecheck</task>
+ <task frequency="P0Y0M1DT0H0M0S">cleanup</task>
+ <task frequency="P0Y0M0DT0H15M0S">sitemapgenerator</task>
+ <task frequency="P0Y0M0DT0H1M0S">queue</task>
+ <task frequency="P0Y0M0DT0H10M0S">pop</task>
+ <task frequency="P0Y0M0DT0H5M0S">digest</task>
+ <task frequency="P0Y0M0DT0H10M0S">publish</task>
+ <task frequency="P0Y0M0DT0H10M0S">clearcache</task>
+ <task frequency="P0Y0M0DT0H30M0S">clearsessions</task>
+ <task frequency="P0Y0M0DT0H5M0S">viewupdates</task>
+ <task frequency="P0Y0M0DT12H0M0S">cleanupattachments</task>
+ <task frequency="P0Y0M1DT0H0M0S">cleanupfiles</task>
+ <task frequency="P0Y0M0DT1H0M0S">unlockmembers</task>
+ <task frequency="P0Y0M0DT6H0M0S">leaderboard</task>
+ <task frequency="P0Y0M1DT0H0M0S">deletecontent</task>
+ <task frequency="P0Y0M0DT0H20M0S">clubrebuild</task>
+ <task frequency="P0Y0M0DT0H15M0S">onlineusers</task>
+ <task frequency="P0Y0M0DT0H5M0S">promote</task>
+ <task frequency="P0Y0M1DT0H0M0S">prunesearchindex</task>
+ <task frequency="P0Y0M1DT0H0M0S">prunesystemlogs</task>
+ <task frequency="P0Y0M0DT0H10M0S">automaticmoderation</task>
+ <task frequency="P0Y0M7DT0H0M0S">usagereporting</task>
+ <task frequency="P0Y0M0DT0H30M0S">userAgentStatistics</task>
+ <task frequency="P0Y0M1DT0H0M0S">pruneipaddresses</task>
+ <task frequency="P0Y0M1DT0H0M0S">clearelasticsearchtasks</task>
+ <task frequency="P0Y0M0DT1H0M0S">postBeforeRegisterFollowup</task>
+ <task frequency="P0Y0M0DT2H0M0S">weeklydigest</task>
+ <task frequency="P0Y0M0DT1H0M0S">clearincompletemembers</task>
+ <task frequency="P0Y0M0DT0H15M0S">rssimport</task>
+ <task frequency="P0Y0M0DT0H2M0S">webhooks</task>
+ <task frequency="P0Y0M1DT0H0M0S">chunkcleanup</task>
+ <task frequency="P0Y0M0DT0H15M0S">s3Delete</task>
+ <task frequency="P0Y0M1DT0H0M0S">pwaprune</task>
+ <task frequency="P0Y0M0DT0H5M0S">dailyStreamSubscriptions</task>
+ <task frequency="P0Y0M0DT0H5M0S">weeklyStreamSubscriptions</task>
+ <setting key="achievements_enabled"><![CDATA[{"key":"achievements_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="achievements_last_rebuilt"><![CDATA[{"key":"achievements_last_rebuilt","default":"0","report":"full"}]]></setting>
+ <setting key="achievements_rebuilding"><![CDATA[{"key":"achievements_rebuilding","default":"0","report":"full"}]]></setting>
+ <setting key="achievements_recognize_max_per_user_day"><![CDATA[{"key":"achievements_recognize_max_per_user_day","default":"50","report":"full"}]]></setting>
+ <setting key="acp_css_map"><![CDATA[{"key":"acp_css_map","default":"","report":"none"}]]></setting>
+ <setting key="acp_dashboard_blocks"><![CDATA[{"key":"acp_dashboard_blocks","default":"","report":"none"}]]></setting>
+ <setting key="acp_menu_cookie_rebuild"><![CDATA[{"key":"acp_menu_cookie_rebuild","default":"0","report":"none"}]]></setting>
+ <setting key="acp_notes"><![CDATA[{"key":"acp_notes","default":"","report":"none"}]]></setting>
+ <setting key="acp_notes_updated"><![CDATA[{"key":"acp_notes_updated","default":"","report":"full"}]]></setting>
+ <setting key="activity_stream_rss"><![CDATA[{"key":"activity_stream_rss","default":"1","report":"full"}]]></setting>
+ <setting key="activity_stream_subscriptions"><![CDATA[{"key":"activity_stream_subscriptions","default":"1","report":"full"}]]></setting>
+ <setting key="activity_stream_subscriptions_inactive_limit"><![CDATA[{"key":"activity_stream_subscriptions_inactive_limit","default":"60","report":"full"}]]></setting>
+ <setting key="activity_stream_subscriptions_max"><![CDATA[{"key":"activity_stream_subscriptions_max","default":"3","report":"full"}]]></setting>
+ <setting key="ads_circulation"><![CDATA[{"key":"ads_circulation","default":"random","report":"full"}]]></setting>
+ <setting key="ads_exist"><![CDATA[{"key":"ads_exist","default":"0","report":"full"}]]></setting>
+ <setting key="ads_force_sidebar"><![CDATA[{"key":"ads_force_sidebar","default":"0","report":"full"}]]></setting>
+ <setting key="all_activity_clubs"><![CDATA[{"key":"all_activity_clubs","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_follow_content"><![CDATA[{"key":"all_activity_follow_content","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_follow_member"><![CDATA[{"key":"all_activity_follow_member","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_like"><![CDATA[{"key":"all_activity_like","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_photo"><![CDATA[{"key":"all_activity_photo","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_register"><![CDATA[{"key":"all_activity_register","default":"1","report":"full"}]]></setting>
+ <setting key="all_activity_rep_neg"><![CDATA[{"key":"all_activity_rep_neg","default":"0","report":"full"}]]></setting>
+ <setting key="allow_creator_vote"><![CDATA[{"key":"allow_creator_vote","default":"1","report":"full"}]]></setting>
+ <setting key="allow_email_changes"><![CDATA[{"key":"allow_email_changes","default":"normal","report":"full"}]]></setting>
+ <setting key="allow_email_changes_target"><![CDATA[{"key":"allow_email_changes_target","default":"","report":"none"}]]></setting>
+ <setting key="allow_forgot_password"><![CDATA[{"key":"allow_forgot_password","default":"normal","report":"full"}]]></setting>
+ <setting key="allow_forgot_password_target"><![CDATA[{"key":"allow_forgot_password_target","default":"","report":"none"}]]></setting>
+ <setting key="allow_only_https_remote_images"><![CDATA[{"key":"allow_only_https_remote_images","default":"1","report":"full"}]]></setting>
+ <setting key="allow_password_changes"><![CDATA[{"key":"allow_password_changes","default":"normal","report":"full"}]]></setting>
+ <setting key="allow_password_changes_target"><![CDATA[{"key":"allow_password_changes_target","default":"","report":"none"}]]></setting>
+ <setting key="allow_reg"><![CDATA[{"key":"allow_reg","default":"1","report":"full"}]]></setting>
+ <setting key="allow_reg_target"><![CDATA[{"key":"allow_reg_target","default":"","report":"none"}]]></setting>
+ <setting key="allow_remote_images"><![CDATA[{"key":"allow_remote_images","default":"1","report":"full"}]]></setting>
+ <setting key="allow_result_view"><![CDATA[{"key":"allow_result_view","default":"1","report":"full"}]]></setting>
+ <setting key="allowed_reg_email"><![CDATA[{"key":"allowed_reg_email","default":"","report":"bool"}]]></setting>
+ <setting key="api_log_prune"><![CDATA[{"key":"api_log_prune","default":"30","report":"full"}]]></setting>
+ <setting key="attach_allowed_extensions"><![CDATA[{"key":"attach_allowed_extensions","default":"","report":"bool"}]]></setting>
+ <setting key="attach_allowed_types"><![CDATA[{"key":"attach_allowed_types","default":"all","report":"full"}]]></setting>
+ <setting key="attachment_image_size"><![CDATA[{"key":"attachment_image_size","default":"1000x750","report":"full"}]]></setting>
+ <setting key="attachment_resample_size"><![CDATA[{"key":"attachment_resample_size","default":"1200x1200","report":"full"}]]></setting>
+ <setting key="authy_enabled"><![CDATA[{"key":"authy_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="authy_groups"><![CDATA[{"key":"authy_groups","default":"*","report":"none"}]]></setting>
+ <setting key="authy_key"><![CDATA[{"key":"authy_key","default":"","report":"none"}]]></setting>
+ <setting key="authy_method"><![CDATA[{"key":"authy_method","default":"authy,sms,phone","report":"full"}]]></setting>
+ <setting key="authy_onetouch"><![CDATA[{"key":"authy_onetouch","default":"1","report":"full"}]]></setting>
+ <setting key="authy_setup"><![CDATA[{"key":"authy_setup","default":"sms,phone","report":"full"}]]></setting>
+ <setting key="authy_setup_lockout"><![CDATA[{"key":"authy_setup_lockout","default":"12","report":"full"}]]></setting>
+ <setting key="authy_setup_tries"><![CDATA[{"key":"authy_setup_tries","default":"2","report":"full"}]]></setting>
+ <setting key="auto_follow_new_content"><![CDATA[{"key":"auto_follow_new_content","default":"0","report":"full"}]]></setting>
+ <setting key="auto_follow_replied_to"><![CDATA[{"key":"auto_follow_replied_to","default":"0","report":"full"}]]></setting>
+ <setting key="auto_polling_enabled"><![CDATA[{"key":"auto_polling_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="automoderation_enabled"><![CDATA[{"key":"automoderation_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="automoderation_report_again_mins"><![CDATA[{"key":"automoderation_report_again_mins","default":"60","report":"full"}]]></setting>
+ <setting key="base_url_stored"><![CDATA[{"key":"base_url_stored","default":"","report":"none"}]]></setting>
+ <setting key="bitly_enabled"><![CDATA[{"key":"bitly_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="bitly_token"><![CDATA[{"key":"bitly_token","default":"","report":"none"}]]></setting>
+ <setting key="board_name"><![CDATA[{"key":"board_name","default":"Invision Community","report":"bool"}]]></setting>
+ <setting key="bot_antispam_type"><![CDATA[{"key":"bot_antispam_type","default":"invisible","report":"full"}]]></setting>
+ <setting key="ckeditor_extraPlugins"><![CDATA[{"key":"ckeditor_extraPlugins","default":"","report":"bool"}]]></setting>
+ <setting key="ckeditor_permissions"><![CDATA[{"key":"ckeditor_permissions","default":"{}","report":"bool"}]]></setting>
+ <setting key="ckeditor_toolbars"><![CDATA[{"key":"ckeditor_toolbars","default":"{\"desktop\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"Strike\",\"-\",\"ipsLink\",\"Ipsquote\",\"ipsCode\",\"ipsEmoticon\",\"-\",\"BulletedList\",\"NumberedList\",\"-\",\"JustifyLeft\",\"JustifyCenter\",\"JustifyRight\",\"-\",\"TextColor\",\"FontSize\",\"-\",\"ipsPreview\"]},\"\\\/\"],\"tablet\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"-\",\"ipsLink\",\"Ipsquote\",\"ipsEmoticon\",\"-\",\"BulletedList\",\"NumberedList\",\"-\",\"ipsPreview\"]},\"\\\/\"],\"phone\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"-\",\"ipsEmoticon\",\"-\",\"ipsLink\",\"-\",\"ipsPreview\"]},\"\\\/\"]}","report":"bool"}]]></setting>
+ <setting key="clickjackprevention"><![CDATA[{"key":"clickjackprevention","default":"xframe","report":"full"}]]></setting>
+ <setting key="club_max_cover"><![CDATA[{"key":"club_max_cover","default":"-1","report":"full"}]]></setting>
+ <setting key="club_nodes_in_apps"><![CDATA[{"key":"club_nodes_in_apps","default":"0","report":"full"}]]></setting>
+ <setting key="clubs"><![CDATA[{"key":"clubs","default":"0","report":"full"}]]></setting>
+ <setting key="clubs_allow_view_change"><![CDATA[{"key":"clubs_allow_view_change","default":"1","report":"full"}]]></setting>
+ <setting key="clubs_default_sort"><![CDATA[{"key":"clubs_default_sort","default":"last_activity","report":"full"}]]></setting>
+ <setting key="clubs_default_view"><![CDATA[{"key":"clubs_default_view","default":"grid","report":"full"}]]></setting>
+ <setting key="clubs_header"><![CDATA[{"key":"clubs_header","default":"full","report":"full"}]]></setting>
+ <setting key="clubs_locations"><![CDATA[{"key":"clubs_locations","default":"0","report":"full"}]]></setting>
+ <setting key="clubs_modperms"><![CDATA[{"key":"clubs_modperms","default":"pin,unpin,future_publish,view_future,move,lock,unlock,reply_to_locked,delete,split_merge","report":"bool"}]]></setting>
+ <setting key="clubs_paid_commission"><![CDATA[{"key":"clubs_paid_commission","default":"0","report":"none"}]]></setting>
+ <setting key="clubs_paid_gateways"><![CDATA[{"key":"clubs_paid_gateways","default":"","report":"none"}]]></setting>
+ <setting key="clubs_paid_on"><![CDATA[{"key":"clubs_paid_on","default":"0","report":"none"}]]></setting>
+ <setting key="clubs_paid_tax"><![CDATA[{"key":"clubs_paid_tax","default":"0","report":"none"}]]></setting>
+ <setting key="clubs_paid_transfee"><![CDATA[{"key":"clubs_paid_transfee","default":"","report":"none"}]]></setting>
+ <setting key="clubs_require_approval"><![CDATA[{"key":"clubs_require_approval","default":"0","report":"full"}]]></setting>
+ <setting key="connect_slaves"><![CDATA[{"key":"connect_slaves","default":"0","report":"none"}]]></setting>
+ <setting key="contact_access"><![CDATA[{"key":"contact_access","default":"*","report":"none"}]]></setting>
+ <setting key="contact_emails"><![CDATA[{"key":"contact_emails","default":"","report":"bool"}]]></setting>
+ <setting key="contact_nexus_department"><![CDATA[{"key":"contact_nexus_department","default":"","report":"bool"}]]></setting>
+ <setting key="contact_redirect"><![CDATA[{"key":"contact_redirect","default":"","report":"bool"}]]></setting>
+ <setting key="contact_type"><![CDATA[{"key":"contact_type","default":"contact_internal","report":"full"}]]></setting>
+ <setting key="coppa_address"><![CDATA[{"key":"coppa_address","default":"","report":"bool"}]]></setting>
+ <setting key="coppa_consent_extra"><![CDATA[{"key":"coppa_consent_extra","default":"","report":"bool"}]]></setting>
+ <setting key="coppa_fax"><![CDATA[{"key":"coppa_fax","default":"","report":"bool"}]]></setting>
+ <setting key="copyright_line"><![CDATA[{"key":"copyright_line","default":"","report":"bool"}]]></setting>
+ <setting key="core_datalayer_enabled"><![CDATA[{"key":"core_datalayer_enabled","default":"0","report":"none"}]]></setting>
+ <setting key="core_datalayer_events"><![CDATA[{"key":"core_datalayer_events","default":"{}","report":"none"}]]></setting>
+ <setting key="core_datalayer_gtmkey"><![CDATA[{"key":"core_datalayer_gtmkey","default":"window.dataLayer","report":"none"}]]></setting>
+ <setting key="core_datalayer_include_pii"><![CDATA[{"key":"core_datalayer_include_pii","default":"0","report":"none"}]]></setting>
+ <setting key="core_datalayer_member_pii_choice"><![CDATA[{"key":"core_datalayer_member_pii_choice","default":"0","report":"none"}]]></setting>
+ <setting key="core_datalayer_pii"><![CDATA[{"key":"core_datalayer_pii","default":"0","report":"none"}]]></setting>
+ <setting key="core_datalayer_properties"><![CDATA[{"key":"core_datalayer_properties","default":"{}","report":"none"}]]></setting>
+ <setting key="core_datalayer_replace_with_sso"><![CDATA[{"key":"core_datalayer_replace_with_sso","default":"0","report":"none"}]]></setting>
+ <setting key="core_datalayer_use_gtm"><![CDATA[{"key":"core_datalayer_use_gtm","default":"1","report":"none"}]]></setting>
+ <setting key="csp_header"><![CDATA[{"key":"csp_header","default":"","report":"bool"}]]></setting>
+ <setting key="custom_body_code"><![CDATA[{"key":"custom_body_code","default":"","report":"none"}]]></setting>
+ <setting key="custom_page_view_js"><![CDATA[{"key":"custom_page_view_js","default":"","report":"none"}]]></setting>
+ <setting key="dellog_retention_period"><![CDATA[{"key":"dellog_retention_period","default":"30","report":"full"}]]></setting>
+ <setting key="device_management"><![CDATA[{"key":"device_management","default":"1","report":"full"}]]></setting>
+ <setting key="diagnostics"><![CDATA[{"key":"diagnostics","default":"1","report":"full"}]]></setting>
+ <setting key="diagnostics_reporting"><![CDATA[{"key":"diagnostics_reporting","default":"1","report":"full"}]]></setting>
+ <setting key="disable_all_plugins"><![CDATA[{"key":"disable_all_plugins","default":"","report":"none"}]]></setting>
+ <setting key="edit_log"><![CDATA[{"key":"edit_log","default":"1","report":"full"}]]></setting>
+ <setting key="edit_log_prune"><![CDATA[{"key":"edit_log_prune","default":"30","report":"full"}]]></setting>
+ <setting key="edit_log_public"><![CDATA[{"key":"edit_log_public","default":"0","report":"full"}]]></setting>
+ <setting key="editor_allowed_classes"><![CDATA[{"key":"editor_allowed_classes","default":"","report":"bool"}]]></setting>
+ <setting key="editor_allowed_datacontrollers"><![CDATA[{"key":"editor_allowed_datacontrollers","default":"","report":"bool"}]]></setting>
+ <setting key="editor_allowed_iframe_bases"><![CDATA[{"key":"editor_allowed_iframe_bases","default":"","report":"bool"}]]></setting>
+ <setting key="editor_embeds"><![CDATA[{"key":"editor_embeds","default":"1","report":"full"}]]></setting>
+ <setting key="editor_paragraph_padding"><![CDATA[{"key":"editor_paragraph_padding","default":"1","report":"full"}]]></setting>
+ <setting key="editor_paste_behaviour"><![CDATA[{"key":"editor_paste_behaviour","default":"rich","report":"full"}]]></setting>
+ <setting key="email_color"><![CDATA[{"key":"email_color","default":"#177ec9","report":"bool"}]]></setting>
+ <setting key="email_filter_action"><![CDATA[{"key":"email_filter_action","default":"allow","report":"full"}]]></setting>
+ <setting key="email_filter_replace_text"><![CDATA[{"key":"email_filter_replace_text","default":"*****@*****.tld","report":"bool"}]]></setting>
+ <setting key="email_in"><![CDATA[{"key":"email_in","default":"","report":"bool"}]]></setting>
+ <setting key="email_logo"><![CDATA[{"key":"email_logo","default":"","report":"bool"}]]></setting>
+ <setting key="email_out"><![CDATA[{"key":"email_out","default":"","report":"bool"}]]></setting>
+ <setting key="emoji_ascii"><![CDATA[{"key":"emoji_ascii","default":"1","report":"full"}]]></setting>
+ <setting key="emoji_cache"><![CDATA[{"key":"emoji_cache","default":"1","report":"none"}]]></setting>
+ <setting key="emoji_shortcodes"><![CDATA[{"key":"emoji_shortcodes","default":"1","report":"full"}]]></setting>
+ <setting key="emoji_style"><![CDATA[{"key":"emoji_style","default":"native","report":"full"}]]></setting>
+ <setting key="enable_bbcode"><![CDATA[{"key":"enable_bbcode","default":"0","report":"full"}]]></setting>
+ <setting key="error_log"><![CDATA[{"key":"error_log","default":"1","report":"none"}]]></setting>
+ <setting key="error_log_level"><![CDATA[{"key":"error_log_level","default":"3","report":"full"}]]></setting>
+ <setting key="error_notify"><![CDATA[{"key":"error_notify","default":"0","report":"full"}]]></setting>
+ <setting key="error_notify_level"><![CDATA[{"key":"error_notify_level","default":"3","report":"full"}]]></setting>
+ <setting key="fb_ig_oembed_appid"><![CDATA[{"key":"fb_ig_oembed_appid","default":"","report":"none"}]]></setting>
+ <setting key="fb_ig_oembed_appsecret"><![CDATA[{"key":"fb_ig_oembed_appsecret","default":"","report":"none"}]]></setting>
+ <setting key="fb_ig_oembed_token"><![CDATA[{"key":"fb_ig_oembed_token","default":"","report":"bool"}]]></setting>
+ <setting key="fb_pixel_delay"><![CDATA[{"key":"fb_pixel_delay","default":"0","report":"full"}]]></setting>
+ <setting key="fb_pixel_enabled"><![CDATA[{"key":"fb_pixel_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="fb_pixel_id"><![CDATA[{"key":"fb_pixel_id","default":"","report":"none"}]]></setting>
+ <setting key="fbc_bot_group"><![CDATA[{"key":"fbc_bot_group","default":"2","report":"bool"}]]></setting>
+ <setting key="file_log_pruning"><![CDATA[{"key":"file_log_pruning","default":"90","report":"full"}]]></setting>
+ <setting key="flood_control"><![CDATA[{"key":"flood_control","default":"5","report":"full"}]]></setting>
+ <setting key="force_reg_terms"><![CDATA[{"key":"force_reg_terms","default":"0","report":"full"}]]></setting>
+ <setting key="furl_configuration"><![CDATA[{"key":"furl_configuration","default":"","report":"bool"}]]></setting>
+ <setting key="ga_code"><![CDATA[{"key":"ga_code","default":"","report":"none"}]]></setting>
+ <setting key="ga_enabled"><![CDATA[{"key":"ga_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="giphy_apikey"><![CDATA[{"key":"giphy_apikey","default":"","report":"none"}]]></setting>
+ <setting key="giphy_enabled"><![CDATA[{"key":"giphy_enabled","default":"","report":"full"}]]></setting>
+ <setting key="giphy_rating"><![CDATA[{"key":"giphy_rating","default":"x","report":"full"}]]></setting>
+ <setting key="gl_guidelines"><![CDATA[{"key":"gl_guidelines","default":"","report":"bool"}]]></setting>
+ <setting key="gl_link"><![CDATA[{"key":"gl_link","default":"","report":"bool"}]]></setting>
+ <setting key="gl_type"><![CDATA[{"key":"gl_type","default":"none","report":"full"}]]></setting>
+ <setting key="google_maps_api_key"><![CDATA[{"key":"google_maps_api_key","default":"","report":"bool"}]]></setting>
+ <setting key="google_maps_api_key_secret"><![CDATA[{"key":"google_maps_api_key_secret","default":"","report":"bool"}]]></setting>
+ <setting key="google_maps_static_use_embed"><![CDATA[{"key":"google_maps_static_use_embed","default":"0","report":"none"}]]></setting>
+ <setting key="googleauth_enabled"><![CDATA[{"key":"googleauth_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="googleauth_groups"><![CDATA[{"key":"googleauth_groups","default":"*","report":"bool"}]]></setting>
+ <setting key="googlemaps"><![CDATA[{"key":"googlemaps","default":"1","report":"full"}]]></setting>
+ <setting key="googleplacesautocomplete"><![CDATA[{"key":"googleplacesautocomplete","default":"1","report":"full"}]]></setting>
+ <setting key="googletag_enabled"><![CDATA[{"key":"googletag_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="googletag_head_code"><![CDATA[{"key":"googletag_head_code","default":"","report":"none"}]]></setting>
+ <setting key="googletag_noscript_code"><![CDATA[{"key":"googletag_noscript_code","default":"","report":"none"}]]></setting>
+ <setting key="group_formatting"><![CDATA[{"key":"group_formatting","default":"global","report":"full"}]]></setting>
+ <setting key="guest_captcha"><![CDATA[{"key":"guest_captcha","default":"1","report":"full"}]]></setting>
+ <setting key="guest_terms_bar"><![CDATA[{"key":"guest_terms_bar","default":"0","report":"full"}]]></setting>
+ <setting key="hcaptcha_secret"><![CDATA[{"key":"hcaptcha_secret","default":"","report":"none"}]]></setting>
+ <setting key="hcaptcha_sitekey"><![CDATA[{"key":"hcaptcha_sitekey","default":"","report":"bool"}]]></setting>
+ <setting key="htaccess_mod_rewrite"><![CDATA[{"key":"htaccess_mod_rewrite","default":"0","report":"full"}]]></setting>
+ <setting key="icons_apple_startup"><![CDATA[{"key":"icons_apple_startup","default":"","report":"bool"}]]></setting>
+ <setting key="icons_favicon"><![CDATA[{"key":"icons_favicon","default":"","report":"bool"}]]></setting>
+ <setting key="icons_homescreen"><![CDATA[{"key":"icons_homescreen","default":"","report":"bool"}]]></setting>
+ <setting key="icons_homescreen_maskable"><![CDATA[{"key":"icons_homescreen_maskable","default":"","report":"bool"}]]></setting>
+ <setting key="icons_mask_color"><![CDATA[{"key":"icons_mask_color","default":"FFFFFF","report":"bool"}]]></setting>
+ <setting key="icons_mask_icon"><![CDATA[{"key":"icons_mask_icon","default":"","report":"bool"}]]></setting>
+ <setting key="icons_sharer_logo"><![CDATA[{"key":"icons_sharer_logo","default":"","report":"bool"}]]></setting>
+ <setting key="ignore_system_on"><![CDATA[{"key":"ignore_system_on","default":"1","report":"full"}]]></setting>
+ <setting key="image_jpg_quality"><![CDATA[{"key":"image_jpg_quality","default":"85","report":"full"}]]></setting>
+ <setting key="image_png_quality_gd"><![CDATA[{"key":"image_png_quality_gd","default":"9","report":"full"}]]></setting>
+ <setting key="image_suite"><![CDATA[{"key":"image_suite","default":"imagemagick","report":"full"}]]></setting>
+ <setting key="imagick_strip_exif"><![CDATA[{"key":"imagick_strip_exif","default":"1","report":"full"}]]></setting>
+ <setting key="indexnow_enabled"><![CDATA[{"key":"indexnow_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="indexnow_key"><![CDATA[{"key":"indexnow_key","default":"","report":"bool"}]]></setting>
+ <setting key="ip_address_prune"><![CDATA[{"key":"ip_address_prune","default":"","report":"full"}]]></setting>
+ <setting key="ipb_bruteforce_attempts"><![CDATA[{"key":"ipb_bruteforce_attempts","default":"3","report":"full"}]]></setting>
+ <setting key="ipb_bruteforce_period"><![CDATA[{"key":"ipb_bruteforce_period","default":"15","report":"full"}]]></setting>
+ <setting key="ipb_bruteforce_unlock"><![CDATA[{"key":"ipb_bruteforce_unlock","default":"1","report":"full"}]]></setting>
+ <setting key="ipb_copy_number"><![CDATA[{"key":"ipb_copy_number","default":"","report":"bool"}]]></setting>
+ <setting key="ipb_poll_only"><![CDATA[{"key":"ipb_poll_only","default":"0","report":"full"}]]></setting>
+ <setting key="ipb_reg_number"><![CDATA[{"key":"ipb_reg_number","default":"","report":"bool"}]]></setting>
+ <setting key="ipb_url_blacklist"><![CDATA[{"key":"ipb_url_blacklist","default":"","report":"bool"}]]></setting>
+ <setting key="ipb_url_filter_option"><![CDATA[{"key":"ipb_url_filter_option","default":"none","report":"full"}]]></setting>
+ <setting key="ipb_url_whitelist"><![CDATA[{"key":"ipb_url_whitelist","default":"","report":"bool"}]]></setting>
+ <setting key="ips_cp_purchase"><![CDATA[{"key":"ips_cp_purchase","default":"0","report":"full"}]]></setting>
+ <setting key="ipseo_ga"><![CDATA[{"key":"ipseo_ga","default":"","report":"bool"}]]></setting>
+ <setting key="ipsgeoip"><![CDATA[{"key":"ipsgeoip","default":"1","report":"full"}]]></setting>
+ <setting key="itunes_affiliate_string"><![CDATA[{"key":"itunes_affiliate_string","default":"","report":"bool"}]]></setting>
+ <setting key="javascript_updated"><![CDATA[{"key":"javascript_updated","default":"0","report":"none"}]]></setting>
+ <setting key="keycaptcha_privatekey"><![CDATA[{"key":"keycaptcha_privatekey","default":"","report":"bool"}]]></setting>
+ <setting key="lang_auto_detect"><![CDATA[{"key":"lang_auto_detect","default":"1","report":"full"}]]></setting>
+ <setting key="last_data_store_update"><![CDATA[{"key":"last_data_store_update","default":"","report":"none"}]]></setting>
+ <setting key="lazy_load_enabled"><![CDATA[{"key":"lazy_load_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="leaderboard_excluded_groups"><![CDATA[{"key":"leaderboard_excluded_groups","default":"","report":"bool"}]]></setting>
+ <setting key="letter_photos"><![CDATA[{"key":"letter_photos","default":"letters","report":"full"}]]></setting>
+ <setting key="link_default"><![CDATA[{"key":"link_default","default":"unread","report":"full"}]]></setting>
+ <setting key="links_external"><![CDATA[{"key":"links_external","default":"1","report":"full"}]]></setting>
+ <setting key="lp_method"><![CDATA[{"key":"lp_method","default":"random","report":"full"}]]></setting>
+ <setting key="mail_method"><![CDATA[{"key":"mail_method","default":"php","report":"full"}]]></setting>
+ <setting key="manifest_details"><![CDATA[{"key":"manifest_details","default":"[]","report":"bool"}]]></setting>
+ <setting key="mapbox"><![CDATA[{"key":"mapbox","default":"0","report":"full"}]]></setting>
+ <setting key="mapbox_api_key"><![CDATA[{"key":"mapbox_api_key","default":"","report":"none"}]]></setting>
+ <setting key="match_browser"><![CDATA[{"key":"match_browser","default":"0","report":"full"}]]></setting>
+ <setting key="match_ipaddress"><![CDATA[{"key":"match_ipaddress","default":"1","report":"full"}]]></setting>
+ <setting key="matomo_code"><![CDATA[{"key":"matomo_code","default":"","report":"none"}]]></setting>
+ <setting key="matomo_enabled"><![CDATA[{"key":"matomo_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="max_internalembed_width"><![CDATA[{"key":"max_internalembed_width","default":"500","report":"full"}]]></setting>
+ <setting key="max_internalembed_width_css"><![CDATA[{"key":"max_internalembed_width_css","default":"none","report":"none"}]]></setting>
+ <setting key="max_poll_choices"><![CDATA[{"key":"max_poll_choices","default":"20","report":"full"}]]></setting>
+ <setting key="max_poll_questions"><![CDATA[{"key":"max_poll_questions","default":"3","report":"full"}]]></setting>
+ <setting key="max_title_length"><![CDATA[{"key":"max_title_length","default":"255","report":"full"}]]></setting>
+ <setting key="max_user_name_length"><![CDATA[{"key":"max_user_name_length","default":"26","report":"full"}]]></setting>
+ <setting key="max_video_width"><![CDATA[{"key":"max_video_width","default":"0","report":"full"}]]></setting>
+ <setting key="max_video_width_css"><![CDATA[{"key":"max_video_width_css","default":"none","report":"bool"}]]></setting>
+ <setting key="member_menu_create_key"><![CDATA[{"key":"member_menu_create_key","default":"","report":"none"}]]></setting>
+ <setting key="merge_concurrent_posts"><![CDATA[{"key":"merge_concurrent_posts","default":"0","report":"full"}]]></setting>
+ <setting key="mfa_forgot_behaviour"><![CDATA[{"key":"mfa_forgot_behaviour","default":"email","report":"full"}]]></setting>
+ <setting key="mfa_lockout_behaviour"><![CDATA[{"key":"mfa_lockout_behaviour","default":"lock","report":"full"}]]></setting>
+ <setting key="mfa_lockout_time"><![CDATA[{"key":"mfa_lockout_time","default":"60","report":"full"}]]></setting>
+ <setting key="mfa_optional_prompt"><![CDATA[{"key":"mfa_optional_prompt","default":"none","report":"full"}]]></setting>
+ <setting key="mfa_required_groups"><![CDATA[{"key":"mfa_required_groups","default":"","report":"bool"}]]></setting>
+ <setting key="mfa_required_prompt"><![CDATA[{"key":"mfa_required_prompt","default":"immediate","report":"full"}]]></setting>
+ <setting key="min_user_name_length"><![CDATA[{"key":"min_user_name_length","default":"3","report":"full"}]]></setting>
+ <setting key="minimum_age"><![CDATA[{"key":"minimum_age","default":"0","report":"full"}]]></setting>
+ <setting key="most_online"><![CDATA[{"key":"most_online","default":"{\"count\":0,\"time\":0}","report":"none"}]]></setting>
+ <setting key="mp_onboard_complete"><![CDATA[{"key":"mp_onboard_complete","default":"1","report":"none"}]]></setting>
+ <setting key="new_device_email"><![CDATA[{"key":"new_device_email","default":"0","report":"full"}]]></setting>
+ <setting key="new_reg_notify"><![CDATA[{"key":"new_reg_notify","default":"0","report":"full"}]]></setting>
+ <setting key="notification_prefs_one_per_view"><![CDATA[{"key":"notification_prefs_one_per_view","default":"0","report":"full"}]]></setting>
+ <setting key="notification_prefs_popup"><![CDATA[{"key":"notification_prefs_popup","default":"0","report":"full"}]]></setting>
+ <setting key="onboard_complete"><![CDATA[{"key":"onboard_complete","default":"0","report":"none"}]]></setting>
+ <setting key="orig_tables_checked"><![CDATA[{"key":"orig_tables_checked","default":"0","report":"none"}]]></setting>
+ <setting key="our_picks_in_email"><![CDATA[{"key":"our_picks_in_email","default":"1","report":"none"}]]></setting>
+ <setting key="password_strength_meter"><![CDATA[{"key":"password_strength_meter","default":"1","report":"full"}]]></setting>
+ <setting key="password_strength_meter_enforce"><![CDATA[{"key":"password_strength_meter_enforce","default":"0","report":"full"}]]></setting>
+ <setting key="password_strength_option"><![CDATA[{"key":"password_strength_option","default":"3","report":"full"}]]></setting>
+ <setting key="php_mail_extra"><![CDATA[{"key":"php_mail_extra","default":"","report":"bool"}]]></setting>
+ <setting key="pii_link"><![CDATA[{"key":"pii_link","default":"","report":"none"}]]></setting>
+ <setting key="pii_type"><![CDATA[{"key":"pii_type","default":"on","report":"full"}]]></setting>
+ <setting key="pixabay_apikey"><![CDATA[{"key":"pixabay_apikey","default":"","report":"none"}]]></setting>
+ <setting key="pixabay_editor_permissions"><![CDATA[{"key":"pixabay_editor_permissions","default":"*","report":"none"}]]></setting>
+ <setting key="pixabay_enabled"><![CDATA[{"key":"pixabay_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="pixabay_safesearch"><![CDATA[{"key":"pixabay_safesearch","default":"1","report":"full"}]]></setting>
+ <setting key="poll_allow_public"><![CDATA[{"key":"poll_allow_public","default":"1","report":"full"}]]></setting>
+ <setting key="poll_allow_vdelete"><![CDATA[{"key":"poll_allow_vdelete","default":"0","report":"full"}]]></setting>
+ <setting key="pop3_password"><![CDATA[{"key":"pop3_password","default":"","report":"none"}]]></setting>
+ <setting key="pop3_port"><![CDATA[{"key":"pop3_port","default":"995","report":"none"}]]></setting>
+ <setting key="pop3_server"><![CDATA[{"key":"pop3_server","default":"","report":"none"}]]></setting>
+ <setting key="pop3_tls"><![CDATA[{"key":"pop3_tls","default":"1","report":"none"}]]></setting>
+ <setting key="pop3_user"><![CDATA[{"key":"pop3_user","default":"","report":"none"}]]></setting>
+ <setting key="post_before_registering"><![CDATA[{"key":"post_before_registering","default":"1","report":"full"}]]></setting>
+ <setting key="posts_add_nofollow"><![CDATA[{"key":"posts_add_nofollow","default":"1","report":"full"}]]></setting>
+ <setting key="posts_add_nofollow_exclude"><![CDATA[{"key":"posts_add_nofollow_exclude","default":"","report":"bool"}]]></setting>
+ <setting key="privacy_link"><![CDATA[{"key":"privacy_link","default":"","report":"bool"}]]></setting>
+ <setting key="privacy_show_processors"><![CDATA[{"key":"privacy_show_processors","default":"1","report":"full"}]]></setting>
+ <setting key="privacy_text"><![CDATA[{"key":"privacy_text","default":"","report":"bool"}]]></setting>
+ <setting key="privacy_type"><![CDATA[{"key":"privacy_type","default":"none","report":"full"}]]></setting>
+ <setting key="profile_birthday_type"><![CDATA[{"key":"profile_birthday_type","default":"public","report":"full"}]]></setting>
+ <setting key="profile_comment_approval"><![CDATA[{"key":"profile_comment_approval","default":"0","report":"full"}]]></setting>
+ <setting key="profile_comments"><![CDATA[{"key":"profile_comments","default":"1","report":"full"}]]></setting>
+ <setting key="promote_community_enabled"><![CDATA[{"key":"promote_community_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="promote_groups"><![CDATA[{"key":"promote_groups","default":"","report":"bool"}]]></setting>
+ <setting key="promote_members"><![CDATA[{"key":"promote_members","default":"","report":"bool"}]]></setting>
+ <setting key="promote_scheduled"><![CDATA[{"key":"promote_scheduled","default":"","report":"bool"}]]></setting>
+ <setting key="promote_tz"><![CDATA[{"key":"promote_tz","default":"UTC","report":"full"}]]></setting>
+ <setting key="prune_emailerrorlogs"><![CDATA[{"key":"prune_emailerrorlogs","default":"3","report":"full"}]]></setting>
+ <setting key="prune_follows"><![CDATA[{"key":"prune_follows","default":"365","report":"full"}]]></setting>
+ <setting key="prune_item_markers"><![CDATA[{"key":"prune_item_markers","default":"60","report":"full"}]]></setting>
+ <setting key="prune_known_devices"><![CDATA[{"key":"prune_known_devices","default":"365","report":"full"}]]></setting>
+ <setting key="prune_known_ips"><![CDATA[{"key":"prune_known_ips","default":"180","report":"full"}]]></setting>
+ <setting key="prune_log_admin"><![CDATA[{"key":"prune_log_admin","default":"0","report":"full"}]]></setting>
+ <setting key="prune_log_adminlogin"><![CDATA[{"key":"prune_log_adminlogin","default":"30","report":"full"}]]></setting>
+ <setting key="prune_log_email_error"><![CDATA[{"key":"prune_log_email_error","default":"30","report":"full"}]]></setting>
+ <setting key="prune_log_emailstats"><![CDATA[{"key":"prune_log_emailstats","default":"365","report":"full"}]]></setting>
+ <setting key="prune_log_error"><![CDATA[{"key":"prune_log_error","default":"30","report":"full"}]]></setting>
+ <setting key="prune_log_moderator"><![CDATA[{"key":"prune_log_moderator","default":"0","report":"full"}]]></setting>
+ <setting key="prune_log_spam"><![CDATA[{"key":"prune_log_spam","default":"30","report":"full"}]]></setting>
+ <setting key="prune_log_system"><![CDATA[{"key":"prune_log_system","default":"30","report":"full"}]]></setting>
+ <setting key="prune_log_tasks"><![CDATA[{"key":"prune_log_tasks","default":"30","report":"full"}]]></setting>
+ <setting key="prune_member_history"><![CDATA[{"key":"prune_member_history","default":"365","report":"full"}]]></setting>
+ <setting key="prune_notifications"><![CDATA[{"key":"prune_notifications","default":"30","report":"full"}]]></setting>
+ <setting key="prune_pms"><![CDATA[{"key":"prune_pms","default":"0","report":"full"}]]></setting>
+ <setting key="prune_points_log"><![CDATA[{"key":"prune_points_log","default":"365","report":"full"}]]></setting>
+ <setting key="rare_badge_percent"><![CDATA[{"key":"rare_badge_percent","default":"5","report":"full"}]]></setting>
+ <setting key="reaction_count_display"><![CDATA[{"key":"reaction_count_display","default":"individual","report":"full"}]]></setting>
+ <setting key="reaction_is_likemode"><![CDATA[{"key":"reaction_is_likemode","default":"","report":"full"}]]></setting>
+ <setting key="recaptcha2_private_key"><![CDATA[{"key":"recaptcha2_private_key","default":"6LcH7UEUAAAAANmcQmZErdGW2FXwVhtRBVXBWBUA","report":"bool"}]]></setting>
+ <setting key="recaptcha2_public_key"><![CDATA[{"key":"recaptcha2_public_key","default":"6LcH7UEUAAAAAIGWgOoyBKAqjLmOIKzfJTOjyC7z","report":"bool"}]]></setting>
+ <setting key="ref_on"><![CDATA[{"key":"ref_on","default":"0","report":"full"}]]></setting>
+ <setting key="referrer_policy_header"><![CDATA[{"key":"referrer_policy_header","default":"2","report":"full"}]]></setting>
+ <setting key="reg_auth_type"><![CDATA[{"key":"reg_auth_type","default":"user","report":"full"}]]></setting>
+ <setting key="reg_rules"><![CDATA[{"key":"reg_rules","default":"<p>Please take a moment to review these rules.<\/p><p>Please remember that we are not responsible for any messages posted. We do not vouch for or warrant the accuracy, completeness or usefulness of any message, and are not responsible for the contents of any message.<\/p><p>The messages express the views of the author of the message, not necessarily the views of this website. Any user who feels that a posted message is objectionable is encouraged to contact us immediately by email. We have the ability to remove objectionable messages and we will make every effort to do so, within a reasonable time frame, if we determine that removal is necessary.<\/p><p>You agree, through your use of this service, that you will not use this website to post any material which is knowingly false and\/or defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, or otherwise violative of any law.<\/p><p>You agree not to post any copyrighted material unless the copyright is owned by you or by this website.<\/p><p>Our software uses cookies to distinguish you from other users of our website. This helps us to provide you with a personalized experience when you browse this site.<\/p>","report":"bool"}]]></setting>
+ <setting key="relative_dates_enable"><![CDATA[{"key":"relative_dates_enable","default":"1","report":"full"}]]></setting>
+ <setting key="remote_image_cache"><![CDATA[{"key":"remote_image_cache","default":"7","report":"full"}]]></setting>
+ <setting key="reputation_can_self_vote"><![CDATA[{"key":"reputation_can_self_vote","default":"0","report":"full"}]]></setting>
+ <setting key="reputation_enabled"><![CDATA[{"key":"reputation_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="reputation_highlight"><![CDATA[{"key":"reputation_highlight","default":"50","report":"full"}]]></setting>
+ <setting key="reputation_leaderboard_default_tab"><![CDATA[{"key":"reputation_leaderboard_default_tab","default":"leaderboard","report":"full"}]]></setting>
+ <setting key="reputation_leaderboard_on"><![CDATA[{"key":"reputation_leaderboard_on","default":"1","report":"full"}]]></setting>
+ <setting key="reputation_max_members"><![CDATA[{"key":"reputation_max_members","default":"48","report":"full"}]]></setting>
+ <setting key="reputation_overview_max_members"><![CDATA[{"key":"reputation_overview_max_members","default":"8","report":"full"}]]></setting>
+ <setting key="reputation_point_types"><![CDATA[{"key":"reputation_point_types","default":"like","report":"full"}]]></setting>
+ <setting key="reputation_protected_groups"><![CDATA[{"key":"reputation_protected_groups","default":"","report":"bool"}]]></setting>
+ <setting key="reputation_show_days_won_trophy"><![CDATA[{"key":"reputation_show_days_won_trophy","default":"1","report":"full"}]]></setting>
+ <setting key="reputation_show_profile"><![CDATA[{"key":"reputation_show_profile","default":"1","report":"full"}]]></setting>
+ <setting key="reputation_timezone"><![CDATA[{"key":"reputation_timezone","default":"UTC","report":"full"}]]></setting>
+ <setting key="reputation_top_members_filters"><![CDATA[{"key":"reputation_top_members_filters","default":"*","report":"bool"}]]></setting>
+ <setting key="reputation_top_members_overview"><![CDATA[{"key":"reputation_top_members_overview","default":"pp_reputation_points,member_posts","report":"full"}]]></setting>
+ <setting key="reviews_rating_out_of"><![CDATA[{"key":"reviews_rating_out_of","default":"5","report":"full"}]]></setting>
+ <setting key="right_to_be_forgotten_link"><![CDATA[{"key":"right_to_be_forgotten_link","default":"","report":"none"}]]></setting>
+ <setting key="right_to_be_forgotten_type"><![CDATA[{"key":"right_to_be_forgotten_type","default":"on","report":"full"}]]></setting>
+ <setting key="robots_txt"><![CDATA[{"key":"robots_txt","default":"default","report":"bool"}]]></setting>
+ <setting key="rules_exclude_groups"><![CDATA[{"key":"rules_exclude_groups","default":"[]","report":"none"}]]></setting>
+ <setting key="search_decay_days"><![CDATA[{"key":"search_decay_days","default":"120","report":"full"}]]></setting>
+ <setting key="search_decay_factor"><![CDATA[{"key":"search_decay_factor","default":"0.5","report":"full"}]]></setting>
+ <setting key="search_default_operator"><![CDATA[{"key":"search_default_operator","default":"or","report":"full"}]]></setting>
+ <setting key="search_elastic_analyzer"><![CDATA[{"key":"search_elastic_analyzer","default":"english","report":"full"}]]></setting>
+ <setting key="search_elastic_custom_analyzer"><![CDATA[{"key":"search_elastic_custom_analyzer","default":"","report":"bool"}]]></setting>
+ <setting key="search_elastic_index"><![CDATA[{"key":"search_elastic_index","default":"content","report":"none"}]]></setting>
+ <setting key="search_elastic_self_boost"><![CDATA[{"key":"search_elastic_self_boost","default":"1.5","report":"full"}]]></setting>
+ <setting key="search_elastic_server"><![CDATA[{"key":"search_elastic_server","default":"","report":"none"}]]></setting>
+ <setting key="search_index_maxresults"><![CDATA[{"key":"search_index_maxresults","default":"10000","report":"full"}]]></setting>
+ <setting key="search_index_timeframe"><![CDATA[{"key":"search_index_timeframe","default":"0","report":"full"}]]></setting>
+ <setting key="search_method"><![CDATA[{"key":"search_method","default":"mysql","report":"full"}]]></setting>
+ <setting key="search_title_boost"><![CDATA[{"key":"search_title_boost","default":"5","report":"full"}]]></setting>
+ <setting key="searchlog_exclude_groups"><![CDATA[{"key":"searchlog_exclude_groups","default":"[2]","report":"bool"}]]></setting>
+ <setting key="security_questions_areas"><![CDATA[{"key":"security_questions_areas","default":"","report":"bool"}]]></setting>
+ <setting key="security_questions_enabled"><![CDATA[{"key":"security_questions_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="security_questions_groups"><![CDATA[{"key":"security_questions_groups","default":"*","report":"bool"}]]></setting>
+ <setting key="security_questions_number"><![CDATA[{"key":"security_questions_number","default":"3","report":"full"}]]></setting>
+ <setting key="security_questions_prompt"><![CDATA[{"key":"security_questions_prompt","default":"access","report":"full"}]]></setting>
+ <setting key="security_questions_timer"><![CDATA[{"key":"security_questions_timer","default":"30","report":"full"}]]></setting>
+ <setting key="security_questions_tries"><![CDATA[{"key":"security_questions_tries","default":"3","report":"full"}]]></setting>
+ <setting key="sendgrid_api_key"><![CDATA[{"key":"sendgrid_api_key","default":"","report":"none"}]]></setting>
+ <setting key="sendgrid_click_tracking"><![CDATA[{"key":"sendgrid_click_tracking","default":"0","report":"full"}]]></setting>
+ <setting key="sendgrid_ip_pool"><![CDATA[{"key":"sendgrid_ip_pool","default":"","report":"bool"}]]></setting>
+ <setting key="sendgrid_use_for"><![CDATA[{"key":"sendgrid_use_for","default":"0","report":"full"}]]></setting>
+ <setting key="seo_r_on"><![CDATA[{"key":"seo_r_on","default":"1","report":"full"}]]></setting>
+ <setting key="setup_in_progress"><![CDATA[{"key":"setup_in_progress","default":"0","report":"none"}]]></setting>
+ <setting key="signatures_enabled"><![CDATA[{"key":"signatures_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="signatures_guests"><![CDATA[{"key":"signatures_guests","default":"0","report":"full"}]]></setting>
+ <setting key="signatures_mobile"><![CDATA[{"key":"signatures_mobile","default":"0","report":"full"}]]></setting>
+ <setting key="site_address"><![CDATA[{"key":"site_address","default":"","report":"bool"}]]></setting>
+ <setting key="site_main_title"><![CDATA[{"key":"site_main_title","default":"","report":"bool"}]]></setting>
+ <setting key="site_main_url"><![CDATA[{"key":"site_main_url","default":"","report":"bool"}]]></setting>
+ <setting key="site_offline_message"><![CDATA[{"key":"site_offline_message","default":"","report":"bool"}]]></setting>
+ <setting key="site_online"><![CDATA[{"key":"site_online","default":"1","report":"full"}]]></setting>
+ <setting key="site_secret_key"><![CDATA[{"key":"site_secret_key","default":"","report":"none"}]]></setting>
+ <setting key="site_site_elsewhere"><![CDATA[{"key":"site_site_elsewhere","default":"0","report":"full"}]]></setting>
+ <setting key="site_social_profiles"><![CDATA[{"key":"site_social_profiles","default":"","report":"bool"}]]></setting>
+ <setting key="site_twitter_id"><![CDATA[{"key":"site_twitter_id","default":"","report":"bool"}]]></setting>
+ <setting key="sitemap_club_settings"><![CDATA[{"key":"sitemap_club_settings","default":"{}","report":"bool"}]]></setting>
+ <setting key="sitemap_content_settings"><![CDATA[{"key":"sitemap_content_settings","default":"{}","report":"bool"}]]></setting>
+ <setting key="sitemap_last_ping"><![CDATA[{"key":"sitemap_last_ping","default":"0","report":"none"}]]></setting>
+ <setting key="sitemap_path"><![CDATA[{"key":"sitemap_path","default":"","report":"bool"}]]></setting>
+ <setting key="sitemap_profiles_content"><![CDATA[{"key":"sitemap_profiles_content","default":"10","report":"full"}]]></setting>
+ <setting key="sitemap_profiles_count"><![CDATA[{"key":"sitemap_profiles_count","default":"-1","report":"full"}]]></setting>
+ <setting key="sitemap_profiles_priority"><![CDATA[{"key":"sitemap_profiles_priority","default":"0.6","report":"full"}]]></setting>
+ <setting key="sitemap_url"><![CDATA[{"key":"sitemap_url","default":"","report":"bool"}]]></setting>
+ <setting key="sixty_second_emails"><![CDATA[{"key":"sixty_second_emails","default":"1","report":"full"}]]></setting>
+ <setting key="smtp_host"><![CDATA[{"key":"smtp_host","default":"localhost","report":"none"}]]></setting>
+ <setting key="smtp_pass"><![CDATA[{"key":"smtp_pass","default":"","report":"none"}]]></setting>
+ <setting key="smtp_port"><![CDATA[{"key":"smtp_port","default":"25","report":"none"}]]></setting>
+ <setting key="smtp_protocol"><![CDATA[{"key":"smtp_protocol","default":"plain","report":"none"}]]></setting>
+ <setting key="smtp_user"><![CDATA[{"key":"smtp_user","default":"","report":"none"}]]></setting>
+ <setting key="social_links_in_email"><![CDATA[{"key":"social_links_in_email","default":"1","report":"none"}]]></setting>
+ <setting key="spam_service_action_0"><![CDATA[{"key":"spam_service_action_0","default":"1","report":"full"}]]></setting>
+ <setting key="spam_service_action_1"><![CDATA[{"key":"spam_service_action_1","default":"1","report":"full"}]]></setting>
+ <setting key="spam_service_action_2"><![CDATA[{"key":"spam_service_action_2","default":"1","report":"full"}]]></setting>
+ <setting key="spam_service_action_3"><![CDATA[{"key":"spam_service_action_3","default":"2","report":"full"}]]></setting>
+ <setting key="spam_service_action_4"><![CDATA[{"key":"spam_service_action_4","default":"4","report":"full"}]]></setting>
+ <setting key="spam_service_days"><![CDATA[{"key":"spam_service_days","default":"","report":"bool"}]]></setting>
+ <setting key="spam_service_enabled"><![CDATA[{"key":"spam_service_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="spam_service_send_to_ips"><![CDATA[{"key":"spam_service_send_to_ips","default":"1","report":"full"}]]></setting>
+ <setting key="sparkpost_api_key"><![CDATA[{"key":"sparkpost_api_key","default":"","report":"none"}]]></setting>
+ <setting key="sparkpost_click_tracking"><![CDATA[{"key":"sparkpost_click_tracking","default":"0","report":"full"}]]></setting>
+ <setting key="sparkpost_ip_pool"><![CDATA[{"key":"sparkpost_ip_pool","default":"","report":"bool"}]]></setting>
+ <setting key="sparkpost_use_for"><![CDATA[{"key":"sparkpost_use_for","default":"0","report":"full"}]]></setting>
+ <setting key="spm_notify"><![CDATA[{"key":"spm_notify","default":"0","report":"full"}]]></setting>
+ <setting key="spm_option"><![CDATA[{"key":"spm_option","default":"disable,unapprove","report":"full"}]]></setting>
+ <setting key="spm_post_days"><![CDATA[{"key":"spm_post_days","default":"3","report":"full"}]]></setting>
+ <setting key="staff_directory_empty"><![CDATA[{"key":"staff_directory_empty","default":"0","report":"full"}]]></setting>
+ <setting key="startpoll_cutoff"><![CDATA[{"key":"startpoll_cutoff","default":"-1","report":"full"}]]></setting>
+ <setting key="stats_device_usage_prune"><![CDATA[{"key":"stats_device_usage_prune","default":"180","report":"full"}]]></setting>
+ <setting key="stats_keywords"><![CDATA[{"key":"stats_keywords","default":"","report":"bool"}]]></setting>
+ <setting key="stats_keywords_prune"><![CDATA[{"key":"stats_keywords_prune","default":"180","report":"full"}]]></setting>
+ <setting key="stats_online_users_prune"><![CDATA[{"key":"stats_online_users_prune","default":"180","report":"full"}]]></setting>
+ <setting key="stats_search_prune"><![CDATA[{"key":"stats_search_prune","default":"180","report":"full"}]]></setting>
+ <setting key="status_updates_mem_enable"><![CDATA[{"key":"status_updates_mem_enable","default":"0","report":"full"}]]></setting>
+ <setting key="tags_alphabetical"><![CDATA[{"key":"tags_alphabetical","default":"0","report":"full"}]]></setting>
+ <setting key="tags_can_prefix"><![CDATA[{"key":"tags_can_prefix","default":"1","report":"full"}]]></setting>
+ <setting key="tags_clean"><![CDATA[{"key":"tags_clean","default":"0","report":"full"}]]></setting>
+ <setting key="tags_enabled"><![CDATA[{"key":"tags_enabled","default":"1","report":"full"}]]></setting>
+ <setting key="tags_force_lower"><![CDATA[{"key":"tags_force_lower","default":"1","report":"full"}]]></setting>
+ <setting key="tags_len_max"><![CDATA[{"key":"tags_len_max","default":"0","report":"full"}]]></setting>
+ <setting key="tags_len_min"><![CDATA[{"key":"tags_len_min","default":"0","report":"full"}]]></setting>
+ <setting key="tags_max"><![CDATA[{"key":"tags_max","default":"0","report":"full"}]]></setting>
+ <setting key="tags_min"><![CDATA[{"key":"tags_min","default":"0","report":"full"}]]></setting>
+ <setting key="tags_min_req"><![CDATA[{"key":"tags_min_req","default":"0","report":"full"}]]></setting>
+ <setting key="tags_open_system"><![CDATA[{"key":"tags_open_system","default":"1","report":"full"}]]></setting>
+ <setting key="tags_predefined"><![CDATA[{"key":"tags_predefined","default":"","report":"bool"}]]></setting>
+ <setting key="task_cron_key"><![CDATA[{"key":"task_cron_key","default":"","report":"none"}]]></setting>
+ <setting key="task_use_cron"><![CDATA[{"key":"task_use_cron","default":"normal","report":"full"}]]></setting>
+ <setting key="theme_designers_mode"><![CDATA[{"key":"theme_designers_mode","default":"0","report":"full"}]]></setting>
+ <setting key="theme_disk_cache_path"><![CDATA[{"key":"theme_disk_cache_path","default":"","report":"none"}]]></setting>
+ <setting key="theme_disk_cache_templates"><![CDATA[{"key":"theme_disk_cache_templates","default":"0","report":"full"}]]></setting>
+ <setting key="theme_editing_advanced_mode"><![CDATA[{"key":"theme_editing_advanced_mode","default":"0","report":"full"}]]></setting>
+ <setting key="topic_redirect_prune"><![CDATA[{"key":"topic_redirect_prune","default":"30","report":"full"}]]></setting>
+ <setting key="twitter_hashtag"><![CDATA[{"key":"twitter_hashtag","default":"","report":"bool"}]]></setting>
+ <setting key="updates_consent_default"><![CDATA[{"key":"updates_consent_default","default":"enabled","report":"full"}]]></setting>
+ <setting key="upgrade_email"><![CDATA[{"key":"upgrade_email","default":"","report":"bool"}]]></setting>
+ <setting key="upgrade_ftp_details"><![CDATA[{"key":"upgrade_ftp_details","default":"","report":"none"}]]></setting>
+ <setting key="upload_settings"><![CDATA[{"key":"upload_settings","default":"","report":"bool"}]]></setting>
+ <setting key="url_filter_action"><![CDATA[{"key":"url_filter_action","default":"block","report":"full"}]]></setting>
+ <setting key="url_filter_any_action"><![CDATA[{"key":"url_filter_any_action","default":"allow","report":"full"}]]></setting>
+ <setting key="usage_reporting"><![CDATA[{"key":"usage_reporting","default":"1","report":"none"}]]></setting>
+ <setting key="use_coppa"><![CDATA[{"key":"use_coppa","default":"0","report":"full"}]]></setting>
+ <setting key="use_friendly_urls"><![CDATA[{"key":"use_friendly_urls","default":"1","report":"full"}]]></setting>
+ <setting key="username_characters"><![CDATA[{"key":"username_characters","default":"\/^(([\\p{L}\\p{M}\\p{N}_\\.\\-,]+) ?)+$\/u","report":"bool"}]]></setting>
+ <setting key="validate_day_prune"><![CDATA[{"key":"validate_day_prune","default":"30","report":"full"}]]></setting>
+ <setting key="vapid_private_key"><![CDATA[{"key":"vapid_private_key","default":"","report":"none"}]]></setting>
+ <setting key="vapid_public_key"><![CDATA[{"key":"vapid_public_key","default":"","report":"none"}]]></setting>
+ <setting key="verify_enabled"><![CDATA[{"key":"verify_enabled","default":"","report":"full"}]]></setting>
+ <setting key="verify_groups"><![CDATA[{"key":"verify_groups","default":"","report":"none"}]]></setting>
+ <setting key="verify_method"><![CDATA[{"key":"verify_method","default":"","report":"full"}]]></setting>
+ <setting key="verify_onetouch"><![CDATA[{"key":"verify_onetouch","default":"","report":"full"}]]></setting>
+ <setting key="verify_service_sid"><![CDATA[{"key":"verify_service_sid","default":"","report":"none"}]]></setting>
+ <setting key="verify_setup"><![CDATA[{"key":"verify_setup","default":"sms,phone","report":"full"}]]></setting>
+ <setting key="verify_setup_lockout"><![CDATA[{"key":"verify_setup_lockout","default":"12","report":"full"}]]></setting>
+ <setting key="verify_setup_tries"><![CDATA[{"key":"verify_setup_tries","default":"2","report":"full"}]]></setting>
+ <setting key="verify_sid"><![CDATA[{"key":"verify_sid","default":"","report":"none"}]]></setting>
+ <setting key="verify_token"><![CDATA[{"key":"verify_token","default":"","report":"none"}]]></setting>
+ <setting key="warn_on"><![CDATA[{"key":"warn_on","default":"1","report":"full"}]]></setting>
+ <setting key="warn_protected"><![CDATA[{"key":"warn_protected","default":"","report":"bool"}]]></setting>
+ <setting key="warn_show_own"><![CDATA[{"key":"warn_show_own","default":"1","report":"full"}]]></setting>
+ <setting key="warnings_acknowledge"><![CDATA[{"key":"warnings_acknowledge","default":"0","report":"full"}]]></setting>
+ <setting key="webhook_logs_fail"><![CDATA[{"key":"webhook_logs_fail","default":"5","report":"full"}]]></setting>
+ <setting key="webhook_logs_success"><![CDATA[{"key":"webhook_logs_success","default":"0","report":"full"}]]></setting>
+ <setting key="webhooks_allowed_fails"><![CDATA[{"key":"webhooks_allowed_fails","default":"3","report":"full"}]]></setting>
+ <setting key="widget_cache_ttl"><![CDATA[{"key":"widget_cache_ttl","default":"300","report":"full"}]]></setting>
+ <setting key="xforward_matching"><![CDATA[{"key":"xforward_matching","default":"0","report":"full"}]]></setting>
+ <setting key="zapier_api_key"><![CDATA[{"key":"zapier_api_key","default":"","report":"bool"}]]></setting>
+ <widget key="activeUsers"><![CDATA[{"class":"\\IPS\\Widget","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="stats"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="relatedContent"><![CDATA[{"class":"\\IPS\\Widget","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="recentStatusUpdates"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="topContributors"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="whosOnline"><![CDATA[{"class":"\\IPS\\Widget","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="members"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="guestSignUp"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="promoted"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="clubs"><![CDATA[{"class":"\\IPS\\Widget","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="newsletter"><![CDATA[{"class":"\\IPS\\Widget","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="mostContributions"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="twitter"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="invite"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="stream"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="mostSolved"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":false,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="achievements"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <acpsearch key="app=core&amp;module=achievements&amp;controller=badges"><![CDATA[{"lang_key":"menu__core_achievements_badges","restriction":"badges_manage","keywords":["awards","badges","rewards","trophies","trophy"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=achievements&amp;controller=ranks"><![CDATA[{"lang_key":"menu__core_membersettings_ranks","restriction":"ranks_manage","keywords":["badges","ranks","titles"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=achievements&amp;controller=rules"><![CDATA[{"lang_key":"achievements_rules","restriction":"rules_manage","keywords":["achievement rules","achievements","awards","badges","karma","points","rules"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=achievements&amp;controller=settings"><![CDATA[{"lang_key":"menu__core_achievements_settings","restriction":"settings_manage","keywords":["achievement","badge","rare badge"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=activitystats&amp;controller=communityactivity"><![CDATA[{"lang_key":"menu__core_activitystats_communityactivity","restriction":null,"keywords":["active members","activity","community activity","member activity","new posts"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=activitystats&amp;controller=keywords"><![CDATA[{"lang_key":"menu__core_activitystats_keywords","restriction":null,"keywords":["keyword tracking","keywords","tracking"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api"><![CDATA[{"lang_key":"menu__core_applications_api","restriction":"api_manage","keywords":["api","rest api","webhook"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api&amp;tab=apiKeys"><![CDATA[{"lang_key":"api_keys","restriction":"api_manage","keywords":["api keys"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api&amp;tab=apiLogs"><![CDATA[{"lang_key":"api_logs","restriction":"api_logs","keywords":["api logs","graphql","rest"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api&amp;tab=apiReference"><![CDATA[{"lang_key":"api_reference","restriction":"api_reference","keywords":["api documentation","api reference"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api&amp;tab=webhooks"><![CDATA[{"lang_key":"webhooks","restriction":"api_splash","keywords":["webhook"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=api&amp;tab=webhooks&amp;do=settings&amp;searchResult=webhook_logs_success"><![CDATA[{"lang_key":"webhook_logs_success","restriction":"api_splash","keywords":["webhook"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=applications"><![CDATA[{"lang_key":"menu__core_applications_applications","restriction":"app_manage","keywords":["applications","install","modules","offline","online"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements"><![CDATA[{"lang_key":"menu__core_applications_enhancements","restriction":"enhancements_manage","keywords":["analytics","bulk mail","easypost","email","enhancements","enom","geo","giphy","indexnow","mapbox","maps","matomo","maxmind","omniture","piwik","pixabay","sendgrid","spam","tag manager","zapier"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=core_FacebookPixel"><![CDATA[{"lang_key":"menu__core_applications_enhancements","restriction":"enhancements_manage","keywords":["facebook","facebook pixel","pixel"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=core_GoogleMaps&amp;searchResult=form_googlemaps"><![CDATA[{"lang_key":"googlemaps","restriction":"enhancements_manage","keywords":["google","maps"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=core_ImageScanner"><![CDATA[{"lang_key":"menu__core_applications_enhancements","restriction":"enhancements_manage","keywords":["adult images","disturbing image filters","disturbing images filters","gore filters","gore image filters","gore images filters","image filters","image scanner","inappropriate image filters","inappropriate images filters","porn filters","porn images","pornographic images","violence filters","violent image filters","violent images filters"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;id=core_Pixabay"><![CDATA[{"lang_key":"menu__core_applications_enhancements","restriction":"enhancements_manage","keywords":["photos","pixabay","stock","stock photo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;searchResult=form_ga_enabled"><![CDATA[{"lang_key":"ga_enabled","restriction":"enhancements_manage","keywords":["analytics","google analytics"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;searchResult=ga_code"><![CDATA[{"lang_key":"ga_code","restriction":"enhancements_manage","keywords":["analytics","google analytics"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=enhancements&amp;do=edit&amp;searchResult=pixabay_apikey"><![CDATA[{"lang_key":"pixabay_apikey","restriction":"enhancements_manage","keywords":["pixabay"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=menu"><![CDATA[{"lang_key":"menu__core_applications_menu","restriction":"menu_manage","keywords":["menu manager"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=plugins"><![CDATA[{"lang_key":"menu__core_applications_plugins","restriction":"plugins_view","keywords":["add-ons","addons","hooks","install","mod","modification","plugins"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=applications&amp;controller=rss"><![CDATA[{"lang_key":"menu__core_applications_rss","restriction":"rss_manage","keywords":["atom feed","feed import","rss feed"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=bulkmail&amp;controller=bulkmail"><![CDATA[{"lang_key":"menu__core_bulkmail_bulkmail","restriction":"bulkmail_manage","keywords":["announce","blast","bulk","bulk mail","campaign","email","mail","mass","newsletter","sendgrid"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=clubs&amp;controller=clubs"><![CDATA[{"lang_key":"menu__core_clubs_clubs","restriction":"clubs_manage","keywords":["circles","clubs","social groups"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=clubs&amp;controller=settings"><![CDATA[{"lang_key":"menu__core_clubs_settings","restriction":null,"keywords":["club settings"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=clubs&amp;controller=settings&amp;searchResult=clubs_locations"><![CDATA[{"lang_key":"clubs_locations","restriction":null,"keywords":["address","locations"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=clubs&amp;controller=settings&amp;searchResult=clubs_modperms"><![CDATA[{"lang_key":"clubs_modperms","restriction":null,"keywords":["moderator"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=clubs&amp;controller=settings&amp;searchResult=form_clubs_enabled_setting"><![CDATA[{"lang_key":"clubs_enabled_setting","restriction":null,"keywords":["clubs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=emails"><![CDATA[{"lang_key":"menu__core_customization_emails","restriction":"emails_manage","keywords":["email content"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=icons"><![CDATA[{"lang_key":"menu__core_customization_icons","restriction":"theme_sets_manage","keywords":["icons"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=icons&amp;searchResult=form_icons_favicon"><![CDATA[{"lang_key":"icons_favicon","restriction":"theme_sets_manage","keywords":["favicon"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=icons&amp;searchResult=form_icons_homescreen"><![CDATA[{"lang_key":"icons_homescreen","restriction":"theme_sets_manage","keywords":["icon"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=icons&amp;searchResult=form_icons_sharer_logo"><![CDATA[{"lang_key":"icons_sharer_logo","restriction":"theme_sets_manage","keywords":["logo","share logo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=themes"><![CDATA[{"lang_key":"menu__core_customization_themes","restriction":"theme_sets_manage","keywords":["design","look","skins","themes"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=customization&amp;controller=themes&amp;do=designersmode&amp;searchResult=form_theme_designers_mode"><![CDATA[{"lang_key":"theme_designers_mode","restriction":"theme_designers_mode","keywords":["designers mode"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=rss"><![CDATA[{"lang_key":"menu__core_discovery_rss","restriction":null,"keywords":["feed","rss"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=search"><![CDATA[{"lang_key":"menu__core_discovery_search","restriction":"search_manage","keywords":["rebuild search","rebuild search index","reindex","reindex search","reindex search results","search","search index","search index rebuild","searching"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=search&amp;searchResult=form_search_method"><![CDATA[{"lang_key":"search_method","restriction":"search_manage","keywords":["elastic","elasticsearch","mysql","search"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=search&amp;searchResult=search_index_timeframe"><![CDATA[{"lang_key":"search_index_timeframe","restriction":"search_manage","keywords":["search","search content","search cutoff","search limit","search results"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=search&amp;searchResult=searchlog_exclude_groups"><![CDATA[{"lang_key":"searchlog_exclude_groups","restriction":"search_manage","keywords":["exclude groups","exclude groups from search"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=discovery&amp;controller=streams&amp;do=allActivitySettings"><![CDATA[{"lang_key":"menu__core_discovery_streams","restriction":"streams_manage","keywords":["stream subscriptions","streams"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=emoticons"><![CDATA[{"lang_key":"menu__core_editor_emoticons","restriction":"emoticons_manage","keywords":["emoticons","smileys","smilies"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=emoticons&amp;tab=custom"><![CDATA[{"lang_key":"custom_emoji","restriction":"emoticons_manage","keywords":["emoticon","smiley","smilie"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=emoticons&amp;tab=standard"><![CDATA[{"lang_key":"standard_emoji","restriction":"emoticons_manage","keywords":["emoji"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=settings"><![CDATA[{"lang_key":"menu__core_editor_settings","restriction":"settings_manage","keywords":["editor"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=settings&amp;searchResult=form_editor_paragraph_padding"><![CDATA[{"lang_key":"editor_paragraph_padding","restriction":"settings_manage","keywords":["enter","paragraph","return"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=settings&amp;searchResult=form_editor_paste_behaviour"><![CDATA[{"lang_key":"editor_paste_behaviour","restriction":"settings_manage","keywords":["formatting","paste","posting","remove"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=settings&amp;searchResult=form_enable_bbcode"><![CDATA[{"lang_key":"enable_bbcode","restriction":"settings_manage","keywords":["bbcode","parse"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=storedreplies"><![CDATA[{"lang_key":"menu__core_editor_storedreplies","restriction":"stored_replies_manage","keywords":["stock replies"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=editor&amp;controller=toolbar"><![CDATA[{"lang_key":"editor_customization","restriction":"toolbar_manage","keywords":["bbcode","buttons","ckeditor","comment","editor","mobile","phone","plugins","post","responsive","tablet","toolbars","wysiwyg"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=languages&amp;controller=languages"><![CDATA[{"lang_key":"menu__core_languages_languages","restriction":null,"keywords":["languages","locales","translate","translations"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=languages&amp;controller=languages&amp;do=settings&amp;searchResult=form_lang_auto_detect"><![CDATA[{"lang_key":"lang_auto_detect","restriction":"lang_words","keywords":["detection","language"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups"><![CDATA[{"lang_key":"menu__core_members_groups","restriction":"groups_manage","keywords":["groups"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_access_offline"><![CDATA[{"lang_key":"g_access_offline","restriction":"groups_manage","keywords":["offline access","site offline"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_append_edit"><![CDATA[{"lang_key":"g_append_edit","restriction":"groups_manage","keywords":["edit","silent edit"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_attach"><![CDATA[{"lang_key":"g_attach","restriction":"groups_manage","keywords":["attachments","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_attach_max"><![CDATA[{"lang_key":"g_attach_max","restriction":"groups_manage","keywords":["attachments","storage","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_attach_per_post"><![CDATA[{"lang_key":"g_attach_per_post","restriction":"groups_manage","keywords":["upload per article","upload per blog","upload per content item","upload per post","upload per topic"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_avoid_flood"><![CDATA[{"lang_key":"g_avoid_flood","restriction":"groups_manage","keywords":["flood control","post flood control","posting flood control"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_avoid_q"><![CDATA[{"lang_key":"g_avoid_q","restriction":"groups_manage","keywords":["hidden","hide","hiding","mod queue","moderation","queue"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_bypass_badwords"><![CDATA[{"lang_key":"g_bypass_badwords","restriction":"groups_manage","keywords":["bad words","profanity","swear words"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_can_msg_attach"><![CDATA[{"lang_key":"g_can_msg_attach","restriction":"groups_manage","keywords":["messenger attachments","messenger images","messenger upload","pm attachments","pm images","pm upload"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_can_report"><![CDATA[{"lang_key":"g_can_report","restriction":"groups_manage","keywords":["report","reporting"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_delete_own_posts"><![CDATA[{"lang_key":"g_delete_own_posts","restriction":"groups_manage","keywords":["delete","deleting"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_dohtml"><![CDATA[{"lang_key":"g_dohtml","restriction":"groups_manage","keywords":["html posting","post html"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_edit_cutoff"><![CDATA[{"lang_key":"g_edit_cutoff","restriction":"groups_manage","keywords":["edit restriction","edit time","edit timing"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_edit_posts"><![CDATA[{"lang_key":"g_edit_posts","restriction":"groups_manage","keywords":["edit","editing"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_edit_profile"><![CDATA[{"lang_key":"g_edit_profile","restriction":"groups_manage","keywords":["edit profile","profiles"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_hide_online_list"><![CDATA[{"lang_key":"g_hide_online_list","restriction":"groups_manage","keywords":["online list","show user list","show user online"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_hide_own_posts"><![CDATA[{"lang_key":"g_hide_own_posts","restriction":"groups_manage","keywords":["hide","hiding"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_icon"><![CDATA[{"lang_key":"g_icon","restriction":"groups_manage","keywords":["group icon"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_max_bgimg_upload"><![CDATA[{"lang_key":"g_max_bgimg_upload","restriction":"groups_manage","keywords":["cover photo size","profile cover photo size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_max_messages"><![CDATA[{"lang_key":"g_max_messages","restriction":"groups_manage","keywords":["messenger storage","personal messenger storage","pm storage","pms"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_photo_max_vars_size"><![CDATA[{"lang_key":"g_photo_max_vars_size","restriction":"groups_manage","keywords":["photo size","photos","profile photo size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_photo_max_vars_wh"><![CDATA[{"lang_key":"g_photo_max_vars_wh","restriction":"groups_manage","keywords":["photo size","photos","profile photo size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_pm_perday"><![CDATA[{"lang_key":"g_pm_perday","restriction":"groups_manage","keywords":["new pms","personal messages","personal messenger","pm limit","pms"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_post_polls"><![CDATA[{"lang_key":"g_post_polls","restriction":"groups_manage","keywords":["polls"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_ppd_limit"><![CDATA[{"lang_key":"g_ppd_limit","restriction":"groups_manage","keywords":["content restriction","max content","max posts","per day","positing limit","positing restriction"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_ppd_unit"><![CDATA[{"lang_key":"g_ppd_unit","restriction":"groups_manage","keywords":["positing limit"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_prefixsuffix"><![CDATA[{"lang_key":"g_prefixsuffix","restriction":"groups_manage","keywords":["group color","group colour","group formatting"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_promote_exclude"><![CDATA[{"lang_key":"g_promote_exclude","restriction":"groups_manage","keywords":["group promotion","member promotions","member upgrades"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_rep_max_positive"><![CDATA[{"lang_key":"g_rep_max_positive","restriction":"groups_manage","keywords":["karma","like","reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_search_flood"><![CDATA[{"lang_key":"g_search_flood","restriction":"groups_manage","keywords":["search flood control"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_sig_max_image_size"><![CDATA[{"lang_key":"g_sig_max_image_size","restriction":"groups_manage","keywords":["signature images","signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_sig_max_images"><![CDATA[{"lang_key":"g_sig_max_images","restriction":"groups_manage","keywords":["signature images","signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_sig_max_lines"><![CDATA[{"lang_key":"g_sig_max_lines","restriction":"groups_manage","keywords":["signature length","signature size","signature text","signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_sig_max_urls"><![CDATA[{"lang_key":"g_sig_max_urls","restriction":"groups_manage","keywords":["signature links","signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_topic_rate_setting"><![CDATA[{"lang_key":"g_topic_rate_setting","restriction":"groups_manage","keywords":["rate","ratings"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_upload_animated_photos"><![CDATA[{"lang_key":"g_upload_animated_photos","restriction":"groups_manage","keywords":["animated","photos"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_use_signatures"><![CDATA[{"lang_key":"g_use_signatures","restriction":"groups_manage","keywords":["signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_view_board"><![CDATA[{"lang_key":"g_view_board","restriction":"groups_manage","keywords":["access","allowed to enter community","allowed to enter site","allowed to view community","allowed to view site","ban","user access site"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_vote_polls"><![CDATA[{"lang_key":"g_vote_polls","restriction":"groups_manage","keywords":["polls"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_allow_upload_bgimage"><![CDATA[{"lang_key":"gbw_allow_upload_bgimage","restriction":"groups_manage","keywords":["cover photo","profile cover photo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_can_post_anonymously"><![CDATA[{"lang_key":"can_post_anonymously","restriction":"groups_manage","keywords":["anonymous","anonymously"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_cannot_be_ignored"><![CDATA[{"lang_key":"can_be_ignored","restriction":"groups_manage","keywords":["ignore","ignored users"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_delete_attachments"><![CDATA[{"lang_key":"gbw_delete_attachments","restriction":"groups_manage","keywords":["attachments","delete attachments","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_disable_prefixes"><![CDATA[{"lang_key":"gbw_disable_prefixes","restriction":"groups_manage","keywords":["prefixes","tagging","tags"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_disable_tagging"><![CDATA[{"lang_key":"gbw_disable_tagging","restriction":"groups_manage","keywords":["tagging","tags"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_hide_group"><![CDATA[{"lang_key":"gbw_hide_group","restriction":"groups_manage","keywords":["allow filtering","online users","search"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_no_status_import"><![CDATA[{"lang_key":"gbw_no_status_import","restriction":"groups_manage","keywords":["facebook status","profile status","status updates","statuses","twitter status"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_no_status_update"><![CDATA[{"lang_key":"gbw_no_status_update","restriction":"groups_manage","keywords":["profile status","status updates","statuses"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_post_highlight"><![CDATA[{"lang_key":"gbw_post_highlight","restriction":"groups_manage","keywords":["background","highlight","highlight post","replies"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=gbw_view_reps"><![CDATA[{"lang_key":"gbw_view_reps","restriction":"groups_manage","keywords":["karma","like","reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=group_username"><![CDATA[{"lang_key":"group_username","restriction":"groups_manage","keywords":["display name changes","name changes","user name changes","username changes"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=ip"><![CDATA[{"lang_key":"menu__core_members_ip","restriction":"membertools_ip","keywords":["address","IP","lookup"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members"><![CDATA[{"lang_key":"menu__core_members_members","restriction":null,"keywords":["accounts","administrators","banned","locked","members","spammers","validating"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_allow_admin_mails"><![CDATA[{"lang_key":"allow_admin_mails","restriction":null,"keywords":["Email","Send Email","Send News"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_auto_track"><![CDATA[{"lang_key":"auto_track","restriction":null,"keywords":["Auto","Automatically","Content","Follow"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_group"><![CDATA[{"lang_key":"group","restriction":null,"keywords":["Group"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_ips_address_mail"><![CDATA[{"lang_key":"ips_address_mail","restriction":null,"keywords":["Email Address"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_ips_member_name"><![CDATA[{"lang_key":"ips_member_name","restriction":null,"keywords":["Display Name"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_member_content_items"><![CDATA[{"lang_key":"member_content_items","restriction":null,"keywords":["Content Item","Recount"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_member_reputation"><![CDATA[{"lang_key":"member_reputation","restriction":null,"keywords":["Recount","Reputation Level"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_member_warnings"><![CDATA[{"lang_key":"member_warnings","restriction":null,"keywords":["Warning Points"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_password"><![CDATA[{"lang_key":"password","restriction":null,"keywords":["Change Password","Password"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_secondary_groups"><![CDATA[{"lang_key":"secondary_groups","restriction":null,"keywords":["Secondary Groups"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_skin"><![CDATA[{"lang_key":"skin","restriction":null,"keywords":["Theme"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=members&amp;searchResult=form_view_sigs"><![CDATA[{"lang_key":"view_sigs","restriction":null,"keywords":["Signatures","View"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=privacy"><![CDATA[{"lang_key":"menu__core_members_privacy","restriction":"privacy_manage","keywords":["Account Deletion","PII"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=promotions"><![CDATA[{"lang_key":"menu__core_members_promotions","restriction":"promotions_manage","keywords":["group promotion","member promotions","member upgrades","promotion rules","upgrade members"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=ban"><![CDATA[{"lang_key":"menu__core_membersettings_ban","restriction":"ban_manage","keywords":["banned","bans","email","ip address","register","username"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications"><![CDATA[{"lang_key":"menu__core_membersettings_notifications","restriction":"notifications_manage","keywords":["default notifications","email notifications","notification defaults","notification list","notifications","notifications defaults","push notifications"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications&amp;do=edit&amp;id=core_BulkMails"><![CDATA[{"lang_key":"notifications__core_BulkMails","restriction":"notifications_manage","keywords":["bulk mails","gdpr","mailing list","news and updates","news list","newsletter"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications&amp;do=edit&amp;id=core_Content"><![CDATA[{"lang_key":"notifications__core_Content","restriction":"notifications_manage","keywords":["automatically follow","email limit","follow","followed content","followed members","limit emails"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications&amp;do=edit&amp;id=core_Messenger"><![CDATA[{"lang_key":"notifications__core_Messenger","restriction":"notifications_manage","keywords":["messenger pop up window","messenger popup window","pm pop up window","pm popup window"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications&amp;do=pruneSettings&amp;searchResult=form_prune_notifications"><![CDATA[{"lang_key":"prune_notifications","restriction":"notifications_prune","keywords":["notifications","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=notifications&amp;do=pruneSettings&amp;searchResult=prune_follows"><![CDATA[{"lang_key":"prune_follows","restriction":"notifications_prune","keywords":["follow","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles"><![CDATA[{"lang_key":"profile_fields","restriction":"profiles_manage","keywords":["custom fields","custom profile","custom profile fields","edit fields","edit profile fields","profile fields"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilecompletion"><![CDATA[{"lang_key":"profile_completion","restriction":"profiles_manage","keywords":["complete my profile","complete profile","complete your profile","profile completion","register completion","registration completion","sign up completion"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings"><![CDATA[{"lang_key":"profile_settings","restriction":"profiles_manage","keywords":["first","link target","recent","unread"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_group_formatting_type"><![CDATA[{"lang_key":"group_formatting_type","restriction":"profiles_manage","keywords":["format","group","member name","username"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_letter_photos"><![CDATA[{"lang_key":"letter_photos","restriction":"profiles_manage","keywords":["avatar","letter","letter avatars","letter photos","letters","photo","photos","profile photo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_profile_comments"><![CDATA[{"lang_key":"profile_comments","restriction":"profiles_manage","keywords":["profile comments","profile statuses"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_signatures_enabled"><![CDATA[{"lang_key":"signatures_enabled","restriction":"profiles_manage","keywords":["signatures"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_user_name_length"><![CDATA[{"lang_key":"user_name_length","restriction":"profiles_manage","keywords":["name length"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=form_username_characters"><![CDATA[{"lang_key":"username_characters","restriction":"profiles_manage","keywords":["username characters"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=ignore_system_on"><![CDATA[{"lang_key":"ignore_system_on","restriction":"profiles_manage","keywords":["ignore","ignoring"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=profile_birthday_type"><![CDATA[{"lang_key":"profile_birthday_type","restriction":"profiles_manage","keywords":["birthday"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=profile_comment_approval"><![CDATA[{"lang_key":"profile_comment_approval","restriction":"profiles_manage","keywords":["profile comments","profile statuses"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=prune_item_markers"><![CDATA[{"lang_key":"prune_item_markers","restriction":"member_history_prune","keywords":["item markers","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=prune_known_devices"><![CDATA[{"lang_key":"prune_known_devices","restriction":"member_history_prune","keywords":["device history","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=prune_known_ips"><![CDATA[{"lang_key":"prune_known_ips","restriction":"member_history_prune","keywords":["address","ip address","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=prune_member_history"><![CDATA[{"lang_key":"prune_member_history","restriction":"member_history_prune","keywords":["change log","member history"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=profiles&amp;tab=profilesettings&amp;searchResult=user_name_length"><![CDATA[{"lang_key":"user_name_length","restriction":"profiles_manage","keywords":["display name length","display name size","maximum display name length","maximum display name size","maximum username length","maximum username size","minimum display name length","minimum display name size","minimum username length","minimum username size","username length","username size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=referrals"><![CDATA[{"lang_key":"menu__core_membersettings_referrals","restriction":"referrals_manage","keywords":["comision","comission","commision","commission","invitations","invites","refer","referals","referral settings","referrals","reffer"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation"><![CDATA[{"lang_key":"menu__core_membersettings_reputation","restriction":"reps_manage","keywords":["karma","likes","reactions","reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=form_reaction_count_display"><![CDATA[{"lang_key":"reaction_count_display","restriction":"reps_manage","keywords":["reaction display"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=form_reputation_enabled"><![CDATA[{"lang_key":"reputation_enabled","restriction":"reps_manage","keywords":["Likes","negative reputation","positive reputation","Reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_can_self_vote"><![CDATA[{"lang_key":"reputation_can_self_vote","restriction":"reps_settings","keywords":["like own","like self","own","rep self","reputation self","self","self reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_highlight"><![CDATA[{"lang_key":"reputation_highlight","restriction":"reps_manage","keywords":["popular"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_leaderboard_default_tab"><![CDATA[{"lang_key":"reputation_leaderboard_default_tab","restriction":"reps_manage","keywords":["leaderboard","member list"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_leaderboard_on"><![CDATA[{"lang_key":"reputation_leaderboard_on","restriction":"reps_manage","keywords":["leaderboard","reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_max_members"><![CDATA[{"lang_key":"reputation_max_members","restriction":"reps_manage","keywords":["top members"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_protected_groups"><![CDATA[{"lang_key":"reputation_protected_groups","restriction":"reps_settings","keywords":["no likes","no reputation","protected"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_show_content"><![CDATA[{"lang_key":"reputation_show_content","restriction":"reps_settings","keywords":["show likes","show reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_show_days_won_trophy"><![CDATA[{"lang_key":"reputation_show_days_won_trophy","restriction":"reps_manage","keywords":["days won"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;searchResult=reputation_show_profile"><![CDATA[{"lang_key":"reputation_show_profile","restriction":"reps_manage","keywords":["show likes","show reputation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;tab=leaderboard&amp;searchResult=reputation_leaderboard_on"><![CDATA[{"lang_key":"reputation_leaderboard_on","restriction":"reps_manage","keywords":["leaderboard"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;tab=leaderboard&amp;searchResult=reputation_max_members"><![CDATA[{"lang_key":"reputation_top_members_overview","restriction":"reps_manage","keywords":["top members"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;tab=leaderboard&amp;searchResult=reputation_show_days_won_trophy"><![CDATA[{"lang_key":"reputation_show_days_won_trophy","restriction":"reps_manage","keywords":["leaderboard","winner"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=membersettings&amp;controller=reputation&amp;tab=leaderboard&amp;searchResult=reputation_timezone"><![CDATA[{"lang_key":"reputation_timezone","restriction":"reps_manage","keywords":["leaderboard","timezone"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=messengerstats&amp;controller=pmstats"><![CDATA[{"lang_key":"menu__core_members_pmstats","restriction":null,"keywords":["message statistics","Messenger Statistics","private messages"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=reportedContent"><![CDATA[{"lang_key":"menu__core_moderation_reportedContent","restriction":"reportedContent_manage","keywords":["moderation","report","report types"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=reportedContentTypes"><![CDATA[{"lang_key":"menu__core_moderation_reportedContentTypes","restriction":null,"keywords":["report","report types"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam"><![CDATA[{"lang_key":"menu__core_moderation_spam","restriction":"spam_manage","keywords":["spam","spammers"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;do=serviceLogs"><![CDATA[{"lang_key":"spamlogs","restriction":"spam_service_log","keywords":["spam logs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;searchResult=bot_antispam_type"><![CDATA[{"lang_key":"bot_antispam_type","restriction":"spam_manage","keywords":["bot prevention","CAPTCHA","hCaptcha","security question"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;searchResult=guest_captcha"><![CDATA[{"lang_key":"guest_captcha_search_target","restriction":"spam_manage","keywords":["delete guest content","delete guest posts","guest content","guest posts"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;tab=captcha"><![CDATA[{"lang_key":"spamprevention_captcha","restriction":"spam_manage","keywords":["captcha","keycaptcha","recaptcha"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;tab=flagging"><![CDATA[{"lang_key":"spamprevention_flagging","restriction":"spam_manage","keywords":["flagging"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;tab=qanda"><![CDATA[{"lang_key":"qanda_settings","restriction":"qanda_manage","keywords":["answers","challenge","question","registration"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=spam&amp;tab=service"><![CDATA[{"lang_key":"moderation","restriction":"spam_manage","keywords":["ips spam monitor","ips spam monitoring","ips spam service"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=warnings"><![CDATA[{"lang_key":"menu__core_moderation_warnings","restriction":"warn_settings","keywords":["acknowledge","actions","reasons","warnings"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=warnings&amp;tab=settings&amp;searchResult=form_warn_on"><![CDATA[{"lang_key":"warn_on","restriction":"warn_settings","keywords":["warning","warning setting","warning system"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=warnings&amp;tab=settings&amp;searchResult=warn_protected"><![CDATA[{"lang_key":"warn_protected","restriction":"warn_settings","keywords":["no warnings","protected"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=warnings&amp;tab=settings&amp;searchResult=warn_show_own"><![CDATA[{"lang_key":"warn_show_own","restriction":"warn_settings","keywords":["own"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=moderation&amp;controller=warnings&amp;tab=settings&amp;searchResult=warnings_acknowledge"><![CDATA[{"lang_key":"warnings_acknowledge","restriction":"warn_settings","keywords":["acknowledge"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files"><![CDATA[{"lang_key":"menu__core_overview_files","restriction":"files_view","keywords":["attachments","files","storage","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files&amp;do=imagesettings"><![CDATA[{"lang_key":"image_settings","restriction":"files_view","keywords":["gd","imagemagick"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files&amp;do=imagesettings&amp;searchResult=form_image_jpg_quality"><![CDATA[{"lang_key":"image_jpg_quality","restriction":"files_view","keywords":["jpeg","jpg"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files&amp;do=imagesettings&amp;searchResult=image_png_quality_gd"><![CDATA[{"lang_key":"image_png_quality_gd","restriction":"files_view","keywords":["png"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files&amp;do=imagesettings&amp;searchResult=imagick_strip_exif"><![CDATA[{"lang_key":"imagick_strip_exif","restriction":"files_view","keywords":["exif"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=files&amp;do=settings"><![CDATA[{"lang_key":"menu__core_overview_files","restriction":"files_view","keywords":["amazon","files","ftp","photos","storage","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=mycharts"><![CDATA[{"lang_key":"menu__core_overview_mycharts","restriction":"mycharts_manage","keywords":["charts","statistics","stats"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=overview&amp;controller=notifications&amp;do=settings"><![CDATA[{"lang_key":"menu__core_overview_notifications","restriction":null,"keywords":["notification","notifications"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=advertisements"><![CDATA[{"lang_key":"menu__core_promotion_advertisements","restriction":"advertisements_manage","keywords":["ads","adsense","advertisements","adverts","adwords","google"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote"><![CDATA[{"lang_key":"menu__core_promotion_promote","restriction":"promote_manage","keywords":["promote","promotion","sharing","social media"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote&amp;tab=internal"><![CDATA[{"lang_key":"promote_tab_internal","restriction":"promote_manage","keywords":["our picks"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote&amp;tab=links"><![CDATA[{"lang_key":"promote_tab_links","restriction":"promote_manage","keywords":["links","shorten"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote&amp;tab=permissions"><![CDATA[{"lang_key":"promote_tab_permissions","restriction":"promote_manage","keywords":["permissions"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote&amp;tab=schedule"><![CDATA[{"lang_key":"promote_tab_schedule","restriction":"promote_manage","keywords":["schedule"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=promote&amp;tab=twitter"><![CDATA[{"lang_key":"promote_tab_twitter","restriction":"promote_manage","keywords":["twitter"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo"><![CDATA[{"lang_key":"menu__core_promotion_seo","restriction":"seo_manage","keywords":["analytics","furl","search","search engine optimization","seo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo&amp;tab=metatags"><![CDATA[{"lang_key":"seo_tab_metatags","restriction":"seo_meta","keywords":["description","keywords","meta tags","robots"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo&amp;tab=robotstxt"><![CDATA[{"lang_key":"seo_tab_robotstxt","restriction":null,"keywords":["crawl","robots","robots.txt","seo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo&amp;tab=robotstxt&amp;searchResult=use_robotstxt"><![CDATA[{"lang_key":"use_robotstxt","restriction":null,"keywords":["robots","robots.txt"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo&amp;tab=sitemap"><![CDATA[{"lang_key":"seo_tab_sitemap","restriction":"seo_sitemap","keywords":["google","priority","site map","sitemap","xml"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=seo&amp;tab=urls"><![CDATA[{"lang_key":"seo_tab_furls","restriction":"seo_furls","keywords":["friendly url","furls","htaccess","mod_rewrite","urls"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=promotion&amp;controller=sharelinks"><![CDATA[{"lang_key":"menu__core_promotion_sharelinks","restriction":"sharelinks_manage","keywords":["facebook","linkedin","reddit","share links","stumbleupon","twitter"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;do=tasks"><![CDATA[{"lang_key":"task_manager","restriction":null,"keywords":["cron","cronjob","task","tasklog","tasks"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;searchResult=form_auto_polling_enabled"><![CDATA[{"lang_key":"auto_polling_enabled","restriction":"advanced_manage","keywords":["auto","automatic","polling"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;searchResult=form_lazy_load_enabled"><![CDATA[{"lang_key":"lazy_load_enabled","restriction":"advanced_manage","keywords":["images","lazy load","lazy loading","lazyloading"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=datastore"><![CDATA[{"lang_key":"data_store","restriction":"datastore","keywords":["storage"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=datastore&amp;searchResult=cache_method"><![CDATA[{"lang_key":"cache_method","restriction":"datastore","keywords":["apc","memcached","redis","wincache","xcache"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=furl"><![CDATA[{"lang_key":"furls_customize","restriction":"advanced_manage_furls","keywords":["friendly","furl","seo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=settings&amp;searchResult=form_clickjackprevention"><![CDATA[{"lang_key":"clickjackprevention","restriction":"advanced_manage","keywords":["clickjacking","content-security-policy","csp","embed","iframe","x-frame-options"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=settings&amp;searchResult=form_widget_cache_ttl"><![CDATA[{"lang_key":"widget_cache_ttl","restriction":"advanced_manage","keywords":["cache"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=settings&amp;searchResult=match_ipaddress"><![CDATA[{"lang_key":"match_ipaddress","restriction":"security_manage","keywords":["ip address","session"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=settings&amp;searchResult=task_use_cron"><![CDATA[{"lang_key":"task_use_cron","restriction":"advanced_manage_server","keywords":["cron job","cronjob","tasks"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=advanced&amp;tab=settings&amp;searchResult=xforward_matching"><![CDATA[{"lang_key":"xforward_matching","restriction":"security_manage","keywords":["http_x_forwarded_for","ip address","proxies","proxy"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=contactus"><![CDATA[{"lang_key":"menu__core_settings_contactus","restriction":"contactus_manage","keywords":["contact us"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer"><![CDATA[{"lang_key":"menu__core_settings_dataLayer","restriction":"dataLayer_manage","keywords":["data layer","datalayer","pii"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer&amp;tab=events"><![CDATA[{"lang_key":"_datalayer_events","restriction":"dataLayer_manage","keywords":["data layer events","datalayer events"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer&amp;tab=handlers"><![CDATA[{"lang_key":"_datalayer_handlers","restriction":"dataLayer_handlers_view","keywords":["data layer handlers","datalayer handlers"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer&amp;tab=main&amp;searchResult=datalayer_general_core_datalayer_use_gtm"><![CDATA[{"lang_key":"core_datalayer_use_gtm","restriction":"dataLayer_manage","keywords":["google tag manager","gtm","tag manager"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer&amp;tab=pageContext"><![CDATA[{"lang_key":"_datalayer_pageContext","restriction":"dataLayer_manage","keywords":["context","data layer context","data layer page context","datalayer context","datalayer page context","page context"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=dataLayer&amp;tab=properties"><![CDATA[{"lang_key":"_datalayer_properties","restriction":"dataLayer_manage","keywords":["data layer properties","datalayer properties"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email"><![CDATA[{"lang_key":"menu__core_settings_email","restriction":"email_manage","keywords":["address","email","email logo","mail","smtp"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;do=errorLog"><![CDATA[{"lang_key":"emailerrorlogs","restriction":"email_errorlog","keywords":["email error logs","email logs","logs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=email_log_do"><![CDATA[{"lang_key":"email_log_do","restriction":"email_manage","keywords":["email log","email statistics","statistics"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=email_truncate"><![CDATA[{"lang_key":"email_truncate","restriction":"email_manage","keywords":["truncate"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=our_picks_in_email"><![CDATA[{"lang_key":"our_picks_in_email","restriction":"email_manage","keywords":["email","our picks","promotion"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=settings_form_email_color"><![CDATA[{"lang_key":"email_color","restriction":"email_manage","keywords":["email color","email colour"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=settings_form_email_in"><![CDATA[{"lang_key":"email_in","restriction":"email_manage","keywords":["contact email","contact us email","incoming email"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=settings_form_email_logo"><![CDATA[{"lang_key":"email_logo","restriction":"email_manage","keywords":["email logo"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=settings_form_email_out"><![CDATA[{"lang_key":"email_out","restriction":"email_manage","keywords":["email","outgoing email","site email"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=settings_form_mail_method"><![CDATA[{"lang_key":"mail_method","restriction":"email_manage","keywords":["email","mail","smtp"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=email&amp;searchResult=social_links_in_email"><![CDATA[{"lang_key":"social_links_in_email","restriction":"email_manage","keywords":["email","social"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_board_name"><![CDATA[{"lang_key":"board_name","restriction":"general_manage","keywords":["community name","site name","website name"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_copyright_line"><![CDATA[{"lang_key":"copyright_line","restriction":"general_manage","keywords":["copyright","license"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_diagnostics_reporting"><![CDATA[{"lang_key":"diagnostics_reporting","restriction":"general_manage","keywords":["diagnostics","reports"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_site_address"><![CDATA[{"lang_key":"site_address","restriction":"general_manage","keywords":["address","mail"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_site_online"><![CDATA[{"lang_key":"site_online","restriction":"general_manage","keywords":["offline","online"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_site_social_profiles"><![CDATA[{"lang_key":"site_social_profiles","restriction":"general_manage","keywords":["facebook","social profile","twitter"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=general&amp;searchResult=form_site_twitter_id"><![CDATA[{"lang_key":"site_twitter_id","restriction":"general_manage","keywords":["site twitter","twitter","twitter id"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=licensekey"><![CDATA[{"lang_key":"menu__core_settings_licensekey","restriction":"licensekey_manage","keywords":["license key"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login"><![CDATA[{"lang_key":"menu__core_settings_login","restriction":"login_manage","keywords":["accounts","facebook","google","https","ips connect","ldap","locking","login","microsoft","twitter","windows"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=accountsettings&amp;searchResult=device_management"><![CDATA[{"lang_key":"device_management","restriction":"security_manage","keywords":["manage authorised browsers","manage authorised devices","manage authorized browsers","manage authorized devices","manage recently used browsers","manage recently used devices"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=accountsettings&amp;searchResult=password_strength_meter"><![CDATA[{"lang_key":"password_strength_meter","restriction":"security_manage","keywords":["meter","password","strength"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=registration"><![CDATA[{"lang_key":"menu__core_membersettings_registration","restriction":"registration_manage","keywords":["approve","confirmation","coppa","registration","validate","validation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=registration&amp;searchResult=allow_reg"><![CDATA[{"lang_key":"allow_reg","restriction":"registration_manage","keywords":["allow registrations","new registrations","registration","registrations"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=registration&amp;searchResult=quick_register"><![CDATA[{"lang_key":"quick_register","restriction":"registration_manage","keywords":["quick register","register"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=registration&amp;searchResult=reg_auth_type"><![CDATA[{"lang_key":"reg_auth_type","restriction":"login_access","keywords":["email","validation"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=registration&amp;searchResult=use_coppa"><![CDATA[{"lang_key":"use_coppa","restriction":"registration_manage","keywords":["coppa"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=settings&amp;searchResult=form_new_device_email"><![CDATA[{"lang_key":"new_device_email","restriction":"login_manage","keywords":["new authorised device email","new authorized device email","new browser email","new device email","new log in email","new login email","new sign in email","new signin email"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=settings&amp;searchResult=ipb_bruteforce_attempts"><![CDATA[{"lang_key":"ipb_bruteforce_attempts","restriction":"login_manage","keywords":["brute","bruteforce","failed","lock","logins"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=settings&amp;searchResult=ipb_bruteforce_period"><![CDATA[{"lang_key":"ipb_bruteforce_period","restriction":"login_access","keywords":["failed","login"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=login&amp;tab=settings&amp;searchResult=ipb_bruteforce_unlock"><![CDATA[{"lang_key":"ipb_bruteforce_unlock","restriction":"login_access","keywords":["failed","login"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=mfa"><![CDATA[{"lang_key":"menu__core_settings_mfa","restriction":"mfa_manage","keywords":["2 factor authentication","2 factor verification","2-factor authentication","2-factor verification","2fa","account authentication","account verification","authentication","google authentication","google authenticator","mfa","multi factor authentication","multi factor verification","multi-factor authentication","multi-factor verification","multifactor authentication","multifactor verification","security","security questions","two factor authentication","two factor verification","two-factor authentication","two-factor verification","verification"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=allow_only_https_remote_images"><![CDATA[{"lang_key":"allow_only_https_remote_images","restriction":"posting_manage","keywords":["https","images","secure"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=attach_allowed_extensions"><![CDATA[{"lang_key":"attach_allowed_extensions","restriction":"posting_manage","keywords":["extensions"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=attachment_image_size"><![CDATA[{"lang_key":"attachment_image_size","restriction":"posting_manage","keywords":["thumbnail dimensions","thumbnail size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=attachment_resample_size"><![CDATA[{"lang_key":"attachment_resample_size","restriction":"posting_manage","keywords":["image dimensions","image size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_allow_remote_images"><![CDATA[{"lang_key":"allow_remote_images","restriction":"posting_manage","keywords":["external images","linked images","remote images"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_attach_allowed_types"><![CDATA[{"lang_key":"attach_allowed_types","restriction":null,"keywords":["attachment restrictions","attachments","file types","files"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_dellog_retention_period"><![CDATA[{"lang_key":"dellog_retention_period","restriction":"posting_manage","keywords":["content","delete"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_edit_log"><![CDATA[{"lang_key":"edit_log","restriction":"posting_manage","keywords":["edit log","editing"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_editor_embeds"><![CDATA[{"lang_key":"editor_embeds","restriction":"posting_manage","keywords":["disable","embed","embeds","facebook","youtube"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_flood_control"><![CDATA[{"lang_key":"flood_control","restriction":"posting_manage","keywords":["flood control"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_ip_address_prune"><![CDATA[{"lang_key":"ip_address_prune","restriction":"posting_manage","keywords":["gdpr","ip address","prune"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_max_title_length"><![CDATA[{"lang_key":"max_title_length","restriction":"posting_manage","keywords":["title length","title size"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_max_video_width"><![CDATA[{"lang_key":"max_video_width","restriction":"posting_manage","keywords":["video size","video width","videos"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_merge_concurrent_posts"><![CDATA[{"lang_key":"merge_concurrent_posts","restriction":null,"keywords":["concurrent","merge","merging"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_post_before_registering"><![CDATA[{"lang_key":"post_before_registering","restriction":"posting_manage","keywords":["guest","guest post","post before register"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_reviews_rating_out_of"><![CDATA[{"lang_key":"reviews_rating_out_of","restriction":"posting_manage","keywords":["reviews","stars"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=form_topic_redirect_prune"><![CDATA[{"lang_key":"topic_redirect_prune","restriction":"posting_manage","keywords":["moved links","shadow topics"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;searchResult=max_video_width"><![CDATA[{"lang_key":"max_video_width","restriction":"posting_manage","keywords":["width"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=acronymExpansion"><![CDATA[{"lang_key":"word_expansion","restriction":"posting_manage_acronym","keywords":["abbreviations","acronyms","word expansions"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=attachment_image_size"><![CDATA[{"lang_key":"attachment_image_size","restriction":null,"keywords":["attachments","images","thumbnails","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_allow_remote_images"><![CDATA[{"lang_key":"allow_remote_images","restriction":null,"keywords":["external","images","linked","remote"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_attach_allowed_types"><![CDATA[{"lang_key":"attach_allowed_types","restriction":null,"keywords":["attachments","extensions","uploads"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_edit_log"><![CDATA[{"lang_key":"edit_log","restriction":null,"keywords":["edit","log"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_flood_control"><![CDATA[{"lang_key":"flood_control","restriction":null,"keywords":["flood","limit","posting"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_max_title_length"><![CDATA[{"lang_key":"max_title_length","restriction":null,"keywords":["titles"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_max_video_width"><![CDATA[{"lang_key":"max_video_width","restriction":null,"keywords":["embedded","media","videos","vimeo","youtube"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_reviews_rating_out_of"><![CDATA[{"lang_key":"reviews_rating_out_of","restriction":null,"keywords":["ratings","reviews","stars"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=general&amp;searchResult=form_topic_redirect_prune"><![CDATA[{"lang_key":"topic_redirect_prune","restriction":null,"keywords":["moved","shadow"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=polls"><![CDATA[{"lang_key":"polls","restriction":"posting_manage_polls","keywords":["polls","question","vote"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=profanityFilters"><![CDATA[{"lang_key":"profanity","restriction":"posting_manage_profanity","keywords":["bad words","filter","profanity","swear words","word filters"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=tags"><![CDATA[{"lang_key":"tags","restriction":"posting_manage_tags","keywords":["prefixes","tagging","tags"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=tags&amp;searchResult=tags_can_prefix"><![CDATA[{"lang_key":"tags_can_prefix","restriction":"posting_manage","keywords":["prefix","prefixes"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters"><![CDATA[{"lang_key":"ipb_url_filter_option","restriction":"posting_manage_url","keywords":["blacklist","links","urls","whitelist"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters&amp;searchResult=form_links_external"><![CDATA[{"lang_key":"links_external","restriction":"posting_manage","keywords":["blank","link","tab","target","window"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters&amp;searchResult=ipb_url_blacklist"><![CDATA[{"lang_key":"ipb_url_blacklist","restriction":"posting_manage","keywords":["blacklist"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters&amp;searchResult=posts_add_nofollow"><![CDATA[{"lang_key":"posts_add_nofollow","restriction":"posting_manage","keywords":["nofollow","pagerank"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters&amp;searchResult=posts_add_nofollow_exclude"><![CDATA[{"lang_key":"posts_add_nofollow_exclude","restriction":null,"keywords":["follow","nofollow","pagerank"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=posting&amp;tab=urlFilters&amp;searchResult=url_filter_action"><![CDATA[{"lang_key":"url_filter_action","restriction":"posting_manage","keywords":["approval","moderate","queue"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=securityquestions"><![CDATA[{"lang_key":"menu__core_settings_mfa","restriction":"securityquestions_manage","keywords":["answers","questions","security"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=terms"><![CDATA[{"lang_key":"menu__core_settings_terms","restriction":"terms_manage","keywords":["conditions","cookie","gdpr","guidelines","legal","privacy policy","rules","terms"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=terms&amp;searchResult=form_cookie_3rdpartynotice"><![CDATA[{"lang_key":"cookie_3rdpartynotice","restriction":"terms_manage","keywords":["cookies"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=terms&amp;searchResult=form_guest_terms_bar"><![CDATA[{"lang_key":"guest_terms_bar","restriction":"terms_manage","keywords":["cookie control","gdpr","terms bar"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=terms&amp;searchResult=guest_terms_bar_text"><![CDATA[{"lang_key":"guest_terms_bar_text","restriction":"terms_manage","keywords":["cookie control"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=terms&amp;searchResult=privacy_show_processors"><![CDATA[{"lang_key":"privacy_show_processors","restriction":"terms_manage","keywords":["gdpr"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp"><![CDATA[{"lang_key":"menu__core_settings_webapp","restriction":"webapp_manage","keywords":["icons","manifest","pwa","web app"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=form_configure_manifest"><![CDATA[{"lang_key":"configure_manifest","restriction":"webapp_manage","keywords":["manifest"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=form_icons_apple_startup"><![CDATA[{"lang_key":"icons_apple_startup","restriction":"webapp_manage","keywords":["ios"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=form_icons_homescreen_maskable"><![CDATA[{"lang_key":"icons_homescreen_maskable","restriction":"webapp_manage","keywords":["maskable"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=form_icons_mask_color"><![CDATA[{"lang_key":"icons_mask_color","restriction":"webapp_manage","keywords":["safari"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=form_icons_mask_icon"><![CDATA[{"lang_key":"icons_mask_icon","restriction":"webapp_manage","keywords":["safari"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=settings&amp;controller=webapp&amp;searchResult=manifest_display"><![CDATA[{"lang_key":"manifest_display","restriction":"webapp_manage","keywords":["mode"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=admin"><![CDATA[{"lang_key":"menu__core_staff_admin","restriction":"restrictions_manage","keywords":["acp","administrators","admins","restrictions","staff"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=admin&amp;do=actionLogs"><![CDATA[{"lang_key":"acplogs","restriction":"restrictions_adminlogs","keywords":["acp logs","admin logs","logs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=admin&amp;do=loginLogs"><![CDATA[{"lang_key":"menu__core_staff_admin","restriction":"restrictions_manage","keywords":["acp logins","admin logins"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=directory"><![CDATA[{"lang_key":"menu__core_staff_directory","restriction":"leaders_manage","keywords":["leaders","moderators","staff"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=moderators"><![CDATA[{"lang_key":"menu__core_staff_moderators","restriction":"moderators_manage","keywords":["moderators","staff"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=staff&amp;controller=moderators&amp;do=actionLogs"><![CDATA[{"lang_key":"modlogs","restriction":"restrictions_moderatorlogs","keywords":["logs","mod logs","moderator logs","staff logs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=stats&amp;controller=membervisits"><![CDATA[{"lang_key":"menu__core_stats_membervisits","restriction":"membervisits_manage","keywords":["activity","member visits","visits"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=stats&amp;controller=moderators"><![CDATA[{"lang_key":"menu__core_stats_moderators","restriction":"moderatorstats_manage","keywords":["moderator activity","moderator activity stats"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=stats&amp;controller=onlineusers"><![CDATA[{"lang_key":"menu__core_stats_onlineusers","restriction":"onlineusers_manage","keywords":["activity statistics","member activity","online users","page views","site activity","user activity"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=stats&amp;controller=rankprogression"><![CDATA[{"lang_key":"menu__core_stats_rankprogression","restriction":"rankprogression_manage","keywords":["rank progression"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=stats&amp;controller=registrationstats"><![CDATA[{"lang_key":"menu__core_members_registrationstats","restriction":null,"keywords":["registration statistics","Registrations"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=support&amp;controller=errorLogs"><![CDATA[{"lang_key":"error_logs","restriction":null,"keywords":["error log","errors","logs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=support&amp;controller=support"><![CDATA[{"lang_key":"menu__core_support_support","restriction":"support_dashboard","keywords":["diagnose","diagnostics","documentation","help","phpinfo","server","support","system","tech support","technical support","troubleshoot"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=support&amp;controller=systemLogs"><![CDATA[{"lang_key":"system_logs","restriction":null,"keywords":["driver errors","logs","sql error logs","sql logs","system logs"]}]]></acpsearch>
+ <themesetting key="active_input_border"><![CDATA[{"sc_key":"active_input_border","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#3480bb","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_active_input_border","sc_order":36,"sc_condition":null}]]></themesetting>
+ <themesetting key="ajax_pagination"><![CDATA[{"sc_key":"ajax_pagination","sc_type":"YesNo","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"1","sc_tab_key":"custom","sc_show_in_vse":1,"sc_title":"themesetting_ajax_pagination","sc_order":11,"sc_condition":null}]]></themesetting>
+ <themesetting key="alternate_button"><![CDATA[{"sc_key":"alternate_button","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_alternate_button","sc_order":3,"sc_condition":null}]]></themesetting>
+ <themesetting key="alternate_button_font"><![CDATA[{"sc_key":"alternate_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_alternate_button_font","sc_order":4,"sc_condition":null}]]></themesetting>
+ <themesetting key="area_background"><![CDATA[{"sc_key":"area_background","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#edf2f7","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_area_background","sc_order":10,"sc_condition":null}]]></themesetting>
+ <themesetting key="area_background_dark"><![CDATA[{"sc_key":"area_background_dark","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#2d3748","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_area_background_dark","sc_order":9,"sc_condition":null}]]></themesetting>
+ <themesetting key="area_background_light"><![CDATA[{"sc_key":"area_background_light","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#f7fafc","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_area_background_light","sc_order":11,"sc_condition":null}]]></themesetting>
+ <themesetting key="area_background_reset"><![CDATA[{"sc_key":"area_background_reset","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_area_background_reset","sc_order":12,"sc_condition":null}]]></themesetting>
+ <themesetting key="body_font"><![CDATA[{"sc_key":"body_font","sc_type":"Select","sc_multiple":0,"sc_content":"[{\"key\":\"default\",\"value\":\"Default\"},{\"key\":\"Inter\",\"value\":\"Inter\"},{\"key\":\"Lato\",\"value\":\"Lato\"},{\"key\":\"Open Sans\",\"value\":\"Open Sans\"},{\"key\":\"Roboto\",\"value\":\"Roboto\"},{\"key\":\"Roboto Slab\",\"value\":\"Roboto Slab\"},{\"key\":\"Montserrat\",\"value\":\"Montserrat\"},{\"key\":\"Merriweather\",\"value\":\"Merriweather\"}]","sc_app":"core","sc_default":"Inter","sc_tab_key":"textcolors","sc_show_in_vse":1,"sc_title":"themesetting_body_font","sc_order":1,"sc_condition":null}]]></themesetting>
+ <themesetting key="brand_primary"><![CDATA[{"sc_key":"brand_primary","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_brand_primary","sc_order":1,"sc_condition":null}]]></themesetting>
+ <themesetting key="button_bar"><![CDATA[{"sc_key":"button_bar","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_button_bar","sc_order":13,"sc_condition":null}]]></themesetting>
+ <themesetting key="comment_count"><![CDATA[{"sc_key":"comment_count","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#edf2f7","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_comment_count","sc_order":33,"sc_condition":null}]]></themesetting>
+ <themesetting key="comment_count_font"><![CDATA[{"sc_key":"comment_count_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#2d3748","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_comment_count_font","sc_order":34,"sc_condition":null}]]></themesetting>
+ <themesetting key="enable_fluid_width"><![CDATA[{"sc_key":"enable_fluid_width","sc_type":"YesNo","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"},{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"0","sc_tab_key":"custom","sc_show_in_vse":1,"sc_title":"themesetting_enable_fluid_width","sc_order":8,"sc_condition":null}]]></themesetting>
+ <themesetting key="featured"><![CDATA[{"sc_key":"featured","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#2c8c69","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_featured_color","sc_order":35,"sc_condition":null}]]></themesetting>
+ <themesetting key="fluid_width_size"><![CDATA[{"sc_key":"fluid_width_size","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"95","sc_tab_key":"custom","sc_show_in_vse":1,"sc_title":"themesetting_fluid_width_size","sc_order":9,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_2x_large"><![CDATA[{"sc_key":"font_2x_large","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"24","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_2x_large","sc_order":7,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_3x_large"><![CDATA[{"sc_key":"font_3x_large","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"30","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_3x_large","sc_order":8,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_4x_large"><![CDATA[{"sc_key":"font_4x_large","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"36","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_4x_large","sc_order":9,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_base"><![CDATA[{"sc_key":"font_base","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"16","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_base","sc_order":4,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_large"><![CDATA[{"sc_key":"font_large","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"18","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_large","sc_order":5,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_medium"><![CDATA[{"sc_key":"font_medium","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"14","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_medium","sc_order":3,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_size"><![CDATA[{"sc_key":"font_size","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"100","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"themesetting_font_size","sc_order":0,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_small"><![CDATA[{"sc_key":"font_small","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"13","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_small","sc_order":2,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_x_large"><![CDATA[{"sc_key":"font_x_large","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"20","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_x_large","sc_order":6,"sc_condition":null}]]></themesetting>
+ <themesetting key="font_x_small"><![CDATA[{"sc_key":"font_x_small","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"12","sc_tab_key":"typescale","sc_show_in_vse":0,"sc_title":"font_x_small","sc_order":1,"sc_condition":null}]]></themesetting>
+ <themesetting key="footer_text"><![CDATA[{"sc_key":"footer_text","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#353c41","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_footer_text","sc_order":13,"sc_condition":null}]]></themesetting>
+ <themesetting key="header"><![CDATA[{"sc_key":"header","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_header","sc_order":3,"sc_condition":null}]]></themesetting>
+ <themesetting key="header_height"><![CDATA[{"sc_key":"header_height","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"80","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"header_height","sc_order":2,"sc_condition":null}]]></themesetting>
+ <themesetting key="header_height_mobile"><![CDATA[{"sc_key":"header_height_mobile","sc_type":"Number","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"55","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"header_height_mobile","sc_order":3,"sc_condition":null}]]></themesetting>
+ <themesetting key="header_text"><![CDATA[{"sc_key":"header_text","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#2d3748","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_header_text","sc_order":4,"sc_condition":null}]]></themesetting>
+ <themesetting key="headline_font"><![CDATA[{"sc_key":"headline_font","sc_type":"Select","sc_multiple":0,"sc_content":"[{\"key\":\"default\",\"value\":\"Default\"},{\"key\":\"Inter\",\"value\":\"Inter\"},{\"key\":\"Lato\",\"value\":\"Lato\"},{\"key\":\"Open Sans\",\"value\":\"Open Sans\"},{\"key\":\"Roboto\",\"value\":\"Roboto\"},{\"key\":\"Roboto Slab\",\"value\":\"Roboto Slab\"},{\"key\":\"Montserrat\",\"value\":\"Montserrat\"},{\"key\":\"Merriweather\",\"value\":\"Merriweather\"}]","sc_app":"core","sc_default":"Inter","sc_tab_key":"textcolors","sc_show_in_vse":1,"sc_title":"themesetting_headline_font","sc_order":2,"sc_condition":null}]]></themesetting>
+ <themesetting key="important_button"><![CDATA[{"sc_key":"important_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_important_button","sc_order":7,"sc_condition":null}]]></themesetting>
+ <themesetting key="important_button_font"><![CDATA[{"sc_key":"important_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_important_button_font","sc_order":8,"sc_condition":null}]]></themesetting>
+ <themesetting key="item_status"><![CDATA[{"sc_key":"item_status","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#1265a1","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_item_status_active","sc_order":27,"sc_condition":null}]]></themesetting>
+ <themesetting key="js_include"><![CDATA[{"sc_key":"js_include","sc_type":"Radio","sc_multiple":0,"sc_content":"[{\"key\":\"head\",\"value\":\"themesetting_js_position_head\"},{\"key\":\"footer\",\"value\":\"themesetting_js_position_body\"}]","sc_app":"core","sc_default":"footer","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"themesetting_js_location","sc_order":10,"sc_condition":null}]]></themesetting>
+ <themesetting key="light_button"><![CDATA[{"sc_key":"light_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#e8f2fa","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_light_button","sc_order":9,"sc_condition":null}]]></themesetting>
+ <themesetting key="light_button_font"><![CDATA[{"sc_key":"light_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#0e4c79","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_light_button_font","sc_order":10,"sc_condition":null}]]></themesetting>
+ <themesetting key="link"><![CDATA[{"sc_key":"link","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#1a202c","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_link","sc_order":7,"sc_condition":null}]]></themesetting>
+ <themesetting key="link_button"><![CDATA[{"sc_key":"link_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_link_button","sc_order":15,"sc_condition":null}]]></themesetting>
+ <themesetting key="link_hover"><![CDATA[{"sc_key":"link_hover","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_link_hover","sc_order":8,"sc_condition":null}]]></themesetting>
+ <themesetting key="main_nav"><![CDATA[{"sc_key":"main_nav","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#1265a1","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_main_nav","sc_order":5,"sc_condition":null}]]></themesetting>
+ <themesetting key="main_nav_font"><![CDATA[{"sc_key":"main_nav_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_main_nav_font","sc_order":6,"sc_condition":null}]]></themesetting>
+ <themesetting key="main_nav_tab"><![CDATA[{"sc_key":"main_nav_tab","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_main_nav_active","sc_order":7,"sc_condition":null}]]></themesetting>
+ <themesetting key="main_nav_tab_font"><![CDATA[{"sc_key":"main_nav_tab_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#353c41","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_main_nav_active_font","sc_order":8,"sc_condition":null}]]></themesetting>
+ <themesetting key="mentions"><![CDATA[{"sc_key":"mentions","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#3d6594","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_mentions","sc_order":29,"sc_condition":null}]]></themesetting>
+ <themesetting key="moderated"><![CDATA[{"sc_key":"moderated","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#f7edf1","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_moderated","sc_order":21,"sc_condition":null}]]></themesetting>
+ <themesetting key="moderated_light"><![CDATA[{"sc_key":"moderated_light","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#fcf7f9","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_moderated_light","sc_order":22,"sc_condition":null}]]></themesetting>
+ <themesetting key="moderated_text"><![CDATA[{"sc_key":"moderated_text","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#880e4f","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_moderated_text","sc_order":23,"sc_condition":null}]]></themesetting>
+ <themesetting key="moderated_text_light"><![CDATA[{"sc_key":"moderated_text_light","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#a4768f","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_moderated_text_light","sc_order":24,"sc_condition":null}]]></themesetting>
+ <themesetting key="normal_button"><![CDATA[{"sc_key":"normal_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_normal_button","sc_order":5,"sc_condition":null}]]></themesetting>
+ <themesetting key="normal_button_font"><![CDATA[{"sc_key":"normal_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_normal_button_font","sc_order":6,"sc_condition":null}]]></themesetting>
+ <themesetting key="notification_bubble"><![CDATA[{"sc_key":"notification_bubble","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#36ab80","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_notification_bubble","sc_order":28,"sc_condition":null}]]></themesetting>
+ <themesetting key="page_background"><![CDATA[{"sc_key":"page_background","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#edf0f4","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_page_background","sc_order":2,"sc_condition":null}]]></themesetting>
+ <themesetting key="pagination_active"><![CDATA[{"sc_key":"pagination_active","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#3e4148","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_pagination_active","sc_order":14,"sc_condition":null}]]></themesetting>
+ <themesetting key="post_highlight"><![CDATA[{"sc_key":"post_highlight","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#fdf5e7","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_post_highlight","sc_order":31,"sc_condition":null}]]></themesetting>
+ <themesetting key="post_highlight_border"><![CDATA[{"sc_key":"post_highlight_border","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#81622e","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesettings_post_highlight_border","sc_order":32,"sc_condition":null}]]></themesetting>
+ <themesetting key="prefix"><![CDATA[{"sc_key":"prefix","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_prefix","sc_order":18,"sc_condition":null}]]></themesetting>
+ <themesetting key="price"><![CDATA[{"sc_key":"price","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#b63f3f","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_price","sc_order":14,"sc_condition":null}]]></themesetting>
+ <themesetting key="primary_button"><![CDATA[{"sc_key":"primary_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_primary_button","sc_order":1,"sc_condition":null}]]></themesetting>
+ <themesetting key="primary_button_font"><![CDATA[{"sc_key":"primary_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_primary_button_font","sc_order":2,"sc_condition":null}]]></themesetting>
+ <themesetting key="profile_header"><![CDATA[{"sc_key":"profile_header","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#353c41","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_profile_header","sc_order":15,"sc_condition":null}]]></themesetting>
+ <themesetting key="rating_on"><![CDATA[{"sc_key":"rating_on","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ff9800","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_rating_on","sc_order":25,"sc_condition":null}]]></themesetting>
+ <themesetting key="recaptcha_theme"><![CDATA[{"sc_key":"recaptcha_theme","sc_type":"other","sc_multiple":0,"sc_content":"return new \\IPS\\Helpers\\Form\\Radio( \"core_theme_setting_title_{$row['sc_id']}\", $value, FALSE, array( 'options' => array(\r\n\t\t\t'clean'\t\t\t=> \"<img src='\" . $theme->resource( 'recaptcha\/clean.png', 'core' ) . \"' alt='clean'>\",\r\n\t\t\t'red'\t\t\t=> \"<img src='\" . $theme->resource( 'recaptcha\/red.png', 'core' ) . \"' alt='clean'>\",\r\n\t\t\t'white'\t\t\t=> \"<img src='\" . $theme->resource( 'recaptcha\/white.png', 'core' ) . \"' alt='clean'>\",\r\n\t\t\t'blackglass'\t=> \"<img src='\" . $theme->resource( 'recaptcha\/blackglass.png', 'core' ) . \"' alt='clean'>\",\r\n\t\t\t), 'parse' => 'raw' ), NULL, NULL, NULL, 'theme_setting_' . $row['sc_key'] );","sc_app":"core","sc_default":"white","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"recaptcha_theme","sc_order":14,"sc_condition":"return \\IPS\\Settings::i()->bot_antispam_type === 'recaptcha';"}]]></themesetting>
+ <themesetting key="recaptcha2_theme"><![CDATA[{"sc_key":"recaptcha2_theme","sc_type":"other","sc_multiple":0,"sc_content":"return new \\IPS\\Helpers\\Form\\Radio( \"core_theme_setting_title_{$row['sc_id']}\", $value, FALSE, array( 'options' => array(\r\n\t\t\t'light'\t\t\t=> \"<img src='\" . $theme->resource( 'recaptcha2\/light.png', 'core' ) . \"' alt='light'>\",\r\n\t\t\t'dark'\t\t\t=> \"<img src='\" . $theme->resource( 'recaptcha2\/dark.png', 'core' ) . \"' alt='dark'>\",\r\n\t\t\t), 'parse' => 'raw' ), NULL, NULL, NULL, 'theme_setting_' . $row['sc_key'] );","sc_app":"core","sc_default":"light","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"recaptcha2_theme","sc_order":13,"sc_condition":"return \\IPS\\Settings::i()->bot_antispam_type === 'recaptcha2';"}]]></themesetting>
+ <themesetting key="responsive"><![CDATA[{"sc_key":"responsive","sc_type":"YesNo","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"},{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"1","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"themesetting_responsive","sc_order":1,"sc_condition":null}]]></themesetting>
+ <themesetting key="rounded_photos"><![CDATA[{"sc_key":"rounded_photos","sc_type":"YesNo","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"},{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"1","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"themesetting_rounded_photos","sc_order":4,"sc_condition":null}]]></themesetting>
+ <themesetting key="secondary_title"><![CDATA[{"sc_key":"secondary_title","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#ebedf0","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_secondary_title","sc_order":11,"sc_condition":null}]]></themesetting>
+ <themesetting key="secondary_title_font"><![CDATA[{"sc_key":"secondary_title_font","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#828e99","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_secondary_title_font","sc_order":12,"sc_condition":null}]]></themesetting>
+ <themesetting key="section_title"><![CDATA[{"sc_key":"section_title","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_section_title","sc_order":9,"sc_condition":null}]]></themesetting>
+ <themesetting key="section_title_font"><![CDATA[{"sc_key":"section_title_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#1a202c","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_section_title_font","sc_order":10,"sc_condition":null}]]></themesetting>
+ <themesetting key="selected"><![CDATA[{"sc_key":"selected","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ebf4f9","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_selected","sc_order":13,"sc_condition":null}]]></themesetting>
+ <themesetting key="selected_border"><![CDATA[{"sc_key":"selected_border","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#177ec9","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_selected_border","sc_order":14,"sc_condition":null}]]></themesetting>
+ <themesetting key="sidebar_position"><![CDATA[{"sc_key":"sidebar_position","sc_type":"Select","sc_multiple":0,"sc_content":"[{\"key\":\"left\",\"value\":\"Left\"},{\"key\":\"right\",\"value\":\"Right\"}]","sc_app":"core","sc_default":"right","sc_tab_key":"custom","sc_show_in_vse":0,"sc_title":"themesetting_sidebar_position","sc_order":6,"sc_condition":null}]]></themesetting>
+ <themesetting key="sidebar_responsive"><![CDATA[{"sc_key":"sidebar_responsive","sc_type":"YesNo","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"1","sc_tab_key":"custom","sc_show_in_vse":1,"sc_title":"themesetting_sidebar_responsive","sc_order":7,"sc_condition":null}]]></themesetting>
+ <themesetting key="social_links"><![CDATA[{"sc_key":"social_links","sc_type":"Radio","sc_multiple":0,"sc_content":"[{\"key\":\"header\",\"value\":\"themesetting_header\"},{\"key\":\"footer\",\"value\":\"themesetting_footer\"}]","sc_app":"core","sc_default":"footer","sc_tab_key":"custom","sc_show_in_vse":1,"sc_title":"themesetting_social_links_pos","sc_order":5,"sc_condition":null}]]></themesetting>
+ <themesetting key="tab_background"><![CDATA[{"sc_key":"tab_background","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#4a5568","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_tabs_background","sc_order":30,"sc_condition":null}]]></themesetting>
+ <themesetting key="tag"><![CDATA[{"sc_key":"tag","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#fff4df","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_tag","sc_order":16,"sc_condition":null}]]></themesetting>
+ <themesetting key="tag_font"><![CDATA[{"sc_key":"tag_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#9c4221","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_tag_font","sc_order":17,"sc_condition":null}]]></themesetting>
+ <themesetting key="text_color"><![CDATA[{"sc_key":"text_color","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#353c41","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_text_color","sc_order":3,"sc_condition":null}]]></themesetting>
+ <themesetting key="text_dark"><![CDATA[{"sc_key":"text_dark","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#000000","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_dark_text_color","sc_order":4,"sc_condition":null}]]></themesetting>
+ <themesetting key="text_light"><![CDATA[{"sc_key":"text_light","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#718096","sc_tab_key":"textcolors","sc_show_in_vse":0,"sc_title":"themesetting_text_light","sc_order":6,"sc_condition":null}]]></themesetting>
+ <themesetting key="text_very_light"><![CDATA[{"sc_key":"text_very_light","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"textcolors","sc_show_in_vse":1,"sc_title":"themesetting_text_very_light","sc_order":5,"sc_condition":null}]]></themesetting>
+ <themesetting key="timeline_color"><![CDATA[{"sc_key":"timeline_color","sc_type":"Color","sc_multiple":0,"sc_content":"[{\"key\":\"\",\"value\":\"\"}]","sc_app":"core","sc_default":"#2d3748","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"activity_stream_timeline","sc_order":26,"sc_condition":null}]]></themesetting>
+ <themesetting key="very_light_button"><![CDATA[{"sc_key":"very_light_button","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_very_light_button","sc_order":11,"sc_condition":null}]]></themesetting>
+ <themesetting key="very_light_button_font"><![CDATA[{"sc_key":"very_light_button_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#0e4c79","sc_tab_key":"buttoncolors","sc_show_in_vse":0,"sc_title":"themesetting_very_light_button_font","sc_order":12,"sc_condition":null}]]></themesetting>
+ <themesetting key="widget_title_bar"><![CDATA[{"sc_key":"widget_title_bar","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#ffffff","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_widget_title_bar","sc_order":19,"sc_condition":null}]]></themesetting>
+ <themesetting key="widget_title_font"><![CDATA[{"sc_key":"widget_title_font","sc_type":"Color","sc_multiple":0,"sc_content":"[]","sc_app":"core","sc_default":"#1a202c","sc_tab_key":"frontendcolors","sc_show_in_vse":0,"sc_title":"themesetting_widget_font","sc_order":20,"sc_condition":null}]]></themesetting>
+</build>

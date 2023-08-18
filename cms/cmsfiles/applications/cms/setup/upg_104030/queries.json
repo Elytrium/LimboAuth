@@ -1,0 +1,40 @@
+[
+    {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app='cms' AND word_key IN('cms_use_different_gateway','cms_use_different_gateway_desc','cms_root_page_url','pages_gateway_url_not_exist','cms_pages_different_gateway_impossible','pages_different_gateway_load_error','pages_different_gateway_load_error_rewrite','cms_root_page_url_rewrite_desc', 'cms_error_page', 'cms_error_page_desc', 'cms_error_page_none', 'cms_pages_settings' )"
+            ]
+        ]
+    },
+    {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key='cms_use_different_gateway'"
+            ]
+        ]
+    },
+    {
+        "method": "addColumn",
+        "params": [
+            "cms_databases",
+            {
+                "name": "database_canonical_flag",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+]

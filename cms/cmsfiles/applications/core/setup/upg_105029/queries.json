@@ -1,0 +1,74 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_s3_deletions",
+                "columns": {
+                    "s3_container": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "s3_container",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "s3_added": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "s3_added",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "s3_last_cycle": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "s3_last_cycle",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "s3_marker": {
+                        "name": "s3_marker",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Last key seen, so it can be used to get the next result set from AWS",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "s3_container"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    }
+}

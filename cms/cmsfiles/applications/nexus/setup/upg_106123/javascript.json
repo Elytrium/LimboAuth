@@ -1,0 +1,56 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "nexus\/front\/controllers\/checkout\/ips.checkout.billingForm.js",
+            "nexus\/front\/controllers\/checkout\/ips.checkout.register.js",
+            "nexus\/front\/controllers\/checkout\/ips.checkout.review.js",
+            "nexus\/front\/controllers\/checkout\/ips.checkout.shippingForm.js",
+            "nexus\/global\/controllers\/forms\/ips.forms.businessAddressVat.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.authorizenet.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.braintree.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.stripe.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.stripeamex.js",
+            "nexus\/global\/controllers\/gateways\/ips.gateways.stripepaymentrequest.js",
+            "nexus\/admin\/controllers\/hosting\/ips.nexus.hosting.accountform.js",
+            "nexus\/global\/controllers\/misc\/ips.misc.print.js",
+            "nexus\/admin\/controllers\/notifications\/ips.notifications.pendingTransactions.js",
+            "nexus\/admin\/controllers\/payments\/ips.payments.braintreeSetup.js",
+            "nexus\/admin\/controllers\/store\/ips.store.productoptions.js",
+            "nexus\/admin\/controllers\/store\/ips.store.productselector.js",
+            "nexus\/front\/controllers\/store\/ips.store.cartReview.js",
+            "nexus\/front\/controllers\/store\/ips.store.category.js",
+            "nexus\/front\/controllers\/store\/ips.store.currencySelect.js",
+            "nexus\/front\/controllers\/store\/ips.store.giftCard.js",
+            "nexus\/front\/controllers\/store\/ips.store.packagePage.js",
+            "nexus\/front\/controllers\/store\/ips.store.register.js",
+            "nexus\/front\/controllers\/subscriptions\/ips.subscriptions.main.js",
+            "nexus\/admin\/controllers\/support\/ips.support.emailsetup.js",
+            "nexus\/admin\/controllers\/support\/ips.support.filterCheckboxSet.js",
+            "nexus\/admin\/controllers\/support\/ips.support.list.js",
+            "nexus\/admin\/controllers\/support\/ips.support.message.js",
+            "nexus\/admin\/controllers\/support\/ips.support.metamenu.js",
+            "nexus\/admin\/controllers\/support\/ips.support.multimod.js",
+            "nexus\/admin\/controllers\/support\/ips.support.packageInfo.js",
+            "nexus\/admin\/controllers\/support\/ips.support.pendingalert.js",
+            "nexus\/admin\/controllers\/support\/ips.support.replyArea.js",
+            "nexus\/admin\/controllers\/support\/ips.support.request.js",
+            "nexus\/admin\/controllers\/support\/ips.support.splitForm.js",
+            "nexus\/front\/controllers\/support\/ips.support.rate.js",
+            "nexus\/admin\/templates\/ips.templates.store.js",
+            "nexus\/front\/templates\/ips.templates.store.js",
+            "nexus\/global\/templates\/ips.templates.gateways.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "removed": []
+    }
+}

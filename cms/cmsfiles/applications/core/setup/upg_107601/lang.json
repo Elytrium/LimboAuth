@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "download_upgrade_initial_resource_explain",
+            "emoji_style_twemoji",
+            "advise_removal_of_php8_incompatible_code"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

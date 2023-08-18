@@ -1,0 +1,26 @@
+{
+    "gallery": {
+        "categories": {
+            "categories_manage": "categories_manage",
+            "categories_add": "categories_add",
+            "categories_edit": "categories_edit",
+            "categories_permissions": "categories_permissions",
+            "categories_massManageContent": "categories_massManageContent",
+            "categories_delete": "categories_delete"
+        },
+        "albums": {
+            "albums_manage": "albums_manage"
+        },
+        "settings": {
+            "settings_manage": "settings_manage"
+        }
+    },
+    "stats": {
+        "diskspace": {
+            "diskspace_manage": "diskspace_manage"
+        },
+        "bandwidth": {
+            "bandwidth_manage": "bandwidth_manage"
+        }
+    }
+}

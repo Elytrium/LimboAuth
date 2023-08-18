@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_rss_import",
+            "rss_import_settings=REPLACE( rss_import_settings, 'rss_import_', '' )"
+        ]
+    }
+}

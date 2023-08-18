@@ -1,0 +1,62 @@
+[
+    {
+        "key": "all_activity_calendar_streamitems",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "calendar_block_past_changes",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "calendar_date_format",
+        "default": "d_lm_y",
+        "report": "full"
+    },
+    {
+        "key": "calendar_date_format_custom",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "calendar_default_view",
+        "default": "overview",
+        "report": "full"
+    },
+    {
+        "key": "calendar_rss_feed",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "calendar_rss_feed_days",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "calendar_rss_feed_order",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "calendar_venues_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ipb_calendar_mon",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "map_center_lat",
+        "default": "37.411022",
+        "report": "none"
+    },
+    {
+        "key": "map_center_lon",
+        "default": "-79.1429788",
+        "report": "none"
+    }
+]

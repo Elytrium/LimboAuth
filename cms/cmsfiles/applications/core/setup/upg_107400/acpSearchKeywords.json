@@ -1,0 +1,10 @@
+{
+    "added": [],
+    "edited": [
+        "app=core&module=applications&controller=enhancements"
+    ],
+    "removed": [
+        "app=core&module=applications&controller=enhancements&do=edit&id=core_Viglink&searchResult=form_viglink_account_type",
+        "app=core&module=promotion&controller=promote&tab=facebook"
+    ]
+}

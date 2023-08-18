@@ -1,0 +1,40 @@
+<?php
+/**
+ * @brief		Statistics Chart Extension
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\Statistics;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Statistics Chart Extension
+ */
+class _{class} extends \IPS\core\Statistics\Chart
+{
+	/**
+	 * @brief	Controller
+	 */
+	public $controller = NULL;
+	
+	/**
+	 * Render Chart
+	 *
+	 * @param	\IPS\Http\Url	$url	URL the chart is being shown on.
+	 * @return \IPS\Helpers\Chart
+	 */
+	public function getChart( \IPS\Http\Url $url ): \IPS\Helpers\Chart
+	{
+		
+	}
+}

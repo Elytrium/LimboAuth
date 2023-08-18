@@ -1,0 +1,25 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "calendar\/front\/controllers\/browse\/ips.browse.main.js",
+            "calendar\/front\/controllers\/browse\/ips.browse.monthView.js",
+            "calendar\/front\/controllers\/submit\/ips.submit.dates.js",
+            "calendar\/front\/controllers\/venue\/ips.venue.main.js",
+            "calendar\/front\/controllers\/view\/ips.view.reminderButton.js",
+            "calendar\/front\/controllers\/view\/ips.view.reminderForm.js",
+            "calendar\/front\/templates\/ips.calendar.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "removed": []
+    }
+}

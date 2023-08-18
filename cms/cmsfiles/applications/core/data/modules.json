@@ -1,0 +1,206 @@
+{
+    "admin": {
+        "overview": {
+            "default_controller": "dashboard",
+            "protected": 0,
+            "default": 1
+        },
+        "system": {
+            "default_controller": "login",
+            "protected": 1,
+            "default": 0
+        },
+        "applications": {
+            "default_controller": "applications",
+            "protected": 0,
+            "default": 0
+        },
+        "settings": {
+            "default_controller": "general",
+            "protected": 0,
+            "default": 0
+        },
+        "members": {
+            "default_controller": "members",
+            "protected": 0,
+            "default": 0
+        },
+        "membersettings": {
+            "default_controller": "general",
+            "protected": 0,
+            "default": 0
+        },
+        "staff": {
+            "default_controller": "moderators",
+            "protected": 0,
+            "default": 0
+        },
+        "customization": {
+            "default_controller": "skins",
+            "protected": 0,
+            "default": 0
+        },
+        "languages": {
+            "default_controller": "languages",
+            "protected": 0,
+            "default": 0
+        },
+        "editor": {
+            "default_controller": "toolbar",
+            "protected": 0,
+            "default": 0
+        },
+        "bulkmail": {
+            "default_controller": "bulkmail",
+            "protected": 0,
+            "default": 0
+        },
+        "livesearch": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "promotion": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "stats": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "support": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "logs": {
+            "default_controller": "admin",
+            "protected": 0,
+            "default": 0
+        },
+        "logsettings": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "diagnostics": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "discovery": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "clubs": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "activitystats": {
+            "default_controller": "overview",
+            "protected": 0,
+            "default": 0
+        },
+        "messengerstats": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "moderation": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "marketplace": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "achievements": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "smartcommunity": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        }
+    },
+    "front": {
+        "system": {
+            "default_controller": "splash",
+            "protected": 1,
+            "default": 0
+        },
+        "members": {
+            "default_controller": "profile",
+            "protected": 0,
+            "default": 0
+        },
+        "search": {
+            "default_controller": "search",
+            "protected": 0,
+            "default": 0
+        },
+        "messaging": {
+            "default_controller": "messenger",
+            "protected": 0,
+            "default": 0
+        },
+        "online": {
+            "default_controller": "online",
+            "protected": 0,
+            "default": 0
+        },
+        "modcp": {
+            "default_controller": "modcp",
+            "protected": 0,
+            "default": 0
+        },
+        "sitemap": {
+            "default_controller": null,
+            "protected": 0,
+            "default": 0
+        },
+        "contact": {
+            "default_controller": "contact",
+            "protected": 0,
+            "default": 0
+        },
+        "status": {
+            "default_controller": "",
+            "protected": 0,
+            "default": 0
+        },
+        "discover": {
+            "default_controller": "streams",
+            "protected": 0,
+            "default": 1
+        },
+        "staffdirectory": {
+            "default_controller": "directory",
+            "protected": 0,
+            "default": 0
+        },
+        "clubs": {
+            "default_controller": "directory",
+            "protected": 0,
+            "default": 0
+        },
+        "promote": {
+            "default_controller": "ourpicks",
+            "protected": 0,
+            "default": 0
+        },
+        "referral": {
+            "default": 0,
+            "default_controller": "",
+            "protected": 0
+        }
+    }
+}

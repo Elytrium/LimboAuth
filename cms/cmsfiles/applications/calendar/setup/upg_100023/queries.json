@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "calendar_events",
+            {
+                "event_end_date": null
+            },
+            "event_start_date=event_end_date"
+        ]
+    }
+}

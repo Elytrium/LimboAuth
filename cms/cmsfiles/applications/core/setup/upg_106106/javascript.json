@@ -1,0 +1,17 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/admin\/controllers\/core\/ips.core.app.js",
+            "global\/front\/controllers\/core\/ips.core.app.js",
+            "global\/library\/mustache\/mustache.js",
+            "global\/library\/underscore\/underscore.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "added": [
+        "app=core&module=overview&controller=files&do=imagesettings&searchResult=imagick_strip_exif",
+        "app=core&module=promotion&controller=seo&tab=robotstxt",
+        "app=core&module=promotion&controller=seo&tab=robotstxt&searchResult=use_robotstxt"
+    ],
+    "edited": [
+        "app=core&module=applications&controller=enhancements"
+    ],
+    "removed": [
+        "app=core&module=promotion&controller=analytics"
+    ]
+}

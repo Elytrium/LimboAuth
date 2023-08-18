@@ -1,0 +1,50 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "file_ipaddress"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "downloads_comments",
+            {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_open"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "downloads_reviews",
+            {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

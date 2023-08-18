@@ -1,0 +1,27 @@
+{
+    "normal": {
+        "added": [
+            "acplog__reset_password_member",
+            "acplog__reset_password_all",
+            "filter_report_status_1",
+            "filter_report_status_1_app",
+            "filter_report_status_2",
+            "filter_report_status_3"
+        ],
+        "edited": [
+            "download_upgrade_initial_resource_explain",
+            "report_status_1",
+            "report_status_2",
+            "report_status_3",
+            "advise_removal_of_php8_incompatible_code"
+        ],
+        "removed": [
+            "report_status_1_app"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

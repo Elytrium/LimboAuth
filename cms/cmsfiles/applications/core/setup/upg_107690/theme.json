@@ -1,0 +1,40 @@
+{
+    "html": {
+        "added": [
+            "front\/global\/analytics",
+            "front\/global\/modLog",
+            "admin\/notifications\/accountDeletionRequest",
+            "admin\/notifications\/piiRequest",
+            "admin\/stats\/mycharts",
+            "admin\/stats\/mychartsEmpty",
+            "front\/system\/analyticsItemLink",
+            "front\/system\/settingsPrivacy"
+        ],
+        "edited": [
+            "global\/global\/dynamicChart",
+            "front\/global\/footer",
+            "front\/global\/globalTemplate",
+            "front\/global\/guestTermsBar",
+            "global\/global\/includeJS",
+            "front\/moderationLog\/table",
+            "front\/system\/cookies",
+            "front\/system\/searchResultSnippet",
+            "front\/widgets\/relatedContent"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/core\/badges.css",
+            "global\/framework\/engagement.css",
+            "global\/framework\/layout.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

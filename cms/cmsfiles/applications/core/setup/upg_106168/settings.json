@@ -1,0 +1,15 @@
+{
+    "added": [
+        "core_datalayer_enabled",
+        "core_datalayer_events",
+        "core_datalayer_gtmkey",
+        "core_datalayer_include_pii",
+        "core_datalayer_member_pii_choice",
+        "core_datalayer_pii",
+        "core_datalayer_properties",
+        "core_datalayer_replace_with_sso",
+        "core_datalayer_use_gtm"
+    ],
+    "edited": [],
+    "removed": []
+}

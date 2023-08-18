@@ -1,0 +1,32 @@
+[
+    {
+        "key": "blog_allow_grid",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "blog_allow_rss",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "blog_allow_rssimport",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "blog_enable_rating",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "blog_enable_sidebar",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "blog_view_mode",
+        "default": "grid",
+        "report": "bool"
+    }
+]

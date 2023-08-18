@@ -1,0 +1,11 @@
+{
+    "added": [
+        "app=core&module=discovery&controller=search&searchResult=searchlog_exclude_groups",
+        "app=core&module=stats&controller=moderators",
+        "app=core&module=stats&controller=rankprogression"
+    ],
+    "edited": [
+        "app=core&module=moderation&controller=spam&searchResult=bot_antispam_type"
+    ],
+    "removed": []
+}

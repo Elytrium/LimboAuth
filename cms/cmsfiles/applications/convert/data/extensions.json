@@ -1,0 +1,18 @@
+{
+    "core": {
+        "Queue": {
+            "DeleteEmptyTopics": "IPS\\convert\\extensions\\core\\Queue\\DeleteEmptyTopics",
+            "InvisionCommunityRebuildContent": "IPS\\convert\\extensions\\core\\Queue\\InvisionCommunityRebuildContent",
+            "RebuildContent": "IPS\\convert\\extensions\\core\\Queue\\RebuildContent",
+            "RebuildConversationFirstIds": "IPS\\convert\\extensions\\core\\Queue\\RebuildConversationFirstIds",
+            "RebuildFirstPostIds": "IPS\\convert\\extensions\\core\\Queue\\RebuildFirstPostIds",
+            "RebuildGalleryImages": "IPS\\convert\\extensions\\core\\Queue\\RebuildGalleryImages",
+            "RebuildNonContent": "IPS\\convert\\extensions\\core\\Queue\\RebuildNonContent",
+            "RebuildProfilePhotos": "IPS\\convert\\extensions\\core\\Queue\\RebuildProfilePhotos",
+            "RebuildTagCache": "IPS\\convert\\extensions\\core\\Queue\\RebuildTagCache",
+            "RecountAnswerRatings": "IPS\\convert\\extensions\\core\\Queue\\RecountAnswerRatings",
+            "RecountClubMembers": "IPS\\convert\\extensions\\core\\Queue\\RecountClubMembers",
+            "RecountQuestionRatings": "IPS\\convert\\extensions\\core\\Queue\\RecountQuestionRatings"
+        }
+    }
+}

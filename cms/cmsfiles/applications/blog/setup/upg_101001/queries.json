@@ -1,0 +1,26 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_view_level"
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "blog_blogs",
+            "blog_grabber",
+            {
+                "type": "key",
+                "name": "blog_grabber",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "blog_disabled"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "html": {
+        "added": [
+            "front\/messaging\/submitForm",
+            "global\/notifications\/newVersion"
+        ],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "admin\/global\/globalTemplate",
+            "admin\/global\/mobileNavigation",
+            "front\/global\/userPhoto",
+            "admin\/marketplace\/customHeader",
+            "admin\/marketplace\/onboardRow",
+            "admin\/memberprofile\/basicInformation",
+            "front\/messaging\/conversation",
+            "front\/profile\/profile",
+            "front\/system\/notificationSettingsIndexRow",
+            "front\/system\/notificationSettingsType"
+        ],
+        "removed": [
+            "admin\/notifications\/newVersion"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "admin\/core\/buttons.css",
+            "admin\/core\/controlstrip.css",
+            "admin\/core\/misc.css",
+            "admin\/core\/popups.css",
+            "global\/framework\/buttons.css",
+            "global\/framework\/global.css",
+            "global\/framework\/misc.css",
+            "global\/framework\/popup.css",
+            "global\/framework\/post-content.css",
+            "global\/responsive\/layout.css",
+            "global\/responsive\/tables.css",
+            "global\/responsive\/tabs.css",
+            "front\/styles\/profiles_responsive.css",
+            "front\/styles\/profiles.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

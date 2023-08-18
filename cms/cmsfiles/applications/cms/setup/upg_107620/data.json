@@ -1,0 +1,23 @@
+{
+    "id": 107620,
+    "name": "4.7.7 Beta 1",
+    "steps": {
+        "queries": true,
+        "lang": true,
+        "theme": false,
+        "themeSettings": false,
+        "javascript": true,
+        "emailTemplates": false,
+        "hooks": false,
+        "acpSearchKeywords": false,
+        "settings": false,
+        "tasks": false,
+        "modules": false,
+        "widgets": false,
+        "customOptions": false,
+        "customRoutines": true
+    },
+    "forceMainUpgrader": true,
+    "forceManualDownloadNoCiC": false,
+    "forceManualDownloadCiC": false
+}

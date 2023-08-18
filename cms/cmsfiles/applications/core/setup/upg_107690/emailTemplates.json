@@ -1,0 +1,10 @@
+{
+    "added": [
+        "notification_pii_data",
+        "account_deletion_confirmation",
+        "notification_pii_data_rejected",
+        "notification_account_del_request_rejected"
+    ],
+    "edited": [],
+    "removed": []
+}

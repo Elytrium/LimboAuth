@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": [
+            "signed_in_anoymously_widget"
+        ]
+    }
+}

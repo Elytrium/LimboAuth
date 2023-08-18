@@ -1,0 +1,10 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_clubs",
+            "last_activity=created",
+            "last_activity IS NULL"
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND ( word_key IN('log_type_title_groups','member_photo_gravatar','member_photo_gravatar_desc','photo_gravatar_email','photo_gravatar_email_desc','photo_gravatar_email_public','allow_gravatars','allow_gravatars_desc','history_new_photo_gravatar') )",
+                "core"
+            ]
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key=?",
+                "allow_gravatars"
+            ]
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "core_members",
+            "pp_gravatar"
+        ]
+    },
+    "4": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "pp_photo_type": "none"
+            },
+            [
+                "pp_photo_type=?",
+                "gravatar"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "added": [
+        "pii_link",
+        "pii_type",
+        "right_to_be_forgotten_link",
+        "right_to_be_forgotten_type"
+    ],
+    "edited": [],
+    "removed": []
+}

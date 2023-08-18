@@ -1,0 +1,21 @@
+{
+    "added": [
+        "app=blog&module=blogs&controller=blogs",
+        "app=blog&module=blogs&controller=blogs&do=form",
+        "app=blog&module=blogs&controller=blogs&searchResult=blog_desc_wrap",
+        "app=blog&module=blogs&controller=blogs&searchResult=blog_member_id",
+        "app=blog&module=blogs&controller=blogs&searchResult=blog_name",
+        "app=blog&module=blogs&controller=blogs&searchResult=form_new_blog_enable_rss",
+        "app=blog&module=blogs&controller=blogs&searchResult=form_new_blog_type",
+        "app=blog&module=blogs&controller=settings",
+        "app=blog&module=blogs&controller=settings&searchResult=form_blog_allow_rss",
+        "app=blog&module=blogs&controller=settings&searchResult=form_blog_allow_rssimport",
+        "app=blog&module=blogs&controller=settings&searchResult=form_blog_enable_rating",
+        "app=blog&module=blogs&controller=settings&searchResult=form_blog_enable_sidebar",
+        "app=core&module=members&controller=groups&searchResult=4_g_blog_allowlocal",
+        "app=core&module=members&controller=groups&searchResult=g_blog_allowdelete",
+        "app=core&module=members&controller=groups&searchResult=g_blog_allowprivate"
+    ],
+    "edited": [],
+    "removed": []
+}

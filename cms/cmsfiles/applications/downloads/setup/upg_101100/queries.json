@@ -1,0 +1,69 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "cclub_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The club ID if this category belongs to a club, or NULL",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_meta_data",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "downloads_files_records",
+            "record_location=TRIM(LEADING '\/' FROM record_location), record_thumb=TRIM(LEADING '\/' FROM record_thumb), record_no_watermark=TRIM(LEADING '\/' FROM record_no_watermark)"
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "downloads_cfields",
+            {
+                "name": "cf_allow_attachments",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "normal": {
+        "added": [
+            "emailstats__solved_reengagement",
+            "gbw_club_manage_indexing",
+            "sitemap_core_Clubs",
+            "api_api_access",
+            "api_api_access_desc",
+            "api_access_rest",
+            "api_access_rest_desc",
+            "api_access_graphql",
+            "api_access_graphql_desc",
+            "oauth_api_access",
+            "oauth_api_type_rest",
+            "oauth_api_type_graphql",
+            "oauth_api_type_both",
+            "api_access_both",
+            "club_node_public_no",
+            "club_node_public_view",
+            "club_node_public_participate",
+            "club_page_meta_index",
+            "club_page_meta_index_desc",
+            "emailstats__activity_stream_subscription",
+            "emailstats__notification_new_badge",
+            "emailstats__notification_new_rank",
+            "emailstats__notification_new_recognize",
+            "emailstats__password_reset_forced"
+        ],
+        "edited": [
+            "download_upgrade_initial_resource_explain",
+            "oauth_scopes",
+            "oauth_clients_blurb",
+            "club_type_closed_desc",
+            "club_node_public_desc",
+            "advise_removal_of_php8_incompatible_code"
+        ],
+        "removed": [
+            "emailstats_solved_reengagement",
+            "emailstats__stream_subscription",
+            "cloud_ai_service_sentiment",
+            "cloud_ai_service_sentiment_desc"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

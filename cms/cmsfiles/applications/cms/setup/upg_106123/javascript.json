@@ -1,0 +1,39 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "cms\/admin\/controllers\/blocks\/ips.blocks.form.js",
+            "cms\/admin\/controllers\/databases\/ips.databases.download.js",
+            "cms\/admin\/controllers\/databases\/ips.databases.form.js",
+            "cms\/front\/controllers\/external\/ips.external.communication.js",
+            "cms\/admin\/controllers\/fields\/ips.fields.form.js",
+            "cms\/admin\/controllers\/media\/ips.media.main.js",
+            "cms\/admin\/controllers\/pages\/ips.pages.embed.js",
+            "cms\/admin\/controllers\/pages\/ips.pages.form.js",
+            "cms\/front\/controllers\/records\/ips.records.form.js",
+            "cms\/front\/controllers\/records\/ips.records.revisions.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.addForm.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.conflict.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.fileEditor.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.fileList.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.main.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.variablesDialog.js",
+            "cms\/front\/mixins\/ips.cms.builder.area.js",
+            "cms\/front\/mixins\/ips.cms.builder.block.js",
+            "cms\/front\/mixins\/ips.cms.comment.js",
+            "cms\/admin\/templates\/ips.templates.media.js",
+            "cms\/admin\/templates\/ips.templates.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "removed": []
+    }
+}

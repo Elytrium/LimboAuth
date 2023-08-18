@@ -1,0 +1,13 @@
+{
+    "added": [
+        "app=core&module=applications&controller=enhancements&do=edit&id=core_ImageScanner",
+        "app=core&module=settings&controller=dataLayer",
+        "app=core&module=settings&controller=dataLayer&tab=events",
+        "app=core&module=settings&controller=dataLayer&tab=handlers",
+        "app=core&module=settings&controller=dataLayer&tab=main&searchResult=datalayer_general_core_datalayer_use_gtm",
+        "app=core&module=settings&controller=dataLayer&tab=pageContext",
+        "app=core&module=settings&controller=dataLayer&tab=properties"
+    ],
+    "edited": [],
+    "removed": []
+}

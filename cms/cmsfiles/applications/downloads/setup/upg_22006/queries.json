@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_files",
+            {
+                "name": "file_nexus",
+                "type": "text",
+                "length": null,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    }
+}

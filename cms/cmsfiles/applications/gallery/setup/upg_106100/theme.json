@@ -1,0 +1,37 @@
+{
+    "html": {
+        "added": [
+            "front\/forms\/imageUpload"
+        ],
+        "edited": [
+            "front\/browse\/album",
+            "front\/browse\/category",
+            "front\/browse\/categoryButtons",
+            "front\/browse\/categoryGrid",
+            "front\/browse\/imageTable",
+            "front\/global\/comment",
+            "front\/global\/profileAlbumTable",
+            "front\/global\/review",
+            "front\/submit\/chooseCategory",
+            "front\/submit\/createAlbum",
+            "front\/submit\/existingAlbumForm",
+            "front\/view\/imageInfo",
+            "front\/view\/imageLightboxInfo",
+            "front\/widgets\/galleryStats"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/global.css",
+            "front\/submit.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

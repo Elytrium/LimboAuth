@@ -1,0 +1,31 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "convert_apps",
+            {
+                "name": "finished",
+                "type": "BIT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "Has app been finished?",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "convert_apps",
+            {
+                "finished": true
+            }
+        ]
+    }
+}

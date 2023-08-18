@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>calendar</template_app><template_name>notification_event_reminder</template_name><template_content_html><![CDATA[
+{$email->language->addToStack("email_event_reminder", FALSE, array( 'sprintf' => array( $email->language->addToStack( "days_to_go", FALSE, array( 'pluralize' => array( $daysToGo ) ) ), $content->url(), $content->mapped('title') ) ) )}
+
+<br />
+<br />
+{$email->language->addToStack("email_event_reminder_when", FALSE, array( 'sprintf' => array( $content->fixedDateTimeDescription( $email->language ) ) ) )}
+{{if $content->location}}
+<br />
+{$email->language->addToStack("email_event_reminder_where", FALSE, array( 'sprintf' => array( \IPS\GeoLocation::buildFromjson( $content->location )->toString() ) ) )}
+{{endif}}
+<br />
+<br />
+
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$content->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+			<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+				<tr>
+					<td dir='{dir}'>
+						<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px; color: #8d8d8d">
+									{$email->language->addToStack("email_posted_in", FALSE, array( 'sprintf' => array( $content->container()->getTitleForLanguage( $email->language ) ) ) )}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+									{$email->parseTextForEmail( $content->content(), $email->language )|raw}
+								</td>
+							</tr>
+							<tr>
+								<td dir='{dir}'>
+									<a href='{$content->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $daysToGo, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_event_reminder_plain", FALSE, array( 'htmlsprintf' => array( $email->language->addToStack( "days_to_go", FALSE, array( 'pluralize' => array( $daysToGo ) ) ), $content->mapped('title') ) ) )}
+
+{$email->language->addToStack("email_event_reminder_when", FALSE, array( 'htmlsprintf' => array( $content->fixedDateTimeDescription( $email->language ) ) ) )}
+{{if $content->location}}{$email->language->addToStack("email_event_reminder_where", FALSE, array( 'htmlsprintf' => array( \IPS\GeoLocation::buildFromjson( $content->location )->toString() ) ) )}{{endif}}
+
+{$email->language->addToStack("go_to_this_x", FALSE, array( 'htmlsprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}: {$content->url()}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>calendar</template_app><template_name>notification_new_content</template_name><template_content_html><![CDATA[
+{{if $content->author()->member_id}}
+	{$email->language->addToStack("email_new_calevent", FALSE, array( 'sprintf' => array( $content->author()->url(), $content->author()->name, $content->indefiniteArticle( $email->language ), $content->url(), $content->mapped('title'), $content->fixedDateTimeDescription( $email->language ) ) ) )}
+{{else}}
+	{$email->language->addToStack("email_new_calevent_guest", FALSE, array( 'sprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ), $content->url(), $content->mapped('title'), $content->fixedDateTimeDescription( $email->language ) ) ) )}
+{{endif}}
+
+<br />
+<br />
+
+{$content->emailContent( $email, 'html' )|raw}
+<br /><br />
+<em style='color: #8c8c8c'>&mdash; {setting="board_name"}</em>]]></template_content_html><template_data>$content, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("email_new_calevent_plain", FALSE, array( 'htmlsprintf' => array( $content->author()->name, $content->indefiniteArticle( $email->language ), $content->mapped( 'title' ), $content->fixedDateTimeDescription( $email->language ) ) ) )}
+
+{$content->emailContent( $email, 'plaintext' )|raw}
+
+-- {setting="board_name"}]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>calendar</template_app><template_name>digests__item</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' valign='top' align='center'>
+		<table width='120' cellpadding='10' cellspacing='0' border='0' bgcolor='#fafafa'>
+			<tr>
+				<td dir='{dir}'>
+					<table width='100' cellpadding='0' cellspacing='0' border='0' bgcolor='#ffffff' style='border: 1px solid #cccccc;'>
+						<tr>
+							<td dir='{dir}' align='center' style="color: #a93848; font-size: 18px; line-height: 30px; text-transform: uppercase; font-family: 'Helvetica Neue', helvetica, sans-serif; font-weight: bold; padding-top: 5px;">
+								{$event->nextOccurrence( \IPS\calendar\Date::getDate(), 'startDate' )->monthNameShort}
+							</td>
+						</tr>
+						<tr>
+							<td dir='{dir}' align='center' style="color: #333333; line-height: 40px; font-size: 44px; font-family: 'Helvetica Neue', helvetica, sans-serif; font-weight: 300; padding-bottom: 10px">
+								{$event->nextOccurrence( \IPS\calendar\Date::getDate(), 'startDate' )->mday}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_created_event_in", FALSE, array( 'sprintf' => array( $event->author()->name, $event->container()->getTitleForLanguage( $email->language ) ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 18px; font-weight: 500 !important; margin: 0">
+			<a href='{$event->url()}' style='text-decoration: none;'>{$event->title}</a>
+			{{if $event->mapped('featured')}}&nbsp;&nbsp;<span style='color: #68a72f; font-weight: bold; font-size: 12px; text-transform: uppercase;'>{$email->language->addToStack("featured", FALSE)}</span>{{endif}}
+		</h2>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; font-size: 16px;'>
+			<strong>
+				{$event->_start_date->dayName} {$event->_start_date->mday} {$event->_start_date->monthName} {$event->_start_date->year}{{if !$event->all_day}}, {$event->_start_date->localeTime( FALSE )}{{endif}}
+				{{if $event->_end_date}}
+					&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+					{$event->_end_date->dayName} {$event->_end_date->mday} {$event->_end_date->monthName} {$event->_end_date->year}{{if !$event->all_day}}, {$event->_end_date->localeTime( FALSE )}{{endif}}
+				{{endif}}
+			</strong>
+		</p>
+
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 5px; margin-bottom: 5px'>
+			{$email->parseTextForEmail( $event->content(), $email->language )|raw}
+		</div>
+
+		{{if $event->rsvp}}
+			<div style="font-size: 13px; font-family: 'Helvetica Neue', helvetica, sans-serif; margin-top: 10px">
+				{{if $attendees = $event->attendees()}}{{endif}}
+				<strong style="text-transform: uppercase; font-size: 12px; font-family: 'Helvetica Neue', helvetica, sans-serif;">{$email->language->addToStack("digest_users_going", FALSE, array( 'pluralize' => array( \count( $attendees[1] ) ) ) )}</strong>
+				{{if \count( $attendees[1] )}}
+					{{foreach $attendees[1] as $idx => $attendee}}
+						{{if $idx < 10}}
+							<img src="{$attendee->get_photo( true, true )}" width="32" height="32" style="border: 1px solid #000; vertical-align: middle;"> 
+						{{endif}}
+					{{endforeach}}
+					{{if \count( $attendees[1] ) > 10}}
+						&nbsp;&nbsp;&nbsp;<span style="font-size: 13px; font-family: 'Helvetica Neue', helvetica, sans-serif; color: #8c8c8c">{$email->language->addToStack("and_x_more", FALSE, array( 'pluralize' => array( \count( $attendees[1] ) - 10 ) ) )}</span>
+					{{endif}}
+				{{endif}}
+			</div>
+		{{endif}}
+		<br />
+
+		{{if $event->container()->allow_reviews or $event->container()->allow_comments}}
+			<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; margin-bottom: 15px'>
+				{{if $event->container()->allow_reviews}}
+					{{foreach range( 1, 5 ) as $i}}{{if $i <= $event->averageReviewRating()}}<img src='{resource="email/rating_on.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{elseif ( $i - 0.5 ) <= $event->averageReviewRating()}}<img src='{resource="email/rating_half.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{else}}<img src='{resource="email/rating_off.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{endif}}{{endforeach}}
+				{{endif}}
+				{{if $event->container()->allow_comments}}
+					&nbsp;&nbsp;
+					<strong style='font-family: "Helvetica Neue", helvetica, sans-serif; '><img src='{resource="email/comment.png" location="interface" app="core"}' width='13' height='12' style='vertical-align: middle'>&nbsp; {$email->language->addToStack("num_comments", FALSE, array( 'pluralize' => array( $event->comments ) ) )}</strong>
+				{{endif}}
+			</p>
+		{{endif}}
+	</td>
+</tr>]]></template_content_html><template_data>$event, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_created_event_in", FALSE, array( 'htmlsprintf' => array( $event->author()->name, $event->container()->getTitleForLanguage( $email->language ) ) ) )}: {$event->title} ({$event->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>calendar</template_app><template_name>digests__comment</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' valign='top' align='center'>
+		<table width='120' cellpadding='10' cellspacing='0' border='0' bgcolor='#fafafa'>
+			<tr>
+				<td dir='{dir}'>
+					<table width='100' cellpadding='0' cellspacing='0' border='0' bgcolor='#ffffff' style='border: 1px solid #cccccc;'>
+						<tr>
+							<td dir='{dir}' align='center' style="color: #a93848; font-size: 18px; line-height: 30px; text-transform: uppercase; font-family: 'Helvetica Neue', helvetica, sans-serif; font-weight: bold; padding-top: 5px;">
+								{$comment->item()->nextOccurrence( \IPS\calendar\Date::getDate(), 'startDate' )->monthNameShort}
+							</td>
+						</tr>
+						<tr>
+							<td dir='{dir}' align='center' style="color: #333333; line-height: 40px; font-size: 44px; font-family: 'Helvetica Neue', helvetica, sans-serif; font-weight: 300; padding-bottom: 10px">
+								{$comment->item()->nextOccurrence( \IPS\calendar\Date::getDate(), 'startDate' )->mday}
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_commented_event", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; font-weight: 500 !important; margin: 0">
+			<a href='{$comment->item()->url()}' style='text-decoration: none;'>{$comment->item()->name}</a>
+		</h2>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; color: #8c8c8c; font-size: 13px;'>
+			{$email->language->addToStack("digest_event_on", FALSE)} {$comment->item()->_start_date->dayName} {$comment->item()->_start_date->mday} {$comment->item()->_start_date->monthName} {$comment->item()->_start_date->year}{{if !$comment->item()->all_day}}, {$comment->item()->_start_date->localeTime( FALSE )}{{endif}}
+			{{if $comment->item()->_end_date}}
+				&nbsp;&nbsp;&raquo;&nbsp;&nbsp;
+				{$comment->item()->_end_date->dayName} {$comment->item()->_end_date->mday} {$comment->item()->_end_date->monthName} {$comment->item()->_end_date->year}{{if !$comment->item()->all_day}}, {$comment->item()->_end_date->localeTime( FALSE )}{{endif}}
+			{{endif}}
+		</p>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px; border-left: 3px solid #8c8c8c; padding-left: 15px; font-size: 14px; margin-left: 15px'>
+			{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+		</div>
+		
+	</td>
+</tr>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_commented_event", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}: {$comment->item()->name} ({$comment->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

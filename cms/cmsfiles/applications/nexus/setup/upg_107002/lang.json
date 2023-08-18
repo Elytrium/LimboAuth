@@ -1,0 +1,36 @@
+{
+    "normal": {
+        "added": [
+            "stripe_apple_verificationfile",
+            "nexus_subs_register_none",
+            "nexus_subs_register_reg",
+            "nexus_subs_register_reg_desc",
+            "nexus_subs_register_always",
+            "nexus_subs_register_always_desc",
+            "nexus_subs_free_period",
+            "nexus_subs_forever",
+            "nexus_subs_until_renew",
+            "nexus_subs_subscribed_cancelled",
+            "nexus_subs_subscribed_cancelled_no_reactivate",
+            "nexus_subs_switch_button",
+            "nexus_sub_change_confirm_switch",
+            "nexus_sub_needed_title",
+            "nexus_sub_needed_desc"
+        ],
+        "edited": [
+            "nexus_subs_register",
+            "nexus_subs_register_desc",
+            "nexus_subs_add_member_already_subscribed"
+        ],
+        "removed": [
+            "nexus_subs_member_message",
+            "nexus_subs_delete_member",
+            "nexus_sub_member_removed"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

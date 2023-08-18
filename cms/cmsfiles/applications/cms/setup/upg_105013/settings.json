@@ -1,0 +1,17 @@
+{
+    "added": [
+        "cms_error_page",
+        "cms_promote_cat",
+        "cms_promote_enabled",
+        "cms_promote_groups",
+        "cms_root_page_url",
+        "cms_root_path",
+        "page_extension",
+        "sitemap_databases_count",
+        "sitemap_databases_priority",
+        "sitemap_pages_count",
+        "sitemap_pages_priority"
+    ],
+    "edited": [],
+    "removed": []
+}

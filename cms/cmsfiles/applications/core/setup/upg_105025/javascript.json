@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [
+            "core\/global\/controllers\/core\/ips.core.notificationList.js"
+        ],
+        "edited": [],
+        "removed": [
+            "core\/admin\/controllers\/core\/ips.core.notificationList.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

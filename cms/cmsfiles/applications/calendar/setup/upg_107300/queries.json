@@ -1,0 +1,56 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_online",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_url",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_online_type",
+                "type": "VARCHAR",
+                "length": 250,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

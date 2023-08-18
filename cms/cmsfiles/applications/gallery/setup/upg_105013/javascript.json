@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "gallery\/front\/controllers\/submit\/ips.submit.chooseCategory.js",
+            "gallery\/front\/controllers\/submit\/ips.submit.wrapper.js",
+            "gallery\/front\/controllers\/view\/ips.view.note.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/\/jquery"
+        ],
+        "removed": []
+    }
+}

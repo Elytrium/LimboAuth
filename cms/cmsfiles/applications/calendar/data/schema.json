@@ -1,0 +1,2072 @@
+{
+    "calendar_calendars": {
+        "name": "calendar_calendars",
+        "columns": {
+            "cal_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "cal_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "cal_moderate": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "cal_moderate",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "cal_position": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 3,
+                "name": "cal_position",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "cal_title_seo": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "cal_title_seo",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "cal_comment_moderate": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "cal_comment_moderate",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "cal_color": {
+                "name": "cal_color",
+                "type": "VARCHAR",
+                "length": 7,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Hex color code to represent this calendar",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_allow_comments": {
+                "name": "cal_allow_comments",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_allow_reviews": {
+                "name": "cal_allow_reviews",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_review_moderate": {
+                "name": "cal_review_moderate",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_club_id": {
+                "name": "cal_club_id",
+                "type": "BIGINT",
+                "length": "20",
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The club ID if this calendar belongs to a club, or NULL",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_calendar_bitoptions": {
+                "name": "cal_calendar_bitoptions",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "cal_allow_anonymous": {
+                "name": "cal_allow_anonymous",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "cal_id"
+                ]
+            }
+        },
+        "inserts": [
+            {
+                "cal_id": "1",
+                "cal_moderate": "0",
+                "cal_position": "1",
+                "cal_title_seo": "community-calendar",
+                "cal_comment_moderate": "0",
+                "cal_color": "#6E4F99",
+                "cal_allow_comments": "1",
+                "cal_allow_reviews": "0",
+                "cal_review_moderate": "0"
+            }
+        ],
+        "comment": "",
+        "reporting": "count"
+    },
+    "calendar_event_comments": {
+        "name": "calendar_event_comments",
+        "columns": {
+            "comment_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "comment_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_eid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "comment_eid",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_mid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "comment_mid",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "comment_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_approved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "comment_approved",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_text": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "comment_text",
+                "type": "MEDIUMTEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_append_edit": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "comment_append_edit",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_edit_time": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "comment_edit_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_edit_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "comment_edit_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_ip_address": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 46,
+                "name": "comment_ip_address",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_author": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "comment_author",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "comment_is_anon": {
+                "name": "comment_is_anon",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "comment_id"
+                ]
+            },
+            "comment_eid": {
+                "type": "key",
+                "name": "comment_eid",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "comment_eid"
+                ]
+            },
+            "ip_address": {
+                "type": "key",
+                "name": "ip_address",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "comment_ip_address"
+                ]
+            },
+            "comment_mid": {
+                "type": "key",
+                "name": "comment_mid",
+                "columns": [
+                    "comment_mid"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "comment_approved": {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "calendar_event_rsvp": {
+        "name": "calendar_event_rsvp",
+        "columns": {
+            "rsvp_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 11,
+                "name": "rsvp_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "rsvp_event_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "rsvp_event_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "rsvp_member_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "rsvp_member_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "rsvp_date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "rsvp_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "rsvp_response": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "0=No, 1=Yes, 2=Maybe",
+                "decimals": null,
+                "default": "0",
+                "length": 3,
+                "name": "rsvp_response",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "rsvp_id"
+                ]
+            },
+            "rsvp_event_id": {
+                "type": "key",
+                "name": "rsvp_event_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "rsvp_event_id"
+                ]
+            },
+            "rsvp_member_id": {
+                "type": "key",
+                "name": "rsvp_member_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "rsvp_member_id"
+                ]
+            },
+            "rsvp_search": {
+                "type": "key",
+                "name": "rsvp_search",
+                "columns": [
+                    "rsvp_date",
+                    "rsvp_member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "calendar_events": {
+        "name": "calendar_events",
+        "columns": {
+            "event_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_calendar_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_calendar_id",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_member_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "event_member_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_content": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_content",
+                "type": "MEDIUMTEXT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_title": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "event_title",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_comments": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "event_comments",
+                "type": "INT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_rsvp": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "event_rsvp",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_approved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "event_approved",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_saved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_saved",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_lastupdated": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_lastupdated",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_recurring": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Holds an RRULE value to indicate how the event recurs",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_recurring",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_start_date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_start_date",
+                "type": "DATETIME",
+                "unsigned": false,
+                "values": []
+            },
+            "event_end_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_end_date",
+                "type": "DATETIME",
+                "unsigned": false,
+                "values": []
+            },
+            "event_title_seo": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_title_seo",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_rating": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 5,
+                "name": "event_rating",
+                "type": "SMALLINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_post_key": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 32,
+                "name": "event_post_key",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_sequence": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "event_sequence",
+                "type": "INT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_all_day": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 4,
+                "name": "event_all_day",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_reviews": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_reviews",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_ip_address": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 46,
+                "name": "event_ip_address",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_locked": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "Whether the event is locked (for new comments\/reviews) or not",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "event_locked",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_featured": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "Whether the event is featured or not",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "event_featured",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_last_comment": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_last_comment",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_last_review": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_last_review",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_approved_by": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Member ID who approved the event",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "event_approved_by",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_approved_on": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Date the event was approved on",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_approved_on",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_location": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Stores location data for the event, used to create a map",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_location",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_rsvp_limit": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Maximum number of attendees allowed for the event",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_rsvp_limit",
+                "type": "INT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_cover_photo": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Header background image for the event",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_cover_photo",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_album": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "Holds album ID associated with this event",
+                "decimals": null,
+                "default": null,
+                "length": 8,
+                "name": "event_album",
+                "type": "MEDIUMINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_cover_offset": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_cover_offset",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_queued_comments": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_queued_comments",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_hidden_comments": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_hidden_comments",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_unapproved_reviews": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_unapproved_reviews",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_hidden_reviews": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_hidden_reviews",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_venue": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_venue",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_meta_data": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 3,
+                "name": "event_meta_data",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_recurring_end_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "End date if this is a recurring event which ends",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "event_recurring_end_date",
+                "type": "DATETIME",
+                "unsigned": false,
+                "values": []
+            },
+            "event_timezone": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_timezone",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_edit_time": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "event_edit_time",
+                "type": "INT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_edit_member_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_edit_member_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_append_edit": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "event_append_edit",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": []
+            },
+            "event_edit_reason": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_edit_reason",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_author_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_author_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_is_anon": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "event_is_anon",
+                "type": "INT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_external_url": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "event_external_url",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_latitude": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": 8,
+                "default": null,
+                "length": 10,
+                "name": "event_latitude",
+                "type": "DECIMAL",
+                "unsigned": false,
+                "values": []
+            },
+            "event_longitude": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": 8,
+                "default": null,
+                "length": 11,
+                "name": "event_longitude",
+                "type": "DECIMAL",
+                "unsigned": false,
+                "values": []
+            },
+            "event_online": {
+                "allow_null": false,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 3,
+                "name": "event_online",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": []
+            },
+            "event_url": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 250,
+                "name": "event_url",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_online_type": {
+                "allow_null": true,
+                "auto_increment": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 250,
+                "name": "event_online_type",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": []
+            },
+            "event_livetopic_id": {
+                "name": "event_livetopic_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "event_id"
+                ]
+            },
+            "approved": {
+                "type": "key",
+                "name": "approved",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_calendar_id",
+                    "event_approved",
+                    "event_start_date",
+                    "event_end_date"
+                ]
+            },
+            "event_member_id": {
+                "type": "key",
+                "name": "event_member_id",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_member_id",
+                    "event_approved",
+                    "event_lastupdated"
+                ]
+            },
+            "event_featured": {
+                "type": "key",
+                "name": "event_featured",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_featured",
+                    "event_approved",
+                    "event_calendar_id"
+                ]
+            },
+            "ip_lookup": {
+                "type": "key",
+                "name": "ip_lookup",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "event_ip_address"
+                ]
+            },
+            "event_venue": {
+                "type": "key",
+                "name": "event_venue",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "event_venue"
+                ]
+            },
+            "event_album": {
+                "type": "key",
+                "name": "event_album",
+                "length": [
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_album",
+                    "event_approved",
+                    "event_saved"
+                ]
+            },
+            "recurring_events": {
+                "type": "key",
+                "name": "recurring_events",
+                "length": [
+                    164,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_recurring",
+                    "event_recurring_end_date",
+                    "event_approved",
+                    "event_calendar_id",
+                    "event_start_date"
+                ]
+            }
+        },
+        "collation": "utf8mb4_unicode_ci",
+        "engine": "InnoDB",
+        "reporting": "count"
+    },
+    "calendar_import_feeds": {
+        "name": "calendar_import_feeds",
+        "columns": {
+            "feed_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 11,
+                "name": "feed_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_title": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "feed_title",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_url": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "feed_url",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_added": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "feed_added",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_lastupdated": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "feed_lastupdated",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_calendar_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "feed_calendar_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_member_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "feed_member_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_last_run": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "feed_last_run",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_allow_rsvp": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "feed_allow_rsvp",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "feed_venue_id": {
+                "name": "feed_venue_id",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "feed_id"
+                ]
+            },
+            "feed_calendar_id": {
+                "type": "key",
+                "name": "feed_calendar_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "feed_calendar_id"
+                ]
+            },
+            "feed_last_run": {
+                "type": "key",
+                "name": "feed_last_run",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "feed_last_run"
+                ]
+            },
+            "member": {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "feed_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "calendar_import_map": {
+        "name": "calendar_import_map",
+        "columns": {
+            "import_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 11,
+                "name": "import_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "import_feed_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "import_feed_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "import_event_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "import_event_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "import_guid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 255,
+                "name": "import_guid",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "import_id"
+                ]
+            },
+            "import_feed_id": {
+                "type": "key",
+                "name": "import_feed_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "import_feed_id"
+                ]
+            },
+            "import_event_id": {
+                "type": "key",
+                "name": "import_event_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "import_event_id"
+                ]
+            },
+            "import_guid": {
+                "type": "key",
+                "name": "import_guid",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "import_guid"
+                ]
+            }
+        },
+        "comment": ""
+    },
+    "calendar_event_reviews": {
+        "name": "calendar_event_reviews",
+        "columns": {
+            "review_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "ID Number",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "review_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_eid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The event ID",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "review_eid",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_mid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The member ID of the review author",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "review_mid",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_text": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The review contents",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "review_text",
+                "type": "MEDIUMTEXT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_append_edit": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Boolean indicating if edit message should show",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "review_append_edit",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_edit_time": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Unix timestamp of when the review was last edited",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "review_edit_time",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_edit_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Username of user who last edited review",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "review_edit_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Unix timestamp of when review was made",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "review_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_ip": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "IP address review was made from",
+                "decimals": null,
+                "default": "",
+                "length": 46,
+                "name": "review_ip",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_author_name": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Username of user who made review",
+                "decimals": null,
+                "default": "",
+                "length": 255,
+                "name": "review_author_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_rating": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The rating (out of 5) with the review",
+                "decimals": null,
+                "default": null,
+                "length": 1,
+                "name": "review_rating",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_votes": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The number of people who have voted \"helpful\" or \"unhelpful\"",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "review_votes",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_votes_helpful": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "The number of people who have voted \"helpful\"",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "review_votes_helpful",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "review_votes_data": {
+                "name": "review_votes_data",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "JSON object containing data about who has voted helpful\/unhelpful ",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "review_approved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "Review is approved?",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "review_approved",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "review_author_response": {
+                "name": "review_author_response",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "review_id"
+                ]
+            },
+            "review_eid": {
+                "type": "key",
+                "name": "review_eid",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "review_eid"
+                ]
+            },
+            "review_mid": {
+                "type": "key",
+                "name": "review_mid",
+                "columns": [
+                    "review_mid",
+                    "review_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            },
+            "review_ip": {
+                "type": "key",
+                "name": "review_ip",
+                "columns": [
+                    "review_ip"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "review_approved": {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    },
+    "calendar_event_reminders": {
+        "name": "calendar_event_reminders",
+        "columns": {
+            "reminder_id": {
+                "name": "reminder_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "ID Number",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": true,
+                "binary": false
+            },
+            "reminder_event_id": {
+                "name": "reminder_event_id",
+                "type": "BIGINT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Event to remind about",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "reminder_member_id": {
+                "name": "reminder_member_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "Member to notify",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "reminder_date": {
+                "name": "reminder_date",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "Timestamp after which to send notification",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "reminder_days_before": {
+                "name": "reminder_days_before",
+                "type": "INT",
+                "length": 2,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "columns": [
+                    "reminder_id"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "reminder": {
+                "type": "key",
+                "name": "reminder",
+                "columns": [
+                    "reminder_event_id",
+                    "reminder_member_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            },
+            "date": {
+                "type": "key",
+                "name": "date",
+                "columns": [
+                    "reminder_date"
+                ],
+                "length": [
+                    null
+                ]
+            },
+            "member": {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "reminder_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        }
+    },
+    "calendar_venues": {
+        "name": "calendar_venues",
+        "columns": {
+            "venue_id": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "ID Number",
+                "decimals": null,
+                "default": null,
+                "length": 20,
+                "name": "venue_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "venue_position": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 5,
+                "name": "venue_position",
+                "type": "INT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "venue_enabled": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "1",
+                "length": 1,
+                "name": "venue_enabled",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [],
+                "zerofill": false
+            },
+            "venue_title_seo": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "venue_title_seo",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [],
+                "zerofill": false
+            },
+            "venue_address": {
+                "name": "venue_address",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "Physical Address",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "venue_id"
+                ]
+            }
+        },
+        "comment": "",
+        "reporting": "count"
+    }
+}

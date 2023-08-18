@@ -1,0 +1,40 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_ship_orders",
+            "o_api",
+            {
+                "name": "o_api",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_ship_orders",
+            "o_api_service",
+            {
+                "name": "o_api_service",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

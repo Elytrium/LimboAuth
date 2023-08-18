@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "downloads\/front\/controllers\/submit\/ips.submit.main.js",
+            "downloads\/front\/controllers\/view\/ips.view.changeLog.js",
+            "downloads\/front\/templates\/ips.templates.submit.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

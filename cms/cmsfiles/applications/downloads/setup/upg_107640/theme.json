@@ -1,0 +1,33 @@
+{
+    "html": {
+        "added": [
+            "front\/browse\/fileGrid",
+            "front\/browse\/tableRow",
+            "front\/browse\/viewChange"
+        ],
+        "edited": [
+            "front\/browse\/categoryButtons",
+            "front\/browse\/rows",
+            "front\/global\/embedFile",
+            "front\/view\/view",
+            "front\/widgets\/downloadsCommentFeed",
+            "front\/widgets\/downloadsReviewFeed",
+            "front\/widgets\/downloadStats",
+            "front\/widgets\/fileFeed",
+            "front\/widgets\/fileRow"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/downloads.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

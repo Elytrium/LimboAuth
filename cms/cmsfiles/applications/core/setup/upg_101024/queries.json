@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_view_updates",
+            "classname",
+            {
+                "name": "classname",
+                "type": "VARCHAR",
+                "length": 150,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "Name of the class the view is for",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_view_updates",
+            "classname_and_id",
+            {
+                "type": "key",
+                "name": "classname_and_id",
+                "columns": [
+                    "classname",
+                    "id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

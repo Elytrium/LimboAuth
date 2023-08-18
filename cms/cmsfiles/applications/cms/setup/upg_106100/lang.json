@@ -1,0 +1,28 @@
+{
+    "normal": {
+        "added": [
+            "__defart_content_record_comments_title_plural",
+            "__defart_content_record_reviews_title_plural",
+            "delete_db_confirm_detail_msg",
+            "acplogs__cms_deleted_media",
+            "acplogs__cms_replaced_media",
+            "acplogs__cms_uploaded_media",
+            "acplogs__cms_imported_templates",
+            "acplogs__cms_exported_templates",
+            "acplogs__cms_template_add",
+            "acplogs__cms_template_container",
+            "acplogs__cms_template_delete",
+            "acplogs__cms_template_save",
+            "acplogs__cms_template_group_delete"
+        ],
+        "edited": [
+            "can_edit_item_message_record"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

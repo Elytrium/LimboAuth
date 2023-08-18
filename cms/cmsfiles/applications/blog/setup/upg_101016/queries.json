@@ -1,0 +1,70 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_name",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "blog_blogs",
+            {
+                "name": "blog_desc",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_groupblog"
+        ]
+    },
+    "4": {
+        "method": "dropIndex",
+        "params": [
+            "blog_blogs",
+            "auth_user"
+        ]
+    },
+    "5": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_authorized_users"
+        ]
+    },
+    "6": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_owner_only"
+        ]
+    }
+}

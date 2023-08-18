@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("ipscontextmenu","ar",{options:"خصائص قائمة السياق"});

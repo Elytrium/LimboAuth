@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "__indefart_cms_page",
+            "field_number_min",
+            "field_number_max"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

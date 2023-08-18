@@ -1,0 +1,29 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_members",
+            "auto_track=REPLACE(auto_track, '\"method\":null','\"method\":\"none\"')"
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "profile_photo_uncropped",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The uncropped club photo",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

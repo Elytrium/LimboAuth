@@ -1,0 +1,10 @@
+{
+    "added": [
+        "email_filter_action",
+        "email_filter_replace_text",
+        "indexnow_enabled",
+        "indexnow_key"
+    ],
+    "edited": [],
+    "removed": []
+}

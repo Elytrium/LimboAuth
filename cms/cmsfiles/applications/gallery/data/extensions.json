@@ -1,0 +1,71 @@
+{
+    "core": {
+        "AdvertisementLocations": {
+            "ImageLightbox": "IPS\\gallery\\extensions\\core\\AdvertisementLocations\\ImageLightbox"
+        },
+        "ContentRouter": {
+            "gallery": "IPS\\gallery\\extensions\\core\\ContentRouter\\gallery"
+        },
+        "CreateMenu": {
+            "gallery": "IPS\\gallery\\extensions\\core\\CreateMenu\\gallery"
+        },
+        "Dashboard": {
+            "Overview": "IPS\\gallery\\extensions\\core\\Dashboard\\Overview"
+        },
+        "EditorLocations": {
+            "Albums": "IPS\\gallery\\extensions\\core\\EditorLocations\\Albums",
+            "Categories": "IPS\\gallery\\extensions\\core\\EditorLocations\\Categories",
+            "Gallery": "IPS\\gallery\\extensions\\core\\EditorLocations\\Gallery",
+            "Images": "IPS\\gallery\\extensions\\core\\EditorLocations\\Images"
+        },
+        "EditorMedia": {
+            "Images": "IPS\\gallery\\extensions\\core\\EditorMedia\\Images"
+        },
+        "FileStorage": {
+            "Images": "IPS\\gallery\\extensions\\core\\FileStorage\\Images"
+        },
+        "FrontNavigation": {
+            "Gallery": "IPS\\gallery\\extensions\\core\\FrontNavigation\\Gallery"
+        },
+        "GroupForm": {
+            "Gallery": "IPS\\gallery\\extensions\\core\\GroupForm\\Gallery"
+        },
+        "GroupLimits": {
+            "Album": "IPS\\gallery\\extensions\\core\\GroupLimits\\Album"
+        },
+        "LiveSearch": {
+            "Categories": "IPS\\gallery\\extensions\\core\\LiveSearch\\Categories"
+        },
+        "MemberACPProfileContentTab": {
+            "Gallery": "IPS\\gallery\\extensions\\core\\MemberACPProfileContentTab\\Gallery"
+        },
+        "MemberFilter": {
+            "Album": "IPS\\gallery\\extensions\\core\\MemberFilter\\Album"
+        },
+        "MemberRestrictions": {
+            "Gallery": "IPS\\gallery\\extensions\\core\\MemberRestrictions\\Gallery"
+        },
+        "MemberSync": {
+            "Gallery": "IPS\\gallery\\extensions\\core\\MemberSync\\Gallery"
+        },
+        "Permissions": {
+            "Permissions": "IPS\\gallery\\extensions\\core\\Permissions\\Permissions"
+        },
+        "Profile": {
+            "gallery": "IPS\\gallery\\extensions\\core\\Profile\\gallery",
+            "galleryImages": "IPS\\gallery\\extensions\\core\\Profile\\galleryImages"
+        },
+        "Queue": {
+            "CleanUpGalleryImages": "IPS\\gallery\\extensions\\core\\Queue\\CleanUpGalleryImages",
+            "Follow": "IPS\\gallery\\extensions\\core\\Queue\\Follow",
+            "RebuildGalleryImages": "IPS\\gallery\\extensions\\core\\Queue\\RebuildGalleryImages"
+        },
+        "Sitemap": {
+            "Images": "IPS\\gallery\\extensions\\core\\Sitemap\\Images",
+            "Videos": "IPS\\gallery\\extensions\\core\\Sitemap\\Videos"
+        },
+        "Statistics": {
+            "Bandwidth": "IPS\\gallery\\extensions\\core\\Statistics\\Bandwidth"
+        }
+    }
+}

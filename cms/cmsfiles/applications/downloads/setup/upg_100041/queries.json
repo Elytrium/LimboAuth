@@ -1,0 +1,10 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "downloads_files_records",
+            "record_thumb=record_location",
+            "record_thumb IS NULL OR record_thumb=''"
+        ]
+    }
+}

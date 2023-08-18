@@ -1,0 +1,26 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "downloads\/front\/controllers\/downloads\/ips.downloads.browse.js",
+            "downloads\/admin\/controllers\/settings\/ips.settings.settings.js",
+            "downloads\/front\/controllers\/submit\/ips.submit.linkedScreenshots.js",
+            "downloads\/front\/controllers\/submit\/ips.submit.main.js",
+            "downloads\/front\/controllers\/view\/ips.view.changeLog.js",
+            "downloads\/front\/controllers\/view\/ips.view.download.js",
+            "downloads\/front\/controllers\/view\/ips.view.subscribe.js",
+            "downloads\/front\/templates\/ips.templates.submit.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/framework\/",
+            "global\/\/dev\/js\/\/library\/",
+            "global\/\/dev\/js\/\/library\/\/jquery",
+            "global\/\/dev\/js\/\/library\/\/linkify"
+        ],
+        "removed": []
+    }
+}

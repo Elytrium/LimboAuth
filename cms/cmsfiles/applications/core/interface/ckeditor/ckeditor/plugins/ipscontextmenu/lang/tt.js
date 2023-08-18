@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("ipscontextmenu","tt",{options:"Контекст меню үзлекләре"});

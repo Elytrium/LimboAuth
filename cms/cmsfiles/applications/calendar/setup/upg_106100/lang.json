@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [
+            "__defart_calendar_event_comment_plural",
+            "__defart_calendar_event_plural",
+            "__defart_calendar_event_review_plural",
+            "notification__event_reminder_title",
+            "cal_allow_anonymous",
+            "AchievementAction__Rsvp",
+            "achievement_filter_Rsvp_nth_suffix",
+            "achievement_filter_Rsvp_receiver",
+            "achievement_filter_Rsvp_giver",
+            "AchievementAction__Rsvp_log",
+            "AchievementAction__Rsvp_title"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_queue",
+            "offset",
+            {
+                "name": "offset",
+                "type": "BIGINT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_deletion_log",
+            "dellog_content_permissions",
+            {
+                "name": "dellog_content_permissions",
+                "type": "TEXT",
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

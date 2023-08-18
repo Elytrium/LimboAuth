@@ -1,0 +1,119 @@
+{
+    "app=blog&module=blogs&controller=blogs": {
+        "lang_key": "menu__blog_blogs_blogs",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blogs",
+            "group blogs",
+            "manage blogs"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&do=form": {
+        "lang_key": "add_category",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "add blog"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&searchResult=blog_desc_wrap": {
+        "lang_key": "blog_desc",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blog description"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&searchResult=blog_member_id": {
+        "lang_key": "blog_member_id",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blog author"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&searchResult=blog_name": {
+        "lang_key": "blog_name",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blog name"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&searchResult=form_new_blog_enable_rss": {
+        "lang_key": "blog_enable_rss",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blog rss feed",
+            "rss feed"
+        ]
+    },
+    "app=blog&module=blogs&controller=blogs&searchResult=form_new_blog_type": {
+        "lang_key": "blog_type",
+        "restriction": "blogs_manage",
+        "keywords": [
+            "blog type",
+            "group blog"
+        ]
+    },
+    "app=blog&module=blogs&controller=settings": {
+        "lang_key": "menu__blog_blogs_settings",
+        "restriction": "settings_manage",
+        "keywords": [
+            "blog settings"
+        ]
+    },
+    "app=blog&module=blogs&controller=settings&searchResult=form_blog_allow_rss": {
+        "lang_key": "blog_allow_rss",
+        "restriction": "settings_manage",
+        "keywords": [
+            "blog rss export",
+            "rss export"
+        ]
+    },
+    "app=blog&module=blogs&controller=settings&searchResult=form_blog_allow_rssimport": {
+        "lang_key": "blog_allow_rssimport",
+        "restriction": "settings_manage",
+        "keywords": [
+            "blog rss import",
+            "rss import"
+        ]
+    },
+    "app=blog&module=blogs&controller=settings&searchResult=form_blog_enable_rating": {
+        "lang_key": "blog_enable_rating",
+        "restriction": "settings_manage",
+        "keywords": [
+            "blog ratings",
+            "ratings"
+        ]
+    },
+    "app=blog&module=blogs&controller=settings&searchResult=form_blog_enable_sidebar": {
+        "lang_key": "blog_enable_sidebar",
+        "restriction": "settings_manage",
+        "keywords": [
+            "sidebar",
+            "social"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=4_g_blog_allowlocal": {
+        "lang_key": "g_blog_allowlocal",
+        "restriction": "groups_manage",
+        "keywords": [
+            "blogs",
+            "blogs permission",
+            "create blogs",
+            "post blogs"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=g_blog_allowdelete": {
+        "lang_key": "g_blog_allowdelete",
+        "restriction": "groups_manage",
+        "keywords": [
+            "delete blogs",
+            "delete own blogs"
+        ]
+    },
+    "app=core&module=members&controller=groups&searchResult=g_blog_allowprivate": {
+        "lang_key": "g_blog_allowprivate",
+        "restriction": "groups_manage",
+        "keywords": [
+            "private blogs"
+        ]
+    }
+}

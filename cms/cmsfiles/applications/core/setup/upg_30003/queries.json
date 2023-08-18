@@ -1,0 +1,144 @@
+{
+    "0": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "content_cache_sigs",
+                "columns": {
+                    "cache_content_id": {
+                        "name": "cache_content_id",
+                        "type": "INT",
+                        "length": "10",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false,
+                        "comment": ""
+                    },
+                    "cache_content": {
+                        "name": "cache_content",
+                        "type": "MEDIUMTEXT",
+                        "length": 0,
+                        "decimals": null,
+                        "values": [
+
+                        ],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cache_updated": {
+                        "name": "cache_updated",
+                        "type": "INT",
+                        "length": "10",
+                        "decimals": null,
+                        "values": [
+
+                        ],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "0": {
+                        "type": "unique",
+                        "name": "cache_content_id",
+                        "columns": [
+                            "cache_content_id"
+                        ]
+                    },
+                    "1": {
+                        "type": "key",
+                        "name": "date_index",
+                        "columns": [
+                            "cache_updated"
+                        ]
+                    }
+                },
+                "comment": ""
+            }
+        ]
+    },
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "content_cache_posts",
+                "columns": {
+                    "cache_content_id": {
+                        "name": "cache_content_id",
+                        "type": "INT",
+                        "length": "10",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false,
+                        "comment": ""
+                    },
+                    "cache_content": {
+                        "name": "cache_content",
+                        "type": "MEDIUMTEXT",
+                        "length": 0,
+                        "decimals": null,
+                        "values": [
+
+                        ],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cache_updated": {
+                        "name": "cache_updated",
+                        "type": "INT",
+                        "length": "10",
+                        "decimals": null,
+                        "values": [
+
+                        ],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "0": {
+                        "type": "unique",
+                        "name": "cache_content_id",
+                        "columns": [
+                            "cache_content_id"
+                        ]
+                    },
+                    "1": {
+                        "type": "key",
+                        "name": "date_index",
+                        "columns": [
+                            "cache_updated"
+                        ]
+                    }
+                },
+                "comment": ""
+            }
+        ]
+    }
+}

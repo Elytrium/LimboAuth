@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "php8_required_soon",
+            "php8_required_soon_desc",
+            "health__scanner_title"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "hookscanner_error"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

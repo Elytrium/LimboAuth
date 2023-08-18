@@ -1,0 +1,56 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "convert_apps",
+            "db_port",
+            {
+                "name": "db_port",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "3306",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "convert_apps",
+            {
+                "db_port": 3306
+            },
+            [
+                "db_port=?",
+                3066
+            ]
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "convert_logs",
+            {
+                "name": "log_time",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

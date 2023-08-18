@@ -1,0 +1,46 @@
+{
+    "html": {
+        "added": [
+            "admin\/blocks\/rowHtml",
+            "admin\/databases\/templateGoButton",
+            "admin\/templates\/templateConflict",
+            "front\/widgets\/pagebuilderoembed",
+            "front\/widgets\/pagebuildertext",
+            "front\/widgets\/pagebuilderupload"
+        ],
+        "edited": [
+            "admin\/databases\/rebuildCommentCounts",
+            "admin\/databases\/rebuildTopics",
+            "front\/global\/basicRelationship",
+            "front\/global\/embedRecord",
+            "front\/global\/embedRecordComment",
+            "front\/global\/embedRecordReview",
+            "front\/global\/recordResultSnippet",
+            "admin\/media\/media",
+            "front\/records\/commentTemplate",
+            "global\/records\/customslug",
+            "global\/records\/soundcloud",
+            "global\/records\/spotify",
+            "global\/records\/youtube",
+            "front\/revisions\/rows",
+            "admin\/templates\/templates",
+            "front\/widgets\/Categories",
+            "front\/widgets\/RecordFeed"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/media\/media.css",
+            "front\/pages\/page.css",
+            "admin\/templates\/templates.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

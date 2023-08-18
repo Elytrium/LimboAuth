@@ -1,0 +1,15 @@
+{
+    "normal": {
+        "added": [
+            "no_invoice_view",
+            "no_invoice_view_guest"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="calendar" version="107704">
+  <word key="__app_calendar" js="0">Events</word>
+  <word key="frontnavigation_calendar" js="0">Events</word>
+  <word key="__indefart_calendar_event_comment" js="0">a comment on an event</word>
+  <word key="__indefart_calendar_event" js="0">an event</word>
+  <word key="__indefart_calendar_event_review" js="0">a review on an event</word>
+  <word key="__defart_calendar_event_comment" js="0">comment on an event</word>
+  <word key="__defart_calendar_event_comment_plural" js="0">{!#[1:comment][?:comments]} on an event</word>
+  <word key="__defart_calendar_event" js="0">event</word>
+  <word key="__defart_calendar_event_plural" js="0">{!#[1:event][?:events]}</word>
+  <word key="__defart_calendar_event_review" js="0">review on an event</word>
+  <word key="__defart_calendar_event_review_plural" js="0">{!#[1:review][?:reviews]} on an event</word>
+  <word key="calendar_event_container" js="0">calendar</word>
+  <word key="menu__calendar_calendars" js="0">Events</word>
+  <word key="menu__calendar_calendars_calendars" js="0">Calendars</word>
+  <word key="menu__calendar_calendars_ical" js="0">iCalendar Feeds</word>
+  <word key="menu__calendar_calendars_settings" js="0">Settings</word>
+  <word key="module__calendar_calendar" js="0">Events</word>
+  <word key="module__calendar_calendars" js="0">Calendars</word>
+  <word key="module__calendar_events" js="0">Events</word>
+  <word key="menu__calendar_venues" js="0">Venues</word>
+  <word key="event" js="0">Event</word>
+  <word key="editor__calendar_Events" js="0">Events</word>
+  <word key="editor__calendar_Calendar" js="0">Calendars</word>
+  <word key="editor__calendar_Venue" js="0">Venues</word>
+  <word key="acp_search_title_calendar_Calendars" js="0">Calendars</word>
+  <word key="calendar_event_pl_lc" js="0">events</word>
+  <word key="search_contextual_item_calendars" js="0">This Calendar</word>
+  <word key="search_contextual_item_calendar_event" js="0">This Event</word>
+  <word key="r__calendars" js="0">Calendars</word>
+  <word key="r__calendars_manage" js="0">Can manage calendars?</word>
+  <word key="r__calendars_add" js="0">Can add calendars?</word>
+  <word key="r__calendars_edit" js="0">Can edit calendars?</word>
+  <word key="r__calendars_permissions" js="0">Can manage calendar permissions?</word>
+  <word key="r__calendars_massManageContent" js="0">Can mass move/delete events in calendars?</word>
+  <word key="r__calendars_delete" js="0">Can delete calendars?</word>
+  <word key="r__ical" js="0">iCalendar Feeds</word>
+  <word key="r__calendar_feeds_manage" js="0">Can manage iCalendar feed imports?</word>
+  <word key="r__calendar_feeds_add" js="0">Can add iCalendar feed imports?</word>
+  <word key="r__calendar_feeds_edit" js="0">Can edit iCalendar feed imports?</word>
+  <word key="r__calendar_feeds_delete" js="0">Can delete iCalendar feed imports?</word>
+  <word key="r__rsvp" js="0">Statistics</word>
+  <word key="r__rsvp_manage" js="0">Can view RSVP statistics?</word>
+  <word key="loc_calendar_viewing_calendar" js="0">Viewing Calendar: %s</word>
+  <word key="loc_calendar_viewing_calendar_all" js="0">Viewing Calendar</word>
+  <word key="loc_calendar_viewing_event" js="0">Viewing Event: %s</word>
+  <word key="loc_calendar_viewing_calendar_action" js="0">%s is viewing a calendar</word>
+  <word key="loc_calendar_viewing_calendar_all_action" js="0">%s is viewing a calendar</word>
+  <word key="loc_calendar_viewing_event_action" js="0">%s is viewing an event</word>
+  <word key="ipb_calendar_mon" js="0">Start calendar on Monday</word>
+  <word key="ipb_calendar_mon_desc" js="0">By default, the calendar will use Sunday as the start day for each week. You can use this setting to start the calendar on Monday instead.</word>
+  <word key="calendar_rss_feed" js="0">Enable upcoming events RSS feed</word>
+  <word key="calendar_rss_feed_desc" js="0"><![CDATA[Only content that is available to guests will be shown. For more options, create a <a href='{internal.app=core&module=discovery&controller=rss}'>Custom RSS Feed</a>]]></word>
+  <word key="calendar_rss_feed_days" js="0">Number of forthcoming days to include in the feed</word>
+  <word key="calendar_rss_feed_order" js="0">Order feed by</word>
+  <word key="calendar_rss_feed_order_date" js="0">Event Date</word>
+  <word key="calendar_rss_feed_order_publish" js="0">Publish Date</word>
+  <word key="acplogs__calendar_settings" js="0">Updated calendar settings</word>
+  <word key="calendar_default_view" js="0">Default layout</word>
+  <word key="calendar_default_view_desc" js="0">This setting allows you to control the default layout of the calendar homepage. Users can override the default view if they wish.</word>
+  <word key="cal_df_month" js="0">Current month</word>
+  <word key="cal_df_week" js="0">Current week</word>
+  <word key="cal_df_day" js="0">Current day</word>
+  <word key="cal_df_overview" js="0">Overview</word>
+  <word key="filestorage__calendar_Events" js="0">Calendar Event Cover Photos</word>
+  <word key="calendar_df_locale" js="0">Use default date formatting</word>
+  <word key="calendar_df_d_sm_y" js="0">DD MMM YYYY (Example: 01 Jan 2000)</word>
+  <word key="calendar_df_d_lm_y" js="0">DD Month YYYY (Example: 01 January 2000)</word>
+  <word key="calendar_df_sm_d_y" js="0">MMM DD, YYYY (Example: Jan 01, 2000)</word>
+  <word key="calendar_df_lm_d_y" js="0">Month DD, YYYY (Example: January 01, 2000)</word>
+  <word key="calendar_custom_df" js="0">Or specify a custom date format</word>
+  <word key="calendar_date_format" js="0">Date format for events</word>
+  <word key="calendar_date_format_custom" js="0">Custom date format</word>
+  <word key="calendar_date_format_custom_desc" js="0"><![CDATA[You can use any <a href='{external.php-strftime}' target='_blank' rel='noopener'>PHP strftime</a> options to specify a custom format for dates in calendar]]></word>
+  <word key="calendar_no_date_format" js="0">You must either choose a predefined date format or specify a custom date format</word>
+  <word key="calendar_block_past_changes" js="0">Prevent changes to past events</word>
+  <word key="calendar_block_past_changes_desc" js="0">If enabled, users will not be able to RSVP for events or edit events that have passed. Moderators will still be able to edit past events.</word>
+  <word key="calendars" js="0">Calendars</word>
+  <word key="calendars_sg" js="0">Calendar</word>
+  <word key="calendars_sg_lc" js="0">calendar</word>
+  <word key="calendar_settings" js="0">Settings</word>
+  <word key="calendar_permissions" js="0">Permissions</word>
+  <word key="calendar_moderation" js="0">Moderation</word>
+  <word key="cal_title" js="0">Name</word>
+  <word key="cal_moderate" js="0">Events must be approved?</word>
+  <word key="cal_comment_moderate" js="0">Comments must be approved?</word>
+  <word key="cal_allow_comments" js="0">Allow comments?</word>
+  <word key="cal_allow_reviews" js="0">Allow reviews?</word>
+  <word key="cal_review_moderate" js="0">Reviews must be approved?</word>
+  <word key="calperm_perm__label" js="0"></word>
+  <word key="calperm_perm__view" js="0">See Calendar</word>
+  <word key="calperm_perm__read" js="0">View Events</word>
+  <word key="calperm_perm__add" js="0">Add Events</word>
+  <word key="calperm_perm__reply" js="0">Comment</word>
+  <word key="calperm_perm__askrsvp" js="0">Request RSVP</word>
+  <word key="calperm_perm__rsvp" js="0">RSVP</word>
+  <word key="calperm_perm__review" js="0">Review</word>
+  <word key="cal_color" js="0">Color</word>
+  <word key="add_calendar" js="0">Add Calendar</word>
+  <word key="edit_calendar" js="0">Edit Calendar</word>
+  <word key="modperms__core_Content_calendar_Event" js="0">Calendar</word>
+  <word key="calendar_calendars" js="0">Calendars</word>
+  <word key="can_pin_calendar_event" js="0">Can pin events?</word>
+  <word key="can_unpin_calendar_event" js="0">Can unpin events?</word>
+  <word key="can_feature_calendar_event" js="0">Can feature events?</word>
+  <word key="can_unfeature_calendar_event" js="0">Can unfeature events?</word>
+  <word key="can_move_calendar_event" js="0">Can move events?</word>
+  <word key="can_move_calendar_event_desc" js="0">Will be able to move events only between the calendars they can create new content within.</word>
+  <word key="can_lock_calendar_event" js="0">Can lock events?</word>
+  <word key="can_unlock_calendar_event" js="0">Can unlock events?</word>
+  <word key="can_reply_to_locked_calendar_event" js="0">Can comment on locked events?</word>
+  <word key="can_edit_calendar_event" js="0">Can edit events?</word>
+  <word key="can_hide_calendar_event" js="0">Can hide events?</word>
+  <word key="can_unhide_calendar_event" js="0">Can unhide events?</word>
+  <word key="can_view_hidden_calendar_event" js="0">Can view hidden events?</word>
+  <word key="can_delete_calendar_event" js="0">Can delete events?</word>
+  <word key="can_edit_calendar_event_comment" js="0">Can edit comments?</word>
+  <word key="can_hide_calendar_event_comment" js="0">Can hide comments?</word>
+  <word key="can_unhide_calendar_event_comment" js="0">Can unhide comments?</word>
+  <word key="can_view_hidden_calendar_event_comment" js="0">Can view hidden comments?</word>
+  <word key="can_delete_calendar_event_comment" js="0">Can delete comments?</word>
+  <word key="can_edit_calendar_event_review" js="0">Can edit reviews?</word>
+  <word key="can_hide_calendar_event_review" js="0">Can hide reviews?</word>
+  <word key="can_unhide_calendar_event_review" js="0">Can unhide reviews?</word>
+  <word key="can_view_hidden_calendar_event_review" js="0">Can view hidden reviews?</word>
+  <word key="can_delete_calendar_event_review" js="0">Can delete reviews?</word>
+  <word key="can_feature_comments_calendar_event" js="0">Can recommend comments on events?</word>
+  <word key="can_unfeature_comments_calendar_event" js="0">Can remove comments recommendations on events?</word>
+  <word key="can_add_item_message_calendar_event" js="0">Can add messages to events?</word>
+  <word key="can_edit_item_message_calendar_event" js="0">Can edit messages on events?</word>
+  <word key="can_delete_item_message_calendar_event" js="0">Can delete messages on events?</word>
+  <word key="ical_title" js="0">iCalendar Feed Imports</word>
+  <word key="ical_feed_title" js="0">Title</word>
+  <word key="ical_feed_added" js="0">Added</word>
+  <word key="ical_feed_lastupdated" js="0">Last Updated</word>
+  <word key="ical_feed_calendar_id" js="0">Calendar</word>
+  <word key="ical_feed_url" js="0">URL</word>
+  <word key="calendar_feeds_add" js="0">Add iCalendar Feed</word>
+  <word key="calendar_feeds_upload" js="0">Upload iCalendar File</word>
+  <word key="update_ical" js="0">Import new events</word>
+  <word key="feed_title" js="0">Name</word>
+  <word key="feed_url" js="0">URL</word>
+  <word key="feed_url_desc" js="0">The URL should start with http://, https:// or webcal://</word>
+  <word key="feed_member_id" js="0">Member</word>
+  <word key="feed_member_id_desc" js="0">Events from this feed will be created by this member</word>
+  <word key="feed_calendar_id" js="0">Calendar</word>
+  <word key="feed_calendar_id_desc" js="0">Select the calendar that events from this feed will be saved to</word>
+  <word key="feed_allow_rsvp" js="0">Enable RSVP</word>
+  <word key="feed_allow_rsvp_desc" js="0">If enabled, RSVP will be enabled for all events imported from this feed</word>
+  <word key="acplog__ical_uploaded" js="0">Uploaded an iCalendar file (%s events imported and %s events skipped)</word>
+  <word key="acplog__icalfeed_created" js="0">Added %s iCalendar feed</word>
+  <word key="acplog__icalfeed_updated" js="0">Edited %s iCalendar feed</word>
+  <word key="feed_uploaded" js="0">iCalendar Events Imported</word>
+  <word key="acplog__icalfeed_refreshed" js="0">Refreshed iCalendar feed (%s events imported and %s events skipped)</word>
+  <word key="feed_refreshed" js="0">iCalendar Feed Refreshed</word>
+  <word key="feed_file" js="0">iCalendar File</word>
+  <word key="feed_file_desc" js="0">iCalendar files usually have a .ics extension</word>
+  <word key="feed_not_found" js="0">We could not find that iCalendar feed</word>
+  <word key="acplog__icalfeed_deleted" js="0">%s iCalendar feed deleted</word>
+  <word key="keep_events" js="0">Keep Events</word>
+  <word key="keep_events_desc" js="0">You can choose to remove events that were imported from this feed</word>
+  <word key="ical_error_NO_CONTENT" js="0">The feed appears to be invalid because no content was returned</word>
+  <word key="ical_error_BAD_CONTENT" js="0">The feed appears to be invalid because content not matching the expected format was returned</word>
+  <word key="cal_month_title" js="0">%s %s</word>
+  <word key="cal_month_stream_title" js="0">Event stream for %s %s</word>
+  <word key="cal_week_title" js="0">%s %s %s - %s %s %s</word>
+  <word key="cal_week_title_wb" js="0">w/b %s %s %s</word>
+  <word key="cal_month_day" js="0">%s %s, %s</word>
+  <word key="cal_month_day_noyear" js="0">%s %s</word>
+  <word key="all_calendars" js="0">All Calendars</word>
+  <word key="create_event" js="0">Create Event</word>
+  <word key="select_calendar" js="0">Select Calendar</word>
+  <word key="add_event" js="0">Add event</word>
+  <word key="previous_month" js="0">Prev Month</word>
+  <word key="next_month" js="0">Next Month</word>
+  <word key="day" js="0">Day</word>
+  <word key="tomorrow" js="0">Tomorrow</word>
+  <word key="prev_day" js="0">Prev Day</word>
+  <word key="next_day" js="0">Next Day</word>
+  <word key="event_stream" js="0">Event Stream</word>
+  <word key="event_stream_short" js="0">Stream</word>
+  <word key="previous_week" js="0">Prev Week</word>
+  <word key="next_week" js="0">Next Week</word>
+  <word key="no_events_today" js="0">No events scheduled today</word>
+  <word key="no_events_month" js="0">No events scheduled this month</word>
+  <word key="error_bad_date" js="0">The date you requested appears to be invalid</word>
+  <word key="calendar_event" js="0">Event</word>
+  <word key="calendar_event_comment" js="0">Event Comment</word>
+  <word key="calendar_event_review" js="0">Event Review</word>
+  <word key="calendar_event_pl" js="0">Events</word>
+  <word key="calendar_event_comment_pl" js="0">Event Comments</word>
+  <word key="calendar_event_comment_pl_lc" js="0">event comments</word>
+  <word key="calendar_event_review_pl" js="0">Event Reviews</word>
+  <word key="calendar_event_review_pl_lc" js="0">event reviews</word>
+  <word key="event_review_count" js="0">{# [1:Review][?:Reviews]}</word>
+  <word key="event_comment_count" js="0">{# [1:Comment][?:Comments]}</word>
+  <word key="event_rsvp_attendees_list" js="0">{# [1:user has][?:users have]} RSVPed{!#[0: ][?:, including]}</word>
+  <word key="calendar_rss_title" js="0">Upcoming Events</word>
+  <word key="submit_event" js="0">Submit an event</word>
+  <word key="with_calendar" js="0">With '%s'</word>
+  <word key="with_all_calendars" js="0">With All Calendars</word>
+  <word key="event_calendar_id" js="0">Calendar</word>
+  <word key="event_container" js="0">Calendar</word>
+  <word key="event_title" js="0">Title</word>
+  <word key="event_ip_address" js="0">IP Address</word>
+  <word key="event_tags" js="0">Tags</word>
+  <word key="event_content" js="0">Description</word>
+  <word key="event_dates" js="0">Date</word>
+  <word key="rsvp" js="0">RSVP</word>
+  <word key="event_rsvp" js="0">Request RSVP</word>
+  <word key="event_rsvp_desc" js="0">Members who are allowed to RSVP for events will be asked to do so and will be able to see the list of members who have RSVP'd for this event. For recurring events, responses apply to all occurrences.</word>
+  <word key="event_to" js="0">to</word>
+  <word key="event_all_day" js="0">This is an all day event</word>
+  <word key="no_end_time" js="0">There is no end time</word>
+  <word key="event_repeat" js="0">Repeat</word>
+  <word key="change_timezone" js="0">Change the time zone</word>
+  <word key="event_timezone" js="0">Event Time Zone</word>
+  <word key="event_rpm_repeats" js="0">Repeats:</word>
+  <word key="event_rpm_repeats_daily" js="0">Daily</word>
+  <word key="event_rpm_repeats_weekly" js="0">Weekly</word>
+  <word key="event_rpm_repeats_monthly" js="0">Monthly</word>
+  <word key="event_rpm_repeats_yearly" js="0">Yearly</word>
+  <word key="event_rpm_repeatevery" js="0">Repeat every:</word>
+  <word key="event_rpm_repeatevery_day" js="0">days</word>
+  <word key="event_rpm_repeatevery_week" js="0">weeks</word>
+  <word key="event_rpm_repeatevery_month" js="0">months</word>
+  <word key="event_rpm_repeatevery_year" js="0">years</word>
+  <word key="event_rpm_repeaton" js="0">Repeat on:</word>
+  <word key="event_single_day" js="0">Single day event</word>
+  <word key="event_rpm_ends" js="0">Ends:</word>
+  <word key="event_rpm_ends_never" js="0">Never</word>
+  <word key="event_rpm_ends_afterx" js="0">After</word>
+  <word key="event_rpm_ends_occurrencesx" js="0">occurrences</word>
+  <word key="event_rpm_ends_date" js="0">On</word>
+  <word key="event_auto_follow" js="0"></word>
+  <word key="event_auto_follow_suffix" js="0">Follow this event</word>
+  <word key="event_rsvp_limit" js="0">RSVP Limit</word>
+  <word key="event_rsvp_limit_desc" js="0">Once the limit is reached, no further attendees will be allowed to RSVP for this event.</word>
+  <word key="event_cover_photo" js="0">Cover Photo</word>
+  <word key="event_location" js="0">Location</word>
+  <word key="showing_events_near_you" js="0">Showing events near your current location.</word>
+  <word key="see_more_events_near_you" js="0">See more events by location</word>
+  <word key="event_album" js="0">Album</word>
+  <word key="event_album_desc" js="0">You can link an album from the Gallery to this event which will show the images on the event page and cause information about the event to be displayed on the album page.</word>
+  <word key="submit_event_start" js="0">Event Start</word>
+  <word key="submit_event_end" js="0">Event End</word>
+  <word key="submit_event_summary" js="0">Summary</word>
+  <word key="submit_event_repeats_check" js="0">This event repeats</word>
+  <word key="submit_event_repeats" js="0">Repeats</word>
+  <word key="submit_event_remove_repeat" js="0">remove</word>
+  <word key="add_cal_event_header" js="0">Add Calendar Event</word>
+  <word key="copy_cal_event" js="0">Copy Calendar Event</word>
+  <word key="copy_cal_event_header" js="0">Copy %s</word>
+  <word key="calendar_jump" js="0">Go</word>
+  <word key="calendar_jump_today" js="0">Go to today</word>
+  <word key="jump_to_placeholder" js="0">Jump to...</word>
+  <word key="jump_to" js="0">Jump to</word>
+  <word key="events_happening_today" js="0">Events happening today</word>
+  <word key="day_view_all_day" js="0"><![CDATA[ALL<br>DAY]]></word>
+  <word key="you_are_going" js="0">You are going</word>
+  <word key="you_were_going" js="0">You went</word>
+  <word key="you_arent_going" js="0">You aren't going</word>
+  <word key="you_werent_going" js="0">You didn't go</word>
+  <word key="you_are_going_to_this" js="0">You are going to this event</word>
+  <word key="you_are_not_going_to_this" js="0">You are not going to this event</word>
+  <word key="rsvp_change" js="0">Change RSVP</word>
+  <word key="confirm_attendance" js="0">Confirm attendance</word>
+  <word key="featured_events" js="0">Featured Events</word>
+  <word key="end_date_before_start" js="0">The event must end after it starts</word>
+  <word key="invalid_start_date" js="0">The provided start date is not valid</word>
+  <word key="invalid_end_date" js="0">The provided end date is not valid</word>
+  <word key="invalid_recurrence" js="0">The event cannot repeat that frequently. Each occurrence must end before the next starts.</word>
+  <word key="event__save" js="0">Save</word>
+  <word key="calendar_delete_title" js="0">Delete this event</word>
+  <word key="blurb_date_with_time" js="0">%s %s</word>
+  <word key="blurb_start_and_end" js="0">%s - %s in %s</word>
+  <word key="blurb_start_only" js="0">%s in %s</word>
+  <word key="download_ical" js="0">Download Event</word>
+  <word key="download_ical_title" js="0">Download this event as an iCal file</word>
+  <word key="event_details" js="0">Event details</word>
+  <word key="event_created_by" js="0">Event created by %s</word>
+  <word key="event_rating_value" js="0">Your Rating</word>
+  <word key="event_review_text" js="0">Your Review</word>
+  <word key="event__review_placeholder" js="0">Add a review...</word>
+  <word key="event__comment_placeholder" js="0">Add a comment...</word>
+  <word key="event_submit_comment" js="0">Submit Comment</word>
+  <word key="event_rsvp_attendees" js="0">Attendees</word>
+  <word key="report_event" js="0">Report Event</word>
+  <word key="calendar_edit_details" js="0">Edit Details</word>
+  <word key="calendar_edit_details_title" js="0">Edit this event's details</word>
+  <word key="manage_event" js="0">Manage Event</word>
+  <word key="event_pending_approval" js="0">This event is not yet approved and is only visible to staff.</word>
+  <word key="rsvp_leave_event" js="0">Leave event</word>
+  <word key="rsvp_attend_event" js="0">Going</word>
+  <word key="rsvp_maybe_event" js="0">Maybe</word>
+  <word key="rsvp_notgoing_event" js="0">Decline</word>
+  <word key="rsvp_attendees" js="0">Going</word>
+  <word key="rsvp_attendees_past" js="0">Went</word>
+  <word key="rsvp_attended_past_event" js="0">Went</word>
+  <word key="rsvp_notattended_past_event" js="0">Could not attend</word>
+  <word key="rsvp_maybe_attendees" js="0">Maybe</word>
+  <word key="rsvp_notgoing_attendees" js="0">Declined</word>
+  <word key="event_address" js="0">Event Address</word>
+  <word key="add_similar_event" js="0">Add Similar Event</word>
+  <word key="no_rsvps_yet" js="0">No one is attending yet.</word>
+  <word key="no_decline_rsvps_yet" js="0">No one has declined yet.</word>
+  <word key="no_maybe_rsvps_yet" js="0">No one has said they might go yet.</word>
+  <word key="no_rsvps_past" js="0">No one went to this event.</word>
+  <word key="no_maybe_rsvps_past" js="0">No one said they might go.</word>
+  <word key="no_decline_rsvps_past" js="0">No one declined to attend.</word>
+  <word key="rsvp_limit_reached" js="0">RSVP limit reached</word>
+  <word key="no_rsvp_past_event" js="0">The event has already passed</word>
+  <word key="rsvp_error" js="0">You do not have permission to RSVP for this event</word>
+  <word key="rsvp_not_going" js="0">Your name has been removed from the guest list for this event</word>
+  <word key="rsvp_selection_yes" js="0">Your name has been added to the guest list</word>
+  <word key="rsvp_selection_no" js="0">It's too bad you won't be able to make it to the event!</word>
+  <word key="rsvp_selection_maybe" js="0">Your name has been added to the maybe list</word>
+  <word key="rsvp_download" js="0">Download guest list</word>
+  <word key="event_rsvp_attendees_other" js="0">Other Responses</word>
+  <word key="recur_human_yearly" js="0">This event {!#[1:began][2:begins]} %s and repeats every year %s</word>
+  <word key="recur_human_yearly_multi" js="0">This event {!#[1:began][2:begins]} %s and repeats every %s %s</word>
+  <word key="recur_human_monthly" js="0">This event {!#[1:began][2:begins]} %s and repeats every month %s</word>
+  <word key="recur_human_monthly_multi" js="0">This event {!#[1:began][2:begins]} %s and repeats every %s %s</word>
+  <word key="recur_human_weekly" js="0">This event {!#[1:began][2:begins]} %s and repeats every week %s</word>
+  <word key="recur_human_weekly_multi" js="0">This event {!#[1:began][2:begins]} %s and repeats every %s %s</word>
+  <word key="recur_human_weekly_days" js="0">This event {!#[1:began][2:begins]} %s and repeats every week on %s %s</word>
+  <word key="recur_human_weekly_multi_days" js="0">This event {!#[1:began][2:begins]} %s and repeats every %s on %s %s</word>
+  <word key="recur_human_daily" js="0">This event {!#[1:began][2:begins]} %s and repeats every day %s</word>
+  <word key="recur_human_daily_multi" js="0">This event {!#[1:began][2:begins]} %s and repeats every %s %s</word>
+  <word key="recur_human__forever" js="0">forever</word>
+  <word key="recur_human__occurrences" js="0">for {# [1:occurrence][?:occurrences]}</word>
+  <word key="recur_human__until" js="0">until %s</word>
+  <word key="recur_human__xyearly" js="0">{# [1:year][?:years]}</word>
+  <word key="recur_human__xmonthly" js="0">{# [1:month][?:months]}</word>
+  <word key="recur_human__xweekly" js="0">{# [1:week][?:weeks]}</word>
+  <word key="recur_human__xdaily" js="0">{# [1:day][?:days]}</word>
+  <word key="event_rss_feed_off" js="0">This RSS feed is currently unavailable</word>
+  <word key="event_rss_feed_off_admin" js="0">The calendar RSS feed is currently disabled in the admin control panel</word>
+  <word key="event_attendees" js="0">Attendees for %s</word>
+  <word key="rsvp_limit_info" js="0">{# [1:user has][?:users have]} RSVPed for this event. A total of %s can RSVP.</word>
+  <word key="rsvp_limit_nomaybe" js="0">You may only indicate you are going or not going when an event has a limit specified</word>
+  <word key="no_event_review" js="0">You do not have permission to review events</word>
+  <word key="task_BAD_CONTENT" js="0">The iCalendar feed %s is not correctly formatted in a recognized iCalendar format</word>
+  <word key="task_NO_CONTENT" js="0">The iCalendar feed %s did not return any events to process</word>
+  <word key="subscribe_button" js="0">Subscribe</word>
+  <word key="subscribe_webcal" js="0">Subscribe to iCalendar feed</word>
+  <word key="download_webcal" js="0">Download iCalendar export</word>
+  <word key="calendar_id" js="0">Calendar</word>
+  <word key="event_locked_can_comment" js="0">This event is locked, but your permissions allow you to add new comments.</word>
+  <word key="event_locked_cannot_comment" js="0">This event is now closed to further comments.</word>
+  <word key="event_images" js="0">Images from this event</word>
+  <word key="event_move_title" js="0">Move this event</word>
+  <word key="feature_title_event" js="0">Feature this event</word>
+  <word key="unfeature_title_event" js="0">Unfeature this event</word>
+  <word key="pin_title_event" js="0">Pin this event</word>
+  <word key="unpin_title_event" js="0">Unpin this event</word>
+  <word key="hide_title_event" js="0">Hide this event</word>
+  <word key="unhide_title_event" js="0">Unhide this event</word>
+  <word key="lock_title_event" js="0">Lock this event</word>
+  <word key="unlock_title_event" js="0">Unlock this event</word>
+  <word key="approve_title_event" js="0">Approve this event</word>
+  <word key="event_set_reminder" js="0">Set Reminder</word>
+  <word key="event_set_reminder_tip" js="0">Remind me when this event is approaching</word>
+  <word key="event_edit_reminder" js="0">Update Reminder</word>
+  <word key="event_dont_remind" js="0">Delete Reminder</word>
+  <word key="event_remind_me" js="0">Remind me</word>
+  <word key="event_remind_days_before" js="0">days before this event</word>
+  <word key="event_reminder_removed" js="0">Reminder Removed</word>
+  <word key="event_reminder_added" js="0">Reminder Saved</word>
+  <word key="no_edit_past_event" js="0">You do not have permission to edit past events</word>
+  <word key="block_upcomingEvents" js="0">Upcoming Events</word>
+  <word key="block_upcomingEvents_desc" js="0">Shows upcoming calendar events</word>
+  <word key="auto_hide" js="0">Automatically hide block</word>
+  <word key="auto_hide_desc" js="0">Hide this block when there are no results to display</word>
+  <word key="days_ahead" js="0">Number of days to show</word>
+  <word key="maximum_count" js="0">Number of events</word>
+  <word key="view_this_event" js="0">View the event %s</word>
+  <word key="no_upcoming_events" js="0">No upcoming events found</word>
+  <word key="member_age" js="0">({# [1:year][?:years]} old)</word>
+  <word key="block_recentReviews" js="0">Recent Event Reviews</word>
+  <word key="block_recentReviews_desc" js="0">Display the most recent reviews</word>
+  <word key="no_recent_reviews" js="0">No recent reviews found</word>
+  <word key="announce_calendars" js="0">Calendars</word>
+  <word key="review_count" js="0">Number of reviews to show</word>
+  <word key="widget_calendar" js="0">Calendar</word>
+  <word key="embed_calendar_event" js="0">Calendar Event</word>
+  <word key="x_users_going" js="0">{# [1:user][?:users]} going</word>
+  <word key="timezone_offset_short" js="0">GMT %s</word>
+  <word key="timezone_offset_-12" js="0">[GMT - 12] Baker Island Time</word>
+  <word key="timezone_offset_-11" js="0">[GMT - 11] Samoa Standard Time</word>
+  <word key="timezone_offset_-10" js="0">[GMT - 10] Hawaii Standard Time</word>
+  <word key="timezone_offset_-9.5" js="0">[GMT - 9:30] Marquesas Islands Time</word>
+  <word key="timezone_offset_-9" js="0">[GMT - 9] Alaska Standard Time</word>
+  <word key="timezone_offset_-8" js="0">[GMT - 8] Pacific Standard Time</word>
+  <word key="timezone_offset_-7" js="0">[GMT - 7] Mountain Standard Time</word>
+  <word key="timezone_offset_-6" js="0">[GMT - 6] Central Standard Time</word>
+  <word key="timezone_offset_-5" js="0">[GMT - 5] Eastern Standard Time</word>
+  <word key="timezone_offset_-4.5" js="0">[GMT - 4:30] Venezuelan Standard Time</word>
+  <word key="timezone_offset_-4" js="0">[GMT - 4] Atlantic Standard Time</word>
+  <word key="timezone_offset_-3.5" js="0">[GMT - 3:30] Newfoundland Standard Time</word>
+  <word key="timezone_offset_-3" js="0">[GMT - 3] Brasília time</word>
+  <word key="timezone_offset_-2" js="0">[GMT - 2] Fernando de Noronha Time</word>
+  <word key="timezone_offset_-1" js="0">[GMT - 1] Eastern Greenland Time</word>
+  <word key="timezone_offset_0" js="0">[GMT] Greenwich Mean Time</word>
+  <word key="timezone_offset_1" js="0">[GMT + 1] Central European Time</word>
+  <word key="timezone_offset_2" js="0">[GMT + 2] Eastern European Time</word>
+  <word key="timezone_offset_3" js="0">[GMT + 3] Eastern African Time</word>
+  <word key="timezone_offset_3.5" js="0">[GMT + 3:30] Iran Standard Time</word>
+  <word key="timezone_offset_4" js="0">[GMT + 4] Gulf Standard Time</word>
+  <word key="timezone_offset_4.5" js="0">[GMT + 4:30] Afghanistan Time</word>
+  <word key="timezone_offset_5" js="0">[GMT + 5] Pakistan Standard Time</word>
+  <word key="timezone_offset_5.5" js="0">[GMT + 5:30] Indian Standard Time</word>
+  <word key="timezone_offset_5.75" js="0">[GMT + 5:45] Nepal Time</word>
+  <word key="timezone_offset_6" js="0">[GMT + 6] Bangladesh Time</word>
+  <word key="timezone_offset_6.5" js="0">[GMT + 6:30] Myanmar Time</word>
+  <word key="timezone_offset_7" js="0">[GMT + 7] Indochina Time</word>
+  <word key="timezone_offset_8" js="0">[GMT + 8] Chinese Standard Time</word>
+  <word key="timezone_offset_9" js="0">[GMT + 9] Japan Standard Time</word>
+  <word key="timezone_offset_9.5" js="0">[GMT + 9:30] Australian Central Standard Time</word>
+  <word key="timezone_offset_10" js="0">[GMT + 10] Australian Eastern Standard Time</word>
+  <word key="timezone_offset_10.5" js="0">[GMT + 10:30] Lord Howe Standard Time</word>
+  <word key="timezone_offset_11" js="0">[GMT + 11] Solomon Island Time</word>
+  <word key="timezone_offset_11.5" js="0">[GMT + 11:30] Norfolk Island Time</word>
+  <word key="timezone_offset_12" js="0">[GMT + 12] New Zealand Time</word>
+  <word key="timezone_offset_12.75" js="0">[GMT + 12:45] Chatham Islands Time</word>
+  <word key="timezone_offset_13" js="0">[GMT + 13] Phoenix Islands Time</word>
+  <word key="timezone_offset_14" js="0">[GMT + 14] Line Island Time</word>
+  <word key="task__icalendar" js="0">Checks iCalendar feeds for new events and imports into Calendar.</word>
+  <word key="digest_area_calendar_calendar" js="0">Events</word>
+  <word key="digest_area_calendar_event" js="0">Event</word>
+  <word key="x_created_event_in" js="0">%s posted an event in %s</word>
+  <word key="x_commented_event" js="0">%s commented on an event</word>
+  <word key="x_reviewed_event" js="0">%s reviewed an event</word>
+  <word key="digest_event_on" js="0">Event on</word>
+  <word key="digest_users_going" js="0">{# [1:user][?:users]} going</word>
+  <word key="mailsub__calendar_notification_new_content" js="0"><![CDATA[{$content->mapped("title")|raw}]]></word>
+  <word key="email_new_calevent_plain" js="0">%s has posted %s, %s, for %s</word>
+  <word key="email_new_calevent" js="0"><![CDATA[<a href='%s'>%s</a> has posted %s, <a href='%s'>%s</a>, for %s]]></word>
+  <word key="email_new_calevent_guest" js="0"><![CDATA[%s (Guest) has posted %s, <a href='%s'>%s</a>, for %s]]></word>
+  <word key="__api_calendar_events" js="0">Events</word>
+  <word key="__api_calendar_comments" js="0">Comments</word>
+  <word key="__api_calendar_reviews" js="0">Reviews</word>
+  <word key="__api_calendar_calendars" js="0">Calendars</word>
+  <word key="__api_calendar_venues" js="0">Venues</word>
+  <word key="calendar_activity_stream_rsvp" js="0"><![CDATA[%s is attending <a href='%s'>%s</a>]]></word>
+  <word key="all_activity_calendar_streamitems" js="0">When a member RSVPs to an event</word>
+  <word key="notifications__calendar_Events" js="0">Event Reminders</word>
+  <word key="notifications__calendar_Events_desc" js="0">These notifications are sent when an event you have asked to receive a reminder about is coming up.</word>
+  <word key="mailsub__calendar_notification_event_reminder" js="0"><![CDATA[Event Reminder for {$content->mapped("title")|raw}]]></word>
+  <word key="email_event_reminder" js="0"><![CDATA[There's now less than %s to go until <a href='%s'>%s</a>.]]></word>
+  <word key="email_event_reminder_plain" js="0">There's now less than %s to go until %s</word>
+  <word key="email_event_reminder_when" js="0">When: %s</word>
+  <word key="email_event_reminder_where" js="0">Where: %s</word>
+  <word key="days_to_go" js="0">{# [1:day][?:days]}</word>
+  <word key="notification__event_reminder" js="0">Less than %s to go until %s</word>
+  <word key="notification__event_reminder_title" js="0">Upcoming {!#[1:event][?:events]}</word>
+  <word key="menu__calendar_calendars_venues" js="0">Venues</word>
+  <word key="venues" js="0">Venues</word>
+  <word key="venue_title" js="0">Venue Name</word>
+  <word key="event_venue_name" js="0">Event Venue</word>
+  <word key="event_venue" js="0">Venue</word>
+  <word key="venues_not_listed" js="0">Venue not listed</word>
+  <word key="venue_address" js="0">Address</word>
+  <word key="r__venues" js="0">Venues</word>
+  <word key="r__venues_manage" js="0">Can Manage Venues</word>
+  <word key="module__venues_view" js="0">Venues</word>
+  <word key="editor__venues_Venue" js="0">Venue Description</word>
+  <word key="venue_description" js="0">Description</word>
+  <word key="calendar_venues_enabled" js="0">Enable Venues</word>
+  <word key="calendar_venues_enabled_desc" js="0">When enabled, administrators can create pre-defined venues that can be selected when creating events.</word>
+  <word key="calendar_more_events_at_x" js="0">More Events At This Venue</word>
+  <word key="venue_details" js="0">About the Venue</word>
+  <word key="venue_upcoming_events" js="0">Upcoming Events</word>
+  <word key="feed_venue_id" js="0">Venue</word>
+  <word key="event_new_venue" js="0">Save location as a new Venue?</word>
+  <word key="cal_allow_anonymous" js="0">Allow anonymous posts?</word>
+  <word key="AchievementAction__Rsvp" js="0">Member RSVP's for an event</word>
+  <word key="achievement_filter_Rsvp_nth_suffix" js="0"><![CDATA[<span data-role='th'>th</span> such RSVP]]></word>
+  <word key="achievement_filter_Rsvp_receiver" js="0">To the user who posted the event</word>
+  <word key="achievement_filter_Rsvp_giver" js="0">To the user who RSVP'd</word>
+  <word key="AchievementAction__Rsvp_log" js="0">RSVP'd to %s</word>
+  <word key="AchievementAction__Rsvp_title" js="0">Event RSVP</word>
+  <word key="menu__calendar_stats" js="0">Calendar</word>
+  <word key="emailstats__notification_event_reminder" js="0">Event Reminders</word>
+  <word key="menu__calendar_stats_rsvp" js="0">RSVP</word>
+  <word key="calendar_stats_rsvp_title" js="0">RSVPs over time</word>
+  <word key="calendar_stats_rsvp_response_0" js="0">Not Going</word>
+  <word key="calendar_stats_rsvp_response_1" js="0">Going</word>
+  <word key="calendar_stats_rsvp_response_2" js="0">Maybe</word>
+  <word key="menu__calendar_stats_venues" js="0">Venues</word>
+  <word key="webhook_calendarEvent_rsvp" js="0">Fired when somebody changes his RSVP status</word>
+  <word key="event_online" js="0">Online Event</word>
+  <word key="event_url" js="0">URL</word>
+  <word key="all_events" js="0">All</word>
+  <word key="online_events" js="0">Online Events</word>
+  <word key="open_event" js="0">Open Event</word>
+  <word key="powered_by" js="0">Powered by</word>
+  <word key="physical_events" js="0">Physical Events</word>
+  <word key="event_view_overview" js="0">Overview</word>
+  <word key="event_view_daily" js="0">Daily</word>
+  <word key="event_view_weekly" js="0">Weekly</word>
+  <word key="event_view_monthly" js="0">Monthly</word>
+  <word key="events_search_your_location" js="0">Your location</word>
+  <word key="events_search_use_location" js="0">Use my location</word>
+  <word key="events_search_cancel_location" js="0">Cancel Location</word>
+  <word key="events_search_location" js="0">Location</word>
+  <word key="events_search_search_location" js="0">Search location</word>
+  <word key="events_search_type" js="0">Type</word>
+  <word key="events_search_from" js="0">From</word>
+  <word key="events_search_to" js="0">To</word>
+  <word key="events_search_search" js="0">Search</word>
+  <word key="events_search_events" js="0">Search Events</word>
+  <word key="events_search_back_to_overview" js="0">Back to overview</word>
+  <word key="events_search_sort_by" js="0">Sort By:</word>
+  <word key="events_search_distance" js="0">Distance</word>
+  <word key="events_search_date" js="0">Date</word>
+  <word key="events_search_show_more" js="0">Show more results</word>
+  <word key="events_search_no_events" js="0">No more events to show</word>
+  <word key="events_search_no_events_long" js="0">There were no events matching your search</word>
+  <word key="events_happening_near_you" js="0">Happening Near You</word>
+  <word key="events_online_events" js="0">Online Events</word>
+  <word key="events_browse_by_month" js="0">Browse By Month</word>
+  <word key="events_no_more_this_month" js="0">No more events this month</word>
+  <word key="events_show_more" js="0">Show more events</word>
+  <word key="map_center_lat" js="0">Map center latitude</word>
+  <word key="map_center_lon" js="0">Map center longitude</word>
+  <word key="map_center_lat_desc" js="0">The default latitude to use when no user location can be determined by geolocation or ip lookup.</word>
+  <word key="map_center_lon_desc" js="0">The default longitude to use when no user location can be determined by geolocation or ip lookup.</word>
+  <word key="event_happening_now" js="0">Happening Now</word>
+  <word key="event_happening_today" js="0">Happening Today</word>
+  <word key="events_near_you_soon" js="0">We couldn't find any events happening soon near you. Check back later!</word>
+  <word key="x_daily" js="1">{# [1:day][?:days]}</word>
+  <word key="x_weekly" js="1">{# [1:week][?:weeks]}</word>
+  <word key="x_monthly" js="1">{# [1:month][?:months]}</word>
+  <word key="x_yearly" js="1">{# [1:year][?:years]}</word>
+  <word key="every_x" js="1">Every {{period}}</word>
+  <word key="x_times" js="1">{# [1:time][?:times]}</word>
+  <word key="until" js="1">until {{date}}</word>
+  <word key="with_end" js="1">{{interval}}, {{endAfter}}</word>
+  <word key="MO" js="1">Monday</word>
+  <word key="TU" js="1">Tuesday</word>
+  <word key="WE" js="1">Wednesday</word>
+  <word key="TH" js="1">Thursday</word>
+  <word key="FR" js="1">Friday</word>
+  <word key="SA" js="1">Saturday</word>
+  <word key="SU" js="1">Sunday</word>
+  <word key="one_day" js="1">on {{first}}</word>
+  <word key="multiple_day" js="1">on {{days}} and {{last}}</word>
+  <word key="week_string" js="1">{{week}} {{days}}</word>
+  <word key="doesnt_repeat" js="1">Doesn't repeat</word>
+  <word key="single_not_allday" js="1"><![CDATA[On <strong>{{startDate}}</strong>, from <strong>{{startTime}}</strong> to <strong>{{endTime}}</strong>]]></word>
+  <word key="single_not_allday_noendtime" js="1"><![CDATA[On <strong>{{startDate}}</strong>, at <strong>{{startTime}}</strong>]]></word>
+  <word key="single_allday" js="1"><![CDATA[<strong>{{startDate}}</strong> (all day)]]></word>
+  <word key="not_single_not_allday" js="1"><![CDATA[From <strong>{{startDate}}</strong> at <strong>{{startTime}}</strong> until <strong>{{endDate}}</strong> at <strong>{{endTime}}</strong>]]></word>
+  <word key="not_single_allday" js="1"><![CDATA[From <strong>{{startDate}}</strong> to <strong>{{endDate}}</strong>]]></word>
+  <word key="select_time" js="1">(select time)</word>
+  <word key="event_reminder_removed" js="1">Reminder Removed</word>
+  <word key="event_reminder_added" js="1">Reminder Saved</word>
+  <word key="event_your_current_location" js="1">Your Current Location</word>
+  <word key="event_your_current_location_sorry" js="1">Sorry, we weren't able to get your location. Do you have location services enabled in your browser?</word>
+  <word key="event_finding_location" js="1">Finding your location...</word>
+ </app>
+</language>

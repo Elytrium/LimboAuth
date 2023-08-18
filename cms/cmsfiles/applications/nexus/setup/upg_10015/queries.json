@@ -1,0 +1,93 @@
+{
+    "1": {
+        "method": "insert",
+        "params": [
+            "core_incoming_emails",
+            {
+                "rule_criteria_field": "sbjt",
+                "rule_criteria_type": "regx",
+                "rule_criteria_value": "\\\\[SR\\\\d+-.+\\\\]",
+                "rule_app": "nexus",
+                "rule_added_by": 0,
+                "rule_added_date": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_email_key",
+                "type": "CHAR",
+                "length": 3
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_paypal_subscriptions",
+            "s_methos",
+            {
+                "name": "s_method",
+                "type": "INT",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_purchases",
+            "ps_name",
+            {
+                "name": "ps_name",
+                "type": "VARCHAR",
+                "length": 128,
+                "default": null
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_noreminder",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "nexus_packages",
+            {
+                "type": "fulltext",
+                "name": "p_name",
+                "columns": [
+                    "p_name"
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "nexus_packages",
+            {
+                "type": "fulltext",
+                "name": "p_desc",
+                "columns": [
+                    "p_desc"
+                ]
+            }
+        ]
+    }
+}

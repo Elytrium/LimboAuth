@@ -1,0 +1,967 @@
+{
+    "1": {
+        "method": "renameTable",
+        "params": [
+            "cal_calendars",
+            "calendar_calendars"
+        ]
+    },
+    "2": {
+        "method": "renameTable",
+        "params": [
+            "cal_event_comments",
+            "calendar_event_comments"
+        ]
+    },
+    "3": {
+        "method": "renameTable",
+        "params": [
+            "cal_event_rsvp",
+            "calendar_event_rsvp"
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "calendar_events",
+            true
+        ]
+    },
+    "5": {
+        "method": "renameTable",
+        "params": [
+            "cal_events",
+            "calendar_events"
+        ]
+    },
+    "6": {
+        "method": "dropIndex",
+        "params": [
+            "calendar_events",
+            "approved"
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_events",
+            "event_end_date",
+            {
+                "name": "event_end_date",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "calendar_events",
+            "event_end_date=NULL",
+            "event_end_date='0000-00-00 00:00:00'"
+        ]
+    },
+    "9": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_events",
+            "event_end_date",
+            {
+                "name": "event_end_date",
+                "type": "DATETIME",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "addIndex",
+        "params": [
+            "calendar_events",
+            {
+                "type": "key",
+                "name": "approved",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "event_calendar_id",
+                    "event_approved",
+                    "event_start_date",
+                    "event_end_date"
+                ]
+            }
+        ]
+    },
+    "11": {
+        "method": "renameTable",
+        "params": [
+            "cal_import_feeds",
+            "calendar_import_feeds"
+        ]
+    },
+    "12": {
+        "method": "renameTable",
+        "params": [
+            "cal_import_map",
+            "calendar_import_map"
+        ]
+    },
+    "13": {
+        "method": "dropIndex",
+        "params": [
+            "calendar_events",
+            "event_content"
+        ]
+    },
+    "14": {
+        "method": "dropIndex",
+        "params": [
+            "calendar_events",
+            "event_title"
+        ]
+    },
+    "15": {
+        "method": "dropIndex",
+        "params": [
+            "calendar_event_comments",
+            "comment_text"
+        ]
+    },
+    "16": {
+        "method": "dropColumn",
+        "params": [
+            "calendar_calendars",
+            [
+                "cal_rss_cache",
+                "cal_rss_update",
+                "cal_rss_export",
+                "cal_rss_export_days",
+                "cal_rss_update_last",
+                "cal_rss_export_max",
+                "cal_rsvp_owner",
+                "cal_bday_limit",
+                "cal_event_limit"
+            ]
+        ]
+    },
+    "17": {
+        "method": "dropColumn",
+        "params": [
+            "calendar_import_feeds",
+            "feed_recache_freq"
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_color",
+                "type": "VARCHAR",
+                "length": 7,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Hex color code to represent this calendar",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "19": {
+        "method": "update",
+        "params": [
+            "calendar_calendars",
+            "cal_color='#000000'"
+        ]
+    },
+    "20": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_event_comments",
+            "ip_address",
+            {
+                "name": "comment_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "21": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_reviews",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "22": {
+        "method": "dropColumn",
+        "params": [
+            "calendar_events",
+            [
+                "event_smilies",
+                "event_rating_hits",
+                "event_rating_total",
+                "event_attachments"
+            ]
+        ]
+    },
+    "23": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_ip_address",
+                "type": "VARCHAR",
+                "length": 46,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "24": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_locked",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Whether the event is locked (for new comments\/reviews) or not",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_featured",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Whether the event is featured or not",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "26": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_events",
+            "event_rating_avg",
+            {
+                "name": "event_rating",
+                "type": "SMALLINT",
+                "length": 5,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "27": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_last_comment",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "28": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_last_review",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "29": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_approved_by",
+                "type": "BIGINT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Member ID who approved the event",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_approved_on",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Date the event was approved on",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "dropTable",
+        "params": [
+            "cal_event_ratings",
+            true
+        ]
+    },
+    "32": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_allow_comments",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "1",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "33": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_allow_reviews",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "calendar_calendars",
+            {
+                "name": "cal_review_moderate",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_location",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Stores location data for the event, used to create a map",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "calendar_import_feeds",
+            {
+                "name": "feed_allow_rsvp",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_rsvp_limit",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Maximum number of attendees allowed for the event",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_cover_photo",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Header background image for the event",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "39": {
+        "method": "addColumn",
+        "params": [
+            "calendar_event_rsvp",
+            {
+                "name": "rsvp_response",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "0=No, 1=Yes, 2=Maybe",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "40": {
+        "method": "update",
+        "params": [
+            "calendar_event_rsvp",
+            "rsvp_response=1"
+        ]
+    },
+    "41": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_events",
+            "event_recurring",
+            {
+                "name": "event_recurring",
+                "type": "TEXT",
+                "length": 2,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "0",
+                "comment": "Holds an RRULE value to indicate how the event recurs",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "42": {
+        "method": "changeColumn",
+        "params": [
+            "calendar_import_feeds",
+            "feed_next_run",
+            {
+                "name": "feed_last_run",
+                "type": "INT",
+                "length": 11,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "43": {
+        "method": "changeIndex",
+        "params": [
+            "calendar_import_feeds",
+            "feed_next_run",
+            {
+                "type": "key",
+                "name": "feed_last_run",
+                "columns": [
+                    "feed_last_run"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "44": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_album",
+                "type": "MEDIUMINT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Holds album ID associated with this event",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "calendar_event_reviews",
+                "columns": {
+                    "review_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "ID Number",
+                        "decimals": null,
+                        "default": null,
+                        "length": 20,
+                        "name": "review_id",
+                        "type": "BIGINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_eid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The event ID",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_eid",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_mid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The member ID of the review author",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 8,
+                        "name": "review_mid",
+                        "type": "MEDIUMINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_text": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The review contents",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "review_text",
+                        "type": "MEDIUMTEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_append_edit": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Boolean indicating if edit message should show",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 1,
+                        "name": "review_append_edit",
+                        "type": "TINYINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_time": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Unix timestamp of when the review was last edited",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "review_edit_time",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_edit_name": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Username of user who last edited review",
+                        "decimals": null,
+                        "default": null,
+                        "length": 255,
+                        "name": "review_edit_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_date": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Unix timestamp of when review was made",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "review_date",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_ip": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "IP address review was made from",
+                        "decimals": null,
+                        "default": "",
+                        "length": 46,
+                        "name": "review_ip",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_author_name": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Username of user who made review",
+                        "decimals": null,
+                        "default": "",
+                        "length": 255,
+                        "name": "review_author_name",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_rating": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The rating (out of 5) with the review",
+                        "decimals": null,
+                        "default": null,
+                        "length": 1,
+                        "name": "review_rating",
+                        "type": "TINYINT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The number of people who have voted \"helpful\" or \"unhelpful\"",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_votes",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes_helpful": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The number of people who have voted \"helpful\"",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "review_votes_helpful",
+                        "type": "INT",
+                        "unsigned": true,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_votes_data": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "JSON object containing data about who has voted helpful\/unhelpful ",
+                        "decimals": null,
+                        "default": "",
+                        "length": 0,
+                        "name": "review_votes_data",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "review_approved": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Review is approved?",
+                        "decimals": null,
+                        "default": "1",
+                        "length": 1,
+                        "name": "review_approved",
+                        "type": "TINYINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_id"
+                        ]
+                    },
+                    "review_eid": {
+                        "type": "key",
+                        "name": "review_eid",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_eid"
+                        ]
+                    },
+                    "review_mid": {
+                        "type": "key",
+                        "name": "review_mid",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "review_mid"
+                        ]
+                    },
+                    "review_ip": {
+                        "type": "key",
+                        "name": "review_ip",
+                        "columns": [
+                            "review_ip"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "46": {
+        "method": "addIndex",
+        "params": [
+            "calendar_event_comments",
+            {
+                "type": "key",
+                "name": "comment_mid",
+                "columns": [
+                    "comment_mid"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "47": {
+        "method": "addColumn",
+        "params": [
+            "calendar_events",
+            {
+                "name": "event_cover_offset",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

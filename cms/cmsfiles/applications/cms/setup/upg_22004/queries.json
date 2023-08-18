@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_blocks",
+            "block_cache_ttl",
+            {
+                "name": "block_cache_ttl",
+                "type": "varchar",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

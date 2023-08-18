@@ -1,0 +1,156 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "ccs_database_moderators",
+                "columns": {
+                    "moderator_id": {
+                        "name": "moderator_id",
+                        "type": "INT",
+                        "length": "11",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": "0",
+                        "auto_increment": false
+                    },
+                    "moderator_database_id": {
+                        "name": "moderator_database_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_type": {
+                        "name": "moderator_type",
+                        "type": "VARCHAR",
+                        "length": 16,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_type_id": {
+                        "name": "moderator_type_id",
+                        "type": "INT",
+                        "length": 11,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_delete_record": {
+                        "name": "moderator_delete_record",
+                        "type": "tinyint",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_edit_record": {
+                        "name": "moderator_edit_record",
+                        "type": "tinyint",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_lock_record": {
+                        "name": "moderator_lock_record",
+                        "type": "tinyint",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_unlock_record": {
+                        "name": "moderator_unlock_record",
+                        "type": "tinyint",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "moderator_delete_comment": {
+                        "name": "moderator_delete_comment",
+                        "type": "tinyint",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "moderator_id"
+                        ]
+                    },
+                    "moderator_database_id": {
+                        "type": "key",
+                        "name": "moderator_database_id",
+                        "columns": [
+                            "moderator_database_id"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_categories",
+            {
+                "name": "category_show_records",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    }
+}

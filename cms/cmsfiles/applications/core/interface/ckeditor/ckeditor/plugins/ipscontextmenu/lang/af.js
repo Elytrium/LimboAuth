@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("ipscontextmenu","af",{options:"Konteks Spyskaart-opsies"});

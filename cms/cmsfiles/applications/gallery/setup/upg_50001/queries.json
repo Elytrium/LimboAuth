@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "image_id"
+            },
+            "app='gallery' and type='id'"
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "comment_id"
+            },
+            "app='gallery' and type='pid'"
+        ]
+    }
+}

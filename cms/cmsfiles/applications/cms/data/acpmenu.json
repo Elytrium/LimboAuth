@@ -1,0 +1,36 @@
+{
+    "pages": {
+        "pages": {
+            "tab": "cms",
+            "controller": "pages",
+            "do": "",
+            "restriction": "page_manage"
+        },
+        "blocks": {
+            "tab": "cms",
+            "controller": "blocks",
+            "do": "",
+            "restriction": "block_manage"
+        },
+        "templates": {
+            "tab": "cms",
+            "controller": "templates",
+            "do": "",
+            "restriction": "template_manage"
+        },
+        "media": {
+            "tab": "cms",
+            "controller": "media",
+            "do": "",
+            "restriction": "media_manage"
+        }
+    },
+    "databases": {
+        "databases": {
+            "tab": "cms",
+            "controller": "databases",
+            "do": "",
+            "restriction": "databases_manage"
+        }
+    }
+}

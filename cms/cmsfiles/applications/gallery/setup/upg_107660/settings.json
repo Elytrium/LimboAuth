@@ -1,0 +1,15 @@
+{
+    "added": [
+        "gallery_new_images_count",
+        "gallery_overview_carousel_count",
+        "gallery_overview_carousel_type",
+        "gallery_overview_show_carousel",
+        "gallery_overview_show_categories",
+        "gallery_recent_updated_albums_count",
+        "gallery_show_new_images",
+        "gallery_show_recent_comments",
+        "gallery_show_recent_updated_albums"
+    ],
+    "edited": [],
+    "removed": []
+}

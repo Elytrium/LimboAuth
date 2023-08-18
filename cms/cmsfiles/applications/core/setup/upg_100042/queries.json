@@ -1,0 +1,41 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_notifications",
+            {
+                "type": "key",
+                "name": "subitem_lookup",
+                "columns": [
+                    "item_sub_class",
+                    "item_sub_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_lang_words",
+            "word_default",
+            {
+                "name": "word_default",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "The default value",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

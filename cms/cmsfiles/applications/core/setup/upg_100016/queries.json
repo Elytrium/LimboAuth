@@ -1,0 +1,45 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "core_members_warn_logs",
+            "content"
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_members_warn_logs",
+            {
+                "type": "key",
+                "name": "content",
+                "columns": [
+                    "wl_content_app",
+                    "wl_content_module",
+                    "wl_content_id1",
+                    "wl_content_id2"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "core_pfields_data",
+            "pf_icon"
+        ]
+    },
+    "4": {
+        "method": "dropColumn",
+        "params": [
+            "core_pfields_data",
+            "pf_key"
+        ]
+    }
+}

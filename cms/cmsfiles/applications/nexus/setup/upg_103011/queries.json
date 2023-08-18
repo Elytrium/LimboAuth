@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='nexus' AND ( word_key IN ( 'customer_no_history', 'see_all_history' ) )"
+        ]
+    }
+}

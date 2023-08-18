@@ -1,0 +1,56 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_rc_index",
+            {
+                "name": "item_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_rc_index",
+            {
+                "name": "node_id",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_index",
+            {
+                "type": "key",
+                "name": "class_node",
+                "columns": [
+                    "class",
+                    "node_id"
+                ],
+                "length": [
+                    191,
+                    null
+                ]
+            }
+        ]
+    }
+}

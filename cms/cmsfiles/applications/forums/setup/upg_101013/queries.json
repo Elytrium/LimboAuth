@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "forums_forums",
+            {
+                "sub_can_post": 0
+            },
+            [
+                "parent_id=?",
+                -1
+            ]
+        ]
+    }
+}

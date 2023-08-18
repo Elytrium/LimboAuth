@@ -1,0 +1,33 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "nexus_member_subscriptions",
+            {
+                "sub_expire": 0
+            },
+            [
+                "sub_added_manually=?",
+                1
+            ]
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_paymethods",
+            {
+                "name": "m_validationfile",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

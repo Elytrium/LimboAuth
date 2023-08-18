@@ -1,0 +1,60 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_purchases",
+            "ps_custom_fields",
+            {
+                "name": "ps_custom_fields",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_support_requests",
+            "r_cfields",
+            {
+                "name": "r_cfields",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "nexus_purchases",
+            {
+                "type": "key",
+                "name": "ps_parent",
+                "columns": [
+                    "ps_parent"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

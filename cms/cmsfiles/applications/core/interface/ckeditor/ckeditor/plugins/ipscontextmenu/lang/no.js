@@ -1,0 +1,1 @@
+﻿CKEDITOR.plugins.setLang("ipscontextmenu","no",{options:"Alternativer for høyreklikkmeny"});

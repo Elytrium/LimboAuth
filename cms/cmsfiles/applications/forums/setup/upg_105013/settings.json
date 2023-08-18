@@ -1,0 +1,32 @@
+{
+    "added": [
+        "archive_on",
+        "archive_remote_sql_database",
+        "archive_remote_sql_host",
+        "archive_remote_sql_pass",
+        "archive_remote_sql_user",
+        "archive_sql_port",
+        "archive_sql_socket",
+        "archive_sql_tbl_prefix",
+        "email_truncate",
+        "forums_answers_downvote",
+        "forums_default_view",
+        "forums_default_view_choose",
+        "forums_fluid_pinned",
+        "forums_new_questions",
+        "forums_popular_now",
+        "forums_posts_per_page",
+        "forums_questions_downvote",
+        "forums_rss",
+        "forums_topic_activity",
+        "forums_topic_activity_desktop",
+        "forums_topic_activity_features",
+        "forums_topics_activity_pages_show",
+        "forums_topics_per_page",
+        "forums_topics_show_meta",
+        "forums_view_list_choose",
+        "forums_view_list_method"
+    ],
+    "edited": [],
+    "removed": []
+}

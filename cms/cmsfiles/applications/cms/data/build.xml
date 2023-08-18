@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="admin/pages"><![CDATA[{"default_controller":"pages","protected":0,"default":1}]]></module>
+ <module key="admin/databases"><![CDATA[{"default_controller":"databases","protected":0,"default":0}]]></module>
+ <module key="front/pages"><![CDATA[{"default_controller":"page","protected":0,"default":1}]]></module>
+ <module key="front/database"><![CDATA[{"default_controller":"index","protected":0,"default":0}]]></module>
+ <task frequency="P0Y0M0DT0H10M0S">updaterecords</task>
+ <setting key="cms_error_page"><![CDATA[{"key":"cms_error_page","default":"0","report":"bool"}]]></setting>
+ <setting key="cms_promote_cat"><![CDATA[{"key":"cms_promote_cat","default":"0","report":"bool"}]]></setting>
+ <setting key="cms_promote_enabled"><![CDATA[{"key":"cms_promote_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="cms_promote_groups"><![CDATA[{"key":"cms_promote_groups","default":"*","report":"bool"}]]></setting>
+ <setting key="cms_root_page_url"><![CDATA[{"key":"cms_root_page_url","default":"","report":"bool"}]]></setting>
+ <setting key="cms_root_path"><![CDATA[{"key":"cms_root_path","default":"","report":"bool"}]]></setting>
+ <setting key="page_extension"><![CDATA[{"key":"page_extension","default":".html","report":"full"}]]></setting>
+ <setting key="sitemap_databases_count"><![CDATA[{"key":"sitemap_databases_count","default":"-1","report":"full"}]]></setting>
+ <setting key="sitemap_databases_priority"><![CDATA[{"key":"sitemap_databases_priority","default":"1","report":"full"}]]></setting>
+ <setting key="sitemap_pages_count"><![CDATA[{"key":"sitemap_pages_count","default":"-1","report":"full"}]]></setting>
+ <setting key="sitemap_pages_priority"><![CDATA[{"key":"sitemap_pages_priority","default":"1","report":"full"}]]></setting>
+ <widget key="Database"><![CDATA[{"class":"\\IPS\\Widget","restrict":["cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":false}]]></widget>
+ <widget key="Wysiwyg"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":[],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":false}]]></widget>
+ <widget key="DatabaseFilters"><![CDATA[{"class":"\\IPS\\Widget","restrict":["cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":false}]]></widget>
+ <widget key="Categories"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":false}]]></widget>
+ <widget key="Blocks"><![CDATA[{"class":"\\IPS\\Widget","restrict":[],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":false}]]></widget>
+ <widget key="RecordFeed"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["cms"],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="Rss"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="pagebuildertext"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="pagebuilderoembed"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="pagebuilderupload"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <acpsearch key="app=cms&amp;module=databases&amp;controller=databases"><![CDATA[{"lang_key":"menu__cms_databases_databases","restriction":"databases_manage","keywords":["database","databases"]}]]></acpsearch>
+ <acpsearch key="app=cms&amp;module=pages&amp;controller=blocks"><![CDATA[{"lang_key":"menu__cms_pages_blocks","restriction":"block_manage","keywords":["blocks"]}]]></acpsearch>
+ <acpsearch key="app=cms&amp;module=pages&amp;controller=media"><![CDATA[{"lang_key":"menu__cms_pages_media","restriction":"media_manage","keywords":["media","media manager"]}]]></acpsearch>
+ <acpsearch key="app=cms&amp;module=pages&amp;controller=pages"><![CDATA[{"lang_key":"menu__cms_pages_pages","restriction":"page_manage","keywords":["add page","articles","pages"]}]]></acpsearch>
+ <acpsearch key="app=cms&amp;module=pages&amp;controller=templates"><![CDATA[{"lang_key":"menu__cms_pages_templates","restriction":"template_manage","keywords":["templates"]}]]></acpsearch>
+ <hook key="InternalUrl"><![CDATA[{"type":"C","class":"\\IPS\\Http\\Url\\Internal"}]]></hook>
+ <hook key="Forum"><![CDATA[{"type":"C","class":"\\IPS\\forums\\Forum"}]]></hook>
+ <hook key="forums"><![CDATA[{"type":"C","class":"\\IPS\\forums\\modules\\admin\\forums\\forums"}]]></hook>
+ <hook key="Url"><![CDATA[{"type":"C","class":"\\IPS\\Http\\Url"}]]></hook>
+ <hook key="Parser"><![CDATA[{"type":"C","class":"\\IPS\\Text\\Parser"}]]></hook>
+ <hook key="Post"><![CDATA[{"type":"C","class":"\\IPS\\forums\\Topic\\Post"}]]></hook>
+ <hook key="topics"><![CDATA[{"type":"S","class":"\\IPS\\Theme\\class_forums_front_topics"}]]></hook>
+ <hook key="Lang"><![CDATA[{"type":"C","class":"\\IPS\\Lang"}]]></hook>
+ <hook key="Database"><![CDATA[{"type":"C","class":"\\IPS\\Data\\Store\\Database"}]]></hook>
+ <hook key="Widget"><![CDATA[{"type":"C","class":"\\IPS\\Widget"}]]></hook>
+ <hook key="Topic"><![CDATA[{"type":"C","class":"\\IPS\\forums\\Topic"}]]></hook>
+ <hook key="FriendlyUrl"><![CDATA[{"type":"C","class":"\\IPS\\Http\\Url\\Friendly"}]]></hook>
+ <hook key="Output"><![CDATA[{"type":"C","class":"\\IPS\\Output"}]]></hook>
+ <hook key="apiForum"><![CDATA[{"type":"C","class":"\\IPS\\forums\\api\\forums"}]]></hook>
+</build>

@@ -1,0 +1,18 @@
+{
+	"nexus_status_1_front": "Open",
+	"nexus_status_1_admin": "Open",
+	"nexus_status_2_front": "On Hold",
+	"nexus_status_2_admin": "Hold",
+	"nexus_status_3_front": "Awaiting your reply",
+	"nexus_status_3_admin": "Closed",
+	"nexus_status_4_front": "Resolved",
+	"nexus_status_4_admin": "Resolved",
+	"nexus_status_4_set": "Mark Resolved",
+	"nexus_status_5_front": "Marked as Spam - Reply if this is an error",
+	"nexus_status_5_admin": "Spam",
+	"nexus_status_6_front": "In Progress",
+	"nexus_status_6_admin": "Working",
+	"nexus_severity_1": "Normal",
+	"cm_phone": "Phone Number",
+	"nexus_ccfield_1": "Phone Number"
+}

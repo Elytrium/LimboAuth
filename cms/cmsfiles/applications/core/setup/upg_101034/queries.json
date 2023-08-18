@@ -1,0 +1,166 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_sessions",
+            "location_url",
+            {
+                "name": "location_url",
+                "type": "VARCHAR",
+                "length": 1024,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_log",
+            {
+                "name": "url",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "URL the error occurred on, if any",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_log",
+            {
+                "name": "member_id",
+                "type": "MEDIUMINT",
+                "length": 9,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "Member that triggered the error, if any",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "calendar",
+                "yesterday"
+            ]
+        ]
+    },
+    "5": {
+        "method": "dropIndex",
+        "params": [
+            "core_reputation_index",
+            "app"
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "app",
+                "columns": [
+                    "app",
+                    "type",
+                    "type_id",
+                    "member_id",
+                    "member_received"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_bulk_mail",
+            {
+                "name": "mail_offset",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "The offset for when the next batch is sent ",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "core_menu",
+            "permissions",
+            {
+                "name": "permissions",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "Comma-delimited list of group IDs, or * for all, NULL to inherit",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_bitoptions2",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

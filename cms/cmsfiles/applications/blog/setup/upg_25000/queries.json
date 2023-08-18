@@ -1,0 +1,61 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "blog_blogs",
+            "blog_header_id"
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "blog_headers"
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key IN ('blog_enable_dheader','blog_cache_dheader','blog_headers')"
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_image",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "blog_entries",
+            {
+                "name": "entry_views",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "blog_views",
+            {
+                "name": "entry_id",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

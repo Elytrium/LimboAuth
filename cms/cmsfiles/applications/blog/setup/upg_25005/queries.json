@@ -1,0 +1,41 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "blog_entries",
+            {
+                "entry_short": ""
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "blog_comments",
+            "comment_member_id",
+            {
+                "type": "key",
+                "name": "comment_member_id",
+                "columns": [
+                    "member_id",
+                    "comment_date"
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "changeIndex",
+        "params": [
+            "blog_category_mapping",
+            "map_entry_id",
+            {
+                "type": "key",
+                "name": "map_blog_id",
+                "columns": [
+                    "map_blog_id",
+                    "map_entry_id"
+                ]
+            }
+        ]
+    }
+}

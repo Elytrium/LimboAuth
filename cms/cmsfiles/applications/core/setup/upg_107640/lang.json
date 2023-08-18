@@ -1,0 +1,23 @@
+{
+    "normal": {
+        "added": [
+            "adjust_digest_stop_email",
+            "acplogs__mfa_questions_reset",
+            "edit_log_truncated",
+            "timezone__Europe\/Kyiv",
+            "nexus_mfa_reset_answers"
+        ],
+        "edited": [
+            "download_upgrade_initial_resource_explain",
+            "advise_removal_of_php8_incompatible_code"
+        ],
+        "removed": [
+            "timezone__Europe\/Kiev"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

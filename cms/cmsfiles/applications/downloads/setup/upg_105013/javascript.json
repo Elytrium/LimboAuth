@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [
+            "downloads\/front\/controllers\/view\/ips.view.subscribe.js"
+        ],
+        "edited": [
+            "downloads\/front\/controllers\/submit\/ips.submit.main.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/\/jquery"
+        ],
+        "removed": []
+    }
+}

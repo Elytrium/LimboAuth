@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_staff_lock",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_invoices",
+            "i_title",
+            {
+                "name": "i_title",
+                "type": "VARCHAR",
+                "length": 128,
+                "default": null
+            }
+        ]
+    }
+}

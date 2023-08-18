@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "added": [
+            "checked",
+            "unchecked",
+            "siteprofilelink_discord",
+            "siteprofilelink_twitch"
+        ],
+        "edited": [
+            "download_upgrade_initial_resource_explain",
+            "advise_removal_of_php8_incompatible_code"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

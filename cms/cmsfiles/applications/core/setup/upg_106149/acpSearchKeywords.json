@@ -1,0 +1,12 @@
+{
+    "added": [
+        "app=core&module=applications&controller=api&tab=webhooks",
+        "app=core&module=membersettings&controller=reputation&tab=leaderboard&searchResult=reputation_timezone"
+    ],
+    "edited": [
+        "app=core&module=applications&controller=api"
+    ],
+    "removed": [
+        "app=core&module=membersettings&controller=reputation&searchResult=reputation_timezone"
+    ]
+}

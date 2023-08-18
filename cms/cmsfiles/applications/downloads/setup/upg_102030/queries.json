@@ -1,0 +1,40 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_comments",
+            "comment_approved",
+            {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_open",
+                    "comment_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_reviews",
+            "review_approved",
+            {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved",
+                    "review_date"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

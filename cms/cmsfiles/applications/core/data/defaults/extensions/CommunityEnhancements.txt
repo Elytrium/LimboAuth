@@ -1,0 +1,122 @@
+<?php
+/**
+ * @brief		Community Enhancements
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\CommunityEnhancements;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Community Enhancement
+ */
+class _{class}
+{
+	/**
+	 * @brief	Enhancement is enabled?
+	 */
+	public $enabled	= FALSE;
+
+	/**
+	 * @brief	IPS-provided enhancement?
+	 */
+	public $ips	= FALSE;
+
+	/**
+	 * @brief	Enhancement has configuration options?
+	 */
+	public $hasOptions	= TRUE;
+
+	/**
+	 * @brief	Icon data
+	 */
+	public $icon	= "";
+	
+	/**
+	 * Constructor
+	 *
+	 * @return	void
+	 */
+	public function __construct()
+	{
+		//$this->enabled = \IPS\Settings::i()->xxxxxx;
+	}
+	
+	/**
+	 * Edit
+	 *
+	 * @return	void
+	 */
+	public function edit()
+	{
+		$form = new \IPS\Helpers\Form;
+		//$form->add( ... );
+		if ( $form->values() )
+		{
+			try
+			{
+				$this->testSettings();
+				$form->saveAsSettings();
+
+				\IPS\Output::i()->inlineMessage	= \IPS\Member::loggedIn()->language()->addToStack('saved');
+			}
+			catch ( \LogicException $e )
+			{
+				$form->error = $e->getMessage();
+			}
+		}
+		
+		\IPS\Output::i()->sidebar['actions'] = array(
+			'help'	=> array(
+				'title'		=> 'help',
+				'icon'		=> 'question-circle',
+				'link'		=> \IPS\Http\Url::internal( "http://www.example.com" ),
+				'target'	=> '_blank'
+			),
+		);
+		
+		\IPS\Output::i()->output = \IPS\Theme::i()->getTemplate( 'global' )->block( 'enhancements__{app}_{class}', $form );
+	}
+	
+	/**
+	 * Enable/Disable
+	 *
+	 * @param	$enabled	bool	Enable/Disable
+	 * @return	void
+	 * @throws	\LogicException
+	 */
+	public function toggle( $enabled )
+	{
+		if ( $enabled )
+		{
+			$this->testSettings();
+		}
+		
+		//\IPS\Settings::i()->changeValues( array( 'xxxxxx' => $enabled ) );
+	}
+	
+	/**
+	 * Test Settings
+	 *
+	 * @return	void
+	 * @throws	\LogicException
+	 */
+	protected function testSettings()
+	{
+		if ( FALSE )
+		{
+			throw new \LogicException( 'error' );
+		}
+	}
+}

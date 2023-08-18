@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_transactions",
+            "t_amount",
+            {
+                "name": "t_amount",
+                "type": "DECIMAL",
+                "length": 20,
+                "decimals": 2,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

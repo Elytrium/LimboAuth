@@ -1,0 +1,34 @@
+{
+    "files": {
+        "added": [
+            "core\/front\/controllers\/core\/ips.core.onlineUsersWidget.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.editor.js",
+            "global\/framework\/common\/ui\/ips.ui.uploader.js",
+            "global\/framework\/common\/utils\/ips.utils.analytics.js",
+            "global\/framework\/common\/utils\/ips.utils.lazyLoad.js",
+            "global\/framework\/common\/utils\/ips.utils.notification.js",
+            "global\/framework\/common\/utils\/ips.utils.serviceWorker.js",
+            "global\/admin\/controllers\/core\/ips.core.app.js",
+            "global\/front\/controllers\/core\/ips.core.app.js",
+            "core\/front\/controllers\/core\/ips.core.moderation.js",
+            "core\/global\/controllers\/core\/ips.core.multipleRedirect.js",
+            "global\/framework\/controllers\/editor\/ips.editor.insertable.js",
+            "global\/framework\/controllers\/editor\/ips.editor.uploader.js",
+            "core\/front\/controllers\/modcp\/ips.modcp.announcementForm.js",
+            "core\/front\/controllers\/profile\/ips.profile.main.js",
+            "core\/admin\/controllers\/templates\/ips.templates.fileEditor.js",
+            "core\/admin\/templates\/ips.templates.templates.js",
+            "global\/framework\/templates\/ips.core.templates.js"
+        ],
+        "removed": [
+            "core\/front\/controllers\/widgets\/ips.widgets.onlineUsers.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

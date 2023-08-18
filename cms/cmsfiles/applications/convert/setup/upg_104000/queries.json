@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "convert_apps",
+            "name"
+        ]
+    }
+}

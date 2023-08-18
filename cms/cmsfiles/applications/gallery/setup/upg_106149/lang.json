@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [
+            "webhook_galleryAlbum_create"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

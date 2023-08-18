@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "email_held_approval",
+            "email_gateway_pending",
+            "email_held_approval",
+            "email_gateway_pending"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

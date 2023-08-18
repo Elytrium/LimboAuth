@@ -1,0 +1,1256 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_social_promote",
+            "promote_sent",
+            {
+                "type": "key",
+                "name": "promote_sent",
+                "columns": [
+                    "promote_sent",
+                    "promote_scheduled"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "replace",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_key": "lazy_load_enabled",
+                "conf_default": 1,
+                "conf_value": 0,
+                "conf_app": "core",
+                "conf_report": "full"
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_tags",
+            {
+                "type": "key",
+                "name": "tag_text",
+                "columns": [
+                    "tag_text"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_pfields_data",
+            "pf_member_hide",
+            {
+                "name": "pf_member_hide",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "all",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_pfields_data",
+            {
+                "name": "pf_topic_hide",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "hide",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_acp_notifications",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "app": {
+                        "name": "app",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The key of the application this notification belongs to",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "ext": {
+                        "name": "ext",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The extension this notification belongs to within the application",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "sent": {
+                        "name": "sent",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when this notification was sent",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "extra": {
+                        "name": "extra",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Any additional data about the notification",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_acp_notifcations_dismissals",
+                "columns": {
+                    "notification": {
+                        "name": "notification",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Notification ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "BIGINT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Member ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "time": {
+                        "name": "time",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the notification was dismissed",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "notification",
+                            "member"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "member": {
+                        "type": "key",
+                        "name": "member",
+                        "columns": [
+                            "member"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_acp_notifications_preferences",
+                "columns": {
+                    "member": {
+                        "name": "member",
+                        "type": "BIGINT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Member ID Number",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "type": {
+                        "name": "type",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Key representing the notification type",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "view": {
+                        "name": "view",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Does the admin want to view this type of notification?",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "email": {
+                        "name": "email",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "never",
+                        "comment": "How frequently to email the admin about this notification",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "member",
+                            "type"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "9": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_ips_bulletins",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "title": {
+                        "name": "title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The bulletin title",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "body": {
+                        "name": "body",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The bulletin body",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "severity": {
+                        "name": "severity",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The bulletin severity",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "style": {
+                        "name": "style",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The bulletin style",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "dismissible": {
+                        "name": "dismissible",
+                        "type": "VARCHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "If the bulletin can be dismissed",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "link": {
+                        "name": "link",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Where the notification should link to",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cached": {
+                        "name": "cached",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when this row was cached",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "conditions": {
+                        "name": "conditions",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "PHP code to check if notification should show",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "10": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_post_before_registering",
+                "columns": {
+                    "email": {
+                        "name": "email",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The guest's email address",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "class": {
+                        "name": "class",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The class of the content that was posted",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID of the content that was posted",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "timestamp": {
+                        "name": "timestamp",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the content was posted",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "secret": {
+                        "name": "secret",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "A secret key which is used to link the user to this content",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The ID number of the member account once it has been created but before it has been validated",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "followup": {
+                        "name": "followup",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when followup email was sent",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "language": {
+                        "name": "language",
+                        "type": "BIGINT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID number of the language that the guest had selected",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "lookup": {
+                        "type": "primary",
+                        "name": "lookup",
+                        "columns": [
+                            "class",
+                            "id"
+                        ],
+                        "length": [
+                            250,
+                            null
+                        ]
+                    },
+                    "content_lookup": {
+                        "type": "unique",
+                        "name": "content_lookup",
+                        "columns": [
+                            "class",
+                            "id"
+                        ],
+                        "length": [
+                            250,
+                            null
+                        ]
+                    },
+                    "secret": {
+                        "type": "key",
+                        "name": "secret",
+                        "columns": [
+                            "secret"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member": {
+                        "type": "key",
+                        "name": "member",
+                        "columns": [
+                            "member"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "11": {
+        "method": "addIndex",
+        "params": [
+            "core_follow",
+            {
+                "type": "key",
+                "name": "digest_task",
+                "columns": [
+                    "follow_notify_sent",
+                    "follow_notify_freq",
+                    "follow_notify_do",
+                    "follow_member_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "12": {
+        "method": "dropIndex",
+        "params": [
+            "core_follow",
+            "notification_task"
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "core_admin_logs",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "addIndex",
+        "params": [
+            "core_clubs",
+            {
+                "type": "key",
+                "name": "owner",
+                "columns": [
+                    "owner"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "15": {
+        "method": "addIndex",
+        "params": [
+            "core_edit_history",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "16": {
+        "method": "addIndex",
+        "params": [
+            "core_error_logs",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "log_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "17": {
+        "method": "dropIndex",
+        "params": [
+            "core_item_markers",
+            "item_member_id"
+        ]
+    },
+    "18": {
+        "method": "addIndex",
+        "params": [
+            "core_incoming_emails",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "rule_added_by"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "19": {
+        "method": "addIndex",
+        "params": [
+            "core_polls",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "starter_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "20": {
+        "method": "changeIndex",
+        "params": [
+            "core_ratings",
+            "member_lookup",
+            {
+                "type": "unique",
+                "name": "member_lookup",
+                "columns": [
+                    "member",
+                    "class",
+                    "item_id"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "21": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_comments",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "comment_by"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "22": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_index",
+            {
+                "type": "key",
+                "name": "first_report_by",
+                "columns": [
+                    "first_report_by"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "23": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_index",
+            {
+                "type": "key",
+                "name": "author",
+                "columns": [
+                    "author"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "24": {
+        "method": "addIndex",
+        "params": [
+            "core_security_answers",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "answer_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "25": {
+        "method": "addIndex",
+        "params": [
+            "core_soft_delete_log",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "sdl_obj_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "26": {
+        "method": "addIndex",
+        "params": [
+            "core_sys_social_groups",
+            {
+                "type": "key",
+                "name": "owner",
+                "columns": [
+                    "owner_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "27": {
+        "method": "addIndex",
+        "params": [
+            "core_streams",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "28": {
+        "method": "addIndex",
+        "params": [
+            "core_announcements",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "announce_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "29": {
+        "method": "addIndex",
+        "params": [
+            "core_advertisements",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "ad_member"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "menu_tabs",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Club Menu sortorder",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "addColumn",
+        "params": [
+            "core_advertisements",
+            {
+                "name": "ad_type",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "",
+                "comment": "1 = HTML, 2 = images, 3 = email",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "32": {
+        "method": "addIndex",
+        "params": [
+            "core_advertisements",
+            {
+                "type": "key",
+                "name": "ad_type",
+                "columns": [
+                    "ad_type",
+                    "ad_active"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "33": {
+        "method": "update",
+        "params": [
+            "core_advertisements",
+            "ad_type=(CASE WHEN ad_html IS NOT NULL THEN 1 ELSE 2 END)"
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "core_advertisements",
+            {
+                "name": "ad_email_views",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Tracks the number of times an email containing the ad has been opened\/viewed",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "core_advertisements",
+            {
+                "name": "ad_image_alt",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Alt text for web-based image ads, or for plaintext emails",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "core_announcements",
+            {
+                "name": "announce_type",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "1",
+                "comment": "Announcement type 0=None, 1=Content, 2=Url",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "core_announcements",
+            {
+                "name": "announce_url",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Announcement URL",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "38": {
+        "method": "changeColumn",
+        "params": [
+            "core_announcements",
+            "announce_content",
+            {
+                "name": "announce_content",
+                "type": "TEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "39": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_output_cache",
+                "columns": {
+                    "cache_key": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The key",
+                        "decimals": null,
+                        "default": "",
+                        "length": 100,
+                        "name": "cache_key",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cache_value": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "The output HTML",
+                        "decimals": null,
+                        "default": "",
+                        "length": 0,
+                        "name": "cache_value",
+                        "type": "LONGTEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cache_meta": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "JSON headers and meta data",
+                        "decimals": null,
+                        "default": "",
+                        "length": 0,
+                        "name": "cache_meta",
+                        "type": "MEDIUMTEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "cache_expire": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "Unix timestamp of when the cache expires",
+                        "decimals": null,
+                        "default": "",
+                        "length": 10,
+                        "name": "cache_expire",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "cache_key": {
+                        "type": "unique",
+                        "name": "cache_key",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cache_key"
+                        ]
+                    },
+                    "keyexpire": {
+                        "type": "key",
+                        "name": "keyexpire",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "cache_key",
+                            "cache_expire"
+                        ]
+                    },
+                    "cache_expire": {
+                        "type": "key",
+                        "name": "cache_expire",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cache_expire"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "40": {
+        "method": "delete",
+        "params": [
+            "core_share_links",
+            [
+                "share_key=?",
+                "googleplusone"
+            ]
+        ]
+    },
+    "41": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='core' AND word_key IN( 'export_member_password_hash', 'export_member_password_salt' ) "
+        ]
+    },
+    "42": {
+        "method": "replace",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_key": "group_formatting",
+                "conf_value": "legacy",
+                "conf_default": "global",
+                "conf_app": "core",
+                "conf_report": "full"
+            }
+        ]
+    },
+    "43": {
+        "method": "delete",
+        "params": [
+            "core_share_links",
+            [
+                "share_key=?",
+                "stumble"
+            ]
+        ]
+    }
+}

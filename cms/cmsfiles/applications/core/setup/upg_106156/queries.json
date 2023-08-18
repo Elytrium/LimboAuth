@@ -1,0 +1,32 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_profanity_filters",
+            "action",
+            {
+                "name": "action",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "swap",
+                    "moderate",
+                    "block"
+                ],
+                "allow_null": false,
+                "default": "swap",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "core_mobileapp_menu",
+            true
+        ]
+    }
+}

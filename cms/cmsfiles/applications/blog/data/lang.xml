@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="blog" version="107704">
+  <word key="__app_blog" js="0">Blogs</word>
+  <word key="frontnavigation_blogs" js="0">Blogs</word>
+  <word key="__indefart_blog_entry_comment" js="0">a comment on a blog entry</word>
+  <word key="__indefart_blog_entry" js="0">a blog entry</word>
+  <word key="__defart_blog_entry_comment" js="0">comment on a blog entry</word>
+  <word key="__defart_blog_entry_comment_plural" js="0">{!#[1:comment][?:comments]} on a blog entry</word>
+  <word key="__defart_blog_entry" js="0">blog entry</word>
+  <word key="__defart_blog_entry_plural" js="0">{!#[1:blog entry][?:blog entries]}</word>
+  <word key="blog_entry_container" js="0">blog</word>
+  <word key="blog_entry_pl_lc" js="0">blog entries</word>
+  <word key="module__blog_blogs" js="0">Blogs</word>
+  <word key="menu__blog_blogs" js="0">Blogs</word>
+  <word key="menu__blog_blogs_settings" js="0">Settings</word>
+  <word key="menu__blog_blogs_blogs" js="0">Blogs</word>
+  <word key="acp_search_title_blog_Blogs" js="0">Blogs</word>
+  <word key="acplog__entries_published" js="0">Automatically published blog entries (%s published)</word>
+  <word key="filestorage__blog_Entries" js="0">Blog Entries</word>
+  <word key="add_blog" js="0">Add Blog</word>
+  <word key="block_blog_Overview" js="0">Blog Overview</word>
+  <word key="editor__blog_Blogs" js="0">Blogs</word>
+  <word key="editor__blog_Entries" js="0">Blog Entries</word>
+  <word key="editor__blog_Categories" js="0">Blog Categories</word>
+  <word key="task__blogrssimport" js="0">Checks RSS/Atom feeds for new articles and imports into Blogs.</word>
+  <word key="filestorage__blog_Blogs" js="0">Blog Cover Photos</word>
+  <word key="entry_blog_id" js="0">Blog</word>
+  <word key="r__blogs" js="0">Blogs</word>
+  <word key="r__blog_settings_manage" js="0">Can edit blog settings?</word>
+  <word key="r__blogs_manage" js="0">Can manage blogs?</word>
+  <word key="blog_member_deleted" js="0">Member has been deleted</word>
+  <word key="rebuilding_blog_entry_images" js="0">Rebuilding blog entry images</word>
+  <word key="acplogs__blog_settings" js="0">Updated blog settings</word>
+  <word key="blog_enable_rating" js="0">Enable blog ratings?</word>
+  <word key="blog_settings_rss" js="0">RSS Settings</word>
+  <word key="blog_allow_rssimport" js="0">Allow RSS imports</word>
+  <word key="blog_allow_rssimport_desc" js="0"><![CDATA[Allowing users to import RSS feeds will make your site susceptible to <a href='https://owasp.org/www-community/attacks/Server_Side_Request_Forgery' target='_blank' rel='noopener'>SSRF attacks</a>. You should not allow RSS imports to Blog if untrusted users are permitted to create blogs, and you should only import RSS feeds from sources that are trusted and that do not allow user-submitted content to be included in the feed.]]></word>
+  <word key="blog_allow_rss" js="0">Allow RSS exports</word>
+  <word key="blog_allow_grid" js="0">Enable grid view</word>
+  <word key="blog_allow_grid_desc" js="0">Grid view showcases blog entries as cards with space for a feature photo</word>
+  <word key="blog_view_mode" js="0">Default view</word>
+  <word key="blog_view_mode_grid" js="0">Grid of latest entries</word>
+  <word key="blog_view_mode_grid_desc" js="0">Displays entries as cards in a grid with space for a feature photo</word>
+  <word key="blog_view_mode_list" js="0">List of blogs</word>
+  <word key="blog_view_mode_list_desc" js="0">Displays blogs as a sortable and filterable list</word>
+  <word key="blogs" js="0">Blogs</word>
+  <word key="blog_word_custom" js="0">Blog Name</word>
+  <word key="blog_blog_member_id" js="0">Blog Author</word>
+  <word key="blogs_sg" js="0">Blog</word>
+  <word key="blogs_sg_lc" js="0">blog</word>
+  <word key="create_blog" js="0">Create a blog</word>
+  <word key="create_new_blog" js="0">Create a new blog</word>
+  <word key="add_entry_to" js="0">Add entry to a blog</word>
+  <word key="blog_entry" js="0">Blog Entry</word>
+  <word key="blog_entry_pl" js="0">Blog Entries</word>
+  <word key="blog_entry_comment" js="0">Blog Comment</word>
+  <word key="add_blog_entry" js="0">Add Blog Entry</word>
+  <word key="entry_pl" js="0">Blog Entries</word>
+  <word key="blog_entry_comment_pl" js="0">Blog Comments</word>
+  <word key="blog_entry_comment_pl_lc" js="0">blog comments</word>
+  <word key="entry_comments" js="0">Comments</word>
+  <word key="blog_num_views" js="0">{!# [1:view][?:views]}</word>
+  <word key="manage_blog" js="0">Manage Blog</word>
+  <word key="select_blog" js="0">Select Blog</word>
+  <word key="search_contextual_item_blogs" js="0">This Blog</word>
+  <word key="search_contextual_item_blog_entry" js="0">This Entry</word>
+  <word key="view_blogs_as_list" js="0">View Blogs</word>
+  <word key="view_blogs_as_grid" js="0">View Latest Entries</word>
+  <word key="blog_settings" js="0">Blog Settings</word>
+  <word key="blog_name" js="0">Name</word>
+  <word key="blog_name_group" js="0">Name</word>
+  <word key="blog_desc" js="0">Description</word>
+  <word key="blog_desc_group" js="0">Description</word>
+  <word key="blog_desc_placeholder" js="0">Add a description...</word>
+  <word key="blog_type" js="0">Type</word>
+  <word key="blog_type_normal" js="0">Single author</word>
+  <word key="blog_type_group" js="0">Group</word>
+  <word key="blog_type_group_desc" js="0">Group blogs are jointly managed by all members in selected groups.</word>
+  <word key="blog_groupblog_ids" js="0">Groups</word>
+  <word key="blog_member_id" js="0">Author</word>
+  <word key="blog_groupblog_name" js="0">Group Name</word>
+  <word key="blog_groupblog_name_desc" js="0">Used in place of the owner's name when viewing a Group Blog.</word>
+  <word key="edit_blog" js="0">Edit Blog</word>
+  <word key="delete_blog" js="0">Delete Blog</word>
+  <word key="blog_privacy" js="0">Privacy</word>
+  <word key="blog_privacy_open" js="0">Everyone can read this blog</word>
+  <word key="blog_privacy_private" js="0">Only the members I choose can read this blog</word>
+  <word key="blog_social_group" js="0">Members allowed to read this blog</word>
+  <word key="no_blog_author_selected" js="0">No Blog Author selected</word>
+  <word key="modlog__action_delete_blog" js="0">Deleted Blog %s</word>
+  <word key="delete_blog_confirm" js="0">Are you sure you want to delete this blog?</word>
+  <word key="delete_blog_warning" js="0">This will permanently delete the blog and all its entries.</word>
+  <word key="submit_entry" js="0">Submit New Blog Entry</word>
+  <word key="blog_entry_title" js="0">Title</word>
+  <word key="blog_entry_tags" js="0">Tags</word>
+  <word key="blog_entry_auto_follow" js="0"></word>
+  <word key="blog_entry_auto_follow_suffix" js="0">Follow this entry</word>
+  <word key="blog_entry_content" js="0">Content</word>
+  <word key="blog_entry_date" js="0">Publish Time</word>
+  <word key="blog_entry_publish" js="0">Publish</word>
+  <word key="blog_entry_mainTab" js="0">Blog Entry</word>
+  <word key="blog_entry_pollTab" js="0">Poll</word>
+  <word key="blog_entry_poll" js="0"></word>
+  <word key="create_blog_entry" js="0">Create Blog Entry</word>
+  <word key="entry_submit" js="0">Submit Entry</word>
+  <word key="entry_information" js="0">Entry Details</word>
+  <word key="blog_entry__save" js="0">Save</word>
+  <word key="entry_ip_address" js="0">IP Address</word>
+  <word key="entry_gallery_album" js="0">Album</word>
+  <word key="entry_gallery_album_desc" js="0">You can associate an album from the Gallery with this entry to display images alongside the entry content</word>
+  <word key="entry_category_choice" js="0">Entry Category</word>
+  <word key="entry_category_choice_new" js="0">Create a new entry category</word>
+  <word key="entry_category_choice_existing" js="0">Use an existing entry category</word>
+  <word key="block_entryFeed" js="0">Blog Entry Feed</word>
+  <word key="block_entryFeed_desc" js="0">Create a feed of blog entries</word>
+  <word key="widget_feed_container_blog_entry" js="0">Blogs</word>
+  <word key="block_latestComments" js="0">Latest Comments From Your Blogs</word>
+  <word key="block_latestComments_desc" js="0">Shows a list of latest comments from the logged in member's blogs</word>
+  <word key="view_this_entry" js="0">View the entry %s</word>
+  <word key="block_blogStatistics" js="0">Blog Statistics</word>
+  <word key="block_blogStatistics_desc" js="0">Shows general blog statistics</word>
+  <word key="stats_overview_blogs" js="0">Blogs</word>
+  <word key="stats_overview_blogs_desc" js="0">Blog creation date is not tracked so this is a total count and not limited by any date range restrictions applied</word>
+  <word key="total_blogs" js="0">Total Blogs</word>
+  <word key="total_entries" js="0">Total Entries</word>
+  <word key="block_recentEntries" js="0">Recent Entries</word>
+  <word key="block_recentEntries_desc" js="0">Shows recent entries</word>
+  <word key="prev_entry" js="0">Previous entry</word>
+  <word key="next_entry" js="0">Next entry</word>
+  <word key="blog_entry__comment_placeholder" js="0">Add a comment...</word>
+  <word key="blog_entry_submit_comment" js="0">Submit Comment</word>
+  <word key="entry_actions" js="0">Entry Actions</word>
+  <word key="edit_title_blog" js="0">Edit this blog entry</word>
+  <word key="feature_title_blog" js="0">Feature this blog entry</word>
+  <word key="unfeature_title_blog" js="0">Unfeature this blog entry</word>
+  <word key="pin_title_blog" js="0">Pin this blog entry</word>
+  <word key="unpin_title_blog" js="0">Unpin this blog entry</word>
+  <word key="hide_title_blog" js="0">Hide this blog entry</word>
+  <word key="unhide_title_blog" js="0">Unhide this blog entry</word>
+  <word key="blog_lock_title" js="0">Lock this blog entry</word>
+  <word key="blog_unlock_title" js="0">Unlock this blog entry</word>
+  <word key="blog_move_title" js="0">Move this blog entry</word>
+  <word key="blog_delete_title" js="0">Delete this blog entry</word>
+  <word key="approve_title_blog" js="0">Approve this blog entry</word>
+  <word key="report_entry" js="0">Report Entry</word>
+  <word key="unpublished" js="0">Unpublished</word>
+  <word key="blog_entry_locked_can_comment" js="0">This blog entry is locked, but your permissions allow you to add new comments.</word>
+  <word key="blog_entry_locked_cannot_comment" js="0">This blog entry is now closed to further comments.</word>
+  <word key="entry_posted" js="0">Entry posted by %s</word>
+  <word key="entry_future_posted" js="0">Entry by %s publishes on</word>
+  <word key="entry_images" js="0">Images</word>
+  <word key="entry_posted_with_cat" js="0">Entry posted by %s in %s</word>
+  <word key="entry_future_posted_with_cat" js="0">Entry by %s in %s publishes on</word>
+  <word key="blog_comments" js="0">{!#[1:comment][?:comments]}</word>
+  <word key="blog_entries" js="0">{!#[1:entry][?:entries]}</word>
+  <word key="blog_views" js="0">{!#[1:view][?:views]}</word>
+  <word key="recent_entries" js="0">Recent Entries</word>
+  <word key="featured_entries" js="0">Featured Entries</word>
+  <word key="our_community_blogs" js="0">Our community blogs</word>
+  <word key="my_blogs" js="0">My Blogs</word>
+  <word key="blogs_with_content" js="0">Blogs With Entries</word>
+  <word key="sort_last_edate" js="0">Last Entry</word>
+  <word key="sort_rating_total" js="0">Rating</word>
+  <word key="from_the_blog" js="0">From the blog</word>
+  <word key="see_more_entries" js="0">See more entries from %s</word>
+  <word key="no_entries_yet" js="0">No blog entries yet</word>
+  <word key="read_more_entry" js="0">Read more of this entry</word>
+  <word key="see_comments_on_entry" js="0">See comments for this entry</word>
+  <word key="add_entry" js="0">Add new entry</word>
+  <word key="this_is_group" js="0">This is a group blog</word>
+  <word key="unread_blog" js="0">This entry is unread</word>
+  <word key="read_blog" js="0">You've read this entry</word>
+  <word key="go_to_blog" js="0">Go to the blog %s</word>
+  <word key="latest_entry" js="0">Latest Entry</word>
+  <word key="entry_name_with_cat" js="0">%s in %s</word>
+  <word key="no_entries" js="0">No blog entries have been created</word>
+  <word key="pin_blog" js="0">Pin</word>
+  <word key="unpin_blog" js="0">Unpin</word>
+  <word key="blog_by" js="0">A blog by %s in %s</word>
+  <word key="group_blog_by" js="0">A group blog by %s in %s</word>
+  <word key="club_blog_for" js="0">A club blog for %s</word>
+  <word key="contributors_to_this" js="0">Contributors to this blog</word>
+  <word key="num_contributors_to_this" js="0">{# [1:contributor][?:contributors]} to this blog</word>
+  <word key="about_this_blog" js="0">About this blog</word>
+  <word key="entries_in_this_blog" js="0">Entries in this blog</word>
+  <word key="blog_category_viewing" js="0">Viewing category %s</word>
+  <word key="blog_category_select" js="0">View a category</word>
+  <word key="blog_rss_offline" js="0">RSS feed disabled</word>
+  <word key="blog_rss_offline_admin" js="0">This RSS feed is disabled either because the setting &quot;Allow RSS exports&quot; is currently disabled in the ACP or it is disabled in the individual blog settings.</word>
+  <word key="blog_enable_rss" js="0">Enable RSS Feed</word>
+  <word key="blog_enable_rss_desc" js="0">Allow this blog to be syndicated with others by enabling RSS</word>
+  <word key="blog_rss_title" js="0">Latest Entries</word>
+  <word key="blog_rss_import" js="0">Atom/RSS Import</word>
+  <word key="blog_rss_import_url" js="0">URL</word>
+  <word key="blog_rss_import_auth_user" js="0">HTTP Authorization Username</word>
+  <word key="blog_rss_import_auth_user_desc" js="0">Most feeds do not require authorization and you can leave this blank.</word>
+  <word key="blog_rss_import_auth_pass" js="0">HTTP Authorization Password</word>
+  <word key="blog_rss_import_auth_pass_desc" js="0">Most feeds do not require authorization and you can leave this blank.</word>
+  <word key="blog_rss_import_tags" js="0">Tags</word>
+  <word key="blog_rss_import_show_link" js="0">Text to use for link</word>
+  <word key="blog_rss_import_show_link_desc" js="0">Will appear at the bottom of the post, linking to the original article.</word>
+  <word key="blog_rss_import_show_link_default" js="0">View the full article</word>
+  <word key="blog_enable_rss_import" js="0">Enable RSS import</word>
+  <word key="blog_enable_rss_import_desc" js="0">Import entries from an external source using RSS</word>
+  <word key="embed_blog_entry" js="0">Blog Entry</word>
+  <word key="embed_blog" js="0">Blog</word>
+  <word key="view_this_blog" js="0">View this blog</word>
+  <word key="user_blogs" js="0">Blogs</word>
+  <word key="profile_blog_blog" js="0">Blogs</word>
+  <word key="also_contributes" js="0">Also contributes to:</word>
+  <word key="contributes_to" js="0">Contributes To</word>
+  <word key="most_recent_entry" js="0">Most recent entry</word>
+  <word key="blog_byline_nodate" js="0">A blog by %s</word>
+  <word key="blog_last_entry_date" js="0">Last entry posted %s</word>
+  <word key="num_blog_comments" js="0">{# [1:comment][?:comments]}</word>
+  <word key="num_blog_entries" js="0">{# [1:entry][?:entries]}</word>
+  <word key="num_blog_views" js="0">{# [1:view][?:views]}</word>
+  <word key="digest_area_blog_blog" js="0">Blogs</word>
+  <word key="digest_area_blog_entry" js="0">Entries</word>
+  <word key="x_created_blog" js="0">%s created a blog</word>
+  <word key="x_created_entry_in" js="0">%s posted a blog entry in %s</word>
+  <word key="x_commented_entry" js="0">%s commented on an entry</word>
+  <word key="x_commented_blog_entry" js="0">%s commented on a blog entry</word>
+  <word key="loc_blog_viewing_index" js="0">Browsing Blogs</word>
+  <word key="loc_blog_creating" js="0">Creating a Blog</word>
+  <word key="loc_blog_viewing_blog" js="0">Viewing Blog: %s</word>
+  <word key="loc_blog_adding_entry" js="0">Adding a Blog Entry in: %s</word>
+  <word key="loc_blog_viewing_entry" js="0">Viewing Entry: %s</word>
+  <word key="loc_blog_viewing_index_action" js="0">%s is browsing blogs</word>
+  <word key="loc_blog_creating_action" js="0">%s is creating a blog</word>
+  <word key="loc_blog_viewing_blog_action" js="0">%s is viewing a blog</word>
+  <word key="loc_blog_adding_entry_action" js="0">%s is adding a blog entry</word>
+  <word key="loc_blog_viewing_entry_action" js="0">%s is reading a blog entry</word>
+  <word key="modperms__core_Content_blog_Entry" js="0">Blog Entries</word>
+  <word key="modperms__blog_Blogs" js="0">Blogs</word>
+  <word key="can_pin_blog_entry" js="0">Can pin entries?</word>
+  <word key="can_unpin_blog_entry" js="0">Can unpin entries?</word>
+  <word key="can_feature_blog_entry" js="0">Can feature entries?</word>
+  <word key="can_unfeature_blog_entry" js="0">Can unfeature entries?</word>
+  <word key="can_edit_blog_entry" js="0">Can edit entries?</word>
+  <word key="can_hide_blog_entry" js="0">Can hide entries?</word>
+  <word key="can_unhide_blog_entry" js="0">Can unhide entries?</word>
+  <word key="can_view_hidden_blog_entry" js="0">Can view hidden entries?</word>
+  <word key="can_mod_blogs" js="0">Can move blogs?</word>
+  <word key="can_move_blog_entry" js="0">Can move entries?</word>
+  <word key="can_move_blog_entry_desc" js="0">Will be able to move entries only between the blogs they can create new content within.</word>
+  <word key="can_lock_blog_entry" js="0">Can lock entries?</word>
+  <word key="can_unlock_blog_entry" js="0">Can unlock entries?</word>
+  <word key="can_reply_to_locked_blog_entry" js="0">Can reply to locked entries?</word>
+  <word key="can_delete_blog_entry" js="0">Can delete entries?</word>
+  <word key="can_edit_blog_entry_comment" js="0">Can edit comments?</word>
+  <word key="can_hide_blog_entry_comment" js="0">Can hide comments?</word>
+  <word key="can_unhide_blog_entry_comment" js="0">Can unhide comments?</word>
+  <word key="can_view_hidden_blog_entry_comment" js="0">Can view hidden comments?</word>
+  <word key="can_delete_blog_entry_comment" js="0">Can delete comments?</word>
+  <word key="can_future_publish_blog_entry" js="0">Can set a future publishing date?</word>
+  <word key="can_view_future_blog_entry" js="0">Can view pending publishing blog entries authored by other members?</word>
+  <word key="can_feature_comments_blog_entry" js="0">Can recommend comments on entries?</word>
+  <word key="can_unfeature_comments_blog_entry" js="0">Can remove comment recommendations on entries?</word>
+  <word key="can_add_item_message_blog_entry" js="0">Can add messages to entries?</word>
+  <word key="can_edit_item_message_blog_entry" js="0">Can edit messages on entries?</word>
+  <word key="can_delete_item_message_blog_entry" js="0">Can delete messages on entries?</word>
+  <word key="group__blog_Blog" js="0">Blog</word>
+  <word key="g_blog_allowlocal" js="0">Can create blogs?</word>
+  <word key="g_blog_maxblogs" js="0">Maximum number of blogs</word>
+  <word key="g_blog_allowprivate" js="0">Can create private blogs?</word>
+  <word key="g_blog_allowprivate_desc" js="0">Private blogs can only be seen by the members that the creator chooses.</word>
+  <word key="g_blog_allowpoll" js="0">Can add polls to blog entries?</word>
+  <word key="g_blog_allowcomment" js="0">Can comment on blog entries?</word>
+  <word key="g_blog_allowcomment_guestreg" js="0"><![CDATA[<a href='{internal.admin.app=core&module=settings&controller=posting&searchResult=post_before_registering}'>Post Before Registering</a> is enabled, but will be bypassed when you enable this setting.]]></word>
+  <word key="g_blog_allowownmod" js="0">Can moderate own blog entries?</word>
+  <word key="g_blog_allowownmod_desc" js="0">The user will be able to: edit comments and entries, delete comments and entries, and lock entries from further comments.</word>
+  <word key="g_blog_allowdelete" js="0">Can delete own blogs?</word>
+  <word key="block_blogCommentFeed" js="0">Blog Comments</word>
+  <word key="block_blogCommentFeed_desc" js="0">Display comments from blogs.</word>
+  <word key="block_blogs" js="0">Blogs</word>
+  <word key="block_blogs_desc" js="0">Display a list of blogs.</word>
+  <word key="widget_blog_last_date" js="0">Last entry posted</word>
+  <word key="widget__blog_edate" js="0">Last entry date</word>
+  <word key="widget__blog_count_entries" js="0">Number of entries</word>
+  <word key="widget__blog_count_comments" js="0">Number of comments</word>
+  <word key="__api_blog_comments" js="0">Comments</word>
+  <word key="__api_blog_entries" js="0">Entries</word>
+  <word key="__api_blog_blogs" js="0">Blogs</word>
+  <word key="blog_sidebar_enabled" js="0">Enable Custom Sidebar?</word>
+  <word key="blog_sidebar" js="0">Sidebar Contents</word>
+  <word key="blog_enable_sidebar" js="0">Enable custom sidebars?</word>
+  <word key="blog_enable_sidebar_desc" js="0">Users with permission to manage blogs will be able to add content above the site sidebar to include social media links etc.</word>
+  <word key="blog_sidebar_title" js="0">Blog Information</word>
+  <word key="blog_bm_filters" js="0">Blog</word>
+  <word key="mf_has_blog" js="0">Member has a Blog?</word>
+  <word key="blog_entry_cover_photo" js="0">Feature Photo</word>
+  <word key="menu__blog_blogs_categories" js="0">Blogs</word>
+  <word key="blog_categories" js="0">Blogs</word>
+  <word key="blog_create_category" js="0">Create New Category</word>
+  <word key="blog_categories_add_child" js="0">Add Blog</word>
+  <word key="blog_category_id" js="0">Category</word>
+  <word key="category_basic_settings" js="0">Basic Settings</word>
+  <word key="blog_category_desc" js="0">Description</word>
+  <word key="category_parent" js="0">Parent</word>
+  <word key="category_desc_placeholder" js="0">Add a description...</word>
+  <word key="__api_blog_categories" js="0">Categories</word>
+  <word key="entry_category_id" js="0">Select Entry Category</word>
+  <word key="blog_entry_new_category" js="0">Entry Category Name</word>
+  <word key="blog_entry_category_new" js="0"> - Choose New - </word>
+  <word key="blog_category_heading" js="0">Viewing entries in %s</word>
+  <word key="blog_manage_entry_categories" js="0">Manage Categories</word>
+  <word key="blog_entry_categories" js="0">Entry Categories</word>
+  <word key="blog_error_missing_name" js="0">You need to enter a name for this category</word>
+  <word key="blog_error_not_find_category" js="0">Could not locate that category</word>
+  <word key="blog_categories_all" js="0">Show All</word>
+  <word key="no_entries_in_cat" js="0">There are no entries in this category</word>
+  <word key="__api_blog_entrycategories" js="0">Entry Categories</word>
+  <word key="blog_subcategories" js="0">Subcategories</word>
+  <word key="webhook_blogBlog_create" js="0">Fired when a blog is created</word>
+  <word key="blog_category_confirm_delete" js="1">Are you sure you want to delete this category?</word>
+  <word key="blog_category_confirm_delete_desc" js="1">Existing entries in this category will be updated so that they are no longer in a category.</word>
+  <word key="manage_cats_new_row" js="1">Add New Category</word>
+  <word key="entry_cat_order_saved" js="1">Category order saved</word>
+ </app>
+</language>

@@ -1,0 +1,63 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/browse\/categories",
+            "front\/browse\/featuredEntries",
+            "front\/browse\/index",
+            "front\/browse\/indexButtons",
+            "front\/browse\/indexGrid",
+            "front\/browse\/indexGridEntry",
+            "front\/browse\/rows",
+            "admin\/dashboard\/overview",
+            "front\/global\/commentTableHeader",
+            "front\/global\/embedBlogs",
+            "front\/global\/embedEntry",
+            "front\/global\/embedEntryComment",
+            "front\/global\/embedEntryItemSnippet",
+            "front\/global\/profileBlogRows",
+            "front\/global\/profileBlogTable",
+            "front\/global\/rows",
+            "admin\/livesearch\/blog",
+            "front\/submit\/blogSelector",
+            "front\/submit\/createBlog",
+            "front\/submit\/submit",
+            "front\/submit\/submitFormTemplate",
+            "front\/view\/blogHeader",
+            "front\/view\/blogSidebar",
+            "front\/view\/blogTable",
+            "front\/view\/blogViewLarge",
+            "front\/view\/blogViewMedium",
+            "front\/view\/categories",
+            "front\/view\/comments",
+            "front\/view\/coverPhotoOverlay",
+            "front\/view\/entry",
+            "front\/view\/manageCategories",
+            "front\/view\/noEntries",
+            "front\/view\/rows",
+            "front\/view\/rowsGrid",
+            "front\/view\/view",
+            "front\/widgets\/blogCommentFeed",
+            "front\/widgets\/blogs",
+            "front\/widgets\/blogStatistics",
+            "front\/widgets\/entryFeed",
+            "front\/widgets\/entryRow"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/blog.css",
+            "front\/embed.css",
+            "front\/grid.css",
+            "front\/profile.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,121 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "gallery_form_fields"
+        ]
+    },
+    "2": {
+        "method": "dropTable",
+        "params": [
+            "gallery_media_types"
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "gallery_albums_main",
+            "album_g_password"
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "gallery_categories"
+        ]
+    },
+    "5": {
+        "method": "dropTable",
+        "params": [
+            "gallery_image_views"
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_position",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_detail_default",
+                "type": "int",
+                "length": 1,
+                "unsigned": true,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "gallery_images",
+            "rating=ROUND(ratings_total\/ratings_count)",
+            "ratings_total>0 AND ratings_count>0 AND rating=0"
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "gallery_albums_main",
+            {
+                "name": "album_watermark",
+                "type": "int",
+                "length": 1,
+                "unsigned": true,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "original_file_name",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images_uploads",
+            {
+                "name": "upload_file_name_original",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_gallery_use",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    }
+}

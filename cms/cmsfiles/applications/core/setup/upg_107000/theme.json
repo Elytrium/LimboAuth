@@ -1,0 +1,29 @@
+{
+    "html": {
+        "added": [
+            "global\/forms\/hCaptcha"
+        ],
+        "edited": [
+            "global\/editor\/attachedImage",
+            "admin\/global\/globalTemplate",
+            "global\/global\/includeJS",
+            "front\/streams\/filterForm",
+            "front\/streams\/filterInlineForm",
+            "front\/system\/searchResultSnippet",
+            "front\/system\/settingsMfa"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/styles\/streams.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

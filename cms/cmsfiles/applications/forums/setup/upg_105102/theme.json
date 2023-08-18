@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/global\/viewChange",
+            "front\/index\/forumGridItem",
+            "front\/index\/forumRow",
+            "front\/topics\/activity"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/forums_responsive.css",
+            "front\/forums.css",
+            "front\/topics.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "err_password_toolong"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "vseColorizer_invert"
+        ],
+        "edited": [
+            "vseColorizer_revert",
+            "password_advice"
+        ],
+        "removed": []
+    }
+}

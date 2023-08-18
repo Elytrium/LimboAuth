@@ -1,0 +1,36 @@
+{
+    "normal": {
+        "added": [
+            "stream_solved",
+            "stream_solved_all",
+            "stream_solved_solved",
+            "stream_solved_unsolved",
+            "stream_blurb_unsolved",
+            "stream_blurb_solved",
+            "searchstats_log",
+            "search_logs",
+            "searchlog_exclude_groups",
+            "searchlog_exclude_groups_desc",
+            "captcha_type_hcaptcha",
+            "captcha_type_hcaptcha_desc",
+            "hcaptcha_sitekey",
+            "hcaptcha_secret",
+            "hcaptcha_secret_desc",
+            "hcaptcha_privacy",
+            "online_status_cannot_change",
+            "use_gtm_for_installation",
+            "googletag_code_required"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [
+            "streamFilter_stream_solved_all",
+            "streamFilter_stream_solved_solved",
+            "streamFilter_stream_solved_unsolved"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

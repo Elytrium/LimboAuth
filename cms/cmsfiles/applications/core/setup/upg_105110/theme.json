@@ -1,0 +1,28 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/userPhoto",
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/userPhoto"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

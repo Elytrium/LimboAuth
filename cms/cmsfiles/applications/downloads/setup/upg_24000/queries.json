@@ -1,0 +1,95 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key='idm_enablerandom'"
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_comments",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_downloads",
+            "dip",
+            {
+                "name": "dip",
+                "type": "varchar",
+                "length": 46,
+                "default": "0",
+                "allow_null": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_ipaddress",
+            {
+                "name": "file_ipaddress",
+                "type": "varchar",
+                "length": 46,
+                "default": "0",
+                "allow_null": false
+            }
+        ]
+    },
+    "5": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_files",
+            "file_submitter",
+            {
+                "type": "key",
+                "name": "file_submitter",
+                "columns": [
+                    "file_submitter",
+                    "file_open",
+                    "file_updated"
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_sessions",
+            "dsess_ip",
+            {
+                "name": "dsess_ip",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_urls",
+            "url_ip",
+            {
+                "name": "url_ip",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    }
+}

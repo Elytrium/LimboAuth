@@ -1,0 +1,41 @@
+{
+    "html": {
+        "added": [
+            "admin\/support\/methodIssues",
+            "admin\/system\/upgradeDeltaResourceIssues"
+        ],
+        "edited": [
+            "global\/forms\/hCaptcha",
+            "global\/forms\/number",
+            "front\/global\/contentItemMessage",
+            "global\/global\/dynamicChart",
+            "admin\/support\/supportBlockList",
+            "front\/system\/unsubscribed",
+            "admin\/system\/upgradeDeltaThemeConflicts",
+            "admin\/trees\/row"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "global\/flags.css",
+            "admin\/core\/global.css",
+            "global\/framework\/_vars.css",
+            "global\/framework\/comments.css",
+            "global\/framework\/misc.css",
+            "admin\/promotion\/meta.css",
+            "front\/styles\/alerts.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "admin\/welcome.svg",
+            "front\/notification.svg"
+        ],
+        "removed": []
+    }
+}

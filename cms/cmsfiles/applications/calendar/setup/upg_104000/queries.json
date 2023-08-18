@@ -1,0 +1,34 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "calendar_event_reminders",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "reminder_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "calendar_import_feeds",
+            {
+                "type": "key",
+                "name": "member",
+                "columns": [
+                    "feed_member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "normal": {
+        "added": [
+            "theme_advanced_mode_off",
+            "theme_advanced_mode_on",
+            "theme_simple_css_tab",
+            "theme_simple_header_tab",
+            "theme_simple_footer_tab",
+            "theme_simple_header",
+            "theme_simple_header_desc",
+            "theme_simple_footer",
+            "theme_simple_footer_desc",
+            "theme_simple_css",
+            "theme_simple_css_desc",
+            "theme_mode_switched",
+            "theme_advanced_mode_submessage_off",
+            "theme_advanced_mode_submessage_on",
+            "theme_simple_lots_of_css_files",
+            "theme_error_in_template",
+            "theme_simple_save_all",
+            "core_theme_set_header_and_footer_header",
+            "theme_simple_header_settings",
+            "theme_simple_footer_settings",
+            "theme_simple_header_settings_desc",
+            "theme_simple_footer_settings_desc"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

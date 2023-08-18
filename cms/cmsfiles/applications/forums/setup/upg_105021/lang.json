@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "archiving_blurb_cloud",
+            "archive_last_post_cloud",
+            "archive_last_post_suffix",
+            "archive_settings_cloud",
+            "archived_topic_missing_posts",
+            "archived_topic_missing_posts_admin"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

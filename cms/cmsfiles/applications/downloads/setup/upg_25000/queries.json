@@ -1,0 +1,131 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_value": "disk"
+            },
+            "conf_key='idm_filestorage' AND conf_value IN ('web','nonweb')"
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "downloads_files_records",
+            {
+                "record_storagetype": "disk"
+            },
+            "record_storagetype IN ('web','nonweb')"
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files_records",
+            "record_storagetype",
+            {
+                "name": "record_storagetype",
+                "type": "varchar",
+                "length": 24,
+                "default": "disk",
+                "allow_null": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_throttling",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_wait_period",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctags_disabled",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctags_noprefixes",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "downloads_categories",
+            {
+                "name": "ctags_predefined",
+                "type": "text",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "9": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_comments",
+            "comment_fid",
+            {
+                "type": "key",
+                "name": "comment_fid",
+                "columns": [
+                    "comment_fid",
+                    "comment_date"
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "changeIndex",
+        "params": [
+            "downloads_files",
+            "file_cat",
+            {
+                "type": "key",
+                "name": "file_cat",
+                "columns": [
+                    "file_cat",
+                    "file_updated"
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "added": [
+        "clientAreaLink",
+        "clientAreaLinkLoad",
+        "frontDispatcher",
+        "register",
+        "Database",
+        "DispatcherAdmin"
+    ],
+    "edited": [],
+    "removed": []
+}

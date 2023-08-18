@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "reg_complete_2fa_title",
+            "oauth_status_revoked"
+        ],
+        "edited": [
+            "link_your_accounts_error"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

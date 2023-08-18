@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>gallery</template_app><template_name>_imageContent</template_name><template_content_html><![CDATA[{{if $includeAuthor}}
+<table width='100%' cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='40' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<img src='{$content->author()->get_photo( true, true )}' width='40' height='40' style='border: 1px solid #777777; vertical-align: middle;'>
+		</td>
+		<td dir='{dir}' width='30' valign='top' class='hidePhone' style='width: 0; max-height: 0; overflow: hidden; float: left;'>
+			<br />
+			<span style='display: block; width: 0px; height: 0px; border-width: 15px; border-color: transparent #f9f9f9 transparent transparent; border-style: solid'></span>
+		</td>
+		<td dir='{dir}' valign='top' style='background: #f9f9f9;'>
+{{endif}}
+<table width='100%' cellpadding='10' cellspacing='0' border='0'>
+	<tr>
+		<td dir='{dir}' width='120' align='center' valign='top'>
+			<img src='{file="$content->small_file_name" extension="gallery_Images"}' style='border: 1px solid #000; vertical-align: middle;' width='100' height='100'>
+		</td>
+		<td dir='{dir}' align='left'>
+			<table width='100%' cellpadding='5' cellspacing='0' border='0'>
+				{{if $container = $content->containerWrapper()}}
+					<tr>
+						<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px; color: #8d8d8d">
+							{$email->language->addToStack("email_posted_in", FALSE, array( 'sprintf' => array( $container->getTitleForLanguage( $email->language ) ) ) )}
+						</td>
+					</tr>
+				{{endif}}
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+						<strong>{$content->mapped('title')}</strong>
+					</td>
+				</tr>
+				<tr>
+					<td dir='{dir}' style="font-family: 'Helvetica Neue', helvetica, sans-serif; line-height: 1.5; font-size: 14px;">
+						{$email->parseTextForEmail( $content->content(), $email->language )|raw}
+					</td>
+				</tr>
+				{{if $includeLinks}}
+					<tr>
+						<td dir='{dir}'>
+							<a href='{$content->url()}' style="color: #ffffff; font-family: 'Helvetica Neue', helvetica, sans-serif; text-decoration: none; font-size: 14px; background: {setting="email_color"}; line-height: 32px; padding: 0 10px; display: inline-block; border-radius: 3px;">{$email->language->addToStack("go_to_this_x", FALSE, array( 'sprintf' => array( mb_strtolower( $email->language->addToStack( $content::$title, FALSE ) ) ) ) )}</a>
+						</td>
+					</tr>
+				{{endif}}
+			</table>
+		</td>
+	</tr>
+</table>
+{{if $includeAuthor}}
+		</td>
+	</tr>
+</table>
+{{endif}}]]></template_content_html><template_data>$content, $includeLinks, $includeAuthor, $email</template_data><template_content_plaintext/><template_pinned>0</template_pinned></template><template><template_app>gallery</template_app><template_name>digests__item</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' align='center' valign='top'>
+		<img src='{file="$image->small_file_name" extension="gallery_Images"}' style='border: 1px solid #000; vertical-align: middle;' width='100' height='100'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_added_image_in", FALSE, array( 'sprintf' => array( $image->author()->name, $image->container()->getTitleForLanguage( $email->language ) ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 20px; font-weight: 500 !important; margin: 0;">
+			<a href='{$image->url()}' style='text-decoration: none;'>{$image->mapped('name')}</a>
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px'>
+			{$email->parseTextForEmail( $image->content(), $email->language )|raw}
+		</div>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px;'>
+			{{if $image->container()->allow_rating}}
+				{{foreach range( 1, 5 ) as $i}}{{if $i <= $image->averageRating()}}<img src='{resource="email/rating_on.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{elseif ( $i - 0.5 ) <= $image->averageRating()}}<img src='{resource="email/rating_half.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{else}}<img src='{resource="email/rating_off.png" location="interface" app="core"}' width='14' height='13' style='vertical-align: middle; margin-right: 2px'>{{endif}}{{endforeach}}
+				&nbsp;&nbsp;&nbsp;&nbsp;
+ 			{{endif}}
+
+			<strong style='font-family: "Helvetica Neue", helvetica, sans-serif; '><img src='{resource="email/comment.png" location="interface" app="core"}' width='13' height='12' style='vertical-align: middle'>&nbsp; {$email->language->addToStack("num_comments", FALSE, array( 'pluralize' => array( $image->comments ) ) )}</strong>
+		</p>
+	</td>
+</tr>]]></template_content_html><template_data>$image, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_added_image_in", FALSE, array( 'htmlsprintf' => array( $image->author()->name, $image->container()->getTitleForLanguage( $email->language ) ) ) )}: {$image->mapped('name')} ({$image->url()})]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>gallery</template_app><template_name>digests__comment</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='120' align='center' valign='top'>
+		<img src='{file="$comment->item()->small_file_name" extension="gallery_Images"}' style='border: 1px solid #000; vertical-align: middle;' width='100' height='100'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_commented_photo", FALSE, array( 'sprintf' => array( $comment->author()->name ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; font-weight: 500 !important; margin: 0;">
+			<a href='{$comment->item()->url()}' style='text-decoration: none;'>{$comment->item()->mapped('name')}</a>
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px; border-left: 3px solid #8c8c8c; padding-left: 15px; font-size: 14px; margin-left: 15px;'>
+			{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+		</div>
+	</td>
+</tr>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_commented_photo", FALSE, array( 'htmlsprintf' => array( $comment->author()->name ) ) )}: {$comment->item()->name} ({$comment->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

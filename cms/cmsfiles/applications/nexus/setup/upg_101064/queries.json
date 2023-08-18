@@ -1,0 +1,395 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_streams",
+                "columns": {
+                    "stream_id": {
+                        "name": "stream_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "stream_departments": {
+                        "name": "stream_departments",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of department IDs or NULL for all",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_statuses": {
+                        "name": "stream_statuses",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of status IDs or NULL for all",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_severities": {
+                        "name": "stream_severities",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of severity IDs or NULL for all",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_staff": {
+                        "name": "stream_staff",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Comma-delimited list of staff IDs or NULL for all",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_from_email": {
+                        "name": "stream_from_email",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "From email address, or NULL for any",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_search_term": {
+                        "name": "stream_search_term",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Search term, or NULL for none",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_started": {
+                        "name": "stream_started",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of hours to restrict started time to, or NULL for no restriction",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_last_reply": {
+                        "name": "stream_last_reply",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of hours to restrict last reply time to, or NULL for no restriction",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_last_staff_reply": {
+                        "name": "stream_last_staff_reply",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of hours to restrict last staff reply time to, or NULL for no restriction",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_owner": {
+                        "name": "stream_owner",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "The ID number of the staff member who owns the stream",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_position": {
+                        "name": "stream_position",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "Order in staff members streams",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_last_new_reply": {
+                        "name": "stream_last_new_reply",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of hours to restrict reopened time to, or NULL for no restriction",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_tracked": {
+                        "name": "stream_tracked",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Boolean value indicating if only tracked requests should be included",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_title": {
+                        "name": "stream_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The name of the stream",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "stream_temporary": {
+                        "name": "stream_temporary",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "If this has not yet been saved by its owner",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "stream_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "list": {
+                        "type": "key",
+                        "name": "list",
+                        "columns": [
+                            "stream_owner",
+                            "stream_position"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "dropColumn",
+        "params": [
+            "nexus_support_severities",
+            "sev_icon"
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_licensekeys",
+            "lkey_activate_data",
+            {
+                "name": "lkey_activate_data",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='nexus' AND word_key='previous_day'"
+        ]
+    },
+    "5": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='nexus' AND word_key='next_day'"
+        ]
+    },
+    "6": {
+        "method": "renameTable",
+        "params": [
+            "nexus_support_default_content",
+            "nexus_support_staff_preferences"
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_staff_preferences",
+            {
+                "name": "action",
+                "type": "VARCHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Default action when replying to a support request",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_staff_dpt_order",
+                "columns": {
+                    "staff_id": {
+                        "name": "staff_id",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "The staff's member ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "department_id": {
+                        "name": "department_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The department ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "dpt_position": {
+                        "name": "dpt_position",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The department position",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "staff_and_department": {
+                        "type": "unique",
+                        "name": "staff_and_department",
+                        "columns": [
+                            "staff_id",
+                            "department_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

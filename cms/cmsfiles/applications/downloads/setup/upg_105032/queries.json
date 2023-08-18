@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "idm_max_size",
+                "type": "INT",
+                "null": false,
+                "default": -1,
+                "comment": "Maximum file size allowed",
+                "unsigned": false
+            }
+        ]
+    }
+}

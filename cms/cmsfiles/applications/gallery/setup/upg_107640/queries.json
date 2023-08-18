@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "type": "key",
+                "name": "udate",
+                "columns": [
+                    "image_category_id",
+                    "image_album_id",
+                    "image_approved",
+                    "image_updated"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

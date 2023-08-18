@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/browse\/indexButtons",
+            "front\/browse\/indexGridEntry",
+            "front\/browse\/rows",
+            "front\/view\/blogHeader",
+            "front\/view\/blogViewLarge",
+            "front\/view\/blogViewMedium",
+            "front\/view\/entry",
+            "front\/widgets\/blogs"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

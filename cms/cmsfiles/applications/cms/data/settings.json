@@ -1,0 +1,57 @@
+[
+    {
+        "key": "cms_error_page",
+        "default": "0",
+        "report": "bool"
+    },
+    {
+        "key": "cms_promote_cat",
+        "default": "0",
+        "report": "bool"
+    },
+    {
+        "key": "cms_promote_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "cms_promote_groups",
+        "default": "*",
+        "report": "bool"
+    },
+    {
+        "key": "cms_root_page_url",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "cms_root_path",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "page_extension",
+        "default": ".html",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_databases_count",
+        "default": "-1",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_databases_priority",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_pages_count",
+        "default": "-1",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_pages_priority",
+        "default": "1",
+        "report": "full"
+    }
+]

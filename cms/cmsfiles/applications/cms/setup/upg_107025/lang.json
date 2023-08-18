@@ -1,0 +1,21 @@
+{
+    "normal": {
+        "added": [
+            "acplogs__cms_imported_database",
+            "acplogs__cms_downloaded_database",
+            "acplogs__cms_database_topic_resync",
+            "acplogs__cms_database_comments_recount",
+            "acplogs__cms_deleted_record",
+            "acplogs__cms_moved_record",
+            "acplogs__cms_added_record",
+            "acplogs__cms_edited_recored"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

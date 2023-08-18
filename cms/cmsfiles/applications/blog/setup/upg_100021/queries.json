@@ -1,0 +1,71 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "blog_entries",
+            "entry_poll_state",
+            {
+                "name": "entry_poll_state",
+                "type": "INT",
+                "length": 8,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "blog_comments",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "comment_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "blog_entries",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "entry_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "blog_comments",
+            {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

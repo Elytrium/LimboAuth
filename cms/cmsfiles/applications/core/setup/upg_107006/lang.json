@@ -1,0 +1,57 @@
+{
+    "normal": {
+        "added": [
+            "oauth_app_revoke_title",
+            "modcp_alerts",
+            "add_alert",
+            "edit_alert",
+            "edit_alert_author",
+            "alert_change_author",
+            "alert_delete",
+            "alert_title",
+            "alert_content",
+            "alert_start",
+            "alert_end",
+            "alert_recipient_type",
+            "alert_type_user",
+            "alert_type_group",
+            "alert_recipient_user",
+            "alert_recipient_group",
+            "alert_no_recipient_selected",
+            "alert_send",
+            "alert_anonymous",
+            "alert_anonymous_desc",
+            "alert_anon",
+            "can_manage_alerts",
+            "alert_reply",
+            "alert_no_reply",
+            "alert_can_reply",
+            "alert_must_reply",
+            "alert_modal_title",
+            "alert_tooltip_groups",
+            "alert_tooltip_member",
+            "alert_not_viewed",
+            "alert_viewed_times",
+            "alert_filter_viewed",
+            "alert_filter_not_viewed",
+            "alert_filter_groups",
+            "alert_filter_user",
+            "alert_show_to",
+            "alert_show_to_all",
+            "alert_show_to_all_desc",
+            "alert_show_to_new",
+            "alert_show_to_new_desc",
+            "alert_dismiss",
+            "alert_must_reply_modal"
+        ],
+        "edited": [
+            "oauth_app_revoke"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

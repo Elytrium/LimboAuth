@@ -1,0 +1,41 @@
+{
+    "html": {
+        "added": [
+            "admin\/stats\/rankprogressionmessage"
+        ],
+        "edited": [
+            "front\/alerts\/alertModal",
+            "front\/clubs\/header",
+            "front\/clubs\/viewPage",
+            "global\/forms\/editor",
+            "global\/forms\/editorRaw",
+            "global\/forms\/rowDesc",
+            "front\/global\/prefix",
+            "front\/global\/quickSearch",
+            "front\/global\/tag",
+            "front\/profile\/profileHeader",
+            "front\/system\/settingsDevices",
+            "front\/widgets\/guestSignUp"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/flags.css",
+            "global\/framework\/global.css",
+            "global\/framework\/misc.css",
+            "admin\/promotion\/meta.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "admin\/enhancements\/zapier.png",
+            "admin\/welcome.svg",
+            "front\/notification.svg"
+        ],
+        "removed": []
+    }
+}

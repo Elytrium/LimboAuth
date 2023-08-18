@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "chart_forums",
+            "archiving_blurb_cloud_notforced",
+            "disable_cloud_archiving"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

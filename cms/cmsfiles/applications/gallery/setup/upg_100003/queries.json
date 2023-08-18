@@ -1,0 +1,23 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_comments",
+            "comment_text"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "image_caption"
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_images",
+            "image_description"
+        ]
+    }
+}

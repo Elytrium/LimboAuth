@@ -1,0 +1,29 @@
+{
+    "downloads": {
+        "categories": {
+            "categories_manage": "categories_manage",
+            "categories_add": "categories_add",
+            "categories_edit": "categories_edit",
+            "categories_permissions": "categories_permissions",
+            "categories_massManageContent": "categories_massManageContent",
+            "categories_recount_downloads": "categories_recount_downloads"
+        },
+        "fields": {
+            "fields_manage": "fields_manage",
+            "fields_add": "fields_add",
+            "fields_edit": "fields_edit",
+            "fields_delete": "fields_delete"
+        },
+        "settings": {
+            "settings_manage": "settings_manage"
+        }
+    },
+    "stats": {
+        "downloads": {
+            "downloads_manage": "downloads_manage",
+            "downloaders_manage": "downloaders_manage",
+            "submitters_manage": "submitters_manage",
+            "topdownloads_manage": "topdownloads_manage"
+        }
+    }
+}

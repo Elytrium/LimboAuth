@@ -1,0 +1,314 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "nexus_support_views",
+                "columns": {
+                    "view_rid": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "view_rid",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "view_member": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 8,
+                        "name": "view_member",
+                        "type": "MEDIUMINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "view_first": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "view_first",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "view_last": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "view_last",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "view_reply": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "view_reply",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "view_rid",
+                            "view_member"
+                        ]
+                    },
+                    "view_last": {
+                        "type": "key",
+                        "name": "view_last",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "view_last"
+                        ]
+                    }
+                },
+                "collation": "utf8mb4_unicode_ci"
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_ar_notify",
+                "type": "TINYINT",
+                "length": "1",
+                "allow_null": false,
+                "default": "0"
+            }
+        ]
+    },
+    "3": {
+        "method": "update",
+        "params": [
+            "nexus_support_requests",
+            {
+                "r_ar_notify": 1
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "nexus_transactions",
+            {
+                "name": "t_gw_id",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "nexus_alternate_contacts",
+            {
+                "name": "billing",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "nexus_alternate_contacts",
+            {
+                "name": "support",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "name": "server_max_accounts",
+                "type": "INT",
+                "length": 5
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "nexus_hosting_servers",
+            {
+                "server_max_accounts": 99999
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_replies",
+            {
+                "name": "reply_raw",
+                "type": "MEDIUMTEXT",
+                "default": null
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_invoice_warning_sent",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "nexus_packages_products",
+            {
+                "name": "p_subscription",
+                "type": "TINYINT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "12": {
+        "method": "insert",
+        "params": [
+            "nexus_gateways",
+            {
+                "g_id": 6,
+                "g_key": "2checkout",
+                "g_name": "2CheckOut",
+                "g_testmode": 0,
+                "g_position": null,
+                "g_payout": 0
+            }
+        ]
+    },
+    "13": {
+        "method": "insert",
+        "params": [
+            "nexus_paymethods",
+            {
+                "m_id": 9,
+                "m_gateway": 6,
+                "m_name": "2CheckOut",
+                "m_settings": "a:3:{s:3:\"sid\";s:0:\"\";s:11:\"secret_word\";s:0:\"\";s:3:\"url\";s:9:\"spurchase\";}",
+                "m_active": 0,
+                "m_position": 0
+            }
+        ]
+    },
+    "14": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_po",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "15": {
+        "method": "addColumn",
+        "params": [
+            "nexus_invoices",
+            {
+                "name": "i_notes",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_replies",
+            {
+                "name": "reply_cc",
+                "type": "TEXT",
+                "default": null
+            }
+        ]
+    },
+    "17": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_packages_products",
+            "p_weight",
+            {
+                "name": "p_weight",
+                "type": "FLOAT",
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "nexus_coupons",
+            {
+                "name": "c_combine",
+                "type": "TINYINT",
+                "length": " 1 ",
+                "allow_null": false,
+                "default": 1
+            }
+        ]
+    }
+}

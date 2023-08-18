@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "nexus\/global\/controllers\/gateways\/ips.gateways.stripe.js",
+            "nexus\/admin\/controllers\/support\/ips.support.request.js",
+            "nexus\/admin\/templates\/ips.templates.store.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

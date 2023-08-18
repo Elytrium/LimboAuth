@@ -1,0 +1,364 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "item",
+                "columns": [
+                    "index_class",
+                    "index_item_id"
+                ],
+                "length": [
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_message_topic_user_map",
+            "map_user",
+            {
+                "type": "key",
+                "name": "map_user",
+                "columns": [
+                    "map_user_id",
+                    "map_user_active",
+                    "map_folder_id",
+                    "map_last_topic_reply"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_widgets",
+            {
+                "type": "key",
+                "name": "widget_app",
+                "columns": [
+                    "app"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "core_widgets",
+            {
+                "type": "key",
+                "name": "widget_plugin",
+                "columns": [
+                    "plugin"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "core_attachments_map",
+            {
+                "type": "key",
+                "name": "map_lookup",
+                "columns": [
+                    "location_key",
+                    "id1"
+                ],
+                "length": [
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_attachments_map",
+            {
+                "type": "key",
+                "name": "attachment_id",
+                "columns": [
+                    "attachment_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "core_notifications",
+            {
+                "type": "key",
+                "name": "item_lookup",
+                "columns": [
+                    "item_class",
+                    "item_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "container",
+                "columns": [
+                    "index_class",
+                    "index_container_id"
+                ],
+                "length": [
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "core_notification_defaults",
+            {
+                "type": "key",
+                "name": "notification_key",
+                "columns": [
+                    "notification_key"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "dropIndex",
+        "params": [
+            "core_notification_defaults",
+            "notification_key"
+        ]
+    },
+    "11": {
+        "method": "addIndex",
+        "params": [
+            "core_notifications",
+            {
+                "type": "key",
+                "name": "member_read",
+                "columns": [
+                    "member",
+                    "read_time"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "12": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_settings_values",
+            {
+                "type": "key",
+                "name": "sv_id",
+                "columns": [
+                    "sv_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "core_hooks",
+            {
+                "type": "key",
+                "name": "plugin",
+                "columns": [
+                    "plugin"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "addIndex",
+        "params": [
+            "core_hooks",
+            {
+                "type": "key",
+                "name": "app",
+                "columns": [
+                    "app"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "15": {
+        "method": "addIndex",
+        "params": [
+            "core_acp_search_index",
+            {
+                "type": "key",
+                "name": "app",
+                "columns": [
+                    "app"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "16": {
+        "method": "addIndex",
+        "params": [
+            "core_admin_permission_rows",
+            {
+                "type": "key",
+                "name": "row_id_type",
+                "columns": [
+                    "row_id_type"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "17": {
+        "method": "addIndex",
+        "params": [
+            "core_tasks",
+            {
+                "type": "key",
+                "name": "lock_count",
+                "columns": [
+                    "lock_count"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "18": {
+        "method": "addIndex",
+        "params": [
+            "core_files_temp",
+            {
+                "type": "key",
+                "name": "upload_key",
+                "columns": [
+                    "upload_key"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "19": {
+        "method": "addIndex",
+        "params": [
+            "core_leaders",
+            {
+                "type": "key",
+                "name": "leader_group_id",
+                "columns": [
+                    "leader_group_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "20": {
+        "method": "addIndex",
+        "params": [
+            "core_profanity_filters",
+            {
+                "type": "key",
+                "name": "m_exact",
+                "columns": [
+                    "m_exact"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "21": {
+        "method": "addIndex",
+        "params": [
+            "core_attachments_map",
+            {
+                "type": "key",
+                "name": "temp_key",
+                "columns": [
+                    "temp"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "22": {
+        "method": "addIndex",
+        "params": [
+            "core_queue",
+            {
+                "type": "key",
+                "name": "task_lookup",
+                "columns": [
+                    "app",
+                    "key"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

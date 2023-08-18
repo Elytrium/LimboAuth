@@ -1,0 +1,55 @@
+{
+    "html": {
+        "added": [
+            "admin\/notifications\/maxmind",
+            "admin\/notifications\/payoutSettingsError"
+        ],
+        "edited": [
+            "front\/checkout\/confirmAndPay",
+            "front\/checkout\/paymentForm",
+            "front\/clients\/credit",
+            "front\/clients\/paymentLog",
+            "admin\/dashboard\/pendingActions",
+            "admin\/payouts\/status",
+            "admin\/payouts\/view",
+            "admin\/transactions\/paypalStatus",
+            "admin\/transactions\/view",
+            "front\/widgets\/pendingActions"
+        ],
+        "removed": [
+            "front\/clients\/networkStatus",
+            "admin\/hosting\/accountEditToggle",
+            "admin\/hosting\/accountEditWarning",
+            "admin\/hosting\/accountLink",
+            "admin\/hosting\/audit",
+            "front\/hosting\/monitorRespond",
+            "front\/hosting\/ownDomainName",
+            "admin\/hosting\/serverStatus",
+            "admin\/hosting\/viewAccounts",
+            "admin\/livesearch\/hosting",
+            "admin\/livesearch\/more",
+            "admin\/purchases\/domain",
+            "admin\/purchases\/hosting",
+            "front\/purchases\/hosting",
+            "front\/purchases\/hostingChangeDomain",
+            "admin\/purchases\/hostingNoConnect",
+            "front\/purchases\/hostingNoConnect",
+            "admin\/purchases\/hostingSupport",
+            "front\/store\/domainBuy",
+            "front\/store\/domainSub"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/clients.css",
+            "admin\/purchases.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

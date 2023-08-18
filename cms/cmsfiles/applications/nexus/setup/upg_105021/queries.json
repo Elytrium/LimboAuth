@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key IN( 'ref_member_id', 'rb_upload', 'rb_upload_yes', 'rb_upload_no', 'rb_url_upload', 'rb_url_url' )",
+                "nexus"
+            ]
+        ]
+    }
+}

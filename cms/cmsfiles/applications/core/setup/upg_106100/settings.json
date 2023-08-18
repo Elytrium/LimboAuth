@@ -1,0 +1,25 @@
+{
+    "added": [
+        "achievements_last_rebuilt",
+        "achievements_rebuilding",
+        "achievements_recognize_max_per_user_day",
+        "fb_ig_oembed_appid",
+        "fb_ig_oembed_appsecret",
+        "fb_ig_oembed_token",
+        "icons_apple_startup",
+        "mp_onboard_complete",
+        "prune_points_log",
+        "rare_badge_percent",
+        "referrer_policy_header",
+        "relative_dates_enable",
+        "rules_exclude_groups",
+        "spam_service_days",
+        "vapid_private_key",
+        "vapid_public_key"
+    ],
+    "edited": [],
+    "removed": [
+        "disable_anonymous",
+        "post_titlechange"
+    ]
+}

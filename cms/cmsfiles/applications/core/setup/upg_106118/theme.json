@@ -1,0 +1,28 @@
+{
+    "html": {
+        "added": [
+            "admin\/achievements\/milestoneWithSubjectSwitch"
+        ],
+        "edited": [
+            "admin\/achievements\/rulesListRows",
+            "global\/login\/authyAuthenticate",
+            "global\/login\/mfaAuthenticate",
+            "global\/login\/mfaRecovery",
+            "admin\/memberprofile\/header"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/2fa.css",
+            "global\/framework\/global.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

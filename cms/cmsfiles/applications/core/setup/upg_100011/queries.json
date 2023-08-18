@@ -1,0 +1,41 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_theme_settings_fields",
+            "replace_key",
+            {
+                "type": "unique",
+                "name": "replace_key",
+                "columns": [
+                    "sc_set_id",
+                    "sc_key",
+                    "sc_app"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_notifications",
+            {
+                "type": "key",
+                "name": "member_sort",
+                "columns": [
+                    "member",
+                    "updated_time"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

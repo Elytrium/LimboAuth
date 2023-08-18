@@ -1,0 +1,42 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/checkout\/changeShippingAddressForm",
+            "front\/checkout\/checkoutShippingForm",
+            "front\/checkout\/confirmAndPay",
+            "front\/checkout\/couponForm",
+            "front\/checkout\/customerInformationForm",
+            "front\/checkout\/paymentForm",
+            "front\/clients\/addresses",
+            "global\/forms\/addPaymentMethodForm",
+            "front\/store\/giftCardForm",
+            "front\/subscription\/row",
+            "front\/subscription\/table",
+            "admin\/support\/filterForm",
+            "admin\/support\/filterFormStream",
+            "admin\/support\/latestFeedback",
+            "admin\/support\/myDepartments",
+            "admin\/support\/noteForm",
+            "admin\/support\/replyContainer",
+            "admin\/support\/request",
+            "admin\/support\/requestsTableResults",
+            "admin\/support\/staffReplyForm",
+            "admin\/transactions\/stripeDispute",
+            "front\/widgets\/recentCommerceReviews"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/nexus.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

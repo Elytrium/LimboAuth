@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "__api_gallery_categories"
+        ],
+        "edited": [
+            "image_auto_follow_suffix"
+        ],
+        "removed": [
+            "gallery_rss_enabled_desc"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

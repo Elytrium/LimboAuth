@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "emailstats__invoiceNotify",
+            "emailstats__invoiceTrackExpired"
+        ],
+        "edited": [
+            "email_held_approval",
+            "email_gateway_pending"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

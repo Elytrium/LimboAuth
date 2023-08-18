@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/alerts\/alertModal",
+            "front\/global\/userBar",
+            "front\/messaging\/participant",
+            "front\/messaging\/template",
+            "front\/modcp\/alertRow",
+            "front\/modcp\/announcementRow",
+            "front\/profile\/profile"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

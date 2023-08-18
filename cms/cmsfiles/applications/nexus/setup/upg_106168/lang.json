@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [],
+        "removed": [
+            "stripe_type_amex",
+            "stripe_type_amex_desc",
+            "stripe_amex_client_id",
+            "stripe_amex_client_id_gen"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

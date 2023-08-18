@@ -1,0 +1,21 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "oauth_wordpress_endpoint",
+            "login_handler_wordpress",
+            "login_handler_wordpress_settings",
+            "login_handler_wordpress_oauth_info",
+            "wordpress_url",
+            "oauth_wordpress_blurb",
+            "client_type_wordpress",
+            "client_type_wordpress_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

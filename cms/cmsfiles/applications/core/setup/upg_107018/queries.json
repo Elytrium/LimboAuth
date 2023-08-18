@@ -1,0 +1,64 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_points_log",
+            {
+                "name": "time_to_new_rank",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Time in seconds member took to receive this rank",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_members",
+            "members_bitoptions2=members_bitoptions2 | 16777216"
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_api_webhooks",
+            {
+                "name": "content_type",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "application\/x-www-form-urlencoded",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_seo_meta",
+            "meta_url",
+            {
+                "name": "meta_url",
+                "type": "TEXT",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

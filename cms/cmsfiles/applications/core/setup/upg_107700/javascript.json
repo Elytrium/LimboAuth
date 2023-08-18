@@ -1,0 +1,21 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/admin\/controllers\/core\/ips.core.dynamicChart.js",
+            "core\/global\/controllers\/customization\/ips.customization.visualLang.js",
+            "global\/library\/jquery\/jquery-migrate.js",
+            "global\/library\/jquery\/jquery.js"
+        ],
+        "removed": [
+            "global\/library\/IntersectionObserver\/IntersectionObserver.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [
+            "global\/\/dev\/js\/\/library\/"
+        ],
+        "removed": []
+    }
+}

@@ -1,0 +1,91 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_templates",
+            {
+                "type": "key",
+                "name": "template_app",
+                "columns": [
+                    "template_app"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_css",
+            {
+                "type": "key",
+                "name": "css_app",
+                "columns": [
+                    "css_app"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_images",
+            {
+                "type": "key",
+                "name": "image_app",
+                "columns": [
+                    "image_app"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "changeIndex",
+        "params": [
+            "core_theme_settings_fields",
+            "sc_set_id",
+            {
+                "type": "key",
+                "name": "sc_lookup",
+                "columns": [
+                    "sc_set_id",
+                    "sc_app"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "core_javascript",
+            {
+                "type": "key",
+                "name": "javascript_lookup",
+                "columns": [
+                    "javascript_app",
+                    "javascript_location",
+                    "javascript_path",
+                    "javascript_name"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

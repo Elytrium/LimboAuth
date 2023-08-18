@@ -1,0 +1,24 @@
+{
+    "files": {
+        "added": [
+            "global\/framework\/common\/utils\/ips.utils.sockets.js",
+            "core\/front\/controllers\/core\/ips.core.dataLayer.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.carousel.js",
+            "global\/framework\/common\/ui\/ips.ui.editor.js",
+            "global\/admin\/controllers\/core\/ips.core.app.js",
+            "global\/front\/controllers\/core\/ips.core.commentFeed.js",
+            "global\/front\/controllers\/core\/ips.core.reaction.js",
+            "core\/global\/controllers\/core\/ips.core.table.js",
+            "core\/front\/controllers\/search\/ips.search.main.js",
+            "global\/framework\/templates\/ips.core.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

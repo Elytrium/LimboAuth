@@ -1,0 +1,38 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_applications",
+            {
+                "name": "app_requires_manual_intervention",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "If this is set, do NOT enable, the app likely has issues that will cause fatal errors in php8 that the author must address",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_plugins",
+            {
+                "name": "plugin_requires_manual_intervention",
+                "type": "TINYINT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": 0,
+                "comment": "If this is 1, do not enable plugin. it likely contains code that will cause fatal errors in php8, which needs to be addressed by the author",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    }
+}

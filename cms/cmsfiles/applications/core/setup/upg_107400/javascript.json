@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [
+            "global\/framework\/common\/utils\/ips.utils.geolocation.js"
+        ],
+        "edited": [
+            "core\/front\/controllers\/promote\/ips.system.promote.js"
+        ],
+        "removed": [
+            "core\/admin\/controllers\/core\/ips.core.viglink.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

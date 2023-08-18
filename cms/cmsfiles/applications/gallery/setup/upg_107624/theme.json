@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/browse\/albums",
+            "front\/browse\/categoryGrid",
+            "front\/browse\/categoryRow",
+            "front\/browse\/index",
+            "front\/browse\/miniAlbum",
+            "front\/browse\/tableRowsThumbs",
+            "front\/global\/searchResultAlbumSnippet",
+            "front\/view\/image"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

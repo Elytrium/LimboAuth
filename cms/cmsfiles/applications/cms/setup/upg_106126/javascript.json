@@ -1,0 +1,27 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "cms\/admin\/controllers\/blocks\/ips.blocks.form.js",
+            "cms\/admin\/controllers\/databases\/ips.databases.form.js",
+            "cms\/front\/controllers\/external\/ips.external.communication.js",
+            "cms\/admin\/controllers\/media\/ips.media.main.js",
+            "cms\/admin\/controllers\/pages\/ips.pages.embed.js",
+            "cms\/admin\/controllers\/pages\/ips.pages.form.js",
+            "cms\/front\/controllers\/records\/ips.records.form.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.fileEditor.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.fileList.js",
+            "cms\/admin\/controllers\/templates\/ips.templates.main.js",
+            "cms\/front\/mixins\/ips.cms.builder.area.js",
+            "cms\/front\/mixins\/ips.cms.builder.block.js",
+            "cms\/admin\/templates\/ips.templates.media.js",
+            "cms\/admin\/templates\/ips.templates.templates.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

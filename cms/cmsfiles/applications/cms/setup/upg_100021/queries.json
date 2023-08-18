@@ -1,0 +1,118 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "cms_templates",
+            {
+                "type": "key",
+                "name": "template_location",
+                "columns": [
+                    "template_location",
+                    "template_user_edited"
+                ],
+                "length": [
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "cms_templates",
+            {
+                "type": "key",
+                "name": "template_key",
+                "columns": [
+                    "template_key"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "cms_templates",
+            {
+                "type": "key",
+                "name": "template_type",
+                "columns": [
+                    "template_type",
+                    "template_user_edited"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_comments",
+            {
+                "type": "key",
+                "name": "comment_approved",
+                "columns": [
+                    "comment_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_reviews",
+            {
+                "type": "key",
+                "name": "review_approved",
+                "columns": [
+                    "review_approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_reviews",
+            {
+                "type": "key",
+                "name": "review_ip",
+                "columns": [
+                    "review_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "cms_database_reviews",
+            {
+                "type": "key",
+                "name": "review_author",
+                "columns": [
+                    "review_author"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

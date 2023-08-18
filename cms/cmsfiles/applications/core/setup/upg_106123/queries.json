@@ -1,0 +1,20 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members_warn_logs",
+            {
+                "name": "wl_removed_on",
+                "type": "INT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Date that points expire and are removed.",
+                "unsigned": true,
+                "auto_increment": false
+            }
+        ]
+    }
+}

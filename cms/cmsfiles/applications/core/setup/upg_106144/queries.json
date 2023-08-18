@@ -1,0 +1,39 @@
+[
+    {
+        "method": "addColumn",
+        "params": [
+            "core_log",
+            {
+                "name": "loaded_hooks",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Any third party hooks loaded",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    {
+        "method": "changeIndex",
+        "params": [
+            "core_moderator_logs",
+            "member_id",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id",
+                    "ctime"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+]

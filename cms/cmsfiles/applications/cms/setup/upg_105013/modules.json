@@ -1,0 +1,10 @@
+{
+    "added": [
+        "admin\/pages",
+        "admin\/databases",
+        "front\/pages",
+        "front\/database"
+    ],
+    "edited": [],
+    "removed": []
+}

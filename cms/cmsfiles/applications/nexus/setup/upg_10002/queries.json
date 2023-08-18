@@ -1,0 +1,13 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_customer_history",
+            "log_date",
+            {
+                "name": "log_date",
+                "type": "REAL"
+            }
+        ]
+    }
+}

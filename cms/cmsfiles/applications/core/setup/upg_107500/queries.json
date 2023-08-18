@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_social_promote_sharers",
+            [
+                "sharer_key=?",
+                "Facebook"
+            ]
+        ]
+    }
+}

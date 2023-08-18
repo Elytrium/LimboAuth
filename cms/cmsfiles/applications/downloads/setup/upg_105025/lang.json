@@ -1,0 +1,15 @@
+{
+    "normal": {
+        "added": [
+            "modlog__action_newversion_reject",
+            "modlog__action_newversion_approved"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

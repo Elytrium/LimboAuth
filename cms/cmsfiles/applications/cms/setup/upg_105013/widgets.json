@@ -1,0 +1,16 @@
+{
+    "added": [
+        "Database",
+        "Wysiwyg",
+        "DatabaseFilters",
+        "Categories",
+        "Blocks",
+        "RecordFeed",
+        "Rss",
+        "pagebuildertext",
+        "pagebuilderoembed",
+        "pagebuilderupload"
+    ],
+    "edited": [],
+    "removed": []
+}

@@ -1,0 +1,38 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_statuses",
+            {
+                "name": "status_color",
+                "type": "char",
+                "length": 6,
+                "allow_null": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "nexus_support_requests",
+            {
+                "name": "r_last_staff_reply",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "nexus_purchases",
+            {
+                "name": "ps_admin_uri",
+                "type": "varchar",
+                "length": 255,
+                "allow_null": false
+            }
+        ]
+    }
+}

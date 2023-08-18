@@ -1,0 +1,18 @@
+{
+    "files": {
+        "added": [
+            "core\/front\/controllers\/core\/ips.core.cookiepage.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/utils\/ips.utils.cookie.js",
+            "global\/admin\/controllers\/core\/ips.core.dynamicChart.js",
+            "core\/front\/controllers\/core\/ips.core.guestTerms.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

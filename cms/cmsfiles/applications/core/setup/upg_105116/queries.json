@@ -1,0 +1,242 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_item_redirect",
+                "columns": {
+                    "redirect_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "redirect_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "redirect_class": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 200,
+                        "name": "redirect_class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "redirect_item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "redirect_item_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "redirect_new_item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "redirect_new_item_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "redirect_id"
+                        ]
+                    },
+                    "redirect_lookup": {
+                        "type": "key",
+                        "name": "redirect_lookup",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "redirect_class",
+                            "redirect_item_id"
+                        ]
+                    },
+                    "redirect_delete": {
+                        "type": "key",
+                        "name": "redirect_delete",
+                        "columns": [
+                            "redirect_class",
+                            "redirect_new_item_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_item_statistics_cache",
+                "columns": {
+                    "cache_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "cache_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "cache_class": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 150,
+                        "name": "cache_class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "cache_item_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "cache_item_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "cache_added": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "cache_added",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": []
+                    },
+                    "cache_contents": {
+                        "name": "cache_contents",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "auto_increment": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cache_id"
+                        ]
+                    },
+                    "cache_added": {
+                        "type": "key",
+                        "name": "cache_added",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "cache_added"
+                        ]
+                    },
+                    "cache_lookup": {
+                        "type": "unique",
+                        "name": "cache_lookup",
+                        "columns": [
+                            "cache_class",
+                            "cache_item_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_announcements",
+            "announce_start",
+            {
+                "name": "announce_start",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_announcements",
+            "announce_end",
+            {
+                "name": "announce_end",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            }
+        ]
+    }
+}

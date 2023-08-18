@@ -1,0 +1,12 @@
+{
+    "added": [],
+    "edited": [
+        "notification_unapproved_content",
+        "activity_stream_subscription",
+        "notification_new_content",
+        "notification_new_recognize",
+        "notification_new_review",
+        "notification_new_comment"
+    ],
+    "removed": []
+}

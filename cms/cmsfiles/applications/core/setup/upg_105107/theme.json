@@ -1,0 +1,33 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/api\/oauthStatus",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "admin\/global\/appmenu",
+            "front\/global\/userPhoto",
+            "admin\/memberprofile\/oauth",
+            "admin\/members\/deviceInfo",
+            "front\/system\/login"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/responsive\/forms.css",
+            "front\/styles\/clubs_responsive.css",
+            "front\/styles\/clubs.css",
+            "front\/styles\/embeds.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

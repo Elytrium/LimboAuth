@@ -1,0 +1,64 @@
+/**
+ * Friendly URL Structure
+ *
+ * For each value in the $furl array:
+ *	The key should be the "SEO Template" - an identifier which you'll use when displaying a URL.
+ *	The value should be an associative array with two or three elements: 'friendly' and 'real', and optionally 'verify':
+ *		'friendly'
+ *			The friendly URL to use - encase variables in {curly braces} containing a symbol, followed by the name of the parameter that matches in the "real" URL
+ *			The symbol should be # for numbers or @ for strings
+ *			For example, if the "real" URL contains id=XXX, where XXX is a number, you should include {#id} somewhere in the friendly URL.
+ *			You can also use the tag {?} for the "SEO Title" (that is, any variables that shouldn't be part of the real URL, such as the name of the topipc being viewed).
+ *			If you want to support more than one SEO Title, you can give them zero-indexed keys like so: {?0} {?1} {?2}
+ *		'real'
+ *			This should be the base of the real URL. You should not include parameters which will be parsed out from the friendly URL.
+ *      'verify'
+ *          This should be the name of a class that contains a loadFromUrl() and an url() method.  The dynamic URL (i.e. app=core&...) will be passed to loadFromUrl(), and the url()
+ *          method will subsequently be called to retrieve the correct URL, ideal with ActiveRecord pattern classes.
+ *
+ * IMPORTANT: Ensure values are listed with the most specific ones first. This is to ensure that non-FURL redirects are done correctly. For example, if you have these FURLs:
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller&do=myaction	->	/myfolder/myaction
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller				->	/myfolder
+ * They must be provided in that order, otherwise the former will redirec to /myfolder/?do=myaction rather than /myfolder/myaction
+ */
+{
+	"topLevel": "files",
+	"pages": {
+	    "downloads_submit": {
+	        "friendly": "submit",
+	        "real": "app=downloads&module=downloads&controller=submit"
+	    },
+	    "downloads_cat": {
+		    "friendly": "category/{#id}-{?}",
+		    "real": "app=downloads&module=downloads&controller=browse",
+		    "verify": "\\IPS\\downloads\\Category",
+		    "seoPagination": true
+	    },
+	    "downloads_clubs": {
+		    "friendly": "category/clubs",
+		    "real": "app=downloads&module=downloads&controller=browse&id=clubs"
+	    },
+	    "downloads_categories": {
+		    "friendly": "categories",
+		    "real": "app=downloads&module=downloads&controller=browse&do=categories"
+	    },
+		"downloads_file_pending": {
+			"friendly": "file/{#file_id}-{?}/pending",
+			"real": "app=downloads&module=downloads&controller=pending"
+		},
+	    "downloads_file": {
+		    "friendly": "file/{#id}-{?}",
+		    "real": "app=downloads&module=downloads&controller=view",
+		    "verify": "\\IPS\\downloads\\File",
+		    "seoPagination": true
+	    },
+	    "downloads_rss": {
+		    "friendly": "files.xml",
+		    "real": "app=downloads&module=downloads&controller=browse&do=rss"
+	    },
+	    "downloads": {
+	        "friendly": "",
+	        "real": "app=downloads&module=downloads&controller=browse"
+	    }
+	  }
+}

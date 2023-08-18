@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "nexus\/front\/controllers\/checkout\/ips.checkout.review.js"
+        ],
+        "removed": [
+            "nexus\/admin\/controllers\/hosting\/ips.nexus.hosting.accountform.js"
+        ]
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

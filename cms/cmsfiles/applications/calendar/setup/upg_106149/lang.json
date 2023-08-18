@@ -1,0 +1,15 @@
+{
+    "normal": {
+        "added": [
+            "birthdays",
+            "webhook_calendarEvent_rsvp"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "files": {
+        "added": [
+            "calendar\/front\/controllers\/overview\/ips.overview.carousel.js",
+            "calendar\/front\/controllers\/overview\/ips.overview.eventList.js",
+            "calendar\/front\/controllers\/overview\/ips.overview.nearMe.js",
+            "calendar\/front\/controllers\/overview\/ips.overview.search.js",
+            "calendar\/front\/templates\/ips.templates.overview.js"
+        ],
+        "edited": [
+            "calendar\/front\/controllers\/browse\/ips.browse.monthView.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

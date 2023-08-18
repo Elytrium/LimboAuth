@@ -1,0 +1,137 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cms_blocks",
+            {
+                "name": "block_plugin_plugin",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_reputation_index",
+            {
+                "app": "cms"
+            },
+            [
+                "app = ?",
+                "ccs"
+            ]
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "cms_pages",
+            {
+                "type": "key",
+                "name": "page_default",
+                "columns": [
+                    "page_default",
+                    "page_folder_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "cms_pages",
+            {
+                "type": "key",
+                "name": "page_full_path",
+                "columns": [
+                    "page_full_path"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "addIndex",
+        "params": [
+            "cms_folders",
+            {
+                "type": "key",
+                "name": "folder_path",
+                "columns": [
+                    "folder_path"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "cms_folders",
+            {
+                "type": "key",
+                "name": "folder_parent_id",
+                "columns": [
+                    "folder_parent_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "cms_databases",
+            {
+                "type": "key",
+                "name": "forum_lookup",
+                "columns": [
+                    "database_forum_record",
+                    "database_forum_forum",
+                    "database_forum_comments"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "addIndex",
+        "params": [
+            "cms_containers",
+            {
+                "type": "key",
+                "name": "container_parent_id",
+                "columns": [
+                    "container_parent_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

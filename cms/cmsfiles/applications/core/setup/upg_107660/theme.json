@@ -1,0 +1,26 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/forms\/radio",
+            "admin\/forms\/template",
+            "global\/forms\/textarea",
+            "front\/modcp\/approvalQueueItem",
+            "front\/system\/notificationSettingsIndexRowDetails",
+            "admin\/tables\/table"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/popup.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

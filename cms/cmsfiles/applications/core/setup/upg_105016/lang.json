@@ -1,0 +1,35 @@
+{
+    "normal": {
+        "added": [
+            "username_characters_letters",
+            "username_characters_letters_all",
+            "username_characters_letters_latin",
+            "username_characters_numbers",
+            "username_characters_numbers_all",
+            "username_characters_numbers_arabic",
+            "username_characters_special",
+            "username_characters_spaces",
+            "username_characters_spaces_desc",
+            "username_characters_extra",
+            "username_characters_regex",
+            "username_characters_easy",
+            "themesetting_mobile_back",
+            "themesetting_mobile_back_font",
+            "themesetting_trophy_first",
+            "themesetting_trophy_first_font",
+            "themesetting_trophy_second",
+            "themesetting_trophy_third",
+            "filestorage__core_Imageproxycache"
+        ],
+        "edited": [
+            "username_characters_desc",
+            "app_tags_len_min_max"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

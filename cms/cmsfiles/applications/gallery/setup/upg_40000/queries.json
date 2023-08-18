@@ -1,0 +1,1839 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_diskspace",
+            {
+                "name": "g_max_diskspace",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_upload",
+            {
+                "name": "g_max_upload",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_transfer",
+            {
+                "name": "g_max_transfer",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_max_views",
+            {
+                "name": "g_max_views",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_album_limit",
+            {
+                "name": "g_album_limit",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_img_album_limit",
+            {
+                "name": "g_img_album_limit",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_movie_size",
+            {
+                "name": "g_movie_size",
+                "type": "int",
+                "length": 10,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_max_diskspace": "-1"
+            },
+            [
+                "g_max_diskspace=?",
+                "0"
+            ]
+        ]
+    },
+    "9": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_max_upload": "-1"
+            },
+            [
+                "g_max_upload=?",
+                "0"
+            ]
+        ]
+    },
+    "10": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_max_transfer": "-1"
+            },
+            [
+                "g_max_transfer=?",
+                "0"
+            ]
+        ]
+    },
+    "11": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_max_views": "-1"
+            },
+            [
+                "g_max_views=?",
+                "0"
+            ]
+        ]
+    },
+    "12": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_album_limit": "-1"
+            },
+            [
+                "g_album_limit=?",
+                "0"
+            ]
+        ]
+    },
+    "13": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_img_album_limit": "-1"
+            },
+            [
+                "g_img_album_limit=?",
+                "0"
+            ]
+        ]
+    },
+    "14": {
+        "method": "update",
+        "params": [
+            "core_groups",
+            {
+                "g_movie_size": "-1"
+            },
+            [
+                "g_movie_size=?",
+                "0"
+            ]
+        ]
+    },
+    "15": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_max_notes"
+        ]
+    },
+    "16": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_gallery_cat_cover"
+        ]
+    },
+    "17": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_can_search_gallery"
+        ]
+    },
+    "18": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_ecard"
+        ]
+    },
+    "19": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_rate"
+        ]
+    },
+    "20": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_favorites"
+        ]
+    },
+    "21": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_slideshows"
+        ]
+    },
+    "22": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_move_own"
+        ]
+    },
+    "23": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_zip_upload"
+        ]
+    },
+    "24": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_multi_file_limit"
+        ]
+    },
+    "25": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key IN('gallery_display_category', 'gallery_display_album', 'gallery_full_image', 'gallery_display_block_row', 'gallery_display_photostrip', 'gallery_last_updated', 'gallery_show_lastpic', 'gallery_display_subcats', 'gallery_images_per_row', 'gallery_dir_images', 'gallery_stats_where', 'gallery_images_per_block', 'gallery_last5_images', 'gallery_random_images', 'gallery_stats', 'gallery_create_thumbnails', 'gallery_thumbnail_link', 'gallery_thumb_width', 'gallery_thumb_height', 'gallery_bandwidth_thumbs', 'gallery_use_rate', 'gallery_rate_display', 'gallery_comment_order', 'gallery_guests_ecards', 'display_hotlinking', 'gallery_use_ecards', 'gallery_allow_usercopyright', 'gallery_copyright_default', 'gallery_notices_img', 'gallery_notices_album', 'gallery_notices_cat', 'gallery_exif_sections', 'gallery_iptc', 'gallery_exif', 'gallery_antileech_image', 'gallery_allowed_domains' )"
+        ]
+    },
+    "26": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "gallery_albums_main",
+                "columns": {
+                    "album_id": {
+                        "name": "album_id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true
+                    },
+                    "album_parent_id": {
+                        "name": "album_parent_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": 0,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_owner_id": {
+                        "name": "album_owner_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_name": {
+                        "name": "album_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_name_seo": {
+                        "name": "album_name_seo",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_description": {
+                        "name": "album_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_is_public": {
+                        "name": "album_is_public",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_is_global": {
+                        "name": "album_is_global",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_is_profile": {
+                        "name": "album_is_profile",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_count_imgs": {
+                        "name": "album_count_imgs",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_count_comments": {
+                        "name": "album_count_comments",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_count_imgs_hidden": {
+                        "name": "album_count_imgs_hidden",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_count_comments_hidden": {
+                        "name": "album_count_comments_hidden",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_cover_img_id": {
+                        "name": "album_cover_img_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_last_img_id": {
+                        "name": "album_last_img_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_last_img_date": {
+                        "name": "album_last_img_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_sort_options": {
+                        "name": "album_sort_options",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_allow_comments": {
+                        "name": "album_allow_comments",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_allow_rating": {
+                        "name": "album_allow_rating",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_cache": {
+                        "name": "album_cache",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_node_level": {
+                        "name": "album_node_level",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_node_left": {
+                        "name": "album_node_left",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_node_right": {
+                        "name": "album_node_right",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_approve_img": {
+                        "name": "album_g_approve_img",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_approve_com": {
+                        "name": "album_g_approve_com",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_bitwise": {
+                        "name": "album_g_bitwise",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_rules": {
+                        "name": "album_g_rules",
+                        "type": "MEDIUMTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_container_only": {
+                        "name": "album_g_container_only",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_thumbs": {
+                        "name": "album_g_perms_thumbs",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_view": {
+                        "name": "album_g_perms_view",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_images": {
+                        "name": "album_g_perms_images",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_comments": {
+                        "name": "album_g_perms_comments",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_moderate": {
+                        "name": "album_g_perms_moderate",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_latest_imgs": {
+                        "name": "album_g_latest_imgs",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_rating_aggregate": {
+                        "name": "album_rating_aggregate",
+                        "type": "INT",
+                        "length": 2,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_rating_total": {
+                        "name": "album_rating_total",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_rating_count": {
+                        "name": "album_rating_count",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_after_forum_id": {
+                        "name": "album_after_forum_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_position": {
+                        "name": "album_position",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_child_tree": {
+                        "name": "album_child_tree",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_parent_tree": {
+                        "name": "album_parent_tree",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_can_tag": {
+                        "name": "album_can_tag",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_preset_tags": {
+                        "name": "album_preset_tags",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "album_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "album_parent_id": {
+                        "type": "key",
+                        "name": "album_parent_id",
+                        "columns": [
+                            "album_parent_id"
+                        ]
+                    },
+                    "album_owner_id": {
+                        "type": "key",
+                        "name": "album_owner_id",
+                        "columns": [
+                            "album_owner_id"
+                        ]
+                    },
+                    "album_last_img_date": {
+                        "type": "key",
+                        "name": "album_last_img_date",
+                        "columns": [
+                            "album_last_img_date"
+                        ]
+                    },
+                    "album_has_a_perm": {
+                        "type": "key",
+                        "name": "album_has_a_perm",
+                        "columns": [
+                            "album_is_global",
+                            "album_is_public"
+                        ]
+                    },
+                    "album_nodes": {
+                        "type": "key",
+                        "name": "album_nodes",
+                        "columns": [
+                            "album_node_left",
+                            "album_node_level",
+                            "album_node_right"
+                        ]
+                    },
+                    "album_count_imgs": {
+                        "type": "key",
+                        "name": "album_count_imgs",
+                        "columns": [
+                            "album_count_imgs"
+                        ]
+                    },
+                    "album_child_lup": {
+                        "type": "key",
+                        "name": "album_child_lup",
+                        "columns": [
+                            "album_is_global",
+                            "album_parent_id",
+                            "album_node_level",
+                            "album_node_left",
+                            "album_cover_img_id",
+                            "album_last_img_date"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "27": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "gallery_images_uploads",
+                "columns": {
+                    "upload_key": {
+                        "name": "upload_key",
+                        "type": "CHAR",
+                        "length": "32",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": false
+                    },
+                    "upload_session": {
+                        "name": "upload_session",
+                        "type": "CHAR",
+                        "length": "32",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": false
+                    },
+                    "upload_member_id": {
+                        "name": "upload_member_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_album_id": {
+                        "name": "upload_album_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_date": {
+                        "name": "upload_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_file_directory": {
+                        "name": "upload_file_directory",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_file_orig_name": {
+                        "name": "upload_file_orig_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_file_name": {
+                        "name": "upload_file_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_file_size": {
+                        "name": "upload_file_size",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_file_type": {
+                        "name": "upload_file_type",
+                        "type": "VARCHAR",
+                        "length": 50,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_thumb_name": {
+                        "name": "upload_thumb_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_medium_name": {
+                        "name": "upload_medium_name",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_title": {
+                        "name": "upload_title",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_description": {
+                        "name": "upload_description",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_copyright": {
+                        "name": "upload_copyright",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_exif": {
+                        "name": "upload_exif",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_data": {
+                        "name": "upload_data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_feature_flag": {
+                        "name": "upload_feature_flag",
+                        "type": "INT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_geodata": {
+                        "name": "upload_geodata",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "upload_media_data": {
+                        "name": "upload_media_data",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "upload_key"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "upload_member_id": {
+                        "type": "key",
+                        "name": "upload_member_id",
+                        "columns": [
+                            "upload_member_id",
+                            "upload_album_id"
+                        ]
+                    },
+                    "upload_date": {
+                        "type": "key",
+                        "name": "upload_date",
+                        "columns": [
+                            "upload_date"
+                        ]
+                    },
+                    "upload_session": {
+                        "type": "key",
+                        "name": "upload_session",
+                        "columns": [
+                            "upload_session"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "28": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_geolocation_cache",
+                "columns": {
+                    "geocache_key": {
+                        "name": "geocache_key",
+                        "type": "VARCHAR",
+                        "length": "32",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": false
+                    },
+                    "geocache_lat": {
+                        "name": "geocache_lat",
+                        "type": "VARCHAR",
+                        "length": "100",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": false
+                    },
+                    "geocache_lon": {
+                        "name": "geocache_lon",
+                        "type": "VARCHAR",
+                        "length": "100",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": false
+                    },
+                    "geocache_raw": {
+                        "name": "geocache_raw",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_country": {
+                        "name": "geocache_country",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_district": {
+                        "name": "geocache_district",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_district2": {
+                        "name": "geocache_district2",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_locality": {
+                        "name": "geocache_locality",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_type": {
+                        "name": "geocache_type",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_engine": {
+                        "name": "geocache_engine",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_added": {
+                        "name": "geocache_added",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "geocache_short": {
+                        "name": "geocache_short",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "geocache_key"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "geo_lat_lon": {
+                        "type": "key",
+                        "name": "geo_lat_lon",
+                        "columns": [
+                            "geocache_lat",
+                            "geocache_lon"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "29": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "gallery_albums_temp",
+                "columns": {
+                    "album_id": {
+                        "name": "album_id",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "album_g_perms_view": {
+                        "name": "album_g_perms_view",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                }
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_media_data",
+                "type": "TEXT",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "31": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images",
+            "album_id",
+            {
+                "name": "img_album_id",
+                "type": "INT",
+                "length": 10,
+                "allow_null": false,
+                "default": 0,
+                "unsigned": true
+            }
+        ]
+    },
+    "32": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_images",
+            "directory",
+            {
+                "name": "directory",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "33": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_data",
+                "type": "TEXT",
+                "length": null,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_privacy",
+                "type": "INT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "35": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_parent_permission",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": false,
+                "default": ""
+            }
+        ]
+    },
+    "36": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_feature_flag",
+                "type": "INT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "37": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_gps_raw",
+                "type": "TEXT",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "38": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_gps_show",
+                "type": "INT",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "39": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_gps_lon",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "40": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_gps_lat",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "41": {
+        "method": "addColumn",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_loc_short",
+                "type": "TEXT",
+                "length": null,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    },
+    "42": {
+        "method": "addIndex",
+        "params": [
+            "gallery_image_views",
+            {
+                "name": "views_img",
+                "type": "key",
+                "columns": [
+                    "views_img"
+                ]
+            }
+        ]
+    },
+    "43": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "im_select",
+                "type": "key",
+                "columns": [
+                    "approved",
+                    "image_privacy",
+                    "member_id",
+                    "idate"
+                ]
+            }
+        ]
+    },
+    "44": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "gb_select",
+                "type": "key",
+                "columns": [
+                    "approved",
+                    "image_parent_permission"
+                ],
+                "length": [
+                    null,
+                    100
+                ]
+            }
+        ]
+    },
+    "45": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "image_feature_flag",
+                "type": "key",
+                "columns": [
+                    "image_feature_flag"
+                ]
+            }
+        ]
+    },
+    "46": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "idate",
+                "type": "key",
+                "columns": [
+                    "idate"
+                ]
+            }
+        ]
+    },
+    "47": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "lastcomment",
+                "type": "key",
+                "columns": [
+                    "lastcomment"
+                ]
+            }
+        ]
+    },
+    "48": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "cmt_lookup",
+                "type": "key",
+                "columns": [
+                    "image_privacy",
+                    "member_id",
+                    "image_parent_permission",
+                    "img_album_id",
+                    "approved",
+                    "lastcomment"
+                ],
+                "length": [
+                    null,
+                    null,
+                    100,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "49": {
+        "method": "addIndex",
+        "params": [
+            "gallery_images",
+            {
+                "name": "rnd_lookup",
+                "type": "key",
+                "columns": [
+                    "image_privacy",
+                    "member_id",
+                    "image_parent_permission",
+                    "approved",
+                    "idate"
+                ],
+                "length": [
+                    null,
+                    null,
+                    100,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "50": {
+        "method": "changeColumn",
+        "params": [
+            "gallery_ratings",
+            "img_id",
+            {
+                "name": "rating_foreign_id",
+                "type": "BIGINT",
+                "length": 20,
+                "unsigned": true,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "51": {
+        "method": "addColumn",
+        "params": [
+            "gallery_ratings",
+            {
+                "name": "rating_where",
+                "type": "VARCHAR",
+                "length": 10,
+                "allow_null": false,
+                "default": "image"
+            }
+        ]
+    },
+    "52": {
+        "method": "dropIndex",
+        "params": [
+            "gallery_ratings",
+            [
+                "member_id",
+                "img_id"
+            ]
+        ]
+    },
+    "53": {
+        "method": "addIndex",
+        "params": [
+            "gallery_ratings",
+            {
+                "name": "rating_find_me",
+                "type": "key",
+                "columns": [
+                    "member_id",
+                    "rating_foreign_id",
+                    "rating_where"
+                ]
+            }
+        ]
+    }
+}

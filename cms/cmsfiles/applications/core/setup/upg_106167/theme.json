@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/flags.css",
+            "admin\/promotion\/meta.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "admin\/welcome.svg",
+            "front\/notification.svg"
+        ],
+        "removed": []
+    }
+}

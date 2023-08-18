@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_edit_history",
+            {
+                "type": "key",
+                "name": "edit_log",
+                "columns": [
+                    "class",
+                    "comment_id",
+                    "time"
+                ],
+                "length": [
+                    250,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

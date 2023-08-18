@@ -1,0 +1,567 @@
+{
+    "1": {
+        "method": "renameTable",
+        "params": [
+            "forums",
+            "forums_forums"
+        ]
+    },
+    "2": {
+        "method": "renameTable",
+        "params": [
+            "topics",
+            "forums_topics"
+        ]
+    },
+    "3": {
+        "method": "renameTable",
+        "params": [
+            "posts",
+            "forums_posts"
+        ]
+    },
+    "4": {
+        "method": "dropColumn",
+        "params": [
+            "forums_forums",
+            [
+                "use_ibc",
+                "use_html",
+                "sort_order",
+                "prune",
+                "topicfilter",
+                "notify_modq_emails",
+                "forum_last_deletion",
+                "newest_title",
+                "newest_id",
+                "hide_last_info",
+                "deleted_posts",
+                "deleted_topics",
+                "rules_raw_html",
+                "allow_pollbump"
+            ]
+        ]
+    },
+    "5": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "forums_answer_ratings",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "post": {
+                        "name": "post",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The post ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member giving the rating",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "date": {
+                        "name": "date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the rating was given",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating": {
+                        "name": "rating",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The rating; 1 for positive or -1 for negative",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "topic": {
+                        "name": "topic",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The topic ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member_rating": {
+                        "type": "unique",
+                        "name": "member_rating",
+                        "columns": [
+                            "post",
+                            "member"
+                        ]
+                    },
+                    "post": {
+                        "type": "key",
+                        "name": "post",
+                        "columns": [
+                            "post"
+                        ]
+                    },
+                    "member_topic_rating": {
+                        "type": "key",
+                        "name": "member_topic_rating",
+                        "columns": [
+                            "topic",
+                            "member"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "forums_forums",
+            {
+                "name": "qa_rate_questions",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "forums_forums",
+            {
+                "name": "qa_rate_answers",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "8": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "forums_question_ratings",
+                "columns": {
+                    "id": {
+                        "name": "id",
+                        "type": "BIGINT",
+                        "length": "20",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "binary": false,
+                        "allow_null": false,
+                        "default": null,
+                        "auto_increment": true,
+                        "comment": "ID Number"
+                    },
+                    "topic": {
+                        "name": "topic",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The topic ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "forum": {
+                        "name": "forum",
+                        "type": "SMALLINT",
+                        "length": 5,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The forum ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member": {
+                        "name": "member",
+                        "type": "MEDIUMINT",
+                        "length": 8,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The member giving the rating",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "rating": {
+                        "name": "rating",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The rating; 1 for positive or -1 for negative",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "date": {
+                        "name": "date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the rating was given",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member_rating": {
+                        "type": "unique",
+                        "name": "member_rating",
+                        "columns": [
+                            "topic",
+                            "member"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "topic": {
+                        "type": "key",
+                        "name": "topic",
+                        "columns": [
+                            "topic"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "9": {
+        "method": "renameTable",
+        "params": [
+            "core_archive_rules",
+            "forums_archive_rules"
+        ]
+    },
+    "10": {
+        "method": "renameTable",
+        "params": [
+            "topic_mmod",
+            "forums_topic_mmod"
+        ]
+    },
+    "11": {
+        "method": "renameTable",
+        "params": [
+            "rss_import",
+            "forums_rss_import"
+        ]
+    },
+    "12": {
+        "method": "renameTable",
+        "params": [
+            "rss_imported",
+            "forums_rss_imported"
+        ]
+    },
+    "13": {
+        "method": "addColumn",
+        "params": [
+            "forums_forums",
+            {
+                "name": "icon",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "changeColumn",
+        "params": [
+            "forums_rss_import",
+            "rss_import_auth_user",
+            {
+                "name": "rss_import_auth_user",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "Not Needed",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "forums_rss_import",
+            "rss_import_auth_pass",
+            {
+                "name": "rss_import_auth_pass",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": "Not Needed",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "16": {
+        "method": "changeColumn",
+        "params": [
+            "forums_forums",
+            "min_posts_post",
+            {
+                "name": "min_posts_post",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "17": {
+        "method": "changeColumn",
+        "params": [
+            "forums_forums",
+            "min_posts_view",
+            {
+                "name": "min_posts_view",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "18": {
+        "method": "update",
+        "params": [
+            "forums_forums",
+            {
+                "topics": 0
+            },
+            "topics IS NULL"
+        ]
+    },
+    "19": {
+        "method": "changeColumn",
+        "params": [
+            "forums_forums",
+            "topics",
+            {
+                "name": "topics",
+                "type": "MEDIUMINT",
+                "length": 6,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "20": {
+        "method": "changeColumn",
+        "params": [
+            "forums_forums",
+            "posts",
+            {
+                "name": "posts",
+                "type": "MEDIUMINT",
+                "length": 6,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "21": {
+        "method": "changeIndex",
+        "params": [
+            "forums_forums",
+            "position",
+            {
+                "type": "key",
+                "name": "position",
+                "columns": [
+                    "parent_id",
+                    "position"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "22": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_key": "forums_topics_per_page"
+            },
+            [
+                "conf_key=?",
+                "display_max_topics"
+            ]
+        ]
+    },
+    "23": {
+        "method": "update",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "conf_key": "forums_posts_per_page"
+            },
+            [
+                "conf_key=?",
+                "display_max_posts"
+            ]
+        ]
+    }
+}

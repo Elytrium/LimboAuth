@@ -1,0 +1,82 @@
+<?php
+/**
+ * @brief		Support {class} in sitemaps
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\Sitemap;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * Support {class} in sitemaps
+ */
+class _{class}
+{
+	/**
+	 * @brief	Recommended Settings
+	 */
+	public $recommendedSettings = array();
+
+	/**
+	 * Add settings for ACP configuration to the form
+	 *
+	 * @return	array
+	 */
+	public function settings(): array
+	{
+	    return array();
+	}
+
+	/**
+	 * Save settings for ACP configuration
+	 *
+	 * @param	array	$values	Values
+	 * @return	void
+	 */
+	public function saveSettings( $values )
+	{
+		if ( $values['sitemap_configuration_info'] )
+		{
+			// Store default  values for any settings you define
+			//\IPS\Settings::i()->changeValues( array(  ) );
+		}
+		else
+		{
+			// Store the actual submitted value for any settings you define, from the $values array
+			//\IPS\Settings::i()->changeValues( array(  ) );
+		}
+	}
+
+	/**
+	 * Get the sitemap filename(s)
+	 *
+	 * @return	array
+	 */
+	public function getFilenames(): array
+	{
+		return array( 'sitemap_' . mb_strtolower('{class}') );
+	}
+
+	/**
+	 * Generate the sitemap
+	 *
+	 * @param	string			$filename	The sitemap file to build (should be one returned from getFilenames())
+	 * @param	\IPS\Sitemap	$sitemap	Sitemap object reference
+	 * @return	void
+	 */
+	public function generateSitemap( $filename, $sitemap )
+	{
+	}
+
+}

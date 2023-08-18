@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_item_author",
+                "columns": [
+                    "index_item_author",
+                    "index_permissions",
+                    "index_date_updated"
+                ],
+                "length": [
+                    null,
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "delete",
+        "params": [
+            "core_view_updates"
+        ]
+    }
+}

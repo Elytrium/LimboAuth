@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="admin/blogs"><![CDATA[{"default_controller":"","protected":0,"default":1}]]></module>
+ <module key="front/blogs"><![CDATA[{"default_controller":"browse","protected":0,"default":1}]]></module>
+ <setting key="blog_allow_grid"><![CDATA[{"key":"blog_allow_grid","default":"1","report":"full"}]]></setting>
+ <setting key="blog_allow_rss"><![CDATA[{"key":"blog_allow_rss","default":"1","report":"full"}]]></setting>
+ <setting key="blog_allow_rssimport"><![CDATA[{"key":"blog_allow_rssimport","default":"1","report":"full"}]]></setting>
+ <setting key="blog_enable_rating"><![CDATA[{"key":"blog_enable_rating","default":"0","report":"full"}]]></setting>
+ <setting key="blog_enable_sidebar"><![CDATA[{"key":"blog_enable_sidebar","default":"0","report":"full"}]]></setting>
+ <setting key="blog_view_mode"><![CDATA[{"key":"blog_view_mode","default":"grid","report":"bool"}]]></setting>
+ <widget key="blogStatistics"><![CDATA[{"class":"\\IPS\\Widget\\StaticCache","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="entryFeed"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="blogCommentFeed"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"modal","embeddable":true}]]></widget>
+ <widget key="blogs"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs"><![CDATA[{"lang_key":"menu__blog_blogs_blogs","restriction":"blogs_manage","keywords":["blogs","group blogs","manage blogs"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;do=form"><![CDATA[{"lang_key":"add_category","restriction":"blogs_manage","keywords":["add blog"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;searchResult=blog_desc_wrap"><![CDATA[{"lang_key":"blog_desc","restriction":"blogs_manage","keywords":["blog description"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;searchResult=blog_member_id"><![CDATA[{"lang_key":"blog_member_id","restriction":"blogs_manage","keywords":["blog author"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;searchResult=blog_name"><![CDATA[{"lang_key":"blog_name","restriction":"blogs_manage","keywords":["blog name"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;searchResult=form_new_blog_enable_rss"><![CDATA[{"lang_key":"blog_enable_rss","restriction":"blogs_manage","keywords":["blog rss feed","rss feed"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=blogs&amp;searchResult=form_new_blog_type"><![CDATA[{"lang_key":"blog_type","restriction":"blogs_manage","keywords":["blog type","group blog"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=settings"><![CDATA[{"lang_key":"menu__blog_blogs_settings","restriction":"settings_manage","keywords":["blog settings"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=settings&amp;searchResult=form_blog_allow_rss"><![CDATA[{"lang_key":"blog_allow_rss","restriction":"settings_manage","keywords":["blog rss export","rss export"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=settings&amp;searchResult=form_blog_allow_rssimport"><![CDATA[{"lang_key":"blog_allow_rssimport","restriction":"settings_manage","keywords":["blog rss import","rss import"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=settings&amp;searchResult=form_blog_enable_rating"><![CDATA[{"lang_key":"blog_enable_rating","restriction":"settings_manage","keywords":["blog ratings","ratings"]}]]></acpsearch>
+ <acpsearch key="app=blog&amp;module=blogs&amp;controller=settings&amp;searchResult=form_blog_enable_sidebar"><![CDATA[{"lang_key":"blog_enable_sidebar","restriction":"settings_manage","keywords":["sidebar","social"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=4_g_blog_allowlocal"><![CDATA[{"lang_key":"g_blog_allowlocal","restriction":"groups_manage","keywords":["blogs","blogs permission","create blogs","post blogs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_blog_allowdelete"><![CDATA[{"lang_key":"g_blog_allowdelete","restriction":"groups_manage","keywords":["delete blogs","delete own blogs"]}]]></acpsearch>
+ <acpsearch key="app=core&amp;module=members&amp;controller=groups&amp;searchResult=g_blog_allowprivate"><![CDATA[{"lang_key":"g_blog_allowprivate","restriction":"groups_manage","keywords":["private blogs"]}]]></acpsearch>
+</build>

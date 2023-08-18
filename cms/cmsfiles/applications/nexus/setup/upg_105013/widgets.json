@@ -1,0 +1,13 @@
+{
+    "added": [
+        "pendingActions",
+        "donations",
+        "subscriptions",
+        "bestSellers",
+        "latestProducts",
+        "recentCommerceReviews",
+        "featuredProduct"
+    ],
+    "edited": [],
+    "removed": []
+}

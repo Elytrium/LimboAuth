@@ -1,0 +1,71 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_follow",
+            {
+                "follow_notify_freq": "immediate"
+            },
+            "follow_notify_freq NOT IN('immediate','daily','weekly','none')"
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_acronyms",
+            "a_short",
+            {
+                "type": "key",
+                "name": "a_short",
+                "columns": [
+                    "a_short"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_acronyms",
+            "a_short",
+            {
+                "name": "a_short",
+                "type": "TEXT",
+                "length": "",
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_acronyms",
+            "a_long",
+            {
+                "name": "a_long",
+                "type": "TEXT",
+                "length": "",
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

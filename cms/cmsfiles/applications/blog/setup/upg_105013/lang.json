@@ -1,0 +1,59 @@
+{
+    "normal": {
+        "added": [
+            "blog_allow_rssimport_desc",
+            "entry_category_choice",
+            "entry_category_choice_new",
+            "entry_category_choice_existing",
+            "stats_overview_blogs",
+            "stats_overview_blogs_desc",
+            "entry_posted_with_cat",
+            "entry_future_posted_with_cat",
+            "entry_name_with_cat",
+            "blog_category_viewing",
+            "blog_category_select",
+            "modperms__blog_Blogs",
+            "can_mod_blogs",
+            "menu__blog_blogs_categories",
+            "blog_categories",
+            "blog_create_category",
+            "blog_categories_add_child",
+            "blog_category_id",
+            "category_basic_settings",
+            "blog_category_desc",
+            "category_parent",
+            "category_desc_placeholder",
+            "__api_blog_categories",
+            "entry_category_id",
+            "blog_entry_new_category",
+            "blog_entry_category_new",
+            "blog_category_heading",
+            "blog_manage_entry_categories",
+            "blog_entry_categories",
+            "blog_error_missing_name",
+            "blog_error_not_find_category",
+            "blog_categories_all",
+            "no_entries_in_cat",
+            "__api_blog_entrycategories"
+        ],
+        "edited": [
+            "blog_entry_auto_follow_suffix",
+            "blog_by",
+            "group_blog_by",
+            "modperms__core_Content_blog_Entry"
+        ],
+        "removed": [
+            "blog_allow_rss_desc"
+        ]
+    },
+    "js": {
+        "added": [
+            "blog_category_confirm_delete",
+            "blog_category_confirm_delete_desc",
+            "manage_cats_new_row",
+            "entry_cat_order_saved"
+        ],
+        "edited": [],
+        "removed": []
+    }
+}

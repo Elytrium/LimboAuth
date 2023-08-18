@@ -1,0 +1,111 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_fields",
+            {
+                "name": "field_display_json",
+                "type": "MEDIUMTEXT",
+                "length": null,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON array of custom display HTML",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_comments",
+            {
+                "name": "comment_edit_reason",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_comments",
+            {
+                "name": "comment_edit_member_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_comments",
+            {
+                "name": "comment_edit_member_id",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "cms_database_comments",
+            {
+                "name": "comment_edit_show",
+                "type": "SMALLINT",
+                "length": 1,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "update",
+        "params": [
+            "cms_database_fields",
+            {
+                "field_display_json": "{\"display\":{\"method\":\"none\",\"html\":\"\"},\"listing\":{\"method\":\"1\",\"html\":\"\",\"right\":false}}"
+            }
+        ]
+    }
+}

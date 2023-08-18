@@ -1,0 +1,28 @@
+{
+    "normal": {
+        "added": [
+            "r__webapp",
+            "r__privacy",
+            "r__privacy_manage",
+            "r__mycharts",
+            "r__mycharts_manage",
+            "form_image_too_large",
+            "pii_data_request_settings",
+            "pii_link",
+            "right_to_be_forgotten_link",
+            "pii_type",
+            "right_to_be_forgotten_type",
+            "pii_external",
+            "right_to_be_forgotten_external"
+        ],
+        "edited": [
+            "r__api_splash"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

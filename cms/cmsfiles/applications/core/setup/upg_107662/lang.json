@@ -1,0 +1,21 @@
+{
+    "normal": {
+        "added": [
+            "menu__core_settings_webapp",
+            "r__webapp_manage",
+            "cant_save_global_css_changes_now_sorry",
+            "webapp_tab_icons",
+            "webapp_tab_manifest",
+            "acplogs__webapp"
+        ],
+        "edited": [
+            "acplogs__icons_and_logos"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,2294 @@
+{
+    "1": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_oauth_clients",
+                "columns": {
+                    "oauth_client_id": {
+                        "name": "oauth_client_id",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The client ID",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_grant_types": {
+                        "name": "oauth_grant_types",
+                        "type": "SET",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "authorization_code",
+                            "implicit",
+                            "client_credentials",
+                            "password"
+                        ],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Available grant types",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_redirect_uris": {
+                        "name": "oauth_redirect_uris",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of Redirect URIs",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_client_secret": {
+                        "name": "oauth_client_secret",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The hashed client secret or NULL for public clients",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_access_token_length": {
+                        "name": "oauth_access_token_length",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of hours access token lives for, or NULL for no limit",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_use_refresh_tokens": {
+                        "name": "oauth_use_refresh_tokens",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Boolean value indicating if refresh tokens should be used",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_refresh_token_length": {
+                        "name": "oauth_refresh_token_length",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Number of days refresh tokens live for, or NULL for no expiry or not applicable",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_scopes": {
+                        "name": "oauth_scopes",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of scope data",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_enabled": {
+                        "name": "oauth_enabled",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Boolean value indicating if client is enabled",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_prompt": {
+                        "name": "oauth_prompt",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "login",
+                            "reauthorize",
+                            "automatic"
+                        ],
+                        "allow_null": true,
+                        "default": "reauthorize",
+                        "comment": "How to prompt users. login = Users must always login. reauthorize = Users are shown authorize screen. automatic = Users with an existing access token skip authorise screen",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_choose_scopes": {
+                        "name": "oauth_choose_scopes",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": "0",
+                        "comment": "Boolean value indicating if user can choose which of the requested scopes to grant",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_ucp": {
+                        "name": "oauth_ucp",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Boolean value indicating if the user can see and revoke their authorization in their settings page",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_brute_force": {
+                        "name": "oauth_brute_force",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of IP addresses and failed authentication, for brute-force prevention",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "oauth_type": {
+                        "name": "oauth_type",
+                        "type": "ENUM",
+                        "length": null,
+                        "decimals": null,
+                        "values": [
+                            "invision",
+                            "wordpress"
+                        ],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "A hint for how to display the form (NULL is generic custom)",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "oauth_client_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "2": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_oauth_server_access_tokens",
+                "columns": {
+                    "client_id": {
+                        "name": "client_id",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The client ID",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "access_token": {
+                        "name": "access_token",
+                        "type": "CHAR",
+                        "length": 64,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The access token",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "access_token_expires": {
+                        "name": "access_token_expires",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when access token expires, or NULL for never",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "refresh_token": {
+                        "name": "refresh_token",
+                        "type": "CHAR",
+                        "length": 64,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Refresh token or NULL if not applicable",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "refresh_token_expires": {
+                        "name": "refresh_token_expires",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when refresh token expires or NULL if never - will be same value as access_token_expires if not applicable",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member_id": {
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The member ID or NULL for client_credentials",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "scope": {
+                        "name": "scope",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of scopes or NULL if no scope was requested",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "authorization_code": {
+                        "name": "authorization_code",
+                        "type": "CHAR",
+                        "length": 64,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The authorization code that generated the access token, if applicable",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "issued": {
+                        "name": "issued",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when access token was generated",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "access_lookup": {
+                        "type": "unique",
+                        "name": "access_lookup",
+                        "columns": [
+                            "client_id",
+                            "access_token"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "refresh_lookup": {
+                        "type": "unique",
+                        "name": "refresh_lookup",
+                        "columns": [
+                            "client_id",
+                            "refresh_token"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "authorization_code_lookup": {
+                        "type": "key",
+                        "name": "authorization_code_lookup",
+                        "columns": [
+                            "client_id",
+                            "authorization_code"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "member_lookup": {
+                        "type": "key",
+                        "name": "member_lookup",
+                        "columns": [
+                            "client_id",
+                            "member_id"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "refresh_token_expires": {
+                        "type": "key",
+                        "name": "refresh_token_expires",
+                        "columns": [
+                            "refresh_token_expires"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "member_id": {
+                        "type": "key",
+                        "name": "member_id",
+                        "columns": [
+                            "member_id",
+                            "issued"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "3": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_oauth_server_authorization_codes",
+                "columns": {
+                    "client_id": {
+                        "name": "client_id",
+                        "type": "CHAR",
+                        "length": 32,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The client ID",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "member_id": {
+                        "name": "member_id",
+                        "type": "BIGINT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "expires": {
+                        "name": "expires",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of expiration",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "code": {
+                        "name": "code",
+                        "type": "CHAR",
+                        "length": 64,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "The authorization code",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "scope": {
+                        "name": "scope",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of scopes or NULL if no scope was requested",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "redirect_uri": {
+                        "name": "redirect_uri",
+                        "type": "TEXT",
+                        "length": 0,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": true,
+                        "default": "",
+                        "comment": "The redirect_uri provided in the request",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "used": {
+                        "name": "used",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Boolean value indicating if code has been used",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "authorization_code": {
+                        "type": "unique",
+                        "name": "authorization_code",
+                        "columns": [
+                            "client_id",
+                            "code"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_api_logs",
+            {
+                "name": "client_id",
+                "type": "CHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The OAuth client ID, if applicable",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_api_logs",
+            {
+                "name": "member_id",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The authorized use's member ID, if applicable",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addColumn",
+        "params": [
+            "core_api_logs",
+            {
+                "name": "access_token",
+                "type": "CHAR",
+                "length": 97,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The raw access token that was used",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "7": {
+        "method": "dropTable",
+        "params": [
+            "core_ipsconnect_queue",
+            true
+        ]
+    },
+    "8": {
+        "method": "dropTable",
+        "params": [
+            "core_ipsconnect_slaves",
+            true
+        ]
+    },
+    "10": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_login_methods",
+                "columns": {
+                    "login_id": {
+                        "name": "login_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "login_classname": {
+                        "name": "login_classname",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Handler's class name",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "login_order": {
+                        "name": "login_order",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The order to process in ",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "login_acp": {
+                        "name": "login_acp",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Boolean value indicating if method can be used for ACP logins",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "login_settings": {
+                        "name": "login_settings",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "JSON-encoded handler-specific setting values",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "login_enabled": {
+                        "name": "login_enabled",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Boolean value indicating if method is enabled",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "login_register": {
+                        "name": "login_register",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "1",
+                        "comment": "Boolean value indicating if users can register using this method",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "login_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "login_enabled": {
+                        "type": "key",
+                        "name": "login_enabled",
+                        "columns": [
+                            "login_enabled"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "11": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_login_links",
+                "columns": {
+                    "token_login_method": {
+                        "name": "token_login_method",
+                        "type": "BIGINT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The ID number of the login method",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_member": {
+                        "name": "token_member",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The member ID",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_identifier": {
+                        "name": "token_identifier",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The server's identifier for the user",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_linked": {
+                        "name": "token_linked",
+                        "type": "TINYINT",
+                        "length": 1,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "Boolean value indicating if the account has been successfully linked",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_expires": {
+                        "name": "token_expires",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Unix timestamp of when the access token expires",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_refresh_token": {
+                        "name": "token_refresh_token",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Refresh token, if provided",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_secret": {
+                        "name": "token_secret",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Token secret for OAuth 1.0 implementations",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_access_token": {
+                        "name": "token_access_token",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "Access token",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "token_scope": {
+                        "name": "token_scope",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "JSON-encoded array of scopes issued",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "token_login_method",
+                            "token_member"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    },
+                    "token_identifier": {
+                        "type": "unique",
+                        "name": "token_identifier",
+                        "columns": [
+                            "token_login_method",
+                            "token_identifier"
+                        ],
+                        "length": [
+                            null,
+                            250
+                        ]
+                    },
+                    "token_member": {
+                        "type": "key",
+                        "name": "token_member",
+                        "columns": [
+                            "token_member"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "13": {
+        "method": "changeColumn",
+        "params": [
+            "core_clubs",
+            "type",
+            {
+                "name": "type",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "public",
+                    "open",
+                    "closed",
+                    "private",
+                    "readonly"
+                ],
+                "allow_null": false,
+                "default": "open",
+                "comment": "Type of club",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "14": {
+        "method": "changeColumn",
+        "params": [
+            "core_groups",
+            "g_create_clubs",
+            {
+                "name": "g_create_clubs",
+                "type": "SET",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "public",
+                    "open",
+                    "closed",
+                    "private",
+                    "readonly"
+                ],
+                "allow_null": false,
+                "default": "public,open,closed,private",
+                "comment": "The types of club this group can create",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "pp_thumb_photo": null
+            },
+            [
+                "pp_photo_type=?",
+                "letter"
+            ]
+        ]
+    },
+    "18": {
+        "method": "addColumn",
+        "params": [
+            "core_sessions",
+            {
+                "name": "in_editor",
+                "type": "TINYINT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "User is currently using an editor",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "19": {
+        "method": "update",
+        "params": [
+            "core_members",
+            "last_visit=joined",
+            "last_visit=0"
+        ]
+    },
+    "20": {
+        "method": "dropColumn",
+        "params": [
+            "core_follow",
+            "follow_index_id"
+        ]
+    },
+    "21": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key=?",
+                "logins_over_https"
+            ]
+        ]
+    },
+    "22": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND ( word_key IN  (  'logins_over_https', 'logins_over_https_disabled', 'logins_over_https_enabled', 'announce_app_desc' ) )",
+                "core"
+            ]
+        ]
+    },
+    "23": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "24": {
+        "method": "changeIndex",
+        "params": [
+            "core_search_index",
+            "author_lookup",
+            {
+                "type": "key",
+                "name": "author_lookup",
+                "columns": [
+                    "index_author",
+                    "index_class",
+                    "index_hidden",
+                    "index_date_updated"
+                ],
+                "length": [
+                    null,
+                    250,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "25": {
+        "method": "addColumn",
+        "params": [
+            "core_email_templates",
+            {
+                "name": "template_pinned",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "26": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "app=? AND `key`=?",
+                "core",
+                "connect"
+            ]
+        ]
+    },
+    "27": {
+        "method": "addIndex",
+        "params": [
+            "core_moderator_logs",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "28": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_reports",
+            {
+                "type": "key",
+                "name": "report_by",
+                "columns": [
+                    "report_by"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "29": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_spam_whitelist",
+                "columns": {
+                    "whitelist_id": {
+                        "name": "whitelist_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "whitelist_type": {
+                        "name": "whitelist_type",
+                        "type": "VARCHAR",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "ip",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "whitelist_content": {
+                        "name": "whitelist_content",
+                        "type": "VARCHAR",
+                        "length": 250,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "whitelist_date": {
+                        "name": "whitelist_date",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "0",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "whitelist_reason": {
+                        "name": "whitelist_reason",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "whitelist_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "whitelist": {
+                        "type": "key",
+                        "name": "whitelist",
+                        "columns": [
+                            "whitelist_content",
+                            "whitelist_type"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "30": {
+        "method": "addColumn",
+        "params": [
+            "core_rc_reports",
+            {
+                "name": "report_type",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "31": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_automatic_moderation_rules",
+                "columns": {
+                    "rule_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "rule_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rule_types": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "rule_types",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rule_points_needed": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "rule_points_needed",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rule_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 3,
+                        "name": "rule_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rule_enabled": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "1",
+                        "length": 1,
+                        "name": "rule_enabled",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "rule_filters": {
+                        "allow_null": true,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 0,
+                        "name": "rule_filters",
+                        "type": "TEXT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "rule_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "32": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_automatic_moderation_pending",
+                "columns": {
+                    "pending_object_class": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "",
+                        "length": 150,
+                        "name": "pending_object_class",
+                        "type": "VARCHAR",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "pending_object_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "pending_object_id",
+                        "type": "BIGINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "pending_report_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 20,
+                        "name": "pending_report_id",
+                        "type": "BIGINT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "pending_added": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "pending_added",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "pending_rule_id": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "pending_rule_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "pending_unique": {
+                        "type": "unique",
+                        "name": "pending_unique",
+                        "length": [
+                            null,
+                            null
+                        ],
+                        "columns": [
+                            "pending_object_class",
+                            "pending_object_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "33": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_automatic_moderation_types",
+                "columns": {
+                    "type_id": {
+                        "allow_null": false,
+                        "auto_increment": true,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": null,
+                        "length": 10,
+                        "name": "type_id",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    },
+                    "type_position": {
+                        "allow_null": false,
+                        "auto_increment": false,
+                        "binary": false,
+                        "comment": "",
+                        "decimals": null,
+                        "default": "0",
+                        "length": 10,
+                        "name": "type_position",
+                        "type": "INT",
+                        "unsigned": false,
+                        "values": [],
+                        "zerofill": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "length": [
+                            null
+                        ],
+                        "columns": [
+                            "type_id"
+                        ]
+                    }
+                },
+                "collation": "utf8_general_ci",
+                "engine": "InnoDB"
+            }
+        ]
+    },
+    "34": {
+        "method": "addColumn",
+        "params": [
+            "core_rc_index",
+            {
+                "name": "auto_moderation_exempt",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "35": {
+        "method": "dropColumn",
+        "params": [
+            "core_theme_templates",
+            "template_unique_key"
+        ]
+    },
+    "36": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_templates",
+            {
+                "type": "unique",
+                "name": "unique_key",
+                "columns": [
+                    "template_set_id",
+                    "template_location",
+                    "template_app",
+                    "template_group",
+                    "template_name"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "37": {
+        "method": "dropColumn",
+        "params": [
+            "core_theme_css",
+            "css_unique_key"
+        ]
+    },
+    "38": {
+        "method": "addIndex",
+        "params": [
+            "core_theme_css",
+            {
+                "type": "unique",
+                "name": "unique_key",
+                "columns": [
+                    "css_set_id",
+                    "css_app",
+                    "css_location",
+                    "css_path",
+                    "css_name"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "39": {
+        "method": "update",
+        "params": [
+            "core_member_history",
+            "log_data=CONCAT('{\"by\":\"legacy\",\"type\":\"', log_type, '\",\"data\":', log_data, '}'), log_type='group'",
+            "log_type IN('member_group_id', 'group_promotion', 'group_promotion_o', 'mgroup_others')"
+        ]
+    },
+    "40": {
+        "method": "update",
+        "params": [
+            "core_member_history",
+            "log_data=CONCAT('{\"type\":\"merge\",\"legacy\":', log_data, '}'), log_type='account'",
+            "log_type='merged'"
+        ]
+    },
+    "41": {
+        "method": "update",
+        "params": [
+            "core_member_history",
+            "log_data=CONCAT('{\"type\":\"spammer\",\"legacy\":', log_data, '}'), log_type='account'",
+            "log_type='spammer'"
+        ]
+    },
+    "42": {
+        "method": "changeColumn",
+        "params": [
+            "core_member_history",
+            "log_date",
+            {
+                "name": "log_date",
+                "type": "DECIMAL",
+                "length": 12,
+                "decimals": 2,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "43": {
+        "method": "addColumn",
+        "params": [
+            "core_themes",
+            {
+                "name": "set_customized",
+                "type": "INT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "44": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_conf_settings",
+            {
+                "name": "conf_report",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "full",
+                    "bool"
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "45": {
+        "method": "addColumn",
+        "params": [
+            "core_profile_steps",
+            {
+                "name": "step_position",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "46": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_saved_charts",
+                "columns": {
+                    "chart_id": {
+                        "name": "chart_id",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "ID Number",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": true,
+                        "binary": false
+                    },
+                    "chart_member": {
+                        "name": "chart_member",
+                        "type": "BIGINT",
+                        "length": 20,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": true,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "chart_controller": {
+                        "name": "chart_controller",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "chart_configuration": {
+                        "name": "chart_configuration",
+                        "type": "TEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": true,
+                        "default": null,
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "chart_title": {
+                        "name": "chart_title",
+                        "type": "VARCHAR",
+                        "length": 255,
+                        "decimals": null,
+                        "values": null,
+                        "allow_null": false,
+                        "default": "",
+                        "comment": "",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "PRIMARY": {
+                        "type": "primary",
+                        "name": "PRIMARY",
+                        "columns": [
+                            "chart_id"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "chart_member": {
+                        "type": "key",
+                        "name": "chart_member",
+                        "columns": [
+                            "chart_member"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "47": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "fee",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON object with costs if this is a paid club",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "48": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "renewal_term",
+                "type": "INT",
+                "length": 5,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The renewal term in renewal_units (e.g. if renews every 5 days, value will be 5)",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "49": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "renewal_units",
+                "type": "CHAR",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "The renewal units - \"d\" for days, etc.",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "50": {
+        "method": "addColumn",
+        "params": [
+            "core_clubs",
+            {
+                "name": "renewal_price",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON object with renewal costs if this is a paid club",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "51": {
+        "method": "changeColumn",
+        "params": [
+            "core_clubs_memberships",
+            "status",
+            {
+                "name": "status",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "member",
+                    "requested",
+                    "invited",
+                    "leader",
+                    "declined",
+                    "banned",
+                    "moderator",
+                    "invited_bypassing_payment",
+                    "payment_pending",
+                    "expired_moderator",
+                    "expired"
+                ],
+                "allow_null": true,
+                "default": "member",
+                "comment": "The status of the membership. member is normal member, requested\/invited are in the process of joining, leader is leader, declined means their request to join was declined, banned is banned by a leader",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "52": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_club_limit",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Maximum number of clubs, NULL for unlimited",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "53": {
+        "method": "addColumn",
+        "params": [
+            "core_announcements",
+            {
+                "name": "announce_page_location",
+                "type": "VARCHAR",
+                "length": 45,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "Page location to show announcement",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "54": {
+        "method": "addColumn",
+        "params": [
+            "core_announcements",
+            {
+                "name": "announce_color",
+                "type": "VARCHAR",
+                "length": 45,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Page top announcement color",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "55": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            [
+                "conf_key=?",
+                "announcements_exist"
+            ]
+        ]
+    },
+    "56": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_reports",
+            {
+                "type": "key",
+                "name": "ip_address",
+                "columns": [
+                    "ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "57": {
+        "method": "addIndex",
+        "params": [
+            "core_members_known_ip_addresses",
+            {
+                "type": "key",
+                "name": "ip_address",
+                "columns": [
+                    "ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "58": {
+        "method": "addColumn",
+        "params": [
+            "core_social_promote",
+            {
+                "name": "promote_form_data",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "59": {
+        "method": "addColumn",
+        "params": [
+            "core_social_promote_content",
+            {
+                "name": "response_service_id",
+                "type": "VARCHAR",
+                "length": 100,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Specific page\/group ID for this service if applicable",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "60": {
+        "method": "addColumn",
+        "params": [
+            "core_sys_cp_sessions",
+            {
+                "name": "session_cookie_key",
+                "type": "CHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "61": {
+        "method": "update",
+        "params": [
+            "core_announcements",
+            {
+                "announce_page_location": "sidebar"
+            }
+        ]
+    },
+    "62": {
+        "method": "update",
+        "params": [
+            "core_members",
+            {
+                "create_menu": null
+            }
+        ]
+    },
+    "63": {
+        "method": "changeColumn",
+        "params": [
+            "core_polls",
+            "votes",
+            {
+                "name": "votes",
+                "type": "BIGINT",
+                "length": 20,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "64": {
+        "method": "addIndex",
+        "params": [
+            "core_clubs",
+            {
+                "type": "key",
+                "name": "approved",
+                "columns": [
+                    "approved"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "65": {
+        "method": "addIndex",
+        "params": [
+            "core_clubs_memberships",
+            {
+                "type": "key",
+                "name": "member_id",
+                "columns": [
+                    "member_id",
+                    "status"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "66": {
+        "method": "addIndex",
+        "params": [
+            "core_social_promote_sharers",
+            {
+                "type": "key",
+                "name": "enabled",
+                "columns": [
+                    "sharer_enabled"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "67": {
+        "method": "addIndex",
+        "params": [
+            "core_social_promote",
+            {
+                "type": "key",
+                "name": "our_picks",
+                "columns": [
+                    "promote_internal",
+                    "promote_sent"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "68": {
+        "method": "addIndex",
+        "params": [
+            "core_ratings",
+            {
+                "type": "key",
+                "name": "ip",
+                "columns": [
+                    "ip"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "69": {
+        "method": "addIndex",
+        "params": [
+            "core_rc_comments",
+            {
+                "type": "key",
+                "name": "ip_address",
+                "columns": [
+                    "ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "70": {
+        "method": "addIndex",
+        "params": [
+            "core_clubs",
+            {
+                "type": "key",
+                "name": "club_featured",
+                "columns": [
+                    "featured"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "72": {
+        "method": "changeIndex",
+        "params": [
+            "core_message_topic_user_map",
+            "map_user",
+            {
+                "type": "key",
+                "name": "map_user",
+                "columns": [
+                    "map_user_id",
+                    "map_user_active",
+                    "map_last_topic_reply"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "73": {
+        "method": "addColumn",
+        "params": [
+            "core_search_index",
+            {
+                "name": "index_date_commented",
+                "type": "INT",
+                "length": 10,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "Object last commented\/reviewed date",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_login_methods",
+            {
+                "login_settings": "{\"auth_types\":2}"
+            },
+            [
+                "login_classname=? AND login_settings=?",
+                "IPS\\Login\\Handler\\Standard",
+                "[]"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/clubs\/coverPhotoOverlay",
+            "front\/global\/commentEditHistory",
+            "global\/global\/dynamicChart",
+            "front\/global\/favico",
+            "admin\/global\/globalTemplate",
+            "front\/global\/tag",
+            "admin\/marketplace\/customHeader",
+            "admin\/marketplace\/fileView",
+            "admin\/memberprofile\/locations",
+            "front\/messaging\/messageListRow",
+            "front\/modcp\/report",
+            "front\/promote\/promotePublicTableRow"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/buttons.css",
+            "global\/framework\/comments.css",
+            "global\/framework\/pagination.css",
+            "front\/styles\/messaging.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

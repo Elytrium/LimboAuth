@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails><template><template_app>cms</template_app><template_name>digests__comment</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='40' align='center' valign='top' class=' '>
+		<img src='{$comment->author()->get_photo( true, true )}' width='32' height='32' style='border: 1px solid #000; vertical-align: middle;'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{{$item = $comment->item();}}
+			({$email->language->addToStack("x_commented_cms", FALSE, array( 'sprintf' => array( $comment->author()->name, $item::database()->recordWord( 1 ) ) ) )})
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 15px; font-weight: 500 !important; margin: 0;">
+			<a href='{$comment->item()->url()}' style='text-decoration: none;'>{$comment->item()->_title}</a>
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 5px; margin-bottom: 5px; border-left: 3px solid #8c8c8c; padding-left: 15px; font-size: 14px; margin-left: 15px'>
+			{$email->parseTextForEmail( $comment->content(), $email->language )|raw}
+		</div>
+	</td>
+</tr>]]></template_content_html><template_data>$comment, $email</template_data><template_content_plaintext><![CDATA[{{$item = $comment->item();}}
+{$email->language->addToStack("x_commented_cms", FALSE, array( 'htmlsprintf' => array( $comment->author()->name, $item::database()->recordWord( 1 ) ) ) )}: {$comment->item()->_title} ({$comment->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template><template><template_app>cms</template_app><template_name>digests__item</template_name><template_content_html><![CDATA[<tr style='border-bottom: 1px solid #eeeeee'>
+	<td dir='{dir}' width='40' align='center' valign='top' class=' '>
+		<img src='{$entry->author()->get_photo( true, true )}' width='32' height='32' style='border: 1px solid #000; vertical-align: middle;'>
+	</td>
+	<td dir='{dir}' align='left'>
+		<p style='font-family: "Helvetica Neue", helvetica, sans-serif; margin: 0; font-size: 13px; font-weight: bold'>
+			{$email->language->addToStack("x_created_cms_in", FALSE, array( 'sprintf' => array( $entry->author()->name, $entry::database()->recordWord( 1 ), $entry->container()->getTitleForLanguage( $email->language ) ) ) )}
+		</p>
+		<h2 style="font-family: 'Helvetica Neue', helvetica, sans-serif; font-size: 18px; font-weight: 500 !important; margin: 0">
+			<a href='{$entry->url()}' style='text-decoration: none;'>{$entry->_title}</a>
+			{{if $entry->mapped('featured')}}&nbsp;&nbsp;<span style='color: #68a72f; font-weight: bold; font-size: 12px; text-transform: uppercase;'>{$email->language->addToStack("featured", FALSE)}</span>{{endif}}
+		</h2>
+		<div style='font-family: "Helvetica Neue", helvetica, sans-serif; line-height: 22px; margin-top: 10px; margin-bottom: 10px'>
+			{$email->parseTextForEmail( $entry->content(), $email->language )|raw}
+		</div>
+	</td>
+</tr>]]></template_content_html><template_data>$entry, $email</template_data><template_content_plaintext><![CDATA[{$email->language->addToStack("x_created_cms_in", FALSE, array( 'htmlsprintf' => array( $entry->author()->name, $entry::database()->recordWord( 1 ), $entry->container()->getTitleForLanguage( $email->language ) ) ) )}: {$entry->_title} ({$entry->url()})
+]]></template_content_plaintext><template_pinned>0</template_pinned></template></emails>

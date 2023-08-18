@@ -1,0 +1,19 @@
+{
+    "normal": {
+        "added": [
+            "stream_subscribe_desc",
+            "stream_subscriptions_short"
+        ],
+        "edited": [
+            "stream_subscribe",
+            "stream_unsubscribe",
+            "captcha_type_hcaptcha_desc"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

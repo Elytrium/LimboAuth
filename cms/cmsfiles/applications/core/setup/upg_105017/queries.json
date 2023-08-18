@@ -1,0 +1,12 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_tasks",
+            [
+                "`key`=?",
+                "imageproxy"
+            ]
+        ]
+    }
+}

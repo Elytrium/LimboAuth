@@ -1,0 +1,45 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "core_search_index",
+            "container",
+            {
+                "type": "key",
+                "name": "container",
+                "columns": [
+                    "index_class",
+                    "index_container_id",
+                    "index_date_commented"
+                ],
+                "length": [
+                    250,
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_date_commented",
+                "columns": [
+                    "index_date_commented"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/clubs\/header",
+            "global\/forms\/autocomplete",
+            "global\/forms\/checkboxset",
+            "global\/global\/includeJS",
+            "front\/global\/navBarChildren",
+            "global\/global\/pollForm",
+            "front\/search\/filters",
+            "admin\/smartcommunity\/cloud",
+            "front\/system\/referralTable"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "admin\/core\/typography.css",
+            "global\/framework\/lightbox.css",
+            "global\/framework\/menus.css",
+            "global\/framework\/misc.css",
+            "global\/responsive\/typography.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "global\/default_rank.png",
+            "global\/resizable.png"
+        ],
+        "removed": []
+    }
+}

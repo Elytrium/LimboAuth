@@ -1,0 +1,190 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_widgets",
+            "caches",
+            {
+                "name": "caches",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": true,
+                "default": null,
+                "comment": "JSON encoded array of cache keys to be referenced when deleting caches",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_banfilters",
+            "ban_type",
+            {
+                "name": "ban_type",
+                "type": "VARCHAR",
+                "length": 10,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "ip",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_admin_permission_rows",
+            "row_id_type",
+            {
+                "name": "row_id_type",
+                "type": "VARCHAR",
+                "length": 13,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "member",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "core_theme_css",
+            "css_location",
+            {
+                "name": "css_location",
+                "type": "VARCHAR",
+                "length": 80,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "core_theme_templates",
+            "template_group",
+            {
+                "name": "template_group",
+                "type": "VARCHAR",
+                "length": 80,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "6": {
+        "method": "update",
+        "params": [
+            "core_ipsconnect_slaves",
+            "slave_url=CONCAT(slave_url,'\/applications\/core\/interface\/ipsconnect\/ipsconnect.php')"
+        ]
+    },
+    "7": {
+        "method": "createTable",
+        "params": [
+            {
+                "name": "core_cache",
+                "columns": {
+                    "cache_key": {
+                        "name": "cache_key",
+                        "type": "VARCHAR",
+                        "length": 100,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The key",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cache_value": {
+                        "name": "cache_value",
+                        "type": "LONGTEXT",
+                        "length": null,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "The value",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    },
+                    "cache_expire": {
+                        "name": "cache_expire",
+                        "type": "INT",
+                        "length": 10,
+                        "decimals": null,
+                        "values": [],
+                        "allow_null": false,
+                        "default": null,
+                        "comment": "Unix timestamp of when the cache expires",
+                        "unsigned": false,
+                        "zerofill": false,
+                        "auto_increment": false,
+                        "binary": false
+                    }
+                },
+                "indexes": {
+                    "cache_key": {
+                        "type": "unique",
+                        "name": "cache_key",
+                        "columns": [
+                            "cache_key"
+                        ],
+                        "length": [
+                            null
+                        ]
+                    },
+                    "keyexpire": {
+                        "type": "key",
+                        "name": "keyexpire",
+                        "columns": [
+                            "cache_key",
+                            "cache_expire"
+                        ],
+                        "length": [
+                            null,
+                            null
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}

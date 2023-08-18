@@ -1,0 +1,36 @@
+{
+    "normal": {
+        "added": [
+            "form_interval_min_w",
+            "form_interval_max_w",
+            "applications_blurb_no_upload",
+            "dev_plugin_not_writable",
+            "can_toggle_item_moderation_content",
+            "can_toggle_item_moderation_content_desc",
+            "rebuilding_urlrefs_stuff",
+            "refurls_rebuilt",
+            "chart_customfilters_title",
+            "chart_customfilters_save",
+            "requirements_mysql_format_advice",
+            "requirements_mysql_ifpt_advice",
+            "mobile_app_hide_stats",
+            "mobile_app_hide_stats_desc"
+        ],
+        "edited": [
+            "links_external_desc",
+            "posts_add_nofollow_desc",
+            "posts_add_nofollow_exclude_desc",
+            "mod_confirm_hidden",
+            "club_modperm_move_desc"
+        ],
+        "removed": [
+            "can_toggle_item_moderation",
+            "can_toggle_item_moderation_desc"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

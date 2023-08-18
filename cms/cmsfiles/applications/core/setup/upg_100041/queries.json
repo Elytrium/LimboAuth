@@ -1,0 +1,51 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "core_sys_cp_sessions",
+            "session_id",
+            {
+                "name": "session_id",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "core_sessions",
+            "id",
+            {
+                "name": "id",
+                "type": "VARCHAR",
+                "length": 128,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "3": {
+        "method": "dropColumn",
+        "params": [
+            "core_groups",
+            "g_max_notifications"
+        ]
+    }
+}

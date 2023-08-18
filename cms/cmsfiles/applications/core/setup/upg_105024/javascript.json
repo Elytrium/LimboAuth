@@ -1,0 +1,22 @@
+{
+    "files": {
+        "added": [
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.launcher.js",
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.onboard.js",
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.onboardRow.js",
+            "core\/admin\/controllers\/marketplace\/ips.marketplace.search.js"
+        ],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.drawer.js",
+            "global\/framework\/common\/ui\/ips.ui.menu.js",
+            "global\/framework\/common\/utils\/ips.utils.position.js",
+            "core\/admin\/controllers\/customization\/ips.customization.editorToolbars.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

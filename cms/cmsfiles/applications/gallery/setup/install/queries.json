@@ -1,0 +1,184 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_create_albums",
+                "type": "TINYINT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Can create albums?",
+                "unsigned": true
+            }
+        ]
+    },
+    "2": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_create_albums_private",
+                "type": "TINYINT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Can create private albums?",
+                "unsigned": true
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_create_albums_fo",
+                "type": "TINYINT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Can create restricted albums?",
+                "unsigned": true
+            }
+        ]
+    },
+    "4": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_album_limit",
+                "type": "INT",
+                "length": 10,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum number of albums",
+                "unsigned": true
+            }
+        ]
+    },
+    "5": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_img_album_limit",
+                "type": "INT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum number of images per album",
+                "unsigned": true
+            }
+        ]
+    },
+    "7": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_movies",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can upload movies?",
+                "unsigned": true
+            }
+        ]
+    },
+    "8": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_movie_size",
+                "type": "INT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum size of movies",
+                "unsigned": true
+            }
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_max_upload",
+                "type": "INT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum image upload size",
+                "unsigned": true
+            }
+        ]
+    },
+    "10": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_max_transfer",
+                "type": "INT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum bandwidth consumption",
+                "unsigned": true
+            }
+        ]
+    },
+    "11": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_max_views",
+                "type": "INT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Maximum daily image views",
+                "unsigned": true
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_download_original",
+                "type": "TINYINT",
+                "length": 1,
+                "null": false,
+                "default": 0,
+                "comment": "Can this group download the original image?",
+                "unsigned": true
+            }
+        ]
+    },
+    "13": {
+        "method": "insert",
+        "params": [
+            "core_permission_index",
+            {
+                "app": "gallery",
+                "perm_type": "category",
+                "perm_type_id": 1,
+                "perm_view": "*",
+                "perm_2": "*",
+                "perm_3": "<%NO_GUESTS%>",
+                "perm_4": "<%NO_GUESTS%>",
+                "perm_5": "<%NO_GUESTS%>",
+                "perm_6": "<%NO_GUESTS%>"
+            }
+        ]
+    }
+}

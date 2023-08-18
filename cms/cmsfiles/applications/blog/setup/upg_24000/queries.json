@@ -1,0 +1,137 @@
+{
+    "1": {
+        "method": "dropColumn",
+        "params": [
+            "blog_comments",
+            "comment_queued"
+        ]
+    },
+    "2": {
+        "method": "changeColumn",
+        "params": [
+            "blog_comments",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "blog_trackback",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "blog_trackback_spamlogs",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "blog_voters",
+            "ip_address",
+            {
+                "name": "ip_address",
+                "type": "varchar",
+                "length": 46,
+                "default": null,
+                "allow_null": true
+            }
+        ]
+    },
+    "6": {
+        "method": "changeColumn",
+        "params": [
+            "blog_akismet_logs",
+            "log_date",
+            {
+                "name": "log_date",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "7": {
+        "method": "dropColumn",
+        "params": [
+            "blog_comments",
+            [
+                "comment_use_sig",
+                "comment_use_emo",
+                "comment_html_state",
+                "comment_append_edit",
+                "comment_edit_name"
+            ]
+        ]
+    },
+    "8": {
+        "method": "dropIndex",
+        "params": [
+            "blog_comments",
+            "comment_entry_id"
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "blog_comments",
+            {
+                "type": "key",
+                "name": "entry_id",
+                "columns": [
+                    "entry_id",
+                    "comment_approved"
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "changeIndex",
+        "params": [
+            "blog_entries",
+            "entry_status",
+            {
+                "type": "key",
+                "name": "entry_status",
+                "columns": [
+                    "entry_status",
+                    "entry_last_update"
+                ]
+            }
+        ]
+    },
+    "11": {
+        "method": "update",
+        "params": [
+            "blog_blogs",
+            {
+                "blog_skin_id": 0
+            }
+        ]
+    }
+}

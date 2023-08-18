@@ -1,0 +1,11 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_modules",
+            [
+                "sys_module_application='core' AND sys_module_area='front' AND sys_module_key IN('activity', 'dashboard', 'discovery' )"
+            ]
+        ]
+    }
+}

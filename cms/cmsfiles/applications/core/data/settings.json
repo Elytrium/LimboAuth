@@ -1,0 +1,2307 @@
+[
+    {
+        "key": "achievements_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "achievements_last_rebuilt",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "achievements_rebuilding",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "achievements_recognize_max_per_user_day",
+        "default": "50",
+        "report": "full"
+    },
+    {
+        "key": "acp_css_map",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "acp_dashboard_blocks",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "acp_menu_cookie_rebuild",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "acp_notes",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "acp_notes_updated",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "activity_stream_rss",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "activity_stream_subscriptions",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "activity_stream_subscriptions_inactive_limit",
+        "default": "60",
+        "report": "full"
+    },
+    {
+        "key": "activity_stream_subscriptions_max",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "ads_circulation",
+        "default": "random",
+        "report": "full"
+    },
+    {
+        "key": "ads_exist",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ads_force_sidebar",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_clubs",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_follow_content",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_follow_member",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_like",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_photo",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_register",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "all_activity_rep_neg",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "allow_creator_vote",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "allow_email_changes",
+        "default": "normal",
+        "report": "full"
+    },
+    {
+        "key": "allow_email_changes_target",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "allow_forgot_password",
+        "default": "normal",
+        "report": "full"
+    },
+    {
+        "key": "allow_forgot_password_target",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "allow_only_https_remote_images",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "allow_password_changes",
+        "default": "normal",
+        "report": "full"
+    },
+    {
+        "key": "allow_password_changes_target",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "allow_reg",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "allow_reg_target",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "allow_remote_images",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "allow_result_view",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "allowed_reg_email",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "api_log_prune",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "attach_allowed_extensions",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "attach_allowed_types",
+        "default": "all",
+        "report": "full"
+    },
+    {
+        "key": "attachment_image_size",
+        "default": "1000x750",
+        "report": "full"
+    },
+    {
+        "key": "attachment_resample_size",
+        "default": "1200x1200",
+        "report": "full"
+    },
+    {
+        "key": "authy_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "authy_groups",
+        "default": "*",
+        "report": "none"
+    },
+    {
+        "key": "authy_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "authy_method",
+        "default": "authy,sms,phone",
+        "report": "full"
+    },
+    {
+        "key": "authy_onetouch",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "authy_setup",
+        "default": "sms,phone",
+        "report": "full"
+    },
+    {
+        "key": "authy_setup_lockout",
+        "default": "12",
+        "report": "full"
+    },
+    {
+        "key": "authy_setup_tries",
+        "default": "2",
+        "report": "full"
+    },
+    {
+        "key": "auto_follow_new_content",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "auto_follow_replied_to",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "auto_polling_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "automoderation_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "automoderation_report_again_mins",
+        "default": "60",
+        "report": "full"
+    },
+    {
+        "key": "base_url_stored",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "bitly_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "bitly_token",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "board_name",
+        "default": "Invision Community",
+        "report": "bool"
+    },
+    {
+        "key": "bot_antispam_type",
+        "default": "invisible",
+        "report": "full"
+    },
+    {
+        "key": "ckeditor_extraPlugins",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ckeditor_permissions",
+        "default": "{}",
+        "report": "bool"
+    },
+    {
+        "key": "ckeditor_toolbars",
+        "default": "{\"desktop\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"Strike\",\"-\",\"ipsLink\",\"Ipsquote\",\"ipsCode\",\"ipsEmoticon\",\"-\",\"BulletedList\",\"NumberedList\",\"-\",\"JustifyLeft\",\"JustifyCenter\",\"JustifyRight\",\"-\",\"TextColor\",\"FontSize\",\"-\",\"ipsPreview\"]},\"\\\/\"],\"tablet\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"-\",\"ipsLink\",\"Ipsquote\",\"ipsEmoticon\",\"-\",\"BulletedList\",\"NumberedList\",\"-\",\"ipsPreview\"]},\"\\\/\"],\"phone\":[{\"name\":\"row1\",\"items\":[\"Bold\",\"Italic\",\"Underline\",\"-\",\"ipsEmoticon\",\"-\",\"ipsLink\",\"-\",\"ipsPreview\"]},\"\\\/\"]}",
+        "report": "bool"
+    },
+    {
+        "key": "clickjackprevention",
+        "default": "xframe",
+        "report": "full"
+    },
+    {
+        "key": "club_max_cover",
+        "default": "-1",
+        "report": "full"
+    },
+    {
+        "key": "club_nodes_in_apps",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "clubs",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "clubs_allow_view_change",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "clubs_default_sort",
+        "default": "last_activity",
+        "report": "full"
+    },
+    {
+        "key": "clubs_default_view",
+        "default": "grid",
+        "report": "full"
+    },
+    {
+        "key": "clubs_header",
+        "default": "full",
+        "report": "full"
+    },
+    {
+        "key": "clubs_locations",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "clubs_modperms",
+        "default": "pin,unpin,future_publish,view_future,move,lock,unlock,reply_to_locked,delete,split_merge",
+        "report": "bool"
+    },
+    {
+        "key": "clubs_paid_commission",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "clubs_paid_gateways",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "clubs_paid_on",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "clubs_paid_tax",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "clubs_paid_transfee",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "clubs_require_approval",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "connect_slaves",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "contact_access",
+        "default": "*",
+        "report": "none"
+    },
+    {
+        "key": "contact_emails",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "contact_nexus_department",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "contact_redirect",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "contact_type",
+        "default": "contact_internal",
+        "report": "full"
+    },
+    {
+        "key": "coppa_address",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "coppa_consent_extra",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "coppa_fax",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "copyright_line",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "core_datalayer_enabled",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_events",
+        "default": "{}",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_gtmkey",
+        "default": "window.dataLayer",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_include_pii",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_member_pii_choice",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_pii",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_properties",
+        "default": "{}",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_replace_with_sso",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "core_datalayer_use_gtm",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "csp_header",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "custom_body_code",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "custom_page_view_js",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "dellog_retention_period",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "device_management",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "diagnostics",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "diagnostics_reporting",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "disable_all_plugins",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "edit_log",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "edit_log_prune",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "edit_log_public",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "editor_allowed_classes",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "editor_allowed_datacontrollers",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "editor_allowed_iframe_bases",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "editor_embeds",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "editor_paragraph_padding",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "editor_paste_behaviour",
+        "default": "rich",
+        "report": "full"
+    },
+    {
+        "key": "email_color",
+        "default": "#177ec9",
+        "report": "bool"
+    },
+    {
+        "key": "email_filter_action",
+        "default": "allow",
+        "report": "full"
+    },
+    {
+        "key": "email_filter_replace_text",
+        "default": "*****@*****.tld",
+        "report": "bool"
+    },
+    {
+        "key": "email_in",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "email_logo",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "email_out",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "emoji_ascii",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "emoji_cache",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "emoji_shortcodes",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "emoji_style",
+        "default": "native",
+        "report": "full"
+    },
+    {
+        "key": "enable_bbcode",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "error_log",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "error_log_level",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "error_notify",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "error_notify_level",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "fb_ig_oembed_appid",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "fb_ig_oembed_appsecret",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "fb_ig_oembed_token",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "fb_pixel_delay",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "fb_pixel_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "fb_pixel_id",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "fbc_bot_group",
+        "default": "2",
+        "report": "bool"
+    },
+    {
+        "key": "file_log_pruning",
+        "default": "90",
+        "report": "full"
+    },
+    {
+        "key": "flood_control",
+        "default": "5",
+        "report": "full"
+    },
+    {
+        "key": "force_reg_terms",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "furl_configuration",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ga_code",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "ga_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "giphy_apikey",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "giphy_enabled",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "giphy_rating",
+        "default": "x",
+        "report": "full"
+    },
+    {
+        "key": "gl_guidelines",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "gl_link",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "gl_type",
+        "default": "none",
+        "report": "full"
+    },
+    {
+        "key": "google_maps_api_key",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "google_maps_api_key_secret",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "google_maps_static_use_embed",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "googleauth_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "googleauth_groups",
+        "default": "*",
+        "report": "bool"
+    },
+    {
+        "key": "googlemaps",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "googleplacesautocomplete",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "googletag_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "googletag_head_code",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "googletag_noscript_code",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "group_formatting",
+        "default": "global",
+        "report": "full"
+    },
+    {
+        "key": "guest_captcha",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "guest_terms_bar",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "hcaptcha_secret",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "hcaptcha_sitekey",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "htaccess_mod_rewrite",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "icons_apple_startup",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "icons_favicon",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "icons_homescreen",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "icons_homescreen_maskable",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "icons_mask_color",
+        "default": "FFFFFF",
+        "report": "bool"
+    },
+    {
+        "key": "icons_mask_icon",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "icons_sharer_logo",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ignore_system_on",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "image_jpg_quality",
+        "default": "85",
+        "report": "full"
+    },
+    {
+        "key": "image_png_quality_gd",
+        "default": "9",
+        "report": "full"
+    },
+    {
+        "key": "image_suite",
+        "default": "imagemagick",
+        "report": "full"
+    },
+    {
+        "key": "imagick_strip_exif",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "indexnow_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "indexnow_key",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ip_address_prune",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "ipb_bruteforce_attempts",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "ipb_bruteforce_period",
+        "default": "15",
+        "report": "full"
+    },
+    {
+        "key": "ipb_bruteforce_unlock",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_copy_number",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ipb_poll_only",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ipb_reg_number",
+        "default": "LICENSE KEY GOES HERE!-123456789",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_active",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_cloud",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_url",
+        "default": "https:\/\/www.invisionpower.com\/buy\/self-hosted",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_test_url",
+        "default": "http:\/\/community.invisionpower.com",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_expires",
+        "default": "09 MAR 2037",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_forums",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_calendar",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_blog",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_gallery",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_downloads",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_cms",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_nexus",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_product_copyright",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_chat_limit",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ipb_license_support",
+        "default": "N/A",
+        "report": "full"
+    },
+    {
+        "key": "ipb_url_blacklist",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ipb_url_filter_option",
+        "default": "none",
+        "report": "full"
+    },
+    {
+        "key": "ipb_url_whitelist",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ips_cp_purchase",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "ipseo_ga",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "ipsgeoip",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "itunes_affiliate_string",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "javascript_updated",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "keycaptcha_privatekey",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "lang_auto_detect",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "last_data_store_update",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "lazy_load_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "leaderboard_excluded_groups",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "letter_photos",
+        "default": "letters",
+        "report": "full"
+    },
+    {
+        "key": "link_default",
+        "default": "unread",
+        "report": "full"
+    },
+    {
+        "key": "links_external",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "lp_method",
+        "default": "random",
+        "report": "full"
+    },
+    {
+        "key": "mail_method",
+        "default": "php",
+        "report": "full"
+    },
+    {
+        "key": "manifest_details",
+        "default": "[]",
+        "report": "bool"
+    },
+    {
+        "key": "mapbox",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "mapbox_api_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "match_browser",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "match_ipaddress",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "matomo_code",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "matomo_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "max_internalembed_width",
+        "default": "500",
+        "report": "full"
+    },
+    {
+        "key": "max_internalembed_width_css",
+        "default": "none",
+        "report": "none"
+    },
+    {
+        "key": "max_poll_choices",
+        "default": "20",
+        "report": "full"
+    },
+    {
+        "key": "max_poll_questions",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "max_title_length",
+        "default": "255",
+        "report": "full"
+    },
+    {
+        "key": "max_user_name_length",
+        "default": "26",
+        "report": "full"
+    },
+    {
+        "key": "max_video_width",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "max_video_width_css",
+        "default": "none",
+        "report": "bool"
+    },
+    {
+        "key": "member_menu_create_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "merge_concurrent_posts",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "mfa_forgot_behaviour",
+        "default": "email",
+        "report": "full"
+    },
+    {
+        "key": "mfa_lockout_behaviour",
+        "default": "lock",
+        "report": "full"
+    },
+    {
+        "key": "mfa_lockout_time",
+        "default": "60",
+        "report": "full"
+    },
+    {
+        "key": "mfa_optional_prompt",
+        "default": "none",
+        "report": "full"
+    },
+    {
+        "key": "mfa_required_groups",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "mfa_required_prompt",
+        "default": "immediate",
+        "report": "full"
+    },
+    {
+        "key": "min_user_name_length",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "minimum_age",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "most_online",
+        "default": "{\"count\":0,\"time\":0}",
+        "report": "none"
+    },
+    {
+        "key": "mp_onboard_complete",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "new_device_email",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "new_reg_notify",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "notification_prefs_one_per_view",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "notification_prefs_popup",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "onboard_complete",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "orig_tables_checked",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "our_picks_in_email",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "password_strength_meter",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "password_strength_meter_enforce",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "password_strength_option",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "php_mail_extra",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "pii_link",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "pii_type",
+        "default": "on",
+        "report": "full"
+    },
+    {
+        "key": "pixabay_apikey",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "pixabay_editor_permissions",
+        "default": "*",
+        "report": "none"
+    },
+    {
+        "key": "pixabay_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "pixabay_safesearch",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "poll_allow_public",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "poll_allow_vdelete",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "pop3_password",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "pop3_port",
+        "default": "995",
+        "report": "none"
+    },
+    {
+        "key": "pop3_server",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "pop3_tls",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "pop3_user",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "post_before_registering",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "posts_add_nofollow",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "posts_add_nofollow_exclude",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "privacy_link",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "privacy_show_processors",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "privacy_text",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "privacy_type",
+        "default": "none",
+        "report": "full"
+    },
+    {
+        "key": "profile_birthday_type",
+        "default": "public",
+        "report": "full"
+    },
+    {
+        "key": "profile_comment_approval",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "profile_comments",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "promote_community_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "promote_groups",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "promote_members",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "promote_scheduled",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "promote_tz",
+        "default": "UTC",
+        "report": "full"
+    },
+    {
+        "key": "prune_emailerrorlogs",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "prune_follows",
+        "default": "365",
+        "report": "full"
+    },
+    {
+        "key": "prune_item_markers",
+        "default": "60",
+        "report": "full"
+    },
+    {
+        "key": "prune_known_devices",
+        "default": "365",
+        "report": "full"
+    },
+    {
+        "key": "prune_known_ips",
+        "default": "180",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_admin",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_adminlogin",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_email_error",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_emailstats",
+        "default": "365",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_error",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_moderator",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_spam",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_system",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_log_tasks",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_member_history",
+        "default": "365",
+        "report": "full"
+    },
+    {
+        "key": "prune_notifications",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "prune_pms",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "prune_points_log",
+        "default": "365",
+        "report": "full"
+    },
+    {
+        "key": "rare_badge_percent",
+        "default": "5",
+        "report": "full"
+    },
+    {
+        "key": "reaction_count_display",
+        "default": "individual",
+        "report": "full"
+    },
+    {
+        "key": "reaction_is_likemode",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "recaptcha2_private_key",
+        "default": "6LcH7UEUAAAAANmcQmZErdGW2FXwVhtRBVXBWBUA",
+        "report": "bool"
+    },
+    {
+        "key": "recaptcha2_public_key",
+        "default": "6LcH7UEUAAAAAIGWgOoyBKAqjLmOIKzfJTOjyC7z",
+        "report": "bool"
+    },
+    {
+        "key": "ref_on",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "referrer_policy_header",
+        "default": "2",
+        "report": "full"
+    },
+    {
+        "key": "reg_auth_type",
+        "default": "user",
+        "report": "full"
+    },
+    {
+        "key": "reg_rules",
+        "default": "<p>Please take a moment to review these rules.<\/p><p>Please remember that we are not responsible for any messages posted. We do not vouch for or warrant the accuracy, completeness or usefulness of any message, and are not responsible for the contents of any message.<\/p><p>The messages express the views of the author of the message, not necessarily the views of this website. Any user who feels that a posted message is objectionable is encouraged to contact us immediately by email. We have the ability to remove objectionable messages and we will make every effort to do so, within a reasonable time frame, if we determine that removal is necessary.<\/p><p>You agree, through your use of this service, that you will not use this website to post any material which is knowingly false and\/or defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, or otherwise violative of any law.<\/p><p>You agree not to post any copyrighted material unless the copyright is owned by you or by this website.<\/p><p>Our software uses cookies to distinguish you from other users of our website. This helps us to provide you with a personalized experience when you browse this site.<\/p>",
+        "report": "bool"
+    },
+    {
+        "key": "relative_dates_enable",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "remote_image_cache",
+        "default": "7",
+        "report": "full"
+    },
+    {
+        "key": "reputation_can_self_vote",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "reputation_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "reputation_highlight",
+        "default": "50",
+        "report": "full"
+    },
+    {
+        "key": "reputation_leaderboard_default_tab",
+        "default": "leaderboard",
+        "report": "full"
+    },
+    {
+        "key": "reputation_leaderboard_on",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "reputation_max_members",
+        "default": "48",
+        "report": "full"
+    },
+    {
+        "key": "reputation_overview_max_members",
+        "default": "8",
+        "report": "full"
+    },
+    {
+        "key": "reputation_point_types",
+        "default": "like",
+        "report": "full"
+    },
+    {
+        "key": "reputation_protected_groups",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "reputation_show_days_won_trophy",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "reputation_show_profile",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "reputation_timezone",
+        "default": "UTC",
+        "report": "full"
+    },
+    {
+        "key": "reputation_top_members_filters",
+        "default": "*",
+        "report": "bool"
+    },
+    {
+        "key": "reputation_top_members_overview",
+        "default": "pp_reputation_points,member_posts",
+        "report": "full"
+    },
+    {
+        "key": "reviews_rating_out_of",
+        "default": "5",
+        "report": "full"
+    },
+    {
+        "key": "right_to_be_forgotten_link",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "right_to_be_forgotten_type",
+        "default": "on",
+        "report": "full"
+    },
+    {
+        "key": "robots_txt",
+        "default": "default",
+        "report": "bool"
+    },
+    {
+        "key": "rules_exclude_groups",
+        "default": "[]",
+        "report": "none"
+    },
+    {
+        "key": "search_decay_days",
+        "default": "120",
+        "report": "full"
+    },
+    {
+        "key": "search_decay_factor",
+        "default": "0.5",
+        "report": "full"
+    },
+    {
+        "key": "search_default_operator",
+        "default": "or",
+        "report": "full"
+    },
+    {
+        "key": "search_elastic_analyzer",
+        "default": "english",
+        "report": "full"
+    },
+    {
+        "key": "search_elastic_custom_analyzer",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "search_elastic_index",
+        "default": "content",
+        "report": "none"
+    },
+    {
+        "key": "search_elastic_self_boost",
+        "default": "1.5",
+        "report": "full"
+    },
+    {
+        "key": "search_elastic_server",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "search_index_maxresults",
+        "default": "10000",
+        "report": "full"
+    },
+    {
+        "key": "search_index_timeframe",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "search_method",
+        "default": "mysql",
+        "report": "full"
+    },
+    {
+        "key": "search_title_boost",
+        "default": "5",
+        "report": "full"
+    },
+    {
+        "key": "searchlog_exclude_groups",
+        "default": "[2]",
+        "report": "bool"
+    },
+    {
+        "key": "security_questions_areas",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "security_questions_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "security_questions_groups",
+        "default": "*",
+        "report": "bool"
+    },
+    {
+        "key": "security_questions_number",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "security_questions_prompt",
+        "default": "access",
+        "report": "full"
+    },
+    {
+        "key": "security_questions_timer",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "security_questions_tries",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "sendgrid_api_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "sendgrid_click_tracking",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "sendgrid_ip_pool",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "sendgrid_use_for",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "seo_r_on",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "setup_in_progress",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "signatures_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "signatures_guests",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "signatures_mobile",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "site_address",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "site_main_title",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "site_main_url",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "site_offline_message",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "site_online",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "site_secret_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "site_site_elsewhere",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "site_social_profiles",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "site_twitter_id",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "sitemap_club_settings",
+        "default": "{}",
+        "report": "bool"
+    },
+    {
+        "key": "sitemap_content_settings",
+        "default": "{}",
+        "report": "bool"
+    },
+    {
+        "key": "sitemap_last_ping",
+        "default": "0",
+        "report": "none"
+    },
+    {
+        "key": "sitemap_path",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "sitemap_profiles_content",
+        "default": "10",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_profiles_count",
+        "default": "-1",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_profiles_priority",
+        "default": "0.6",
+        "report": "full"
+    },
+    {
+        "key": "sitemap_url",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "sixty_second_emails",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "smtp_host",
+        "default": "localhost",
+        "report": "none"
+    },
+    {
+        "key": "smtp_pass",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "smtp_port",
+        "default": "25",
+        "report": "none"
+    },
+    {
+        "key": "smtp_protocol",
+        "default": "plain",
+        "report": "none"
+    },
+    {
+        "key": "smtp_user",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "social_links_in_email",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "spam_service_action_0",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_action_1",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_action_2",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_action_3",
+        "default": "2",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_action_4",
+        "default": "4",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_days",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "spam_service_enabled",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "spam_service_send_to_ips",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "sparkpost_api_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "sparkpost_click_tracking",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "sparkpost_ip_pool",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "sparkpost_use_for",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "spm_notify",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "spm_option",
+        "default": "disable,unapprove",
+        "report": "full"
+    },
+    {
+        "key": "spm_post_days",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "staff_directory_empty",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "startpoll_cutoff",
+        "default": "-1",
+        "report": "full"
+    },
+    {
+        "key": "stats_device_usage_prune",
+        "default": "180",
+        "report": "full"
+    },
+    {
+        "key": "stats_keywords",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "stats_keywords_prune",
+        "default": "180",
+        "report": "full"
+    },
+    {
+        "key": "stats_online_users_prune",
+        "default": "180",
+        "report": "full"
+    },
+    {
+        "key": "stats_search_prune",
+        "default": "180",
+        "report": "full"
+    },
+    {
+        "key": "status_updates_mem_enable",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_alphabetical",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_can_prefix",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "tags_clean",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_enabled",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "tags_force_lower",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "tags_len_max",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_len_min",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_max",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_min",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_min_req",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "tags_open_system",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "tags_predefined",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "task_cron_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "task_use_cron",
+        "default": "normal",
+        "report": "full"
+    },
+    {
+        "key": "theme_designers_mode",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "theme_disk_cache_path",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "theme_disk_cache_templates",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "theme_editing_advanced_mode",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "topic_redirect_prune",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "twitter_hashtag",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "updates_consent_default",
+        "default": "enabled",
+        "report": "full"
+    },
+    {
+        "key": "upgrade_email",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "upgrade_ftp_details",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "upload_settings",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "url_filter_action",
+        "default": "block",
+        "report": "full"
+    },
+    {
+        "key": "url_filter_any_action",
+        "default": "allow",
+        "report": "full"
+    },
+    {
+        "key": "usage_reporting",
+        "default": "1",
+        "report": "none"
+    },
+    {
+        "key": "use_coppa",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "use_friendly_urls",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "username_characters",
+        "default": "\/^(([\\p{L}\\p{M}\\p{N}_\\.\\-,]+) ?)+$\/u",
+        "report": "bool"
+    },
+    {
+        "key": "validate_day_prune",
+        "default": "30",
+        "report": "full"
+    },
+    {
+        "key": "vapid_private_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "vapid_public_key",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "verify_enabled",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "verify_groups",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "verify_method",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "verify_onetouch",
+        "default": "",
+        "report": "full"
+    },
+    {
+        "key": "verify_service_sid",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "verify_setup",
+        "default": "sms,phone",
+        "report": "full"
+    },
+    {
+        "key": "verify_setup_lockout",
+        "default": "12",
+        "report": "full"
+    },
+    {
+        "key": "verify_setup_tries",
+        "default": "2",
+        "report": "full"
+    },
+    {
+        "key": "verify_sid",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "verify_token",
+        "default": "",
+        "report": "none"
+    },
+    {
+        "key": "warn_on",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "warn_protected",
+        "default": "",
+        "report": "bool"
+    },
+    {
+        "key": "warn_show_own",
+        "default": "1",
+        "report": "full"
+    },
+    {
+        "key": "warnings_acknowledge",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "webhook_logs_fail",
+        "default": "5",
+        "report": "full"
+    },
+    {
+        "key": "webhook_logs_success",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "webhooks_allowed_fails",
+        "default": "3",
+        "report": "full"
+    },
+    {
+        "key": "widget_cache_ttl",
+        "default": "300",
+        "report": "full"
+    },
+    {
+        "key": "xforward_matching",
+        "default": "0",
+        "report": "full"
+    },
+    {
+        "key": "zapier_api_key",
+        "default": "",
+        "report": "bool"
+    }
+]

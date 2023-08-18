@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "added": [
+            "emailstats__notification_event_reminder"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

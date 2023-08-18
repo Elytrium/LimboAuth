@@ -1,0 +1,31 @@
+{
+    "normal": {
+        "added": [
+            "datalayer_title",
+            "datalayer_desc",
+            "datalayer_custom_handler_none",
+            "datalayer_custom_handler_create",
+            "datalayer_custom_title_prefix",
+            "datalayer_page_context",
+            "datalayer_page_content_desc",
+            "datalayer_disabled",
+            "datalayer_custom",
+            "datalayer_pii_desc",
+            "datalayer_note_dec",
+            "datalayer_events_using_property",
+            "datalayer_events_properties",
+            "datalayer_no_events_use_property",
+            "datalayer_no_events_here"
+        ],
+        "edited": [
+            "hcaptcha_privacy",
+            "datalayer_pii"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

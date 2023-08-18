@@ -1,0 +1,22 @@
+{
+    "normal": {
+        "added": [
+            "stripe_address_postal_code_check_unchecked",
+            "stripe_address_postal_code_check_unavailable",
+            "stripe_address_postal_code_check_pass",
+            "stripe_address_postal_code_check_fail"
+        ],
+        "edited": [],
+        "removed": [
+            "stripe_address_zip_check_unchecked",
+            "stripe_address_zip_check_unavailable",
+            "stripe_address_zip_check_pass",
+            "stripe_address_zip_check_fail"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

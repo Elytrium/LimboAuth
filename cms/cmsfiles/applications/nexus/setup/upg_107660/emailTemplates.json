@@ -1,0 +1,13 @@
+{
+    "added": [],
+    "edited": [],
+    "removed": [
+        "monitoring_reset",
+        "monitoring_eom",
+        "monitoring_panic",
+        "monitoring_acknowledged",
+        "acp_notification_HostingError",
+        "monitoring_offline",
+        "monitoring_online"
+    ]
+}

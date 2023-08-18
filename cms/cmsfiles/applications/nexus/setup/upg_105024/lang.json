@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "added": [],
+        "edited": [
+            "order_already_paid"
+        ],
+        "removed": [
+            "rb_upload",
+            "rb_upload_yes",
+            "rb_upload_no",
+            "rb_url_upload",
+            "rb_url_url"
+        ]
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

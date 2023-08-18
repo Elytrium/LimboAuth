@@ -1,0 +1,17 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "nexus_invoices",
+            "i_total",
+            {
+                "name": "i_total",
+                "type": "DECIMAL",
+                "length": 20,
+                "decimals": 2,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

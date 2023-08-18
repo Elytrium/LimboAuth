@@ -1,0 +1,50 @@
+<?php
+/**
+ * @brief		{controller}
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\modules\{location}\{module};
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * {controller}
+ */
+class _{controller} extends \IPS\Dispatcher\Controller
+{	
+	/**
+	 * Execute
+	 *
+	 * @return	void
+	 */
+	public function execute()
+	{
+		{restriction}
+		parent::execute();
+	}
+	
+	/**
+	 * Manage
+	 *
+	 * @return	void
+	 */
+	protected function manage()
+	{		
+		/* Create the table */
+		$table = new \IPS\Helpers\Table\Db( '{table_name}', \IPS\Http\Url::internal( 'app={app}&module={module}&controller={controller}' ) );
+
+		/* Display */
+		\IPS\Output::i()->output	= \IPS\Theme::i()->getTemplate( 'global', 'core' )->block( 'title', (string) $table );
+	}
+}

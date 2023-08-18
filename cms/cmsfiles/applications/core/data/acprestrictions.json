@@ -1,0 +1,463 @@
+{
+    "applications": {
+        "core_manage_apps": {
+            "app_manage": "app_manage",
+            "app_delete": "app_delete",
+            "app_install": "app_install",
+            "module_manage": "module_manage"
+        },
+        "enhancements": {
+            "enhancements_manage": "enhancements_manage"
+        },
+        "plugins": {
+            "plugins_view": "plugins_view",
+            "plugins_install": "plugins_install",
+            "plugins_edit": "plugins_edit",
+            "plugins_uninstall": "plugins_uninstall"
+        },
+        "menu": {
+            "menu_manage": "menu_manage"
+        },
+        "api": {
+            "api_splash": "api_splash",
+            "oauth_manage": "oauth_manage",
+            "oauth_add": "oauth_add",
+            "oauth_edit": "oauth_edit",
+            "oauth_delete": "oauth_delete",
+            "oauth_tokens": "oauth_tokens",
+            "oauth_secrets": "oauth_secrets",
+            "api_manage": "api_manage",
+            "api_add": "api_add",
+            "api_edit": "api_edit",
+            "api_delete": "api_delete",
+            "api_reference": "api_reference",
+            "api_logs": "api_logs",
+            "api_logs_settings": "api_logs_settings",
+            "api_logs_delete": "api_logs_delete",
+            "webhooks_manage": "webhooks_manage"
+        },
+        "rss": {
+            "rss_manage": "rss_manage",
+            "rss_add": "rss_add",
+            "rss_edit": "rss_edit",
+            "rss_delete": "rss_delete",
+            "rss_run": "rss_run"
+        }
+    },
+    "promotion": {
+        "seo": {
+            "seo_furls": "seo_furls",
+            "seo_sitemap": "seo_sitemap",
+            "seo_meta": "seo_meta"
+        },
+        "sharelinks": {
+            "sharelinks_manage": "sharelinks_manage"
+        },
+        "advertisements": {
+            "advertisements_manage": "advertisements_manage",
+            "advertisements_add": "advertisements_add",
+            "advertisements_edit": "advertisements_edit",
+            "advertisements_delete": "advertisements_delete"
+        },
+        "promote": {
+            "promote_manage": "promote_manage",
+            "promote_logs": "promote_logs"
+        }
+    },
+    "settings": {
+        "login": {
+            "login_access": "login_access",
+            "login_manage": "login_manage",
+            "login_settings": "login_settings",
+            "login_account_management": "login_account_management",
+            "registration_settings": "registration_settings"
+        },
+        "email": {
+            "email_manage": "email_manage",
+            "email_test": "email_test",
+            "email_errorlog": "email_errorlog",
+            "email_errorlog_prune": "email_errorlog_prune"
+        },
+        "general": {
+            "general_manage": "general_manage"
+        },
+        "licensekey": {
+            "licensekey_manage": "licensekey_manage"
+        },
+        "terms": {
+            "terms_manage": "terms_manage"
+        },
+        "files": {
+            "files_manage": "files_manage"
+        },
+        "posting": {
+            "posting_manage": "posting_manage",
+            "posting_manage_profanity": "posting_manage_profanity",
+            "posting_manage_url": "posting_manage_url",
+            "posting_manage_acronym": "posting_manage_acronym",
+            "posting_manage_tags": "posting_manage_tags",
+            "posting_manage_attachments": "posting_manage_attachments",
+            "posting_manage_polls": "posting_manage_polls"
+        },
+        "advanced": {
+            "advanced_manage": "advanced_manage",
+            "advanced_manage_server": "advanced_manage_server",
+            "advanced_manage_tasks": "advanced_manage_tasks",
+            "advanced_manage_furls": "advanced_manage_furls",
+            "datastore": "datastore"
+        },
+        "contactus": {
+            "contactus_manage": "contactus_manage"
+        },
+        "mfa": {
+            "mfa_manage": "mfa_manage"
+        },
+        "dataLayer": {
+            "dataLayer_manage": "dataLayer_manage",
+            "dataLayer_handlers_edit": "dataLayer_handlers_edit",
+            "dataLayer_handlers_view": "dataLayer_handlers_view"
+        },
+        "webapp": {
+            "webapp_manage": "webapp_manage"
+        }
+    },
+    "discovery": {
+        "search": {
+            "search_manage": "search_manage"
+        },
+        "streams": {
+            "streams_manage": "streams_manage"
+        },
+        "rss_exports": {
+            "rss_export_manage": "rss_export_manage"
+        }
+    },
+    "members": {
+        "members": {
+            "member_add": "member_add",
+            "member_add_admin": "member_add_admin",
+            "member_edit": "member_edit",
+            "member_edit_admin": "member_edit_admin",
+            "member_mfa": "member_mfa",
+            "member_delete": "member_delete",
+            "member_delete_admin": "member_delete_admin",
+            "member_login": "member_login",
+            "members_merge": "members_merge",
+            "member_move_admin1": "member_move_admin1",
+            "member_move_admin2": "member_move_admin2",
+            "member_ban": "member_ban",
+            "member_ban_admin": "member_ban_admin",
+            "member_photo": "member_photo",
+            "member_photo_admin": "member_photo_admin",
+            "membertools_validating": "membertools_validating",
+            "membertools_locked": "membertools_locked",
+            "membertools_delete": "membertools_delete",
+            "membertools_ip": "membertools_ip",
+            "member_recount_content": "member_recount_content",
+            "member_export": "member_export",
+            "member_history": "member_history",
+            "member_export_pi": "member_export_pi"
+        },
+        "groups": {
+            "groups_manage": "groups_manage",
+            "groups_add": "groups_add",
+            "groups_edit": "groups_edit",
+            "groups_delete": "groups_delete"
+        },
+        "messages": {
+            "messages_manage": "messages_manage"
+        },
+        "promotions": {
+            "promotions_manage": "promotions_manage"
+        },
+        "privacy": {
+            "privacy_manage": "privacy_manage"
+        }
+    },
+    "achievements": {
+        "rules": {
+            "rules_manage": "rules_manage",
+            "rules_add": "rules_add",
+            "rules_edit": "rules_edit",
+            "rules_delete": "rules_delete"
+        },
+        "ranks": {
+            "ranks_manage": "ranks_manage",
+            "ranks_add": "ranks_add",
+            "ranks_edit": "ranks_edit",
+            "ranks_delete": "ranks_delete"
+        },
+        "badges": {
+            "badges_manage": "badges_manage"
+        },
+        "settings": {
+            "settings_manage": "settings_manage"
+        }
+    },
+    "membersettings": {
+        "members_reputation": {
+            "reps_settings": "reps_settings",
+            "reps_manage": "reps_manage",
+            "reps_delete": "reps_delete"
+        },
+        "profiles": {
+            "profiles_manage": "profiles_manage",
+            "profilefields_manage": "profilefields_manage",
+            "profilefields_add": "profilefields_add",
+            "profilefields_edit": "profilefields_edit",
+            "profilefields_delete": "profilefields_delete",
+            "profilefieldgroups_add": "profilefieldgroups_add",
+            "profilefieldgroups_edit": "profilefieldgroups_edit",
+            "profilefieldgroups_delete": "profilefieldgroups_delete",
+            "member_history_prune": "member_history_prune"
+        },
+        "ban": {
+            "ban_manage": "ban_manage"
+        },
+        "notifications": {
+            "notifications_manage": "notifications_manage",
+            "notifications_prune": "notifications_prune"
+        },
+        "reactions": {
+            "reactions_manage": "reactions_manage"
+        },
+        "referrals": {
+            "referrals_manage": "referrals_manage"
+        }
+    },
+    "staff": {
+        "staff_admin": {
+            "restrictions_manage": "restrictions_manage",
+            "restrictions_add_member": "restrictions_add_member",
+            "restrictions_add_group": "restrictions_add_group",
+            "restrictions_edit_member": "restrictions_edit_member",
+            "restrictions_edit_group": "restrictions_edit_group",
+            "restrictions_delete_member": "restrictions_delete_member",
+            "restrictions_delete_group": "restrictions_delete_group",
+            "restrictions_adminlogs": "restrictions_adminlogs",
+            "restrictions_adminlogs_prune": "restrictions_adminlogs_prune",
+            "restrictions_acploginlogs": "restrictions_acploginlogs",
+            "restrictions_acploginlogs_prune": "restrictions_acploginlogs_prune"
+        },
+        "moderators": {
+            "moderators_manage": "moderators_manage",
+            "moderators_add_member": "moderators_add_member",
+            "moderators_add_group": "moderators_add_group",
+            "moderators_edit_member": "moderators_edit_member",
+            "moderators_edit_group": "moderators_edit_group",
+            "moderators_delete_member": "moderators_delete_member",
+            "moderators_delete_group": "moderators_delete_group",
+            "restrictions_moderatorlogs": "restrictions_moderatorlogs",
+            "restrictions_moderatorlogs_prune": "restrictions_moderatorlogs_prune"
+        },
+        "leaders": {
+            "leaders_manage": "leaders_manage",
+            "leaders_add": "leaders_add",
+            "leaders_edit": "leaders_edit",
+            "leaders_delete": "leaders_delete"
+        }
+    },
+    "editor": {
+        "toolbar": {
+            "toolbar_manage": "toolbar_manage"
+        },
+        "emoticons": {
+            "emoticons_manage": "emoticons_manage",
+            "emoticons_add": "emoticons_add",
+            "emoticons_edit": "emoticons_edit",
+            "emoticons_delete": "emoticons_delete"
+        },
+        "settings": {
+            "settings_manage": "settings_manage"
+        },
+        "editor_stored_replies": {
+            "stored_replies_manage": "stored_replies_manage"
+        }
+    },
+    "customization": {
+        "emails": {
+            "emails_manage": "emails_manage"
+        },
+        "theme_sets": {
+            "theme_sets_manage": "theme_sets_manage",
+            "theme_settings_add": "theme_settings_add",
+            "theme_settings_remove": "theme_settings_remove",
+            "theme_download_upload": "theme_download_upload",
+            "theme_templates_manage": "theme_templates_manage",
+            "theme_easy_editor": "theme_easy_editor",
+            "theme_designers_mode": "theme_designers_mode"
+        }
+    },
+    "bulkmail": {
+        "bulkmail": {
+            "bulkmail_manage": "bulkmail_manage",
+            "bulkmail_add": "bulkmail_add",
+            "bulkmail_edit": "bulkmail_edit",
+            "bulkmail_delete": "bulkmail_delete"
+        }
+    },
+    "languages": {
+        "languages": {
+            "lang_words": "lang_words",
+            "lang_packs": "lang_packs"
+        }
+    },
+    "livesearch": {
+        "livesearch": {
+            "livesearch_manage": "livesearch_manage"
+        }
+    },
+    "overview": {
+        "dashboard": {
+            "view_dashboard": "view_dashboard"
+        },
+        "files": {
+            "files_view": "files_view",
+            "files_delete": "files_delete",
+            "files_settings": "files_settings",
+            "orphaned_files": "orphaned_files"
+        },
+        "upgrade": {
+            "upgrade_manage": "upgrade_manage"
+        },
+        "notifications": {
+            "ips_notifications": "ips_notifications",
+            "system_notifications": "system_notifications"
+        },
+        "mycharts": {
+            "mycharts_manage": "mycharts_manage"
+        }
+    },
+    "support": {
+        "support": {
+            "get_support": "get_support",
+            "diagnostic_log_settings": "diagnostic_log_settings",
+            "system_logs_view": "system_logs_view",
+            "redis_data": "redis_data"
+        }
+    },
+    "clubs": {
+        "clubs": {
+            "clubs_manage": "clubs_manage",
+            "clubs_edit": "clubs_edit",
+            "clubs_add_nodes": "clubs_add_nodes",
+            "clubs_edit_nodes": "clubs_edit_nodes",
+            "clubs_delete_nodes": "clubs_delete_nodes",
+            "clubs_delete": "clubs_delete",
+            "clubs_settings_manage": "clubs_settings_manage"
+        },
+        "fields": {
+            "fields_manage": "fields_manage"
+        },
+        "stats": {
+            "stats_manage": "stats_manage"
+        }
+    },
+    "stats": {
+        "membervisits": {
+            "membervisits_manage": "membervisits_manage"
+        },
+        "onlineusers": {
+            "onlineusers_manage": "onlineusers_manage"
+        },
+        "membersactivity": {
+            "membersactivity_manage": "membersactivity_manage"
+        },
+        "deviceusage": {
+            "deviceusage_manage": "deviceusage_manage"
+        },
+        "overview": {
+            "overview_manage": "overview_manage"
+        },
+        "registrations": {
+            "registrations_manage": "registrations_manage"
+        },
+        "spamstats": {
+            "spamstats_manage": "spamstats_manage"
+        },
+        "preferences": {
+            "preferences_manage": "preferences_manage"
+        },
+        "referrals": {
+            "referrals_manage": "referrals_manage"
+        },
+        "follow": {
+            "follow_manage": "follow_manage"
+        },
+        "warnings": {
+            "warnings_manage": "warnings_manage"
+        },
+        "moderators": {
+            "moderatorstats_manage": "moderatorstats_manage"
+        },
+        "rankprogression": {
+            "rankprogression_manage": "rankprogression_manage"
+        }
+    },
+    "system": [],
+    "moderation": {
+        "reportedContent": {
+            "reportedContent_manage": "reportedContent_manage"
+        },
+        "spam": {
+            "spam_manage": "spam_manage",
+            "spam_service_log": "spam_service_log",
+            "qanda_manage": "qanda_manage",
+            "qanda_add": "qanda_add",
+            "qanda_edit": "qanda_edit",
+            "qanda_delete": "qanda_delete",
+            "spam_whitelist_manage": "spam_whitelist_manage",
+            "spam_whitelist_add": "spam_whitelist_add",
+            "spam_whitelist_edit": "spam_whitelist_edit",
+            "spam_whitelist_delete": "spam_whitelist_delete"
+        },
+        "warnings": {
+            "warn_settings": "warn_settings",
+            "reasons_view": "reasons_view",
+            "reasons_edit": "reasons_edit",
+            "reasons_add": "reasons_add",
+            "reasons_delete": "reasons_delete",
+            "actions_view": "actions_view",
+            "actions_edit": "actions_edit",
+            "actions_add": "actions_add",
+            "actions_delete": "actions_delete"
+        },
+        "reportedContentTypes": {
+            "reportedContentTypes_manage": "reportedContentTypes_manage"
+        }
+    },
+    "activitystats": {
+        "communityactivity": {
+            "communityactivity_manage": "communityactivity_manage"
+        },
+        "keywords": {
+            "keywords_manage": "keywords_manage"
+        },
+        "reactions": {
+            "reactionsstats_manage": "reactionsstats_manage"
+        },
+        "tagsusage": {
+            "tagsusage_manage": "tagsusage_manage"
+        },
+        "overview": {
+            "overview_manage": "overview_manage"
+        },
+        "search_stats": {
+            "search_stats_manage": "search_stats_manage"
+        },
+        "emailstats": {
+            "emailstats_manage": "emailstats_manage"
+        },
+        "reportstats": {
+            "reportstats_manage": "reportstats_manage"
+        },
+        "deletedcontent": {
+            "deletedcontent_manage": "deletedcontent_manage"
+        }
+    },
+    "marketplace": {
+        "marketplace": {
+            "marketplace_manage": "marketplace_manage"
+        }
+    }
+}

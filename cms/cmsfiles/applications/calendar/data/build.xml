@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+ <module key="admin/calendars"><![CDATA[{"default_controller":null,"protected":0,"default":1}]]></module>
+ <module key="admin/stats"><![CDATA[{"default_controller":"","protected":0,"default":0}]]></module>
+ <module key="admin/venues"><![CDATA[{"default":0,"default_controller":"","protected":0}]]></module>
+ <module key="front/calendar"><![CDATA[{"default_controller":"view","protected":0,"default":1}]]></module>
+ <task frequency="P0Y0M0DT4H0M0S">icalendar</task>
+ <task frequency="P0Y0M0DT1H0M0S">eventreminders</task>
+ <setting key="all_activity_calendar_streamitems"><![CDATA[{"key":"all_activity_calendar_streamitems","default":"1","report":"full"}]]></setting>
+ <setting key="calendar_block_past_changes"><![CDATA[{"key":"calendar_block_past_changes","default":"0","report":"full"}]]></setting>
+ <setting key="calendar_date_format"><![CDATA[{"key":"calendar_date_format","default":"d_lm_y","report":"full"}]]></setting>
+ <setting key="calendar_date_format_custom"><![CDATA[{"key":"calendar_date_format_custom","default":"","report":"bool"}]]></setting>
+ <setting key="calendar_default_view"><![CDATA[{"key":"calendar_default_view","default":"overview","report":"full"}]]></setting>
+ <setting key="calendar_rss_feed"><![CDATA[{"key":"calendar_rss_feed","default":"1","report":"full"}]]></setting>
+ <setting key="calendar_rss_feed_days"><![CDATA[{"key":"calendar_rss_feed_days","default":"30","report":"full"}]]></setting>
+ <setting key="calendar_rss_feed_order"><![CDATA[{"key":"calendar_rss_feed_order","default":"0","report":"full"}]]></setting>
+ <setting key="calendar_venues_enabled"><![CDATA[{"key":"calendar_venues_enabled","default":"0","report":"full"}]]></setting>
+ <setting key="ipb_calendar_mon"><![CDATA[{"key":"ipb_calendar_mon","default":"0","report":"full"}]]></setting>
+ <setting key="map_center_lat"><![CDATA[{"key":"map_center_lat","default":"37.411022","report":"none"}]]></setting>
+ <setting key="map_center_lon"><![CDATA[{"key":"map_center_lon","default":"-79.1429788","report":"none"}]]></setting>
+ <widget key="upcomingEvents"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":["sidebar","cms"],"default_area":"","allow_reuse":true,"menu_style":"menu","embeddable":true}]]></widget>
+ <widget key="recentReviews"><![CDATA[{"class":"\\IPS\\Widget\\PermissionCache","restrict":[],"default_area":"","allow_reuse":false,"menu_style":"menu","embeddable":true}]]></widget>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars"><![CDATA[{"lang_key":"menu__calendar_calendars_calendars","restriction":"calendars_manage","keywords":["edit calendar","events"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;do=permissions"><![CDATA[{"lang_key":"menu__calendar_calendars_calendars","restriction":"calendars_manage","keywords":["calendar permissions"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=cal_comment_moderate"><![CDATA[{"lang_key":"cal_comment_moderate","restriction":"calendars_manage","keywords":["approved","comments must be approved","require approval"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_1_cal_allow_comments"><![CDATA[{"lang_key":"cal_allow_comments","restriction":"calendars_manage","keywords":["allow comments","comments"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_1_cal_allow_reviews"><![CDATA[{"lang_key":"cal_allow_reviews","restriction":"calendars_manage","keywords":["allow reviews","reviews"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_1_cal_color"><![CDATA[{"lang_key":"cal_color","restriction":"calendars_manage","keywords":["calendar color"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_1_cal_moderate"><![CDATA[{"lang_key":"cal_moderate","restriction":"calendars_manage","keywords":["approve","approve event","event"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_1_cal_title"><![CDATA[{"lang_key":"cal_title","restriction":"calendars_manage","keywords":["calendar name","calendar title"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_new_cal_allow_comments"><![CDATA[{"lang_key":"cal_allow_comments","restriction":"calendars_manage","keywords":["allow comments"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_new_cal_allow_reviews"><![CDATA[{"lang_key":"cal_allow_reviews","restriction":"calendars_manage","keywords":["allow reviews","reviews"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_new_cal_color"><![CDATA[{"lang_key":"cal_color","restriction":"calendars_manage","keywords":["calendar color"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_new_cal_moderate"><![CDATA[{"lang_key":"cal_moderate","restriction":"calendars_manage","keywords":["approve event","event approve","events"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=calendars&amp;searchResult=form_new_cal_title"><![CDATA[{"lang_key":"cal_title","restriction":"calendars_manage","keywords":["calendar title"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical"><![CDATA[{"lang_key":"menu__calendar_calendars_ical","restriction":"calendar_feeds_manage","keywords":["calendar export","feeds","iCal","iCalendar"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=add&amp;searchResult=form_feed_allow_rsvp"><![CDATA[{"lang_key":"feed_allow_rsvp","restriction":"calendar_feeds_manage","keywords":["enable rsvp","rsvp"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=add&amp;searchResult=form_feed_calendar_id"><![CDATA[{"lang_key":"feed_calendar_id","restriction":"calendar_feeds_manage","keywords":["calendar"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=add&amp;searchResult=form_feed_member_id"><![CDATA[{"lang_key":"feed_member_id","restriction":"calendar_feeds_manage","keywords":["member"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=add&amp;searchResult=form_feed_title"><![CDATA[{"lang_key":"feed_title","restriction":"calendar_feeds_manage","keywords":["add icalendar","feed title","iCalendar feed"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=add&amp;searchResult=form_feed_url"><![CDATA[{"lang_key":"feed_url","restriction":"calendar_feeds_manage","keywords":["feed url","icalendar url"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=upload&amp;searchResult=form_feed_calendar_id"><![CDATA[{"lang_key":"feed_calendar_id","restriction":"calendar_feeds_manage","keywords":["calendar"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=upload&amp;searchResult=form_feed_file"><![CDATA[{"lang_key":"feed_file","restriction":"calendar_feeds_manage","keywords":["iCalendar file"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=ical&amp;do=upload&amp;searchResult=form_feed_member_id"><![CDATA[{"lang_key":"feed_member_id","restriction":"calendar_feeds_manage","keywords":["member"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings"><![CDATA[{"lang_key":"menu__calendar_calendars_settings","restriction":"settings_manage","keywords":["calendar settings","events"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=calendar_rss_feed_days"><![CDATA[{"lang_key":"calendar_rss_feed_days","restriction":"settings_manage","keywords":["days","feed days","forthcoming days","number of days","RSS Feed"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=form_calendar_date_format"><![CDATA[{"lang_key":"calendar_date_format","restriction":"settings_manage","keywords":["calendar date format"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=form_calendar_default_view"><![CDATA[{"lang_key":"calendar_default_view","restriction":"settings_manage","keywords":["calendar layout"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=form_calendar_rss_feed"><![CDATA[{"lang_key":"calendar_rss_feed","restriction":"settings_manage","keywords":["calendar rss","events rss"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=form_calendar_venues_enabled"><![CDATA[{"lang_key":"calendar_venues_enabled","restriction":"settings_manage","keywords":["address","venue","venues"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=settings&amp;searchResult=form_ipb_calendar_mon"><![CDATA[{"lang_key":"ipb_calendar_mon","restriction":"settings_manage","keywords":["calendar start","monday","sunday"]}]]></acpsearch>
+ <acpsearch key="app=calendar&amp;module=calendars&amp;controller=venues"><![CDATA[{"lang_key":"menu__calendar_calendars_venues","restriction":null,"keywords":["events"]}]]></acpsearch>
+</build>

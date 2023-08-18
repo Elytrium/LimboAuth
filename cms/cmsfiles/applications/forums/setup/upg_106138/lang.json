@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "added": [
+            "stats_topics_tab_solved",
+            "stats_topics_title_solved",
+            "menu__forums_stats_questions",
+            "stats_question_ratings_title",
+            "stats_question_ratings_negative",
+            "stats_question_ratings_positive",
+            "r__questions",
+            "r__questions_manage"
+        ],
+        "edited": [
+            "r__topics_manage",
+            "r__posts_manage"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

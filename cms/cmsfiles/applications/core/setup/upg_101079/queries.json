@@ -1,0 +1,287 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_groups",
+            {
+                "name": "g_promotion_type",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "0 is content count, 1 is days since joining, 2 is reputation",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "insert",
+        "params": [
+            "core_share_links",
+            {
+                "share_title": "Pinterest",
+                "share_key": "pinterest",
+                "share_enabled": 1,
+                "share_position": 12,
+                "share_canonical": 1,
+                "share_groups": "*",
+                "share_autoshare": 0
+            }
+        ]
+    },
+    "3": {
+        "method": "changeColumn",
+        "params": [
+            "core_log",
+            "message",
+            {
+                "name": "message",
+                "type": "MEDIUMTEXT",
+                "length": 0,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "The log message",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "4": {
+        "method": "changeIndex",
+        "params": [
+            "core_reputation_index",
+            "rep_class",
+            {
+                "type": "key",
+                "name": "rep_class",
+                "columns": [
+                    "rep_class",
+                    "type_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=? AND word_app=?",
+                "and_x_others",
+                "blog"
+            ]
+        ]
+    },
+    "6": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_key=? AND word_app=?",
+                "login_atleast_one",
+                "core"
+            ]
+        ]
+    },
+    "7": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "8": {
+        "method": "dropColumn",
+        "params": [
+            "core_reputation_index",
+            [
+                "lookup_hash",
+                "lookup_type_id_hash"
+            ]
+        ]
+    },
+    "9": {
+        "method": "addColumn",
+        "params": [
+            "core_reputation_index",
+            {
+                "name": "class_type_id_hash",
+                "type": "CHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "",
+                "comment": "MD5 of rep_class:type_id",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "10": {
+        "method": "dropIndex",
+        "params": [
+            "core_reputation_index",
+            "hash_lookup"
+        ]
+    },
+    "11": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "class_type_id_hash",
+                "columns": [
+                    "class_type_id_hash"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "12": {
+        "method": "addColumn",
+        "params": [
+            "core_search_index",
+            {
+                "name": "index_class_type_id_hash",
+                "type": "CHAR",
+                "length": 32,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": null,
+                "comment": "MD5 of (index_class:index_object_id)",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_class_type_id_hash",
+                "columns": [
+                    "index_class_type_id_hash"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "changeColumn",
+        "params": [
+            "core_members",
+            "failed_security_answers",
+            {
+                "name": "failed_mfa_attempts",
+                "type": "SMALLINT",
+                "length": 3,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "The number of times the user has tried MultiFactor Authentication and failed",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "15": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            [
+                "word_app=? AND word_key=?",
+                "core",
+                "security_questions_tries_desc"
+            ]
+        ]
+    },
+    "16": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "mfa_details",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "17": {
+        "method": "changeColumn",
+        "params": [
+            "core_store",
+            "store_key",
+            {
+                "name": "store_key",
+                "type": "VARCHAR",
+                "length": 150,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "Key",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "18": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "19": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "index_item_author",
+                "columns": [
+                    "index_item_author",
+                    "index_date_updated"
+                ]
+            }
+        ]
+    }
+}

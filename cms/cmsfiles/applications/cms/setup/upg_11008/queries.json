@@ -1,0 +1,45 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "ccs_database_comments",
+            {
+                "type": "key",
+                "name": "comment_database_id",
+                "columns": [
+                    "comment_database_id",
+                    "comment_record_id",
+                    "comment_date"
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "changeIndex",
+        "params": [
+            "ccs_database_comments",
+            "map_database_id",
+            {
+                "type": "key",
+                "name": "map_database_id",
+                "columns": [
+                    "map_database_id",
+                    "map_record_id"
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addColumn",
+        "params": [
+            "ccs_database_fields",
+            {
+                "name": "field_truncate",
+                "type": "mediumint",
+                "length": 9,
+                "allow_null": false,
+                "default": 100
+            }
+        ]
+    }
+}

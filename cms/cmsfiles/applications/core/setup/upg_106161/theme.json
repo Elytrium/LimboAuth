@@ -1,0 +1,32 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "global\/forms\/checkboxset",
+            "admin\/global\/globalTemplate",
+            "front\/global\/mobileNavigation",
+            "front\/sharelinks\/linkedin",
+            "front\/sharelinks\/pinterest",
+            "front\/sharelinks\/reddit",
+            "admin\/support\/dashboard"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/core.css",
+            "admin\/core\/global.css",
+            "global\/framework\/comments.css",
+            "global\/framework\/global.css",
+            "global\/framework\/spectrum.css",
+            "global\/responsive\/global.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

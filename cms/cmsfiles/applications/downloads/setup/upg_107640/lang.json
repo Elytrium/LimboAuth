@@ -1,0 +1,21 @@
+{
+    "normal": {
+        "added": [
+            "idm_default_view",
+            "idm_default_view_choose",
+            "downloads_default_view_table",
+            "downloads_default_view_grid",
+            "downloads_default_view_choose",
+            "downloads_default_view_choose_desc",
+            "downloads_default_view_choose_none",
+            "webhook_downloads_new_version"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

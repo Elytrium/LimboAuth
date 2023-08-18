@@ -1,0 +1,38 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "front\/clubs\/view",
+            "admin\/dashboard\/onboardWelcome",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/userPhoto",
+            "admin\/members\/memberReserved",
+            "front\/vse\/globalTemplate",
+            "admin\/activitystats\/overview",
+            "admin\/clubs\/statsOverview",
+            "global\/embed\/embedNoPermission",
+            "global\/embed\/embedUnavailable",
+            "front\/global\/userPhoto"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "global\/framework\/data-lists.css",
+            "global\/framework\/forms.css",
+            "global\/framework\/global.css",
+            "global\/framework\/post-content.css",
+            "front\/styles\/vse.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

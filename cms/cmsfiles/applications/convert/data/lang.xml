@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="convert" version="107704">
+  <word key="__app_convert" js="0">Converter</word>
+  <word key="menu__convert_manage" js="0">Conversions</word>
+  <word key="menu__convert_manage_manage_start" js="0">Start New Conversion</word>
+  <word key="menu__convert_manage_manage" js="0">Manage Conversions</word>
+  <word key="converter_uninstall" js="0">Uninstall Converter</word>
+  <word key="converter_uninstall_warning" js="0">Uninstalling this application will prevent the URL redirections from your old platform working. This action is irreversible.</word>
+  <word key="convert_sw" js="0">Applications</word>
+  <word key="convert_app_key" js="0">Source Software</word>
+  <word key="convert_name" js="0">Identifier</word>
+  <word key="convert_parent" js="0">Parent Conversion</word>
+  <word key="convert_start_date" js="0">Start Date</word>
+  <word key="convert_finished" js="0">Finished?</word>
+  <word key="convert_no_parent" js="0"><![CDATA[<em>No Parent</em>]]></word>
+  <word key="convert_start" js="0">Start New Conversion</word>
+  <word key="conversion_app_already_exists" js="0">A conversion has already been configured for this software. We have taken you to that conversion now.</word>
+  <word key="conversion_app_not_found" js="0">The conversion you were managing could not be found</word>
+  <word key="convert_start_application" js="0">What do you want to convert?</word>
+  <word key="choose_what_to_convert" js="0">Choose what to convert</word>
+  <word key="core_node_select" js="0">Member and System Information</word>
+  <word key="forums_node_select" js="0">Forum and Topic Data</word>
+  <word key="blog_node_select" js="0">Blog Data</word>
+  <word key="calendar_node_select" js="0">Calendar and Event Data</word>
+  <word key="downloads_node_select" js="0">Downloads Data</word>
+  <word key="gallery_node_select" js="0">Gallery and Images Data</word>
+  <word key="cms_node_select" js="0">Pages and Record Data</word>
+  <word key="nexus_node_select" js="0">Commerce, Support, and Purchase Data</word>
+  <word key="convert_start_source_software" js="0">What software are you converting from?</word>
+  <word key="convert_start_database_details" js="0">Database Details</word>
+  <word key="convert_start_conversion_details" js="0">Conversion Details</word>
+  <word key="convert_start_database_host" js="0">Database Host</word>
+  <word key="convert_start_database_port" js="0">Database Port</word>
+  <word key="convert_start_database_name" js="0">Database Name</word>
+  <word key="convert_start_database_user" js="0">Database User</word>
+  <word key="convert_start_database_pass" js="0">Database Password</word>
+  <word key="convert_start_database_prefix" js="0">Database Table Prefix</word>
+  <word key="convert_start_database_charset" js="0">Database Character Set</word>
+  <word key="enter_database_details" js="0">Supply database details</word>
+  <word key="enter_conversion_details" js="0">Supply conversion details</word>
+  <word key="start_conversion" js="0">Start Conversion</word>
+  <word key="edit_conversion" js="0">Edit Conversion</word>
+  <word key="db_host" js="0">Database Host</word>
+  <word key="db_port" js="0">Database Port</word>
+  <word key="db_db" js="0">Database Name</word>
+  <word key="db_user" js="0">Database User</word>
+  <word key="db_pass" js="0">Database Password</word>
+  <word key="db_prefix" js="0">Database Table Prefix</word>
+  <word key="db_charset" js="0">Database Character Set</word>
+  <word key="could_not_count_rows" js="0">Failed to count rows in table '%s' - is your table prefix set correctly?</word>
+  <word key="file_location" js="0">Location of files</word>
+  <word key="new_software" js="0">Create New Converter</word>
+  <word key="new_library" js="0">Create New Library</word>
+  <word key="classname" js="0">Class Name</word>
+  <word key="classname_desc" js="0">The path for the generated file must exist. Format must be in the form of IPS\myapp\Namespace\Classname.</word>
+  <word key="library" js="0">Library</word>
+  <word key="new_software_not_in_dev" js="0">You can only create new converters while IN_DEV.</word>
+  <word key="new_library_not_in_dev" js="0">You can only create new libraries while IN_DEV.</word>
+  <word key="source_path" js="0">Path to %s installation.</word>
+  <word key="path_invalid" js="0">The path entered appears to be invalid.</word>
+  <word key="convert_finish_confirm" js="0">Finishing the conversion should only be done once all parts of your conversion are completed</word>
+  <word key="convert_finish_confirm_title" js="0">Finish Conversion</word>
+  <word key="convert_cant_connect_db" js="0">The details provided are not correct or the database is unavailable.</word>
+  <word key="convert_cant_connect_db_charset" js="0">The database character set you supplied is not a valid database character set.</word>
+  <word key="convert_cant_connect_db_prefix" js="0">The database table prefix you supplied appears to be incorrect.</word>
+  <word key="convert_again" js="0">Convert Again</word>
+  <word key="begin_conversion" js="0">Begin Conversion</word>
+  <word key="confirm_reconvert" js="0">Are you sure you wish to convert again? If you reconvert this step, then you MUST also reconvert the following steps.</word>
+  <word key="reconvert_button" js="0">Reconvert</word>
+  <word key="avatar_gallery_location" js="0">Path to Avatar Gallery files</word>
+  <word key="convert_cms_info_message" js="0"><![CDATA[<strong>Note:</strong> Items that contain customized HTML, such as pages and blocks, may not work properly when converted into Invision Community. It is recommended that you review these items, once the conversion has completed, and update them accordingly.]]></word>
+  <word key="convert_wp_typical_path" js="0">This is typically: /path/to/wordpress/wp-content/uploads</word>
+  <word key="convert_ee_sig_attach_path" js="0">This is typically: /path/to/expressionengine/images/signature_attachments/</word>
+  <word key="convert_ee_avatar_path" js="0">This is typically: /path/to/expressionengine/images/avatars/</word>
+  <word key="convert_ee_pm_attach_path" js="0">This is typically: /path/to/expressionengine/images/pm_attachments/</word>
+  <word key="convert_ee_forum_at_path" js="0">This is typically: /path/to/expressionengine/images/forum_attachments</word>
+  <word key="convert_groupicon_hint" js="0">(Optional) Location where group images or icons are stored</word>
+  <word key="convert_phpbb_emoticons" js="0">This is typically: /path/to/phpbb/images/smilies</word>
+  <word key="convert_phpbb_randstring" js="0">This is the string of characters that precedes the filename of all uploaded avatars - if you are not sure what this is, you can typically find it by referencing the files located at /path/to/phpbb/images/avatars/upload</word>
+  <word key="convert_phpbb_avatars" js="0">This is typically: /path/to/phpbb/images/avatars/upload</word>
+  <word key="convert_phpbb_avatargallery" js="0">This is typically: /path/to/phpbb/images/avatars/gallery - leave blank to skip converting avatars from the avatar gallery</word>
+  <word key="convert_phpbb_ranks_path" js="0">This is typically: /path/to/phpbb/images/ranks</word>
+  <word key="convert_phpbb_attach_path" js="0">This is typically: /path/to/phpbb/files</word>
+  <word key="convert_vanilla_photopath" js="0">This is typically: /path/to/vanilla/uploads</word>
+  <word key="convert_vb_smilie_path" js="0">This is typically: /path/to/vb/images/smilies</word>
+  <word key="convert_vb_avatar_gallery_path" js="0">This is typically: /path/to/vb/images/avatars</word>
+  <word key="convert_vb5_smilie_path" js="0">This is typically: /path/to/vb5/core/images/smilies</word>
+  <word key="convert_xf_attach_path" js="0">This is typically: /path/to/xenforo/internal_data/attachments</word>
+  <word key="convert_xf_gal_path" js="0">This is typically: /path/to/xenforo/data/xengallery</word>
+  <word key="convert_xf_avatar_path" js="0">This is typically: /path/to/xenforo/data/avatars</word>
+  <word key="convert_mybb_attach_path" js="0">This is typically: /path/to/mybb/uploads</word>
+  <word key="convert_smf_attach_path" js="0">This is typically: /path/to/smf/attachments</word>
+  <word key="convert_ubb_attach_path" js="0">This is typically: /path/to/ubb/uploads/attachments</word>
+  <word key="convert_phpbb_preconvert" js="0">You can typically obtain these details from the file located at /path/to/phpbb/config.php</word>
+  <word key="convert_vanilla_preconvert" js="0">You can typically obtain these details from the file located at /path/to/vanilla/conf/config.php</word>
+  <word key="convert_vb4_preconvert" js="0">You can typically obtain these details from the file located at /path/to/vb4/includes/config.php</word>
+  <word key="convert_vb5_preconvert" js="0">You can typically obtain these details from the file located at /path/to/vb5/core/includes/config.php</word>
+  <word key="convert_wordpress_preconvert" js="0">You can typically obtain these details from the file called wp-config.php</word>
+  <word key="convert_xf_preconvert" js="0">You can typically obtain these details from the file located at /path/to/xenforo/library/config.php</word>
+  <word key="convert_coppermine_filehint" js="0">This is typically: /path/to/coppermine/albums</word>
+  <word key="convert_photoplog_hint" js="0">This is typically: /path/to/photoplog/images</word>
+  <word key="convert_invision_mismatch" js="0"><![CDATA[Both of your Invision Community installations <strong>must</strong> be using the same version, please upgrade them to the latest version available.]]></word>
+  <word key="convert_invision_upload_path" js="0">This is typically: /path/to/ips4/uploads</word>
+  <word key="convert_invision_upload_input" js="0">Upload Path</word>
+  <word key="convert_invision_upload_input_desc" js="0">Your source Invision Community must have all files stored in the default /uploads location</word>
+  <word key="convert_ubbthreads_photo_path" js="0">This is typically the absolute path to your domain root (do not include any subfolders if UBBThreads is in a subfolder)</word>
+  <word key="convert_photopost_image_path" js="0">This is typically: /path/to/photopost/data</word>
+  <word key="convert_woltlab_avatar" js="0">Avatar Path</word>
+  <word key="convert_woltlab_avatar_desc" js="0">This is typically: /path/to/woltlab/images/avatars</word>
+  <word key="convert_woltlab_cover" js="0">Cover Photo Path</word>
+  <word key="convert_woltlab_cover_desc" js="0">This is typically: /path/to/woltlab/images/coverPhotos</word>
+  <word key="convert_woltlab_attach_path" js="0">This is typically: /path/to/woltlab/attachments</word>
+  <word key="use_fluid_view_convert" js="0">Use fluid view for forums?</word>
+  <word key="reaction_convert_help" js="0">Choose which reaction to convert to</word>
+  <word key="rep_positive" js="0">Up Vote</word>
+  <word key="rep_positive_desc" js="0">Select the reaction to use for up votes</word>
+  <word key="rep_negative" js="0">Down Vote</word>
+  <word key="rep_negative_desc" js="0">Select the reaction to use for down votes</word>
+  <word key="rep_neutral" js="0">Neutral</word>
+  <word key="rep_neutral_desc" js="0">Select the reaction to use for neutral votes</word>
+  <word key="rep_like" js="0">Like</word>
+  <word key="rep_like_desc" js="0">Select the reaction to use for likes</word>
+  <word key="nothing_to_finish" js="0">There was not anything that needed to be finished, the conversion may have already been finished.</word>
+  <word key="convert_mod_rewrite_urls" js="0"><![CDATA[You have not enabled the setting <a href='{internal.app=core&module=promotion&controller=seo}'>Rewrite Urls</a> in Invision Community. If you do not enable this option, URLs may not correctly redirect to the new locations.]]></word>
+  <word key="convert_configure_permissions" js="0"><![CDATA[After your conversion is complete, you must configure permissions for your member groups. Go to the <a href='{internal.app=core&module=members&controller=groups}'>members group</a> page and click the 'padlock' icon next to each member group.]]></word>
+  <word key="conversion_app_finished" js="0">This conversion has been marked as completed.</word>
+  <word key="nothing_convertable_found" js="0">No items could be found to convert. This may be because there is no data present to convert in your old database.</word>
+  <word key="convert_reaction_choose" js="0">Choose</word>
+  <word key="convert_create_reaction" js="0">Create new Reaction</word>
+  <word key="err_convert_reaction" js="0">There was a problem selecting reactions, please try again</word>
+  <word key="err_convert_reaction_not_exist" js="0">A reaction you have selected does not exist</word>
+  <word key="err_convert_reaction_not_selected" js="0">You have not selected an option for every reaction</word>
+  <word key="converter_supports_settings" js="0">Convert settings</word>
+  <word key="converter_supports_settings_link" js="0"><![CDATA[If you wish to convert settings, <a href='%s'>click here</a> to convert them before proceeding with any other steps.]]></word>
+  <word key="converting_settings" js="0">Converting Settings</word>
+  <word key="converting_settings_desc" js="0">The following settings will be converted to their Invision Community equivalents.</word>
+  <word key="convert_setting_x_to_x" js="0"><![CDATA[<em>%s</em> to <em>%s</em>: %s]]></word>
+  <word key="convert_settings" js="0">Convert Settings</word>
+  <word key="_convert_settings" js="0">Settings</word>
+  <word key="converting_x_to_x" js="0"><![CDATA[<strong>Converting from %s to %s</strong>]]></word>
+  <word key="convert_data_prefix" js="0">Convert %s</word>
+  <word key="step_title" js="0">Step</word>
+  <word key="ips_rows" js="0">Current Count</word>
+  <word key="source_rows" js="0">Source Count</word>
+  <word key="per_cycle" js="0">Rows Per Cycle</word>
+  <word key="empty_local_data" js="0">Empty Local Data</word>
+  <word key="remove_converted_data" js="0">Remove Converted Data</word>
+  <word key="removing_data" js="0">Removing Converted Data</word>
+  <word key="step_method" js="0"></word>
+  <word key="more_info_needed" js="0">More Information Needed</word>
+  <word key="converting" js="0">Converting...</word>
+  <word key="converted_x_of_x" js="0">Completed %d of %d %s</word>
+  <word key="removed_x_of_x" js="0">Removed %s %s out of %s total</word>
+  <word key="finish" js="0">Finish</word>
+  <word key="reconfigure" js="0">Reconfigure</word>
+  <word key="cannot_convert" js="0">Cannot Convert Yet</word>
+  <word key="cannot_convert_desc" js="0">This step cannot be run until the steps before this one have been run.</word>
+  <word key="waiting_previous_process" js="0">Waiting for a previous conversion cycle to finish</word>
+  <word key="no_conversion_app" js="0">The conversion you attempted to run could not be found.</word>
+  <word key="converter_could_not_continue" js="0"><![CDATA[There was a problem proceeding with the conversion, a previous cycle was still running. Please go back to <a href='{internal.app=convert&module=manage&controller=manage}'>the conversion</a> to continue.]]></word>
+  <word key="convert_achievement_badges" js="0">Convert Badges</word>
+  <word key="_convert_achievement_badges" js="0">Badges</word>
+  <word key="convert_achievement_ranks" js="0">Convert Achievement Ranks</word>
+  <word key="_convert_achievement_ranks" js="0">Achievement Ranks</word>
+  <word key="convert_custom_bbcode" js="0">Convert Custom BBCode</word>
+  <word key="_convert_custom_bbcode" js="0">Custom BBCode</word>
+  <word key="convert_emoticons" js="0">Convert Emoticons</word>
+  <word key="_convert_emoticons" js="0">Emoticons</word>
+  <word key="emoticon_path" js="0">Path to emoticons</word>
+  <word key="keep_existing_emoticons" js="0">Keep Existing?</word>
+  <word key="keep_existing_emoticons_desc" js="0">If checked, then any emoticons that are inserted that have the same typed code as an existing emoticon will be merged into the already existing one.</word>
+  <word key="emoticon_missing_ids" js="0">Emoticon missing ID</word>
+  <word key="emoticon_missing_code" js="0">Emoticon missing code</word>
+  <word key="emoticon_no_file" js="0">No emoticon file provided</word>
+  <word key="emoticon_no_filename" js="0">No emoticon filename provided</word>
+  <word key="convert_reactions" js="0">Convert Reactions</word>
+  <word key="_convert_reactions" js="0">Reactions</word>
+  <word key="follow_failed_insert" js="0">Follow failed to insert</word>
+  <word key="convert_follows" js="0">Convert Follows</word>
+  <word key="_convert_follows" js="0">Follows</word>
+  <word key="convert_profile_field_groups" js="0">Convert Profile Field Groups</word>
+  <word key="_convert_profile_field_groups" js="0">Profile Field Groups</word>
+  <word key="profile_field_group_missing_ids" js="0">Profile Field Group missing ID</word>
+  <word key="profile_field_group_missing_name" js="0">Profile Field Group missing name</word>
+  <word key="map_pfgroup_desc" js="0">Select the profile field group to merge this one with, or select 'None' to create new.</word>
+  <word key="convert_profile_fields" js="0">Convert Profile Fields</word>
+  <word key="_convert_profile_fields" js="0">Profile Fields</word>
+  <word key="map_pfield_desc" js="0">Select the profile field to merge this one with, or select 'None' to create new.</word>
+  <word key="convert_groups" js="0">Convert Member Groups</word>
+  <word key="_convert_groups" js="0">Member Groups</word>
+  <word key="map_group_desc" js="0">Select the group to merge this one with, or select 'None' to create new.</word>
+  <word key="convert_members" js="0">Convert Members</word>
+  <word key="convert_members_followers" js="0">Convert Member Followers</word>
+  <word key="_convert_members" js="0">Members</word>
+  <word key="_convert_members_followers" js="0">Member Followers</word>
+  <word key="photo_type" js="0">Photos to Retain</word>
+  <word key="photo_type_desc" js="0">This software supports multiple types of images to represent an account. Only one of these can be retained, however. If a photo of the selected type does not exist for a member, than the other will attempt to be used instead.</word>
+  <word key="photo_location" js="0">Location of Photos</word>
+  <word key="photo_location_desc" js="0">If member photos are presently stored in the database, then select 'Database', otherwise select 'File System' and then enter the absolute path to profile photos in the textbox provided.</word>
+  <word key="photo_location_nodb_desc" js="0">The path to profile photos.</word>
+  <word key="photo_hash" js="0">Avatar Hash</word>
+  <word key="gallery_location" js="0">Gallery Location</word>
+  <word key="pseudo_field" js="0">Field: %s</word>
+  <word key="pseudo_field_desc" js="0">This field is stored directly in the database, rather than as a custom profile field. You can choose to either convert it into a new profile field, or not convert it at all. If creating a new field, then you may enter the name of the field into the textbox.</word>
+  <word key="avatars" js="0">Avatars</word>
+  <word key="profile_photos" js="0">Profile Photos</word>
+  <word key="conv_store_database" js="0">Database</word>
+  <word key="conv_store_file_system" js="0">File System</word>
+  <word key="no_convert" js="0">Do not convert</word>
+  <word key="create_field" js="0">Create New Field</word>
+  <word key="member_exists" js="0">Member %s exists as %s.</word>
+  <word key="member_email_invalid" js="0">Member email invalid (%s) using %s instead.</word>
+  <word key="member_name_in_use" js="0">Name '%s' is currently in use, member renamed to '%s'</word>
+  <word key="member_name_too_long" js="0">Name '%s' is too long, member renamed to '%s'</word>
+  <word key="member_name_invalid_chars" js="0">Name '%s' contained invalid characters, member renamed to '%s'</word>
+  <word key="member_missing_name" js="0">Members name missing, member renamed to %s</word>
+  <word key="username_or_display_name" js="0">Name to keep</word>
+  <word key="user_name" js="0">User Name</word>
+  <word key="display_name" js="0">Display Name</word>
+  <word key="username_hint" js="0">You can only convert one name, do you want to keep usernames or display names?</word>
+  <word key="convert_member_history" js="0">Convert Member History</word>
+  <word key="_convert_member_history" js="0">Member History</word>
+  <word key="convert_statuses" js="0">Convert Status Updates / Profile Comments</word>
+  <word key="convert_status_replies" js="0">Convert Status Comments</word>
+  <word key="_convert_statuses" js="0">Status Updates / Profile Comments</word>
+  <word key="_convert_status_replies" js="0">Status Comments</word>
+  <word key="status_update_missing_ids" js="0">Status Update Missing ID</word>
+  <word key="status_update_no_member" js="0">No Member ID provided.</word>
+  <word key="status_update_no_author" js="0">No Author ID provided</word>
+  <word key="status_update_no_content" js="0">No comment text</word>
+  <word key="convert_ignored_users" js="0">Convert Ignored Users</word>
+  <word key="_convert_ignored_users" js="0">Ignored Users</word>
+  <word key="ignored_user_missing_ids" js="0">Missing Ignore ID</word>
+  <word key="ignored_user_missing_owner" js="0">No Member ID provided</word>
+  <word key="ignored_user_missing_ignore" js="0">No Ignored Member ID provided</word>
+  <word key="convert_announcements" js="0">Convert Announcements</word>
+  <word key="_convert_announcements" js="0">Announcements</word>
+  <word key="announcement_missing_id" js="0">Announcement Missing ID</word>
+  <word key="announcement_missing_title" js="0">Announcement Missing Title</word>
+  <word key="announcement_missing_content" js="0">Announcement Missing Content</word>
+  <word key="announcement_missing_member_id" js="0">Announcement Missing Member ID</word>
+  <word key="convert_private_messages" js="0">Convert Private Messages</word>
+  <word key="_convert_private_messages" js="0">Private Messages</word>
+  <word key="private_message_topic_ids_missing" js="0">PM missing topic ID</word>
+  <word key="private_message_topic_no_posts" js="0">PM does not have any posts</word>
+  <word key="private_message_topic_no_users" js="0">PM does not have any users</word>
+  <word key="private_message_topic_title_missing" js="0">PM title is missing.</word>
+  <word key="private_message_topic_starter_missing" js="0">PM starter missing.</word>
+  <word key="private_message_post_missing_ids" js="0">PM post missing ID</word>
+  <word key="private_message_post_no_content" js="0">PM post missing content</word>
+  <word key="private_message_map_missing_user" js="0">PM map missing user</word>
+  <word key="private_message_topic_missing_maps" js="0">No member maps inserted.</word>
+  <word key="convert_private_message_replies" js="0">Convert Private Message Replies</word>
+  <word key="_convert_private_message_replies" js="0">Private Message Replies</word>
+  <word key="convert_dname_changes" js="0">Convert Display Name Change Logs</word>
+  <word key="_convert_dname_changes" js="0">Display Name Change Logs</word>
+  <word key="convert_ranks" js="0">Convert Member Ranks</word>
+  <word key="_convert_ranks" js="0">Member Ranks</word>
+  <word key="rank_missing_ids" js="0">Rank ID Missing</word>
+  <word key="rank_missing_title" js="0">Rank Missing Title</word>
+  <word key="rank_location" js="0">Rank Image Location</word>
+  <word key="core_rating_duplicate" js="0">Duplicate Rating</word>
+  <word key="convert_ratings" js="0">Convert Ratings</word>
+  <word key="_convert_ratings" js="0">Ratings</word>
+  <word key="convert_profanity_filters" js="0">Convert Profanity Filters</word>
+  <word key="_convert_profanity_filters" js="0">Profanity Filters</word>
+  <word key="convert_banfilters" js="0">Convert Ban Filters</word>
+  <word key="convert_banfilters2" js="0">Convert Ban Filters</word>
+  <word key="_convert_banfilters" js="0">Ban Filters</word>
+  <word key="_convert_banfilters2" js="0">Ban Filters</word>
+  <word key="convert_question_and_answers" js="0">Convert Question and Answer Verification</word>
+  <word key="_convert_question_and_answers" js="0">Question and Answer Verification</word>
+  <word key="convert_reputation_levels" js="0">Convert Reputation Levels</word>
+  <word key="_convert_reputation_levels" js="0">Reputation Levels</word>
+  <word key="convert_warn_actions" js="0">Convert Warning Actions</word>
+  <word key="_convert_warn_actions" js="0">Warning Actions</word>
+  <word key="convert_warn_reasons" js="0">Convert Warning Reasons</word>
+  <word key="_convert_warn_reasons" js="0">Warning Reasons</word>
+  <word key="convert_moderators" js="0">Convert Moderators</word>
+  <word key="_convert_moderators" js="0">Moderators</word>
+  <word key="convert_forums_forums" js="0">Convert Forums</word>
+  <word key="convert_forums_forums_followers" js="0">Convert Forum Followers</word>
+  <word key="_convert_forums_forums" js="0">Forums</word>
+  <word key="_convert_forums_forums_followers" js="0">Forum Followers</word>
+  <word key="convert_forum_password" js="0">Password for %s</word>
+  <word key="convert_forum_password_desc" js="0"><![CDATA[This forum has a password set, however we are unable to decrypt the password for conversion into Invision Community. Please enter the password you wish to use for this forum. <strong>Note:</strong> Not entering a password here will result in no password being set for the forum.]]></word>
+  <word key="convert_forums_topics_multimods" js="0">Convert Multi-moderation Settings</word>
+  <word key="_convert_forums_topics_multimods" js="0">Multi-moderation Settings</word>
+  <word key="convert_forums_question_ratings" js="0">Convert Question Ratings</word>
+  <word key="convert_forums_answer_ratings" js="0">Convert Answer Ratings</word>
+  <word key="_convert_forums_question_ratings" js="0">Question Ratings</word>
+  <word key="_convert_forums_answer_ratings" js="0">Answer Ratings</word>
+  <word key="convert_forums_topics" js="0">Convert Topics</word>
+  <word key="convert_forums_topics_followers" js="0">Convert Topic Followers</word>
+  <word key="_convert_forums_topics" js="0">Topics</word>
+  <word key="_convert_forums_topics_followers" js="0">Topic Followers</word>
+  <word key="convert_forums_posts" js="0">Convert Posts</word>
+  <word key="convert_forums_archive_posts" js="0">Convert Archived Posts</word>
+  <word key="_convert_forums_posts" js="0">Posts</word>
+  <word key="_convert_forums_archive_posts" js="0">Archived Posts</word>
+  <word key="convert_forums_rss_imports" js="0">Convert RSS Feeds</word>
+  <word key="convert_forums_rss_imported" js="0">Convert Imported RSS Content</word>
+  <word key="_convert_forums_rss_imports" js="0">RSS Feeds</word>
+  <word key="_convert_forums_rss_imported" js="0">Imported RSS Content</word>
+  <word key="convert_attachments" js="0">Convert Attachments</word>
+  <word key="convert_forums_attachments" js="0">Convert Post Attachments</word>
+  <word key="_convert_attachments" js="0">Attachments</word>
+  <word key="_convert_forums_attachments" js="0">Post Attachments</word>
+  <word key="attach_location" js="0">Path to attachments</word>
+  <word key="convert_acronyms" js="0">Convert Acronyms</word>
+  <word key="_convert_acronyms" js="0">Acronyms</word>
+  <word key="convert_blogs" js="0">Convert Blogs</word>
+  <word key="convert_blog_categories" js="0">Convert Blog Categories</word>
+  <word key="convert_blog_entries" js="0">Convert Blog Entries</word>
+  <word key="convert_blog_entry_categories" js="0">Convert Blog Entry Categories</word>
+  <word key="convert_blog_comments" js="0">Convert Blog Entry Comments</word>
+  <word key="convert_blog_attachments" js="0">Convert Blog Entry Attachments</word>
+  <word key="_convert_blogs" js="0">Blogs</word>
+  <word key="_convert_blog_categories" js="0">Blog Categories</word>
+  <word key="_convert_blog_entries" js="0">Blog Entries</word>
+  <word key="_convert_blog_entry_categories" js="0">Blog Entry Categories</word>
+  <word key="_convert_blog_comments" js="0">Blog Entry Comments</word>
+  <word key="_convert_blog_attachments" js="0">Blog Entry Attachments</word>
+  <word key="convert_calendar_calendars" js="0">Convert Calendars</word>
+  <word key="convert_calendar_events" js="0">Convert Calendar Events</word>
+  <word key="convert_calendar_comments" js="0">Convert Calendar Event Comments</word>
+  <word key="convert_calendar_reviews" js="0">Convert Calendar Event Reviews</word>
+  <word key="convert_calendar_attachments" js="0">Convert Calendar Event Attachments</word>
+  <word key="convert_calendar_venues" js="0">Convert Calendar Event Venues</word>
+  <word key="convert_calendar_reminders" js="0">Convert Calendar Event Reminders</word>
+  <word key="_convert_calendar_calendars" js="0">Calendars</word>
+  <word key="_convert_calendar_events" js="0">Calendar Events</word>
+  <word key="_convert_calendar_comments" js="0">Calendar Event Comments</word>
+  <word key="_convert_calendar_reviews" js="0">Calendar Event Reviews</word>
+  <word key="_convert_calendar_attachments" js="0">Calendar Event Attachments</word>
+  <word key="_convert_calendar_venues" js="0">Calendar Event Venues</word>
+  <word key="_convert_calendar_reminders" js="0">Calendar Event Reminders</word>
+  <word key="convert_gallery_categories" js="0">Convert Gallery Categories</word>
+  <word key="convert_gallery_albums" js="0">Convert Gallery Albums</word>
+  <word key="convert_gallery_album_comments" js="0">Convert Gallery Album Comments</word>
+  <word key="convert_gallery_album_reviews" js="0">Convert Gallery Album Reviews</word>
+  <word key="convert_gallery_images" js="0">Convert Gallery Images</word>
+  <word key="convert_gallery_comments" js="0">Convert Gallery Image Comments</word>
+  <word key="convert_gallery_reviews" js="0">Convert Gallery Image Reviews</word>
+  <word key="convert_gallery_attachments" js="0">Convert Gallery Image Attachments</word>
+  <word key="members_gallery_category" js="0">Members Gallery Category</word>
+  <word key="_convert_gallery_categories" js="0">Gallery Categories</word>
+  <word key="_convert_gallery_albums" js="0">Gallery Albums</word>
+  <word key="_convert_gallery_album_comments" js="0">Gallery Album Comments</word>
+  <word key="_convert_gallery_album_reviews" js="0">Gallery Album Reviews</word>
+  <word key="_convert_gallery_images" js="0">Gallery Images</word>
+  <word key="_convert_gallery_comments" js="0">Gallery Image Comments</word>
+  <word key="_convert_gallery_reviews" js="0">Gallery Image Reviews</word>
+  <word key="_convert_gallery_attachments" js="0">Gallery Image Attachments</word>
+  <word key="members_gallery_category_desc" js="0">Invision Community requires all albums belong to a category. Please select the category to place albums with no category into, or select None to create one automatically.</word>
+  <word key="media_thumb_location" js="0">Media Thumbnail Location</word>
+  <word key="convert_author_replies_to_comments" js="0">Convert author replies to comments?</word>
+  <word key="convert_author_replies_to_comments_desc" js="0">If Yes, then replies by the author to reviews will be converted into normal comments, with the review in quotes. If No, replies will not be converted.</word>
+  <word key="convert_downloads_cfields" js="0">Convert File Custom Fields</word>
+  <word key="convert_downloads_categories" js="0">Convert File Categories</word>
+  <word key="convert_downloads_files" js="0">Convert Files</word>
+  <word key="convert_downloads_reviews" js="0">Convert File Reviews</word>
+  <word key="convert_downloads_comments" js="0">Convert File Comments</word>
+  <word key="_convert_downloads_cfields" js="0">File Custom Fields</word>
+  <word key="_convert_downloads_categories" js="0">File Categories</word>
+  <word key="_convert_downloads_files" js="0">Files</word>
+  <word key="_convert_downloads_reviews" js="0">File Reviews</word>
+  <word key="_convert_downloads_comments" js="0">File Comments</word>
+  <word key="convert_cms_pages" js="0">Convert Pages</word>
+  <word key="convert_cms_databases" js="0">Convert Databases</word>
+  <word key="convert_cms_database_categories" js="0">Convert Database Categories</word>
+  <word key="convert_cms_database_records" js="0">Convert Database Records</word>
+  <word key="convert_cms_database_comments" js="0">Convert Database Comments</word>
+  <word key="convert_cms_database_reviews" js="0">Convert Database Reviews</word>
+  <word key="convert_cms_media" js="0">Convert Media</word>
+  <word key="convert_cms_blocks" js="0">Convert Blocks</word>
+  <word key="convert_cms_attachments" js="0">Convert Database Attachments</word>
+  <word key="_convert_cms_pages" js="0">Pages</word>
+  <word key="_convert_cms_databases" js="0">Databases</word>
+  <word key="_convert_cms_database_categories" js="0">Database Categories</word>
+  <word key="_convert_cms_database_records" js="0">Database Records</word>
+  <word key="_convert_cms_database_comments" js="0">Database Comments</word>
+  <word key="_convert_cms_database_reviews" js="0">Database Reviews</word>
+  <word key="_convert_cms_media" js="0">Media</word>
+  <word key="_convert_cms_blocks" js="0">Blocks</word>
+  <word key="_convert_cms_attachments" js="0">Database Attachments</word>
+  <word key="convert_clubs" js="0">Convert Clubs</word>
+  <word key="convert_club_members" js="0">Convert Club Members</word>
+  <word key="convert_club_pages" js="0">Convert Club Pages</word>
+  <word key="convert_club_forums" js="0">Convert Club Forums</word>
+  <word key="convert_club_topics" js="0">Convert Club Topics</word>
+  <word key="convert_club_posts" js="0">Convert Club Topic Posts</word>
+  <word key="convert_club_blogs" js="0">Convert Club Blogs</word>
+  <word key="convert_club_blog_entries" js="0">Convert Club Blog Entries</word>
+  <word key="convert_club_blog_comments" js="0">Convert Club Blog Entry Comments</word>
+  <word key="convert_club_downloads_categories" js="0">Convert Club File Categories</word>
+  <word key="convert_club_downloads_files" js="0">Convert Club Files</word>
+  <word key="convert_club_downloads_comments" js="0">Convert Club File Comments</word>
+  <word key="convert_club_downloads_reviews" js="0">Convert Club File Reviews</word>
+  <word key="convert_club_gallery_categories" js="0">Convert Club Gallery Categories</word>
+  <word key="convert_club_gallery_images" js="0">Convert Club Gallery Images</word>
+  <word key="convert_club_gallery_comments" js="0">Convert Club Gallery Image Comments</word>
+  <word key="convert_club_gallery_reviews" js="0">Convert Club Gallery Image Reviews</word>
+  <word key="_convert_clubs" js="0">Clubs</word>
+  <word key="_convert_club_members" js="0">Club Members</word>
+  <word key="_convert_club_pages" js="0">Club Pages</word>
+  <word key="_convert_club_forums" js="0">Club Forums</word>
+  <word key="_convert_club_topics" js="0">Club Topics</word>
+  <word key="_convert_club_posts" js="0">Club Topic Posts</word>
+  <word key="_convert_club_blogs" js="0">Club Blogs</word>
+  <word key="_convert_club_blog_entries" js="0">Club Blog Entries</word>
+  <word key="_convert_club_blog_comments" js="0">Club Blog Entry Comments</word>
+  <word key="_convert_club_downloads_categories" js="0">Club File Categories</word>
+  <word key="_convert_club_downloads_files" js="0">Club Files</word>
+  <word key="_convert_club_downloads_comments" js="0">Club File Comments</word>
+  <word key="_convert_club_downloads_reviews" js="0">Club File Reviews</word>
+  <word key="_convert_club_gallery_categories" js="0">Club Gallery Categories</word>
+  <word key="_convert_club_gallery_images" js="0">Club Gallery Images</word>
+  <word key="_convert_club_gallery_comments" js="0">Club Gallery Image Comments</word>
+  <word key="_convert_club_gallery_reviews" js="0">Club Gallery Image Reviews</word>
+  <word key="club_photo_location_desc" js="0">If club photos are presently stored in the database, then select 'Database', otherwise select 'File System' and then enter the absolute path to club photos in the textbox provided.</word>
+  <word key="club_photo_location_nodb_desc" js="0">The path to club photos.</word>
+  <word key="queue_deleting_empty_topics" js="0">Deleting empty topics</word>
+  <word key="queue_rebuilding_gallery_images" js="0">Rebuilding Gallery Images</word>
+  <word key="queue_rebuilding_profile_photos" js="0">Rebuilding Profile Photo Thumbnails</word>
+  <word key="queue_rebuilding_conversation_first_id" js="0">Rebuilding Personal Conversation first post ids</word>
+  <word key="queue_rebuilding_tag_cache" js="0">Rebuilding %s tags</word>
+  <word key="queue_recounting_question_ratings" js="0">Rebuilding Question Ratings</word>
+  <word key="queue_recounting_answer_ratings" js="0">Rebuilding Answer Ratings</word>
+  <word key="queue_recounting_club_members" js="0">Recounting Club Members</word>
+  <word key="continue_conversion" js="0">Continue Conversion</word>
+  <word key="convert_nexus_customers" js="0">Convert Customers</word>
+  <word key="convert_nexus_payment_methods" js="0">Convert Payment Methods</word>
+  <word key="convert_nexus_package_groups" js="0">Convert Package Groups</word>
+  <word key="convert_nexus_packages" js="0">Convert Packages</word>
+  <word key="convert_nexus_invoices" js="0">Convert Invoices</word>
+  <word key="convert_nexus_transactions" js="0">Convert Transactions</word>
+  <word key="convert_nexus_purchases" js="0">Convert Purchases</word>
+  <word key="_convert_nexus_customers" js="0">Customers</word>
+  <word key="_convert_nexus_package_groups" js="0">Package Groups</word>
+  <word key="_convert_nexus_packages" js="0">Packages</word>
+  <word key="_convert_nexus_invoices" js="0">Invoices</word>
+  <word key="_convert_nexus_transactions" js="0">Transactions</word>
+  <word key="_convert_nexus_purchases" js="0">Purchases</word>
+  <word key="f_blog_entries_rebuilding" js="0">Rebuilding blog entries</word>
+  <word key="f_entry_comments_rebuilding" js="0">Rebuilding entry comments</word>
+  <word key="f_blogs_recounting" js="0">Resyncing blog counts</word>
+  <word key="f_entry_tags_cache" js="0">Rebuilding blog entry tags</word>
+  <word key="f_gallery_images_rebuild" js="0">Rebuilding gallery images</word>
+  <word key="f_gallery_cat_recount" js="0">Resyncing gallery category counts</word>
+  <word key="f_gallery_album_recount" js="0">Resyncing gallery album counts</word>
+  <word key="f_gallery_image_recount" js="0">Resyncing gallery image counts</word>
+  <word key="f_image_tags_recount" js="0">Rebuilding gallery image tags</word>
+  <word key="f_forum_last_post_data" js="0">Resyncing forum last post information</word>
+  <word key="f_rebuild_posts" js="0">Rebuilding posts</word>
+  <word key="f_recounting_forums" js="0">Resyncing forum counts</word>
+  <word key="f_recounting_topics" js="0">Resyncing topic counts</word>
+  <word key="f_topic_tags_recount" js="0">Rebuilding topic tags</word>
+  <word key="f_search_index_rebuild" js="0">Rebuilding search index</word>
+  <word key="f_clear_caches" js="0">Clearing caches</word>
+  <word key="f_rebuild_pms" js="0">Rebuilding private messages</word>
+  <word key="f_signatures_rebuild" js="0">Rebuilding signatures</word>
+  <word key="f_announce_rebuild" js="0">Rebuilding announcements</word>
+  <word key="f_rebuild_attachments" js="0">Rebuilding attachment thumbnails</word>
+  <word key="f_recount_cms_categories" js="0">Resyncing database category counts</word>
+  <word key="f_rebuild_cms_tags" js="0">Rebuilding database tags</word>
+  <word key="f_rebuild_events" js="0">Rebuilding calendar events</word>
+  <word key="f_recount_calendar" js="0">Resyncing calendar and event counts</word>
+  <word key="__api_convert_converters" js="0">Converters</word>
+  <word key="r__manage" js="0">Manage Conversions</word>
+  <word key="r__manage_manage" js="0">Can manage conversions</word>
+  <word key="r__convert" js="0">Conversions</word>
+  <word key="r__convert_manage" js="0">Can run conversions</word>
+  <word key="r__create" js="0">Create Conversions</word>
+  <word key="r__create_manage" js="0">Can create conversions</word>
+ </app>
+</language>

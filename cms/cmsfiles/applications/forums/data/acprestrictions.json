@@ -1,0 +1,34 @@
+{
+    "forums": {
+        "forums": {
+            "forums_manage": "forums_manage",
+            "forums_add": "forums_add",
+            "forums_edit": "forums_edit",
+            "forums_perms": "forums_perms",
+            "forums_massManageContent": "forums_massManageContent",
+            "forums_delete": "forums_delete"
+        },
+        "settings": {
+            "settings_access": "settings_access",
+            "forum_settings": "forum_settings",
+            "archive_manage": "archive_manage"
+        },
+        "savedActions": {
+            "savedActions_manage": "savedActions_manage",
+            "savedActions_add": "savedActions_add",
+            "savedActions_edit": "savedActions_edit",
+            "savedActions_delete": "savedActions_delete"
+        }
+    },
+    "stats": {
+        "topics": {
+            "topics_manage": "topics_manage"
+        },
+        "posts": {
+            "posts_manage": "posts_manage"
+        },
+        "questions": {
+            "questions_manage": "questions_manage"
+        }
+    }
+}

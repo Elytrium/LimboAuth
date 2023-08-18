@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "downloads_categories",
+            {
+                "csortorder": "date"
+            },
+            [
+                "csortorder=?",
+                "submitted"
+            ]
+        ]
+    }
+}

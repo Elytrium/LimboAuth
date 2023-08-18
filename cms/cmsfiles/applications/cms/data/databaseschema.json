@@ -1,0 +1,901 @@
+{
+    "cms_custom_database_1": {
+        "name": "cms_custom_database_1",
+        "columns": {
+            "primary_id_field": {
+                "allow_null": false,
+                "auto_increment": true,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 11,
+                "name": "primary_id_field",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "member_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "member_id",
+                "type": "BIGINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_saved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_saved",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_updated": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_updated",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "post_key": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 32,
+                "name": "post_key",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "rating_real": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 6,
+                "name": "rating_real",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "rating_hits": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "rating_hits",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "rating_value": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "rating_value",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "category_id": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "category_id",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+             "record_future_date": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_future_date",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_locked": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_locked",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_comments": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "record_comments",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_comments_queued": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "record_comments_queued",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_comments_hidden": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 9,
+                "name": "record_comments_hidden",
+                "type": "MEDIUMINT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_views": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_views",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_approved": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_approved",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_pinned": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_pinned",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_dynamic_furl": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_dynamic_furl",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_static_furl": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_static_furl",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_meta_keywords": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "record_meta_keywords",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_meta_description": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 0,
+                "name": "record_meta_description",
+                "type": "TEXT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_template": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "record_template",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_topicid": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 11,
+                "name": "record_topicid",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_publish_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_publish_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_expiry_date": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_expiry_date",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_comment_cutoff": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_comment_cutoff",
+                "type": "INT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_on_homepage": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_on_homepage",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_allow_comments": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_allow_comments",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_allow_reviews": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_allow_reviews",
+                "type": "TINYINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_featured": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_featured",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_comment": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "record_last_comment",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_comment_by": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 10,
+                "name": "record_last_comment_by",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_comment_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_last_comment_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_image": {
+                "name": "record_image",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [
+
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "Record image",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "record_image_thumb": {
+                "name": "record_image_thumb",
+                "type": "TEXT",
+                "length": null,
+                "decimals": null,
+                "values": [
+
+                ],
+                "allow_null": true,
+                "default": null,
+                "comment": "Record image thumb",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+             "record_last_review": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_last_review",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_review_by": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_last_review_by",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_review_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_last_review_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_reviews": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "record_reviews",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_reviews_queued": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 9,
+                "name": "record_reviews_queued",
+                "type": "MEDIUMINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_rating": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 6,
+                "name": "record_rating",
+                "type": "SMALLINT",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_edit_reason": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_edit_reason",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_edit_time": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_edit_time",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+			"record_edit_member_id": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 20,
+                "name": "record_edit_member_id",
+                "type": "BIGINT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_edit_member_name": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": null,
+                "length": 255,
+                "name": "record_edit_member_name",
+                "type": "VARCHAR",
+                "unsigned": false,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_edit_show": {
+                "allow_null": true,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 10,
+                "name": "record_edit_show",
+                "type": "INT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_meta_data": {
+                "name": "record_meta_data",
+                "type": "TINYINT",
+                "length": 1,
+                "decimals": null,
+                "values": null,
+                "allow_null": false,
+                "default": "0",
+                "comment": "",
+                "unsigned": true,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            },
+            "record_author_name": {
+                "name": "record_author_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "decimals": null,
+                "values": null,
+                "allow_null": true,
+                "default": null,
+                "comment": "",
+                "unsigned": false,
+                "auto_increment": false
+            },
+            "record_is_anon": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_is_anon",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            },
+            "record_last_comment_anon": {
+                "allow_null": false,
+                "auto_increment": false,
+                "binary": false,
+                "comment": "",
+                "decimals": null,
+                "default": "0",
+                "length": 1,
+                "name": "record_last_comment_anon",
+                "type": "TINYINT",
+                "unsigned": true,
+                "values": [
+
+                ],
+                "zerofill": false
+            }
+        },
+        "indexes": {
+            "PRIMARY": {
+                "type": "primary",
+                "name": "PRIMARY",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "primary_id_field"
+                ]
+            },
+            "record_approved": {
+                "type": "key",
+                "name": "record_approved",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "record_approved"
+                ]
+            },
+            "record_static_furl": {
+                "type": "key",
+                "name": "record_static_furl",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "record_static_furl"
+                ]
+            },
+            "record_topicid": {
+                "type": "key",
+                "name": "record_topicid",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "record_topicid"
+                ]
+            },
+            "category_id": {
+                "type": "key",
+                "name": "category_id",
+                "length": [
+                    null
+                ],
+                "columns": [
+                    "category_id",
+                    "record_last_comment"
+                ]
+            },
+            "listing_look_up": {
+                "type": "key",
+                "name": "listing_look_up",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "category_id",
+                    "record_future_date",
+                    "record_approved",
+                    "record_locked"
+                ]
+            },
+            "content_look_up": {
+                "type": "key",
+                "name": "content_look_up",
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                ],
+                "columns": [
+                    "category_id",
+                    "record_approved",
+                    "member_id",
+                    "record_last_comment",
+                    "record_last_review"
+                ]
+            },
+            "future_entries": {
+                "type": "key",
+                "name": "future_entries",
+                "length": [
+                    null,
+                    null
+                ],
+                "columns": [
+                    "record_future_date",
+                    "record_publish_date"
+                ]
+            }
+        },
+        "comment": ""
+    }
+ }

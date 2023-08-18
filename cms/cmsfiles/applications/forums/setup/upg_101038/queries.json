@@ -1,0 +1,22 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "forums_topics",
+            {
+                "type": "key",
+                "name": "last_true_post",
+                "columns": [
+                    "forum_id",
+                    "pinned",
+                    "last_post"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

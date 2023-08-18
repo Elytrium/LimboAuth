@@ -1,0 +1,88 @@
+<?php
+/**
+ * @brief		Member Restrictions
+ * @author		<a href='https://www.invisioncommunity.com'>Invision Power Services, Inc.</a>
+ * @copyright	(c) Invision Power Services, Inc.
+ * @license		https://www.invisioncommunity.com/legal/standards/
+ * @package		Invision Community
+{subpackage}
+ * @since		{date}
+ */
+
+namespace IPS\{app}\extensions\core\MemberRestrictions;
+
+/* To prevent PHP errors (extending class does not exist) revealing path */
+if ( !\defined( '\IPS\SUITE_UNIQUE_KEY' ) )
+{
+	header( ( isset( $_SERVER['SERVER_PROTOCOL'] ) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0' ) . ' 403 Forbidden' );
+	exit;
+}
+
+/**
+ * @brief	Member Restrictions
+ */
+class _{class} extends \IPS\core\MemberACPProfile\Restriction
+{
+	/**
+	 * Modify Edit Restrictions form
+	 *
+	 * @param	\IPS\Helpers\Form	$form	The form
+	 * @return	void
+	 */
+	public function form( \IPS\Helpers\Form $form )
+	{
+		// $form->add( ... );
+	}
+	
+	/**
+	 * Save Form
+	 *
+	 * @param	array	$values	Values from form
+	 * @return	array
+	 */
+	public function save( $values ): array
+	{
+		$return = array();
+		
+		// $return['my_restriction'] =  array( 'old' => $oldValue, 'new' => $values['my_restriction'] ); // used in changesForHistory()
+		// \IPS\Db::i()->update( ... ); // Actually save the value
+		
+		return $return;
+	}
+	
+	/**
+	 * What restrictions are active on the account?
+	 *
+	 * @return	array
+	 */
+	public function activeRestrictions(): array
+	{
+		$return = array();
+		
+		/*if ( ... )
+		{
+			$return[] = 'my_restricion';
+		}*/
+		
+		return $return;
+	}
+	
+	/**
+	 * Get details of a change to show on history
+	 *
+	 * @param	array	$changes	Changes as set in save()
+	 * @param   array   $row        Row of data from member history table.
+	 * @return	array
+	 */
+	public static function changesForHistory( array $changes, array $row ): array
+	{
+		$return = array();
+		
+		if ( isset( $changes['my_restriction'] ) )
+		{
+			$return[] = \IPS\Member::loggedIn()->language()->addToStack( 'changed_my_restriction', FALSE, array( 'sprintf' => array( $changes['my_restriction']['new'], $changes['my_restriction']['new'] ) ) );
+		}
+		
+		return $return;
+	}
+}

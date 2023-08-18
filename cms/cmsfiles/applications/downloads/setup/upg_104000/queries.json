@@ -1,0 +1,42 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "downloads_cfields",
+            {
+                "name": "cf_display_location",
+                "type": "ENUM",
+                "length": null,
+                "decimals": null,
+                "values": [
+                    "below",
+                    "tab",
+                    "Sidebar"
+                ],
+                "allow_null": false,
+                "default": "sidebar",
+                "comment": "Display location for custom fields",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "downloads_files",
+            {
+                "type": "key",
+                "name": "file_approver",
+                "columns": [
+                    "file_approver"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,155 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_tasks",
+            {
+                "type": "key",
+                "name": "app",
+                "columns": [
+                    "app"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_email_templates",
+            {
+                "type": "key",
+                "name": "template_app",
+                "columns": [
+                    "template_app"
+                ],
+                "length": [
+                    250
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "core_pfields_data",
+            {
+                "type": "key",
+                "name": "public_fields",
+                "columns": [
+                    "pf_admin_only"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "member_activity",
+                "columns": [
+                    "index_author",
+                    "index_class",
+                    "index_permissions",
+                    "index_date_created"
+                ],
+                "length": [
+                    null,
+                    250,
+                    250,
+                    null
+                ]
+            }
+        ]
+    },
+    "5": {
+        "method": "dropIndex",
+        "params": [
+            "core_search_index",
+            "member_activity"
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "core_member_status_updates",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "status_author_ip"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "addIndex",
+        "params": [
+            "core_member_status_replies",
+            {
+                "type": "key",
+                "name": "ip_lookup",
+                "columns": [
+                    "reply_ip_address"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "8": {
+        "method": "update",
+        "params": [
+            "core_login_handlers",
+            "login_key=CONCAT( UPPER( SUBSTRING( login_key, 1, 1 ) ), SUBSTR( login_key, 2 ) )"
+        ]
+    },
+    "9": {
+        "method": "addIndex",
+        "params": [
+            "core_queue",
+            {
+                "type": "key",
+                "name": "queue_key",
+                "columns": [
+                    "key"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "core_moderator_logs",
+            "lang_key",
+            {
+                "name": "lang_key",
+                "type": "TEXT",
+                "length": 255,
+                "decimals": null,
+                "values": [],
+                "allow_null": false,
+                "default": "",
+                "comment": "",
+                "unsigned": false,
+                "zerofill": false,
+                "auto_increment": false,
+                "binary": false
+            }
+        ]
+    }
+}

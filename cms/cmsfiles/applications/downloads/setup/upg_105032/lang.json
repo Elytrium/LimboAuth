@@ -1,0 +1,16 @@
+{
+    "normal": {
+        "added": [
+            "idm_max_size",
+            "idm_max_size_desc",
+            "idm_maxsize_suffix"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

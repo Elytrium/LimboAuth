@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_acp_notifications",
+            {
+                "app": "core"
+            },
+            [
+                "app=? AND ext=?",
+                "cloud",
+                "ManualInterventionMessage"
+            ]
+        ]
+    }
+}

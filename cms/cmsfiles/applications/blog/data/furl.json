@@ -1,0 +1,69 @@
+/**
+ * Friendly URL Structure
+ *
+ * For each value in the $furl array:
+ *	The key should be the "SEO Template" - an identifier which you'll use when displaying a URL.
+ *	The value should be an associative array with two or three elements: 'friendly' and 'real', and optionally 'verify':
+ *		'friendly'
+ *			The friendly URL to use - encase variables in {curly braces} containing a symbol, followed by the name of the parameter that matches in the "real" URL
+ *			The symbol should be # for numbers or @ for strings
+ *			For example, if the "real" URL contains id=XXX, where XXX is a number, you should include {#id} somewhere in the friendly URL.
+ *			You can also use the tag {?} for the "SEO Title" (that is, any variables that shouldn't be part of the real URL, such as the name of the topipc being viewed).
+ *			If you want to support more than one SEO Title, you can give them zero-indexed keys like so: {?0} {?1} {?2}
+ *		'real'
+ *			This should be the base of the real URL. You should not include parameters which will be parsed out from the friendly URL.
+ *      'verify'
+ *          This should be the name of a class that contains a loadFromUrl() and an url() method.  The dynamic URL (i.e. app=core&...) will be passed to loadFromUrl(), and the url()
+ *          method will subsequently be called to retrieve the correct URL, ideal with ActiveRecord pattern classes.
+ *
+ * IMPORTANT: Ensure values are listed with the most specific ones first. This is to ensure that non-FURL redirects are done correctly. For example, if you have these FURLs:
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller&do=myaction	->	/myfolder/myaction
+ *	/index.php?app=myapp&module=mymodule&controller=mycontroller				->	/myfolder
+ * They must be provided in that order, otherwise the former will redirec to /myfolder/?do=myaction rather than /myfolder/myaction
+ */
+{
+	"topLevel": "blogs",
+	"pages": {
+	    "blogs_rss": {
+		    "friendly": "blog/rss/{#id}-{?}",
+		    "real": "app=blog&module=blogs&controller=view&do=rss",
+			"alias": "blog/entry-{#id}-{?}"
+	    },
+		"blogs_blog_cat": {
+		  "friendly": "blog/{#id}-{?0}/{#cat}-{?1}",
+		  "real": "app=blog&module=blogs&controller=view",
+		  "seoPagination": true
+		},
+	    "blogs_blog": {
+		    "friendly": "blog/{#id}-{?}",
+		    "real": "app=blog&module=blogs&controller=view",
+		    "verify": "\\IPS\\blog\\Blog",
+		    "seoPagination": true
+	    },
+	    "blog_entry": {
+		    "friendly": "entry/{#id}-{?}", 
+		    "real": "app=blog&module=blogs&controller=entry",
+		    "verify": "\\IPS\\blog\\Entry",
+		    "alias": "blog/{!}/entry-{#id}-{?}",
+		    "seoPagination": true
+	    },
+	    "blog_submit": {
+	        "friendly": "submit",
+	        "real": "app=blog&module=blogs&controller=submit"
+	    },
+	    "blog_create": {
+	        "friendly": "create",
+	        "real": "app=blog&module=blogs&controller=create"
+	    },
+		"blog_category": {
+		  "friendly": "category/{#id}-{?}",
+		  "real": "app=blog&module=blogs&controller=browse",
+		  "verify": "\\IPS\\blog\\Category"
+		},
+	    "blogs": {
+	        "friendly": "",
+	        "real": "app=blog&module=blogs&controller=browse",
+	        "alias": "blog"
+	    }
+	}
+}

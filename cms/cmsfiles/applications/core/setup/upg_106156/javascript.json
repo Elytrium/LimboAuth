@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [
+            "global\/framework\/controllers\/editor\/ips.editor.censorBlock.js"
+        ],
+        "edited": [
+            "core\/front\/controllers\/widgets\/ips.widgets.area.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

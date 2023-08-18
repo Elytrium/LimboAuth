@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_widgets",
+            "`key` IN('featuredTopics','latestTopics')"
+        ]
+    }
+}

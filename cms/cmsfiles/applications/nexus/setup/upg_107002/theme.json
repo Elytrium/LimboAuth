@@ -1,0 +1,23 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "admin\/customers\/accountInformation",
+            "front\/subscription\/row",
+            "front\/subscription\/table"
+        ],
+        "removed": [
+            "admin\/subscription\/addMemberMessage"
+        ]
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "normal": {
+        "added": [
+            "delta_upgrade_cic2",
+            "delta_upgrade_cic2_desc",
+            "delta_upgrade_cic2_cont",
+            "file_storage_test_chunk_mismatch",
+            "file_storage_test_chunk_mismatch_value",
+            "background_process_starting",
+            "marketplace_localhost_mode",
+            "marketplace_file_rating"
+        ],
+        "edited": [
+            "marketplace_demo_mode"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

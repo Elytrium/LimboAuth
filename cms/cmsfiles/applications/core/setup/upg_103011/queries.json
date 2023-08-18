@@ -1,0 +1,56 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_member_history",
+            {
+                "log_type": "coverphoto",
+                "log_data": "{\"action\":\"remove\"}"
+            },
+            [
+                "log_type=? and log_data=?",
+                "photo",
+                "{\"coverphoto\":\"remove\"}"
+            ]
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "core_member_history",
+            {
+                "log_type": "coverphoto",
+                "log_data": "{\"action\":\"new\"}"
+            },
+            [
+                "log_type=? and log_data=?",
+                "photo",
+                "{\"coverphoto\":\"new\"}"
+            ]
+        ]
+    },
+    "3": {
+        "method": "delete",
+        "params": [
+            "core_search_index"
+        ]
+    },
+    "4": {
+        "method": "addIndex",
+        "params": [
+            "core_search_index",
+            {
+                "type": "key",
+                "name": "author_posted_in",
+                "columns": [
+                    "index_author",
+                    "index_item_index_id"
+                ],
+                "length": [
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

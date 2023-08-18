@@ -1,0 +1,10 @@
+{
+    "added": [
+        "app=core&module=applications&controller=enhancements&do=edit&searchResult=form_ga_enabled",
+        "app=core&module=applications&controller=enhancements&do=edit&searchResult=ga_code"
+    ],
+    "edited": [],
+    "removed": [
+        "app=core&module=settings&controller=posting&tab=general&searchResult=form_merge_concurrent_posts"
+    ]
+}

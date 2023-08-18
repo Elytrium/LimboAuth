@@ -1,0 +1,16 @@
+{
+    "1": {
+        "method": "changeColumn",
+        "params": [
+            "ccs_block_wizard",
+            "wizard_name",
+            {
+                "name": "wizard_name",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": true,
+                "default": null
+            }
+        ]
+    }
+}

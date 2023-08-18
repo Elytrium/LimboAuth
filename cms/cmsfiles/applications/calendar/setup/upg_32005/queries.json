@@ -1,0 +1,28 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "cal_events",
+            {
+                "name": "event_all_day",
+                "type": "tinyint",
+                "length": 1,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "cal_events",
+            {
+                "event_all_day": 1
+            },
+            [
+                "TIME(event_start_date)=?",
+                "00:00:00"
+            ]
+        ]
+    }
+}

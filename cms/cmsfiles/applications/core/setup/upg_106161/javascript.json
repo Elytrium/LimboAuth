@@ -1,0 +1,16 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/framework\/common\/ui\/ips.ui.truncate.js",
+            "global\/framework\/common\/ui\/ips.ui.uploader.js",
+            "global\/framework\/controllers\/editor\/ips.editor.censorBlock.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

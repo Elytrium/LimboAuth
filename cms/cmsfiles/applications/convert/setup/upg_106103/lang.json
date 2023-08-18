@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "convert_achievement_badges",
+            "_convert_achievement_badges",
+            "convert_achievement_ranks",
+            "_convert_achievement_ranks"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/browse\/calendarDay",
+            "front\/browse\/calendarFeatured",
+            "front\/browse\/calendarHeader",
+            "front\/browse\/calendarMonth",
+            "front\/browse\/calendarStream",
+            "front\/browse\/calendarWeek",
+            "front\/browse\/calendarWrapper",
+            "front\/browse\/dateJump",
+            "front\/global\/commentTableHeader",
+            "front\/global\/embedEvent",
+            "front\/global\/embedEventComment",
+            "front\/global\/embedEventReview",
+            "front\/global\/manageFollowRow",
+            "front\/global\/rows",
+            "front\/modcp\/approvalQueueItem",
+            "front\/submit\/datesForm",
+            "front\/submit\/submitForm",
+            "front\/venue\/upcomingStream",
+            "front\/view\/comments",
+            "front\/view\/eventBlock",
+            "front\/view\/eventBlocks",
+            "front\/view\/eventSidebar",
+            "front\/view\/eventStreamBlock",
+            "front\/view\/reviews",
+            "front\/view\/rsvpControls",
+            "front\/view\/view",
+            "front\/widgets\/recentReviews",
+            "front\/widgets\/upcomingEvents"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/calendar_responsive.css",
+            "front\/calendar.css",
+            "front\/embed.css",
+            "front\/profile.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

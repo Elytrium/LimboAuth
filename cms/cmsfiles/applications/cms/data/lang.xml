@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+ <app key="cms" version="107704">
+  <word key="__app_cms" js="0">Pages</word>
+  <word key="menutab__cms" js="0">Pages</word>
+  <word key="menutab__cms_icon" js="0">files-o</word>
+  <word key="__indefart_content_db_lang_sl" js="0">a %s</word>
+  <word key="__indefart_cms_page" js="0">a page</word>
+  <word key="__indefart_content_record_comments_title" js="0">a comment</word>
+  <word key="__indefart_content_record_reviews_title" js="0">a review</word>
+  <word key="__defart_content_db_lang_sl" js="0">%s</word>
+  <word key="__defart_content_record_comments_title" js="0">comment</word>
+  <word key="__defart_content_record_comments_title_plural" js="0">{!#[1:comment][?:comments]}</word>
+  <word key="__defart_content_record_reviews_title" js="0">review</word>
+  <word key="__defart_content_record_reviews_title_plural" js="0">{!#[1:review][?:reviews]}</word>
+  <word key="rebuilding_cms_database_categories" js="0">Rebuilding %s categories</word>
+  <word key="rebuilding_cms_database_reciprocal_map" js="0">Rebuilding %s reciprocal maps (field ID %s)</word>
+  <word key="rebuilding_cms_database_records" js="0">Rebuilding %s records</word>
+  <word key="rebuilding_cms_database_sync_topics" js="0">Rebuilding %s synchronized topics</word>
+  <word key="moving_database_comments" js="0">Moving %s comments</word>
+  <word key="moving_database_comments_single" js="0"><![CDATA[Moving <a href='%s' target='_blank'>%s</a> comments]]></word>
+  <word key="rebuilding_cms_comment_attachments" js="0">Rebuilding comment attachment maps</word>
+  <word key="cms_page" js="0">Page</word>
+  <word key="cms_pages_pageitem_pl" js="0">Pages</word>
+  <word key="cms_page_pl_lc" js="0">pages</word>
+  <word key="cms_page_pl" js="0">Pages</word>
+  <word key="module_no_permission" js="0">No permission</word>
+  <word key="converting_pages_34x" js="0">Converting bbcode pages to HTML</word>
+  <word key="content_theme_dev_cannot_write_template" js="0">Could not write the file %s</word>
+  <word key="sitemap_databases_include" js="0">Include in Sitemap</word>
+  <word key="sitemap_pages_include" js="0">Include in Sitemap</word>
+  <word key="sitemap_cms_Databases" js="0">Database Records</word>
+  <word key="sitemap_cms_Pages" js="0">Pages</word>
+  <word key="sitemap_databases_count" js="0">Number of records to include</word>
+  <word key="sitemap_databases_priority" js="0">Records priority</word>
+  <word key="sitemap_databases_priority_desc" js="0">The priority value in a sitemap file indicates to search engines how important a page is compared to other pages on the site.</word>
+  <word key="sitemap_pages_count" js="0">Number of pages to include</word>
+  <word key="sitemap_pages_priority" js="0">Pages priority</word>
+  <word key="sitemap_pages_priority_desc" js="0">The priority value in a sitemap file indicates to search engines how important a page is compared to other pages on the site.</word>
+  <word key="can_pin_record" js="0">Can pin %s?</word>
+  <word key="can_unpin_record" js="0">Can unpin %s?</word>
+  <word key="can_feature_record" js="0">Can feature %s?</word>
+  <word key="can_unfeature_record" js="0">Can unfeature %s?</word>
+  <word key="can_edit_record" js="0">Can edit %s?</word>
+  <word key="can_hide_record" js="0">Can hide %s?</word>
+  <word key="can_unhide_record" js="0">Can unhide %s?</word>
+  <word key="can_view_hidden_record" js="0">Can view a hidden %s?</word>
+  <word key="can_move_record" js="0">Can move %s?</word>
+  <word key="can_move_record_desc" js="0">Will be able to move only between the categories they can create new content within.</word>
+  <word key="can_lock_record" js="0">Can lock %s?</word>
+  <word key="can_unlock_record" js="0">Can unlock %s?</word>
+  <word key="can_reply_to_locked_record" js="0">Can reply to a locked %s?</word>
+  <word key="can_delete_record" js="0">Can delete %s?</word>
+  <word key="can_split_merge_record" js="0">Can split and merge %s?</word>
+  <word key="can_future_publish_record" js="0">Can future publish %s</word>
+  <word key="can_view_future_record" js="0">Can view a future %s</word>
+  <word key="can_edit_rcomment" js="0">Can edit a %s comment?</word>
+  <word key="can_hide_rcomment" js="0">Can hide a %s comment?</word>
+  <word key="can_unhide_rcomment" js="0">Can unhide a %s comment?</word>
+  <word key="can_view_hidden_rcomment" js="0">Can view a hidden %s comment?</word>
+  <word key="can_delete_rcomment" js="0">Can delete a %s comment?</word>
+  <word key="can_edit_rreview" js="0">Can edit a %s review?</word>
+  <word key="can_hide_rreview" js="0">Can hide a %s review?</word>
+  <word key="can_unhide_rreview" js="0">Can unhide a %s review?</word>
+  <word key="can_view_hidden_rreview" js="0">Can view a hidden %s review?</word>
+  <word key="can_delete_rreview" js="0">Can delete a %s review?</word>
+  <word key="can_feature_comments_record" js="0">Can recommend comments on %s?</word>
+  <word key="can_unfeature_comments_record" js="0">Can remove comments recommendations on %s?</word>
+  <word key="can_add_item_message_record" js="0">Can add messages to %s?</word>
+  <word key="can_edit_item_message_record" js="0">Can edit messages on %s?</word>
+  <word key="can_delete_item_message_record" js="0">Can delete messages on %s?</word>
+  <word key="can_copy_topic_database" js="0">Can copy topics to a database?</word>
+  <word key="can_copy_topic_database_desc" js="0">If enabled, then the user can copy topics in forums they are allowed to moderate in, to databases they are allowed to create records in</word>
+  <word key="r__page_add" js="0">Can create pages?</word>
+  <word key="r__page_edit" js="0">Can edit pages?</word>
+  <word key="r__page_delete" js="0">Can delete pages?</word>
+  <word key="r__pages" js="0">Pages</word>
+  <word key="r__page_permissions" js="0">Can manage page permissions?</word>
+  <word key="r__page_manage" js="0">Can view blocks?</word>
+  <word key="r__block_add" js="0">Can create blocks?</word>
+  <word key="r__block_edit" js="0">Can edit blocks?</word>
+  <word key="r__block_delete" js="0">Can delete blocks?</word>
+  <word key="r__blocks" js="0">Blocks</word>
+  <word key="r__block_manage" js="0">Can view blocks?</word>
+  <word key="r__block_permissions" js="0">Can manage block permissions?</word>
+  <word key="r__template_add_edit" js="0">Can create/edit templates?</word>
+  <word key="r__template_delete" js="0">Can delete templates?</word>
+  <word key="r__templates" js="0">Templates</word>
+  <word key="r__template_manage" js="0">Can view templates?</word>
+  <word key="r__databases_add" js="0">Can create databases?</word>
+  <word key="r__databases_edit" js="0">Can edit databases?</word>
+  <word key="r__databases_delete" js="0">Can delete databases?</word>
+  <word key="r__databases" js="0">Databases</word>
+  <word key="r__databases_manage" js="0">Can view databases?</word>
+  <word key="r__databases_use" js="0">Can use databases?</word>
+  <word key="r__records_add" js="0">Can create records?</word>
+  <word key="r__records_edit" js="0">Can edit records?</word>
+  <word key="r__records_delete" js="0">Can delete records?</word>
+  <word key="r__records" js="0">Records</word>
+  <word key="r__records_manage" js="0">Can view records?</word>
+  <word key="r__cms_fields" js="0">Extra Fields</word>
+  <word key="r__cms_fields_manage" js="0">Can view extra fields?</word>
+  <word key="r__cms_fields_add" js="0">Can create extra fields?</word>
+  <word key="r__cms_fields_edit" js="0">Can edit extra fields?</word>
+  <word key="r__cms_fields_delete" js="0">Can delete extra fields?</word>
+  <word key="editor__cms_BlockContent" js="0">Custom Blocks</word>
+  <word key="editor__cms_PageContent" js="0">CMS Pages</word>
+  <word key="editor__cms_Widgets" js="0">CMS Widgets</word>
+  <word key="editor__cms_Records" js="0">CMS Records</word>
+  <word key="filestorage__cms_Records" js="0">CMS Records</word>
+  <word key="filestorage__cms_Pages" js="0">CMS Pages</word>
+  <word key="filestorage__cms_Media" js="0">CMS Media</word>
+  <word key="modperms__cms_Databases" js="0">Databases</word>
+  <word key="can_content_revisions_content" js="0">Can Manage Revisions</word>
+  <word key="can_content_edit_meta_tags" js="0">Can manage meta tags</word>
+  <word key="can_content_edit_meta_tags_desc" js="0"><![CDATA[Allow the user to add/edit meta keywords &amp; description when creating/editing records]]></word>
+  <word key="can_content_edit_record_slugs" js="0">Can Manage Record Slugs</word>
+  <word key="can_content_edit_record_slugs_desc" js="0">Record slugs are part of the FURL. This allows a custom slug to be set.</word>
+  <word key="can_content_view_others_records" js="0">Can See All Records</word>
+  <word key="can_content_view_others_records_desc" js="0">Show all records in categories that are set to only show the authors own records</word>
+  <word key="cms" js="0">Categories</word>
+  <word key="menu__cms_pages" js="0">Page Management</word>
+  <word key="menu__cms_pages_pages" js="0">Pages</word>
+  <word key="menu__cms_pages_menu" js="0">Menu</word>
+  <word key="menu__cms_pages_blocks" js="0">Blocks</word>
+  <word key="menu__cms_pages_templates" js="0">Templates</word>
+  <word key="menu__cms_databases" js="0">Content</word>
+  <word key="menu__cms_databases_databases" js="0">Databases</word>
+  <word key="menu__cms_records" js="0">Records</word>
+  <word key="menu__cms_categories" js="0">Categories</word>
+  <word key="menu__cms_fields" js="0">Fields</word>
+  <word key="module__cms_pages" js="0">Pages</word>
+  <word key="module__cms_database" js="0">Databases</word>
+  <word key="content_block_cat_add" js="0">Create New Category</word>
+  <word key="content_block_block_add" js="0">Create New Block</word>
+  <word key="content_block_block_edit" js="0">Edit Block</word>
+  <word key="content_block_block_editing" js="0">Editing Block %s</word>
+  <word key="container_name" js="0">Name</word>
+  <word key="container_parent_id" js="0">Parent</word>
+  <word key="content_block_add_type" js="0">Type</word>
+  <word key="content_block_add_type_plugin" js="0">Plugin</word>
+  <word key="content_block_add_type_plugin_desc" js="0">You can use one of the listed plugins to create the output.</word>
+  <word key="content_block_add_type_custom" js="0">Custom</word>
+  <word key="content_block_add_type_custom_desc" js="0">You can author HTML or PHP for advertisements, javascript widgets (e.g. stock tickers, gamer feeds, etc.) and notices/announcements.</word>
+  <word key="content_block_add_custom_type_wysiwyg" js="0">Editor</word>
+  <word key="content_block_add_custom_type_html" js="0">Manual HTML</word>
+  <word key="content_block_add_custom_type_html_desc" js="0">Allows use of HTML and Invision Community template logic that you'll enter manually</word>
+  <word key="content_block_add_custom_type_php" js="0">Manual PHP</word>
+  <word key="content_block_add_custom_type_php_desc" js="0"><![CDATA[Allows use of raw PHP that you'll enter manually. Note: don't include &lt;?php ?&gt; tags; Invision Community will handle this for you.]]></word>
+  <word key="content_block_add_custom_type" js="0">Content Editor</word>
+  <word key="content_block_form_tab__details" js="0">Details</word>
+  <word key="content_block_form_tab__content" js="0">Content</word>
+  <word key="content_block_form_tab__feed" js="0">Feed Configuration</word>
+  <word key="block_name" js="0">Name</word>
+  <word key="block_description" js="0">Description</word>
+  <word key="block_category" js="0">Category</word>
+  <word key="block_content" js="0">Content</word>
+  <word key="block_content_recursive_error" js="0">You cannot include a {block} tag for a block inside of itself.</word>
+  <word key="content_block_type_feed" js="0">Feed</word>
+  <word key="content_block_plugin_select" js="0">Select a plugin</word>
+  <word key="content_block_add_select_plugin_message" js="0">You have chosen to create a new plugin block. Please select which plugin to use below.</word>
+  <word key="content_block_add_select_feed_message" js="0">You have chosen to create a new feed block. Please select which feed to use below.</word>
+  <word key="content_block_feed_add" js="0">Add Feed Block</word>
+  <word key="block_content_type" js="0">Content Type</word>
+  <word key="block_template_id" js="0">Template</word>
+  <word key="block_content_type_template" js="0">Template</word>
+  <word key="block_content_type_manual" js="0">Custom</word>
+  <word key="content_block_template_use_default" js="0">Default template</word>
+  <word key="block_template_use_how" js="0"></word>
+  <word key="block_template_use_how_use" js="0">Use this template as-is</word>
+  <word key="block_template_use_how_copy" js="0">Use as a base for a custom template</word>
+  <word key="cms_block_feed_form_message" js="0">You are creating a new block using the data feed from %s.</word>
+  <word key="cms_error_block_plugin_not_found" js="0">Cannot locate the data feed required for this block.</word>
+  <word key="cms_block_view_template" js="0">View Template</word>
+  <word key="block_save_as_template" js="0">Save this as a template</word>
+  <word key="block_save_as_template_desc" js="0">You can use this content for this block, or you can save it as a template so that others can use it</word>
+  <word key="block_save_as_template_name" js="0">Template name</word>
+  <word key="cms_error_no_template_found" js="0">Could not locate that template</word>
+  <word key="cms_block_preview_refresh" js="0">Refresh Preview</word>
+  <word key="cms_db_feed_title" js="0">Database Feeds</word>
+  <word key="cms_db_feed_block_with_name" js="0">Feed from %s</word>
+  <word key="cms_db_feed_block_with_name_disabled" js="0">Cannot create a feed for %s as this database is not assigned to a page</word>
+  <word key="cms_db_relational_with_name_disabled" js="0">Cannot use database '%s' as this database is not assigned to a page</word>
+  <word key="cms_block_form_display" js="0">Templates</word>
+  <word key="block_key" js="0">Template Key</word>
+  <word key="block_key_desc" js="0"><![CDATA[<p class='ipsMessage ipsMessage_info'>The block key ('my_block_key') can be used in HTML templates and manual pages to fetch a specific block, for instance: <span class='ipsType_monospace'>{block="my_block_key"}</span></p><br>The key must be unique for this block. If omitted, a key will be automatically generated.]]></word>
+  <word key="cms_block_key_not_unique" js="0">The block key is not unique</word>
+  <word key="block_cache" js="0">Cache this block</word>
+  <word key="block_cache_desc" js="0">If your block contains dynamic elements, such as member data, database counts, etc, you will need to prevent this block from being cached.</word>
+  <word key="content_record_title_pl" js="0">Records</word>
+  <word key="content_template_type_block" js="0">Block Plugin Templates</word>
+  <word key="content_template_type_page" js="0">Page Templates</word>
+  <word key="content_template_type_css" js="0">Page CSS</word>
+  <word key="content_template_type_js" js="0">Page JS</word>
+  <word key="content_template_type_database" js="0">Database Templates</word>
+  <word key="content_template_load_file" js="0">Select a template to load</word>
+  <word key="content_template_editor_fields_params" js="0">Variables</word>
+  <word key="content_template_editor_fields_desc" js="0">Description</word>
+  <word key="content_template_editor_fields_title" js="0">Name</word>
+  <word key="content_templates_modified" js="0">Modified</word>
+  <word key="content_templates_custom" js="0">Custom</word>
+  <word key="content_templates_inherit" js="0">Inherited</word>
+  <word key="content_template_add_template_block" js="0"><![CDATA[Add <strong>block</strong> template]]></word>
+  <word key="content_template_add_template_page" js="0"><![CDATA[Add <strong>page</strong> template]]></word>
+  <word key="content_template_add_template_database" js="0"><![CDATA[Add <strong>database</strong> template]]></word>
+  <word key="content_template_add_template_css" js="0"><![CDATA[Add <strong>CSS</strong> file]]></word>
+  <word key="content_template_add_template_js" js="0"><![CDATA[Add <strong>Javascript</strong> file]]></word>
+  <word key="content_template_add_template_block_title" js="0">Add block template</word>
+  <word key="content_template_add_template_page_title" js="0">Add page template</word>
+  <word key="content_template_add_template_database_title" js="0">Add database template</word>
+  <word key="content_template_add_template_css_title" js="0">Add CSS file</word>
+  <word key="content_template_add_template_js_title" js="0">Add Javascript file</word>
+  <word key="template_title" js="0">Name</word>
+  <word key="template_params" js="0">Parameters</word>
+  <word key="template_description" js="0">Description</word>
+  <word key="template_container" js="0">Category</word>
+  <word key="content_template_editor_fields_container" js="0">Category</word>
+  <word key="content_rel_type" js="0">Type</word>
+  <word key="template_content" js="0">Content</word>
+  <word key="template_group" js="0">Feed</word>
+  <word key="block_template_plugin_import" js="0">Plugin</word>
+  <word key="block_template_theme_import" js="0">Theme set</word>
+  <word key="template_database_group" js="0">Type</word>
+  <word key="cms_new_db_template_group_listing" js="0">Record Listing (Shown when clicking a category)</word>
+  <word key="cms_new_db_template_group_featured" js="0">Featured Records (First page when viewing a database set to show featured articles)</word>
+  <word key="cms_new_db_template_group_categories" js="0">Category List (First page when viewing a database)</word>
+  <word key="cms_new_db_template_group_display" js="0">Record (Displays the record and comments)</word>
+  <word key="cms_new_db_template_group_form" js="0">Record Form (Used when adding/editing a record)</word>
+  <word key="database_template_type" js="0">Template Type</word>
+  <word key="content_import_dev_templates" js="0">Import Developer Templates</word>
+  <word key="perm_cms_block_perm__label" js="0"></word>
+  <word key="perm_cms_block_perm__view" js="0">View Block</word>
+  <word key="theme_js" js="0">JS</word>
+  <word key="theme_html" js="0">HTML</word>
+  <word key="database_assign_to" js="0">Assign to database</word>
+  <word key="cms_new_db_assign_to_db_none" js="0">None</word>
+  <word key="template_group_existing" js="0">Existing Group</word>
+  <word key="template_group_new" js="0">New Group</word>
+  <word key="template_group_new_desc" js="0">Please use only a-z and 0-9 without any special characters or spaces. The group name must start with a letter or underscore.</word>
+  <word key="template_title_desc" js="0">Please use only a-z and 0-9 without any special characters or spaces. The title must start with a letter or underscore.</word>
+  <word key="template_reserved_word" js="0">The template name may not be any of the following: %s</word>
+  <word key="cms_theme_designer_mode_warning" js="0"><![CDATA[Theme editing is currently unavailable in the ACP as you have designers' mode enabled.<br /><a href='%s'>Switch off designers' mode.</a>]]></word>
+  <word key="cms_media_designer_mode_warning" js="0"><![CDATA[Media editing is currently unavailable in the ACP as you have designers' mode enabled.<br /><a href='%s'>Switch off designers' mode.</a>]]></word>
+  <word key="cms_templates_export_title" js="0">Download Templates</word>
+  <word key="cms_templates_export_description" js="0">Select the templates to export from the list below. These templates will be added to a single XML file that can be imported to other Invision Community communities.</word>
+  <word key="cms_templates_export_description_app" js="0">Select the templates to export from the list below. These templates will be included when you build your application/plugin.</word>
+  <word key="cms_templates_export_return" js="0">Return to the template editor</word>
+  <word key="templates_block" js="0">Blocks</word>
+  <word key="templates_database" js="0">Database</word>
+  <word key="templates_page" js="0">Pages</word>
+  <word key="cms_no_templates_selected" js="0">You must select templates to export</word>
+  <word key="cms_templates_import_title" js="0">Upload Templates</word>
+  <word key="cms_templates_import" js="0">Upload</word>
+  <word key="cms_templates_imported" js="0">Templates Imported</word>
+  <word key="cms_template_database_options" js="0">Database template group options</word>
+  <word key="cms_database_group_name" js="0">Group Name</word>
+  <word key="cms_database_group_name_desc" js="0">Please use only a-z and 0-9 without any special characters or spaces. The group name must start with a letter or underscore. You can use an underscore, which will show as a space when viewing templates.</word>
+  <word key="cms_database_template_used_in" js="0">This template is used by: %s</word>
+  <word key="cms_template_group_exists" js="0">That template group already exists. Group names must be unique across HTML/CSS and JS templates.</word>
+  <word key="cms_template_title_exists" js="0">That template title already exists.</word>
+  <word key="database_form_template_link" js="0">Edit Templates</word>
+  <word key="cms_block_list_key" js="0">{block=&quot;%s&quot;}</word>
+  <word key="cms_theme_template_custom" js="0">Custom Templates</word>
+  <word key="cms_theme_template_default" js="0">Default Templates</word>
+  <word key="delete_db_confirm_detail_msg" js="0">Any fields in other databases linking to this database will be deleted automatically.</word>
+  <word key="page_database_display" js="0">Contains database: %s</word>
+  <word key="content_edit_folder" js="0">Edit Folder</word>
+  <word key="content_add_folder" js="0">Add Folder</word>
+  <word key="content_add_page" js="0">Add Page</word>
+  <word key="content_edit_page" js="0">Edit Page</word>
+  <word key="content_editing_page" js="0">Editing Page %s</word>
+  <word key="folder_name" js="0">Folder Name</word>
+  <word key="folder_parent_id" js="0">Folder Parent</word>
+  <word key="content_folder_name_in_use" js="0">This folder name is already in use. Please choose another name.</word>
+  <word key="content_page_file_name_in_use" js="0">This page file name is already in use. Please choose another name.</word>
+  <word key="perm_content_page_perm__label" js="0"></word>
+  <word key="perm_content_page_perm__view" js="0">View Page</word>
+  <word key="content_page_form_tab__details" js="0">Details</word>
+  <word key="content_page_form_tab__meta" js="0"><![CDATA[Title &amp; Meta Tags]]></word>
+  <word key="content_page_form_tab__content" js="0">Content</word>
+  <word key="page_name" js="0">Page Name</word>
+  <word key="page_title" js="0">Page Title</word>
+  <word key="page_title_desc" js="0">This value will be used in the document's HTML title tag. If omitted, the page name will be used instead.</word>
+  <word key="page_seo_name" js="0">Page Filename</word>
+  <word key="page_folder_id" js="0">Page Folder</word>
+  <word key="page_meta_keywords" js="0">Meta Keywords</word>
+  <word key="page_meta_description" js="0">Meta Description</word>
+  <word key="page_meta_index" js="0">Index</word>
+  <word key="page_meta_index_desc" js="0">Allow Search Engines to index this page.</word>
+  <word key="page_meta_index_desc_disabled" js="0">The page is not visible to guests, so it cannot be indexed.</word>
+  <word key="page_show_sidebar" js="0">Show the suite sidebar on this page</word>
+  <word key="page_type" js="0">Content Editor</word>
+  <word key="page_type_builder" js="0">Page Builder</word>
+  <word key="page_type_builder_desc" js="0">A visual editor for drag and drop page creation</word>
+  <word key="page_type_manual" js="0">Manual HTML</word>
+  <word key="page_type_manual_desc" js="0">A code level editor for complete control</word>
+  <word key="page_ipb_wrapper" js="0">Use suite HTML wrapper</word>
+  <word key="page_ipb_wrapper_desc" js="0">Outputs your page within the suite header/footer wrapper. If you select 'None', you will be responsible for the full page html (including doctype, head, body, etc. tags)</word>
+  <word key="content_err_no_page" js="0">Could not load a page to edit</word>
+  <word key="content_edit_page_content_title" js="0">Editing page content for %s</word>
+  <word key="page_content" js="0">Content</word>
+  <word key="content_default_page" js="0">Make default page for this folder</word>
+  <word key="content_default_error_page" js="0">Make default error page</word>
+  <word key="content_remove_error_page" js="0">Remove as default error page</word>
+  <word key="content_database_form_options_page" js="0">Page</word>
+  <word key="content_database_form_options_page_msg" js="0">You may optionally create a page for this database. After creation, you may edit the page as normal.</word>
+  <word key="database_create_page" js="0">Database page</word>
+  <word key="database_create_page_existing" js="0">I will add this database into an existing page</word>
+  <word key="database_create_page_new" js="0">I want to create a new page for this database</word>
+  <word key="content_err_page_save_exception" js="0">Page could not be saved: %s</word>
+  <word key="cms_err_db_page_never_used" js="0">This database was never added to any pages</word>
+  <word key="cms_err_db_already_on_page" js="0">A page may only have one database embedded</word>
+  <word key="cms_err_db_does_not_exist" js="0">That database does not exist.</word>
+  <word key="cms_err_db_in_use_other_page" js="0">The database added is being used by another page.</word>
+  <word key="content_acp_page_builder_msg_new" js="0">You can edit this page's content by visiting the page once it has been created.</word>
+  <word key="content_acp_page_builder_msg_edit" js="0"><![CDATA[You can edit this page's content by visiting the <a href='%s' target='_blank' rel='noopener'>page.</a>]]></word>
+  <word key="content_launch_page_builder" js="0">Open page builder</word>
+  <word key="content_launch_page_view" js="0">View page</word>
+  <word key="page_theme" js="0">Theme</word>
+  <word key="page_theme_desc" js="0">Select which theme to use for this page. The theme is used for default widgets and the global template.</word>
+  <word key="cms_page_theme_id_default" js="0">Default Theme</word>
+  <word key="page_template" js="0">Template</word>
+  <word key="page_template_desc" js="0">Select which template to use for the page builder. Changing this for an existing page may lose any existing widget layouts.</word>
+  <word key="content_launch_page" js="0">View Page</word>
+  <word key="cms_db_used_on_page" js="0">Used on page: %s</word>
+  <word key="content_folder_name_furl_collision" js="0">This folder name cannot be used as it causes a URL collision with another installed application.</word>
+  <word key="content_folder_name_furl_collision_pages" js="0">This page name cannot be used as it causes a URL collision with a folder in the same location.</word>
+  <word key="content_folder_name_furl_collision_pages_app" js="0">This page name cannot be used as it causes a URL collision with another application.</word>
+  <word key="content_folder_name_furl_collision_folder" js="0">This folder name cannot be used as it causes a URL collision with a page in the same location.</word>
+  <word key="content_page_form_tab__includes" js="0">Page Includes</word>
+  <word key="page_includes_js" js="0">Javascript</word>
+  <word key="page_includes_css" js="0">CSS</word>
+  <word key="cms_page_includes_message" js="0"><![CDATA[Page includes will not work unless your content or custom wrapper template contains the following tags:<br><span class='ipsType_monospace'>{template="includeCSS" app="core" group="global" location="global" params=""} {template="includeJS" app="core" group="global" location="global" params=""}</span>]]></word>
+  <word key="page_wrapper_template" js="0">Page Wrapper</word>
+  <word key="page_wrapper_template_desc" js="0">Wrapper template for this page</word>
+  <word key="cms_page_wrapper_template_none" js="0">None</word>
+  <word key="cms_page_error_bad_syntax" js="0">The syntax of tags or HTML logic is badly formatted.</word>
+  <word key="cms_tag_blocks" js="0">Blocks</word>
+  <word key="cms_tag_databases" js="0">Databases</word>
+  <word key="cms_tag_pages" js="0">Pages</word>
+  <word key="cms_tag_lang" js="0">Phrases</word>
+  <word key="cms_error_page_message" js="0">Error Message</word>
+  <word key="cms_error_page_code" js="0">Error Code</word>
+  <word key="cms_articles_homepage_form" js="0">Homepage Options</word>
+  <word key="cms_move_to_root" js="0">Move pages to root level (no folder)</word>
+  <word key="cms_move_pages" js="0">Move pages and folders to</word>
+  <word key="folder" js="0">Folder</word>
+  <word key="content_database_form_seo" js="0">SEO</word>
+  <word key="database_canonical_header" js="0">Canonical Tag</word>
+  <word key="database_canonical_flag" js="0">Strongly hint to search engines that</word>
+  <word key="database_canonical_flag_0" js="0">All pages should be considered the same</word>
+  <word key="database_canonical_flag_0_desc" js="0"><![CDATA[An example is a database that will be used to post long-form articles which are content rich, and you receive pages of comments.<br>In this example, the canonical tag will always be set to the first page as the original content is more important.]]></word>
+  <word key="database_canonical_flag_1" js="0">All pages should be considered different</word>
+  <word key="database_canonical_flag_1_desc" js="0"><![CDATA[An example is a database where you post a link or video for review, and receive pages of comments and reviews.<br>In this example, the canonical tag will be set to the current page as the page of user generated content is more important.]]></word>
+  <word key="add_word_reason_pages" js="0">Phrases you create here can be used in custom HTML pages and theme templates to provide content in different languages.</word>
+  <word key="menu_content_page" js="0">Page</word>
+  <word key="content_page_form_tab__menu" js="0">Menu</word>
+  <word key="page_add_to_menu" js="0">Add to front navigation menu</word>
+  <word key="menu_title_page_type" js="0">Title</word>
+  <word key="menu_title_page_inherit" js="0">Use the page name.</word>
+  <word key="menu_title_page_custom" js="0">I will enter a different title.</word>
+  <word key="menu_title_page" js="0">Title</word>
+  <word key="menu_title_page_desc" js="0">You may leave this blank to use the page's title.</word>
+  <word key="menu_parent" js="0">Parent</word>
+  <word key="field_title" js="0">Title</word>
+  <word key="field_description" js="0">Description</word>
+  <word key="field_type" js="0">Type</word>
+  <word key="field_extra" js="0">Content</word>
+  <word key="field_validator" js="0">Custom Input Validation</word>
+  <word key="field_unique" js="0">Unique Field</word>
+  <word key="field_unique_desc" js="0">This field can only accept unique values per database when this setting is enabled.</word>
+  <word key="field_unique_entry_not_unique" js="0">This value is being used in another %s</word>
+  <word key="content_validator_none" js="0">None</word>
+  <word key="content_validator_custom" js="0">Custom</word>
+  <word key="content_validator_email" js="0">Email Address</word>
+  <word key="content_validator_integer" js="0">Integer</word>
+  <word key="content_validator_url" js="0">URL</word>
+  <word key="field_format_opts_on" js="0">Apply text formatter</word>
+  <word key="content_format_strtolower" js="0">Lower-case all letters</word>
+  <word key="content_format_strtoupper" js="0">Capitalize all letters</word>
+  <word key="content_format_ucfirst" js="0">Capitalize the first letter</word>
+  <word key="content_format_ucwords" js="0">Capitalize the first letter of each word</word>
+  <word key="content_format_punct" js="0">Remove excess punctuation</word>
+  <word key="content_format_numerical" js="0">Format Numerically</word>
+  <word key="field_validator_custom" js="0">Regex</word>
+  <word key="field_validator_error" js="0">Custom Error</word>
+  <word key="field_max_length" js="0">Max. Length</word>
+  <word key="field_format_opts" js="0">Formatting Options</word>
+  <word key="field_display_listing" js="0">Show in listing template</word>
+  <word key="field_display_listing_desc" js="0">The listing template is used when showing a list of records inside a category</word>
+  <word key="field_display_display" js="0">Show in display template</word>
+  <word key="field_display_display_desc" js="0">The display template is used when showing a record</word>
+  <word key="field_topic_format" js="0">Topic Format</word>
+  <word key="field_topic_format_desc" js="0">This setting controls whether the field will be included in the automatically generated topic, and how to format it. Use {title} for field title, and {value} for field value. Leave empty to not include in the automatically generated topic.</word>
+  <word key="field_displayoptions" js="0">Display options</word>
+  <word key="field_truncate" js="0">Truncate in listing</word>
+  <word key="field_truncate_desc" js="0">Number of lines to truncate field content at in listing template.</word>
+  <word key="field_required" js="0">Field Required</word>
+  <word key="field_html" js="0">Accept HTML</word>
+  <word key="field_html_warning" js="0">When enabled, users with permission to edit this field will be able to post raw HTML. Allowing users to post HTML is extremely dangerous and malicious users can use the feature to damage your site. It is strongly recommended that this feature is not enabled at all, or only for trusted staff groups</word>
+  <word key="field_show_map_listing" js="0">Show Map</word>
+  <word key="field_show_map_listing_desc" js="0">It is not recommended that you show a map on the listing page without a custom template due to space in the default templates</word>
+  <word key="field_show_map_display" js="0">Show Map</word>
+  <word key="field_show_map_listing_dims" js="0">Map Size</word>
+  <word key="field_show_map_display_dims" js="0">Map Size</word>
+  <word key="perm_content_field_perm__view" js="0">View Field Content</word>
+  <word key="perm_content_field_perm__edit" js="0">Edit Field Content</word>
+  <word key="perm_content_field_perm__add" js="0">Add Content to Field</word>
+  <word key="perm_content_field_perm__label" js="0">Groups</word>
+  <word key="field_default_value" js="0">Default Value</word>
+  <word key="field_filter" js="0">Allow filtering</word>
+  <word key="field_filter_desc" js="0">When enabled, you may select this option to filter by when viewing a list of records.</word>
+  <word key="field_is_searchable" js="0">Allow searching</word>
+  <word key="content_fields_is_title" js="0">Title</word>
+  <word key="content_fields_is_content" js="0">Content</word>
+  <word key="content_fields_fixed_title" js="0">Publish Fields</word>
+  <word key="content_fields_fixed_record_publish_date" js="0">Publish Date</word>
+  <word key="content_fields_fixed_record_publish_date_desc" js="0">This field will only be available for those with 'Can set a future publishing date' moderator permission.</word>
+  <word key="content_fields_fixed_record_expiry_date" js="0">Expiry Date</word>
+  <word key="content_fields_fixed_record_allow_comments" js="0">Allow Comments/Reviews</word>
+  <word key="content_fields_fixed_record_comment_cutoff" js="0">Comment Cut Off Date</word>
+  <word key="content_fields_fixed_record_image" js="0">Record Image</word>
+  <word key="content_perm_fixed_fields__label" js="0">Member Groups</word>
+  <word key="content_perm_fixed_fields__view" js="0">View Field Content</word>
+  <word key="content_perm_fixed_fields__edit" js="0">Edit Field Content</word>
+  <word key="content_perm_fixed_fields__add" js="0">Add Content to Field</word>
+  <word key="content_field_toggle_visibile" js="0">Visible</word>
+  <word key="content_field_toggle_invisibile" js="0">Hidden</word>
+  <word key="content_exception_invalid_custom_validation" js="0">The value entered is incorrect</word>
+  <word key="content_content_form_header__fields" js="0">Form Fields</word>
+  <word key="category_fields" js="0">Use Fields</word>
+  <word key="category_fields_desc" js="0">The designated title and content fields are always shown on display and on the form.</word>
+  <word key="cms_edit_field" js="0">Editing field %s</word>
+  <word key="cms_add_field" js="0">Add field</word>
+  <word key="field_display_commentform" js="0">Editable when viewing a record</word>
+  <word key="field_display_commentform_desc" js="0">This allows the field value to be changed without editing the record.</word>
+  <word key="field_no_value_entered" js="0"><![CDATA[<em>No value</em>]]></word>
+  <word key="cms_set_field_as_title" js="0">Set as record title field</word>
+  <word key="cms_set_field_as_content" js="0">Set as record content field</word>
+  <word key="cms_cannot_find_field" js="0">Cannot locate that custom field</word>
+  <word key="cms_badge_label" js="0">Label</word>
+  <word key="cms_badge_value" js="0">Value</word>
+  <word key="field_display_display_json_badge" js="0">Display View Format</word>
+  <word key="field_display_custom" js="0">Custom</word>
+  <word key="field_display_display_json_custom" js="0">Display Custom Format</word>
+  <word key="field_display_display_json_custom_desc" js="0"><![CDATA[Use {$label} to show the field label, {$value} to show the display field value and {$formValue} to show the value from the form.<br />For example, your dropdown may use a key of 'open' with a value of 'Open Record'. In this example, {$formValue} would contain 'open' and {$value} would contain 'Open Record'. You may need to add the '|raw' modifier to preserve HTML, i.e. {$value|raw}, but this can introduce security issues if not used carefully. You may use Invision Community template logic such as {{if}}.<br>If using an Address field, you can show a map by using {map} and the address with {address}.<br>If using multiple uploads, $value is an array of File Objects.]]></word>
+  <word key="field_display_listing_json_badge" js="0">Listing View Format</word>
+  <word key="field_display_listing_json_custom" js="0">Listing Custom Format</word>
+  <word key="field_display_listing_json_custom_desc" js="0"><![CDATA[Use {$label} to show the field label, {$value} to show the display field value and {$formValue} to show the value from the form.<br />For example, your dropdown may use a key of 'open' with a value of 'Open Record'. In this example, {$formValue} would contain 'open' and {$value} would contain 'Open Record'. You may need to add the '|raw' modifier to preserve HTML, i.e. {$value|raw}, but this can introduce security issues if not used carefully. You may use Invision Community template logic such as {{if}}.<br>If using an Address field, you can show a map by using {map} and the address with {address}.<br>If using multiple uploads, $value is an array of File Objects.]]></word>
+  <word key="field_display_listing_json_badge_right" js="0">Show to the right of the listing area</word>
+  <word key="cms_field_error_bad_syntax" js="0">The HTML syntax for the custom format is incorrect.</word>
+  <word key="field_key" js="0">Template Key</word>
+  <word key="field_key_desc" js="0"><![CDATA[<p class='ipsMessage ipsMessage_info'>The field key can be used in HTML templates to fetch a specific field, for instance: <span class='ipsType_monospace'>{$record->customFieldDisplayByKey('my_key', 'listing')|raw}</span></p><br>The key must be unique for this database. If omitted, a key will be automatically generated. Valid values for the second parameter include 'listing', 'display', 'raw', and 'processed'.]]></word>
+  <word key="cms_field_key_not_unique" js="0">The field key is not unique</word>
+  <word key="field_generaloptions" js="0">General Options</word>
+  <word key="pfield_options" js="0">Settings</word>
+  <word key="field_display_none" js="0">No formatting</word>
+  <word key="pf_type_Youtube" js="0">YouTube</word>
+  <word key="pf_type_Relational" js="0">Database Relationship</word>
+  <word key="media_display_listing_method" js="0">In listing, show as</word>
+  <word key="media_display_display_method" js="0">In a record, display as</word>
+  <word key="media_display_as_player" js="0">Embedded Player</word>
+  <word key="media_display_as_url" js="0">Plain URL</word>
+  <word key="media_params" js="0">Parameters</word>
+  <word key="media_params_desc" js="0">You can add any specific player parameters here. If you do not supply 'width' and 'height', defaults will be used.</word>
+  <word key="pf_type_Spotify" js="0">Spotify</word>
+  <word key="pf_type_Soundcloud" js="0">Soundcloud</word>
+  <word key="field_placeholder_youtube" js="0">Youtube URL</word>
+  <word key="field_placeholder_spotify" js="0">Spotify URL</word>
+  <word key="field_placeholder_soundcloud" js="0">Soundcloud URL</word>
+  <word key="field_placeholder_relational" js="0">Start typing the title of a %s</word>
+  <word key="cms_upload_field_is_image" js="0">Upload images only</word>
+  <word key="cms_upload_field_is_not_image" js="0">Upload any files</word>
+  <word key="field_image_size" js="0">Max. image dimensions</word>
+  <word key="field_image_size_desc" js="0">Any image larger that these dimensions will be resized automatically</word>
+  <word key="field_upload_is_image" js="0">Upload type</word>
+  <word key="cms_field_no_type_warning" js="0">The custom field type %s does not exist, please select a valid field type.</word>
+  <word key="field_display_opts_title" js="0"><![CDATA[This field is set to be the record title. The title is not included in the list of custom fields when displayed in the default templates. You can adjust the display options here for when using <span class='ipsType_monospace'>{$record->customFieldDisplayByKey('title_key', ['display|listing'])|raw}</span>. Using <span class='ipsType_monospace'>$record->_title</span> will always get the article formatted title.]]></word>
+  <word key="field_display_opts_content" js="0"><![CDATA[This field is set to be the record content. The content field is not included in the list of custom fields when displayed in the default templates. You can adjust the display options here for when using <span class='ipsType_monospace'>{$record->customFieldDisplayByKey('content_key', ['display|listing'])|raw}</span>. Using <span class='ipsType_monospace'>$record->_content</span> will always get the article formatted content.]]></word>
+  <word key="field_date_time_override" js="0">Timezone</word>
+  <word key="field_date_time_time" js="0">Allow time input</word>
+  <word key="field_date_timezone" js="0">Timezone</word>
+  <word key="field_default_update_existing" js="0">Update existing records</word>
+  <word key="field_default_update_existing_desc" js="0">This will update existing records with the current default value to the new default value</word>
+  <word key="field_upload_is_multiple" js="0">Allow multiple uploads</word>
+  <word key="field_relational_db" js="0">Database</word>
+  <word key="field_crosslink" js="0">Cross link records?</word>
+  <word key="field_crosslink_desc" js="0">Enabling this option will show the records in this database related to a given record in the remote database</word>
+  <word key="cms_relational_field_no_dbs" js="0">There are no databases to select</word>
+  <word key="cms_relational_field_no_db_selected" js="0">You must select a database</word>
+  <word key="field_display_display_json_where" js="0">Display</word>
+  <word key="field_display_display_json_where_desc" js="0">This may not have any affect when using custom templates</word>
+  <word key="cms_field_display_top" js="0">Above the item content</word>
+  <word key="cms_field_display_bottom" js="0">Under the item content</word>
+  <word key="field_number_decimals_on" js="0">Allow decimals</word>
+  <word key="field_number_decimals" js="0">Number of decimal places</word>
+  <word key="field_number_min" js="0">Min</word>
+  <word key="field_number_max" js="0">Max</word>
+  <word key="field_date_tz_utc" js="0">UTC</word>
+  <word key="field_date_tz_set" js="0">Manually select a timezone</word>
+  <word key="field_date_tz_user" js="0">Use the viewing member's timezone</word>
+  <word key="field_allow_attachments" js="0">Allow attachments?</word>
+  <word key="field_upload_thumb" js="0">Thumbnail</word>
+  <word key="field_upload_thumb_none" js="0">Do not create a thumbnail</word>
+  <word key="content_content_form_tab__config" js="0">Configuration</word>
+  <word key="content_cat_db_title" js="0">%s Categories</word>
+  <word key="content_cat_furl_not_unique" js="0">The FURL slug is not unique</word>
+  <word key="category_furl_name_choice" js="0">Manually enter Friendly URL slug?</word>
+  <word key="category_furl_name" js="0">FURL Slug</word>
+  <word key="category_parent_id" js="0">Parent</word>
+  <word key="category_show_records" js="0">Show Records in Listing?</word>
+  <word key="category_has_perms" js="0">Set Custom Permissions</word>
+  <word key="category_has_perms_desc" js="0">When enabled, you can select member group permissions independently of the parent database</word>
+  <word key="category_can_view_others" js="0">Users can see records posted by other users?</word>
+  <word key="category_can_view_others_desc" js="0"><![CDATA[Moderators can (where they have permission) see all records. You can use this setting to create a category where users can communicate privately with staff.<br>Records posted in a category that doesn't allow others to view records will not show in any sidebar, header or footer blocks.]]></word>
+  <word key="category_can_view_others_database_desc" js="0"><![CDATA[Moderators can (where they have permission) see all records. You can use this setting to create a database where users can communicate privately with staff.<br>Records posted in a database that doesn't allow others to view records will not show in any sidebar, header or footer blocks.]]></word>
+  <word key="category_show_records_desc" js="0">If you select 'no', only subcategories will be displayed in this category. If you select 'yes', subcategories and records will both be displayed.</word>
+  <word key="content_content_form_header__meta" js="0"><![CDATA[Meta Tags &amp; Title]]></word>
+  <word key="category_meta_keywords" js="0">Meta Keywords</word>
+  <word key="category_meta_description" js="0">Meta Description</word>
+  <word key="content_content_form_tab__forum" js="0">Forum</word>
+  <word key="category_forum_override" js="0">Override database forum options</word>
+  <word key="category_page_title" js="0">Category Title</word>
+  <word key="category_page_title_desc" js="0">This value will be used in the document's HTML title tag. If omitted, the page name will be used instead.</word>
+  <word key="category_allow_rating" js="0">Enable Star Ratings?</word>
+  <word key="cms_categories_header_display" js="0">Display</word>
+  <word key="cms_categories_use_database" js="0">Use database selected template</word>
+  <word key="category_template_listing" js="0">Listing Template</word>
+  <word key="category_template_display" js="0">Display Template</word>
+  <word key="content_cat_furl_collision" js="0">This category name cannot be used as it is a reserved word.</word>
+  <word key="content_tree_title" js="0">Category Tree</word>
+  <word key="content_record_db_title" js="0">%s Records</word>
+  <word key="content_db_table_title" js="0">Title</word>
+  <word key="content_db_table_primary_id_field" js="0">ID</word>
+  <word key="content_db_table_record_publish_date" js="0">Date</word>
+  <word key="content_db_table_category_id" js="0">Category</word>
+  <word key="content_db_table_record_approved" js="0">Status</word>
+  <word key="content_db_table_unapproved" js="0">Unapproved</word>
+  <word key="content_db_table_filter_approved" js="0">Approved</word>
+  <word key="content_db_table_filter_unapproved" js="0">Unapproved</word>
+  <word key="content_db_table_filter_hidden" js="0">Hidden</word>
+  <word key="content_db_table_filter_pinned" js="0">Pinned</word>
+  <word key="content_db_table_as_no_cat" js="0">Any Category</word>
+  <word key="content_db_table_record_comments" js="0">Has Comments?</word>
+  <word key="content_db_table_as_comments_null" js="0">Yes or No</word>
+  <word key="content_db_table_as_comments_yes" js="0">Yes</word>
+  <word key="content_db_table_as_comments_no" js="0">No</word>
+  <word key="content_database_record_tab_content" js="0">Content</word>
+  <word key="content_record_form_container" js="0">Category</word>
+  <word key="content_record_form_tags" js="0">Tags</word>
+  <word key="content_record_form_date" js="0">Publish</word>
+  <word key="content_database_record_tab_publish" js="0">Publish Settings</word>
+  <word key="record_status" js="0">Status</word>
+  <word key="content_record_status_unapproved" js="0">Unapproved</word>
+  <word key="content_record_status_approved" js="0">Approved</word>
+  <word key="content_record_status_hidden" js="0">Hidden</word>
+  <word key="record_publish_date" js="0">Publish date</word>
+  <word key="record_expiry_date" js="0">Expiry date</word>
+  <word key="record_expiry_date_desc" js="0">After this date, the article will only display in the archives. Leave blank for no expiration.</word>
+  <word key="record_author_choice" js="0">Author</word>
+  <word key="record_author_choice_me" js="0">I am the author</word>
+  <word key="record_author_choice_notme" js="0">Choose a member</word>
+  <word key="record_author_choice_guest" js="0">Guest</word>
+  <word key="record_member_id" js="0">Author's Name</word>
+  <word key="content_database_record_tab_comments" js="0">Comments</word>
+  <word key="record_allow_comments" js="0">Allow comments</word>
+  <word key="record_comment_cutoff" js="0">Comments locked</word>
+  <word key="record_comment_cutoff_desc" js="0">Leave blank to not set a cutoff date</word>
+  <word key="record_pinned" js="0">Pin record</word>
+  <word key="content_database_record_tab_meta" js="0">Meta Tags</word>
+  <word key="record_meta_keywords" js="0">Meta Keywords</word>
+  <word key="record_meta_description" js="0">Meta Description</word>
+  <word key="record_datetime_noval" js="0">No date specified</word>
+  <word key="field_allowed_extensions" js="0">Allowed file extensions</word>
+  <word key="content_any_extensions" js="0">Any extensions</word>
+  <word key="field_is_multiple" js="0">Multiple Selection</word>
+  <word key="record_deleted" js="0">Deleted</word>
+  <word key="record_static_furl_set" js="0">Set custom URL</word>
+  <word key="record_static_url_prefix" js="0">%spage/{page}/{category}/</word>
+  <word key="record_static_furl_set_desc" js="0">By default, the URL for this item will be /record-title-r{record_id}. You can set a custom URL that is different from the record title</word>
+  <word key="record_static_furl" js="0">Custom URL</word>
+  <word key="content_record_slug_not_unique" js="0">This custom URL is in use already. Please choose a unique URL.</word>
+  <word key="record_image" js="0">Image</word>
+  <word key="record_edit_reason" js="0">Reason for edit</word>
+  <word key="record_edit_show" js="0">Show that the message has been edited</word>
+  <word key="record_edit_show_desc" js="0">Staff may still be able to see this</word>
+  <word key="content_edit_view_revisions" js="0">(show revisions)</word>
+  <word key="feature_title_record" js="0">Feature this %s</word>
+  <word key="unfeature_title_record" js="0">Unfeature this %s</word>
+  <word key="pin_title_record" js="0">Pin this %s</word>
+  <word key="unpin_title_record" js="0">Unpin this %s</word>
+  <word key="hide_title_record" js="0">Hide this %s</word>
+  <word key="unhide_title_record" js="0">Unhide this %s</word>
+  <word key="approve_title_record" js="0">Approve this %s</word>
+  <word key="lock_title_record" js="0">Lock this %s</word>
+  <word key="unlock_title_record" js="0">Unlock this %s</word>
+  <word key="move_title_record" js="0">Move this %s</word>
+  <word key="delete_title_record" js="0">Delete this %s</word>
+  <word key="database_select_category" js="0">Select Category</word>
+  <word key="content_database_name" js="0">Name</word>
+  <word key="content_word_custom" js="0">Name</word>
+  <word key="content_database_category_count" js="0">Categories</word>
+  <word key="content_database_record_count" js="0">Records</word>
+  <word key="content_database_manage_records" js="0">Manage Records</word>
+  <word key="content_database_manage_permissions" js="0">Permissions</word>
+  <word key="content_database_manage_categories" js="0">Manage Categories</word>
+  <word key="content_database_manage_fields" js="0">Manage Fields</word>
+  <word key="content_database_field_area" js="0">%s Fields</word>
+  <word key="content_database_form_details" js="0">Details</word>
+  <word key="content_database_form_options" js="0">Options</word>
+  <word key="content_database_form_lang" js="0">Language</word>
+  <word key="database_use_as_page_title" js="0">Page title</word>
+  <word key="database_use_as_page_title_desc" js="0">Determine which to use when using this database on a page</word>
+  <word key="database_use_as_page_title_yes" js="0">Use database name as page title</word>
+  <word key="database_use_as_page_title_no" js="0">Use page title</word>
+  <word key="database_name" js="0">Name</word>
+  <word key="database_description" js="0">Description</word>
+  <word key="database_template_categories" js="0">Category Template Group</word>
+  <word key="database_template_listing" js="0">Listing Template Group</word>
+  <word key="database_template_display" js="0">Display Template Group</word>
+  <word key="database_lang_sl" js="0">Singular Lowercase Noun</word>
+  <word key="database_lang_sl_desc" js="0">Default is record</word>
+  <word key="database_lang_pl" js="0">Plural Lowercase Noun</word>
+  <word key="database_lang_pl_desc" js="0">Default is records</word>
+  <word key="database_lang_su" js="0">Singular Capitalized Noun</word>
+  <word key="database_lang_su_desc" js="0">Default is Record</word>
+  <word key="database_lang_pu" js="0">Plural Capitalized Noun</word>
+  <word key="database_lang_pu_desc" js="0">Default is Records</word>
+  <word key="database_lang_ia" js="0">Indefinite Article</word>
+  <word key="database_lang_ia_desc" js="0">Default is 'a record'</word>
+  <word key="database_all_editable" js="0">Wiki-style editing</word>
+  <word key="database_all_editable_desc" js="0"><![CDATA[Enabling this option will allow <strong>any user to edit</strong> any non-locked item, regardless of category or database edit permissions, similar to a wiki. When not enabled, users can only edit their own non-locked item (with appropriate permissions).]]></word>
+  <word key="cms_bitoptions_indefinite_own_edit" js="0">Edit own records indefinitely</word>
+  <word key="cms_bitoptions_indefinite_own_edit_desc" js="0"><![CDATA[Enabling this option will allow the record author to edit their own unlocked and not hidden records indefinitely.<br />When not enabled, the <a href='{internal.app=core&module=members&controller=groups}'>member group</a> content editing permissions are used.]]></word>
+  <word key="database_revisions" js="0">Store revisions</word>
+  <word key="database_revisions_desc" js="0">When users or admins edit the items in this database, a copy of the original item will be stored which can be restored or compared later</word>
+  <word key="database_search" js="0">Allow searching</word>
+  <word key="database_comment_bump" js="0">Update the last action</word>
+  <word key="database_comment_bump_desc" js="0">The last action shows in the category view and is how items are sorted by default/can be used to sort items. Note that adjusting this setting is not retroactive and will only apply to comments made or records that are edited moving forward.</word>
+  <word key="database_comment_bump_edit_comment" js="0">When the item is edited or a new comment is made</word>
+  <word key="database_comment_bump_edit" js="0">When the item is edited only</word>
+  <word key="database_comment_bump_comment" js="0">When a new comment is made only</word>
+  <word key="database_rss_enable" js="0">Enable RSS feed</word>
+  <word key="database_rss_enable_desc" js="0"><![CDATA[Only content that is available to guests will be shown. For more options, create a <a href='{internal.app=core&module=discovery&controller=rss}'>Custom RSS Feed</a>]]></word>
+  <word key="database_rss" js="0">Number of items to show</word>
+  <word key="database_tags_enabled" js="0">Can use tags?</word>
+  <word key="database_tags_noprefixes" js="0">Can set tag prefixes?</word>
+  <word key="database_tags_predefined" js="0">Defined Tags</word>
+  <word key="database_tags_predefined_unlimited" js="0">Use default</word>
+  <word key="database_tags_predefined_desc" js="0">If using a closed system, users will have to choose from these tags. If using an open system, tags entered here will show as suggestions.</word>
+  <word key="content_database_form_options_fields" js="0">Field Options</word>
+  <word key="sortby" js="0">Sort By</word>
+  <word key="sortdirection" js="0">Order By</word>
+  <word key="database_field_sort" js="0">Sort</word>
+  <word key="database_field_direction" js="0">Order</word>
+  <word key="database_field_perpage" js="0">Records per page</word>
+  <word key="database_field__id" js="0">Record ID</word>
+  <word key="database_field__member" js="0">Member ID</word>
+  <word key="database_field__saved" js="0">Publish Date</word>
+  <word key="database_field__updated" js="0">Last Updated Date</word>
+  <word key="database_field__edited" js="0">Last Edited Date</word>
+  <word key="database_field__rating" js="0">Rating</word>
+  <word key="database_field__views" js="0">Views</word>
+  <word key="database_field__approved" js="0">Approved</word>
+  <word key="database_field__comments" js="0">Comments</word>
+  <word key="database_field__locked" js="0">Locked</word>
+  <word key="database_field__last_comment" js="0">Last Comment Date</word>
+  <word key="database_sort_asc" js="0">Ascending (0-9)</word>
+  <word key="database_sort_desc" js="0">Descending (9-0)</word>
+  <word key="content_database_form_options_forums" js="0">Forums</word>
+  <word key="database_forum_record" js="0">Post topic</word>
+  <word key="database_forum_record__desc" js="0">Post a topic to the specific forum each time a new record is added.</word>
+  <word key="database_forum_record__rebuild" js="0"><![CDATA[<a href='%s' data-ipsDialog data-ipsDialog-title='Rebuild Synchronized Topic Content'>Rebuild synchronized topic content</a>.]]></word>
+  <word key="database_forum_comments" js="0">Use forum for comments</word>
+  <word key="database_forum_comments_desc" js="0">Comments will be posted as replies. </word>
+  <word key="database_forum_comments_in_progress" js="0"><![CDATA[ <strong>A comment move is in progress, you cannot change this setting until the process has been completed.</strong>]]></word>
+  <word key="database_forum_comments__rebuild" js="0"><![CDATA[<a href='%s' data-ipsDialog data-ipsDialog-title='Rebuild Comment Counts'>Rebuild Comment Counts</a>.]]></word>
+  <word key="database_forum_forum" js="0">Forum</word>
+  <word key="database_forum_prefix" js="0">Topic prefix</word>
+  <word key="database_forum_suffix" js="0">Topic suffix</word>
+  <word key="database_forum_delete" js="0">Delete topic</word>
+  <word key="database_forum_delete_desc" js="0">Topic will be deleted automatically if the record is deleted</word>
+  <word key="database_does_not_exist" js="0">Database does not exist</word>
+  <word key="perm_content_perm__label" js="0"></word>
+  <word key="perm_content_perm__view" js="0">See Database</word>
+  <word key="perm_content_perm__read" js="0">View Records</word>
+  <word key="perm_content_perm__add" js="0">Add Records</word>
+  <word key="perm_content_perm__edit" js="0">Edit Records</word>
+  <word key="perm_content_perm__reply" js="0">Add Comments</word>
+  <word key="perm_content_perm__rate" js="0">Rate Records</word>
+  <word key="perm_content_category_perm__label" js="0"></word>
+  <word key="perm_content_category_perm__view" js="0">See Category</word>
+  <word key="perm_content_category_perm__read" js="0">View Records</word>
+  <word key="perm_content_category_perm__add" js="0">Add Records</word>
+  <word key="perm_content_category_perm__edit" js="0">Edit Records</word>
+  <word key="perm_content_category_perm__reply" js="0">Add Comments</word>
+  <word key="perm_content_category_perm__rate" js="0">Rate Records</word>
+  <word key="perm_content_category_perm__review" js="0">Review Records</word>
+  <word key="content_database_noun_sl" js="0">record</word>
+  <word key="content_database_noun_su" js="0">Record</word>
+  <word key="content_database_noun_pl" js="0">records</word>
+  <word key="content_database_noun_pu" js="0">Records</word>
+  <word key="content_database_noun_ia" js="0">a record</word>
+  <word key="content_acp_err_db_creation_fail" js="0">Database creation failed: %s</word>
+  <word key="database_cat_index_type" js="0">Database index</word>
+  <word key="database_display_index_as_categories" js="0"><![CDATA[<span data-lang='index_as_categories'>Show categories</span>]]></word>
+  <word key="database_display_index_as_articles" js="0">Show records like articles</word>
+  <word key="database_display_index_as_articles_desc" js="0">This displays records in an article or blog format showing more of the record content.</word>
+  <word key="database_template_featured" js="0">Articles template</word>
+  <word key="database_template_form" js="0">Add/Edit Form Template</word>
+  <word key="database_featured_perpage" js="0">Records to show</word>
+  <word key="database_featured_pagination" js="0">Allow pagination</word>
+  <word key="database_featured_pagination_desc" js="0">If there are more records than the 'Records to show' value, then pagination links will show if enabled</word>
+  <word key="database_featured_sort" js="0">Sort by</word>
+  <word key="database_featured_direction" js="0">Order</word>
+  <word key="cms_download_db" js="0">Download Database</word>
+  <word key="cms_download_db_explain" js="0"><![CDATA[This will download a file with the database settings, templates, custom fields and categories which can be uploaded to another community.<br>Records are <em>not</em> included.]]></word>
+  <word key="cms_database_add" js="0">Add Database</word>
+  <word key="cms_database_add_new" js="0">Create New Database</word>
+  <word key="cms_database_add_upload" js="0">Upload Database</word>
+  <word key="cms_add_db_normal" js="0">Create a new custom database for this community.</word>
+  <word key="cms_database_import" js="0">Database .xml file</word>
+  <word key="cms_db_import_progress" js="0">Importing %s</word>
+  <word key="cms_manage_database" js="0">Database Settings</word>
+  <word key="cms_database_permissions" js="0">Database Permissions</word>
+  <word key="database_use_categories" js="0">Use categories</word>
+  <word key="database_use_categories_desc" js="0">You can optionally not use categories which means that the default home page for this database is the record list, and the category name is not added to the URL.</word>
+  <word key="database_use_categories_impossible" js="0">You have %s categories in this database. You can only have 1 category to store records in the database directly. If you wish to disable category support please move articles to a single category and delete the no longer needed categories.</word>
+  <word key="database_use_categories_yes" js="0"><![CDATA[<strong>Yes</strong>, allow records to be stored in different categories]]></word>
+  <word key="database_use_categories_no" js="0"><![CDATA[<strong>No</strong>, store records in the database directly]]></word>
+  <word key="cms_db_cats_disabled" js="0"><![CDATA[<em>Categories not used</em>]]></word>
+  <word key="database_featured_featured" js="0">Show featured records only</word>
+  <word key="cms_bitoptions_comments" js="0">Allow comments</word>
+  <word key="cms_bitoptions_comments_mod" js="0">Comments must be approved?</word>
+  <word key="cms_bitoptions_reviews" js="0">Allow reviews</word>
+  <word key="cms_bitoptions_reviews_mod" js="0">Reviews must be approved?</word>
+  <word key="cms_comments_and_reviews" js="0">Comments and Reviews</word>
+  <word key="perm_content_perm__review" js="0">Add Reviews</word>
+  <word key="cms_all_categories" js="0">Any categories</word>
+  <word key="database_featured_categories" js="0">Categories</word>
+  <word key="cms_database_form_display" js="0">Templates</word>
+  <word key="database_key" js="0">Database Key</word>
+  <word key="database_key_desc" js="0"><![CDATA[<p class='ipsMessage ipsMessage_info'>The database key can be used in HTML templates and manual pages to fetch a specific database, for instance: <span class='ipsType_monospace'>{database="my_database_key"}</span></p><br>The key must be unique for this database. If omitted, a key will be automatically generated.]]></word>
+  <word key="cms_database_key_not_unique" js="0">The database key is not unique</word>
+  <word key="cms_editing_database" js="0">Editing Database %s</word>
+  <word key="cms_adding_database" js="0">Adding Database</word>
+  <word key="content_database_form_options_field_record_image_settings" js="0">Record Image Settings</word>
+  <word key="fixed_field_setting__record_image__image_dims" js="0">Max. image dimensions</word>
+  <word key="fixed_field_setting__record_image__thumb_dims" js="0">Thumbnail dimensions</word>
+  <word key="content_database_record_image_disabled" js="0">The record image field is currently disabled.</word>
+  <word key="cms_database_not_exist" js="0">Database does not exist</word>
+  <word key="database_record_approve" js="0">Moderate new records</word>
+  <word key="database_record_image" js="0">Enable record image upload</word>
+  <word key="database_record_image_desc" js="0">This adds an image upload field to the record form. The image is displayed within the record text area by default.</word>
+  <word key="cms_no_db_page_no_forum_link" js="0">These settings will have no effect until this database is added to a page.</word>
+  <word key="cms_database_no_forum_selected" js="0">You have post topic enabled but have not selected a forum.</word>
+  <word key="cms_database_promote" js="0">Promote from Forums</word>
+  <word key="cms_promote_enabled" js="0">Enable</word>
+  <word key="cms_promote_cat" js="0">Add to category</word>
+  <word key="cms_promote_groups" js="0">Available for</word>
+  <word key="database_rebuild_topics_desc" js="0">This tool will add a background task to resychronize the content generated in the first post of a topic created by this database. It will also create topics for records if a topic does not exist.</word>
+  <word key="database_rebuild_topics_button" js="0">Continue</word>
+  <word key="database_rebuild_added" js="0">Rebuild task added to the queue.</word>
+  <word key="database_rebuild_commentcount_desc" js="0">This tool will add a background task to recount the number of comments and reviews for each item.</word>
+  <word key="database_rebuild_commentcount_button" js="0">Continue</word>
+  <word key="database_page_permissions_restrict" js="0"><![CDATA[Only groups with permission to view the page will be able to view content from this database regardless of the permissions set here. You may wish to adjust the <a href='{internal.app=cms&module=pages&controller=pages&do=permissions&subnode=1&id=}%s'>page's permissions</a> as well if you are attempting to adjust access to this database.]]></word>
+  <word key="menu__cms_pages_media" js="0">Media</word>
+  <word key="r__media" js="0">Media</word>
+  <word key="r__media_manage" js="0">View Media</word>
+  <word key="r__media_add" js="0">Add Media</word>
+  <word key="r__media_edit" js="0">Edit Media</word>
+  <word key="r__media_delete" js="0">Delete Media</word>
+  <word key="cms_add_media_folder" js="0">New Folder</word>
+  <word key="cms_add_media" js="0">Upload New Media</word>
+  <word key="cms_delete_selected_media" js="0">Delete Selected</word>
+  <word key="cms_search_media" js="0">Search media...</word>
+  <word key="media_folders" js="0">Folders</word>
+  <word key="media_file_overview" js="0">File Overview</word>
+  <word key="replace_media_file" js="0">Replace file...</word>
+  <word key="media_root_folder" js="0">Pages Media</word>
+  <word key="media_tag_title" js="0">Media Tag</word>
+  <word key="media_tag_desc" js="0">Insert this tag in your pages/templates to insert this media item.</word>
+  <word key="media_folder_name" js="0">Name</word>
+  <word key="media_folder_parent" js="0">Parent</word>
+  <word key="cms_media_preview" js="0">Preview</word>
+  <word key="cms_no_media" js="0">Could not locate that media item</word>
+  <word key="media_filename" js="0">Filename</word>
+  <word key="media_uploaded" js="0">Uploaded</word>
+  <word key="media_size" js="0">File Size</word>
+  <word key="media_dims" js="0">Dimensions</word>
+  <word key="media_parent" js="0">Parent</word>
+  <word key="cms_media_key" js="0"><![CDATA[View page &amp; template tag]]></word>
+  <word key="cms_key_view" js="0"><![CDATA[This key can be used in blocks, pages and templates to fetch the URL of this media item.<br>The current URL for this item is: %s.]]></word>
+  <word key="cms_delete_folder_media" js="0">Delete Folder</word>
+  <word key="media_url_desc" js="0">Insert this URL anywhere in your template or content to link direct to the media item.</word>
+  <word key="media_url" js="0">Media URL</word>
+  <word key="rss_import_record_open" js="0">Record Open/Closed?</word>
+  <word key="rss_import_record_hide" js="0">Record Hidden/Unhidden?</word>
+  <word key="content_categories_title" js="0">Categories</word>
+  <word key="content_subcategories_title" js="0">Subcategories</word>
+  <word key="x_records" js="0">%d %s</word>
+  <word key="x_records_in_this_category" js="0">%d %s in this category</word>
+  <word key="content_categories_index_no_records" js="0">No %s here yet</word>
+  <word key="content_records_stat_comments" js="0">{!# [1:comment][?:comments]}</word>
+  <word key="content_records_stat_reviews" js="0">{!# [1:review][?:reviews]}</word>
+  <word key="content_records_stat_num_views" js="0">{!# [1:view][?:views]}</word>
+  <word key="content_record_started_by" js="0">By %s</word>
+  <word key="content_record_actions" js="0">%s actions</word>
+  <word key="content_record_report" js="0">Report %s</word>
+  <word key="content_record_form__comment_placeholder" js="0">Add a comment...</word>
+  <word key="content_record_form_submit_comment" js="0">Submit Comment</word>
+  <word key="content_record_comment_on_this" js="0">Comment on this %s</word>
+  <word key="content_record_form_auto_follow_suffix" js="0">Notify me of replies</word>
+  <word key="content_create_new_button" js="0">Create new %s</word>
+  <word key="create_record_state" js="0">Status</word>
+  <word key="create_record_locked" js="0">Locked</word>
+  <word key="create_record_pinned" js="0">Pinned</word>
+  <word key="create_record_hidden" js="0">Hidden</word>
+  <word key="create_record_featured" js="0">Featured</word>
+  <word key="content_record_form_save" js="0">Save</word>
+  <word key="content_record_form_new_record" js="0">Create New %s</word>
+  <word key="content_record_comment_title" js="0">%s Comment</word>
+  <word key="content_record_comments_title" js="0">%s Comments</word>
+  <word key="content_record_comments_title_lc" js="0">%s comments</word>
+  <word key="content_record_review_title" js="0">%s Review</word>
+  <word key="content_record_reviews_title" js="0">%s Reviews</word>
+  <word key="content_record_reviews_title_lc" js="0">%s reviews</word>
+  <word key="record_type" js="0">Type</word>
+  <word key="content_all_records" js="0">All</word>
+  <word key="content_open_records" js="0">Open</word>
+  <word key="content_locked_records" js="0">Locked</word>
+  <word key="content_locked_record" js="0">This record is locked</word>
+  <word key="content_record_last_comment" js="0">Last comment date</word>
+  <word key="sort_record_updated" js="0">Last Updated</word>
+  <word key="content_record_last_updated" js="0">Last Updated</word>
+  <word key="content_record_comments" js="0">Number of comments</word>
+  <word key="content_record_views" js="0">Number of views</word>
+  <word key="content_record_title" js="0">Title</word>
+  <word key="content_record_publish_date" js="0">Publish Date</word>
+  <word key="content_record_form_edit_record" js="0">Editing %s</word>
+  <word key="content_view_revisions" js="0">Revisions</word>
+  <word key="content_view_revisions_none" js="0">No revisions to show</word>
+  <word key="content_revision_record_title" js="0">All Revisions for '%s'</word>
+  <word key="content_revision_button_view" js="0"><![CDATA[View &amp; Restore]]></word>
+  <word key="content_revision_button_delete" js="0">Delete</word>
+  <word key="content_record_revision_title_revision" js="0">This Revision</word>
+  <word key="content_record_revision_title_record" js="0">Current Version</word>
+  <word key="content_record_revision_title" js="0">Revision from %s for '%s'</word>
+  <word key="content_conflict_use_this_revision" js="0">Restore from this revision</word>
+  <word key="content_conflict_use_this_record" js="0">Keep the current version</word>
+  <word key="content_revision_restore" js="0">Restore</word>
+  <word key="modlog__cms_revision_restored" js="0">Restored record '%s' with revision #%s</word>
+  <word key="content_revision_restored" js="0">Revision Restored</word>
+  <word key="content_view_record" js="0">View full %s</word>
+  <word key="cms_mark_read" js="0">Mark as read</word>
+  <word key="cms_add_new_record_button" js="0">Add new %s</word>
+  <word key="cms_front_update_fields" js="0">Update %s</word>
+  <word key="filters_any_value" js="0"><![CDATA[&lt; Any Value &gt;]]></word>
+  <word key="cms_database_filtered_by" js="0">Filtered by:</word>
+  <word key="cms_database_filtered_clear" js="0">Clear filters</word>
+  <word key="cms_filters_cleared" js="0">Filters cleared</word>
+  <word key="cms_no_cats_to_show" js="0">There are no categories to show</word>
+  <word key="cms_no_records_to_show" js="0">There are no %s to show</word>
+  <word key="cms_unread_record" js="0">This has not been read</word>
+  <word key="cms_byline" js="0"><![CDATA[By %s, in <a href='%s'>%s</a>, ]]></word>
+  <word key="cms_show_categories" js="0">Show all categories</word>
+  <word key="cms_show_featured" js="0">Show featured %s</word>
+  <word key="content_record_form_rating_value" js="0">Your rating</word>
+  <word key="content_record_form_review_text" js="0">Your review</word>
+  <word key="content_record_form__review_placeholder" js="0">Add a review...</word>
+  <word key="cms_review_count" js="0">{# [1:Review][?:Reviews]}</word>
+  <word key="cms_comment_count" js="0">{# [1:Comment][?:Comments]}</word>
+  <word key="cms_comment_no_count" js="0">Comments</word>
+  <word key="cms_row_commented_by" js="0">Comment by %s</word>
+  <word key="cms_row_added_by" js="0">Added by %s</word>
+  <word key="cms_row_updated_by" js="0">Updated by %s</word>
+  <word key="cms_back_to_category_with_title" js="0">Go to %s</word>
+  <word key="cms_back_to_category" js="0">Go to %s</word>
+  <word key="cms_view_next_unread_title" js="0">Go to the next unread %s</word>
+  <word key="cms_next_unread_title" js="0">Next unread %s</word>
+  <word key="cms_record_field_changed" js="0"><![CDATA[Changed <strong>%s</strong> to <strong>%s</strong>]]></word>
+  <word key="content_record_form_auto_follow" js="0"></word>
+  <word key="cms_locked_can_comment" js="0">This %s is locked, but your permissions allow you to add new replies.</word>
+  <word key="cms_select_category" js="0">Select a category</word>
+  <word key="cms_create_menu_records_x" js="0">%s in %s</word>
+  <word key="record_display_field_change" js="0">Add a comment recording this change.</word>
+  <word key="record_information" js="0">%s Information</word>
+  <word key="record_no_revision_data" js="0">No changes recorded</word>
+  <word key="record_locked_cannot_comment" js="0">This is now closed for further comments</word>
+  <word key="cms_moderator_options" js="0">Moderator Options</word>
+  <word key="cms_db_in_use_by_page" js="0">Database '%s' is already used by page '%s'</word>
+  <word key="records_linking_to_me" js="0">%s linking to this %s</word>
+  <word key="field_daterange_start_end" js="0">%s to %s</word>
+  <word key="field_daterange_start" js="0">From %s</word>
+  <word key="field_daterange_end" js="0">To %s</word>
+  <word key="cms_number_none" js="0">None</word>
+  <word key="cms_rf_database" js="0">Database</word>
+  <word key="cms_rf_database_desc" js="0">This cannot be changed. If you want to create a feed from a different database, please create a new custom block.</word>
+  <word key="cms_rf_database_description" js="0"><![CDATA[<br/>This cannot be changed. If you want to create a feed from a different database, please create a new custom block.]]></word>
+  <word key="cms_rf_category" js="0">Categories</word>
+  <word key="cms_rf_all_categories" js="0">All categories</word>
+  <word key="cms_rf_record_status" js="0">Record status</word>
+  <word key="cms_rf_open_status_open" js="0">Open</word>
+  <word key="cms_rf_open_status_closed" js="0">Closed</word>
+  <word key="cms_rf_open_status_pinned" js="0">Pinned</word>
+  <word key="cms_rf_open_status_notpinned" js="0">Not Pinned</word>
+  <word key="cms_rf_open_status_visible" js="0">Visible</word>
+  <word key="cms_rf_open_status_hidden" js="0">Hidden</word>
+  <word key="cms_rf_open_status_featured" js="0">Featured</word>
+  <word key="cms_rf_open_status_notfeatured" js="0">Not Featured</word>
+  <word key="cms_rf_author" js="0">Record started by</word>
+  <word key="cms_rf_min_posts" js="0">Minimum record comments</word>
+  <word key="cms_rf_min_posts_any" js="0">any</word>
+  <word key="cms_rf_show" js="0">Records to show</word>
+  <word key="cms_rf_sort_on" js="0">Sort by</word>
+  <word key="cms_rf_record_last_comment" js="0">Last comment</word>
+  <word key="cms_rf_title" js="0">Title</word>
+  <word key="cms_rf_record_comments" js="0">Number of comments</word>
+  <word key="cms_rf_record_publish_date" js="0">Publish date</word>
+  <word key="cms_rf_record_views" js="0">Record views</word>
+  <word key="cms_rf_sort_dir" js="0">Direction</word>
+  <word key="cms_rf_sort_dir_dsc" js="0">Descending (9-0)</word>
+  <word key="cms_rf_sort_dir_asc" js="0">Ascending (0-9)</word>
+  <word key="block_RecordFeed" js="0">Record Feed</word>
+  <word key="block_RecordFeed_desc" js="0">Create a customizable feed of database records</word>
+  <word key="block_Editor" js="0">Plain HTML Editor</word>
+  <word key="block_Editor_desc" js="0">Adds entered text as HTML</word>
+  <word key="block_Wysiwyg" js="0">WYSIWYG Editor</word>
+  <word key="block_Wysiwyg_desc" js="0">Rich text editor</word>
+  <word key="block_Database" js="0">Database</word>
+  <word key="block_Database_desc" js="0">Adds a database to the page</word>
+  <word key="block_LatestArticles" js="0">Latest Records</word>
+  <word key="block_LatestArticles_desc" js="0">Show latest articles from a database</word>
+  <word key="block_no_database_selected" js="0">Please select a database for this widget.</word>
+  <word key="block_latest_records" js="0">Latest %s</word>
+  <word key="block_DatabaseFilters" js="0">Database Filters</word>
+  <word key="block_DatabaseFilters_title" js="0">%s Filters</word>
+  <word key="block_DatabaseFilters_desc" js="0">Show updateable filters when viewing a database category</word>
+  <word key="block_Categories" js="0">Database Category Menu</word>
+  <word key="block_Categories_desc" js="0">Displays a list of categories for the database used on the page</word>
+  <word key="cms_err_no_databases_to_use" js="0">No databases are available to be added.</word>
+  <word key="cms_widget_filters_remember_text" js="0"><![CDATA[&nbsp; Remember filters]]></word>
+  <word key="cms_widget_filters_remember" js="0"></word>
+  <word key="block_Blocks" js="0">Custom Blocks</word>
+  <word key="block_Blocks_desc" js="0">Select one of the custom blocks you have created</word>
+  <word key="cms_err_no_pugins_to_use" js="0">No custom blocks are available to be added.</word>
+  <word key="cms_widget_custom_block" js="0">Custom Block</word>
+  <word key="database" js="0">Database</word>
+  <word key="block_Rss" js="0">RSS Import</word>
+  <word key="block_Rss_desc" js="0">Import from an RSS feed</word>
+  <word key="block_rss_import_title" js="0">Title</word>
+  <word key="block_rss_import_url" js="0">RSS URL</word>
+  <word key="block_rss_import_number" js="0">Number of items to show</word>
+  <word key="block_rss_import_cache" js="0">Cache for</word>
+  <word key="block_rss_import_cache_suffix" js="0">minutes</word>
+  <word key="widget_feed_container_cms" js="0">Categories</word>
+  <word key="cms_record_i_started_sprintf" js="0">Show my %s only</word>
+  <word key="content_field_cms_record_i_started_on" js="0">On</word>
+  <word key="loc_cms_viewing_page" js="0">Viewing %s</word>
+  <word key="loc_cms_viewing_db_cat" js="0">Viewing %s category %s</word>
+  <word key="loc_cms_viewing_db_record" js="0">Viewing %s in category %s: %s</word>
+  <word key="loc_cms_viewing_db_record_no_cats" js="0">Viewing %s in %s</word>
+  <word key="loc_cms_viewing_page_action" js="0">%s is viewing %s</word>
+  <word key="loc_cms_viewing_db_cat_action" js="0">%s is viewing %s</word>
+  <word key="loc_cms_viewing_db_record_action" js="0">%s is viewing %s</word>
+  <word key="loc_cms_viewing_db_record_no_cats_action" js="0">%s is viewing %s</word>
+  <word key="content_err_page_404" js="0">Cannot find the page you requested</word>
+  <word key="content_err_page_403" js="0">You do not have permission to view this page</word>
+  <word key="content_err_page_500" js="0">The page could not be displayed at this time. Please try again later.</word>
+  <word key="content_err_page_500_admin" js="0">There is a parse error in the page.</word>
+  <word key="cms_delete_linked_topic" js="0">This topic is used for %s comments and cannot be deleted</word>
+  <word key="cms_forum_used" js="0"><![CDATA[This forum is used by the Pages App to store comments for a database and cannot be deleted.<br/>Please remove the association from database %s to proceed]]></word>
+  <word key="digest_area_cms_cms" js="0">%s</word>
+  <word key="x_created_cms_in" js="0">%s posted a %s in %s</word>
+  <word key="x_created_cms_in_embed" js="0">%s posted %s in %s</word>
+  <word key="x_commented_cms" js="0">%s commented on a %s</word>
+  <word key="x_commented_cms_embed" js="0">%s commented on %s</word>
+  <word key="x_reviewed_cms_embed" js="0">%s reviewed %s</word>
+  <word key="acplogs__cms_added_database" js="0">Added Database: %s</word>
+  <word key="acplogs__cms_edited_database" js="0">Edited Database: %s</word>
+  <word key="acplogs__cms_deleted_database" js="0">Deleted Database: %s</word>
+  <word key="acplogs__cms_imported_database" js="0">Imported Database: %s</word>
+  <word key="acplogs__cms_downloaded_database" js="0">Downloaded Database: %s</word>
+  <word key="acplogs__cms_database_topic_resync" js="0">Resynchronized topics for database %s</word>
+  <word key="acplogs__cms_database_comments_recount" js="0">Recounted comment counts for database %s</word>
+  <word key="acplogs__cms_deleted_record" js="0">Deleted %s from database %s</word>
+  <word key="acplogs__cms_moved_record" js="0">Moved %s from %s to %s in %s</word>
+  <word key="acplogs__cms_added_record" js="0">Added %s to %s</word>
+  <word key="acplogs__cms_edited_recored" js="0">Edited %s in %s</word>
+  <word key="acplogs__cms_deleted_media" js="0">Deleted %s media files in Pages</word>
+  <word key="acplogs__cms_replaced_media" js="0">Replaced media file in Pages: %s</word>
+  <word key="acplogs__cms_uploaded_media" js="0">Uploaded %s media files in Pages</word>
+  <word key="acplogs__cms_imported_templates" js="0">Imported Pages templates</word>
+  <word key="acplogs__cms_exported_templates" js="0">Exported Pages templates</word>
+  <word key="acplogs__cms_template_add" js="0">Added Pages template: %s</word>
+  <word key="acplogs__cms_template_container" js="0">Added Pages template container: %s</word>
+  <word key="acplogs__cms_template_delete" js="0">Deleted Pages template: %s</word>
+  <word key="acplogs__cms_template_save" js="0">Edited Pages template: %s</word>
+  <word key="acplogs__cms_template_group_delete" js="0">Deleted Pages template group: %s</word>
+  <word key="block_embed_options" js="0">External embed</word>
+  <word key="block_embed_title" js="0">External Embed</word>
+  <word key="embed_message" js="0"><![CDATA[This feature allows you to embed this block on an external page that <strong>isn't</strong> part of your Invision Community. For pages created within Invision Community, use the normal embedding method instead.]]></word>
+  <word key="embed_1_title" js="0">Embedding this block</word>
+  <word key="embed_1_desc" js="0">To embed this block, paste the following code in your page where you'd like it to display. You can optionally have the block automatically inherit some styles (font family, link color, etc.) from the page it appears on.</word>
+  <word key="embed_1_toggle" js="0">Inherit key styles from the parent page</word>
+  <word key="embed_2_title" js="0">Insert the loader</word>
+  <word key="embed_2_desc" js="0"><![CDATA[You'll also need to insert the loader into your page. You only need to do this <strong>once per page</strong>, even if you use many external blocks. It should be inserted either in your <code>&lt;head&gt;</code> tag, or just before the <code>&lt;/body&gt;</code> tag.]]></word>
+  <word key="view_this_cmsrecord" js="0">View the %s %s</word>
+  <word key="rebuilding_comment_likes" js="0">Rebuilding Database Comment Likes</word>
+  <word key="sort_record_last_comment" js="0">Last Comment</word>
+  <word key="sort_record_comments" js="0">Comments</word>
+  <word key="sort_record_views" js="0">Views</word>
+  <word key="sort_record_publish_date" js="0">Publish Date</word>
+  <word key="__api_cms_comments" js="0">Database Comments</word>
+  <word key="__api_cms_records" js="0">Database Records</word>
+  <word key="__api_cms_reviews" js="0">Database Reviews</word>
+  <word key="__api_cms_databases" js="0">Databases</word>
+  <word key="__api_cms_categories" js="0">Database Categories</word>
+  <word key="copy_topic_to_database" js="0">Copy to Database</word>
+  <word key="copy_select_database" js="0">Select Database</word>
+  <word key="copy_select_category" js="0">Select Category</word>
+  <word key="record_category_id" js="0">Category</word>
+  <word key="copy_comments" js="0">Copy posts?</word>
+  <word key="copy_comments_desc" js="0">Setting this to Yes will also copy all posts on the topic and add them as comments on the new %s</word>
+  <word key="copy_comments_assoc_desc" js="0">Setting this to Yes will associate the new %s with the existing topic, which will result in the existing posts being treated as comments on the %s</word>
+  <word key="copy_author" js="0">Use original author?</word>
+  <word key="copy_author_desc" js="0">Setting this to Yes will make the author of the new %s the same as the topic. Otherwise, your account will be used</word>
+  <word key="copying_comments" js="0">Copying Comments...</word>
+  <word key="comments_show_message" js="0">Show item message?</word>
+  <word key="comments_meta_message" js="0">Message</word>
+  <word key="comments_meta_color" js="0">Message color</word>
+  <word key="default_copyposts_message" js="0">Please be aware that these comments were copied here from another source and that the date and time shown for each comment may not be accurate.</word>
+  <word key="block_pagebuildertext" js="0">Page Builder: Text</word>
+  <word key="block_pagebuildertext_desc" js="0">Add simple text to the page</word>
+  <word key="block_pagebuilderoembed" js="0">Page Builder: Media Embed</word>
+  <word key="block_pagebuilderoembed_desc" js="0">Embed external content, such as YouTube, Vimeo, GIPHY and more</word>
+  <word key="block_pagebuilderupload" js="0">Page Builder: Upload Images</word>
+  <word key="block_pagebuilderupload_desc" js="0">Add a single image, or a carousel of images</word>
+  <word key="pagebuilderupload_upload" js="0">Upload</word>
+  <word key="pagebuilder_text" js="0">Text</word>
+  <word key="video_url" js="0">URL</word>
+  <word key="video_cannot_embed" js="0">This content cannot be embedded.</word>
+  <word key="block_testimonials" js="0">Testimonials</word>
+  <word key="block_testimonials_desc" js="0">Show a collection of testimonials displayed at random.</word>
+  <word key="widget_testimonials_name" js="0">Name</word>
+  <word key="widget_testimonials_content" js="0">Content</word>
+  <word key="testimonials" js="0">Testimonials</word>
+  <word key="pagebuilderupload_slideshow" js="0">Autoplay slideshow?</word>
+  <word key="pagebuilderupload_captions" js="0">Captions</word>
+  <word key="pagebuilderupload_captions_desc" js="0">These must be ordered the same as the uploaded photos</word>
+  <word key="pagebuilderupload_urls" js="0">URLs</word>
+  <word key="pagebuilderupload_urls_desc" js="0">These must be ordered the same as the uploaded photos</word>
+  <word key="pagebuilderupload_height" js="0">Block Height</word>
+  <word key="cms_download_db" js="1">Download Database</word>
+  <word key="cms_download_db_explain" js="1"><![CDATA[This will download a file with the database settings, templates, custom fields and categories which can be uploaded to another community.<br>Records are <em>not</em> included.]]></word>
+  <word key="index_as_categories" js="1">Show categories</word>
+  <word key="index_as_records" js="1">Show record list</word>
+  <word key="mediaNoneSelected" js="1">No media items selected</word>
+  <word key="mediaMultipleSelected" js="1">{# [1:media item selected][?:media items selected]}</word>
+  <word key="mediaEmptyFolder" js="1">There are no items in this folder yet</word>
+  <word key="mediaConfirmDelete" js="1">Are you sure you want to delete {!# [1:this file][?:# selected files]}?</word>
+  <word key="mediaErrorDeleting" js="1">There was an error deleting {!# [1:this file][?:these files]}</word>
+  <word key="mediaNoResults" js="1">No files match your search term</word>
+  <word key="mediaUploadedCount" js="1">{!# [1:A file was][?:# files were]} added to this folder</word>
+  <word key="replaceMediaFile" js="1">Replace File</word>
+  <word key="mediaUploadedReplace" js="1">The file has been updated</word>
+ </app>
+</language>

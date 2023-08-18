@@ -1,0 +1,14 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_announcements",
+            {
+                "announce_color": "none"
+            },
+            [
+                "announce_color IS NULL"
+            ]
+        ]
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "front\/forums\/clubForums",
+            "front\/forums\/forumDisplay",
+            "front\/forums\/topicHover",
+            "front\/index\/forumGridItem",
+            "front\/index\/index",
+            "front\/topics\/topic",
+            "front\/widgets\/forumStatistics",
+            "front\/widgets\/hotTopics",
+            "front\/widgets\/postFeed",
+            "front\/widgets\/topicFeed"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/forums_responsive.css",
+            "front\/forums.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

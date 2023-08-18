@@ -1,0 +1,30 @@
+{
+    "html": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [
+            "front\/cart.css",
+            "front\/donations.css",
+            "front\/embed.css",
+            "admin\/invoiceTimeline.css",
+            "admin\/purchases.css",
+            "admin\/shipping.css",
+            "front\/store_responsive.css",
+            "front\/subscriptions.css",
+            "admin\/transaction.css"
+        ],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [
+            "front\/cards\/venmo_white.svg",
+            "front\/cards\/venmo.svg"
+        ],
+        "removed": []
+    }
+}

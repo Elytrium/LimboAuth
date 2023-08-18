@@ -1,0 +1,264 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "downloads_categories",
+            "cposition"
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "downloads_categories",
+            {
+                "type": "key",
+                "name": "position_order",
+                "columns": [
+                    "cparent",
+                    "cposition"
+                ]
+            }
+        ]
+    },
+    "3": {
+        "method": "addIndex",
+        "params": [
+            "downloads_downloads",
+            {
+                "type": "key",
+                "name": "dmid",
+                "columns": [
+                    "dmid"
+                ]
+            }
+        ]
+    },
+    "4": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_comments",
+            "comment_date",
+            {
+                "name": "comment_date",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "5": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_comments",
+            "comment_edit_time",
+            {
+                "name": "comment_edit_time",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "6": {
+        "method": "addIndex",
+        "params": [
+            "downloads_favorites",
+            {
+                "type": "key",
+                "name": "fmid",
+                "columns": [
+                    "fmid"
+                ]
+            }
+        ]
+    },
+    "7": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_favorites",
+            "fupdated",
+            {
+                "name": "fupdated",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "8": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_filebackup",
+            "b_backup",
+            {
+                "name": "b_backup",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "9": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_filebackup",
+            "b_updated",
+            {
+                "name": "b_updated",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "10": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_submitted",
+            {
+                "name": "file_submitted",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "11": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_updated",
+            {
+                "name": "file_updated",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "12": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_files",
+            "file_approvedon",
+            {
+                "name": "file_approvedon",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "13": {
+        "method": "addIndex",
+        "params": [
+            "downloads_sessions",
+            {
+                "type": "key",
+                "name": "dsess_start",
+                "columns": [
+                    "dsess_start"
+                ]
+            }
+        ]
+    },
+    "14": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_sessions",
+            "dsess_start",
+            {
+                "name": "dsess_start",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "15": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_sessions",
+            "dsess_end",
+            {
+                "name": "dsess_end",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "16": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_temp_records",
+            "record_added",
+            {
+                "name": "record_added",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "17": {
+        "method": "addIndex",
+        "params": [
+            "downloads_urls",
+            {
+                "type": "key",
+                "name": "url_expires",
+                "columns": [
+                    "url_expires"
+                ]
+            }
+        ]
+    },
+    "18": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_urls",
+            "url_created",
+            {
+                "name": "url_created",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "19": {
+        "method": "changeColumn",
+        "params": [
+            "downloads_urls",
+            "url_expires",
+            {
+                "name": "url_expires",
+                "type": "int",
+                "length": 10,
+                "default": 0,
+                "allow_null": false
+            }
+        ]
+    },
+    "20": {
+        "method": "delete",
+        "params": [
+            "core_sys_conf_settings",
+            "conf_key='idm_guest_report'"
+        ]
+    }
+}

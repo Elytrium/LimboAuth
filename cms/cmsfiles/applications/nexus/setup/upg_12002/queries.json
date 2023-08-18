@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "cim_method",
+                "type": "int",
+                "length": 5,
+                "allow_null": false,
+                "default": 0
+            }
+        ]
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "core_attachments_map",
+            {
+                "id3": "desc"
+            },
+            [
+                "location_key=?",
+                "downloads_Downloads"
+            ]
+        ]
+    }
+}

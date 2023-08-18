@@ -1,0 +1,9 @@
+{
+    "1": {
+        "method": "delete",
+        "params": [
+            "core_sys_lang_words",
+            "word_app='core' AND word_key='emoji_style_disabled_desc'"
+        ]
+    }
+}

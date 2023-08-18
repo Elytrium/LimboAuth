@@ -1,0 +1,45 @@
+{
+    "forumStatistics": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": false,
+        "menu_style": "menu",
+        "embeddable": true
+    },
+    "hotTopics": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": false,
+        "menu_style": "menu",
+        "embeddable": true
+    },
+    "topicFeed": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    },
+    "postFeed": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    },
+    "poll": {
+        "class": "\\IPS\\Widget\\PermissionCache",
+        "restrict": [
+            "sidebar",
+            "cms"
+        ],
+        "default_area": "",
+        "allow_reuse": true,
+        "menu_style": "modal",
+        "embeddable": true
+    }
+}

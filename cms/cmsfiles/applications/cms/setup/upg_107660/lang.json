@@ -1,0 +1,17 @@
+{
+    "normal": {
+        "added": [
+            "media_url_desc",
+            "media_url"
+        ],
+        "edited": [
+            "content_folder_name_furl_collision_pages_app"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

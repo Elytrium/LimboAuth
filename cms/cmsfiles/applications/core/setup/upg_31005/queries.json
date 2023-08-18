@@ -1,0 +1,27 @@
+{
+    "1": {
+        "method": "changeIndex",
+        "params": [
+            "core_item_markers",
+            "item_member_id",
+            {
+                "type": "key",
+                "name": "item_member_id",
+                "columns": [
+                    "item_is_deleted",
+                    "item_member_id"
+                ]
+            }
+        ]
+    },
+    "2": {
+        "method": "update",
+        "params": [
+            "custom_bbcode",
+            {
+                "bbcode_desc": "[html]<div class=\"outer\">\n<p>Hello World<\/p>\n<\/div>[\/html]"
+            },
+            "bbcode_tag='html'"
+        ]
+    }
+}

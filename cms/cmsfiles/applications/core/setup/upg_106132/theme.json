@@ -1,0 +1,25 @@
+{
+    "html": {
+        "added": [],
+        "edited": [
+            "global\/editor\/myMediaResults",
+            "front\/forms\/popupRegisterTemplate",
+            "admin\/memberprofile\/header",
+            "admin\/memberprofile\/quotas",
+            "admin\/memberprofile\/rank",
+            "admin\/memberprofile\/warnings",
+            "front\/system\/notValidated"
+        ],
+        "removed": []
+    },
+    "css": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    },
+    "resources": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "added": [
+        "app=core&module=members&controller=privacy",
+        "app=core&module=overview&controller=notifications&do=settings",
+        "app=core&module=overview&controller=mycharts",
+        "app=core&module=settings&controller=terms&searchResult=form_cookie_3rdpartynotice"
+    ],
+    "edited": [
+        "app=core&module=settings&controller=terms"
+    ],
+    "removed": []
+}

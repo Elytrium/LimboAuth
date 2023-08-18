@@ -1,0 +1,43 @@
+{
+    "normal": {
+        "added": [
+            "ucp_devices_email",
+            "ucp_devices_email_desc",
+            "ucp_devices_email_off",
+            "ucp_devices_email_on",
+            "ucp_devices_email_enable",
+            "ucp_devices_email_disable",
+            "__api_core_promotions",
+            "edit_page",
+            "delete_page",
+            "menu__core_stats_rankprogression",
+            "core_stats_rank_progression_v",
+            "core_stats_rank_progression_h",
+            "core_stats_rank_progression_desc",
+            "r__rankprogression",
+            "r__rankprogression_manage",
+            "rankprogression_rebuild",
+            "r__moderatorstats_manage",
+            "stats_deleted_tooltip",
+            "webhook_member_registration_complete",
+            "webhook_member_warned",
+            "webhook_member_merged",
+            "webhook_content_promoted",
+            "webhook_content_marked_solved",
+            "webhook_content_type",
+            "webhook_content_type_desc",
+            "webhook_content_type_other"
+        ],
+        "edited": [
+            "theme_simple_header_settings_desc",
+            "theme_simple_footer_settings_desc",
+            "ad_script_disabled"
+        ],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

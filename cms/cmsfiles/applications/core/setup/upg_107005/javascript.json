@@ -1,0 +1,15 @@
+{
+    "files": {
+        "added": [],
+        "edited": [
+            "global\/front\/controllers\/core\/ips.core.commentFeed.js",
+            "core\/front\/controllers\/core\/ips.core.dataLayer.js"
+        ],
+        "removed": []
+    },
+    "orders": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

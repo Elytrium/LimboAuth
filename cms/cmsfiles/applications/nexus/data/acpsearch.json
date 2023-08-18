@@ -1,0 +1,789 @@
+{
+    "app=core&module=applications&controller=enhancements&do=edit&id=nexus_EasyPost&searchResult=form_easypost_enable": {
+        "lang_key": "easypost_enable",
+        "restriction": "enhancements_manage",
+        "keywords": [
+            "easy post",
+            "easypost"
+        ]
+    },
+    "app=core&module=applications&controller=enhancements&do=edit&id=nexus_MaxMind&searchResult=form_maxmind_enable": {
+        "lang_key": "maxmind_enable",
+        "restriction": "enhancements_manage",
+        "keywords": [
+            "fraud",
+            "maxmind"
+        ]
+    },
+    "app=nexus&module=customers&controller=fields": {
+        "lang_key": "menu__nexus_customers_fields",
+        "restriction": null,
+        "keywords": [
+            "custom customer fields",
+            "custom fields",
+            "custom nexus fields",
+            "customer fields",
+            "nexus fields"
+        ]
+    },
+    "app=nexus&module=customers&controller=search": {
+        "lang_key": "menu__nexus_customers_search",
+        "restriction": "customers_view",
+        "keywords": [
+            "clients",
+            "customers"
+        ]
+    },
+    "app=nexus&module=payments&controller=donations": {
+        "lang_key": "menu__nexus_payments_donations",
+        "restriction": "donations_manage",
+        "keywords": [
+            "donate",
+            "donations",
+            "goals"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices": {
+        "lang_key": "menu__nexus_payments_invoices",
+        "restriction": "invoices_manage",
+        "keywords": [
+            "invoices",
+            "orders"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices&do=settings&searchResult=form_cm_invoice_expireafter": {
+        "lang_key": "cm_invoice_expireafter",
+        "restriction": "invoices_settings",
+        "keywords": [
+            "invoices"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices&do=settings&searchResult=form_cm_invoice_generate": {
+        "lang_key": "cm_invoice_generate",
+        "restriction": "invoices_settings",
+        "keywords": [
+            "invoices",
+            "renewal"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices&do=settings&searchResult=form_cm_invoice_warning": {
+        "lang_key": "cm_invoice_warning",
+        "restriction": "invoices_settings",
+        "keywords": [
+            "cards",
+            "invoices",
+            "renewal"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices&do=settings&searchResult=form_nexus_invoice_footer": {
+        "lang_key": "nexus_invoice_footer",
+        "restriction": "invoices_manage",
+        "keywords": [
+            "invoice footer"
+        ]
+    },
+    "app=nexus&module=payments&controller=invoices&do=settings&searchResult=form_nexus_invoice_header": {
+        "lang_key": "nexus_invoice_header",
+        "restriction": "invoices_manage",
+        "keywords": [
+            "invoice header"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings": {
+        "lang_key": "checkout_settings",
+        "restriction": "checkout_settings",
+        "keywords": [
+            "checkout"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_checkreg_captcha": {
+        "lang_key": "nexus_checkreg_captcha",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "question and answer guest checkout"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_checkreg_usernames": {
+        "lang_key": "nexus_checkreg_usernames",
+        "restriction": null,
+        "keywords": [
+            "full name",
+            "guest check out",
+            "guest checkout",
+            "guest display name",
+            "guest full name",
+            "guest purchases",
+            "guest username"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_checkreg_validate": {
+        "lang_key": "nexus_checkreg_validate",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "Validate email on checkout"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_require_billing": {
+        "lang_key": "nexus_require_billing",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "Name Required",
+            "require name and address on checkout"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_split_payments_on": {
+        "lang_key": "nexus_split_payments_on",
+        "restriction": "checkout_settings",
+        "keywords": [
+            "cards",
+            "split",
+            "split payments"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=form_nexus_tac": {
+        "lang_key": "nexus_tac",
+        "restriction": "checkout_settings",
+        "keywords": [
+            "checkout",
+            "terms and conditions"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=checkoutsettings&searchResult=nexus_split_payments": {
+        "lang_key": "nexus_split_payments",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "Minimum amount split"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=currencies": {
+        "lang_key": "currencies",
+        "restriction": "currencies_manage",
+        "keywords": [
+            "currencies",
+            "currency",
+            "dollar",
+            "euro",
+            "money",
+            "pound"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=emails": {
+        "lang_key": "notification_copies",
+        "restriction": null,
+        "keywords": [
+            "customer emails",
+            "emails",
+            "invoice emails",
+            "nexus emails",
+            "payment emails",
+            "store emails",
+            "transaction emails"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=emails&searchResult=form_nexus_notify_copy_email": {
+        "lang_key": "nexus_notify_copy_email",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "email notification",
+            "email notifications list commerce"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=emails&searchResult=form_nexus_notify_copy_types": {
+        "lang_key": "nexus_notify_copy_types",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "commission notification",
+            "email notifications commerce",
+            "payment notification",
+            "transaction notification"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=fraud": {
+        "lang_key": "anti_fraud_rules",
+        "restriction": "fraud_manage",
+        "keywords": [
+            "anti fraud rules",
+            "anti-fraud rules",
+            "antifraud rules",
+            "fraud",
+            "fraud rules"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=gateways": {
+        "lang_key": "payment_methods",
+        "restriction": "gateways_manage",
+        "keywords": [
+            "2checkout",
+            "auth.net",
+            "authorize.net",
+            "bank",
+            "cards",
+            "checks",
+            "cheques",
+            "credit",
+            "credit cards",
+            "debit",
+            "gateways",
+            "methods",
+            "paypal",
+            "stripe"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=review": {
+        "lang_key": "transaction_review",
+        "restriction": null,
+        "keywords": [
+            "flag for review",
+            "hold for review",
+            "transaction flag",
+            "transaction review"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=review&searchResult=form_nexus_revw_sa_on": {
+        "lang_key": "nexus_revw_sa_on",
+        "restriction": "paymentsettings_overview",
+        "keywords": [
+            "transaction review support ticket"
+        ]
+    },
+    "app=nexus&module=payments&controller=paymentsettings&tab=tax": {
+        "lang_key": "tax_rates",
+        "restriction": "tax_manage",
+        "keywords": [
+            "sales tax",
+            "tax",
+            "tax rate",
+            "vat"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts": {
+        "lang_key": "menu__nexus_payments_payouts",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "account credit",
+            "credit",
+            "pay outs",
+            "payouts",
+            "withdrawals"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings": {
+        "lang_key": "menu__nexus_payments_payouts",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "account credit",
+            "account credit settings",
+            "credit",
+            "credit settings",
+            "pay out",
+            "pay out settings",
+            "pay outs settings",
+            "payout settings",
+            "payouts",
+            "payouts settings",
+            "withdrawal settings",
+            "withdrawals",
+            "withdrawals settings"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=form_allow_topups": {
+        "lang_key": "allow_topups",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "account credit",
+            "add credit",
+            "buy credit",
+            "credit",
+            "top ups",
+            "topups"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=form_nexus_no_commission": {
+        "lang_key": "nexus_no_commission",
+        "restriction": "payouts_settings",
+        "keywords": [
+            "comision",
+            "comission",
+            "commission",
+            "no commission"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=form_nexus_payout": {
+        "lang_key": "nexus_payout",
+        "restriction": "payouts_settings",
+        "keywords": [
+            "bank",
+            "check",
+            "cheque",
+            "credit card",
+            "pay outs",
+            "payouts",
+            "paypal",
+            "stripe",
+            "withdrawals"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=nexus_max_credit": {
+        "lang_key": "nexus_max_credit",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "maximum account credit",
+            "maximum credit"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=nexus_payout_approve": {
+        "lang_key": "nexus_payout_approve",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "approve pay outs",
+            "approve payouts",
+            "approve withdrawals",
+            "pay out approve",
+            "payout approve",
+            "withdrawal approve"
+        ]
+    },
+    "app=nexus&module=payments&controller=payouts&do=settings&searchResult=nexus_payout_min": {
+        "lang_key": "nexus_payout_min",
+        "restriction": "payouts_manage",
+        "keywords": [
+            "minimum pay out",
+            "minimum payout",
+            "minimum withdrawal"
+        ]
+    },
+    "app=nexus&module=payments&controller=shipping": {
+        "lang_key": "menu__nexus_payments_shipping",
+        "restriction": "shiporders_manage",
+        "keywords": [
+            "handling",
+            "orders",
+            "postage",
+            "ship",
+            "shipments",
+            "shipping"
+        ]
+    },
+    "app=nexus&module=payments&controller=shippingrates": {
+        "lang_key": "shipping_rates",
+        "restriction": "shipmethods_manage",
+        "keywords": [
+            "air mail",
+            "airmail",
+            "fedex",
+            "mail",
+            "orders",
+            "post",
+            "royal mail",
+            "shipments",
+            "shipping",
+            "tracking",
+            "ups",
+            "usps"
+        ]
+    },
+    "app=nexus&module=payments&controller=transactions": {
+        "lang_key": "menu__nexus_payments_transactions",
+        "restriction": "transactions_manage",
+        "keywords": [
+            "approve",
+            "payments",
+            "sales",
+            "transactions"
+        ]
+    },
+    "app=nexus&module=reports&controller=income": {
+        "lang_key": "menu__nexus_reports_income",
+        "restriction": "income_manage",
+        "keywords": [
+            "income",
+            "income stats",
+            "revenue"
+        ]
+    },
+    "app=nexus&module=reports&controller=income&tab=totals": {
+        "lang_key": "nexus_report_income_totals",
+        "restriction": "income_manage",
+        "keywords": [
+            "income",
+            "total income"
+        ]
+    },
+    "app=nexus&module=reports&controller=income&tab=USD": {
+        "lang_key": "USD Income by Method",
+        "restriction": "income_manage",
+        "keywords": [
+            "income method stats"
+        ]
+    },
+    "app=nexus&module=reports&controller=markets": {
+        "lang_key": "menu__nexus_reports_markets",
+        "restriction": "markets_manage",
+        "keywords": [
+            "markets",
+            "regional sales"
+        ]
+    },
+    "app=nexus&module=reports&controller=markets&tab=count": {
+        "lang_key": "nexus_report_count",
+        "restriction": "markets_manage",
+        "keywords": [
+            "sales numbers"
+        ]
+    },
+    "app=nexus&module=reports&controller=markets&tab=USD": {
+        "lang_key": "USD Income",
+        "restriction": "markets_manage",
+        "keywords": [
+            "income reports"
+        ]
+    },
+    "app=nexus&module=reports&controller=purchases": {
+        "lang_key": "menu__nexus_reports_purchases",
+        "restriction": "purchases_manage",
+        "keywords": [
+            "order stats",
+            "sale stats",
+            "sales stats"
+        ]
+    },
+    "app=nexus&module=store&controller=coupons": {
+        "lang_key": "menu__nexus_store_coupons",
+        "restriction": "coupons_manage",
+        "keywords": [
+            "coupons",
+            "discounts",
+            "gift",
+            "promotions",
+            "vouchers"
+        ]
+    },
+    "app=nexus&module=store&controller=fields": {
+        "lang_key": "menu__nexus_store_fields",
+        "restriction": "package_fields_manage",
+        "keywords": [
+            "custom package fields",
+            "custom product fields",
+            "package fields",
+            "product fields"
+        ]
+    },
+    "app=nexus&module=store&controller=packages": {
+        "lang_key": "menu__nexus_store_packages",
+        "restriction": "packages_manage",
+        "keywords": [
+            "items",
+            "packages",
+            "plans",
+            "products",
+            "stock",
+            "store"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_cm_protected": {
+        "lang_key": "cm_protected",
+        "restriction": "settings_manage",
+        "keywords": [
+            "protected groups"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_gift_vouchers": {
+        "lang_key": "nexus_gift_vouchers",
+        "restriction": "settings_manage",
+        "keywords": [
+            "gift cards",
+            "gift vouchers",
+            "vouchers"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_gift_vouchers_free": {
+        "lang_key": "nexus_gift_vouchers_free",
+        "restriction": "settings_manage",
+        "keywords": [
+            "gift card amount"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_minimum_order": {
+        "lang_key": "nexus_minimum_order",
+        "restriction": "settings_manage",
+        "keywords": [
+            "minimum order",
+            "minimum order amount",
+            "minimum purchase"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_reg_force": {
+        "lang_key": "nexus_reg_force",
+        "restriction": "settings_manage",
+        "keywords": [
+            "force purchase",
+            "force purchase on registration",
+            "register",
+            "registration"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_show_stock": {
+        "lang_key": "nexus_show_stock",
+        "restriction": "settings_manage",
+        "keywords": [
+            "show stock",
+            "show stock levels",
+            "stock",
+            "stock levels"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_show_tax": {
+        "lang_key": "nexus_show_tax",
+        "restriction": "settings_manage",
+        "keywords": [
+            "sales tax",
+            "tax",
+            "vat"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_store_new": {
+        "lang_key": "nexus_store_new",
+        "restriction": "settings_manage",
+        "keywords": [
+            "new products",
+            "store index options"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_store_popular": {
+        "lang_key": "nexus_store_popular",
+        "restriction": "settings_manage",
+        "keywords": [
+            "best sellers",
+            "popular products"
+        ]
+    },
+    "app=nexus&module=store&controller=settings&searchResult=form_nexus_tax_explain": {
+        "lang_key": "nexus_tax_explain",
+        "restriction": "settings_manage",
+        "keywords": [
+            "price description"
+        ]
+    },
+    "app=nexus&module=subscriptions&controller=subscribers": {
+        "lang_key": "menu__nexus_subscriptions_subscribers",
+        "restriction": "subscribers_manage",
+        "keywords": [
+            "subscribers"
+        ]
+    },
+    "app=nexus&module=subscriptions&controller=subscriptions": {
+        "lang_key": "menu__nexus_subscriptions_subscriptions",
+        "restriction": "subscriptions_manage",
+        "keywords": [
+            "monetize",
+            "package",
+            "subscription"
+        ]
+    },
+    "app=nexus&module=subscriptions&controller=subscriptions&do=settings&searchResult=nexus_subs_enabled": {
+        "lang_key": "nexus_subs_enabled",
+        "restriction": "subscriptions_manage",
+        "keywords": [
+            "member subscription",
+            "package",
+            "subscription"
+        ]
+    },
+    "app=nexus&module=subscriptions&controller=subscriptions&do=settings&searchResult=nexus_subs_register": {
+        "lang_key": "nexus_subs_register",
+        "restriction": "subscriptions_manage",
+        "keywords": [
+            "require subscription"
+        ]
+    },
+    "app=nexus&module=support&controller=reports": {
+        "lang_key": "menu__nexus_support_reports",
+        "restriction": "reports_manage",
+        "keywords": [
+            "customer feedback",
+            "customer satisfaction",
+            "staff performance",
+            "support performance",
+            "support ratings",
+            "support replies",
+            "support reports",
+            "support reviews",
+            "support staff"
+        ]
+    },
+    "app=nexus&module=support&controller=reports&tab=feedback_ratings": {
+        "lang_key": "feedback_ratings",
+        "restriction": "reports_manage",
+        "keywords": [
+            "support feedback"
+        ]
+    },
+    "app=nexus&module=support&controller=reports&tab=latest_feedback": {
+        "lang_key": "latest_feedback",
+        "restriction": "reports_manage",
+        "keywords": [
+            "latest support feedback"
+        ]
+    },
+    "app=nexus&module=support&controller=reports&tab=overview": {
+        "lang_key": "overview",
+        "restriction": "reports_manage",
+        "keywords": [
+            "support overview"
+        ]
+    },
+    "app=nexus&module=support&controller=reports&tab=replies": {
+        "lang_key": "replies",
+        "restriction": "reports_manage",
+        "keywords": [
+            "support replies"
+        ]
+    },
+    "app=nexus&module=support&controller=requests": {
+        "lang_key": "menu__nexus_support_requests",
+        "restriction": "requests_manage",
+        "keywords": [
+            "support",
+            "support requests",
+            "support tickets",
+            "tickets"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=autoresolve": {
+        "lang_key": "autoresolve",
+        "restriction": "autoresolve_manage",
+        "keywords": [
+            "auto resolve",
+            "auto-resolve",
+            "automatic resolve",
+            "automatically resolve",
+            "autoresolve",
+            "resolve"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=customerfeedback": {
+        "lang_key": "customer_feedback",
+        "restriction": "customerfeedback_manage",
+        "keywords": [
+            "feedback",
+            "performance",
+            "ratings",
+            "satisfaction"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=departments": {
+        "lang_key": "departments",
+        "restriction": "departments_manage",
+        "keywords": [
+            "categories",
+            "departments",
+            "email"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=fields": {
+        "lang_key": "custom_support_fields",
+        "restriction": "scfields_manage",
+        "keywords": [
+            "custom support fields",
+            "custom ticket fields",
+            "support custom fields",
+            "support fields",
+            "support form",
+            "support information",
+            "ticket custom fields",
+            "ticket fields",
+            "ticket information"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=incomingemail": {
+        "lang_key": "incoming_emails",
+        "restriction": "incomingemail_manage",
+        "keywords": [
+            "email filters",
+            "email piping",
+            "incoming emails",
+            "pop3",
+            "spam filters",
+            "support emails",
+            "ticket emails"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=outgoingemail": {
+        "lang_key": "outgoing_emails",
+        "restriction": "outgoingemail_manage",
+        "keywords": [
+            "support emails",
+            "ticket emails"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=outgoingemail&searchResult=form_nexus_sout_autoreply": {
+        "lang_key": "nexus_sout_autoreply",
+        "restriction": "settings_manage",
+        "keywords": [
+            "support confirmation",
+            "ticket confirmation"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=outgoingemail&searchResult=form_nexus_sout_chrome": {
+        "lang_key": "nexus_sout_chrome",
+        "restriction": "settings_manage",
+        "keywords": [
+            "email format",
+            "email template"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=outgoingemail&searchResult=form_nexus_sout_from": {
+        "lang_key": "nexus_sout_from",
+        "restriction": "settings_manage",
+        "keywords": [
+            "email from"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=severities": {
+        "lang_key": "severities",
+        "restriction": "severities_manage",
+        "keywords": [
+            "critical",
+            "emergency",
+            "severities",
+            "severity",
+            "urgency",
+            "urgent"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=statuses": {
+        "lang_key": "statuses",
+        "restriction": "settings_manage",
+        "keywords": [
+            "closed",
+            "open",
+            "resolved",
+            "statuses",
+            "tags"
+        ]
+    },
+    "app=nexus&module=support&controller=settings&tab=stockactions": {
+        "lang_key": "stock_actions",
+        "restriction": "stockactions_manage",
+        "keywords": [
+            "defined",
+            "pre defined",
+            "pre set",
+            "predefined",
+            "preset",
+            "stock",
+            "stock actions",
+            "stock messages",
+            "stock replies"
+        ]
+    },
+    "app=nexus&module=support&controller=volume": {
+        "lang_key": "menu__nexus_support_volume",
+        "restriction": "volume_manage",
+        "keywords": [
+            "new ticket stats",
+            "support statistics",
+            "support stats"
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "dropTable",
+        "params": [
+            "core_image_scanner_logs"
+        ]
+    },
+    "2": {
+        "method": "addIndex",
+        "params": [
+            "core_message_topics",
+            {
+                "type": "key",
+                "name": "mt_alert",
+                "columns": [
+                    "mt_alert"
+                ],
+                "length": [
+                    null
+                ]
+            }
+        ]
+    }
+}

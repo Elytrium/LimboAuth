@@ -1,0 +1,19 @@
+{
+    "1": {
+        "method": "addColumn",
+        "params": [
+            "core_members",
+            {
+                "name": "unique_hash",
+                "type": "VARCHAR",
+                "length": 255,
+                "allow_null": true,
+                "default": null,
+                "values": null,
+                "unsigned": false,
+                "comment": "",
+                "auto_increment": false
+            }
+        ]
+    }
+}

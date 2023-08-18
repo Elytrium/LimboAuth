@@ -1,0 +1,18 @@
+{
+    "normal": {
+        "added": [
+            "AchievementAction__Reaction_title_received",
+            "achievement_filter_Reaction_nth",
+            "achievement_who_suffix",
+            "achievement_who_reciever",
+            "achievement_who_giver"
+        ],
+        "edited": [],
+        "removed": []
+    },
+    "js": {
+        "added": [],
+        "edited": [],
+        "removed": []
+    }
+}

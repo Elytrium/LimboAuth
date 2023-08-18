@@ -1,0 +1,15 @@
+{
+    "1": {
+        "method": "update",
+        "params": [
+            "forums_forums",
+            {
+                "ipseo_priority": "-1"
+            },
+            [
+                "ipseo_priority=?",
+                ""
+            ]
+        ]
+    }
+}

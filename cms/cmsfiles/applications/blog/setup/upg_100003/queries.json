@@ -1,0 +1,205 @@
+{
+    "1": {
+        "method": "dropIndex",
+        "params": [
+            "blog_comments",
+            "comment_text"
+        ]
+    },
+    "2": {
+        "method": "dropIndex",
+        "params": [
+            "blog_entries",
+            "entry_name"
+        ]
+    },
+    "3": {
+        "method": "dropIndex",
+        "params": [
+            "blog_entries",
+            "entry_content"
+        ]
+    },
+    "4": {
+        "method": "dropTable",
+        "params": [
+            "blog_akismet_logs",
+            true
+        ]
+    },
+    "5": {
+        "method": "dropTable",
+        "params": [
+            "blog_bookmarks",
+            true
+        ]
+    },
+    "6": {
+        "method": "dropTable",
+        "params": [
+            "blog_categories",
+            true
+        ]
+    },
+    "7": {
+        "method": "dropTable",
+        "params": [
+            "blog_category_mapping",
+            true
+        ]
+    },
+    "8": {
+        "method": "dropTable",
+        "params": [
+            "blog_cblock_cache",
+            true
+        ]
+    },
+    "9": {
+        "method": "dropTable",
+        "params": [
+            "blog_cblocks",
+            true
+        ]
+    },
+    "10": {
+        "method": "dropTable",
+        "params": [
+            "blog_custom_cblocks",
+            true
+        ]
+    },
+    "11": {
+        "method": "dropTable",
+        "params": [
+            "blog_default_cblocks",
+            true
+        ]
+    },
+    "12": {
+        "method": "dropTable",
+        "params": [
+            "blog_editors_map",
+            true
+        ]
+    },
+    "13": {
+        "method": "dropTable",
+        "params": [
+            "blog_lastinfo",
+            true
+        ]
+    },
+    "14": {
+        "method": "dropTable",
+        "params": [
+            "blog_mediatag",
+            true
+        ]
+    },
+    "15": {
+        "method": "dropTable",
+        "params": [
+            "blog_moderators",
+            true
+        ]
+    },
+    "16": {
+        "method": "dropTable",
+        "params": [
+            "blog_pingservices",
+            true
+        ]
+    },
+    "17": {
+        "method": "dropTable",
+        "params": [
+            "blog_polls",
+            true
+        ]
+    },
+    "18": {
+        "method": "dropTable",
+        "params": [
+            "blog_ratings",
+            true
+        ]
+    },
+    "19": {
+        "method": "dropTable",
+        "params": [
+            "blog_rsscache",
+            true
+        ]
+    },
+    "20": {
+        "method": "dropTable",
+        "params": [
+            "blog_themes",
+            true
+        ]
+    },
+    "21": {
+        "method": "dropTable",
+        "params": [
+            "blog_this",
+            true
+        ]
+    },
+    "22": {
+        "method": "dropTable",
+        "params": [
+            "blog_trackback",
+            true
+        ]
+    },
+    "23": {
+        "method": "dropTable",
+        "params": [
+            "blog_trackback_spamlogs",
+            true
+        ]
+    },
+    "24": {
+        "method": "dropTable",
+        "params": [
+            "blog_tracker",
+            true
+        ]
+    },
+    "25": {
+        "method": "dropTable",
+        "params": [
+            "blog_tracker_queue",
+            true
+        ]
+    },
+    "26": {
+        "method": "dropTable",
+        "params": [
+            "blog_updatepings",
+            true
+        ]
+    },
+    "27": {
+        "method": "dropTable",
+        "params": [
+            "blog_upgrade_history",
+            true
+        ]
+    },
+    "28": {
+        "method": "dropTable",
+        "params": [
+            "blog_views",
+            true
+        ]
+    },
+    "29": {
+        "method": "dropTable",
+        "params": [
+            "blog_voters",
+            true
+        ]
+    }
+}

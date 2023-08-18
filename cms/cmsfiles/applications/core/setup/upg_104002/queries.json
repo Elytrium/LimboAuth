@@ -1,0 +1,24 @@
+{
+    "1": {
+        "method": "addIndex",
+        "params": [
+            "core_reputation_index",
+            {
+                "type": "key",
+                "name": "leaderboard",
+                "columns": [
+                    "rep_class",
+                    "rep_date",
+                    "member_received",
+                    "rep_rating"
+                ],
+                "length": [
+                    null,
+                    null,
+                    null,
+                    null
+                ]
+            }
+        ]
+    }
+}

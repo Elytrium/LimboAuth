@@ -1,0 +1,2 @@
+﻿CKEDITOR.plugins.add("ipssource",{init:function(a){a.on("instanceReady",function(b){this.dataProcessor.writer.selfClosingEnd="\x3e";b=CKEDITOR.dtd;for(var a in CKEDITOR.tools.extend({},b.$nonBodyContent,b.$block,b.$listItem,b.$tableContent))this.dataProcessor.writer.setRules(a,{indent:!0,breakBeforeOpen:!0,breakAfterOpen:!0,breakBeforeClose:!0,breakAfterClose:!0});this.dataProcessor.writer.setRules("pre",{breakAfterOpen:!1,breakBeforeClose:!1})});a.on("mode",function(b){$(window).trigger("resize");
+"wysiwyg"==a.mode&&ips.utils.lazyLoad.loadContent(a.container.$)})}});
