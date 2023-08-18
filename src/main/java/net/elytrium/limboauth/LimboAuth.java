@@ -214,7 +214,7 @@ public class LimboAuth {
       this.server.shutdown();
     }
 
-    Metrics metrics = this.metricsFactory.make(this, 13700);
+    Metrics metrics = this.metricsFactory.make(this, 19554);
     metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.MAIN.FLOODGATE_NEED_AUTH)));
     metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH)));
     metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.IMP.DATABASE.STORAGE_TYPE)));
@@ -224,10 +224,10 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
 
-    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
+    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/QuickFire-Corp/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
       LOGGER.error("****************************************");
       LOGGER.warn("The new LimboAuth update was found, please update.");
-      LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
+      LOGGER.error("https://github.com/QuickFire-Corp/LimboAuth/releases/");
       LOGGER.error("****************************************");
     }
   }
