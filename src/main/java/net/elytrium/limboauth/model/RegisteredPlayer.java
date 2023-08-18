@@ -18,10 +18,15 @@
 package net.elytrium.limboauth.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.table.DatabaseTable;
+import com.j256.ormlite.table.DatabaseTableConfig;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
@@ -29,45 +34,24 @@ import net.elytrium.limboauth.Settings;
 @DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
 
-  public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-  public static final String HASH_FIELD = "HASH";
-  public static final String IP_FIELD = "IP";
-  public static final String LOGIN_IP_FIELD = "LOGINIP";
-  public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-  public static final String REG_DATE_FIELD = "REGDATE";
-  public static final String LOGIN_DATE_FIELD = "LOGINDATE";
-  public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
-  public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
-
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
-
-  @DatabaseField(id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
 
-  @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash = "";
 
-  @DatabaseField(columnName = IP_FIELD)
   private String ip;
 
-  @DatabaseField(columnName = TOTP_TOKEN_FIELD)
   private String totpToken = "";
 
-  @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
 
-
-  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid = "";
 
-  @DatabaseField(columnName = LOGIN_IP_FIELD)
   private String loginIp;
 
-  @DatabaseField(columnName = LOGIN_DATE_FIELD)
   private Long loginDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = TOKEN_ISSUED_AT_FIELD)
   private Long tokenIssuedAt = System.currentTimeMillis();
 
   @Deprecated
@@ -221,5 +205,52 @@ public class RegisteredPlayer {
     this.tokenIssuedAt = tokenIssuedAt;
 
     return this;
+  }
+
+  public static DatabaseTableConfig<RegisteredPlayer> buildPlayerTableConfig(DatabaseType databaseType) {
+    List<DatabaseFieldConfig> fieldConfigs = new ArrayList<>();
+
+    DatabaseFieldConfig fieldConfig = new DatabaseFieldConfig("lowercaseNickname");
+    fieldConfig.setId(true);
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    // Reuse same variable
+    fieldConfig = new DatabaseFieldConfig("hash");
+    fieldConfig.setCanBeNull(false);
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("ip");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("totpToken");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOTP_TOKEN_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("regDate");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("premiumUuid");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("loginIp");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("loginDate");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("tokenIssuedAt");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOKEN_ISSUED_AT_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    DatabaseTableConfig<RegisteredPlayer> tableConfig = new DatabaseTableConfig<>(databaseType, RegisteredPlayer.class, fieldConfigs);
+    tableConfig.setTableName(Settings.IMP.DATABASE.TABLE_NAME);
+    return tableConfig;
   }
 }

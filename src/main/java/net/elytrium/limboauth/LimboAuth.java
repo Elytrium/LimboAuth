@@ -66,15 +66,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -98,7 +90,6 @@ import net.elytrium.limboauth.command.ForceRegisterCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
-import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.event.AuthPluginReloadEvent;
@@ -320,10 +311,10 @@ public class LimboAuth {
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
     try {
-      DatabaseTableConfig<RegisteredPlayer> tableConfig = DatabaseTableConfig.fromClass(connectionSource.getDatabaseType(), RegisteredPlayer.class);
-      tableConfig.setTableName(Settings.IMP.DATABASE.TABLE_NAME);
-      TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+      DatabaseTableConfig<RegisteredPlayer> tableConfig = RegisteredPlayer.buildPlayerTableConfig(connectionSource.getDatabaseType());
+
       this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
+      TableUtils.createTable(this.connectionSource, RegisteredPlayer.class);
       updateColumnNames(tableConfig);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
@@ -348,9 +339,6 @@ public class LimboAuth {
     manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
     manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
     manager.register("destroysession", new DestroySessionCommand(this), "logout");
-    if (Settings.IMP.MAIN.ENABLE_TOTP) {
-      manager.register("2fa", new TotpCommand(this.playerDao), "totp");
-    }
     manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 
     Settings.MAIN.AUTH_COORDS authCoords = Settings.IMP.MAIN.AUTH_COORDS;
@@ -430,13 +418,11 @@ public class LimboAuth {
     tableConfig.getFieldConfigs().forEach(fieldConfig -> fieldMap.put(fieldConfig.getColumnName(), fieldConfig));
 
     // For each field in the RegisteredPlayer class, set the column name to the value in the settings file
-    fieldMap.get("nickname").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.NICKNAME_FIELD);
     fieldMap.get("lowercaseNickname").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD);
     fieldMap.get("hash").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
     fieldMap.get("ip").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD);
     fieldMap.get("totpToken").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOTP_TOKEN_FIELD);
     fieldMap.get("regDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
-    fieldMap.get("uuid").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.UUID_FIELD);
     fieldMap.get("premiumUuid").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
     fieldMap.get("loginIp").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD);
     fieldMap.get("loginDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD);
@@ -666,9 +652,9 @@ public class LimboAuth {
   public void updateLoginData(Player player) throws SQLException {
     String lowercaseNickname = player.getUsername().toLowerCase(Locale.ROOT);
     UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-    updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
-    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
-    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_DATE_FIELD, System.currentTimeMillis());
+    updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
+    updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
+    updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD, System.currentTimeMillis());
     updateBuilder.update();
 
     if (Settings.IMP.MAIN.MOD.ENABLED) {
@@ -742,16 +728,16 @@ public class LimboAuth {
     try {
       QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
       crackedCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
+          .eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname)
           .and()
-          .ne(RegisteredPlayer.HASH_FIELD, "");
+          .ne(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, "");
       crackedCountQuery.setCountOf(true);
 
       QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
       premiumCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
+          .eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname)
           .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
+          .eq(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, "");
       premiumCountQuery.setCountOf(true);
 
       if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
@@ -773,9 +759,9 @@ public class LimboAuth {
     try {
       QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
       premiumCountQuery.where()
-          .eq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString())
+          .eq(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD, uuid.toString())
           .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
+          .eq(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, "");
       premiumCountQuery.setCountOf(true);
 
       return this.playerDao.countOf(premiumCountQuery.prepare()) != 0;
