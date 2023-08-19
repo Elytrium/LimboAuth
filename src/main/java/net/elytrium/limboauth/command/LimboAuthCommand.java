@@ -75,19 +75,19 @@ public class LimboAuthCommand implements SimpleCommand {
     String[] args = invocation.arguments();
 
     int argsAmount = args.length;
-    if (argsAmount > 0) {
-      try {
-        Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
-        if (!subcommand.hasPermission(source)) {
-          this.showHelp(source);
-          return;
-        }
-
-        subcommand.executor.execute(this, source, args);
-      } catch (IllegalArgumentException e) {
+    if (argsAmount == 0) {
+      this.showHelp(source);
+      return;
+    }
+    try {
+      Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
+      if (!subcommand.hasPermission(source)) {
         this.showHelp(source);
+        return;
       }
-    } else {
+
+      subcommand.executor.execute(this, source, args);
+    } catch (IllegalArgumentException e) {
       this.showHelp(source);
     }
   }
@@ -105,12 +105,12 @@ public class LimboAuthCommand implements SimpleCommand {
         .filter(command -> command.hasPermission(source))
         .collect(Collectors.toList());
 
-    if (availableSubcommands.size() > 0) {
-      source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE);
-      availableSubcommands.forEach(command -> source.sendMessage(command.getMessageLine()));
-    } else {
+    if (availableSubcommands.isEmpty()) {
       source.sendMessage(NO_AVAILABLE_SUBCOMMANDS_MESSAGE);
+      return;
     }
+    source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE);
+    availableSubcommands.forEach(command -> source.sendMessage(command.getMessageLine()));
   }
 
   private enum Subcommand {

@@ -159,13 +159,11 @@ public class AuthSessionHandler implements LimboSessionHandler {
         this.proxyPlayer.disconnect(databaseErrorKick);
         throw new SQLRuntimeException(e);
       }
-    } else {
-      if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
+    } else if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
         this.proxyPlayer.disconnect(serializer.deserialize(
-            MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
+                MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
         );
         return;
-      }
     }
 
     boolean bossBarEnabled = !this.loginOnlyByMod && Settings.IMP.MAIN.ENABLE_BOSSBAR;
@@ -265,7 +263,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   @Override
   public void onGeneric(Object packet) {
-    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessage) {
+      if (!Settings.IMP.MAIN.MOD.ENABLED || !(packet instanceof PluginMessage)) {
+          return;
+      }
       PluginMessage pluginMessage = (PluginMessage) packet;
       String channel = pluginMessage.getChannel();
 
@@ -275,50 +275,52 @@ public class AuthSessionHandler implements LimboSessionHandler {
         if (Settings.IMP.MAIN.MOD.ENABLED) {
           this.proxyPlayer.sendPluginMessage(this.plugin.getChannelIdentifier(this.proxyPlayer), new byte[0]);
         }
-      } else if (channel.equals(this.plugin.getChannelIdentifier(this.proxyPlayer).getId())) {
-        if (this.tokenReceived) {
-          this.checkBruteforceAttempts();
-          this.proxyPlayer.disconnect(Component.empty());
-          return;
-        }
-
-        this.tokenReceived = true;
-
-        if (this.playerInfo == null) {
-          return;
-        }
-
-        ByteBuf data = pluginMessage.content();
-
-        if (data.readableBytes() < 16) {
-          this.checkBruteforceAttempts();
-          this.proxyPlayer.sendMessage(sessionExpired);
-          return;
-        }
-
-        long issueTime = data.readLong();
-        long hash = data.readLong();
-
-        if (this.playerInfo.getTokenIssuedAt() > issueTime) {
-          this.proxyPlayer.sendMessage(sessionExpired);
-          return;
-        }
-
-        byte[] lowercaseNicknameSerialized = this.playerInfo.getLowercaseNickname().getBytes(StandardCharsets.UTF_8);
-        long correctHash = SipHasher.init(Settings.IMP.MAIN.MOD.VERIFY_KEY)
-            .update(lowercaseNicknameSerialized)
-            .update(Longs.toByteArray(issueTime))
-            .digest();
-
-        if (hash != correctHash) {
-          this.checkBruteforceAttempts();
-          this.proxyPlayer.sendMessage(sessionExpired);
-          return;
-        }
-
-        this.finishAuth();
+        return;
       }
-    }
+      if (!channel.equals(this.plugin.getChannelIdentifier(this.proxyPlayer).getId())) {
+          return;
+      }
+      if (this.tokenReceived) {
+        this.checkBruteforceAttempts();
+        this.proxyPlayer.disconnect(Component.empty());
+        return;
+      }
+
+      this.tokenReceived = true;
+
+      if (this.playerInfo == null) {
+        return;
+      }
+
+      ByteBuf data = pluginMessage.content();
+
+      if (data.readableBytes() < 16) {
+        this.checkBruteforceAttempts();
+        this.proxyPlayer.sendMessage(sessionExpired);
+        return;
+      }
+
+      long issueTime = data.readLong();
+      long hash = data.readLong();
+
+      if (this.playerInfo.getTokenIssuedAt() > issueTime) {
+        this.proxyPlayer.sendMessage(sessionExpired);
+        return;
+      }
+
+      byte[] lowercaseNicknameSerialized = this.playerInfo.getLowercaseNickname().getBytes(StandardCharsets.UTF_8);
+      long correctHash = SipHasher.init(Settings.IMP.MAIN.MOD.VERIFY_KEY)
+          .update(lowercaseNicknameSerialized)
+          .update(Longs.toByteArray(issueTime))
+          .digest();
+
+      if (hash != correctHash) {
+        this.checkBruteforceAttempts();
+        this.proxyPlayer.sendMessage(sessionExpired);
+        return;
+      }
+
+      this.finishAuth();
   }
 
   private void checkBruteforceAttempts() {
@@ -342,21 +344,21 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void sendMessage(boolean sendTitle) {
+    Component message;
+    Title title;
     if (this.totpState) {
-      this.proxyPlayer.sendMessage(totp);
-      if (sendTitle && totpTitle != null) {
-        this.proxyPlayer.showTitle(totpTitle);
-      }
+      message = totp;
+      title = totpTitle;
     } else if (this.playerInfo == null) {
-      this.proxyPlayer.sendMessage(register);
-      if (sendTitle && registerTitle != null) {
-        this.proxyPlayer.showTitle(registerTitle);
-      }
+      message = register;
+      title = registerTitle;
     } else {
-      this.proxyPlayer.sendMessage(login[this.attempts - 1]);
-      if (sendTitle && loginTitle != null) {
-        this.proxyPlayer.showTitle(loginTitle);
-      }
+      message = login[this.attempts - 1];
+      title = loginTitle;
+    }
+    this.proxyPlayer.sendMessage(message);
+    if (sendTitle && title != null) {
+      this.proxyPlayer.showTitle(title);
     }
   }
 
@@ -371,10 +373,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private boolean checkPasswordsRepeat(String[] args) {
     if (!Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD || args[1].equals(args[2])) {
       return true;
-    } else {
-      this.proxyPlayer.sendMessage(registerDifferentPasswords);
-      return false;
     }
+    this.proxyPlayer.sendMessage(registerDifferentPasswords);
+    return false;
   }
 
   private boolean checkPasswordLength(String password) {
@@ -385,18 +386,16 @@ public class AuthSessionHandler implements LimboSessionHandler {
     } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
       this.proxyPlayer.sendMessage(registerPasswordTooShort);
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   private boolean checkPasswordStrength(String password) {
-    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && this.plugin.getUnsafePasswords().contains(password)) {
-      this.proxyPlayer.sendMessage(registerPasswordUnsafe);
-      return false;
-    } else {
+    if (!Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH || !this.plugin.getUnsafePasswords().contains(password)) {
       return true;
     }
+    this.proxyPlayer.sendMessage(registerPasswordUnsafe);
+    return false;
   }
 
   private void finishLogin() {
@@ -523,19 +522,21 @@ public class AuthSessionHandler implements LimboSessionHandler {
         hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
-    if (!isCorrect && migrationHash != null) {
-      isCorrect = migrationHash.checkPassword(hash, password);
-      if (isCorrect) {
-        player.setPassword(password);
-        try {
-          playerDao.update(player);
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
-        }
-      }
+    if (isCorrect || migrationHash == null) {
+        return isCorrect;
+    }
+    isCorrect = migrationHash.checkPassword(hash, password);
+    if (!isCorrect) {
+        return false;
+    }
+    player.setPassword(password);
+    try {
+      playerDao.update(player);
+    } catch (SQLException e) {
+      throw new SQLRuntimeException(e);
     }
 
-    return isCorrect;
+    return true;
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {

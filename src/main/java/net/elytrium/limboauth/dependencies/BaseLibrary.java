@@ -82,13 +82,11 @@ public enum BaseLibrary {
   @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
   public URL getClassLoaderURL() throws MalformedURLException {
     if (!Files.exists(this.filenamePath)) {
-      try {
-        try (InputStream in = this.mavenRepoURL.openStream()) {
+      try (InputStream in = this.mavenRepoURL.openStream()) {
           Files.createDirectories(this.filenamePath.getParent());
           Files.copy(in, Files.createFile(this.filenamePath), StandardCopyOption.REPLACE_EXISTING);
-        }
       } catch (IOException e) {
-        throw new IllegalArgumentException(e);
+          throw new IllegalArgumentException(e);
       }
     }
 

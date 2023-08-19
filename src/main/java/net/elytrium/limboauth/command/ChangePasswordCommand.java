@@ -64,54 +64,54 @@ public class ChangePasswordCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (source instanceof Player) {
-      String username = ((Player) source).getUsername();
-      RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+    if (!(source instanceof Player)) {
+      source.sendMessage(this.notPlayer);
+      return;
+    }
+    String username = ((Player) source).getUsername();
+    RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
 
-      if (player == null) {
-        source.sendMessage(this.notRegistered);
-        return;
-      }
+    if (player == null) {
+      source.sendMessage(this.notRegistered);
+      return;
+    }
 
-      boolean onlineMode = player.getHash().isEmpty();
-      boolean needOldPass = this.needOldPass && !onlineMode;
-      if (needOldPass) {
-        if (args.length < 2) {
-          source.sendMessage(this.usage);
-          return;
-        }
-
-        if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-          source.sendMessage(this.wrongPassword);
-          return;
-        }
-      } else if (args.length < 1) {
+    boolean onlineMode = player.getHash().isEmpty();
+    boolean needOldPass = this.needOldPass && !onlineMode;
+    if (needOldPass) {
+      if (args.length < 2) {
         source.sendMessage(this.usage);
         return;
       }
 
-      try {
-        final String oldHash = player.getHash();
-        final String newPassword = needOldPass ? args[1] : args[0];
-        final String newHash = RegisteredPlayer.genHash(newPassword);
-
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, username.toLowerCase());
-        updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
-        updateBuilder.update();
-
-        this.plugin.removePlayerFromCache(username);
-
-        this.plugin.getServer().getEventManager().fireAndForget(
-            new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
-
-        source.sendMessage(this.successful);
-      } catch (SQLException e) {
-        source.sendMessage(this.errorOccurred);
-        throw new SQLRuntimeException(e);
+      if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+        source.sendMessage(this.wrongPassword);
+        return;
       }
-    } else {
-      source.sendMessage(this.notPlayer);
+    } else if (args.length < 1) {
+      source.sendMessage(this.usage);
+      return;
+    }
+
+    try {
+      final String oldHash = player.getHash();
+      final String newPassword = needOldPass ? args[1] : args[0];
+      final String newHash = RegisteredPlayer.genHash(newPassword);
+
+      UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+      updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, username.toLowerCase());
+      updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
+      updateBuilder.update();
+
+      this.plugin.removePlayerFromCache(username);
+
+      this.plugin.getServer().getEventManager().fireAndForget(
+          new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
+
+      source.sendMessage(this.successful);
+    } catch (SQLException e) {
+      source.sendMessage(this.errorOccurred);
+      throw new SQLRuntimeException(e);
     }
   }
 

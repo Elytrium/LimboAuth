@@ -70,40 +70,40 @@ public class ForceChangePasswordCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (args.length == 2) {
-      String nickname = args[0];
-      String newPassword = args[1];
-
-      Serializer serializer = LimboAuth.getSerializer();
-      try {
-        RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
-
-        if (registeredPlayer == null) {
-          source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, nickname)));
-          return;
-        }
-
-        final String oldHash = registeredPlayer.getHash();
-        final String newHash = RegisteredPlayer.genHash(newPassword);
-
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
-        updateBuilder.update();
-
-        this.plugin.removePlayerFromCache(nickname);
-        this.server.getPlayer(nickname)
-            .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
-
-        this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(registeredPlayer, null, oldHash, newPassword, newHash));
-
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        throw new SQLRuntimeException(e);
-      }
-    } else {
+    if (args.length != 2) {
       source.sendMessage(this.usage);
+      return;
+    }
+    String nickname = args[0];
+    String newPassword = args[1];
+
+    Serializer serializer = LimboAuth.getSerializer();
+    try {
+      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+
+      if (registeredPlayer == null) {
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, nickname)));
+        return;
+      }
+
+      final String oldHash = registeredPlayer.getHash();
+      final String newHash = RegisteredPlayer.genHash(newPassword);
+
+      UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+      updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
+      updateBuilder.update();
+
+      this.plugin.removePlayerFromCache(nickname);
+      this.server.getPlayer(nickname)
+          .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
+
+      this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(registeredPlayer, null, oldHash, newPassword, newHash));
+
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
+    } catch (SQLException e) {
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+      throw new SQLRuntimeException(e);
     }
   }
 

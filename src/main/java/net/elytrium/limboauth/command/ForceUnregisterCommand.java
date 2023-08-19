@@ -67,22 +67,22 @@ public class ForceUnregisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (args.length == 1) {
-      String playerNick = args[0];
-
-      Serializer serializer = LimboAuth.getSerializer();
-      try {
-        this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-        this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
-        this.plugin.removePlayerFromCache(playerNick);
-        this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
-        throw new SQLRuntimeException(e);
-      }
-    } else {
+    if (args.length != 1) {
       source.sendMessage(this.usage);
+      return;
+    }
+    String playerNick = args[0];
+
+    Serializer serializer = LimboAuth.getSerializer();
+    try {
+      this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
+      this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
+      this.plugin.removePlayerFromCache(playerNick);
+      this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
+    } catch (SQLException e) {
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
+      throw new SQLRuntimeException(e);
     }
   }
 

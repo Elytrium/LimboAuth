@@ -57,33 +57,33 @@ public class ForceRegisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (args.length == 2) {
-      String nickname = args[0];
-      String password = args[1];
-
-      Serializer serializer = LimboAuth.getSerializer();
-      try {
-        if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
-          source.sendMessage(this.incorrectNickname);
-          return;
-        }
-
-        String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-        if (this.playerDao.idExists(lowercaseNickname)) {
-          source.sendMessage(this.takenNickname);
-          return;
-        }
-
-        RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
-        this.playerDao.create(player);
-
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        throw new SQLRuntimeException(e);
-      }
-    } else {
+    if (args.length != 2) {
       source.sendMessage(this.usage);
+      return;
+    }
+    String nickname = args[0];
+    String password = args[1];
+
+    Serializer serializer = LimboAuth.getSerializer();
+    try {
+      if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
+        source.sendMessage(this.incorrectNickname);
+        return;
+      }
+
+      String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+      if (this.playerDao.idExists(lowercaseNickname)) {
+        source.sendMessage(this.takenNickname);
+        return;
+      }
+
+      RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
+      this.playerDao.create(player);
+
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
+    } catch (SQLException e) {
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+      throw new SQLRuntimeException(e);
     }
   }
 

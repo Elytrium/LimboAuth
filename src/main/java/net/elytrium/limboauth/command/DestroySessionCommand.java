@@ -44,12 +44,12 @@ public class DestroySessionCommand implements SimpleCommand {
   public void execute(SimpleCommand.Invocation invocation) {
     CommandSource source = invocation.source();
 
-    if (source instanceof Player) {
-      this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful);
-    } else {
+    if (!(source instanceof Player)) {
       source.sendMessage(this.notPlayer);
+      return;
     }
+    this.plugin.removePlayerFromCache(((Player) source).getUsername());
+    source.sendMessage(this.successful);
   }
 
   @Override

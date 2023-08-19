@@ -66,36 +66,36 @@ public class UnregisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (source instanceof Player) {
-      if (args.length == 2) {
-        if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String username = ((Player) source).getUsername();
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
-          if (player == null) {
-            source.sendMessage(this.notRegistered);
-          } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand);
-          } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            try {
-              this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-              this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
-              this.plugin.removePlayerFromCache(username);
-              ((Player) source).disconnect(this.successful);
-            } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
-              throw new SQLRuntimeException(e);
-            }
-          } else {
-            source.sendMessage(this.wrongPassword);
-          }
-
-          return;
-        }
-      }
-
-      source.sendMessage(this.usage);
-    } else {
+    if (!(source instanceof Player)) {
       source.sendMessage(this.notPlayer);
+      return;
+    }
+    if (args.length != 2 || !this.confirmKeyword.equalsIgnoreCase(args[1])) {
+        source.sendMessage(this.usage);
+        return;
+    }
+    String username = ((Player) source).getUsername();
+    RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+    if (player == null) {
+        source.sendMessage(this.notRegistered);
+        return;
+    }
+    if (player.getHash().isEmpty()) {
+        source.sendMessage(this.crackedCommand);
+        return;
+    }
+    if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+        source.sendMessage(this.wrongPassword);
+        return;
+    }
+    try {
+        this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
+        this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
+        this.plugin.removePlayerFromCache(username);
+        ((Player) source).disconnect(this.successful);
+    } catch (SQLException e) {
+        source.sendMessage(this.errorOccurred);
+        throw new SQLRuntimeException(e);
     }
   }
 

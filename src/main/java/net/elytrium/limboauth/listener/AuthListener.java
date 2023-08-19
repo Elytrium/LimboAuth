@@ -65,14 +65,14 @@ public class AuthListener {
 
   @Subscribe
   public void onPreLoginEvent(PreLoginEvent event) {
-    if (!event.getResult().isForceOfflineMode()) {
-      if (this.plugin.isPremium(event.getUsername())) {
-        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
-      } else {
-        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
-      }
-    } else {
+    if (event.getResult().isForceOfflineMode()) {
       this.plugin.saveForceOfflineMode(event.getUsername());
+      return;
+    }
+    if (this.plugin.isPremium(event.getUsername())) {
+      event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
+    } else {
+      event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
     }
   }
 
@@ -105,13 +105,14 @@ public class AuthListener {
   public void onPostLogin(PostLoginEvent event) {
     UUID uuid = event.getPlayer().getUniqueId();
     Runnable postLoginTask = this.plugin.getPostLoginTasks().remove(uuid);
-    if (postLoginTask != null) {
-      // We need to delay for player's client to finish switching the server, it takes a little time.
-      this.plugin.getServer().getScheduler()
-          .buildTask(this.plugin, postLoginTask)
-          .delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS)
-          .schedule();
+    if (postLoginTask == null) {
+        return;
     }
+    // We need to delay for player's client to finish switching the server, it takes a little time.
+    this.plugin.getServer().getScheduler()
+        .buildTask(this.plugin, postLoginTask)
+        .delay(Settings.IMP.MAIN.PREMIUM_AND_FLOODGATE_MESSAGES_DELAY, TimeUnit.MILLISECONDS)
+        .schedule();
   }
 
   @Subscribe
