@@ -313,9 +313,8 @@ public class LimboAuth {
     try {
       DatabaseTableConfig<RegisteredPlayer> tableConfig = RegisteredPlayer.buildPlayerTableConfig(connectionSource.getDatabaseType());
 
-      this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
-      TableUtils.createTable(this.connectionSource, RegisteredPlayer.class);
-      updateColumnNames(tableConfig);
+      this.playerDao = DaoManager.createDao(this.connectionSource, tableConfig);
+      TableUtils.createTableIfNotExists(this.connectionSource, tableConfig);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
@@ -411,22 +410,6 @@ public class LimboAuth {
         .schedule();
 
     eventManager.fireAndForget(new AuthPluginReloadEvent());
-  }
-
-  private void updateColumnNames(DatabaseTableConfig<RegisteredPlayer> tableConfig) throws SQLException {
-    Map<String,DatabaseFieldConfig> fieldMap = new HashMap<>();
-    tableConfig.getFieldConfigs().forEach(fieldConfig -> fieldMap.put(fieldConfig.getColumnName(), fieldConfig));
-
-    // For each field in the RegisteredPlayer class, set the column name to the value in the settings file
-    fieldMap.get("lowercaseNickname").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD);
-    fieldMap.get("hash").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
-    fieldMap.get("ip").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD);
-    fieldMap.get("totpToken").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOTP_TOKEN_FIELD);
-    fieldMap.get("regDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
-    fieldMap.get("premiumUuid").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
-    fieldMap.get("loginIp").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD);
-    fieldMap.get("loginDate").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD);
-    fieldMap.get("tokenIssuedAt").setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOKEN_ISSUED_AT_FIELD);
   }
 
   private List<String> filterCommands(List<String> commands) {
