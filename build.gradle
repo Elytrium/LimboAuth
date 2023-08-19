@@ -22,12 +22,9 @@ compileJava {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 
-    maven {
-        setName("elytrium-repo")
-        setUrl("https://maven.elytrium.net/repo/")
-    }
     maven {
         setName("papermc-repo")
         setUrl("https://papermc.io/repo/repository/maven-public/")
@@ -47,7 +44,8 @@ dependencies {
 
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
-    compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
+    //compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
+    compileOnly(files("libs/velocity-proxy-3.2.0-SNAPSHOT.jar"))
 
     // Needs for some velocity methods.
     compileOnly("io.netty:netty-codec:$nettyVersion")

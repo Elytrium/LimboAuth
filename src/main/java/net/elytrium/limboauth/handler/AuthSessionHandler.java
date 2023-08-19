@@ -137,7 +137,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (this.playerInfo == null) {
       try {
         String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(RegisteredPlayer.IP_FIELD, ip);
+        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD, ip);
         if (alreadyRegistered != null) {
           int sizeOfValidRegistrations = alreadyRegistered.size();
           if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
@@ -540,7 +540,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
     try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD, uuid.toString());
       return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
@@ -549,7 +549,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
     try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
       return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
