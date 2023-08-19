@@ -158,3 +158,11 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 ```
+
+# Notes
+
+When validating MFA, we will need to check table `core_googleauth_used_codes` for whether a code has already been used.
+
+If a user has security questions enabled, they will have bit `1 << 9` set in `members_bitoptions2` column in table `core_members`. The answers themselves are stored in table `core_security_answers`. The answers are encrypted in some fashion, which we'll need to figure out if we want to use them.
+
+If a user's email is unverified, they will have bit `1 << 30` set in `members_bitoptions` column in table `core_members`. They'll also have a row in `core_validating`, but that probably isn't as handy.
