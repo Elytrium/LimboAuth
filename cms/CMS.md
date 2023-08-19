@@ -166,3 +166,14 @@ When validating MFA, we will need to check table `core_googleauth_used_codes` fo
 If a user has security questions enabled, they will have bit `1 << 9` set in `members_bitoptions2` column in table `core_members`. The answers themselves are stored in table `core_security_answers`. The answers are encrypted in some fashion, which we'll need to figure out if we want to use them.
 
 If a user's email is unverified, they will have bit `1 << 30` set in `members_bitoptions` column in table `core_members`. They'll also have a row in `core_validating`, but that probably isn't as handy.
+
+Seems like display name can be changed by simply editing the `name` column in `core_members`. Consider adding an entry to `core_admin_logs`, for example:
+
+```sql
+INSERT INTO `core_admin_logs` (`id`, `member_id`, `ctime`, `note`, `ip_address`, `appcomponent`, `module`, `controller`, `do`, `lang_key`, `member_name`) VALUES (NULL, '1', '1692479092', '{\"NEW_USERNAME\":false}', '127.0.0.1', 'core', 'members', 'members', 'name', 'acplog__members_edited_name', 'admin') 
+```
+
+and an entry to `core_member_history`, like:
+```sql
+INSERT INTO `core_member_history` (`log_id`, `log_app`, `log_member`, `log_by`, `log_type`, `log_data`, `log_date`, `log_ip_address`) VALUES (NULL, 'core', '4', '1', 'display_name', '{\"old\":\"OLD USERNAME\",\"new\":\"NEW USERNAME\",\"by\":\"manual\"}', '1692479092', '127.0.0.1') 
+```
