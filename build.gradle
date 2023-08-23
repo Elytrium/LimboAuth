@@ -33,6 +33,10 @@ repositories {
         setName("opencollab-snapshot")
         setUrl("https://repo.opencollab.dev/maven-snapshots")
     }
+    maven {
+        setName("elytrium-repo")
+        setUrl("https://maven.elytrium.net/#/repo")
+    }
 }
 
 dependencies {
