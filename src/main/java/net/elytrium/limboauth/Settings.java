@@ -478,24 +478,26 @@ public class Settings extends YamlConfig {
     public String HOSTNAME = "127.0.0.1:3306";
     public String USER = "user";
     public String PASSWORD = "password";
-    public String DATABASE = "limboauth";
+    public String DATABASE = "cms";
     public String CONNECTION_PARAMETERS = "?autoReconnect=true&initialTimeout=1&useSSL=false";
-    public String TABLE_NAME = "AUTH";
+    public String TABLE_NAME = "core_members";
 
     @Create
     public COLUMN_NAMES COLUMN_NAMES;
 
     @Comment("Column name settings")
     public static class COLUMN_NAMES {
-      public String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-      public String HASH_FIELD = "HASH";
-      public String IP_FIELD = "IP";
-      public String LOGIN_IP_FIELD = "LOGINIP";
-      public String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-      public String REG_DATE_FIELD = "REGDATE";
+      public String LOWERCASE_NICKNAME_FIELD = "name";
+      public String HASH_FIELD = "members_pass_hash";
+      public String IP_FIELD = "ip_address";
+      public String LOGIN_IP_FIELD = "login_ip_address";
+      public String TOTP_TOKEN_FIELD = "mfa_details";
+      public String REG_DATE_FIELD = "MINECRAFT_REGISTER_DATE";
       public String LOGIN_DATE_FIELD = "LOGINDATE";
+      public String UUID_FIELD = "UUID";
       public String PREMIUM_UUID_FIELD = "PREMIUMUUID";
       public String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
+      public String CMS_BITOPTIONS_FIELD = "members_bitoptions";
     }
   }
 

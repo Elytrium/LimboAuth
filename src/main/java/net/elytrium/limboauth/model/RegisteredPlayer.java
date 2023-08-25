@@ -18,8 +18,9 @@
 package net.elytrium.limboauth.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.table.DatabaseTable;
 import com.j256.ormlite.table.DatabaseTableConfig;
@@ -42,9 +43,11 @@ public class RegisteredPlayer {
 
   private String ip;
 
-  private String totpToken = "";
+  private String totpJson = "";
 
   private Long regDate = System.currentTimeMillis();
+
+  private String uuid = "";
 
   private String premiumUuid = "";
 
@@ -54,13 +57,17 @@ public class RegisteredPlayer {
 
   private Long tokenIssuedAt = System.currentTimeMillis();
 
+  private int cmsBitOptions = 0;
+
   @Deprecated
-  public RegisteredPlayer(String nickname, String hash, String ip, String totpToken, Long regDate, String premiumUuid, String loginIp, Long loginDate) {
+  public RegisteredPlayer(String nickname, String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     this.hash = hash;
     this.ip = ip;
-    this.totpToken = totpToken;
+    // Use setter for deserialization
+    this.setTotpToken(totpToken);
     this.regDate = regDate;
+    this.uuid = uuid;
     this.premiumUuid = premiumUuid;
     this.loginIp = loginIp;
     this.loginDate = loginDate;
@@ -76,7 +83,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    this.premiumUuid = uuid;
+    this.uuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
   }
@@ -132,13 +139,15 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setTotpToken(String totpToken) {
-    this.totpToken = totpToken;
+    JsonObject totpJson = new JsonObject();
+    totpJson.addProperty("google", totpToken);
+    this.totpJson = totpJson.toString();
 
     return this;
   }
 
   public String getTotpToken() {
-    return this.totpToken == null ? "" : this.totpToken;
+    return this.totpJson == null ? "" : JsonParser.parseString(this.totpJson).getAsJsonObject().get("google").getAsString();
   }
 
   public RegisteredPlayer setRegDate(Long regDate) {
@@ -152,13 +161,13 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setUuid(String uuid) {
-    this.premiumUuid = uuid;
+    this.uuid = uuid;
 
     return this;
   }
 
   public String getUuid() {
-    return premiumUuid;
+    return uuid == null ? "" : uuid;
   }
 
   public RegisteredPlayer setPremiumUuid(String premiumUuid) {
@@ -207,6 +216,10 @@ public class RegisteredPlayer {
     return this;
   }
 
+  public boolean hasVerifiedEmail() {
+    return (this.cmsBitOptions & 1 << 30) == 0;
+  }
+
   public static DatabaseTableConfig<RegisteredPlayer> buildPlayerTableConfig(DatabaseType databaseType) {
     List<DatabaseFieldConfig> fieldConfigs = new ArrayList<>();
 
@@ -233,6 +246,10 @@ public class RegisteredPlayer {
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
     fieldConfigs.add(fieldConfig);
 
+    fieldConfig = new DatabaseFieldConfig("uuid");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.UUID_FIELD);
+    fieldConfigs.add(fieldConfig);
+
     fieldConfig = new DatabaseFieldConfig("premiumUuid");
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
     fieldConfigs.add(fieldConfig);
@@ -247,6 +264,10 @@ public class RegisteredPlayer {
 
     fieldConfig = new DatabaseFieldConfig("tokenIssuedAt");
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOKEN_ISSUED_AT_FIELD);
+    fieldConfigs.add(fieldConfig);
+
+    fieldConfig = new DatabaseFieldConfig("cmsBitOptions");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.CMS_BITOPTIONS_FIELD);
     fieldConfigs.add(fieldConfig);
 
     DatabaseTableConfig<RegisteredPlayer> tableConfig = new DatabaseTableConfig<>(databaseType, RegisteredPlayer.class, fieldConfigs);

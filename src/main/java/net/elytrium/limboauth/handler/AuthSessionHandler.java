@@ -202,32 +202,33 @@ public class AuthSessionHandler implements LimboSessionHandler {
       Command command = Command.parse(args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
         String password = args[1];
-        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
-          this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+        if (!this.checkPasswordsRepeat(args) || !this.checkPasswordLength(password) || !this.checkPasswordStrength(password)) {
+            return;
+        }
+        this.saveTempPassword(password);
+        RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
-          try {
-            this.playerDao.create(registeredPlayer);
-            this.playerInfo = registeredPlayer;
-          } catch (SQLException e) {
-            this.proxyPlayer.disconnect(databaseErrorKick);
-            throw new SQLRuntimeException(e);
-          }
-
-          this.proxyPlayer.sendMessage(registerSuccessful);
-          if (registerSuccessfulTitle != null) {
-            this.proxyPlayer.showTitle(registerSuccessfulTitle);
-          }
-
-          this.plugin.getServer().getEventManager()
-              .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
-              .thenAcceptAsync(this::finishAuth);
+        try {
+          this.playerDao.create(registeredPlayer);
+          this.playerInfo = registeredPlayer;
+        } catch (SQLException e) {
+          this.proxyPlayer.disconnect(databaseErrorKick);
+          throw new SQLRuntimeException(e);
         }
 
-        // {@code return} placed here (not above), because
+        this.proxyPlayer.sendMessage(registerSuccessful);
+        if (registerSuccessfulTitle != null) {
+          this.proxyPlayer.showTitle(registerSuccessfulTitle);
+        }
+
+        this.plugin.getServer().getEventManager()
+            .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
+            .thenAcceptAsync(this::finishAuth);
+
+          // {@code return} placed here (not above), because
         // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
         // invoking Player#sendMessage that sends its own message in case if the return value is false.
-        // If we don't place {@code return} here, an another message (AuthSessionHandler#sendMessage) will be sent.
+        // If we don't place {@code return} here, another message (AuthSessionHandler#sendMessage) will be sent.
         return;
       } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
         String password = args[1];
