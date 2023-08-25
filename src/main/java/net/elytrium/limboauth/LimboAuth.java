@@ -335,8 +335,9 @@ public class LimboAuth {
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
+    // TODO: implement
+    //manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
+    //manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
     manager.register("destroysession", new DestroySessionCommand(this), "logout");
     manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 

@@ -100,7 +100,6 @@ public class Settings extends YamlConfig {
     public boolean SAVE_PREMIUM_ACCOUNTS = true;
     public boolean ENABLE_TOTP = true;
     public boolean TOTP_NEED_PASSWORD = true;
-    public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
     public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
     @Comment("Used in unregister and premium commands.")
     public String CONFIRM_KEYWORD = "confirm";
@@ -396,7 +395,7 @@ public class Settings extends YamlConfig {
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
-      public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
+      public String REGISTER = "{PRFX} Please, register using &6/register <email> <password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
       public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
@@ -405,7 +404,7 @@ public class Settings extends YamlConfig {
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
+      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <email> <password>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)

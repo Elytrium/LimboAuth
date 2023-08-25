@@ -191,6 +191,54 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
   }
 
+  private void handleRegister(String[] args) {
+    String password = args[1];
+    if (!this.checkPasswordLength(password) || !this.checkPasswordStrength(password)) {
+      return;
+    }
+    this.saveTempPassword(password);
+    RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+
+    try {
+      this.playerDao.create(registeredPlayer);
+      this.playerInfo = registeredPlayer;
+    } catch (SQLException e) {
+      this.proxyPlayer.disconnect(databaseErrorKick);
+      throw new SQLRuntimeException(e);
+    }
+
+    this.proxyPlayer.sendMessage(registerSuccessful);
+    if (registerSuccessfulTitle != null) {
+      this.proxyPlayer.showTitle(registerSuccessfulTitle);
+    }
+
+    this.plugin.getServer().getEventManager()
+            .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
+            .thenAcceptAsync(this::finishAuth);
+
+    // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
+    // invoking Player#sendMessage that sends its own message in case if the return value is false.
+  }
+
+  private void handleLogin(String[] args) {
+    String password = args[1];
+    this.saveTempPassword(password);
+
+    if (!password.isEmpty() && checkPassword(password, this.playerInfo, this.playerDao)) {
+      if (this.playerInfo.getTotpToken().isEmpty()) {
+        this.finishLogin();
+      } else {
+        this.totpState = true;
+        this.sendMessage(true);
+      }
+    } else if (--this.attempts != 0) {
+      this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1]);
+      this.checkBruteforceAttempts();
+    } else {
+      this.proxyPlayer.disconnect(loginWrongPasswordKick);
+    }
+  }
+
   @Override
   public void onChat(String message) {
     if (this.loginOnlyByMod) {
@@ -198,64 +246,23 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     String[] args = message.split(" ");
-    if (args.length != 0 && this.checkArgsLength(args.length)) {
-      Command command = Command.parse(args[0]);
-      if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
-        String password = args[1];
-        if (!this.checkPasswordsRepeat(args) || !this.checkPasswordLength(password) || !this.checkPasswordStrength(password)) {
-            return;
-        }
-        this.saveTempPassword(password);
-        RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
-
-        try {
-          this.playerDao.create(registeredPlayer);
-          this.playerInfo = registeredPlayer;
-        } catch (SQLException e) {
-          this.proxyPlayer.disconnect(databaseErrorKick);
-          throw new SQLRuntimeException(e);
-        }
-
-        this.proxyPlayer.sendMessage(registerSuccessful);
-        if (registerSuccessfulTitle != null) {
-          this.proxyPlayer.showTitle(registerSuccessfulTitle);
-        }
-
-        this.plugin.getServer().getEventManager()
-            .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
-            .thenAcceptAsync(this::finishAuth);
-
-          // {@code return} placed here (not above), because
-        // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
-        // invoking Player#sendMessage that sends its own message in case if the return value is false.
-        // If we don't place {@code return} here, another message (AuthSessionHandler#sendMessage) will be sent.
+    if (args.length != 2) {
+      this.sendMessage(false);
+      return;
+    }
+    Command command = Command.parse(args[0]);
+    if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
+      handleRegister(args);
+      return;
+    } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
+      handleLogin(args);
+      return;
+    } else if (command == Command.TOTP && this.totpState && this.playerInfo != null) {
+      if (TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
+        this.finishLogin();
         return;
-      } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
-        String password = args[1];
-        this.saveTempPassword(password);
-
-        if (password.length() > 0 && checkPassword(password, this.playerInfo, this.playerDao)) {
-          if (this.playerInfo.getTotpToken().isEmpty()) {
-            this.finishLogin();
-          } else {
-            this.totpState = true;
-            this.sendMessage(true);
-          }
-        } else if (--this.attempts != 0) {
-          this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1]);
-          this.checkBruteforceAttempts();
-        } else {
-          this.proxyPlayer.disconnect(loginWrongPasswordKick);
-        }
-
-        return;
-      } else if (command == Command.TOTP && this.totpState && this.playerInfo != null) {
-        if (TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
-          this.finishLogin();
-          return;
-        } else {
-          this.checkBruteforceAttempts();
-        }
+      } else {
+        this.checkBruteforceAttempts();
       }
     }
 
@@ -361,22 +368,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (sendTitle && title != null) {
       this.proxyPlayer.showTitle(title);
     }
-  }
-
-  private boolean checkArgsLength(int argsLength) {
-    if (this.playerInfo == null && Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD) {
-      return argsLength == 3;
-    } else {
-      return argsLength == 2;
-    }
-  }
-
-  private boolean checkPasswordsRepeat(String[] args) {
-    if (!Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD || args[1].equals(args[2])) {
-      return true;
-    }
-    this.proxyPlayer.sendMessage(registerDifferentPasswords);
-    return false;
   }
 
   private boolean checkPasswordLength(String password) {
@@ -520,7 +511,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
     String hash = player.getHash();
     boolean isCorrect = HASH_VERIFIER.verify(
         password.getBytes(StandardCharsets.UTF_8),
-        hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
+        // `$2y$` -> `$2a$` from https://invisioncommunity.com/forums/topic/466097-where-is-password-salt-stored/?do=findComment&comment=2884363
+        hash.replace("BCRYPT$", "$2a$").replace("$2y$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
     if (isCorrect || migrationHash == null) {
