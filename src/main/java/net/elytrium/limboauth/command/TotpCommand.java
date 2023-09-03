@@ -17,8 +17,6 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
@@ -28,22 +26,23 @@ import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 public class TotpCommand implements SimpleCommand {
 
   private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
   private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
 
   private final Component notPlayer;
   private final Component usage;
@@ -63,8 +62,8 @@ public class TotpCommand implements SimpleCommand {
   private final Component wrong;
   private final Component crackedCommand;
 
-  public TotpCommand(Dao<RegisteredPlayer, String> playerDao) {
-    this.playerDao = playerDao;
+  public TotpCommand(DSLContext dslContext) {
+    this.dslContext = dslContext;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
@@ -97,81 +96,91 @@ public class TotpCommand implements SimpleCommand {
         source.sendMessage(this.usage);
       } else {
         String username = ((Player) source).getUsername();
+        String lowercaseNickname = username.toLowerCase(Locale.ROOT);
 
-        RegisteredPlayer playerInfo;
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder;
         if (args[0].equalsIgnoreCase("enable")) {
           if (this.needPassword ? args.length == 2 : args.length == 1) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
-            if (playerInfo == null) {
-              source.sendMessage(this.notRegistered);
-              return;
-            } else if (playerInfo.getHash().isEmpty()) {
-              source.sendMessage(this.crackedCommand);
-              return;
-            } else if (this.needPassword && !AuthSessionHandler.checkPassword(args[1], playerInfo, this.playerDao)) {
-              source.sendMessage(this.wrongPassword);
-              return;
-            }
+            RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, this.needPassword ? args[1] : null,
+                () -> source.sendMessage(this.notRegistered),
+                () -> source.sendMessage(this.crackedCommand),
+                h -> this.dslContext.selectFrom(RegisteredPlayer.Table.INSTANCE)
+                    .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                    .fetchAsync()
+                    .thenAccept(totpTokenResult -> {
+                      if (totpTokenResult.isEmpty() || totpTokenResult.get(0).get(0, String.class).isEmpty()) {
+                        String secret = this.secretGenerator.generate();
+                        this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
+                            .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, secret)
+                            .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                            .executeAsync()
+                            .thenRun(() -> source.sendMessage(this.successful))
+                            .exceptionally(e -> {
+                              // TODO: logger
+                              source.sendMessage(this.errorOccurred);
+                              return null;
+                            });
 
-            if (!playerInfo.getTotpToken().isEmpty()) {
-              source.sendMessage(this.alreadyEnabled);
-              return;
-            }
+                        QrData data = new QrData.Builder()
+                            .label(username)
+                            .secret(secret)
+                            .issuer(this.issuer)
+                            .build();
+                        String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
+                        source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
 
-            String secret = this.secretGenerator.generate();
-            try {
-              updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-              updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
-              updateBuilder.update();
-            } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
-              throw new SQLRuntimeException(e);
-            }
-            source.sendMessage(this.successful);
-
-            QrData data = new QrData.Builder()
-                .label(username)
-                .secret(secret)
-                .issuer(this.issuer)
-                .build();
-            String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
-            source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
-
-            Serializer serializer = LimboAuth.getSerializer();
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
-                .clickEvent(ClickEvent.copyToClipboard(secret)));
-            String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes))
-                .clickEvent(ClickEvent.copyToClipboard(codes)));
+                        Serializer serializer = LimboAuth.getSerializer();
+                        source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
+                            .clickEvent(ClickEvent.copyToClipboard(secret)));
+                        String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
+                        source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes))
+                            .clickEvent(ClickEvent.copyToClipboard(codes)));
+                      } else {
+                        source.sendMessage(this.alreadyEnabled);
+                      }
+                    })
+                    .exceptionally(e -> {
+                      // TODO: logger
+                      source.sendMessage(this.errorOccurred);
+                      return null;
+                    }),
+                () -> source.sendMessage(this.wrongPassword),
+                (e) -> source.sendMessage(this.errorOccurred));
           } else {
             source.sendMessage(this.usage);
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
+            this.dslContext.select(RegisteredPlayer.Table.TOTP_TOKEN_FIELD)
+                .from(RegisteredPlayer.Table.INSTANCE)
+                .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+                .fetchAsync()
+                .thenAccept(totpTokenResult -> {
+                  String totpCode;
+                  if (totpTokenResult.isEmpty() || (totpCode = totpTokenResult.get(0).get(0, String.class)).isEmpty()) {
+                    source.sendMessage(this.disabled);
+                    return;
+                  }
 
-            if (playerInfo == null) {
-              source.sendMessage(this.notRegistered);
-              return;
-            }
-
-            if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
-              try {
-                updateBuilder = this.playerDao.updateBuilder();
-                updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-                updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, "");
-                updateBuilder.update();
-
-                source.sendMessage(this.disabled);
-              } catch (SQLException e) {
-                source.sendMessage(this.errorOccurred);
-                throw new SQLRuntimeException(e);
-              }
-            } else {
-              source.sendMessage(this.wrong);
-            }
+                  if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(totpCode, args[1])) {
+                    this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
+                        .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, "")
+                        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                        .executeAsync()
+                        .thenRun(() -> source.sendMessage(this.successful))
+                        .exceptionally(e -> {
+                          // TODO: logger
+                          source.sendMessage(this.errorOccurred);
+                          return null;
+                        });
+                  } else {
+                    source.sendMessage(this.wrong);
+                  }
+                })
+                .exceptionally(e -> {
+                  // TODO: logger
+                  source.sendMessage(this.errorOccurred);
+                  return null;
+                });
           } else {
             source.sendMessage(this.usage);
           }

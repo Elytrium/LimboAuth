@@ -22,9 +22,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import net.elytrium.commons.config.ConfigSerializer;
-import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
@@ -32,192 +32,191 @@ import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.migration.MigrationHash;
+import net.elytrium.serializer.annotations.Comment;
+import net.elytrium.serializer.annotations.CommentValue;
+import net.elytrium.serializer.annotations.Serializer;
+import net.elytrium.serializer.language.object.YamlSerializable;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
 
-public class Settings extends YamlConfig {
+public class Settings extends YamlSerializable {
 
-  @Ignore
-  public static final Settings IMP = new Settings();
-
-  @Final
-  public String VERSION = BuildConstants.AUTH_VERSION;
+  public final String VERSION = BuildConstants.AUTH_VERSION;
 
   @Comment({
-      "Available serializers:",
-      "LEGACY_AMPERSAND - \"&c&lExample &c&9Text\".",
-      "LEGACY_SECTION - \"§c§lExample §c§9Text\".",
-      "MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\". (https://webui.adventure.kyori.net/)",
-      "GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)",
-      "GSON_COLOR_DOWNSAMPLING - Same as GSON, but uses downsampling."
+      @CommentValue("Available serializers:"),
+      @CommentValue("LEGACY_AMPERSAND - \"&c&lExample &c&9Text\"."),
+      @CommentValue("LEGACY_SECTION - \"§c§lExample §c§9Text\"."),
+      @CommentValue("MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\". (https://webui.adventure.kyori.net/)"),
+      @CommentValue("GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)"),
+      @CommentValue("GSON_COLOR_DOWNSAMPLING - Same as GSON, but uses downsampling."),
   })
-  public Serializers SERIALIZER = Serializers.LEGACY_AMPERSAND;
-  public String PREFIX = "LimboAuth &6>>&f";
+  public Serializers serializer = Serializers.LEGACY_AMPERSAND;
+  public String prefix = "LimboAuth &6>>&f";
 
-  @Create
-  public MAIN MAIN;
+  public Main main;
 
-  @Comment("Don't use \\n, use {NL} for new line, and {PRFX} for prefix.")
-  public static class MAIN {
+  @Comment(@CommentValue("Don't use \\n, use {NL} for new line, and {PRFX} for prefix."))
+  public static class Main {
 
-    @Comment("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked.")
+    @Comment(@CommentValue("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked."))
     public int AUTH_TIME = 60000;
     public boolean ENABLE_BOSSBAR = true;
-    @Comment("Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE")
+    @Comment(@CommentValue("Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE"))
     public BossBar.Color BOSSBAR_COLOR = BossBar.Color.RED;
-    @Comment("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20")
+    @Comment(@CommentValue("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20"))
     public BossBar.Overlay BOSSBAR_OVERLAY = BossBar.Overlay.NOTCHED_20;
     public int MIN_PASSWORD_LENGTH = 4;
-    @Comment("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71.")
+    @Comment(@CommentValue("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71."))
     public int MAX_PASSWORD_LENGTH = 71;
     public boolean CHECK_PASSWORD_STRENGTH = true;
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
     @Comment({
-        "Players with premium nicknames should register/auth if this option is enabled",
-        "Players with premium nicknames must login with a premium Minecraft account if this option is disabled",
+        @CommentValue("Players with premium nicknames should register/auth if this option is enabled"),
+        @CommentValue("Players with premium nicknames must login with a premium Minecraft account if this option is disabled"),
     })
     public boolean ONLINE_MODE_NEED_AUTH = true;
-    @Comment("Needs floodgate plugin if disabled.")
+    @Comment(@CommentValue("Needs floodgate plugin if disabled."))
     public boolean FLOODGATE_NEED_AUTH = true;
-    @Comment("TOTALLY disables hybrid auth feature")
+    @Comment(@CommentValue("TOTALLY disables hybrid auth feature"))
     public boolean FORCE_OFFLINE_MODE = false;
-    @Comment("Forces all players to get offline uuid")
+    @Comment(@CommentValue("Forces all players to get offline uuid"))
     public boolean FORCE_OFFLINE_UUID = false;
-    @Comment("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API.")
+    @Comment(@CommentValue("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API."))
     public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
-    @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
+    @Comment(@CommentValue("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)"))
     public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
     @Comment({
-        "Forcibly set player's UUID to the value from the database",
-        "If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."
+        @CommentValue("Forcibly set player's UUID to the value from the database"),
+        @CommentValue("If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."),
     })
     public boolean SAVE_UUID = true;
     @Comment({
-        "Saves in the database the accounts of premium users whose login is via online-mode-need-auth: false",
-        "Can be disabled to reduce the size of stored data in the database"
+        @CommentValue("Saves in the database the accounts of premium users whose login is via online-mode-need-auth: false"),
+        @CommentValue("Can be disabled to reduce the size of  stored data in the database"),
     })
     public boolean SAVE_PREMIUM_ACCOUNTS = true;
     public boolean ENABLE_TOTP = true;
     public boolean TOTP_NEED_PASSWORD = true;
     public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
     public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
-    @Comment("Used in unregister and premium commands.")
+    @Comment(@CommentValue("Used in unregister and premium commands."))
     public String CONFIRM_KEYWORD = "confirm";
-    @Comment("This prefix will be added to offline mode players nickname")
+    @Comment(@CommentValue("This prefix will be added to offline mode players nickname"))
     public String OFFLINE_MODE_PREFIX = "";
-    @Comment("This prefix will be added to online mode players nickname")
+    @Comment(@CommentValue("This prefix will be added to online mode players nickname"))
     public String ONLINE_MODE_PREFIX = "";
     @Comment({
-        "If you want to migrate your database from another plugin, which is not using BCrypt.",
-        "You can set an old hash algorithm to migrate from.",
-        "AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$hash (AuthMe, MoonVKAuth, DSKAuth, DBA)",
-        "AUTHME_NP - AuthMe SHA256(SHA256(password) + salt) that looks like SHA$salt$hash (JPremium)",
-        "SHA256_NP - SHA256(password) that looks like SHA$salt$hash",
-        "SHA256_P - SHA256(password) that looks like $SHA$salt$hash",
-        "SHA512_NP - SHA512(password) that looks like SHA$salt$hash",
-        "SHA512_P - SHA512(password) that looks like $SHA$salt$hash",
-        "SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash (DBA, JPremium)",
-        "MD5 - Basic md5 hash",
-        "ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash",
-        "MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)",
-        "SHA256_NO_SALT - SHA256(password) that looks like $SHA$hash (NexAuth)",
-        "SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)",
-        "SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)",
-        "SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)",
-        "CRC32C - Basic CRC32C hash",
-        "PLAINTEXT - Plain text",
+        @CommentValue("If you want to migrate your database from another plugin, which is not using BCrypt."),
+        @CommentValue("You can set an old hash algorithm to migrate from."),
+        @CommentValue("AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$hash (AuthMe, MoonVKAuth, DSKAuth, DBA)"),
+        @CommentValue("AUTHME_NP - AuthMe SHA256(SHA256(password) + salt) that looks like SHA$salt$hash (JPremium)"),
+        @CommentValue("SHA256_NP - SHA256(password) that looks like SHA$salt$hash"),
+        @CommentValue("SHA256_P - SHA256(password) that looks like $SHA$salt$hash"),
+        @CommentValue("SHA512_NP - SHA512(password) that looks like SHA$salt$hash"),
+        @CommentValue("SHA512_P - SHA512(password) that looks like $SHA$salt$hash"),
+        @CommentValue("SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash (DBA, JPremium)"),
+        @CommentValue("MD5 - Basic md5 hash"),
+        @CommentValue("ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash"),
+        @CommentValue("MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)"),
+        @CommentValue("SHA256_NO_SALT - SHA256(password) that looks like $SHA$hash (NexAuth)"),
+        @CommentValue("SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)"),
+        @CommentValue("SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)"),
+        @CommentValue("SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)"),
+        @CommentValue("CRC32C - Basic CRC32C hash"),
+        @CommentValue("PLAINTEXT - Plain text"),
     })
     public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
-    @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
+    @Comment(@CommentValue("Available dimensions: OVERWORLD, NETHER, THE_END"))
     public Dimension DIMENSION = Dimension.THE_END;
     public long PURGE_CACHE_MILLIS = 3600000;
     public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
-    @Comment("Used to ban IPs when a possible attacker incorrectly enters the password")
+    @Comment(@CommentValue("Used to ban IPs when a possible attacker incorrectly enters the password"))
     public int BRUTEFORCE_MAX_ATTEMPTS = 10;
-    @Comment("QR Generator URL, set {data} placeholder")
+    @Comment(@CommentValue("QR Generator URL, set {data} placeholder"))
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";
     public int BCRYPT_COST = 10;
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;
     public int TOTP_RECOVERY_CODES_AMOUNT = 16;
-    @Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
+    @Comment(@CommentValue("Time in milliseconds, when ip limit works, set to 0 for disable."))
     public long IP_LIMIT_VALID_TIME = 21600000;
     @Comment({
-        "Regex of allowed nicknames",
-        "^ means the start of the line, $ means the end of the line",
-        "[A-Za-z0-9_] is a character set of A-Z, a-z, 0-9 and _",
-        "{3,16} means that allowed length is from 3 to 16 chars"
+        @CommentValue("Regex of allowed nicknames"),
+        @CommentValue("^ means the start of the line, $ means the end of the line"),
+        @CommentValue("[A-Za-z0-9_] is a character set of A-Z, a-z, 0-9 and _"),
+        @CommentValue("{3,16} means that allowed length is from 3 to 16 chars"),
     })
     public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
 
     public boolean LOAD_WORLD = false;
     @Comment({
-        "World file type:",
-        " SCHEMATIC (MCEdit .schematic, 1.12.2 and lower, not recommended)",
-        " STRUCTURE (structure block .nbt, any Minecraft version is supported, but the latest one is recommended).",
-        " WORLDEDIT_SCHEM (WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended)."
+        @CommentValue("World file type:"),
+        @CommentValue(" SCHEMATIC (MCEdit .schematic, 1.12.2 and lower, not recommended)"),
+        @CommentValue(" STRUCTURE (structure block .nbt, any Minecraft version is supported, but the latest one is recommended)."),
+        @CommentValue(" WORLDEDIT_SCHEM (WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended)."),
     })
     public BuiltInWorldFileType WORLD_FILE_TYPE = BuiltInWorldFileType.STRUCTURE;
     public String WORLD_FILE_PATH = "world.nbt";
     public boolean DISABLE_FALLING = true;
 
-    @Comment("World time in ticks (24000 ticks == 1 in-game day)")
+    @Comment(@CommentValue("World time in ticks (24000 ticks == 1 in-game day)"))
     public long WORLD_TICKS = 1000L;
 
-    @Comment("World light level (from 0 to 15)")
+    @Comment(@CommentValue("World light level (from 0 to 15)"))
     public int WORLD_LIGHT_LEVEL = 15;
 
-    @Comment("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR")
+    @Comment(@CommentValue("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR"))
     public GameMode GAME_MODE = GameMode.ADVENTURE;
 
     @Comment({
-        "Custom isPremium URL",
-        "You can use Mojang one's API (set by default)",
-        "Or CloudFlare one's: https://api.ashcon.app/mojang/v2/user/%s",
-        "Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/",
-        "Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"
+        @CommentValue("Custom isPremium URL"),
+        @CommentValue("You can use Mojang one's API (set by default)"),
+        @CommentValue("Or CloudFlare one's: https://api.ashcon.app/mojang/v2/user/%s"),
+        @CommentValue("Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/"),
+        @CommentValue("Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"),
     })
     public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
 
     @Comment({
-        "Status codes (see the comment above)",
-        "Responses with unlisted status codes will be identified as responses with a server error",
-        "Set 200 if you use using Mojang or CloudFlare API"
+        @CommentValue("Status codes (see the comment above)"),
+        @CommentValue("Responses with unlisted status codes will be identified as responses with a server error"),
+        @CommentValue("Set 200 if you use using Mojang or CloudFlare API"),
     })
     public List<Integer> STATUS_CODE_USER_EXISTS = List.of(200);
-    @Comment("Set 204 and 404 if you use Mojang API, 404 if you use CloudFlare API")
+    @Comment(@CommentValue("Set 204 and 404 if you use Mojang API, 404 if you use CloudFlare API"))
     public List<Integer> STATUS_CODE_USER_NOT_EXISTS = List.of(204, 404);
-    @Comment("Set 429 if you use Mojang or CloudFlare API")
+    @Comment(@CommentValue("Set 429 if you use Mojang or CloudFlare API"))
     public List<Integer> STATUS_CODE_RATE_LIMIT = List.of(429);
 
     @Comment({
-        "Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}",
-        "Sample CloudFlare API exists response: {\"uuid\":\"9c7024b2a48746b3b3934f397ae5d70f\",\"username\":\"hevav\", ...}",
-        "",
-        "Sample Mojang API not exists response (sometimes can be empty): {\"path\":\"/users/profiles/minecraft/someletters1234566\",\"errorMessage\":\"Couldn't find any profile with that name\"}",
-        "Sample CloudFlare API not exists response: {\"code\":404,\"error\":\"Not Found\",\"reason\":\"No user with the name 'someletters123456' was found\"}",
-        "",
-        "Responses with an invalid scheme will be identified as responses with a server error",
-        "Set this parameter to [], to disable JSON scheme validation"
+        @CommentValue("Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}"),
+        @CommentValue("Sample CloudFlare API exists response: {\"uuid\":\"9c7024b2a48746b3b3934f397ae5d70f\",\"username\":\"hevav\", ...}"),
+        @CommentValue(),
+        @CommentValue("Sample Mojang API not exists response (sometimes can be empty): {\"path\":\"/users/profiles/minecraft/someletters1234566\",\"errorMessage\":\"Couldn't find any profile with that name\"}"),
+        @CommentValue("Sample CloudFlare API not exists response: {\"code\":404,\"error\":\"Not Found\",\"reason\":\"No user with the name 'someletters123456' was found\"}"),
+        @CommentValue(),
+        @CommentValue("Responses with an invalid scheme will be identified as responses with a server error"),
+        @CommentValue("Set this parameter to [], to disable JSON scheme validation"),
     })
     public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
     public String JSON_UUID_FIELD = "id";
     public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
 
     @Comment({
-        "If Mojang rate-limits your server, we cannot determine if the player is premium or not",
-        "This option allows you to choose whether every player will be defined as premium or as cracked while Mojang is rate-limiting the server",
-        "True - as premium; False - as cracked"
+        @CommentValue("If Mojang rate-limits your server, we cannot determine if the player is premium or not"),
+        @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang is rate-limiting the server"),
+        @CommentValue("True - as premium; False - as cracked"),
     })
     public boolean ON_RATE_LIMIT_PREMIUM = true;
 
     @Comment({
-        "If Mojang API is down, we cannot determine if the player is premium or not",
-        "This option allows you to choose whether every player will be defined as premium or as cracked while Mojang API is unavailable",
-        "True - as premium; False - as cracked"
+        @CommentValue("If Mojang API is down, we cannot determine if the player is premium or not"),
+        @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang API is unavailable"),
+        @CommentValue("True - as premium; False - as cracked"),
     })
     public boolean ON_SERVER_ERROR_PREMIUM = true;
 
@@ -225,31 +224,31 @@ public class Settings extends YamlConfig {
     public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");
     public List<String> TOTP_COMMAND = List.of("/2fa", "/totp");
 
-    @Comment("New players will be kicked with registrations-disabled-kick message")
+    @Comment(@CommentValue("New players will be kicked with registrations-disabled-kick message"))
     public boolean DISABLE_REGISTRATIONS = false;
 
     @Create
-    public Settings.MAIN.MOD MOD;
+    public Settings.Main.MOD MOD;
 
     @Comment({
-        "Implement the automatic login using the plugin, the LimboAuth client mod and optionally using a custom launcher",
-        "See https://github.com/Elytrium/LimboAuth-ClientMod"
+        @CommentValue("Implement the automatic login using the plugin, the LimboAuth client mod and optionally using a custom launcher"),
+        @CommentValue("See https://github.com/Elytrium/LimboAuth-ClientMod"),
     })
     public static class MOD {
 
       public boolean ENABLED = true;
 
-      @Comment("Should the plugin forbid logging in without a mod")
+      @Comment(@CommentValue("Should the plugin forbid logging in without a mod"))
       public boolean LOGIN_ONLY_BY_MOD = false;
 
-      @Comment("The key must be the same in the plugin config and in the server hash issuer, if you use it")
-      @CustomSerializer(serializerClass = MD5KeySerializer.class)
+      @Comment(@CommentValue("The key must be the same in the plugin config and in the server hash issuer, if you use it"))
+      @Serializer(MD5KeySerializer.class)
       public byte[] VERIFY_KEY = null;
 
     }
 
     @Create
-    public Settings.MAIN.WORLD_COORDS WORLD_COORDS;
+    public Settings.Main.WORLD_COORDS WORLD_COORDS;
 
     public static class WORLD_COORDS {
 
@@ -259,7 +258,7 @@ public class Settings extends YamlConfig {
     }
 
     @Create
-    public MAIN.AUTH_COORDS AUTH_COORDS;
+    public Settings.Main.AUTH_COORDS AUTH_COORDS;
 
     public static class AUTH_COORDS {
 
@@ -271,7 +270,7 @@ public class Settings extends YamlConfig {
     }
 
     @Create
-    public Settings.MAIN.CRACKED_TITLE_SETTINGS CRACKED_TITLE_SETTINGS;
+    public Settings.Main.CRACKED_TITLE_SETTINGS CRACKED_TITLE_SETTINGS;
 
     public static class CRACKED_TITLE_SETTINGS {
 
@@ -286,7 +285,7 @@ public class Settings extends YamlConfig {
     }
 
     @Create
-    public Settings.MAIN.PREMIUM_TITLE_SETTINGS PREMIUM_TITLE_SETTINGS;
+    public Settings.Main.PREMIUM_TITLE_SETTINGS PREMIUM_TITLE_SETTINGS;
 
     public static class PREMIUM_TITLE_SETTINGS {
 
@@ -300,53 +299,40 @@ public class Settings extends YamlConfig {
     }
 
     @Create
-    public MAIN.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
+    public Settings.Main.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
 
     @Comment({
-        "Available values: FALSE, TRUE, PERMISSION",
-        " FALSE - the command will be disallowed",
-        " TRUE - the command will be allowed if player has false permission state",
-        " PERMISSION - the command will be allowed if player has true permission state"
+        @CommentValue("Available values: FALSE, TRUE, PERMISSION"),
+        @CommentValue(" FALSE - the command will be disallowed"),
+        @CommentValue(" TRUE - the command will be allowed if player has false permission state"),
+        @CommentValue(" PERMISSION - the command will be allowed if player has true permission state"),
     })
     public static class COMMAND_PERMISSION_STATE {
-      @Comment("Permission: limboauth.commands.changepassword")
+      @Comment(@CommentValue("Permission: limboauth.commands.changepassword"))
       public CommandPermissionState CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.commands.destroysession")
+      @Comment(@CommentValue("Permission: limboauth.commands.destroysession"))
       public CommandPermissionState DESTROY_SESSION = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.commands.premium")
+      @Comment(@CommentValue("Permission: limboauth.commands.premium"))
       public CommandPermissionState PREMIUM = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.commands.totp")
+      @Comment(@CommentValue("Permission: limboauth.commands.totp"))
       public CommandPermissionState TOTP = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.commands.unregister")
+      @Comment(@CommentValue("Permission: limboauth.commands.unregister"))
       public CommandPermissionState UNREGISTER = CommandPermissionState.PERMISSION;
 
-      @Comment("Permission: limboauth.admin.forcechangepassword")
+      @Comment(@CommentValue("Permission: limboauth.admin.forcechangepassword"))
       public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.admin.forceregister")
+      @Comment(@CommentValue("Permission: limboauth.admin.forceregister"))
       public CommandPermissionState FORCE_REGISTER = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.admin.forceunregister")
+      @Comment(@CommentValue("Permission: limboauth.admin.forceunregister"))
       public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.admin.reload")
+      @Comment(@CommentValue("Permission: limboauth.admin.reload"))
       public CommandPermissionState RELOAD = CommandPermissionState.PERMISSION;
-      @Comment("Permission: limboauth.admin.help")
+      @Comment(@CommentValue("Permission: limboauth.admin.help"))
       public CommandPermissionState HELP = CommandPermissionState.TRUE;
     }
 
-    /*
     @Create
-    public Settings.MAIN.EVENTS_PRIORITIES EVENTS_PRIORITIES;
-
-    @Comment("Available priorities: FIRST, EARLY, NORMAL, LATE, LAST")
-    public static class EVENTS_PRIORITIES {
-
-      public String PRE_LOGIN = "NORMAL";
-      public String LOGIN_LIMBO_REGISTER = "NORMAL";
-      public String SAFE_GAME_PROFILE_REQUEST = "NORMAL";
-    }
-    */
-
-    @Create
-    public MAIN.STRINGS STRINGS;
+    public Settings.Main.STRINGS STRINGS;
 
     public static class STRINGS {
 
@@ -362,53 +348,53 @@ public class Settings extends YamlConfig {
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
       public String RECONNECT_KICK = "{PRFX}{NL}&cReconnect to the server to verify your account!";
 
-      @Comment("6 hours by default in ip-limit-valid-time")
+      @Comment(@CommentValue("6 hours by default in ip-limit-valid-time"))
       public String IP_LIMIT_KICK = "{PRFX}{NL}{NL}&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.";
       public String WRONG_NICKNAME_CASE_KICK = "{PRFX}{NL}&cYou should join using username &6{0}&c, not &6{1}&c.";
 
       public String BOSSBAR = "{PRFX} You have &6{0} &fseconds left to log in.";
       public String TIMES_UP = "{PRFX}{NL}&cAuthorization time is up.";
 
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM = "{PRFX} You've been logged in automatically using the premium account!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_TITLE = "{PRFX} Welcome!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_SUBTITLE = "&aYou has been logged in as premium player!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE = "{PRFX} You've been logged in automatically using the bedrock account!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_TITLE = "{PRFX} Welcome!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_SUBTITLE = "&aYou has been logged in as bedrock player!";
 
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
       public String LOGIN_WRONG_PASSWORD_KICK = "{PRFX}{NL}&cYou've entered the wrong password numerous times!";
       public String LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully logged in!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_TITLE = "&fPlease, login using &6/login <password>&a.";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_SUBTITLE = "&aYou have &6{0} &aattempts.";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_SUCCESSFUL_TITLE = "{PRFX}";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
-      @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
+      @Comment(@CommentValue("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part."))
       public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
       public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_SUBTITLE = "&aSuccessfully registered!";
 
       public String UNREGISTER_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully unregistered!";
@@ -418,6 +404,14 @@ public class Settings extends YamlConfig {
       public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
       public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
+
+      public String PAIR_SUCCESSFUL = "{PRFX}{NL}&aNow you can login only with &6LimboAuth Client Mod&a!";
+      public String UNPAIR_SUCCESSFUL = "{PRFX}{NL}&aNow you can login without &6LimboAuth Client Mod&a!";
+      public String ALREADY_PAIRED = "{PRFX} &cYour account is already &6PAIRED&c!";
+      public String NOT_PAIRED = "{PRFX} &cYour account is not &6PAIRED&c!";
+      public String MOD_NOT_FOUND = "{PRFX} &cYou can't pair account without LimboAuth Client Mod installed!";
+      public String PAIR_USAGE = "{PRFX} Usage: &6/pair <current password> confirm";
+      public String UNPAIR_USAGE = "{PRFX} Usage: &6/unpair <current password> confirm";
 
       public String EVENT_CANCELLED = "{PRFX} Authorization event was cancelled";
 
@@ -429,7 +423,7 @@ public class Settings extends YamlConfig {
       public String REGISTRATIONS_DISABLED_KICK = "{PRFX} Registrations are currently disabled.";
 
       public String CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password!";
-      @Comment("Or if change-password-need-old-pass set to false remove the \"<old password>\" part.")
+      @Comment(@CommentValue("Or if change-password-need-old-pass set to false remove the \"<old password>\" part."))
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
 
       public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
@@ -445,13 +439,13 @@ public class Settings extends YamlConfig {
       public String FORCE_REGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to register player &6{0}&c.";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String TOTP_TITLE = "{PRFX}";
-      @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
+      @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
       public String TOTP_SUBTITLE = "&aEnter your 2FA key using &6/2fa <key>";
       public String TOTP_SUCCESSFUL = "{PRFX} &aSuccessfully enabled 2FA!";
       public String TOTP_DISABLED = "{PRFX} &aSuccessfully disabled 2FA!";
-      @Comment("Or if totp-need-pass set to false remove the \"<current password>\" part.")
+      @Comment(@CommentValue("Or if totp-need-pass set to false remove the \"<current password>\" part."))
       public String TOTP_USAGE = "{PRFX} Usage: &6/2fa enable <current password>&f or &6/2fa disable <totp key>&f.";
       public String TOTP_WRONG = "{PRFX} &cWrong 2FA key!";
       public String TOTP_ALREADY_ENABLED = "{PRFX} &c2FA is already enabled. Disable it using &6/2fa disable <key>&c.";
@@ -468,18 +462,21 @@ public class Settings extends YamlConfig {
   @Create
   public DATABASE DATABASE;
 
-  @Comment("Database settings")
+  @Comment(@CommentValue("Database settings"))
   public static class DATABASE {
 
-    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
+    @Comment(@CommentValue("Database type: mariadb, mysql, postgresql, sqlite or h2."))
     public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
 
-    @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")
+    @Comment(@CommentValue("Settings for Network-based database (like MySQL, PostgreSQL): "))
     public String HOSTNAME = "127.0.0.1:3306";
     public String USER = "user";
     public String PASSWORD = "password";
     public String DATABASE = "limboauth";
-    public String CONNECTION_PARAMETERS = "?autoReconnect=true&initialTimeout=1&useSSL=false";
+    public Map<String, String> CONNECTION_PARAMETERS =
+        Map.of("autoReconnect", "true",
+            "initialTimeout", "1",
+            "useSSL", "false");
   }
 
   public static class MD5KeySerializer extends ConfigSerializer<byte[], String> {

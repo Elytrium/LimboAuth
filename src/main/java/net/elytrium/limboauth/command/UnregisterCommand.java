@@ -17,25 +17,23 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import java.sql.SQLException;
 import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 public class UnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
 
   private final String confirmKeyword;
   private final Component notPlayer;
@@ -46,9 +44,9 @@ public class UnregisterCommand implements SimpleCommand {
   private final Component usage;
   private final Component crackedCommand;
 
-  public UnregisterCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public UnregisterCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.dslContext = dslContext;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
@@ -70,25 +68,25 @@ public class UnregisterCommand implements SimpleCommand {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
-          if (player == null) {
-            source.sendMessage(this.notRegistered);
-          } else if (player.getHash().isEmpty()) {
-            source.sendMessage(this.crackedCommand);
-          } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            try {
-              this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-              this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
-              this.plugin.removePlayerFromCache(username);
-              ((Player) source).disconnect(this.successful);
-            } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
-              throw new SQLRuntimeException(e);
-            }
-          } else {
-            source.sendMessage(this.wrongPassword);
-          }
-
+          String lowercaseNickname = username.toLowerCase(Locale.ROOT);
+          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+              () -> source.sendMessage(this.notRegistered),
+              () -> source.sendMessage(this.crackedCommand),
+              h -> {
+                this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
+                this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
+                    .where(DSL.field(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+                    .executeAsync()
+                    .exceptionally((e) -> {
+                      source.sendMessage(this.errorOccurred);
+                      // TODO: logger
+                      return null;
+                    });
+                this.plugin.removePlayerFromCache(lowercaseNickname);
+                ((Player) source).disconnect(this.successful);
+              },
+              () -> source.sendMessage(this.wrongPassword),
+              (e) -> source.sendMessage(this.errorOccurred));
           return;
         }
       }

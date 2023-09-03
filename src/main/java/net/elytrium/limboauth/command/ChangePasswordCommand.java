@@ -17,25 +17,24 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import java.sql.SQLException;
+import java.util.Locale;
+import java.util.function.Consumer;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.ChangePasswordEvent;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 public class ChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
 
   private final boolean needOldPass;
   private final Component notRegistered;
@@ -45,9 +44,9 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public ChangePasswordCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.dslContext = dslContext;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.needOldPass = Settings.IMP.MAIN.CHANGE_PASSWORD_NEED_OLD_PASSWORD;
@@ -65,24 +64,12 @@ public class ChangePasswordCommand implements SimpleCommand {
     String[] args = invocation.arguments();
 
     if (source instanceof Player) {
-      String username = ((Player) source).getUsername();
-      RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+      Player player = (Player) source;
 
-      if (player == null) {
-        source.sendMessage(this.notRegistered);
-        return;
-      }
-
-      boolean onlineMode = player.getHash().isEmpty();
-      boolean needOldPass = this.needOldPass && !onlineMode;
+      boolean needOldPass = this.needOldPass && !player.isOnlineMode();
       if (needOldPass) {
         if (args.length < 2) {
           source.sendMessage(this.usage);
-          return;
-        }
-
-        if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-          source.sendMessage(this.wrongPassword);
           return;
         }
       } else if (args.length < 1) {
@@ -90,26 +77,31 @@ public class ChangePasswordCommand implements SimpleCommand {
         return;
       }
 
-      try {
-        final String oldHash = player.getHash();
+      String username = player.getUsername();
+      String lowercaseNickname = username.toLowerCase(Locale.ROOT);
+      Consumer<String> onCorrect = oldHash -> {
         final String newPassword = needOldPass ? args[1] : args[0];
         final String newHash = RegisteredPlayer.genHash(newPassword);
 
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
-        updateBuilder.update();
+        this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
+            .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
+            .where(DSL.field(RegisteredPlayer.NICKNAME_FIELD).eq(username))
+            .executeAsync();
 
         this.plugin.removePlayerFromCache(username);
 
         this.plugin.getServer().getEventManager().fireAndForget(
-            new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
+            new ChangePasswordEvent(username, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
 
         source.sendMessage(this.successful);
-      } catch (SQLException e) {
-        source.sendMessage(this.errorOccurred);
-        throw new SQLRuntimeException(e);
-      }
+      };
+
+      RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
+          () -> source.sendMessage(this.notRegistered),
+          () -> onCorrect.accept(null),
+          onCorrect,
+          () -> source.sendMessage(this.wrongPassword),
+          e -> source.sendMessage(this.errorOccurred));
     } else {
       source.sendMessage(this.notPlayer);
     }

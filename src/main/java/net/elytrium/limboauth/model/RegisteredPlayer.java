@@ -18,16 +18,28 @@
 package net.elytrium.limboauth.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.function.Consumer;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.handler.AuthSessionHandler;
+import org.jetbrains.annotations.NotNull;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Record12;
+import org.jooq.Row12;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
+import org.jooq.impl.SQLDataType;
+import org.jooq.impl.TableImpl;
+import org.jooq.impl.UpdatableRecordImpl;
 
-@DatabaseTable(tableName = "AUTH")
-public class RegisteredPlayer {
+@SuppressWarnings("NullableProblems")
+public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> implements Record12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> {
 
   public static final String NICKNAME_FIELD = "NICKNAME";
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
@@ -40,45 +52,38 @@ public class RegisteredPlayer {
   public static final String UUID_FIELD = "UUID";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
   public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
+  public static final String ONLY_BY_MOD_FIELD = "ONLYMOD";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
-  @DatabaseField(index = true, canBeNull = false, columnName = NICKNAME_FIELD)
   private String nickname;
 
-  @DatabaseField(index = true, id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
 
-  @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash = "";
 
-  @DatabaseField(columnName = IP_FIELD)
   private String ip;
 
-  @DatabaseField(columnName = TOTP_TOKEN_FIELD)
   private String totpToken = "";
 
-  @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
 
-  @DatabaseField(index = true, columnName = UUID_FIELD)
   private String uuid = "";
 
-  @DatabaseField(index = true, columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
   private String premiumUuid = "";
 
-  @DatabaseField(columnName = LOGIN_IP_FIELD)
   private String loginIp;
 
-  @DatabaseField(columnName = LOGIN_DATE_FIELD)
   private Long loginDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = TOKEN_ISSUED_AT_FIELD)
   private Long tokenIssuedAt = System.currentTimeMillis();
+
+  private boolean onlyByMod = false;
 
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+                          String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+    super(Table.INSTANCE);
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -100,15 +105,12 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
+    super(Table.INSTANCE);
     this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     this.uuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
-  }
-
-  public RegisteredPlayer() {
-
   }
 
   public static String genHash(String password) {
@@ -232,5 +234,387 @@ public class RegisteredPlayer {
     this.tokenIssuedAt = tokenIssuedAt;
 
     return this;
+  }
+
+  public boolean isOnlyByMod() {
+    return this.onlyByMod;
+  }
+
+  public RegisteredPlayer setOnlyByMod(boolean onlyByMod) {
+    this.onlyByMod = onlyByMod;
+
+    return this;
+  }
+
+  public static void checkPassword(DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
+                                   Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
+    dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
+        .from(RegisteredPlayer.Table.INSTANCE)
+        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+        .fetchAsync()
+        .thenAccept(hashResult -> {
+          if (hashResult.isEmpty()) {
+            onNotRegistered.run();
+            return;
+          }
+
+          String hash = hashResult.get(0).get(0, String.class);
+          if (hash == null || hash.isEmpty()) {
+            onPremium.run();
+          } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password, dslContext)) {
+            onCorrect.accept(hash);
+          } else {
+            onWrong.run();
+          }
+        })
+        .exceptionally(e -> {
+          onError.accept(e);
+          return null;
+        });
+  }
+
+  @Override
+  public @NotNull Field<String> field1() {
+    return Table.NICKNAME_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field2() {
+    return Table.LOWERCASE_NICKNAME_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field3() {
+    return Table.HASH_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field4() {
+    return Table.IP_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field5() {
+    return Table.TOTP_TOKEN_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<Long> field6() {
+    return Table.REG_DATE_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field7() {
+    return Table.UUID_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field8() {
+    return Table.PREMIUM_UUID_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<String> field9() {
+    return Table.LOGIN_IP_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<Long> field10() {
+    return Table.LOGIN_DATE_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<Long> field11() {
+    return Table.TOKEN_ISSUED_AT_FIELD;
+  }
+
+  @Override
+  public @NotNull Field<Boolean> field12() {
+    return Table.ONLY_BY_MOD_FIELD;
+  }
+
+  @Override
+  public String value1() {
+    return this.nickname;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value1(String value) {
+    return this.setNickname(value);
+  }
+
+  @Override
+  public String value2() {
+    return this.lowercaseNickname;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value2(String value) {
+    this.lowercaseNickname = value;
+    return this;
+  }
+
+  @Override
+  public String value3() {
+    return this.hash;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value3(String value) {
+    return this.setHash(value);
+  }
+
+  @Override
+  public String value4() {
+    return this.ip;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value4(String value) {
+    return this.setIP(value);
+  }
+
+  @Override
+  public String value5() {
+    return this.totpToken;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value5(String value) {
+    return this.setTotpToken(value);
+  }
+
+  @Override
+  public Long value6() {
+    return this.regDate;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value6(Long value) {
+    return this.setRegDate(value);
+  }
+
+  @Override
+  public String value7() {
+    return this.uuid;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value7(String value) {
+    return this.setUuid(value);
+  }
+
+  @Override
+  public String value8() {
+    return this.premiumUuid;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value8(String value) {
+    return this.setPremiumUuid(value);
+  }
+
+  @Override
+  public String value9() {
+    return this.loginIp;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value9(String value) {
+    return this.setLoginIp(value);
+  }
+
+  @Override
+  public Long value10() {
+    return this.loginDate;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value10(Long value) {
+    return this.setLoginDate(value);
+  }
+
+  @Override
+  public Long value11() {
+    return this.tokenIssuedAt;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value11(Long value) {
+    return this.setTokenIssuedAt(value);
+  }
+
+  @Override
+  public Boolean value12() {
+    return this.onlyByMod;
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer value12(Boolean value) {
+    return this.setOnlyByMod(value);
+  }
+
+  @Override
+  public @NotNull RegisteredPlayer values(String nickname, String lowercaseNickname, String hash, String ip, String totpToken,
+                                          Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate,
+                                          Long tokenIssuedAt, Boolean onlyByMod) {
+    this.nickname = nickname;
+    this.lowercaseNickname = lowercaseNickname;
+    this.hash = hash;
+    this.ip = ip;
+    this.totpToken = totpToken;
+    this.regDate = regDate;
+    this.uuid = uuid;
+    this.premiumUuid = premiumUuid;
+    this.loginIp = loginIp;
+    this.loginDate = loginDate;
+    this.tokenIssuedAt = tokenIssuedAt;
+    this.onlyByMod = onlyByMod;
+
+    return this;
+  }
+
+  @Override
+  public String component1() {
+    return this.nickname;
+  }
+
+  @Override
+  public String component2() {
+    return this.lowercaseNickname;
+  }
+
+  @Override
+  public String component3() {
+    return this.hash;
+  }
+
+  @Override
+  public String component4() {
+    return this.ip;
+  }
+
+  @Override
+  public String component5() {
+    return this.totpToken;
+  }
+
+  @Override
+  public Long component6() {
+    return this.regDate;
+  }
+
+  @Override
+  public String component7() {
+    return this.uuid;
+  }
+
+  @Override
+  public String component8() {
+    return this.premiumUuid;
+  }
+
+  @Override
+  public String component9() {
+    return this.loginIp;
+  }
+
+  @Override
+  public Long component10() {
+    return this.loginDate;
+  }
+
+  @Override
+  public Long component11() {
+    return this.tokenIssuedAt;
+  }
+
+  @Override
+  public Boolean component12() {
+    return this.onlyByMod;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public @NotNull Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> fieldsRow() {
+    return (Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean>) super.fieldsRow();
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public @NotNull Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> valuesRow() {
+    return (Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean>) super.valuesRow();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return super.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  public static class Table extends TableImpl<RegisteredPlayer> {
+
+    public static final String CFG__NICKNAME_FIELD = "NICKNAME";
+    public static final String CFG__LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
+    public static final String CFG__HASH_FIELD = "HASH";
+    public static final String CFG__IP_FIELD = "IP";
+    public static final String CFG__LOGIN_IP_FIELD = "LOGINIP";
+    public static final String CFG__TOTP_TOKEN_FIELD = "TOTPTOKEN";
+    public static final String CFG__REG_DATE_FIELD = "REGDATE";
+    public static final String CFG__LOGIN_DATE_FIELD = "LOGINDATE";
+    public static final String CFG__UUID_FIELD = "UUID";
+    public static final String CFG__PREMIUM_UUID_FIELD = "PREMIUMUUID";
+    public static final String CFG__TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
+    public static final String CFG__ONLY_BY_MOD_FIELD = "ONLYMOD";
+
+    public static final Table INSTANCE = new Table();
+    public static final UniqueKey<RegisteredPlayer> PRIMARY_KEY = Internal.createUniqueKey(
+        Table.INSTANCE,
+        Table.LOWERCASE_NICKNAME_FIELD
+    );
+
+    public static final TableField<RegisteredPlayer, String> NICKNAME_FIELD
+        = TableImpl.createField(DSL.name(CFG__NICKNAME_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> LOWERCASE_NICKNAME_FIELD
+        = TableImpl.createField(DSL.name(CFG__LOWERCASE_NICKNAME_FIELD), SQLDataType.VARCHAR.notNull(), Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> HASH_FIELD
+        = TableImpl.createField(DSL.name(CFG__HASH_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> IP_FIELD
+        = TableImpl.createField(DSL.name(CFG__IP_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> TOTP_TOKEN_FIELD
+        = TableImpl.createField(DSL.name(CFG__TOTP_TOKEN_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, Long> REG_DATE_FIELD
+        = TableImpl.createField(DSL.name(CFG__REG_DATE_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> UUID_FIELD
+        = TableImpl.createField(DSL.name(CFG__UUID_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> PREMIUM_UUID_FIELD
+        = TableImpl.createField(DSL.name(CFG__PREMIUM_UUID_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, String> LOGIN_IP_FIELD
+        = TableImpl.createField(DSL.name(CFG__LOGIN_IP_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, Long> LOGIN_DATE_FIELD
+        = TableImpl.createField(DSL.name(CFG__LOGIN_DATE_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, Long> TOKEN_ISSUED_AT_FIELD
+        = TableImpl.createField(DSL.name(CFG__TOKEN_ISSUED_AT_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+
+    public static final TableField<RegisteredPlayer, Boolean> ONLY_BY_MOD_FIELD
+        = TableImpl.createField(DSL.name(CFG__ONLY_BY_MOD_FIELD), SQLDataType.BOOLEAN, Table.INSTANCE);
+
+    public Table() {
+      super(DSL.name("AUTH"));
+    }
   }
 }

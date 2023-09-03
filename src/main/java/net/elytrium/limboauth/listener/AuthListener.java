@@ -17,8 +17,7 @@
 
 package net.elytrium.limboauth.listener;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
+import com.velocitypowered.api.event.EventTask;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -34,17 +33,17 @@ import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
 import com.velocitypowered.proxy.protocol.packet.ServerLogin;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.sql.SQLException;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -53,25 +52,28 @@ public class AuthListener {
   private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
   private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, DSLContext dslContext, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.dslContext = dslContext;
     this.floodgateApi = floodgateApi;
   }
 
   @Subscribe
-  public void onPreLoginEvent(PreLoginEvent event) {
+  public EventTask onPreLoginEvent(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      if (this.plugin.isPremium(event.getUsername())) {
-        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
-      } else {
-        event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
-      }
+      return EventTask.resumeWhenComplete(this.plugin.isPremium(event.getUsername()).thenAccept(isPremium -> {
+        if (isPremium) {
+          event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
+        } else {
+          event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
+        }
+      }));
     } else {
       this.plugin.saveForceOfflineMode(event.getUsername());
+      return null;
     }
   }
 
@@ -121,39 +123,43 @@ public class AuthListener {
   }
 
   @Subscribe(order = PostOrder.FIRST)
-  public void onGameProfileRequest(GameProfileRequestEvent event) {
+  public EventTask onGameProfileRequest(GameProfileRequestEvent event) {
+    EventTask eventTask = null;
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
-      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
+      CompletableFuture<Void> completableFuture = new CompletableFuture<>();
+      eventTask = EventTask.resumeWhenComplete(completableFuture);
 
-      if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
-        event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
-        return;
-      }
-      registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getUsername());
-
-      if (registeredPlayer != null) {
-        String currentUuid = registeredPlayer.getUuid();
-
-        if (currentUuid.isEmpty()) {
-          try {
-            registeredPlayer.setUuid(event.getGameProfile().getId().toString());
-            this.playerDao.update(registeredPlayer);
-          } catch (SQLException e) {
-            throw new SQLRuntimeException(e);
-          }
-        } else {
-          event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
-        }
-      }
+      this.dslContext.select(RegisteredPlayer.Table.UUID_FIELD)
+          .from(RegisteredPlayer.Table.INSTANCE)
+          .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+          .fetchAsync()
+          .thenAccept(uuidResult -> {
+            if (!uuidResult.isEmpty()) {
+              String uuid = uuidResult.get(0).get(0, String.class);
+              if (uuid != null && !uuid.isEmpty()) {
+                event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(uuid)));
+              } else {
+                this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
+                    .set(RegisteredPlayer.Table.UUID_FIELD, event.getGameProfile().getId().toString())
+                    .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+                    .executeAsync()
+                    .exceptionally(e -> {
+                      // TODO: logger
+                      return null;
+                    });
+              }
+            }
+          })
+          .thenAccept(completableFuture::complete);
     } else if (event.isOnlineMode()) {
-      try {
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, event.getUsername());
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
-        updateBuilder.update();
-      } catch (SQLException e) {
-        throw new SQLRuntimeException(e);
-      }
+      this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
+          .set(RegisteredPlayer.Table.HASH_FIELD, "")
+          .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+          .executeAsync()
+          .exceptionally(e -> {
+            // TODO: logger
+            return null;
+          });
     }
 
     if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
@@ -167,6 +173,8 @@ public class AuthListener {
     if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
       event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()));
     }
+
+    return eventTask;
   }
 
   static {

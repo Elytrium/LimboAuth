@@ -29,7 +29,7 @@ import net.kyori.adventure.text.Component;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
-public class PremiumCommand implements SimpleCommand {
+public class PairCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
   private final DSLContext dslContext;
@@ -44,7 +44,7 @@ public class PremiumCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public PremiumCommand(LimboAuth plugin, DSLContext dslContext) {
+  public PairCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
     this.dslContext = dslContext;
 
@@ -61,7 +61,7 @@ public class PremiumCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
+  public void execute(Invocation invocation) {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
@@ -105,7 +105,7 @@ public class PremiumCommand implements SimpleCommand {
   }
 
   @Override
-  public boolean hasPermission(SimpleCommand.Invocation invocation) {
+  public boolean hasPermission(Invocation invocation) {
     return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.PREMIUM
         .hasPermission(invocation.source(), "limboauth.commands.premium");
   }

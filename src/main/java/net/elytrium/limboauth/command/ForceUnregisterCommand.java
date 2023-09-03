@@ -17,11 +17,9 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ProxyServer;
-import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
@@ -31,24 +29,25 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 public class ForceUnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
   private final ProxyServer server;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
 
   private final Component kick;
   private final String successful;
   private final String notSuccessful;
   private final Component usage;
 
-  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, DSLContext dslContext) {
     this.plugin = plugin;
     this.server = server;
-    this.playerDao = playerDao;
+    this.dslContext = dslContext;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.kick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
@@ -71,16 +70,19 @@ public class ForceUnregisterCommand implements SimpleCommand {
       String playerNick = args[0];
 
       Serializer serializer = LimboAuth.getSerializer();
-      try {
-        this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-        this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
-        this.plugin.removePlayerFromCache(playerNick);
-        this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
-        throw new SQLRuntimeException(e);
-      }
+      this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
+      this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
+          .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(playerNick.toLowerCase(Locale.ROOT)))
+          .executeAsync()
+          .thenRun(() -> {
+            this.plugin.removePlayerFromCache(playerNick);
+            this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
+            source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
+          }).exceptionally(e -> {
+            // TODO: logger
+            source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
+            return null;
+          });
     } else {
       source.sendMessage(this.usage);
     }

@@ -19,7 +19,6 @@ package net.elytrium.limboauth.handler;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.google.common.primitives.Longs;
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import dev.samstevens.totp.code.CodeVerifier;
@@ -31,12 +30,8 @@ import io.whitfin.siphash.SipHasher;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
@@ -53,6 +48,8 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
@@ -91,7 +88,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   @Nullable
   private static MigrationHash migrationHash;
 
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final DSLContext dslContext;
   private final Player proxyPlayer;
   private final LimboAuth plugin;
 
@@ -102,7 +99,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       bossbarColor,
       bossbarOverlay
   );
-  private final boolean loginOnlyByMod = Settings.IMP.MAIN.MOD.ENABLED && Settings.IMP.MAIN.MOD.LOGIN_ONLY_BY_MOD;
+  private final boolean loginOnlyByMod;
 
   @Nullable
   private RegisteredPlayer playerInfo;
@@ -115,11 +112,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private String tempPassword;
   private boolean tokenReceived;
 
-  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
-    this.playerDao = playerDao;
+  public AuthSessionHandler(DSLContext dslContext, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
+    this.dslContext = dslContext;
     this.proxyPlayer = proxyPlayer;
     this.plugin = plugin;
     this.playerInfo = playerInfo;
+    this.loginOnlyByMod = Settings.IMP.MAIN.MOD.ENABLED && (Settings.IMP.MAIN.MOD.LOGIN_ONLY_BY_MOD || (playerInfo != null && playerInfo.isOnlyByMod()));
   }
 
   @Override
@@ -135,39 +133,38 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = LimboAuth.getSerializer();
 
     if (this.playerInfo == null) {
-      try {
-        String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(RegisteredPlayer.IP_FIELD, ip);
-        if (alreadyRegistered != null) {
-          int sizeOfValidRegistrations = alreadyRegistered.size();
-          if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
-              registeredPlayer.setIP("");
-              this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
+      String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
+      this.dslContext.selectCount()
+          .from(RegisteredPlayer.Table.INSTANCE)
+          .where(DSL.field(RegisteredPlayer.IP_FIELD).eq(ip)
+              .and(DSL.field(RegisteredPlayer.REG_DATE_FIELD)
+                  .ge(System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)))
+          .fetchAsync()
+          .thenAccept(registeredResult -> {
+            if (registeredResult.get(0).get(0, Integer.class) >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+              this.proxyPlayer.disconnect(ipLimitKick);
+            } else {
+              this.onSpawnAfterChecks();
             }
-          }
-
-          if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
-            this.proxyPlayer.disconnect(ipLimitKick);
-            return;
-          }
-        }
-      } catch (SQLException e) {
-        this.proxyPlayer.disconnect(databaseErrorKick);
-        throw new SQLRuntimeException(e);
-      }
+          })
+          .exceptionally(e -> {
+            // TODO: logger
+            this.proxyPlayer.disconnect(databaseErrorKick);
+            return null;
+          });
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
         this.proxyPlayer.disconnect(serializer.deserialize(
             MessageFormat.format(wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
         );
-        return;
+      } else {
+        this.onSpawnAfterChecks();
       }
     }
+  }
 
+  private void onSpawnAfterChecks() {
+    Serializer serializer = LimboAuth.getSerializer();
     boolean bossBarEnabled = !this.loginOnlyByMod && Settings.IMP.MAIN.ENABLE_BOSSBAR;
     int authTime = Settings.IMP.MAIN.AUTH_TIME;
     float multiplier = 1000.0F / authTime;
@@ -208,13 +205,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
           this.saveTempPassword(password);
           RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
-          try {
-            this.playerDao.create(registeredPlayer);
-            this.playerInfo = registeredPlayer;
-          } catch (SQLException e) {
-            this.proxyPlayer.disconnect(databaseErrorKick);
-            throw new SQLRuntimeException(e);
-          }
+          this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
+              .values(registeredPlayer)
+              .executeAsync();
+          this.playerInfo = registeredPlayer;
 
           this.proxyPlayer.sendMessage(registerSuccessful);
           if (registerSuccessfulTitle != null) {
@@ -229,13 +223,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
         // {@code return} placed here (not above), because
         // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
         // invoking Player#sendMessage that sends its own message in case if the return value is false.
-        // If we don't place {@code return} here, an another message (AuthSessionHandler#sendMessage) will be sent.
+        // If we don't place {@code return} here, another message (AuthSessionHandler#sendMessage) will be sent.
         return;
       } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
         String password = args[1];
         this.saveTempPassword(password);
 
-        if (password.length() > 0 && checkPassword(password, this.playerInfo, this.playerDao)) {
+        if (!password.isEmpty() && checkPassword(this.proxyPlayer.getUsername(), this.playerInfo.getHash(), password, this.dslContext)) {
           if (this.playerInfo.getTotpToken().isEmpty()) {
             this.finishLogin();
           } else {
@@ -516,8 +510,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
   }
 
-  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
-    String hash = player.getHash();
+  public static boolean checkPassword(String lowercaseNickname, String hash, String password, DSLContext dslContext) {
     boolean isCorrect = HASH_VERIFIER.verify(
         password.getBytes(StandardCharsets.UTF_8),
         hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
@@ -526,34 +519,15 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (!isCorrect && migrationHash != null) {
       isCorrect = migrationHash.checkPassword(hash, password);
       if (isCorrect) {
-        player.setPassword(password);
-        try {
-          playerDao.update(player);
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
-        }
+        dslContext.update(RegisteredPlayer.Table.INSTANCE)
+            .set(RegisteredPlayer.Table.HASH_FIELD, RegisteredPlayer.genHash(password))
+            .set(RegisteredPlayer.Table.TOKEN_ISSUED_AT_FIELD, System.currentTimeMillis())
+            .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+            .executeAsync();
       }
     }
 
     return isCorrect;
-  }
-
-  public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
-    try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
-      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    }
-  }
-
-  public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
-    try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
-      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    }
   }
 
   /**

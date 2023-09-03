@@ -40,10 +40,10 @@ repositories {
 
 dependencies {
     compileOnly("net.elytrium.limboapi:api:$limboapiVersion")
-    compileOnly("net.elytrium.commons:config:$elytriumCommonsVersion")
     compileOnly("net.elytrium.commons:utils:$elytriumCommonsVersion")
     compileOnly("net.elytrium.commons:velocity:$elytriumCommonsVersion")
     compileOnly("net.elytrium.commons:kyori:$elytriumCommonsVersion")
+    compileOnly("net.elytrium:serializer:$elytriumSerializerVersion")
 
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
@@ -55,10 +55,13 @@ dependencies {
 
     compileOnly("org.geysermc.floodgate:api:$floodgateVersion")
 
+    compileOnly("org.asynchttpclient:async-http-client:2.12.3")
+
     implementation("at.favre.lib:bcrypt:0.9.0")
+    implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("dev.samstevens.totp:totp:1.7.1")
 
-    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
+    implementation("org.jooq:jooq:3.18.6")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
 
     implementation("io.whitfin:siphash:2.0.0")

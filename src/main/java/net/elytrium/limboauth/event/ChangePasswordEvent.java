@@ -17,29 +17,28 @@
 
 package net.elytrium.limboauth.event;
 
-import net.elytrium.limboauth.model.RegisteredPlayer;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class ChangePasswordEvent {
 
-  private final RegisteredPlayer playerInfo;
+  private final String username;
   @Nullable
   private final String oldPassword;
   private final String oldHash;
   private final String newPassword;
   private final String newHash;
 
-  public ChangePasswordEvent(RegisteredPlayer playerInfo, @Nullable String oldPassword,
+  public ChangePasswordEvent(String username, @Nullable String oldPassword,
                              String oldHash, String newPassword, String newHash) {
-    this.playerInfo = playerInfo;
+    this.username = username;
     this.oldPassword = oldPassword;
     this.oldHash = oldHash;
     this.newPassword = newPassword;
     this.newHash = newHash;
   }
 
-  public RegisteredPlayer getPlayerInfo() {
-    return this.playerInfo;
+  public String getUsername() {
+    return this.username;
   }
 
   @Nullable
