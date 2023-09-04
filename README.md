@@ -1,6 +1,6 @@
 # LimboAuth for IPS4
 
-Pairing authorization minecraft server on velocity with IPB4
+Pairing authorization minecraft server on velocity with IPS4
 
 ## See also
 
