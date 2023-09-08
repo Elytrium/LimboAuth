@@ -34,6 +34,7 @@ import org.jooq.impl.DSL;
 public class ChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final DSLContext dslContext;
 
   private final boolean needOldPass;
@@ -44,18 +45,19 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public ChangePasswordCommand(LimboAuth plugin, DSLContext dslContext) {
+  public ChangePasswordCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.dslContext = dslContext;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.needOldPass = Settings.IMP.MAIN.CHANGE_PASSWORD_NEED_OLD_PASSWORD;
-    this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_SUCCESSFUL);
-    this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_USAGE);
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+    Serializer serializer = plugin.getSerializer();
+    this.needOldPass = this.settings.main.changePasswordNeedOldPassword;
+    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
+    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
+    this.successful = serializer.deserialize(this.settings.main.strings.CHANGE_PASSWORD_SUCCESSFUL);
+    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
+    this.usage = serializer.deserialize(this.settings.main.strings.CHANGE_PASSWORD_USAGE);
+    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -81,11 +83,11 @@ public class ChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = username.toLowerCase(Locale.ROOT);
       Consumer<String> onCorrect = oldHash -> {
         final String newPassword = needOldPass ? args[1] : args[0];
-        final String newHash = RegisteredPlayer.genHash(newPassword);
+        final String newHash = RegisteredPlayer.genHash(this.settings, newPassword);
 
         this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
             .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
-            .where(DSL.field(RegisteredPlayer.NICKNAME_FIELD).eq(username))
+            .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(username))
             .executeAsync();
 
         this.plugin.removePlayerFromCache(username);
@@ -96,7 +98,7 @@ public class ChangePasswordCommand implements SimpleCommand {
         source.sendMessage(this.successful);
       };
 
-      RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
+      RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
           () -> source.sendMessage(this.notRegistered),
           () -> onCorrect.accept(null),
           onCorrect,
@@ -109,7 +111,7 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.CHANGE_PASSWORD
+    return this.settings.main.commandPermissionState.changePassword
         .hasPermission(invocation.source(), "limboauth.commands.changepassword");
   }
 }

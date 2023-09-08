@@ -42,6 +42,8 @@ public class TotpCommand implements SimpleCommand {
 
   private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
   private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
+  private final LimboAuth plugin;
+  private final Settings settings;
   private final DSLContext dslContext;
 
   private final Component notPlayer;
@@ -62,27 +64,29 @@ public class TotpCommand implements SimpleCommand {
   private final Component wrong;
   private final Component crackedCommand;
 
-  public TotpCommand(DSLContext dslContext) {
+  public TotpCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
+    this.plugin = plugin;
+    this.settings = settings;
     this.dslContext = dslContext;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
-    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_USAGE);
-    this.needPassword = Settings.IMP.MAIN.TOTP_NEED_PASSWORD;
-    this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.alreadyEnabled = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_ALREADY_ENABLED);
-    this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_SUCCESSFUL);
-    this.issuer = Settings.IMP.MAIN.TOTP_ISSUER;
-    this.qrGeneratorUrl = Settings.IMP.MAIN.QR_GENERATOR_URL;
-    this.qr = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_QR);
-    this.token = Settings.IMP.MAIN.STRINGS.TOTP_TOKEN;
-    this.recoveryCodesAmount = Settings.IMP.MAIN.TOTP_RECOVERY_CODES_AMOUNT;
-    this.recovery = Settings.IMP.MAIN.STRINGS.TOTP_RECOVERY;
-    this.disabled = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_DISABLED);
-    this.wrong = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_WRONG);
-    this.crackedCommand = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
+    Serializer serializer = plugin.getSerializer();
+    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
+    this.usage = serializer.deserialize(this.settings.main.strings.TOTP_USAGE);
+    this.needPassword = this.settings.main.totpNeedPassword;
+    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
+    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
+    this.alreadyEnabled = serializer.deserialize(this.settings.main.strings.TOTP_ALREADY_ENABLED);
+    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
+    this.successful = serializer.deserialize(this.settings.main.strings.TOTP_SUCCESSFUL);
+    this.issuer = this.settings.main.totpIssuer;
+    this.qrGeneratorUrl = this.settings.main.qrGeneratorUrl;
+    this.qr = serializer.deserialize(this.settings.main.strings.TOTP_QR);
+    this.token = this.settings.main.strings.TOTP_TOKEN;
+    this.recoveryCodesAmount = this.settings.main.totpRecoveryCodesAmount;
+    this.recovery = this.settings.main.strings.TOTP_RECOVERY;
+    this.disabled = serializer.deserialize(this.settings.main.strings.TOTP_DISABLED);
+    this.wrong = serializer.deserialize(this.settings.main.strings.TOTP_WRONG);
+    this.crackedCommand = serializer.deserialize(this.settings.main.strings.CRACKED_COMMAND);
   }
 
   // TODO: Rewrite.
@@ -100,7 +104,7 @@ public class TotpCommand implements SimpleCommand {
 
         if (args[0].equalsIgnoreCase("enable")) {
           if (this.needPassword ? args.length == 2 : args.length == 1) {
-            RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, this.needPassword ? args[1] : null,
+            RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, this.needPassword ? args[1] : null,
                 () -> source.sendMessage(this.notRegistered),
                 () -> source.sendMessage(this.crackedCommand),
                 h -> this.dslContext.selectFrom(RegisteredPlayer.Table.INSTANCE)
@@ -115,7 +119,7 @@ public class TotpCommand implements SimpleCommand {
                             .executeAsync()
                             .thenRun(() -> source.sendMessage(this.successful))
                             .exceptionally(e -> {
-                              // TODO: logger
+                              this.plugin.handleSqlError(e);
                               source.sendMessage(this.errorOccurred);
                               return null;
                             });
@@ -128,7 +132,7 @@ public class TotpCommand implements SimpleCommand {
                         String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
                         source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
 
-                        Serializer serializer = LimboAuth.getSerializer();
+                        Serializer serializer = this.plugin.getSerializer();
                         source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
                             .clickEvent(ClickEvent.copyToClipboard(secret)));
                         String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
@@ -139,7 +143,7 @@ public class TotpCommand implements SimpleCommand {
                       }
                     })
                     .exceptionally(e -> {
-                      // TODO: logger
+                      this.plugin.handleSqlError(e);
                       source.sendMessage(this.errorOccurred);
                       return null;
                     }),
@@ -168,7 +172,7 @@ public class TotpCommand implements SimpleCommand {
                         .executeAsync()
                         .thenRun(() -> source.sendMessage(this.successful))
                         .exceptionally(e -> {
-                          // TODO: logger
+                          this.plugin.handleSqlError(e);
                           source.sendMessage(this.errorOccurred);
                           return null;
                         });
@@ -177,7 +181,7 @@ public class TotpCommand implements SimpleCommand {
                   }
                 })
                 .exceptionally(e -> {
-                  // TODO: logger
+                  this.plugin.handleSqlError(e);
                   source.sendMessage(this.errorOccurred);
                   return null;
                 });
@@ -195,7 +199,7 @@ public class TotpCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.TOTP
+    return this.settings.main.commandPermissionState.totp
         .hasPermission(invocation.source(), "limboauth.commands.totp");
   }
 }

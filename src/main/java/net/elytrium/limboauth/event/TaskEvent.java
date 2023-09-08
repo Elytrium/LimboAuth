@@ -18,19 +18,15 @@
 package net.elytrium.limboauth.event;
 
 import java.util.function.Consumer;
-import net.elytrium.limboauth.LimboAuth;
-import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class TaskEvent {
 
-  private static Component DEFAULT_REASON;
-
   private final Consumer<TaskEvent> onComplete;
 
   private Result result = Result.NORMAL;
-  private Component reason = DEFAULT_REASON;
+  private Component reason = null;
 
   public TaskEvent(Consumer<TaskEvent> onComplete) {
     this.onComplete = onComplete;
@@ -74,10 +70,6 @@ public abstract class TaskEvent {
 
   public Component getReason() {
     return this.reason;
-  }
-
-  public static void reload() {
-    DEFAULT_REASON = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.EVENT_CANCELLED);
   }
 
   public enum Result {

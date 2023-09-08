@@ -36,6 +36,7 @@ import org.jooq.impl.DSL;
 public class ForceUnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final ProxyServer server;
   private final DSLContext dslContext;
 
@@ -44,16 +45,17 @@ public class ForceUnregisterCommand implements SimpleCommand {
   private final String notSuccessful;
   private final Component usage;
 
-  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, DSLContext dslContext) {
+  public ForceUnregisterCommand(LimboAuth plugin, Settings settings, ProxyServer server, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.server = server;
     this.dslContext = dslContext;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.kick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
-    this.successful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_SUCCESSFUL;
-    this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_NOT_SUCCESSFUL;
-    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_USAGE);
+    Serializer serializer = plugin.getSerializer();
+    this.kick = serializer.deserialize(this.settings.main.strings.FORCE_UNREGISTER_KICK);
+    this.successful = this.settings.main.strings.FORCE_UNREGISTER_SUCCESSFUL;
+    this.notSuccessful = this.settings.main.strings.FORCE_UNREGISTER_NOT_SUCCESSFUL;
+    this.usage = serializer.deserialize(this.settings.main.strings.FORCE_UNREGISTER_USAGE);
   }
 
   @Override
@@ -69,7 +71,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
     if (args.length == 1) {
       String playerNick = args[0];
 
-      Serializer serializer = LimboAuth.getSerializer();
+      Serializer serializer = this.plugin.getSerializer();
       this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
       this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
           .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(playerNick.toLowerCase(Locale.ROOT)))
@@ -79,7 +81,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
             this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
             source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
           }).exceptionally(e -> {
-            // TODO: logger
+            this.plugin.handleSqlError(e);
             source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
             return null;
           });
@@ -90,7 +92,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_UNREGISTER
+    return this.settings.main.commandPermissionState.forceUnregister
         .hasPermission(invocation.source(), "limboauth.admin.forceunregister");
   }
 }

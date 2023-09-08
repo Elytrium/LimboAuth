@@ -33,6 +33,7 @@ import org.jooq.impl.DSL;
 public class UnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final DSLContext dslContext;
 
   private final String confirmKeyword;
@@ -44,19 +45,20 @@ public class UnregisterCommand implements SimpleCommand {
   private final Component usage;
   private final Component crackedCommand;
 
-  public UnregisterCommand(LimboAuth plugin, DSLContext dslContext) {
+  public UnregisterCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.dslContext = dslContext;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
-    this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_SUCCESSFUL);
-    this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.UNREGISTER_USAGE);
-    this.crackedCommand = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CRACKED_COMMAND);
+    Serializer serializer = plugin.getSerializer();
+    this.confirmKeyword = this.settings.main.confirmKeyword;
+    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
+    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
+    this.successful = serializer.deserialize(this.settings.main.strings.UNREGISTER_SUCCESSFUL);
+    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
+    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
+    this.usage = serializer.deserialize(this.settings.main.strings.UNREGISTER_USAGE);
+    this.crackedCommand = serializer.deserialize(this.settings.main.strings.CRACKED_COMMAND);
   }
 
   @Override
@@ -69,17 +71,17 @@ public class UnregisterCommand implements SimpleCommand {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+          RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, args[0],
               () -> source.sendMessage(this.notRegistered),
               () -> source.sendMessage(this.crackedCommand),
               h -> {
                 this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
                 this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
-                    .where(DSL.field(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+                    .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
                     .executeAsync()
                     .exceptionally((e) -> {
                       source.sendMessage(this.errorOccurred);
-                      // TODO: logger
+                      this.plugin.handleSqlError(e);
                       return null;
                     });
                 this.plugin.removePlayerFromCache(lowercaseNickname);
@@ -99,7 +101,7 @@ public class UnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.UNREGISTER
+    return this.settings.main.commandPermissionState.unregister
         .hasPermission(invocation.source(), "limboauth.commands.unregister");
   }
 }

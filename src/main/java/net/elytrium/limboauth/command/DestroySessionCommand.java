@@ -28,16 +28,18 @@ import net.kyori.adventure.text.Component;
 public class DestroySessionCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
 
   private final Component successful;
   private final Component notPlayer;
 
-  public DestroySessionCommand(LimboAuth plugin) {
+  public DestroySessionCommand(LimboAuth plugin, Settings settings) {
     this.plugin = plugin;
+    this.settings = settings;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DESTROY_SESSION_SUCCESSFUL);
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+    Serializer serializer = plugin.getSerializer();
+    this.successful = serializer.deserialize(this.settings.main.strings.DESTROY_SESSION_SUCCESSFUL);
+    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -54,7 +56,7 @@ public class DestroySessionCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.DESTROY_SESSION
+    return this.settings.main.commandPermissionState.destroySession
         .hasPermission(invocation.source(), "limboauth.commands.destroysession");
   }
 }

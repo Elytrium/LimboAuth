@@ -33,6 +33,7 @@ import org.jooq.impl.DSL;
 public class ForceRegisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final DSLContext dslContext;
 
   private final String successful;
@@ -41,15 +42,17 @@ public class ForceRegisterCommand implements SimpleCommand {
   private final Component takenNickname;
   private final Component incorrectNickname;
 
-  public ForceRegisterCommand(LimboAuth plugin, DSLContext dslContext) {
+  public ForceRegisterCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.dslContext = dslContext;
 
-    this.successful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_SUCCESSFUL;
-    this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_NOT_SUCCESSFUL;
-    this.usage = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_USAGE);
-    this.takenNickname = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_TAKEN_NICKNAME);
-    this.incorrectNickname = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_INCORRECT_NICKNAME);
+    Serializer serializer = plugin.getSerializer();
+    this.successful = this.settings.main.strings.FORCE_REGISTER_SUCCESSFUL;
+    this.notSuccessful = this.settings.main.strings.FORCE_REGISTER_NOT_SUCCESSFUL;
+    this.usage = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_USAGE);
+    this.takenNickname = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_TAKEN_NICKNAME);
+    this.incorrectNickname = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_INCORRECT_NICKNAME);
   }
 
   @Override
@@ -61,14 +64,14 @@ public class ForceRegisterCommand implements SimpleCommand {
       String nickname = args[0];
       String password = args[1];
 
-      Serializer serializer = LimboAuth.getSerializer();
+      Serializer serializer = this.plugin.getSerializer();
       if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
         source.sendMessage(this.incorrectNickname);
         return;
       }
 
       Function<Throwable, Void> onError = e -> {
-        // TODO: logger
+        this.plugin.handleSqlError(e);
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         return null;
       };
@@ -84,7 +87,7 @@ public class ForceRegisterCommand implements SimpleCommand {
               return;
             }
 
-            RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
+            RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(this.settings, password);
             this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
                 .values(player)
                 .executeAsync()
@@ -98,7 +101,7 @@ public class ForceRegisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_REGISTER
+    return this.settings.main.commandPermissionState.forceRegister
         .hasPermission(invocation.source(), "limboauth.admin.forceregister");
   }
 }

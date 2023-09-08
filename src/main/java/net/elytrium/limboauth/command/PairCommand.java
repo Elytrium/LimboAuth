@@ -32,6 +32,7 @@ import org.jooq.impl.DSL;
 public class PairCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final DSLContext dslContext;
 
   private final String confirmKeyword;
@@ -44,20 +45,21 @@ public class PairCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public PairCommand(LimboAuth plugin, DSLContext dslContext) {
+  public PairCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.dslContext = dslContext;
 
-    Serializer serializer = LimboAuth.getSerializer();
-    this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
-    this.notRegistered = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_REGISTERED);
-    this.alreadyPremium = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ALREADY_PREMIUM);
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL);
-    this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
-    this.notPremium = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PREMIUM);
-    this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
-    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_USAGE);
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+    Serializer serializer = plugin.getSerializer();
+    this.confirmKeyword = this.settings.main.confirmKeyword;
+    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
+    this.alreadyPremium = serializer.deserialize(this.settings.main.strings.ALREADY_PREMIUM);
+    this.successful = serializer.deserialize(this.settings.main.strings.PREMIUM_SUCCESSFUL);
+    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
+    this.notPremium = serializer.deserialize(this.settings.main.strings.NOT_PREMIUM);
+    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
+    this.usage = serializer.deserialize(this.settings.main.strings.PREMIUM_USAGE);
+    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -70,7 +72,7 @@ public class PairCommand implements SimpleCommand {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+          RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, args[0],
               () -> source.sendMessage(this.notRegistered),
               () -> source.sendMessage(this.alreadyPremium),
               h -> this.plugin.isPremiumExternal(lowercaseNickname).thenAccept(premiumResponse -> {
@@ -83,7 +85,7 @@ public class PairCommand implements SimpleCommand {
                         this.plugin.removePlayerFromCache(username);
                         ((Player) source).disconnect(this.successful);
                       }).exceptionally(e -> {
-                        // TODO: logger
+                        this.plugin.handleSqlError(e);
                         source.sendMessage(this.errorOccurred);
                         return null;
                       });
@@ -106,7 +108,7 @@ public class PairCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.PREMIUM
+    return this.settings.main.commandPermissionState.premium
         .hasPermission(invocation.source(), "limboauth.commands.premium");
   }
 }

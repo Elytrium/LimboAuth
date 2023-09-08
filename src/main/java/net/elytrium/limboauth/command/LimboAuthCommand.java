@@ -23,6 +23,7 @@ import com.velocitypowered.api.command.SimpleCommand;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -42,9 +43,13 @@ public class LimboAuthCommand implements SimpleCommand {
   private static final Component NO_AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("There is no available subcommands for you.", NamedTextColor.WHITE);
 
   private final LimboAuth plugin;
+  private final Settings settings;
 
-  public LimboAuthCommand(LimboAuth plugin) {
+  public LimboAuthCommand(LimboAuth plugin, Settings settings) {
     this.plugin = plugin;
+    this.settings = settings;
+
+    Subcommand.RELOAD.setExecutor(new ReloadExecutor());
   }
 
   @Override
@@ -54,13 +59,13 @@ public class LimboAuthCommand implements SimpleCommand {
 
     if (args.length == 0) {
       return Arrays.stream(Subcommand.values())
-          .filter(command -> command.hasPermission(source))
+          .filter(command -> command.hasPermission(this.settings, source))
           .map(Subcommand::getCommand)
           .collect(Collectors.toList());
     } else if (args.length == 1) {
       String argument = args[0];
       return Arrays.stream(Subcommand.values())
-          .filter(command -> command.hasPermission(source))
+          .filter(command -> command.hasPermission(this.settings, source))
           .map(Subcommand::getCommand)
           .filter(str -> str.regionMatches(true, 0, argument, 0, argument.length()))
           .collect(Collectors.toList());
@@ -78,7 +83,7 @@ public class LimboAuthCommand implements SimpleCommand {
     if (argsAmount > 0) {
       try {
         Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
-        if (!subcommand.hasPermission(source)) {
+        if (!subcommand.hasPermission(this.settings, source)) {
           this.showHelp(source);
           return;
         }
@@ -94,7 +99,7 @@ public class LimboAuthCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.HELP
+    return this.settings.main.commandPermissionState.help
         .hasPermission(invocation.source(), "limboauth.commands.help");
   }
 
@@ -102,10 +107,10 @@ public class LimboAuthCommand implements SimpleCommand {
     HELP_MESSAGE.forEach(source::sendMessage);
 
     List<Subcommand> availableSubcommands = Arrays.stream(Subcommand.values())
-        .filter(command -> command.hasPermission(source))
+        .filter(command -> command.hasPermission(this.settings, source))
         .collect(Collectors.toList());
 
-    if (availableSubcommands.size() > 0) {
+    if (!availableSubcommands.isEmpty()) {
       source.sendMessage(AVAILABLE_SUBCOMMANDS_MESSAGE);
       availableSubcommands.forEach(command -> source.sendMessage(command.getMessageLine()));
     } else {
@@ -113,35 +118,47 @@ public class LimboAuthCommand implements SimpleCommand {
     }
   }
 
+  private class ReloadExecutor implements SubcommandExecutor {
+    private final Component reloadComponent = LimboAuthCommand.this.plugin.getSerializer()
+        .deserialize(LimboAuthCommand.this.settings.main.strings.RELOAD);
+
+    @Override
+    public void execute(LimboAuthCommand parent, CommandSource source, String[] args) {
+      parent.plugin.reload();
+      source.sendMessage(this.reloadComponent);
+    }
+  }
+
   private enum Subcommand {
-    RELOAD("Reload config.", Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.RELOAD,
-        (LimboAuthCommand parent, CommandSource source, String[] args) -> {
-          parent.plugin.reload();
-          source.sendMessage(LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RELOAD));
-        });
+    RELOAD("Reload config.", settings -> settings.main.commandPermissionState.reload);
 
     private final String command;
-    private final String description;
-    private final CommandPermissionState permissionState;
-    private final SubcommandExecutor executor;
+    private final String permission;
+    private final Component messageLine;
+    private final Function<Settings, CommandPermissionState> permissionState;
+    private SubcommandExecutor executor;
 
-    Subcommand(String description, CommandPermissionState permissionState, SubcommandExecutor executor) {
+    Subcommand(String description, Function<Settings, CommandPermissionState> permissionState) {
       this.permissionState = permissionState;
       this.command = this.name().toLowerCase(Locale.ROOT);
-      this.description = description;
+      this.permission = "limboauth.admin." + this.command;
+      this.messageLine = Component.textOfChildren(
+          Component.text("  /limboauth " + this.command, NamedTextColor.GREEN),
+          Component.text(" - ", NamedTextColor.DARK_GRAY),
+          Component.text(description, NamedTextColor.YELLOW)
+      );
+    }
+
+    public void setExecutor(SubcommandExecutor executor) {
       this.executor = executor;
     }
 
-    public boolean hasPermission(CommandSource source) {
-      return this.permissionState.hasPermission(source, "limboauth.admin." + this.command);
+    public boolean hasPermission(Settings settings, CommandSource source) {
+      return this.permissionState.apply(settings).hasPermission(source, this.permission);
     }
 
     public Component getMessageLine() {
-      return Component.textOfChildren(
-          Component.text("  /limboauth " + this.command, NamedTextColor.GREEN),
-          Component.text(" - ", NamedTextColor.DARK_GRAY),
-          Component.text(this.description, NamedTextColor.YELLOW)
-      );
+      return this.messageLine;
     }
 
     public String getCommand() {

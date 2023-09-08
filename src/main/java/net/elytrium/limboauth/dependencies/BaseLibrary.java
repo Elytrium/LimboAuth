@@ -80,7 +80,7 @@ public enum BaseLibrary {
   }
 
   @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-  public URL getClassLoaderURL() throws MalformedURLException {
+  public Path getClassPath() {
     if (!Files.exists(this.filenamePath)) {
       try {
         try (InputStream in = this.mavenRepoURL.openStream()) {
@@ -92,6 +92,6 @@ public enum BaseLibrary {
       }
     }
 
-    return this.filenamePath.toUri().toURL();
+    return this.filenamePath;
   }
 }

@@ -28,7 +28,6 @@ import dev.samstevens.totp.time.SystemTimeProvider;
 import io.netty.buffer.ByteBuf;
 import io.whitfin.siphash.SipHasher;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +42,6 @@ import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -91,6 +89,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private final DSLContext dslContext;
   private final Player proxyPlayer;
   private final LimboAuth plugin;
+  private final Settings settings;
 
   private final long joinTime = System.currentTimeMillis();
   private final BossBar bossBar = BossBar.bossBar(
@@ -107,48 +106,50 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private ScheduledFuture<?> authMainTask;
 
   private LimboPlayer player;
-  private int attempts = Settings.IMP.MAIN.LOGIN_ATTEMPTS;
+  private int attempts;
   private boolean totpState;
   private String tempPassword;
   private boolean tokenReceived;
 
-  public AuthSessionHandler(DSLContext dslContext, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
+  public AuthSessionHandler(DSLContext dslContext, Player proxyPlayer, LimboAuth plugin, Settings settings, @Nullable RegisteredPlayer playerInfo) {
     this.dslContext = dslContext;
     this.proxyPlayer = proxyPlayer;
     this.plugin = plugin;
+    this.settings = settings;
     this.playerInfo = playerInfo;
-    this.loginOnlyByMod = Settings.IMP.MAIN.MOD.ENABLED && (Settings.IMP.MAIN.MOD.LOGIN_ONLY_BY_MOD || (playerInfo != null && playerInfo.isOnlyByMod()));
+    this.loginOnlyByMod = this.settings.main.mod.enabled && (this.settings.main.mod.loginOnlyByMod || (playerInfo != null && playerInfo.isOnlyByMod()));
+    this.attempts = this.settings.main.loginAttempts;
   }
 
   @Override
   public void onSpawn(Limbo server, LimboPlayer player) {
     this.player = player;
 
-    if (Settings.IMP.MAIN.DISABLE_FALLING) {
+    if (this.settings.main.disableFalling) {
       this.player.disableFalling();
     } else {
       this.player.enableFalling();
     }
 
-    Serializer serializer = LimboAuth.getSerializer();
+    Serializer serializer = this.plugin.getSerializer();
 
     if (this.playerInfo == null) {
       String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
       this.dslContext.selectCount()
           .from(RegisteredPlayer.Table.INSTANCE)
-          .where(DSL.field(RegisteredPlayer.IP_FIELD).eq(ip)
-              .and(DSL.field(RegisteredPlayer.REG_DATE_FIELD)
-                  .ge(System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)))
+          .where(DSL.field(RegisteredPlayer.Table.IP_FIELD).eq(ip)
+              .and(DSL.field(RegisteredPlayer.Table.REG_DATE_FIELD)
+                  .ge(System.currentTimeMillis() - this.settings.main.ipLimitValidTime)))
           .fetchAsync()
           .thenAccept(registeredResult -> {
-            if (registeredResult.get(0).get(0, Integer.class) >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+            if (registeredResult.get(0).get(0, Integer.class) >= this.settings.main.ipLimitRegistrations) {
               this.proxyPlayer.disconnect(ipLimitKick);
             } else {
               this.onSpawnAfterChecks();
             }
           })
           .exceptionally(e -> {
-            // TODO: logger
+            this.plugin.handleSqlError(e);
             this.proxyPlayer.disconnect(databaseErrorKick);
             return null;
           });
@@ -164,9 +165,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void onSpawnAfterChecks() {
-    Serializer serializer = LimboAuth.getSerializer();
-    boolean bossBarEnabled = !this.loginOnlyByMod && Settings.IMP.MAIN.ENABLE_BOSSBAR;
-    int authTime = Settings.IMP.MAIN.AUTH_TIME;
+    Serializer serializer = this.plugin.getSerializer();
+    boolean bossBarEnabled = !this.loginOnlyByMod && this.settings.main.enableBossbar;
+    int authTime = this.settings.main.authTime;
     float multiplier = 1000.0F / authTime;
     this.authMainTask = this.player.getScheduledExecutor().scheduleWithFixedDelay(() -> {
       if (System.currentTimeMillis() - this.joinTime > authTime) {
@@ -174,7 +175,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       } else {
         if (bossBarEnabled) {
           float secondsLeft = (authTime - (System.currentTimeMillis() - this.joinTime)) / 1000.0F;
-          this.bossBar.name(serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.BOSSBAR, (int) secondsLeft)));
+          this.bossBar.name(serializer.deserialize(MessageFormat.format(this.settings.main.strings.BOSSBAR, (int) secondsLeft)));
           // It's possible, that the progress value can overcome 1, e.g. 1.0000001.
           this.bossBar.progress(Math.min(1.0F, secondsLeft * multiplier));
         }
@@ -198,12 +199,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     String[] args = message.split(" ");
     if (args.length != 0 && this.checkArgsLength(args.length)) {
-      Command command = Command.parse(args[0]);
+      Command command = Command.parse(this.settings, args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
         String password = args[1];
         if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
           this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(this.settings, password);
 
           this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
               .values(registeredPlayer)
@@ -229,7 +230,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String password = args[1];
         this.saveTempPassword(password);
 
-        if (!password.isEmpty() && checkPassword(this.proxyPlayer.getUsername(), this.playerInfo.getHash(), password, this.dslContext)) {
+        if (!password.isEmpty() && checkPassword(this.settings, this.proxyPlayer.getUsername(), this.playerInfo.getHash(), password, this.dslContext)) {
           if (this.playerInfo.getTotpToken().isEmpty()) {
             this.finishLogin();
           } else {
@@ -259,14 +260,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   @Override
   public void onGeneric(Object packet) {
-    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessage) {
+    if (this.settings.main.mod.enabled && packet instanceof PluginMessage) {
       PluginMessage pluginMessage = (PluginMessage) packet;
       String channel = pluginMessage.getChannel();
 
       if (channel.equals("MC|Brand") || channel.equals("minecraft:brand")) {
         // Minecraft can't handle the plugin message immediately after going to the PLAY
         // state, so we have to postpone sending it
-        if (Settings.IMP.MAIN.MOD.ENABLED) {
+        if (this.settings.main.mod.enabled) {
           this.proxyPlayer.sendPluginMessage(this.plugin.getChannelIdentifier(this.proxyPlayer), new byte[0]);
         }
       } else if (channel.equals(this.plugin.getChannelIdentifier(this.proxyPlayer).getId())) {
@@ -299,7 +300,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         }
 
         byte[] lowercaseNicknameSerialized = this.playerInfo.getLowercaseNickname().getBytes(StandardCharsets.UTF_8);
-        long correctHash = SipHasher.init(Settings.IMP.MAIN.MOD.VERIFY_KEY)
+        long correctHash = SipHasher.init(this.settings.main.mod.verifyKey)
             .update(lowercaseNicknameSerialized)
             .update(Longs.toByteArray(issueTime))
             .digest();
@@ -317,7 +318,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   private void checkBruteforceAttempts() {
     this.plugin.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
-    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
+    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= this.settings.main.bruteforceMaxAttempts) {
       this.proxyPlayer.disconnect(loginWrongPasswordKick);
     }
   }
@@ -355,7 +356,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private boolean checkArgsLength(int argsLength) {
-    if (this.playerInfo == null && Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD) {
+    if (this.playerInfo == null && this.settings.main.registerNeedRepeatPassword) {
       return argsLength == 3;
     } else {
       return argsLength == 2;
@@ -363,7 +364,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private boolean checkPasswordsRepeat(String[] args) {
-    if (!Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD || args[1].equals(args[2])) {
+    if (!this.settings.main.registerNeedRepeatPassword || args[1].equals(args[2])) {
       return true;
     } else {
       this.proxyPlayer.sendMessage(registerDifferentPasswords);
@@ -373,10 +374,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   private boolean checkPasswordLength(String password) {
     int length = password.length();
-    if (length > Settings.IMP.MAIN.MAX_PASSWORD_LENGTH) {
+    if (length > this.settings.main.maxPasswordLength) {
       this.proxyPlayer.sendMessage(registerPasswordTooLong);
       return false;
-    } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
+    } else if (length < this.settings.main.minPasswordLength) {
       this.proxyPlayer.sendMessage(registerPasswordTooShort);
       return false;
     } else {
@@ -385,7 +386,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private boolean checkPasswordStrength(String password) {
-    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && this.plugin.getUnsafePasswords().contains(password)) {
+    if (this.settings.main.checkPasswordStrength && this.plugin.getUnsafePasswords().contains(password)) {
       this.proxyPlayer.sendMessage(registerPasswordUnsafe);
       return false;
     } else {
@@ -418,99 +419,91 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void finishAuth() {
-    if (Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.CLEAR_AFTER_LOGIN) {
+    if (this.settings.main.crackedTitleSettings.clearAfterLogin) {
       this.proxyPlayer.clearTitle();
     }
 
-    try {
-      this.plugin.updateLoginData(this.proxyPlayer);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    } catch (Throwable e) {
-      e.printStackTrace();
-    }
-
+    this.plugin.updateLoginData(this.proxyPlayer);
     this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
   }
 
-  public static void reload() {
-    Serializer serializer = LimboAuth.getSerializer();
-    bossbarColor = Settings.IMP.MAIN.BOSSBAR_COLOR;
-    bossbarOverlay = Settings.IMP.MAIN.BOSSBAR_OVERLAY;
-    ipLimitKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.IP_LIMIT_KICK);
-    databaseErrorKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DATABASE_ERROR_KICK);
-    wrongNicknameCaseKick = Settings.IMP.MAIN.STRINGS.WRONG_NICKNAME_CASE_KICK;
-    timesUp = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TIMES_UP);
-    registerSuccessful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL);
-    if (Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_SUBTITLE.isEmpty()) {
+  public static void reload(Serializer serializer, Settings settings) {
+    bossbarColor = settings.main.bossbarColor;
+    bossbarOverlay = settings.main.bossbarOverlay;
+    ipLimitKick = serializer.deserialize(settings.main.strings.IP_LIMIT_KICK);
+    databaseErrorKick = serializer.deserialize(settings.main.strings.DATABASE_ERROR_KICK);
+    wrongNicknameCaseKick = settings.main.strings.WRONG_NICKNAME_CASE_KICK;
+    timesUp = serializer.deserialize(settings.main.strings.TIMES_UP);
+    registerSuccessful = serializer.deserialize(settings.main.strings.REGISTER_SUCCESSFUL);
+    if (settings.main.strings.REGISTER_SUCCESSFUL_TITLE.isEmpty() && settings.main.strings.REGISTER_SUCCESSFUL_SUBTITLE.isEmpty()) {
       registerSuccessfulTitle = null;
     } else {
       registerSuccessfulTitle = Title.title(
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_TITLE),
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUCCESSFUL_SUBTITLE),
-          Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
+          serializer.deserialize(settings.main.strings.REGISTER_SUCCESSFUL_TITLE),
+          serializer.deserialize(settings.main.strings.REGISTER_SUCCESSFUL_SUBTITLE),
+          settings.main.crackedTitleSettings.toTimes()
       );
     }
-    int loginAttempts = Settings.IMP.MAIN.LOGIN_ATTEMPTS;
+    int loginAttempts = settings.main.loginAttempts;
     loginWrongPassword = new Component[loginAttempts];
     for (int i = 0; i < loginAttempts; ++i) {
-      loginWrongPassword[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD, i + 1));
+      loginWrongPassword[i] = serializer.deserialize(MessageFormat.format(settings.main.strings.LOGIN_WRONG_PASSWORD, i + 1));
     }
-    loginWrongPasswordKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
-    totp = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP);
-    if (Settings.IMP.MAIN.STRINGS.TOTP_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE.isEmpty()) {
+    loginWrongPasswordKick = serializer.deserialize(settings.main.strings.LOGIN_WRONG_PASSWORD_KICK);
+    totp = serializer.deserialize(settings.main.strings.TOTP);
+    if (settings.main.strings.TOTP_TITLE.isEmpty() && settings.main.strings.TOTP_SUBTITLE.isEmpty()) {
       totpTitle = null;
     } else {
       totpTitle = Title.title(
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_TITLE),
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE),
-          Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
+          serializer.deserialize(settings.main.strings.TOTP_TITLE),
+          serializer.deserialize(settings.main.strings.TOTP_SUBTITLE),
+          settings.main.crackedTitleSettings.toTimes()
       );
     }
-    register = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER);
-    if (Settings.IMP.MAIN.STRINGS.REGISTER_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE.isEmpty()) {
+    register = serializer.deserialize(settings.main.strings.REGISTER);
+    if (settings.main.strings.REGISTER_TITLE.isEmpty() && settings.main.strings.REGISTER_SUBTITLE.isEmpty()) {
       registerTitle = null;
     } else {
       registerTitle = Title.title(
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_TITLE),
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE),
-          Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
+          serializer.deserialize(settings.main.strings.REGISTER_TITLE),
+          serializer.deserialize(settings.main.strings.REGISTER_SUBTITLE),
+          settings.main.crackedTitleSettings.toTimes()
       );
     }
     login = new Component[loginAttempts];
     for (int i = 0; i < loginAttempts; ++i) {
-      login[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN, i + 1));
+      login[i] = serializer.deserialize(MessageFormat.format(settings.main.strings.LOGIN, i + 1));
     }
-    if (Settings.IMP.MAIN.STRINGS.LOGIN_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE.isEmpty()) {
+    if (settings.main.strings.LOGIN_TITLE.isEmpty() && settings.main.strings.LOGIN_SUBTITLE.isEmpty()) {
       loginTitle = null;
     } else {
       loginTitle = Title.title(
-          serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_TITLE, loginAttempts)),
-          serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE, loginAttempts)),
-          Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
+          serializer.deserialize(MessageFormat.format(settings.main.strings.LOGIN_TITLE, loginAttempts)),
+          serializer.deserialize(MessageFormat.format(settings.main.strings.LOGIN_SUBTITLE, loginAttempts)),
+          settings.main.crackedTitleSettings.toTimes()
       );
     }
-    registerDifferentPasswords = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_DIFFERENT_PASSWORDS);
-    registerPasswordTooLong = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_LONG);
-    registerPasswordTooShort = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_SHORT);
-    registerPasswordUnsafe = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_UNSAFE);
-    loginSuccessful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL);
-    sessionExpired = serializer.deserialize(Settings.IMP.MAIN.STRINGS.MOD_SESSION_EXPIRED);
-    if (Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE.isEmpty()) {
+    registerDifferentPasswords = serializer.deserialize(settings.main.strings.REGISTER_DIFFERENT_PASSWORDS);
+    registerPasswordTooLong = serializer.deserialize(settings.main.strings.REGISTER_PASSWORD_TOO_LONG);
+    registerPasswordTooShort = serializer.deserialize(settings.main.strings.REGISTER_PASSWORD_TOO_SHORT);
+    registerPasswordUnsafe = serializer.deserialize(settings.main.strings.REGISTER_PASSWORD_UNSAFE);
+    loginSuccessful = serializer.deserialize(settings.main.strings.LOGIN_SUCCESSFUL);
+    sessionExpired = serializer.deserialize(settings.main.strings.MOD_SESSION_EXPIRED);
+    if (settings.main.strings.LOGIN_SUCCESSFUL_TITLE.isEmpty() && settings.main.strings.LOGIN_SUCCESSFUL_SUBTITLE.isEmpty()) {
       loginSuccessfulTitle = null;
     } else {
       loginSuccessfulTitle = Title.title(
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_TITLE),
-          serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE),
-          Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
+          serializer.deserialize(settings.main.strings.LOGIN_SUCCESSFUL_TITLE),
+          serializer.deserialize(settings.main.strings.LOGIN_SUCCESSFUL_SUBTITLE),
+          settings.main.crackedTitleSettings.toTimes()
       );
     }
 
-    migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
+    migrationHash = settings.main.migrationHash;
   }
 
-  public static boolean checkPassword(String lowercaseNickname, String hash, String password, DSLContext dslContext) {
+  public static boolean checkPassword(Settings settings, String lowercaseNickname, String hash, String password, DSLContext dslContext) {
     boolean isCorrect = HASH_VERIFIER.verify(
         password.getBytes(StandardCharsets.UTF_8),
         hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
@@ -520,7 +513,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       isCorrect = migrationHash.checkPassword(hash, password);
       if (isCorrect) {
         dslContext.update(RegisteredPlayer.Table.INSTANCE)
-            .set(RegisteredPlayer.Table.HASH_FIELD, RegisteredPlayer.genHash(password))
+            .set(RegisteredPlayer.Table.HASH_FIELD, RegisteredPlayer.genHash(settings, password))
             .set(RegisteredPlayer.Table.TOKEN_ISSUED_AT_FIELD, System.currentTimeMillis())
             .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
             .executeAsync();
@@ -528,14 +521,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     return isCorrect;
-  }
-
-  /**
-   * Use {@link RegisteredPlayer#genHash(String)} or {@link RegisteredPlayer#setPassword}
-   */
-  @Deprecated()
-  public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
   }
 
   public static CodeVerifier getTotpCodeVerifier() {
@@ -549,12 +534,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
     LOGIN,
     TOTP;
 
-    static Command parse(String command) {
-      if (Settings.IMP.MAIN.REGISTER_COMMAND.contains(command)) {
+    static Command parse(Settings settings, String command) {
+      if (settings.main.registerCommand.contains(command)) {
         return Command.REGISTER;
-      } else if (Settings.IMP.MAIN.LOGIN_COMMAND.contains(command)) {
+      } else if (settings.main.loginCommand.contains(command)) {
         return Command.LOGIN;
-      } else if (Settings.IMP.MAIN.TOTP_COMMAND.contains(command)) {
+      } else if (settings.main.totpCommand.contains(command)) {
         return Command.TOTP;
       } else {
         return Command.INVALID;

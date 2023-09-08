@@ -41,19 +41,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings("NullableProblems")
 public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> implements Record12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> {
 
-  public static final String NICKNAME_FIELD = "NICKNAME";
-  public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-  public static final String HASH_FIELD = "HASH";
-  public static final String IP_FIELD = "IP";
-  public static final String LOGIN_IP_FIELD = "LOGINIP";
-  public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-  public static final String REG_DATE_FIELD = "REGDATE";
-  public static final String LOGIN_DATE_FIELD = "LOGINDATE";
-  public static final String UUID_FIELD = "UUID";
-  public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
-  public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
-  public static final String ONLY_BY_MOD_FIELD = "ONLYMOD";
-
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
   private String nickname;
@@ -113,8 +100,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     this.loginIp = ip;
   }
 
-  public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+  public static String genHash(Settings settings, String password) {
+    return HASHER.hashToString(settings.main.bcryptCost, password.toCharArray());
   }
 
   public RegisteredPlayer setNickname(String nickname) {
@@ -132,8 +119,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.lowercaseNickname;
   }
 
-  public RegisteredPlayer setPassword(String password) {
-    this.hash = genHash(password);
+  public RegisteredPlayer setPassword(Settings settings, String password) {
+    this.hash = genHash(settings, password);
     this.tokenIssuedAt = System.currentTimeMillis();
 
     return this;
@@ -246,7 +233,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this;
   }
 
-  public static void checkPassword(DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
+  public static void checkPassword(Settings settings, DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
                                    Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
     dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
         .from(RegisteredPlayer.Table.INSTANCE)
@@ -261,7 +248,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
           String hash = hashResult.get(0).get(0, String.class);
           if (hash == null || hash.isEmpty()) {
             onPremium.run();
-          } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password, dslContext)) {
+          } else if (password == null || AuthSessionHandler.checkPassword(settings, lowercaseNickname, hash, password, dslContext)) {
             onCorrect.accept(hash);
           } else {
             onWrong.run();
@@ -558,63 +545,53 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
 
   public static class Table extends TableImpl<RegisteredPlayer> {
 
-    public static final String CFG__NICKNAME_FIELD = "NICKNAME";
-    public static final String CFG__LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-    public static final String CFG__HASH_FIELD = "HASH";
-    public static final String CFG__IP_FIELD = "IP";
-    public static final String CFG__LOGIN_IP_FIELD = "LOGINIP";
-    public static final String CFG__TOTP_TOKEN_FIELD = "TOTPTOKEN";
-    public static final String CFG__REG_DATE_FIELD = "REGDATE";
-    public static final String CFG__LOGIN_DATE_FIELD = "LOGINDATE";
-    public static final String CFG__UUID_FIELD = "UUID";
-    public static final String CFG__PREMIUM_UUID_FIELD = "PREMIUMUUID";
-    public static final String CFG__TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
-    public static final String CFG__ONLY_BY_MOD_FIELD = "ONLYMOD";
-
     public static final Table INSTANCE = new Table();
     public static final UniqueKey<RegisteredPlayer> PRIMARY_KEY = Internal.createUniqueKey(
         Table.INSTANCE,
         Table.LOWERCASE_NICKNAME_FIELD
     );
 
-    public static final TableField<RegisteredPlayer, String> NICKNAME_FIELD
-        = TableImpl.createField(DSL.name(CFG__NICKNAME_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> NICKNAME_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> LOWERCASE_NICKNAME_FIELD
-        = TableImpl.createField(DSL.name(CFG__LOWERCASE_NICKNAME_FIELD), SQLDataType.VARCHAR.notNull(), Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> LOWERCASE_NICKNAME_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> HASH_FIELD
-        = TableImpl.createField(DSL.name(CFG__HASH_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> HASH_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> IP_FIELD
-        = TableImpl.createField(DSL.name(CFG__IP_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> IP_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> TOTP_TOKEN_FIELD
-        = TableImpl.createField(DSL.name(CFG__TOTP_TOKEN_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> TOTP_TOKEN_FIELD;
 
-    public static final TableField<RegisteredPlayer, Long> REG_DATE_FIELD
-        = TableImpl.createField(DSL.name(CFG__REG_DATE_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, Long> REG_DATE_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> UUID_FIELD
-        = TableImpl.createField(DSL.name(CFG__UUID_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> UUID_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> PREMIUM_UUID_FIELD
-        = TableImpl.createField(DSL.name(CFG__PREMIUM_UUID_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> PREMIUM_UUID_FIELD;
 
-    public static final TableField<RegisteredPlayer, String> LOGIN_IP_FIELD
-        = TableImpl.createField(DSL.name(CFG__LOGIN_IP_FIELD), SQLDataType.VARCHAR, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, String> LOGIN_IP_FIELD;
 
-    public static final TableField<RegisteredPlayer, Long> LOGIN_DATE_FIELD
-        = TableImpl.createField(DSL.name(CFG__LOGIN_DATE_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, Long> LOGIN_DATE_FIELD;
 
-    public static final TableField<RegisteredPlayer, Long> TOKEN_ISSUED_AT_FIELD
-        = TableImpl.createField(DSL.name(CFG__TOKEN_ISSUED_AT_FIELD), SQLDataType.BIGINT, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, Long> TOKEN_ISSUED_AT_FIELD;
 
-    public static final TableField<RegisteredPlayer, Boolean> ONLY_BY_MOD_FIELD
-        = TableImpl.createField(DSL.name(CFG__ONLY_BY_MOD_FIELD), SQLDataType.BOOLEAN, Table.INSTANCE);
+    public static TableField<RegisteredPlayer, Boolean> ONLY_BY_MOD_FIELD;
 
     public Table() {
       super(DSL.name("AUTH"));
+    }
+
+    public static void reload(Settings.Database databaseSettings) {
+      NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.nicknameField), SQLDataType.VARCHAR, Table.INSTANCE);
+      LOWERCASE_NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.lowercaseNicknameField), SQLDataType.VARCHAR.notNull(), Table.INSTANCE);
+      HASH_FIELD = TableImpl.createField(DSL.name(databaseSettings.hashField), SQLDataType.VARCHAR, Table.INSTANCE);
+      IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.ipField), SQLDataType.VARCHAR, Table.INSTANCE);
+      TOTP_TOKEN_FIELD = TableImpl.createField(DSL.name(databaseSettings.totpTokenField), SQLDataType.VARCHAR, Table.INSTANCE);
+      REG_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.regDateField), SQLDataType.BIGINT, Table.INSTANCE);
+      UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.uuidField), SQLDataType.VARCHAR, Table.INSTANCE);
+      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.premiumUuidField), SQLDataType.VARCHAR, Table.INSTANCE);
+      LOGIN_IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginIpField), SQLDataType.VARCHAR, Table.INSTANCE);
+      LOGIN_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginDateField), SQLDataType.BIGINT, Table.INSTANCE);
+      TOKEN_ISSUED_AT_FIELD = TableImpl.createField(DSL.name(databaseSettings.tokenIssuedAtField), SQLDataType.BIGINT, Table.INSTANCE);
+      ONLY_BY_MOD_FIELD = TableImpl.createField(DSL.name(databaseSettings.onlyByModField), SQLDataType.BOOLEAN, Table.INSTANCE);
     }
   }
 }

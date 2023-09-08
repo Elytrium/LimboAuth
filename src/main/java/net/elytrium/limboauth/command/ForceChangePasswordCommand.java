@@ -36,6 +36,7 @@ import org.jooq.impl.DSL;
 public class ForceChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
+  private final Settings settings;
   private final ProxyServer server;
   private final DSLContext dslContext;
 
@@ -45,16 +46,17 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   private final String notRegistered;
   private final Component usage;
 
-  public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, DSLContext dslContext) {
+  public ForceChangePasswordCommand(LimboAuth plugin, Settings settings, ProxyServer server, DSLContext dslContext) {
     this.plugin = plugin;
+    this.settings = settings;
     this.server = server;
     this.dslContext = dslContext;
 
-    this.message = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_MESSAGE;
-    this.successful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
-    this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL;
-    this.notRegistered = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_REGISTERED;
-    this.usage = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
+    this.message = this.settings.main.strings.FORCE_CHANGE_PASSWORD_MESSAGE;
+    this.successful = this.settings.main.strings.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
+    this.notSuccessful = this.settings.main.strings.FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL;
+    this.notRegistered = this.settings.main.strings.FORCE_CHANGE_PASSWORD_NOT_REGISTERED;
+    this.usage = this.plugin.getSerializer().deserialize(this.settings.main.strings.FORCE_CHANGE_PASSWORD_USAGE);
   }
 
   @Override
@@ -72,10 +74,10 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
-      Serializer serializer = LimboAuth.getSerializer();
+      Serializer serializer = this.plugin.getSerializer();
       this.dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
           .from(RegisteredPlayer.Table.INSTANCE)
-          .where(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, lowercaseNickname)
+          .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
           .fetchAsync()
           .thenAccept(hashResult -> {
             if (hashResult.isEmpty()) {
@@ -84,7 +86,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
             }
 
             final String oldHash = hashResult.get(0).get(0, String.class);
-            final String newHash = RegisteredPlayer.genHash(newPassword);
+            final String newHash = RegisteredPlayer.genHash(this.settings, newPassword);
 
             this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
                 .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
@@ -100,7 +102,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
             source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
           })
           .exceptionally(e -> {
-            // TODO: logger
+            this.plugin.handleSqlError(e);
             source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
             return null;
           });
@@ -111,7 +113,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_CHANGE_PASSWORD
+    return this.settings.main.commandPermissionState.forceChangePassword
         .hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
   }
 }

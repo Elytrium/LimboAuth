@@ -24,7 +24,6 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
@@ -32,9 +31,11 @@ import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.migration.MigrationHash;
+import net.elytrium.serializer.SerializerConfig;
 import net.elytrium.serializer.annotations.Comment;
 import net.elytrium.serializer.annotations.CommentValue;
 import net.elytrium.serializer.annotations.Serializer;
+import net.elytrium.serializer.custom.ClassSerializer;
 import net.elytrium.serializer.language.object.YamlSerializable;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
@@ -42,7 +43,15 @@ import net.kyori.adventure.util.Ticks;
 
 public class Settings extends YamlSerializable {
 
-  public final String VERSION = BuildConstants.AUTH_VERSION;
+  public Settings() {
+    super(new SerializerConfig.Builder()
+        .setCommentValueIndent(1)
+        .setLineSeparator("\n")
+        .setLogMissingFields(true)
+        .build());
+  }
+
+  public final String version = BuildConstants.AUTH_VERSION;
 
   @Comment({
       @CommentValue("Available serializers:"),
@@ -61,52 +70,52 @@ public class Settings extends YamlSerializable {
   public static class Main {
 
     @Comment(@CommentValue("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked."))
-    public int AUTH_TIME = 60000;
-    public boolean ENABLE_BOSSBAR = true;
+    public int authTime = 60000;
+    public boolean enableBossbar = true;
     @Comment(@CommentValue("Available colors: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE"))
-    public BossBar.Color BOSSBAR_COLOR = BossBar.Color.RED;
+    public BossBar.Color bossbarColor = BossBar.Color.RED;
     @Comment(@CommentValue("Available overlays: PROGRESS, NOTCHED_6, NOTCHED_10, NOTCHED_12, NOTCHED_20"))
-    public BossBar.Overlay BOSSBAR_OVERLAY = BossBar.Overlay.NOTCHED_20;
-    public int MIN_PASSWORD_LENGTH = 4;
+    public BossBar.Overlay bossbarOverlay = BossBar.Overlay.NOTCHED_20;
+    public int minPasswordLength = 4;
     @Comment(@CommentValue("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71."))
-    public int MAX_PASSWORD_LENGTH = 71;
-    public boolean CHECK_PASSWORD_STRENGTH = true;
-    public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
+    public int maxPasswordLength = 71;
+    public boolean checkPasswordStrength = true;
+    public String unsafePasswordsFile = "unsafe_passwords.txt";
     @Comment({
         @CommentValue("Players with premium nicknames should register/auth if this option is enabled"),
         @CommentValue("Players with premium nicknames must login with a premium Minecraft account if this option is disabled"),
     })
-    public boolean ONLINE_MODE_NEED_AUTH = true;
+    public boolean onlineModeNeedAuth = true;
     @Comment(@CommentValue("Needs floodgate plugin if disabled."))
-    public boolean FLOODGATE_NEED_AUTH = true;
+    public boolean floodgateNeedAuth = true;
     @Comment(@CommentValue("TOTALLY disables hybrid auth feature"))
-    public boolean FORCE_OFFLINE_MODE = false;
+    public boolean forceOfflineMode = false;
     @Comment(@CommentValue("Forces all players to get offline uuid"))
-    public boolean FORCE_OFFLINE_UUID = false;
+    public boolean forceOfflineUuid = false;
     @Comment(@CommentValue("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API."))
-    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
+    public boolean checkPremiumPriorityInternal = true;
     @Comment(@CommentValue("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)"))
-    public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
+    public int premiumAndFloodgateMessagesDelay = 1250;
     @Comment({
         @CommentValue("Forcibly set player's UUID to the value from the database"),
         @CommentValue("If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."),
     })
-    public boolean SAVE_UUID = true;
+    public boolean saveUuid = true;
     @Comment({
         @CommentValue("Saves in the database the accounts of premium users whose login is via online-mode-need-auth: false"),
         @CommentValue("Can be disabled to reduce the size of  stored data in the database"),
     })
-    public boolean SAVE_PREMIUM_ACCOUNTS = true;
-    public boolean ENABLE_TOTP = true;
-    public boolean TOTP_NEED_PASSWORD = true;
-    public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
-    public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
+    public boolean savePremiumAccounts = true;
+    public boolean enableTotp = true;
+    public boolean totpNeedPassword = true;
+    public boolean registerNeedRepeatPassword = true;
+    public boolean changePasswordNeedOldPassword = true;
     @Comment(@CommentValue("Used in unregister and premium commands."))
-    public String CONFIRM_KEYWORD = "confirm";
+    public String confirmKeyword = "confirm";
     @Comment(@CommentValue("This prefix will be added to offline mode players nickname"))
-    public String OFFLINE_MODE_PREFIX = "";
+    public String offlineModePrefix = "";
     @Comment(@CommentValue("This prefix will be added to online mode players nickname"))
-    public String ONLINE_MODE_PREFIX = "";
+    public String onlineModePrefix = "";
     @Comment({
         @CommentValue("If you want to migrate your database from another plugin, which is not using BCrypt."),
         @CommentValue("You can set an old hash algorithm to migrate from."),
@@ -127,50 +136,50 @@ public class Settings extends YamlSerializable {
         @CommentValue("CRC32C - Basic CRC32C hash"),
         @CommentValue("PLAINTEXT - Plain text"),
     })
-    public MigrationHash MIGRATION_HASH = MigrationHash.AUTHME;
+    public MigrationHash migrationHash = MigrationHash.AUTHME;
     @Comment(@CommentValue("Available dimensions: OVERWORLD, NETHER, THE_END"))
-    public Dimension DIMENSION = Dimension.THE_END;
-    public long PURGE_CACHE_MILLIS = 3600000;
-    public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
-    public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
+    public Dimension dimension = Dimension.THE_END;
+    public long purgeCacheMillis = 3600000;
+    public long purgePremiumCacheMillis = 28800000;
+    public long purgeBruteforceCacheMillis = 28800000;
     @Comment(@CommentValue("Used to ban IPs when a possible attacker incorrectly enters the password"))
-    public int BRUTEFORCE_MAX_ATTEMPTS = 10;
+    public int bruteforceMaxAttempts = 10;
     @Comment(@CommentValue("QR Generator URL, set {data} placeholder"))
-    public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
-    public String TOTP_ISSUER = "LimboAuth by Elytrium";
-    public int BCRYPT_COST = 10;
-    public int LOGIN_ATTEMPTS = 3;
-    public int IP_LIMIT_REGISTRATIONS = 3;
-    public int TOTP_RECOVERY_CODES_AMOUNT = 16;
+    public String qrGeneratorUrl = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
+    public String totpIssuer = "LimboAuth by Elytrium";
+    public int bcryptCost = 10;
+    public int loginAttempts = 3;
+    public int ipLimitRegistrations = 3;
+    public int totpRecoveryCodesAmount = 16;
     @Comment(@CommentValue("Time in milliseconds, when ip limit works, set to 0 for disable."))
-    public long IP_LIMIT_VALID_TIME = 21600000;
+    public long ipLimitValidTime = 21600000;
     @Comment({
         @CommentValue("Regex of allowed nicknames"),
         @CommentValue("^ means the start of the line, $ means the end of the line"),
         @CommentValue("[A-Za-z0-9_] is a character set of A-Z, a-z, 0-9 and _"),
         @CommentValue("{3,16} means that allowed length is from 3 to 16 chars"),
     })
-    public String ALLOWED_NICKNAME_REGEX = "^[A-Za-z0-9_]{3,16}$";
+    public String allowedNicknameRegex = "^[A-Za-z0-9_]{3,16}$";
 
-    public boolean LOAD_WORLD = false;
+    public boolean loadWorld = false;
     @Comment({
         @CommentValue("World file type:"),
         @CommentValue(" SCHEMATIC (MCEdit .schematic, 1.12.2 and lower, not recommended)"),
         @CommentValue(" STRUCTURE (structure block .nbt, any Minecraft version is supported, but the latest one is recommended)."),
         @CommentValue(" WORLDEDIT_SCHEM (WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended)."),
     })
-    public BuiltInWorldFileType WORLD_FILE_TYPE = BuiltInWorldFileType.STRUCTURE;
-    public String WORLD_FILE_PATH = "world.nbt";
-    public boolean DISABLE_FALLING = true;
+    public BuiltInWorldFileType worldFileType = BuiltInWorldFileType.STRUCTURE;
+    public String worldFilePath = "world.nbt";
+    public boolean disableFalling = true;
 
     @Comment(@CommentValue("World time in ticks (24000 ticks == 1 in-game day)"))
-    public long WORLD_TICKS = 1000L;
+    public long worldTicks = 1000L;
 
     @Comment(@CommentValue("World light level (from 0 to 15)"))
-    public int WORLD_LIGHT_LEVEL = 15;
+    public int worldLightLevel = 15;
 
     @Comment(@CommentValue("Available: ADVENTURE, CREATIVE, SURVIVAL, SPECTATOR"))
-    public GameMode GAME_MODE = GameMode.ADVENTURE;
+    public GameMode gameMode = GameMode.ADVENTURE;
 
     @Comment({
         @CommentValue("Custom isPremium URL"),
@@ -179,18 +188,18 @@ public class Settings extends YamlSerializable {
         @CommentValue("Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/"),
         @CommentValue("Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"),
     })
-    public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
+    public String ispremiumAuthUrl = "https://api.mojang.com/users/profiles/minecraft/%s";
 
     @Comment({
         @CommentValue("Status codes (see the comment above)"),
         @CommentValue("Responses with unlisted status codes will be identified as responses with a server error"),
         @CommentValue("Set 200 if you use using Mojang or CloudFlare API"),
     })
-    public List<Integer> STATUS_CODE_USER_EXISTS = List.of(200);
+    public List<Integer> statusCodeUserExists = List.of(200);
     @Comment(@CommentValue("Set 204 and 404 if you use Mojang API, 404 if you use CloudFlare API"))
-    public List<Integer> STATUS_CODE_USER_NOT_EXISTS = List.of(204, 404);
+    public List<Integer> statusCodeUserNotExists = List.of(204, 404);
     @Comment(@CommentValue("Set 429 if you use Mojang or CloudFlare API"))
-    public List<Integer> STATUS_CODE_RATE_LIMIT = List.of(429);
+    public List<Integer> statusCodeRateLimit = List.of(429);
 
     @Comment({
         @CommentValue("Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}"),
@@ -202,104 +211,98 @@ public class Settings extends YamlSerializable {
         @CommentValue("Responses with an invalid scheme will be identified as responses with a server error"),
         @CommentValue("Set this parameter to [], to disable JSON scheme validation"),
     })
-    public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
-    public String JSON_UUID_FIELD = "id";
-    public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
+    public List<String> userExistsJsonValidatorFields = List.of("name", "id");
+    public String jsonUuidField = "id";
+    public List<String> userNotExistsJsonValidatorFields = List.of();
 
     @Comment({
         @CommentValue("If Mojang rate-limits your server, we cannot determine if the player is premium or not"),
         @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang is rate-limiting the server"),
         @CommentValue("True - as premium; False - as cracked"),
     })
-    public boolean ON_RATE_LIMIT_PREMIUM = true;
+    public boolean onRateLimitPremium = true;
 
     @Comment({
         @CommentValue("If Mojang API is down, we cannot determine if the player is premium or not"),
         @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang API is unavailable"),
         @CommentValue("True - as premium; False - as cracked"),
     })
-    public boolean ON_SERVER_ERROR_PREMIUM = true;
+    public boolean onServerErrorPremium = true;
 
-    public List<String> REGISTER_COMMAND = List.of("/r", "/reg", "/register");
-    public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");
-    public List<String> TOTP_COMMAND = List.of("/2fa", "/totp");
+    public List<String> registerCommand = List.of("/r", "/reg", "/register");
+    public List<String> loginCommand = List.of("/l", "/log", "/login");
+    public List<String> totpCommand = List.of("/2fa", "/totp");
 
     @Comment(@CommentValue("New players will be kicked with registrations-disabled-kick message"))
-    public boolean DISABLE_REGISTRATIONS = false;
+    public boolean disableRegistrations = false;
 
-    @Create
-    public Settings.Main.MOD MOD;
+    public Mod mod = new Mod();
 
     @Comment({
         @CommentValue("Implement the automatic login using the plugin, the LimboAuth client mod and optionally using a custom launcher"),
         @CommentValue("See https://github.com/Elytrium/LimboAuth-ClientMod"),
     })
-    public static class MOD {
+    public static class Mod {
 
-      public boolean ENABLED = true;
+      public boolean enabled = true;
 
       @Comment(@CommentValue("Should the plugin forbid logging in without a mod"))
-      public boolean LOGIN_ONLY_BY_MOD = false;
+      public boolean loginOnlyByMod = false;
 
       @Comment(@CommentValue("The key must be the same in the plugin config and in the server hash issuer, if you use it"))
       @Serializer(MD5KeySerializer.class)
-      public byte[] VERIFY_KEY = null;
+      public byte[] verifyKey = null;
 
     }
 
-    @Create
-    public Settings.Main.WORLD_COORDS WORLD_COORDS;
+    public WorldCoords worldCoords = new WorldCoords();
 
-    public static class WORLD_COORDS {
+    public static class WorldCoords {
 
-      public int X = 0;
-      public int Y = 0;
-      public int Z = 0;
+      public int x = 0;
+      public int y = 0;
+      public int z = 0;
     }
 
-    @Create
-    public Settings.Main.AUTH_COORDS AUTH_COORDS;
+    public AuthCoords authCoords = new AuthCoords();
 
-    public static class AUTH_COORDS {
+    public static class AuthCoords {
 
-      public double X = 0;
-      public double Y = 0;
-      public double Z = 0;
-      public double YAW = 0;
-      public double PITCH = 0;
+      public double x = 0;
+      public double y = 0;
+      public double z = 0;
+      public double yaw = 0;
+      public double pitch = 0;
     }
 
-    @Create
-    public Settings.Main.CRACKED_TITLE_SETTINGS CRACKED_TITLE_SETTINGS;
+    public CrackedTitleSettings crackedTitleSettings = new CrackedTitleSettings();
 
-    public static class CRACKED_TITLE_SETTINGS {
+    public static class CrackedTitleSettings {
 
-      public int FADE_IN = 10;
-      public int STAY = 70;
-      public int FADE_OUT = 20;
-      public boolean CLEAR_AFTER_LOGIN = false;
+      public int fadeIn = 10;
+      public int stay = 70;
+      public int fadeOut = 20;
+      public boolean clearAfterLogin = false;
 
       public Title.Times toTimes() {
-        return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+        return Title.Times.times(Ticks.duration(this.fadeIn), Ticks.duration(this.stay), Ticks.duration(this.fadeOut));
       }
     }
 
-    @Create
-    public Settings.Main.PREMIUM_TITLE_SETTINGS PREMIUM_TITLE_SETTINGS;
+    public PremiumTitleSettings premiumTitleSettings = new PremiumTitleSettings();
 
-    public static class PREMIUM_TITLE_SETTINGS {
+    public static class PremiumTitleSettings {
 
-      public int FADE_IN = 10;
-      public int STAY = 70;
-      public int FADE_OUT = 20;
+      public int fadeIn = 10;
+      public int stay = 70;
+      public int fadeOut = 20;
 
       public Title.Times toTimes() {
-        return Title.Times.times(Ticks.duration(this.FADE_IN), Ticks.duration(this.STAY), Ticks.duration(this.FADE_OUT));
+        return Title.Times.times(Ticks.duration(this.fadeIn), Ticks.duration(this.stay), Ticks.duration(this.fadeOut));
       }
     }
 
-    @Create
-    public Settings.Main.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
+    public CommandPermissionStateConfig commandPermissionState = new CommandPermissionStateConfig();
 
     @Comment({
         @CommentValue("Available values: FALSE, TRUE, PERMISSION"),
@@ -307,34 +310,33 @@ public class Settings extends YamlSerializable {
         @CommentValue(" TRUE - the command will be allowed if player has false permission state"),
         @CommentValue(" PERMISSION - the command will be allowed if player has true permission state"),
     })
-    public static class COMMAND_PERMISSION_STATE {
+    public static class CommandPermissionStateConfig {
       @Comment(@CommentValue("Permission: limboauth.commands.changepassword"))
-      public CommandPermissionState CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
+      public CommandPermissionState changePassword = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.commands.destroysession"))
-      public CommandPermissionState DESTROY_SESSION = CommandPermissionState.PERMISSION;
+      public CommandPermissionState destroySession = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.commands.premium"))
-      public CommandPermissionState PREMIUM = CommandPermissionState.PERMISSION;
+      public CommandPermissionState premium = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.commands.totp"))
-      public CommandPermissionState TOTP = CommandPermissionState.PERMISSION;
+      public CommandPermissionState totp = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.commands.unregister"))
-      public CommandPermissionState UNREGISTER = CommandPermissionState.PERMISSION;
+      public CommandPermissionState unregister = CommandPermissionState.PERMISSION;
 
       @Comment(@CommentValue("Permission: limboauth.admin.forcechangepassword"))
-      public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
+      public CommandPermissionState forceChangePassword = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.admin.forceregister"))
-      public CommandPermissionState FORCE_REGISTER = CommandPermissionState.PERMISSION;
+      public CommandPermissionState forceRegister = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.admin.forceunregister"))
-      public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
+      public CommandPermissionState forceUnregister = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.admin.reload"))
-      public CommandPermissionState RELOAD = CommandPermissionState.PERMISSION;
+      public CommandPermissionState reload = CommandPermissionState.PERMISSION;
       @Comment(@CommentValue("Permission: limboauth.admin.help"))
-      public CommandPermissionState HELP = CommandPermissionState.TRUE;
+      public CommandPermissionState help = CommandPermissionState.TRUE;
     }
 
-    @Create
-    public Settings.Main.STRINGS STRINGS;
+    public Strings strings = new Strings();
 
-    public static class STRINGS {
+    public static class Strings {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
@@ -459,27 +461,46 @@ public class Settings extends YamlSerializable {
     }
   }
 
-  @Create
-  public DATABASE DATABASE;
+  public Database database = new Database();
 
   @Comment(@CommentValue("Database settings"))
-  public static class DATABASE {
+  public static class Database {
 
     @Comment(@CommentValue("Database type: mariadb, mysql, postgresql, sqlite or h2."))
-    public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
+    public DatabaseLibrary storageType = DatabaseLibrary.H2;
 
     @Comment(@CommentValue("Settings for Network-based database (like MySQL, PostgreSQL): "))
-    public String HOSTNAME = "127.0.0.1:3306";
-    public String USER = "user";
-    public String PASSWORD = "password";
-    public String DATABASE = "limboauth";
-    public Map<String, String> CONNECTION_PARAMETERS =
+    public String hostname = "127.0.0.1:3306";
+    public String user = "user";
+    public String password = "password";
+    public String database = "limboauth";
+    public Map<String, String> connectionParameters =
         Map.of("autoReconnect", "true",
             "initialTimeout", "1",
-            "useSSL", "false");
+            "cachePrepStmts", "true",
+            "prepStmtCacheSize", "250",
+            "prepStmtCacheSqlLimit", "2048",
+            "useServerPrepStmts", "true",
+            "useLocalSessionState", "true",
+            "cacheResultSetMetadata", "true",
+            "cacheServerConfiguration", "true",
+            "cacheCallableStmts", "true");
+
+    public String nicknameField = "NICKNAME";
+    public String lowercaseNicknameField = "LOWERCASENICKNAME";
+    public String hashField = "HASH";
+    public String ipField = "IP";
+    public String loginIpField = "LOGINIP";
+    public String totpTokenField = "TOTPTOKEN";
+    public String regDateField = "REGDATE";
+    public String loginDateField = "LOGINDATE";
+    public String uuidField = "UUID";
+    public String premiumUuidField = "PREMIUMUUID";
+    public String tokenIssuedAtField = "ISSUEDTIME";
+    public String onlyByModField = "ONLYMOD";
   }
 
-  public static class MD5KeySerializer extends ConfigSerializer<byte[], String> {
+  public static class MD5KeySerializer extends ClassSerializer<byte[], String> {
 
     private final MessageDigest md5;
     private final Random random;

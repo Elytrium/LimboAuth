@@ -20,8 +20,9 @@ package net.elytrium.limboauth.dependencies;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.nio.file.Path;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import net.elytrium.limboauth.LimboAuth;
+import net.elytrium.limboauth.Settings;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
@@ -31,37 +32,37 @@ public enum DatabaseLibrary {
       BaseLibrary.H2_V1,
       SQLDialect.H2,
       "org.h2.Driver",
-          (dir, hostname, database) -> "jdbc:h2:" + dir + "/limboauth"
+          (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth"
   ),
   H2(
       BaseLibrary.H2_V2,
       SQLDialect.H2,
       "org.h2.Driver",
-          (dir, hostname, database) -> "jdbc:h2:" + dir + "/limboauth-v2"
+          (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth-v2"
   ),
   MYSQL(
       BaseLibrary.MYSQL,
       SQLDialect.MYSQL,
       "com.mysql.cj.jdbc.Driver",
-          (dir, hostname, database) -> "jdbc:mysql://" + hostname + "/" + database
+          (dir, databaseSettings) -> "jdbc:mysql://" + databaseSettings.hostname + "/" + databaseSettings.database
   ),
   MARIADB(
       BaseLibrary.MARIADB,
       SQLDialect.MARIADB,
       "org.mariadb.jdbc.Driver",
-          (dir, hostname, database) -> "jdbc:mariadb://" + hostname + "/" + database
+          (dir, databaseSettings) -> "jdbc:mariadb://" + databaseSettings.hostname + "/" + databaseSettings.database
   ),
   POSTGRESQL(
       BaseLibrary.POSTGRESQL,
       SQLDialect.POSTGRES,
       "org.postgresql.Driver",
-          (dir, hostname, database) -> "jdbc:postgresql://" + hostname + "/" + database
+          (dir, databaseSettings) -> "jdbc:postgresql://" + databaseSettings.hostname + "/" + databaseSettings.database
   ),
   SQLITE(
       BaseLibrary.SQLITE,
       SQLDialect.SQLITE,
       "org.sqlite.JDBC",
-          (dir, hostname, database) -> "jdbc:sqlite:" + dir + "/limboauth.db"
+          (dir, databaseSettings) -> "jdbc:sqlite:" + dir + "/limboauth.db"
   );
 
   private final BaseLibrary baseLibrary;
@@ -76,7 +77,9 @@ public enum DatabaseLibrary {
     this.stringGetter = stringGetter;
   }
 
-  public DSLContext connect(Path dir, String hostname, String database, Map<String, String> connectionParameters, String user, String password, ExecutorService executor) {
+  public DSLContext connect(LimboAuth plugin, Path dir, Settings.Database databaseSettings, ExecutorService executor) {
+    plugin.getServer().getPluginManager().addToClasspath(plugin, this.baseLibrary.getClassPath());
+
     System.setProperty("org.jooq.no-logo", "true");
     System.setProperty("org.jooq.no-tips", "true");
 
@@ -84,31 +87,12 @@ public enum DatabaseLibrary {
     config.setPoolName("limboauth-db-pool");
 
     config.setDriverClassName(this.className);
-    config.setJdbcUrl(this.stringGetter.getJdbcString(dir, hostname, database));
-    config.setUsername(user);
-    config.setPassword(password);
-
-    // config.setConnectionTimeout(database.connectionTimeout);
-    // config.setMaxLifetime(database.maxLifetime);
-    // config.setMaximumPoolSize(database.maximumPoolSize);
-    // config.setMinimumIdle(database.minimumIdle);
-    // config.setKeepaliveTime(database.keepaliveTime);
+    config.setJdbcUrl(this.stringGetter.getJdbcString(dir, databaseSettings));
+    config.setUsername(databaseSettings.user);
+    config.setPassword(databaseSettings.password);
     config.setInitializationFailTimeout(-1);
 
-    config.addDataSourceProperty("cachePrepStmts", "true");
-    config.addDataSourceProperty("prepStmtCacheSize", "250");
-    config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-    config.addDataSourceProperty("useServerPrepStmts", "true");
-    config.addDataSourceProperty("useLocalSessionState", "true");
-    config.addDataSourceProperty("rewriteBatchedStatements", "true");
-    config.addDataSourceProperty("cacheResultSetMetadata", "true");
-    config.addDataSourceProperty("cacheServerConfiguration", "true");
-    config.addDataSourceProperty("elideSetAutoCommits", "true");
-    config.addDataSourceProperty("maintainTimeStats", "false");
-    config.addDataSourceProperty("alwaysSendSetIsolation", "false");
-    config.addDataSourceProperty("cacheCallableStmts", "true");
-    config.addDataSourceProperty("socketTimeout", "30000");
-    connectionParameters.forEach(config::addDataSourceProperty);
+    databaseSettings.connectionParameters.forEach(config::addDataSourceProperty);
 
     HikariDataSource dataSource = new HikariDataSource(config);
     Runtime.getRuntime().addShutdownHook(new Thread(dataSource::close));
@@ -119,6 +103,6 @@ public enum DatabaseLibrary {
   }
 
   public interface DatabaseStringGetter {
-    String getJdbcString(Path dir, String hostname, String database);
+    String getJdbcString(Path dir, Settings.Database databaseSettings);
   }
 }
