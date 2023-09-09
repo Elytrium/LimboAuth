@@ -100,6 +100,7 @@ import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -171,6 +172,7 @@ public class LimboAuth {
 
   private ConnectionSource connectionSource;
   private Dao<RegisteredPlayer, String> playerDao;
+  private Dao<CMSUser, String> cmsUserDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
 
@@ -314,6 +316,7 @@ public class LimboAuth {
       DatabaseTableConfig<RegisteredPlayer> tableConfig = RegisteredPlayer.buildPlayerTableConfig(connectionSource.getDatabaseType());
 
       this.playerDao = DaoManager.createDao(this.connectionSource, tableConfig);
+      this.cmsUserDao = DaoManager.createDao(this.connectionSource, CMSUser.class);
       TableUtils.createTableIfNotExists(this.connectionSource, tableConfig);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
@@ -331,15 +334,18 @@ public class LimboAuth {
     manager.unregister("2fa");
     manager.unregister("limboauth");
 
-    manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
+    // TODO: implement such that the user can only delete their account if it's not linked to an email
+    //manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
-    manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
+    // TODO: implement maybe?
+    //manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     // TODO: implement
     //manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
     //manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
     manager.register("destroysession", new DestroySessionCommand(this), "logout");
     manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
+    // TODO: link email command
 
     Settings.MAIN.AUTH_COORDS authCoords = Settings.IMP.MAIN.AUTH_COORDS;
     VirtualWorld authWorld = this.factory.createVirtualWorld(
@@ -627,7 +633,7 @@ public class LimboAuth {
       }
       case NORMAL:
       default: {
-        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
+        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, this.cmsUserDao, player, this, registeredPlayer));
         break;
       }
     }

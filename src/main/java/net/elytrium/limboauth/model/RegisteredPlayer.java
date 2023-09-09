@@ -43,7 +43,7 @@ public class RegisteredPlayer {
 
   private String ip;
 
-  private String totpJson = "";
+  private String totpToken = "";
 
   private Long regDate = System.currentTimeMillis();
 
@@ -57,7 +57,7 @@ public class RegisteredPlayer {
 
   private Long tokenIssuedAt = System.currentTimeMillis();
 
-  private int cmsBitOptions = 0;
+  private CMSUser cmsLinkedMember;
 
   @Deprecated
   public RegisteredPlayer(String nickname, String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
@@ -111,13 +111,13 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setPassword(String password) {
-    this.hash = genHash(password);
-    this.tokenIssuedAt = System.currentTimeMillis();
-
-    return this;
+    return setHash(genHash(password));
   }
 
   public RegisteredPlayer setHash(String hash) {
+    if (cmsLinkedMember != null) {
+      cmsLinkedMember.setPasswordHash(hash);
+    }
     this.hash = hash;
     this.tokenIssuedAt = System.currentTimeMillis();
 
@@ -125,6 +125,9 @@ public class RegisteredPlayer {
   }
 
   public String getHash() {
+    if (cmsLinkedMember != null) {
+      return cmsLinkedMember.getPasswordHash();
+    }
     return this.hash == null ? "" : this.hash;
   }
 
@@ -139,15 +142,20 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setTotpToken(String totpToken) {
-    JsonObject totpJson = new JsonObject();
-    totpJson.addProperty("google", totpToken);
-    this.totpJson = totpJson.toString();
+    if (cmsLinkedMember != null) {
+      cmsLinkedMember.setTotpToken(totpToken);
+    }
+
+    this.totpToken = totpToken;
 
     return this;
   }
 
   public String getTotpToken() {
-    return this.totpJson == null ? "" : JsonParser.parseString(this.totpJson).getAsJsonObject().get("google").getAsString();
+    if (cmsLinkedMember != null) {
+      return cmsLinkedMember.getTotpToken();
+    }
+    return this.totpToken == null ? "" : this.totpToken;
   }
 
   public RegisteredPlayer setRegDate(Long regDate) {
@@ -216,8 +224,8 @@ public class RegisteredPlayer {
     return this;
   }
 
-  public boolean hasVerifiedEmail() {
-    return (this.cmsBitOptions & 1 << 30) == 0;
+  public CMSUser getCmsLinkedMember() {
+    return cmsLinkedMember;
   }
 
   public static DatabaseTableConfig<RegisteredPlayer> buildPlayerTableConfig(DatabaseType databaseType) {
@@ -230,7 +238,6 @@ public class RegisteredPlayer {
 
     // Reuse same variable
     fieldConfig = new DatabaseFieldConfig("hash");
-    fieldConfig.setCanBeNull(false);
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
     fieldConfigs.add(fieldConfig);
 
@@ -266,8 +273,12 @@ public class RegisteredPlayer {
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOKEN_ISSUED_AT_FIELD);
     fieldConfigs.add(fieldConfig);
 
-    fieldConfig = new DatabaseFieldConfig("cmsBitOptions");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.CMS_BITOPTIONS_FIELD);
+    fieldConfig = new DatabaseFieldConfig("cmsLinkedMember");
+    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.CMS_LINKED_MEMBER);
+    fieldConfig.setForeign(true);
+    fieldConfig.setForeignAutoRefresh(true);
+    // Handle deletion of CMS user
+    fieldConfig.setColumnDefinition("INTEGER CONSTRAINT FK_CMS_LINKED_MEMBER REFERENCES core_members(member_id) ON DELETE SET NULL");
     fieldConfigs.add(fieldConfig);
 
     DatabaseTableConfig<RegisteredPlayer> tableConfig = new DatabaseTableConfig<>(databaseType, RegisteredPlayer.class, fieldConfigs);

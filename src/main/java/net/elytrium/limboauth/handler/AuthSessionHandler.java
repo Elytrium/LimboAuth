@@ -47,6 +47,7 @@ import net.elytrium.limboauth.event.PostAuthorizationEvent;
 import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.bossbar.BossBar;
@@ -92,6 +93,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static MigrationHash migrationHash;
 
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final Dao<CMSUser, String> cmsUserDao;
   private final Player proxyPlayer;
   private final LimboAuth plugin;
 
@@ -115,8 +117,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private String tempPassword;
   private boolean tokenReceived;
 
-  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
+  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
     this.playerDao = playerDao;
+    this.cmsUserDao = cmsUserDao;
     this.proxyPlayer = proxyPlayer;
     this.plugin = plugin;
     this.playerInfo = playerInfo;
@@ -224,7 +227,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     String password = args[1];
     this.saveTempPassword(password);
 
-    if (!password.isEmpty() && checkPassword(password, this.playerInfo, this.playerDao)) {
+    if (!password.isEmpty() && checkPassword(password, this.playerInfo, this.playerDao, this.cmsUserDao)) {
       if (this.playerInfo.getTotpToken().isEmpty()) {
         this.finishLogin();
       } else {
@@ -258,7 +261,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
       handleLogin(args);
       return;
     } else if (command == Command.TOTP && this.totpState && this.playerInfo != null) {
-      if (TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
+      String totpToken;
+      CMSUser linkedMember = this.playerInfo.getCmsLinkedMember();
+      if (linkedMember != null) {
+        totpToken = linkedMember.getTotpToken();
+      } else {
+        totpToken = this.playerInfo.getTotpToken();
+      }
+      if (TOTP_CODE_VERIFIER.isValidCode(totpToken, args[1])) {
         this.finishLogin();
         return;
       } else {
@@ -507,12 +517,17 @@ public class AuthSessionHandler implements LimboSessionHandler {
     migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
   }
 
-  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
-    String hash = player.getHash();
+  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao) {
+    String hash;
+    CMSUser linkedMember = player.getCmsLinkedMember();
+    if (linkedMember != null) {
+      hash = linkedMember.getPasswordHash();
+    } else {
+      hash = player.getHash();
+    }
     boolean isCorrect = HASH_VERIFIER.verify(
         password.getBytes(StandardCharsets.UTF_8),
-        // `$2y$` -> `$2a$` from https://invisioncommunity.com/forums/topic/466097-where-is-password-salt-stored/?do=findComment&comment=2884363
-        hash.replace("BCRYPT$", "$2a$").replace("$2y$", "$2a$").getBytes(StandardCharsets.UTF_8)
+        hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
     if (isCorrect || migrationHash == null) {

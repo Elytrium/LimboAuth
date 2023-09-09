@@ -395,7 +395,7 @@ public class Settings extends YamlConfig {
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
-      public String REGISTER = "{PRFX} Please, register using &6/register <email> <password>";
+      public String REGISTER = "{PRFX} Please, register using &6/register <email> <password> &rOR &6/register <password> <repeat password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
       public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
@@ -404,7 +404,7 @@ public class Settings extends YamlConfig {
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <email> <password>";
+      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <email> <password> &rOR &6/register <password> <repeat password>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
@@ -496,7 +496,7 @@ public class Settings extends YamlConfig {
       public String UUID_FIELD = "UUID";
       public String PREMIUM_UUID_FIELD = "PREMIUMUUID";
       public String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
-      public String CMS_BITOPTIONS_FIELD = "members_bitoptions";
+      public String CMS_LINKED_MEMBER = "CMS_LINKED_MEMBER";
     }
   }
 

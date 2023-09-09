@@ -28,6 +28,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -36,6 +37,7 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final Dao<CMSUser, String> cmsUserDao;
 
   private final boolean needOldPass;
   private final Component notRegistered;
@@ -45,9 +47,10 @@ public class ChangePasswordCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao) {
     this.plugin = plugin;
     this.playerDao = playerDao;
+    this.cmsUserDao = cmsUserDao;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.needOldPass = Settings.IMP.MAIN.CHANGE_PASSWORD_NEED_OLD_PASSWORD;
@@ -84,7 +87,7 @@ public class ChangePasswordCommand implements SimpleCommand {
         return;
       }
 
-      if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+      if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao, this.cmsUserDao)) {
         source.sendMessage(this.wrongPassword);
         return;
       }

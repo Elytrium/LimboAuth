@@ -27,6 +27,7 @@ import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -35,6 +36,7 @@ public class PremiumCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final Dao<CMSUser, String> cmsUserDao;
 
   private final String confirmKeyword;
   private final Component notRegistered;
@@ -46,9 +48,10 @@ public class PremiumCommand implements SimpleCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public PremiumCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public PremiumCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao) {
     this.plugin = plugin;
     this.playerDao = playerDao;
+    this.cmsUserDao = cmsUserDao;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
@@ -86,7 +89,7 @@ public class PremiumCommand implements SimpleCommand {
       source.sendMessage(this.alreadyPremium);
       return;
     }
-    if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+    if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao, this.cmsUserDao)) {
       source.sendMessage(this.wrongPassword);
       return;
     }
