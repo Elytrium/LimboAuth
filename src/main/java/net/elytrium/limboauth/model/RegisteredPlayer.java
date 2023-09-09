@@ -228,6 +228,12 @@ public class RegisteredPlayer {
     return cmsLinkedMember;
   }
 
+  public RegisteredPlayer setCmsLinkedMember(CMSUser cmsLinkedMember) {
+    this.cmsLinkedMember = cmsLinkedMember;
+
+    return this;
+  }
+
   public static DatabaseTableConfig<RegisteredPlayer> buildPlayerTableConfig(DatabaseType databaseType) {
     List<DatabaseFieldConfig> fieldConfigs = new ArrayList<>();
 

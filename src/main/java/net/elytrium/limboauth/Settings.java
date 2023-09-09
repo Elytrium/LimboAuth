@@ -357,6 +357,7 @@ public class Settings extends YamlConfig {
       public String NOT_REGISTERED = "{PRFX} &cYou are not registered or your account is &6PREMIUM!";
       public String CRACKED_COMMAND = "{PRFX}{NL}&aYou can not use this command since your account is &6PREMIUM&a!";
       public String WRONG_PASSWORD = "{PRFX} &cPassword is wrong!";
+      public String REGISTER_EMAIL_NOT_FOUND = "{PRFX} &cEmail not found!";
 
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
       public String RECONNECT_KICK = "{PRFX}{NL}&cReconnect to the server to verify your account!";
@@ -470,16 +471,16 @@ public class Settings extends YamlConfig {
   @Comment("Database settings")
   public static class DATABASE {
 
-    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
-    public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
+    @Comment("Database type: mariadb, mysql, postgresql.")
+    public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.MYSQL;
 
-    @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")
+    @Comment("Settings for Network-based database:")
     public String HOSTNAME = "127.0.0.1:3306";
     public String USER = "user";
     public String PASSWORD = "password";
     public String DATABASE = "cms";
     public String CONNECTION_PARAMETERS = "?autoReconnect=true&initialTimeout=1&useSSL=false";
-    public String TABLE_NAME = "core_members";
+    public String TABLE_NAME = "core_members_minecraft";
 
     @Create
     public COLUMN_NAMES COLUMN_NAMES;

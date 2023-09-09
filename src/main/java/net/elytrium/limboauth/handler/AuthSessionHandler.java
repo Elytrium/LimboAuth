@@ -87,6 +87,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static Component registerPasswordUnsafe;
   private static Component loginSuccessful;
   private static Component sessionExpired;
+  private static Component registerEmailNotFound;
   @Nullable
   private static Title loginSuccessfulTitle;
   @Nullable
@@ -195,12 +196,47 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void handleRegister(String[] args) {
-    String password = args[1];
+    String email = null;
+    String password;
+    if (args[1].contains("@")) {
+      email = args[1];
+      password = args[2];
+    } else {
+        password = args[1];
+        if (!password.equals(args[2])) {
+            this.proxyPlayer.sendMessage(registerDifferentPasswords);
+            return;
+        }
+    }
     if (!this.checkPasswordLength(password) || !this.checkPasswordStrength(password)) {
       return;
     }
     this.saveTempPassword(password);
-    RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+    RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer);
+    if (email != null) {
+      try {
+        List<CMSUser> matchingUsers = cmsUserDao.queryForEq("email", email);
+        if (matchingUsers.isEmpty()) {
+          this.proxyPlayer.sendMessage(registerEmailNotFound);
+          return;
+        }
+        CMSUser user = matchingUsers.get(0);
+        boolean isCorrect = HASH_VERIFIER.verify(
+                password.getBytes(StandardCharsets.UTF_8),
+                user.getPasswordHash().getBytes(StandardCharsets.UTF_8)
+        ).verified;
+        if (!isCorrect) {
+          handleIncorrectPassword();
+          return;
+        }
+        registeredPlayer.setCmsLinkedMember(user);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      // Save password in player table if there's no linked CMS user
+      registeredPlayer.setPassword(password);
+    }
 
     try {
       this.playerDao.create(registeredPlayer);
@@ -227,14 +263,20 @@ public class AuthSessionHandler implements LimboSessionHandler {
     String password = args[1];
     this.saveTempPassword(password);
 
-    if (!password.isEmpty() && checkPassword(password, this.playerInfo, this.playerDao, this.cmsUserDao)) {
-      if (this.playerInfo.getTotpToken().isEmpty()) {
+    if (password.isEmpty() || !checkPassword(password, this.playerInfo, this.playerDao, this.cmsUserDao)) {
+      handleIncorrectPassword();
+      return;
+    }
+    if (this.playerInfo.getTotpToken().isEmpty()) {
         this.finishLogin();
-      } else {
+    } else {
         this.totpState = true;
         this.sendMessage(true);
-      }
-    } else if (--this.attempts != 0) {
+    }
+  }
+
+  private void handleIncorrectPassword() {
+    if (--this.attempts != 0) {
       this.proxyPlayer.sendMessage(loginWrongPassword[this.attempts - 1]);
       this.checkBruteforceAttempts();
     } else {
@@ -504,6 +546,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     registerPasswordUnsafe = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_UNSAFE);
     loginSuccessful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL);
     sessionExpired = serializer.deserialize(Settings.IMP.MAIN.STRINGS.MOD_SESSION_EXPIRED);
+    registerEmailNotFound = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_EMAIL_NOT_FOUND);
     if (Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE.isEmpty()) {
       loginSuccessfulTitle = null;
     } else {
