@@ -113,7 +113,7 @@ import org.slf4j.Logger;
 @Plugin(
     id = "limboauth",
     name = "LimboAuth",
-    version = BuildConstants.AUTH_VERSION,
+    version = BuildConfig.VERSION,
     url = "https://elytrium.net/",
     authors = {
         "Elytrium (https://elytrium.net/)",

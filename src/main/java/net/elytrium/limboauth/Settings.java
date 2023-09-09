@@ -51,7 +51,7 @@ public class Settings extends YamlSerializable {
         .build());
   }
 
-  public final String version = BuildConstants.AUTH_VERSION;
+  public final String version = BuildConfig.VERSION;
 
   @Comment({
       @CommentValue("Available serializers:"),

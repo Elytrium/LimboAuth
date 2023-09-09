@@ -1,1 +1,1 @@
-getRootProject().setName("limboauth")
+this.rootProject.setName("limboauth")
