@@ -69,7 +69,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
 
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-                          String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     super(Table.INSTANCE);
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
@@ -100,8 +100,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     this.loginIp = ip;
   }
 
-  public static String genHash(Settings settings, String password) {
-    return HASHER.hashToString(settings.main.bcryptCost, password.toCharArray());
+  public static String genHash(String password) {
+    return HASHER.hashToString(Settings.IMP.bcryptCost, password.toCharArray());
   }
 
   public RegisteredPlayer setNickname(String nickname) {
@@ -119,8 +119,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.lowercaseNickname;
   }
 
-  public RegisteredPlayer setPassword(Settings settings, String password) {
-    this.hash = genHash(settings, password);
+  public RegisteredPlayer setPassword(String password) {
+    this.hash = genHash(password);
     this.tokenIssuedAt = System.currentTimeMillis();
 
     return this;
@@ -233,8 +233,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this;
   }
 
-  public static void checkPassword(Settings settings, DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
-                                   Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
+  public static void checkPassword(DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
+      Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
     dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
         .from(RegisteredPlayer.Table.INSTANCE)
         .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
@@ -245,10 +245,10 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
             return;
           }
 
-          String hash = hashResult.get(0).get(0, String.class);
+          String hash = hashResult.get(0).value1();
           if (hash == null || hash.isEmpty()) {
             onPremium.run();
-          } else if (password == null || AuthSessionHandler.checkPassword(settings, lowercaseNickname, hash, password, dslContext)) {
+          } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password, dslContext)) {
             onCorrect.accept(hash);
           } else {
             onWrong.run();
@@ -443,8 +443,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
 
   @Override
   public @NotNull RegisteredPlayer values(String nickname, String lowercaseNickname, String hash, String ip, String totpToken,
-                                          Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate,
-                                          Long tokenIssuedAt, Boolean onlyByMod) {
+      Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate,
+      Long tokenIssuedAt, Boolean onlyByMod) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;

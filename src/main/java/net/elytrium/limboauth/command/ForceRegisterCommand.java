@@ -19,40 +19,23 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.function.Function;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.text.Component;
+import net.elytrium.serializer.placeholders.Placeholders;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 public class ForceRegisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Settings settings;
   private final DSLContext dslContext;
 
-  private final String successful;
-  private final String notSuccessful;
-  private final Component usage;
-  private final Component takenNickname;
-  private final Component incorrectNickname;
-
-  public ForceRegisterCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
+  public ForceRegisterCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.settings = settings;
     this.dslContext = dslContext;
-
-    Serializer serializer = plugin.getSerializer();
-    this.successful = this.settings.main.strings.FORCE_REGISTER_SUCCESSFUL;
-    this.notSuccessful = this.settings.main.strings.FORCE_REGISTER_NOT_SUCCESSFUL;
-    this.usage = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_USAGE);
-    this.takenNickname = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_TAKEN_NICKNAME);
-    this.incorrectNickname = serializer.deserialize(this.settings.main.strings.FORCE_REGISTER_INCORRECT_NICKNAME);
   }
 
   @Override
@@ -64,15 +47,14 @@ public class ForceRegisterCommand implements SimpleCommand {
       String nickname = args[0];
       String password = args[1];
 
-      Serializer serializer = this.plugin.getSerializer();
       if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
-        source.sendMessage(this.incorrectNickname);
+        source.sendMessage(Settings.MESSAGES.forceRegisterIncorrectNickname);
         return;
       }
 
       Function<Throwable, Void> onError = e -> {
         this.plugin.handleSqlError(e);
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
         return null;
       };
 
@@ -82,26 +64,25 @@ public class ForceRegisterCommand implements SimpleCommand {
           .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
           .fetchAsync()
           .thenAccept(countResult -> {
-            if (countResult.get(0).get(0, Integer.class) != 0) {
-              source.sendMessage(this.takenNickname);
+            if (countResult.get(0).value1() != 0) {
+              source.sendMessage(Settings.MESSAGES.forceRegisterTakenNickname);
               return;
             }
 
-            RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(this.settings, password);
+            RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
             this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
                 .values(player)
                 .executeAsync()
-                .thenRun(() -> source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname))))
+                .thenRun(() -> source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceRegisterSuccessful, nickname)))
                 .exceptionally(onError);
           }).exceptionally(onError);
     } else {
-      source.sendMessage(this.usage);
+      source.sendMessage(Settings.MESSAGES.forceRegisterUsage);
     }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return this.settings.main.commandPermissionState.forceRegister
-        .hasPermission(invocation.source(), "limboauth.admin.forceregister");
+    return Settings.IMP.commandPermissionState.forceRegister.hasPermission(invocation.source(), "limboauth.admin.forceregister");
   }
 }

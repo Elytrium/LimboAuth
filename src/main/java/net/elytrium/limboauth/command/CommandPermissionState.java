@@ -22,6 +22,7 @@ import com.velocitypowered.api.permission.Tristate;
 import java.util.function.BiFunction;
 
 public enum CommandPermissionState {
+
   FALSE((source, permission) -> false),
   TRUE((source, permission) -> source.getPermissionValue(permission) != Tristate.FALSE),
   PERMISSION(PermissionSubject::hasPermission);

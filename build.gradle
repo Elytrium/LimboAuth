@@ -68,11 +68,13 @@ dependencies() {
     exclude(module: "cumulus")
   }
 
-  compileOnly("net.elytrium.limboapi:api:$limboapiVersion")
+  compileOnly("net.elytrium.limboapi:api:$limboapiVersion") {
+    exclude(module: "config") // TODO remove
+  }
   compileOnly("net.elytrium.commons:utils:$elytriumCommonsVersion")
   compileOnly("net.elytrium.commons:velocity:$elytriumCommonsVersion")
   compileOnly("net.elytrium.commons:kyori:$elytriumCommonsVersion")
-  compileOnly("net.elytrium:serializer:$elytriumSerializerVersion")
+  common("net.elytrium:serializer:$elytriumSerializerVersion")
 
   common("it.unimi.dsi:fastutil-core:$fastutilVersion")
 
@@ -173,7 +175,11 @@ buildConfig() {
   buildConfigField("String", "VERSION", "\"$version\"")
 
   Closure<String> formatConfiguration = configuration -> {
-    "new String[] { \"${configuration.collect(file -> file.getAbsolutePath().replaceAll(".*[\\\\/](.*)[\\\\/](.*)[\\\\/](.*)[\\\\/].*[\\\\/].*\\.jar", "\$1:\$2:\$3")).join("\",\"")}\" }"
+    "new String[] { \"" + configuration.collect(file -> {
+      def matcher = (~".*[\\\\/](.*)[\\\\/](.*)[\\\\/](.*)[\\\\/].*[\\\\/](.*\\.jar)").matcher(file.getAbsolutePath())
+      matcher.find()
+      "${matcher.group(1).replace('.', '/')}/${matcher.group(2)}/${matcher.group(3)}/${matcher.group(4)}"
+    }).join("\", \"")+ "\" }"
   }
   buildConfigField("String[]", "COMMON_DEPENDENCIES", formatConfiguration(configurations.common))
   buildConfigField("String[]", "TOTP_DEPENDENCIES", formatConfiguration(configurations.totp))

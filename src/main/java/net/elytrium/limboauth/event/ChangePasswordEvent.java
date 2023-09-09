@@ -28,8 +28,7 @@ public class ChangePasswordEvent {
   private final String newPassword;
   private final String newHash;
 
-  public ChangePasswordEvent(String username, @Nullable String oldPassword,
-                             String oldHash, String newPassword, String newHash) {
+  public ChangePasswordEvent(String username, @Nullable String oldPassword, String oldHash, String newPassword, String newHash) {
     this.username = username;
     this.oldPassword = oldPassword;
     this.oldHash = oldHash;

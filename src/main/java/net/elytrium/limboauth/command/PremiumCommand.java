@@ -21,45 +21,20 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.text.Component;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 public class PremiumCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Settings settings;
   private final DSLContext dslContext;
 
-  private final String confirmKeyword;
-  private final Component notRegistered;
-  private final Component alreadyPremium;
-  private final Component successful;
-  private final Component errorOccurred;
-  private final Component notPremium;
-  private final Component wrongPassword;
-  private final Component usage;
-  private final Component notPlayer;
-
-  public PremiumCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
+  public PremiumCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.settings = settings;
     this.dslContext = dslContext;
-
-    Serializer serializer = plugin.getSerializer();
-    this.confirmKeyword = this.settings.main.confirmKeyword;
-    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
-    this.alreadyPremium = serializer.deserialize(this.settings.main.strings.ALREADY_PREMIUM);
-    this.successful = serializer.deserialize(this.settings.main.strings.PREMIUM_SUCCESSFUL);
-    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
-    this.notPremium = serializer.deserialize(this.settings.main.strings.NOT_PREMIUM);
-    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
-    this.usage = serializer.deserialize(this.settings.main.strings.PREMIUM_USAGE);
-    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -69,12 +44,12 @@ public class PremiumCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       if (args.length == 2) {
-        if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
+        if (Settings.IMP.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, args[0],
-              () -> source.sendMessage(this.notRegistered),
-              () -> source.sendMessage(this.alreadyPremium),
+          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+              () -> source.sendMessage(Settings.MESSAGES.notRegistered),
+              () -> source.sendMessage(Settings.MESSAGES.alreadyPremium),
               h -> this.plugin.isPremiumExternal(lowercaseNickname).thenAccept(premiumResponse -> {
                 if (premiumResponse.getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
                   this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
@@ -83,32 +58,32 @@ public class PremiumCommand implements SimpleCommand {
                       .executeAsync()
                       .thenRun(() -> {
                         this.plugin.removePlayerFromCache(username);
-                        ((Player) source).disconnect(this.successful);
+                        ((Player) source).disconnect(Settings.MESSAGES.premiumSuccessful);
                       }).exceptionally(e -> {
                         this.plugin.handleSqlError(e);
-                        source.sendMessage(this.errorOccurred);
+                        source.sendMessage(Settings.MESSAGES.errorOccurred);
                         return null;
                       });
                 } else {
-                  source.sendMessage(this.notPremium);
+                  source.sendMessage(Settings.MESSAGES.notPremium);
                 }
               }),
-              () -> source.sendMessage(this.wrongPassword),
-              e -> source.sendMessage(this.errorOccurred));
+              () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
+              e -> source.sendMessage(Settings.MESSAGES.errorOccurred)
+          );
 
           return;
         }
       }
 
-      source.sendMessage(this.usage);
+      source.sendMessage(Settings.MESSAGES.premiumUsage);
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(Settings.MESSAGES.notPlayer);
     }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return this.settings.main.commandPermissionState.premium
-        .hasPermission(invocation.source(), "limboauth.commands.premium");
+    return Settings.IMP.commandPermissionState.premium.hasPermission(invocation.source(), "limboauth.commands.premium");
   }
 }

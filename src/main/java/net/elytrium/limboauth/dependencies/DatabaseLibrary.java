@@ -28,42 +28,12 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 public enum DatabaseLibrary {
-  H2_LEGACY_V1(
-      BaseLibrary.H2_V1,
-      SQLDialect.H2,
-      "org.h2.Driver",
-          (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth"
-  ),
-  H2(
-      BaseLibrary.H2_V2,
-      SQLDialect.H2,
-      "org.h2.Driver",
-          (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth-v2"
-  ),
-  MYSQL(
-      BaseLibrary.MYSQL,
-      SQLDialect.MYSQL,
-      "com.mysql.cj.jdbc.Driver",
-          (dir, databaseSettings) -> "jdbc:mysql://" + databaseSettings.hostname + "/" + databaseSettings.database
-  ),
-  MARIADB(
-      BaseLibrary.MARIADB,
-      SQLDialect.MARIADB,
-      "org.mariadb.jdbc.Driver",
-          (dir, databaseSettings) -> "jdbc:mariadb://" + databaseSettings.hostname + "/" + databaseSettings.database
-  ),
-  POSTGRESQL(
-      BaseLibrary.POSTGRESQL,
-      SQLDialect.POSTGRES,
-      "org.postgresql.Driver",
-          (dir, databaseSettings) -> "jdbc:postgresql://" + databaseSettings.hostname + "/" + databaseSettings.database
-  ),
-  SQLITE(
-      BaseLibrary.SQLITE,
-      SQLDialect.SQLITE,
-      "org.sqlite.JDBC",
-          (dir, databaseSettings) -> "jdbc:sqlite:" + dir + "/limboauth.db"
-  );
+  H2_LEGACY_V1(BaseLibrary.H2_V1, SQLDialect.H2, "org.h2.Driver", (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth"), // TODO restore
+  H2(BaseLibrary.H2_V2, SQLDialect.H2, "org.h2.Driver", (dir, databaseSettings) -> "jdbc:h2:" + dir + "/limboauth-v2"),
+  MYSQL(BaseLibrary.MYSQL, SQLDialect.MYSQL, "com.mysql.cj.jdbc.Driver", (dir, databaseSettings) -> "jdbc:mysql://" + databaseSettings.hostname + "/" + databaseSettings.database),
+  MARIADB(BaseLibrary.MARIADB, SQLDialect.MARIADB, "org.mariadb.jdbc.Driver", (dir, databaseSettings) -> "jdbc:mariadb://" + databaseSettings.hostname + "/" + databaseSettings.database),
+  POSTGRESQL(BaseLibrary.POSTGRESQL, SQLDialect.POSTGRES, "org.postgresql.Driver", (dir, databaseSettings) -> "jdbc:postgresql://" + databaseSettings.hostname + "/" + databaseSettings.database),
+  SQLITE(BaseLibrary.SQLITE, SQLDialect.SQLITE, "org.sqlite.JDBC", (dir, databaseSettings) -> "jdbc:sqlite:" + dir + "/limboauth.db");
 
   private final BaseLibrary baseLibrary;
   private final SQLDialect sqlDialect;
@@ -79,9 +49,6 @@ public enum DatabaseLibrary {
 
   public DSLContext connect(LimboAuth plugin, Path dir, Settings.Database databaseSettings, ExecutorService executor) {
     plugin.getServer().getPluginManager().addToClasspath(plugin, this.baseLibrary.getClassPath());
-
-    System.setProperty("org.jooq.no-logo", "true");
-    System.setProperty("org.jooq.no-tips", "true");
 
     HikariConfig config = new HikariConfig();
     config.setPoolName("limboauth-db-pool");
@@ -102,7 +69,13 @@ public enum DatabaseLibrary {
     return dslContext;
   }
 
+  static {
+    System.setProperty("org.jooq.no-logo", "true");
+    System.setProperty("org.jooq.no-tips", "true");
+  }
+
   public interface DatabaseStringGetter {
+
     String getJdbcString(Path dir, Settings.Database databaseSettings);
   }
 }

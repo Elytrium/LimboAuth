@@ -22,42 +22,21 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import java.util.function.Consumer;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.kyori.adventure.text.Component;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 
 public class ChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Settings settings;
   private final DSLContext dslContext;
 
-  private final boolean needOldPass;
-  private final Component notRegistered;
-  private final Component wrongPassword;
-  private final Component successful;
-  private final Component errorOccurred;
-  private final Component usage;
-  private final Component notPlayer;
-
-  public ChangePasswordCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
+  public ChangePasswordCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.settings = settings;
     this.dslContext = dslContext;
-
-    Serializer serializer = plugin.getSerializer();
-    this.needOldPass = this.settings.main.changePasswordNeedOldPassword;
-    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
-    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
-    this.successful = serializer.deserialize(this.settings.main.strings.CHANGE_PASSWORD_SUCCESSFUL);
-    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
-    this.usage = serializer.deserialize(this.settings.main.strings.CHANGE_PASSWORD_USAGE);
-    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -65,17 +44,15 @@ public class ChangePasswordCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (source instanceof Player) {
-      Player player = (Player) source;
-
-      boolean needOldPass = this.needOldPass && !player.isOnlineMode();
+    if (source instanceof Player player) {
+      boolean needOldPass = Settings.IMP.changePasswordNeedOldPassword && !player.isOnlineMode();
       if (needOldPass) {
         if (args.length < 2) {
-          source.sendMessage(this.usage);
+          source.sendMessage(Settings.MESSAGES.changePasswordUsage);
           return;
         }
       } else if (args.length < 1) {
-        source.sendMessage(this.usage);
+        source.sendMessage(Settings.MESSAGES.changePasswordUsage);
         return;
       }
 
@@ -83,7 +60,7 @@ public class ChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = username.toLowerCase(Locale.ROOT);
       Consumer<String> onCorrect = oldHash -> {
         final String newPassword = needOldPass ? args[1] : args[0];
-        final String newHash = RegisteredPlayer.genHash(this.settings, newPassword);
+        final String newHash = RegisteredPlayer.genHash(newPassword);
 
         this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
             .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
@@ -92,26 +69,25 @@ public class ChangePasswordCommand implements SimpleCommand {
 
         this.plugin.removePlayerFromCache(username);
 
-        this.plugin.getServer().getEventManager().fireAndForget(
-            new ChangePasswordEvent(username, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
+        this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(username, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
 
-        source.sendMessage(this.successful);
+        source.sendMessage(Settings.MESSAGES.changePasswordSuccessful);
       };
 
-      RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
-          () -> source.sendMessage(this.notRegistered),
+      RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
+          () -> source.sendMessage(Settings.MESSAGES.notRegistered),
           () -> onCorrect.accept(null),
           onCorrect,
-          () -> source.sendMessage(this.wrongPassword),
-          e -> source.sendMessage(this.errorOccurred));
+          () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
+          e -> source.sendMessage(Settings.MESSAGES.errorOccurred)
+      );
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(Settings.MESSAGES.notPlayer);
     }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return this.settings.main.commandPermissionState.changePassword
-        .hasPermission(invocation.source(), "limboauth.commands.changepassword");
+    return Settings.IMP.commandPermissionState.changePassword.hasPermission(invocation.source(), "limboauth.commands.changepassword");
   }
 }

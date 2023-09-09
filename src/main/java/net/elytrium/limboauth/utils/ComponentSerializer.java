@@ -15,3 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package net.elytrium.limboauth.utils;
+
+import net.elytrium.limboauth.Settings;
+import net.elytrium.serializer.custom.ClassSerializer;
+import net.kyori.adventure.text.Component;
+
+public class ComponentSerializer extends ClassSerializer<Component, String> {
+
+  public static final ComponentSerializer INSTANCE = new ComponentSerializer();
+
+  @Override
+  public String serialize(Component from) {
+    return from == null ? "" : Settings.IMP.serializer.getSerializer().serialize(from);
+  }
+
+  @Override
+  public Component deserialize(String from) {
+    return from.isEmpty() ? null : Settings.IMP.serializer.getSerializer().deserialize(from);
+  }
+}

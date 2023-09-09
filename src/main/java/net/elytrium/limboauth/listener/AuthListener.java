@@ -52,13 +52,11 @@ public class AuthListener {
   private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
-  private final Settings settings;
   private final DSLContext dslContext;
   private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, Settings settings, DSLContext dslContext, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, DSLContext dslContext, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
-    this.settings = settings;
     this.dslContext = dslContext;
     this.floodgateApi = floodgateApi;
   }
@@ -112,7 +110,7 @@ public class AuthListener {
       // We need to delay for player's client to finish switching the server, it takes a little time.
       this.plugin.getServer().getScheduler()
           .buildTask(this.plugin, postLoginTask)
-          .delay(this.settings.main.premiumAndFloodgateMessagesDelay, TimeUnit.MILLISECONDS)
+          .delay(Settings.IMP.premiumAndFloodgateMessagesDelay, TimeUnit.MILLISECONDS)
           .schedule();
     }
   }
@@ -127,7 +125,7 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public EventTask onGameProfileRequest(GameProfileRequestEvent event) {
     EventTask eventTask = null;
-    if (this.settings.main.saveUuid && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
+    if (Settings.IMP.saveUuid && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       CompletableFuture<Void> completableFuture = new CompletableFuture<>();
       eventTask = EventTask.resumeWhenComplete(completableFuture);
 
@@ -137,7 +135,7 @@ public class AuthListener {
           .fetchAsync()
           .thenAccept(uuidResult -> {
             if (!uuidResult.isEmpty()) {
-              String uuid = uuidResult.get(0).get(0, String.class);
+              String uuid = uuidResult.get(0).value1();
               if (uuid != null && !uuid.isEmpty()) {
                 event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(uuid)));
               } else {
@@ -161,16 +159,16 @@ public class AuthListener {
           .exceptionally(this.plugin::handleSqlError);
     }
 
-    if (this.settings.main.forceOfflineUuid) {
+    if (Settings.IMP.forceOfflineUuid) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
 
-    if (!event.isOnlineMode() && !this.settings.main.offlineModePrefix.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(this.settings.main.offlineModePrefix + event.getUsername()));
+    if (!event.isOnlineMode() && !Settings.IMP.offlineModePrefix.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.offlineModePrefix + event.getUsername()));
     }
 
-    if (event.isOnlineMode() && !this.settings.main.onlineModePrefix.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(this.settings.main.onlineModePrefix + event.getUsername()));
+    if (event.isOnlineMode() && !Settings.IMP.onlineModePrefix.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.onlineModePrefix + event.getUsername()));
     }
 
     return eventTask;

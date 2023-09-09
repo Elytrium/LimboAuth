@@ -26,13 +26,12 @@ import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.Locale;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import org.jooq.DSLContext;
@@ -43,50 +42,11 @@ public class TotpCommand implements SimpleCommand {
   private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
   private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
   private final LimboAuth plugin;
-  private final Settings settings;
   private final DSLContext dslContext;
 
-  private final Component notPlayer;
-  private final Component usage;
-  private final boolean needPassword;
-  private final Component notRegistered;
-  private final Component wrongPassword;
-  private final Component alreadyEnabled;
-  private final Component errorOccurred;
-  private final Component successful;
-  private final String issuer;
-  private final String qrGeneratorUrl;
-  private final Component qr;
-  private final String token;
-  private final int recoveryCodesAmount;
-  private final String recovery;
-  private final Component disabled;
-  private final Component wrong;
-  private final Component crackedCommand;
-
-  public TotpCommand(LimboAuth plugin, Settings settings, DSLContext dslContext) {
+  public TotpCommand(LimboAuth plugin, DSLContext dslContext) {
     this.plugin = plugin;
-    this.settings = settings;
     this.dslContext = dslContext;
-
-    Serializer serializer = plugin.getSerializer();
-    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
-    this.usage = serializer.deserialize(this.settings.main.strings.TOTP_USAGE);
-    this.needPassword = this.settings.main.totpNeedPassword;
-    this.notRegistered = serializer.deserialize(this.settings.main.strings.NOT_REGISTERED);
-    this.wrongPassword = serializer.deserialize(this.settings.main.strings.WRONG_PASSWORD);
-    this.alreadyEnabled = serializer.deserialize(this.settings.main.strings.TOTP_ALREADY_ENABLED);
-    this.errorOccurred = serializer.deserialize(this.settings.main.strings.ERROR_OCCURRED);
-    this.successful = serializer.deserialize(this.settings.main.strings.TOTP_SUCCESSFUL);
-    this.issuer = this.settings.main.totpIssuer;
-    this.qrGeneratorUrl = this.settings.main.qrGeneratorUrl;
-    this.qr = serializer.deserialize(this.settings.main.strings.TOTP_QR);
-    this.token = this.settings.main.strings.TOTP_TOKEN;
-    this.recoveryCodesAmount = this.settings.main.totpRecoveryCodesAmount;
-    this.recovery = this.settings.main.strings.TOTP_RECOVERY;
-    this.disabled = serializer.deserialize(this.settings.main.strings.TOTP_DISABLED);
-    this.wrong = serializer.deserialize(this.settings.main.strings.TOTP_WRONG);
-    this.crackedCommand = serializer.deserialize(this.settings.main.strings.CRACKED_COMMAND);
   }
 
   // TODO: Rewrite.
@@ -97,60 +57,60 @@ public class TotpCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       if (args.length == 0) {
-        source.sendMessage(this.usage);
+        source.sendMessage(Settings.MESSAGES.totpUsage);
       } else {
         String username = ((Player) source).getUsername();
         String lowercaseNickname = username.toLowerCase(Locale.ROOT);
 
         if (args[0].equalsIgnoreCase("enable")) {
-          if (this.needPassword ? args.length == 2 : args.length == 1) {
-            RegisteredPlayer.checkPassword(this.settings, this.dslContext, lowercaseNickname, this.needPassword ? args[1] : null,
-                () -> source.sendMessage(this.notRegistered),
-                () -> source.sendMessage(this.crackedCommand),
+          if (Settings.IMP.totpNeedPassword ? args.length == 2 : args.length == 1) {
+            RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, Settings.IMP.totpNeedPassword ? args[1] : null,
+                () -> source.sendMessage(Settings.MESSAGES.notRegistered),
+                () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
                 h -> this.dslContext.selectFrom(RegisteredPlayer.Table.INSTANCE)
                     .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
                     .fetchAsync()
                     .thenAccept(totpTokenResult -> {
-                      if (totpTokenResult.isEmpty() || totpTokenResult.get(0).get(0, String.class).isEmpty()) {
+                      if (totpTokenResult.isEmpty() || totpTokenResult.get(0).value1().isEmpty()) {
                         String secret = this.secretGenerator.generate();
                         this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
                             .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, secret)
                             .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
                             .executeAsync()
-                            .thenRun(() -> source.sendMessage(this.successful))
+                            .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
                             .exceptionally(e -> {
                               this.plugin.handleSqlError(e);
-                              source.sendMessage(this.errorOccurred);
+                              source.sendMessage(Settings.MESSAGES.errorOccurred);
                               return null;
                             });
 
                         QrData data = new QrData.Builder()
                             .label(username)
                             .secret(secret)
-                            .issuer(this.issuer)
+                            .issuer(Settings.IMP.totpIssuer)
                             .build();
-                        String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
-                        source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
+                        String qrUrl = Placeholders.replace(Settings.IMP.qrGeneratorUrl, URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
+                        source.sendMessage(Settings.MESSAGES.totpQr.clickEvent(ClickEvent.openUrl(qrUrl)));
 
-                        Serializer serializer = this.plugin.getSerializer();
-                        source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
+                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpToken, secret))
                             .clickEvent(ClickEvent.copyToClipboard(secret)));
-                        String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
-                        source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes))
+                        String codes = String.join(", ", this.codesGenerator.generateCodes(Settings.IMP.totpRecoveryCodesAmount));
+                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpRecovery, codes))
                             .clickEvent(ClickEvent.copyToClipboard(codes)));
                       } else {
-                        source.sendMessage(this.alreadyEnabled);
+                        source.sendMessage(Settings.MESSAGES.totpAlreadyEnabled);
                       }
                     })
                     .exceptionally(e -> {
                       this.plugin.handleSqlError(e);
-                      source.sendMessage(this.errorOccurred);
+                      source.sendMessage(Settings.MESSAGES.errorOccurred);
                       return null;
                     }),
-                () -> source.sendMessage(this.wrongPassword),
-                (e) -> source.sendMessage(this.errorOccurred));
+                () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
+                (e) -> source.sendMessage(Settings.MESSAGES.errorOccurred)
+            );
           } else {
-            source.sendMessage(this.usage);
+            source.sendMessage(Settings.MESSAGES.totpUsage);
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
@@ -160,8 +120,8 @@ public class TotpCommand implements SimpleCommand {
                 .fetchAsync()
                 .thenAccept(totpTokenResult -> {
                   String totpCode;
-                  if (totpTokenResult.isEmpty() || (totpCode = totpTokenResult.get(0).get(0, String.class)).isEmpty()) {
-                    source.sendMessage(this.disabled);
+                  if (totpTokenResult.isEmpty() || (totpCode = totpTokenResult.get(0).value1()).isEmpty()) {
+                    source.sendMessage(Settings.MESSAGES.totpDisabled);
                     return;
                   }
 
@@ -170,36 +130,35 @@ public class TotpCommand implements SimpleCommand {
                         .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, "")
                         .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
                         .executeAsync()
-                        .thenRun(() -> source.sendMessage(this.successful))
+                        .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
                         .exceptionally(e -> {
                           this.plugin.handleSqlError(e);
-                          source.sendMessage(this.errorOccurred);
+                          source.sendMessage(Settings.MESSAGES.errorOccurred);
                           return null;
                         });
                   } else {
-                    source.sendMessage(this.wrong);
+                    source.sendMessage(Settings.MESSAGES.totpWrong);
                   }
                 })
                 .exceptionally(e -> {
                   this.plugin.handleSqlError(e);
-                  source.sendMessage(this.errorOccurred);
+                  source.sendMessage(Settings.MESSAGES.errorOccurred);
                   return null;
                 });
           } else {
-            source.sendMessage(this.usage);
+            source.sendMessage(Settings.MESSAGES.totpUsage);
           }
         } else {
-          source.sendMessage(this.usage);
+          source.sendMessage(Settings.MESSAGES.totpUsage);
         }
       }
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(Settings.MESSAGES.notPlayer);
     }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return this.settings.main.commandPermissionState.totp
-        .hasPermission(invocation.source(), "limboauth.commands.totp");
+    return Settings.IMP.commandPermissionState.totp.hasPermission(invocation.source(), "limboauth.commands.totp");
   }
 }

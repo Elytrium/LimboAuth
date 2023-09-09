@@ -20,26 +20,15 @@ package net.elytrium.limboauth.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.kyori.adventure.text.Component;
 
 public class DestroySessionCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final Settings settings;
 
-  private final Component successful;
-  private final Component notPlayer;
-
-  public DestroySessionCommand(LimboAuth plugin, Settings settings) {
+  public DestroySessionCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.settings = settings;
-
-    Serializer serializer = plugin.getSerializer();
-    this.successful = serializer.deserialize(this.settings.main.strings.DESTROY_SESSION_SUCCESSFUL);
-    this.notPlayer = serializer.deserialize(this.settings.main.strings.NOT_PLAYER);
   }
 
   @Override
@@ -48,15 +37,14 @@ public class DestroySessionCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful);
+      source.sendMessage(Settings.MESSAGES.destroySessionSuccessful);
     } else {
-      source.sendMessage(this.notPlayer);
+      source.sendMessage(Settings.MESSAGES.notPlayer);
     }
   }
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return this.settings.main.commandPermissionState.destroySession
-        .hasPermission(invocation.source(), "limboauth.commands.destroysession");
+    return Settings.IMP.commandPermissionState.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
   }
 }

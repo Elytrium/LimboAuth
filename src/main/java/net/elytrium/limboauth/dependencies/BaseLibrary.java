@@ -62,7 +62,8 @@ public enum BaseLibrary {
   private final URL mavenRepoURL;
 
   BaseLibrary(String groupId, String artifactId, String version) {
-    String mavenPath = String.format("%s/%s/%s/%s-%s.jar",
+    String mavenPath = String.format(
+        "%s/%s/%s/%s-%s.jar",
         groupId.replace(".", "/"),
         artifactId,
         version,

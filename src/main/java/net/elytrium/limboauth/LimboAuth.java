@@ -23,15 +23,12 @@ import com.google.common.primitives.Longs;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
-import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.network.ProtocolVersion;
-import com.velocitypowered.api.plugin.Dependency;
-import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
+import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -44,7 +41,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.whitfin.siphash.SipHasher;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,7 +63,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.commons.utils.updates.UpdatesChecker;
@@ -96,40 +91,25 @@ import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
-import net.kyori.adventure.title.Title;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Table;
 import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 
-@Plugin(
-    id = "limboauth",
-    name = "LimboAuth",
-    version = BuildConfig.VERSION,
-    url = "https://elytrium.net/",
-    authors = {
-        "Elytrium (https://elytrium.net/)",
-    },
-    dependencies = {
-        @Dependency(id = "limboapi"),
-        @Dependency(id = "floodgate", optional = true)
-    }
-)
-public class LimboAuth {
+public class LimboAuth { // split one bing class into small ones (главный гласс должен служить бутстраппером для остальных систем, а не главным обработчиком этих систем)
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
 
-  private final Settings settings = new Settings();
+  // TODO поменять все карты, сэты и листы с очередями на fastutil
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
@@ -137,63 +117,56 @@ public class LimboAuth {
   private final Set<String> unsafePasswords = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
 
-  private final HttpClient client = HttpClient.newHttpClient();
+  private final Logger logger;
 
-  private final ProxyServer server;
-  private final Metrics.Factory metricsFactory;
-  private final ExecutorService executor;
   private final Path dataDirectory;
   private final Path configPath;
-  private final Logger logger;
-  private final LimboFactory factory;
-  private final FloodgateApiHolder floodgateApi;
+
+  private final LimboFactory limboFactory;
+  private final Metrics.Factory metricsFactory;
+
+  private final ExecutorService executor;
+
+  private final ProxyServer server;
+  private final PluginManager pluginManager;
+  private final EventManager eventManager;
+  private final CommandManager commandManager;
+
   private final AsyncHttpClient httpClient;
+  private final FloodgateApiHolder floodgateApi;
 
   private Serializer serializer;
-  @Nullable
-  private Component loginPremium;
-  @Nullable
-  private Title loginPremiumTitle;
-  @Nullable
-  private Component loginFloodgate;
-  @Nullable
-  private Title loginFloodgateTitle;
-  private Component registrationsDisabledKick;
-  private Component bruteforceAttemptKick;
-  private Component nicknameInvalidKick;
-  private Component reconnectKick;
+
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
   private ScheduledTask purgeBruteforceCacheTask;
 
-  private DSLContext dslContext;
+  private DSLContext dslContext; // TODO убрать его отсюда нахуй, если он тут будет то плагин не запустится с тем что есть сейчас
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
 
-  @Inject
-  public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @DataDirectory Path dataDirectory) {
+  LimboAuth(Logger logger, @DataDirectory Path dataDirectory, @Named("limboapi") PluginContainer limboApi, Metrics.Factory metricsFactory, ExecutorService executor,
+      ProxyServer server, PluginManager pluginManager, EventManager eventManager, CommandManager commandManager) {
     this.logger = logger;
-    this.server = server;
-    this.executor = executor;
-    this.metricsFactory = metricsFactory;
+
     this.dataDirectory = dataDirectory;
     this.configPath = dataDirectory.resolve("config.yml");
 
-    this.factory = (LimboFactory) this.server.getPluginManager().getPlugin("limboapi").flatMap(PluginContainer::getInstance).orElseThrow();
+    this.limboFactory = (LimboFactory) limboApi.getInstance().orElseThrow();
+    this.metricsFactory = metricsFactory;
 
-    if (this.server.getPluginManager().getPlugin("floodgate").isPresent()) {
-      this.floodgateApi = new FloodgateApiHolder();
-    } else {
-      this.floodgateApi = null;
-    }
+    this.executor = executor;
+
+    this.server = server;
+    this.pluginManager = pluginManager;
+    this.eventManager = eventManager;
+    this.commandManager = commandManager;
 
     this.httpClient = ((VelocityServer) this.server).getAsyncHttpClient();
+    this.floodgateApi = this.server.getPluginManager().getPlugin("floodgate").isPresent() ? new FloodgateApiHolder() : null;
   }
 
-  @Subscribe
-  public void onProxyInitialization(ProxyInitializeEvent event) {
-    System.setProperty("com.j256.simplelogging.level", "ERROR");
-
+  void onProxyInitialization() {
     try {
       this.reload();
     } catch (Throwable throwable) {
@@ -202,33 +175,36 @@ public class LimboAuth {
     }
 
     Metrics metrics = this.metricsFactory.make(this, 13700);
-    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(this.settings.main.floodgateNeedAuth)));
-    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(this.settings.main.onlineModeNeedAuth)));
-    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(this.settings.database.storageType)));
-    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(this.settings.main.loadWorld)));
-    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(this.settings.main.enableTotp)));
-    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(this.settings.main.dimension)));
-    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(this.settings.main.saveUuid)));
+    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.floodgateNeedAuth)));
+    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.IMP.onlineModeNeedAuth)));
+    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.IMP.database.storageType)));
+    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.IMP.loadWorld)));
+    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.enableTotp)));
+    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.IMP.dimension)));
+    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.saveUuid)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.dslContext.fetchCount(RegisteredPlayer.Table.INSTANCE))));
 
-    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", this.settings.version)) {
-      this.logger.error("****************************************");
-      this.logger.warn("The new LimboAuth update was found, please update.");
-      this.logger.error("https://github.com/Elytrium/LimboAuth/releases/");
-      this.logger.error("****************************************");
+    try {
+      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.version)) {
+        this.logger.error("****************************************");
+        this.logger.warn("The new LimboAuth update was found, please update.");
+        this.logger.error("https://github.com/Elytrium/LimboAuth/releases/");
+        this.logger.error("****************************************");
+      }
+    } catch (Exception e) {
+      this.logger.warn("Failed to check for updated!");
     }
   }
 
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
   public void reload() {
-    this.settings.reload(this.configPath);
+    Settings.IMP.reload(this.configPath);
 
-    if (this.floodgateApi == null && !this.settings.main.floodgateNeedAuth) {
-      throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false),"
-          + " please install floodgate plugin.");
+    if (this.floodgateApi == null && !Settings.IMP.floodgateNeedAuth) {
+      throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false), please install floodgate plugin.");
     }
 
-    ComponentSerializer<Component, Component, String> serializer = this.settings.serializer.getSerializer();
+    ComponentSerializer<Component, Component, String> serializer = Settings.IMP.serializer.getSerializer();
     if (serializer == null) {
       this.logger.warn("The specified serializer could not be founded, using default. (LEGACY_AMPERSAND)");
       this.serializer = new Serializer(Objects.requireNonNull(Serializers.LEGACY_AMPERSAND.getSerializer()));
@@ -236,46 +212,15 @@ public class LimboAuth {
       this.serializer = new Serializer(serializer);
     }
 
-    AuthSessionHandler.reload(this.serializer, this.settings);
-
-    this.loginPremium = this.settings.main.strings.LOGIN_PREMIUM.isEmpty() ? null : this.serializer.deserialize(this.settings.main.strings.LOGIN_PREMIUM);
-    if (this.settings.main.strings.LOGIN_PREMIUM_TITLE.isEmpty() && this.settings.main.strings.LOGIN_PREMIUM_SUBTITLE.isEmpty()) {
-      this.loginPremiumTitle = null;
-    } else {
-      this.loginPremiumTitle = Title.title(
-          this.serializer.deserialize(this.settings.main.strings.LOGIN_PREMIUM_TITLE),
-          this.serializer.deserialize(this.settings.main.strings.LOGIN_PREMIUM_SUBTITLE),
-          this.settings.main.premiumTitleSettings.toTimes()
-      );
-    }
-
-    this.loginFloodgate = this.settings.main.strings.LOGIN_FLOODGATE.isEmpty() ? null : this.serializer.deserialize(this.settings.main.strings.LOGIN_FLOODGATE);
-    if (this.settings.main.strings.LOGIN_FLOODGATE_TITLE.isEmpty() && this.settings.main.strings.LOGIN_FLOODGATE_SUBTITLE.isEmpty()) {
-      this.loginFloodgateTitle = null;
-    } else {
-      this.loginFloodgateTitle = Title.title(
-          this.serializer.deserialize(this.settings.main.strings.LOGIN_FLOODGATE_TITLE),
-          this.serializer.deserialize(this.settings.main.strings.LOGIN_FLOODGATE_SUBTITLE),
-          this.settings.main.premiumTitleSettings.toTimes()
-      );
-    }
-
-    this.bruteforceAttemptKick = this.serializer.deserialize(this.settings.main.strings.LOGIN_WRONG_PASSWORD_KICK);
-    this.nicknameInvalidKick = this.serializer.deserialize(this.settings.main.strings.NICKNAME_INVALID_KICK);
-    this.reconnectKick = this.serializer.deserialize(this.settings.main.strings.RECONNECT_KICK);
-    this.registrationsDisabledKick = this.serializer.deserialize(this.settings.main.strings.REGISTRATIONS_DISABLED_KICK);
-
-    if (this.settings.main.checkPasswordStrength) {
+    if (Settings.IMP.checkPasswordStrength) {
       try {
         this.unsafePasswords.clear();
-        Path unsafePasswordsPath = this.dataDirectory.resolve(this.settings.main.unsafePasswordsFile);
+        Path unsafePasswordsPath = this.dataDirectory.resolve(Settings.IMP.unsafePasswordsFile);
         if (!unsafePasswordsPath.toFile().exists()) {
           Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsPath);
         }
 
-        try (Stream<String> unsafePasswordsStream = Files.lines(unsafePasswordsPath)) {
-          this.unsafePasswords.addAll(unsafePasswordsStream.collect(Collectors.toList()));
-        }
+        this.unsafePasswords.addAll(Files.readAllLines(unsafePasswordsPath));
       } catch (IOException e) {
         throw new IllegalArgumentException(e);
       }
@@ -285,16 +230,17 @@ public class LimboAuth {
     this.premiumCache.clear();
     this.bruteforceCache.clear();
 
-    this.dslContext = this.settings.database.storageType.connect(
+    this.dslContext = Settings.IMP.database.storageType.connect(
         this,
         this.dataDirectory,
-        this.settings.database,
+        Settings.IMP.database,
         this.executor
     );
 
-    this.nicknameValidationPattern = Pattern.compile(this.settings.main.allowedNicknameRegex);
+    this.nicknameValidationPattern = Pattern.compile(Settings.IMP.allowedNicknameRegex);
     this.migrateDb(RegisteredPlayer.Table.INSTANCE);
 
+    // TODO register commands once on start, no need to create new now
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
     manager.unregister("forceregister");
@@ -306,32 +252,30 @@ public class LimboAuth {
     manager.unregister("2fa");
     manager.unregister("limboauth");
 
-    manager.register("unregister", new UnregisterCommand(this, this.settings, this.dslContext), "unreg");
-    manager.register("forceregister", new ForceRegisterCommand(this, this.settings, this.dslContext), "forcereg");
-    manager.register("premium", new PremiumCommand(this, this.settings, this.dslContext), "license");
-    manager.register("forceunregister", new ForceUnregisterCommand(this, this.settings, this.server, this.dslContext), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this, this.settings, this.dslContext), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.settings, this.server, this.dslContext), "forcechangepass", "fcp");
-    manager.register("destroysession", new DestroySessionCommand(this, this.settings), "logout");
-    if (this.settings.main.enableTotp) {
-      manager.register("2fa", new TotpCommand(this, this.settings, this.dslContext), "totp");
+    manager.register("unregister", new UnregisterCommand(this, this.dslContext), "unreg");
+    manager.register("forceregister", new ForceRegisterCommand(this, this.dslContext), "forcereg");
+    manager.register("premium", new PremiumCommand(this, this.dslContext), "license");
+    manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.dslContext), "forceunreg");
+    manager.register("changepassword", new ChangePasswordCommand(this, this.dslContext), "changepass", "cp");
+    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.dslContext), "forcechangepass", "fcp");
+    manager.register("destroysession", new DestroySessionCommand(this), "logout");
+    if (Settings.IMP.enableTotp) {
+      manager.register("2fa", new TotpCommand(this, this.dslContext), "totp");
     }
-    manager.register("limboauth", new LimboAuthCommand(this, this.settings), "la", "auth", "lauth");
+    manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 
-    Settings.Main.AuthCoords authCoords = this.settings.main.authCoords;
-    VirtualWorld authWorld = this.factory.createVirtualWorld(
-        this.settings.main.dimension,
-        authCoords.x, authCoords.y, authCoords.z,
-        (float) authCoords.yaw, (float) authCoords.pitch
+    VirtualWorld authWorld = this.limboFactory.createVirtualWorld(
+        Settings.IMP.dimension,
+        Settings.IMP.authCoords.posX, Settings.IMP.authCoords.posY, Settings.IMP.authCoords.posZ,
+        (float) Settings.IMP.authCoords.yaw, (float) Settings.IMP.authCoords.pitch
     );
 
-    if (this.settings.main.loadWorld) {
+    if (Settings.IMP.loadWorld) {
       try {
-        Path path = this.dataDirectory.resolve(this.settings.main.worldFilePath);
-        WorldFile file = this.factory.openWorldFile(this.settings.main.worldFileType, path);
+        Path path = this.dataDirectory.resolve(Settings.IMP.worldFilePath);
+        WorldFile file = this.limboFactory.openWorldFile(Settings.IMP.worldFileType, path);
 
-        Settings.Main.WorldCoords coords = this.settings.main.worldCoords;
-        file.toWorld(this.factory, authWorld, coords.x, coords.y, coords.z, this.settings.main.worldLightLevel);
+        file.toWorld(this.limboFactory, authWorld, Settings.IMP.worldCoords.posX, Settings.IMP.worldCoords.posY, Settings.IMP.worldCoords.posZ, Settings.IMP.worldLightLevel);
       } catch (IOException e) {
         throw new IllegalArgumentException(e);
       }
@@ -341,30 +285,30 @@ public class LimboAuth {
       this.authServer.dispose();
     }
 
-    this.authServer = this.factory
+    this.authServer = this.limboFactory
         .createLimbo(authWorld)
         .setName("LimboAuth")
-        .setWorldTime(this.settings.main.worldTicks)
-        .setGameMode(this.settings.main.gameMode)
-        .registerCommand(new LimboCommandMeta(this.filterCommands(this.settings.main.registerCommand)))
-        .registerCommand(new LimboCommandMeta(this.filterCommands(this.settings.main.loginCommand)));
+        .setWorldTime(Settings.IMP.worldTicks)
+        .setGameMode(Settings.IMP.gameMode)
+        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.registerCommand)))
+        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.loginCommand)));
 
-    if (this.settings.main.enableTotp) {
-      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(this.settings.main.totpCommand)));
+    if (Settings.IMP.enableTotp) {
+      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.totpCommand)));
     }
 
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
-    eventManager.register(this, new AuthListener(this, this.settings, this.dslContext, this.floodgateApi));
+    eventManager.register(this, new AuthListener(this, this.dslContext, this.floodgateApi));
 
     if (this.purgeCacheTask != null) {
       this.purgeCacheTask.cancel();
     }
 
     this.purgeCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.cachedAuthChecks, this.settings.main.purgeCacheMillis))
-        .delay(this.settings.main.purgeCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(this.settings.main.purgeCacheMillis, TimeUnit.MILLISECONDS)
+        .buildTask(this, () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.purgeCacheMillis))
+        .delay(Settings.IMP.purgeCacheMillis, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.purgeCacheMillis, TimeUnit.MILLISECONDS)
         .schedule();
 
     if (this.purgePremiumCacheTask != null) {
@@ -372,9 +316,9 @@ public class LimboAuth {
     }
 
     this.purgePremiumCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.premiumCache, this.settings.main.purgePremiumCacheMillis))
-        .delay(this.settings.main.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(this.settings.main.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
+        .buildTask(this, () -> this.checkCache(this.premiumCache, Settings.IMP.purgePremiumCacheMillis))
+        .delay(Settings.IMP.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
         .schedule();
 
     if (this.purgeBruteforceCacheTask != null) {
@@ -382,9 +326,9 @@ public class LimboAuth {
     }
 
     this.purgeBruteforceCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.bruteforceCache, this.settings.main.purgeBruteforceCacheMillis))
-        .delay(this.settings.main.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(this.settings.main.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
+        .buildTask(this, () -> this.checkCache(this.bruteforceCache, Settings.IMP.purgeBruteforceCacheMillis))
+        .delay(Settings.IMP.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
+        .repeat(Settings.IMP.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
         .schedule();
 
     eventManager.fireAndForget(new AuthPluginReloadEvent());
@@ -432,11 +376,11 @@ public class LimboAuth {
   }
 
   public void authPlayer(Player player) {
-    boolean isFloodgate = !this.settings.main.floodgateNeedAuth && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
+    boolean isFloodgate = !Settings.IMP.floodgateNeedAuth && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
     if (!isFloodgate && this.isForcedPreviously(player.getUsername())) {
       this.isPremium(player.getUsername()).thenAccept(isPremium -> {
         if (isPremium) {
-          player.disconnect(this.reconnectKick);
+          player.disconnect(Settings.MESSAGES.reconnectKick);
         } else {
           this.authPlayer0(player, false);
         }
@@ -447,26 +391,30 @@ public class LimboAuth {
   }
 
   private void authPlayer0(Player player, boolean isFloodgate) {
-    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress()) >= this.settings.main.bruteforceMaxAttempts) {
-      player.disconnect(this.bruteforceAttemptKick);
+    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress()) >= Settings.IMP.bruteforceMaxAttempts) {
+      player.disconnect(Settings.MESSAGES.loginWrongPasswordKick);
       return;
     }
 
     String nickname = player.getUsername();
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     if (!this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
-      player.disconnect(this.nicknameInvalidKick);
+      player.disconnect(Settings.MESSAGES.nicknameInvalidKick);
       return;
     }
 
-    this.dslContext.fetchAsync(RegisteredPlayer.Table.INSTANCE,
-            DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+    this.dslContext.fetchAsync(
+            RegisteredPlayer.Table.INSTANCE,
+            DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname)
+        )
         .thenAccept(registeredPlayerResult -> {
           boolean onlineMode = player.isOnlineMode();
           RegisteredPlayer nicknameRegisteredPlayer = registeredPlayerResult.isEmpty() ? null : registeredPlayerResult.get(0);
           if ((onlineMode || isFloodgate) && (nicknameRegisteredPlayer == null || nicknameRegisteredPlayer.getHash().isEmpty())) {
-            this.dslContext.fetchAsync(RegisteredPlayer.Table.INSTANCE,
-                    DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+            this.dslContext.fetchAsync(
+                    RegisteredPlayer.Table.INSTANCE,
+                    DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname)
+                )
                 .thenAccept(premiumRegisteredPlayerResult -> {
                   RegisteredPlayer registeredPlayer = premiumRegisteredPlayerResult.isEmpty() ? null : registeredPlayerResult.get(0);
                   if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
@@ -477,7 +425,7 @@ public class LimboAuth {
                         .executeAsync();
                   }
 
-                  if (nicknameRegisteredPlayer == null && registeredPlayer == null && this.settings.main.savePremiumAccounts) {
+                  if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.savePremiumAccounts) {
                     registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
 
                     this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
@@ -491,18 +439,20 @@ public class LimboAuth {
                     // We need to wait for the PLAY connection state to set.
                     this.postLoginTasks.put(player.getUniqueId(), () -> {
                       if (onlineMode) {
-                        if (this.loginPremium != null) {
-                          player.sendMessage(this.loginPremium);
+                        if (Settings.MESSAGES.loginPremiumMessage != null) {
+                          player.sendMessage(Settings.MESSAGES.loginPremiumMessage);
                         }
-                        if (this.loginPremiumTitle != null) {
-                          player.showTitle(this.loginPremiumTitle);
+
+                        if (Settings.MESSAGES.loginPremiumTitle != null) {
+                          player.showTitle(Settings.MESSAGES.loginPremiumTitle);
                         }
                       } else {
-                        if (this.loginFloodgate != null) {
-                          player.sendMessage(this.loginFloodgate);
+                        if (Settings.MESSAGES.loginFloodgate != null) {
+                          player.sendMessage(Settings.MESSAGES.loginFloodgate);
                         }
-                        if (this.loginFloodgateTitle != null) {
-                          player.showTitle(this.loginFloodgateTitle);
+
+                        if (Settings.MESSAGES.loginFloodgateTitle != null) {
+                          player.showTitle(Settings.MESSAGES.loginFloodgateTitle);
                         }
                       }
                     });
@@ -521,8 +471,8 @@ public class LimboAuth {
   private void authPlayer0(Player player, RegisteredPlayer registeredPlayer, TaskEvent.Result result) {
     EventManager eventManager = this.server.getEventManager();
     if (registeredPlayer == null) {
-      if (this.settings.main.disableRegistrations) {
-        player.disconnect(this.registrationsDisabledKick);
+      if (Settings.IMP.disableRegistrations) {
+        player.disconnect(Settings.MESSAGES.registrationsDisabledKick);
         return;
       }
 
@@ -536,26 +486,17 @@ public class LimboAuth {
 
   private void sendPlayer(TaskEvent event, RegisteredPlayer registeredPlayer) {
     Player player = ((PreEvent) event).getPlayer();
-
     switch (event.getResult()) {
-      case BYPASS: {
-        this.factory.passLoginLimbo(player);
+      case BYPASS -> {
+        this.limboFactory.passLoginLimbo(player);
         this.cacheAuthUser(player);
         this.updateLoginData(player);
-        break;
       }
-      case CANCEL: {
-        player.disconnect(event.getReason());
-        break;
+      case CANCEL -> player.disconnect(event.getReason());
+      case WAIT -> {
+
       }
-      case WAIT: {
-        return;
-      }
-      case NORMAL:
-      default: {
-        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.dslContext, player, this, this.settings, registeredPlayer));
-        break;
-      }
+      default -> this.authServer.spawnPlayer(player, new AuthSessionHandler(this.dslContext, player, this, registeredPlayer));
     }
   }
 
@@ -567,10 +508,10 @@ public class LimboAuth {
         .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
         .executeAsync()
         .thenRun(() -> {
-          if (this.settings.main.mod.enabled) {
+          if (Settings.IMP.mod.enabled) {
             byte[] lowercaseNicknameSerialized = lowercaseNickname.getBytes(StandardCharsets.UTF_8);
             long issueTime = System.currentTimeMillis();
-            long hash = SipHasher.init(this.settings.main.mod.verifyKey)
+            long hash = SipHasher.init(Settings.IMP.mod.verifyKey)
                 .update(lowercaseNicknameSerialized)
                 .update(Longs.toByteArray(issueTime))
                 .digest();
@@ -586,11 +527,10 @@ public class LimboAuth {
 
   private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
     if (!scheme.isEmpty()) {
-      if (!(jsonElement instanceof JsonObject)) {
+      if (!(jsonElement instanceof JsonObject object)) {
         return false;
       }
 
-      JsonObject object = (JsonObject) jsonElement;
       for (String field : scheme) {
         if (!object.has(field)) {
           return false;
@@ -603,30 +543,26 @@ public class LimboAuth {
 
   public CompletableFuture<PremiumResponse> isPremiumExternal(String nickname) {
     CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
-    ListenableFuture<Response> responseListenable = this.httpClient.prepareGet(String.format(this.settings.main.ispremiumAuthUrl,
-            UrlEscapers.urlFormParameterEscaper().escape(nickname)))
-        .execute();
+    ListenableFuture<Response> responseListenable = this.httpClient.prepareGet(String.format(Settings.IMP.isPremiumAuthUrl, UrlEscapers.urlFormParameterEscaper().escape(nickname))).execute();
 
     responseListenable.addListener(() -> {
       try {
         Response response = responseListenable.get();
         int statusCode = response.getStatusCode();
 
-        if (this.settings.main.statusCodeRateLimit.contains(statusCode)) {
+        if (Settings.IMP.statusCodeRateLimit.contains(statusCode)) {
           completableFuture.complete(PremiumResponse.RATE_LIMIT);
           return;
         }
 
         JsonElement jsonElement = JsonParser.parseString(response.getResponseBody());
 
-        if (this.settings.main.statusCodeUserExists.contains(statusCode)
-            && this.validateScheme(jsonElement, this.settings.main.userExistsJsonValidatorFields)) {
-          completableFuture.complete(new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(this.settings.main.jsonUuidField).getAsString()));
+        if (Settings.IMP.statusCodeUserExists.contains(statusCode) && this.validateScheme(jsonElement, Settings.IMP.userExistsJsonValidatorFields)) {
+          completableFuture.complete(new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.jsonUuidField).getAsString()));
           return;
         }
 
-        if (this.settings.main.statusCodeUserNotExists.contains(statusCode)
-            && this.validateScheme(jsonElement, this.settings.main.userNotExistsJsonValidatorFields)) {
+        if (Settings.IMP.statusCodeUserNotExists.contains(statusCode) && this.validateScheme(jsonElement, Settings.IMP.userNotExistsJsonValidatorFields)) {
           completableFuture.complete(PremiumResponse.CRACKED);
           return;
         }
@@ -644,19 +580,16 @@ public class LimboAuth {
   public CompletableFuture<PremiumResponse> isPremiumInternal(String nickname) {
     CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
     this.dslContext.selectCount().from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(nickname)
-            .and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).ne("")))
+        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(nickname).and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).ne("")))
         .fetchAsync()
-        .thenAccept(crackedCountResult -> {
-          if (crackedCountResult.get(0).getValue(0, Integer.class) != 0) {
-            completableFuture.complete(PremiumResponse.CRACKED);
+        .handle((result, t) -> {
+          if (result == null) {
+            this.logger.error("Unable to check if account is premium.", t);
+            completableFuture.complete(PremiumResponse.ERROR);
           } else {
-            completableFuture.complete(PremiumResponse.UNKNOWN);
+            completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.CRACKED);
           }
-        })
-        .exceptionally(e -> {
-          this.logger.error("Unable to check if account is premium.", e);
-          completableFuture.complete(PremiumResponse.ERROR);
+
           return null;
         });
 
@@ -664,16 +597,14 @@ public class LimboAuth {
         .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(nickname)
             .and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).eq("")))
         .fetchAsync()
-        .thenAccept(premiumCountResult -> {
-          if (premiumCountResult.get(0).getValue(0, Integer.class) != 0) {
-            completableFuture.complete(PremiumResponse.PREMIUM);
+        .handle((result, t) -> {
+          if (result == null) {
+            this.logger.error("Unable to check if account is premium.", t);
+            completableFuture.complete(PremiumResponse.ERROR);
           } else {
-            completableFuture.complete(PremiumResponse.UNKNOWN);
+            completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.PREMIUM);
           }
-        })
-        .exceptionally(e -> {
-          this.logger.error("Unable to check if account is premium.", e);
-          completableFuture.complete(PremiumResponse.ERROR);
+
           return null;
         });
 
@@ -683,15 +614,13 @@ public class LimboAuth {
   public CompletableFuture<Boolean> isPremiumUuid(UUID uuid) {
     CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
     this.dslContext.selectCount().from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.PREMIUM_UUID_FIELD).eq(uuid.toString())
-            .and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).eq("")))
+        .where(DSL.field(RegisteredPlayer.Table.PREMIUM_UUID_FIELD).eq(uuid.toString()).and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).eq("")))
         .fetchAsync()
-        .thenAccept(result -> completableFuture.complete(result.get(0).getValue(0, Integer.class) != 0));
+        .thenAccept(result -> completableFuture.complete(result.get(0).value1() != 0));
     return completableFuture;
   }
 
-  private CompletableFuture<Boolean> checkIsPremiumAndCacheFinal(String nickname, String lowercaseNickname, boolean premium,
-                                                                 boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid) {
+  private CompletableFuture<Boolean> checkIsPremiumAndCacheFinal(String nickname, String lowercaseNickname, boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid) {
     if (unknown) {
       if (uuid != null) {
         CompletableFuture<Boolean> isPremiumFuture = new CompletableFuture<>();
@@ -706,17 +635,17 @@ public class LimboAuth {
         return isPremiumFuture;
       }
 
-      if (this.settings.main.onlineModeNeedAuth) {
+      if (Settings.IMP.onlineModeNeedAuth) {
         return CompletableFuture.completedFuture(false);
       }
     }
 
     if (wasRateLimited && unknown || wasRateLimited && wasError) {
-      return CompletableFuture.completedFuture(this.settings.main.onRateLimitPremium);
+      return CompletableFuture.completedFuture(Settings.IMP.onRateLimitPremium);
     }
 
     if (wasError && unknown || !premium) {
-      return CompletableFuture.completedFuture(this.settings.main.onServerErrorPremium);
+      return CompletableFuture.completedFuture(Settings.IMP.onServerErrorPremium);
     }
 
     this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
@@ -724,8 +653,9 @@ public class LimboAuth {
   }
 
   private CompletableFuture<Boolean> checkIsPremiumAndCacheStep(Queue<Function<String, CompletableFuture<PremiumResponse>>> queue,
-                                                                String nickname, String lowercaseNickname, boolean premiumFinal, boolean unknownFinal,
-                                                                boolean wasRateLimitedFinal, boolean wasErrorFinal, UUID uuidFinal) {
+      String nickname, String lowercaseNickname, boolean premiumFinal, boolean unknownFinal,
+      boolean wasRateLimitedFinal, boolean wasErrorFinal, UUID uuidFinal) {
+    // TODO loop, no deque
     if (queue.isEmpty()) {
       return this.checkIsPremiumAndCacheFinal(nickname, lowercaseNickname, premiumFinal, unknownFinal, wasRateLimitedFinal, wasErrorFinal, uuidFinal);
     }
@@ -744,31 +674,18 @@ public class LimboAuth {
       }
 
       switch (check.getState()) {
-        case CRACKED: {
+        case CRACKED -> {
           this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
           return CompletableFuture.completedFuture(false);
         }
-        case PREMIUM: {
+        case PREMIUM -> {
           this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
           return CompletableFuture.completedFuture(true);
         }
-        case PREMIUM_USERNAME: {
-          premium = true;
-          break;
-        }
-        case UNKNOWN: {
-          unknown = true;
-          break;
-        }
-        case RATE_LIMIT: {
-          wasRateLimited = true;
-          break;
-        }
-        default:
-        case ERROR: {
-          wasError = true;
-          break;
-        }
+        case PREMIUM_USERNAME -> premium = true;
+        case UNKNOWN -> unknown = true;
+        case RATE_LIMIT -> wasRateLimited = true;
+        default -> wasError = true;
       }
 
       return this.checkIsPremiumAndCacheStep(queue, nickname, lowercaseNickname, premium, unknown, wasRateLimited, wasError, uuid);
@@ -791,15 +708,9 @@ public class LimboAuth {
   }
 
   public CompletableFuture<Boolean> isPremium(String nickname) {
-    if (this.settings.main.forceOfflineMode) {
-      return CompletableFuture.completedFuture(false);
-    } else {
-      if (this.settings.main.checkPremiumPriorityInternal) {
-        return this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumInternal, this::isPremiumExternal)));
-      } else {
-        return this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumExternal, this::isPremiumInternal)));
-      }
-    }
+    return Settings.IMP.forceOfflineMode ? CompletableFuture.completedFuture(false)
+        : Settings.IMP.checkPremiumPriorityInternal ? this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumInternal, this::isPremiumExternal)))
+        : this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumExternal, this::isPremiumInternal)));
   }
 
   public void incrementBruteforceAttempts(InetAddress address) {
@@ -988,7 +899,8 @@ public class LimboAuth {
   }
 
   public interface PremiumCheckStep {
+
     void checkIsPremiumAndCacheStep(Function<String, CompletableFuture<PremiumResponse>> function, String nickname, String lowercaseNickname,
-                                    boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid);
+        boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid);
   }
 }

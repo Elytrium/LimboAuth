@@ -8,5 +8,7 @@
   <suppress files=".*[\\/]net[\\/]elytrium[\\/].*" checks="MissingJavadocType"/>
   <suppress files=".*[\\/]net[\\/]elytrium[\\/].*" checks="MissingJavadocMethod"/>
 
+  <suppress files=".*[\\/]net[\\/]elytrium[\\/].*[\\/]Settings.java" checks="LineLength"/>
+
   <suppress files=".*[\\/]net[\\/]elytrium[\\/].*[\\/]BuildConfig.java" checks=".*"/>
 </suppressions>
