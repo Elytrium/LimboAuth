@@ -58,6 +58,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class AuthSessionHandler implements LimboSessionHandler {
 
   private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
+  static {
+    ((DefaultCodeVerifier)TOTP_CODE_VERIFIER).setAllowedTimePeriodDiscrepancy(10);
+  }
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
@@ -291,7 +294,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     String[] args = message.split(" ");
-    if (args.length != 2) {
+    if (args.length < 2) {
       this.sendMessage(false);
       return;
     }

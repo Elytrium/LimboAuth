@@ -334,8 +334,7 @@ public class LimboAuth {
     manager.unregister("2fa");
     manager.unregister("limboauth");
 
-    // TODO: implement such that the user can only delete their account if it's not linked to an email
-    //manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
+    manager.register("unregister", new UnregisterCommand(this, this.playerDao, this.cmsUserDao), "unreg");
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
     // TODO: implement maybe?
     //manager.register("premium", new PremiumCommand(this, this.playerDao), "license");

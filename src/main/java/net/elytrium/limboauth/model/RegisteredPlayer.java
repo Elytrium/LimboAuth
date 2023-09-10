@@ -284,7 +284,7 @@ public class RegisteredPlayer {
     fieldConfig.setForeign(true);
     fieldConfig.setForeignAutoRefresh(true);
     // Handle deletion of CMS user
-    fieldConfig.setColumnDefinition("INTEGER CONSTRAINT FK_CMS_LINKED_MEMBER REFERENCES core_members(member_id) ON DELETE SET NULL");
+    fieldConfig.setColumnDefinition("BIGINT(20) UNSIGNED CONSTRAINT FK_CMS_LINKED_MEMBER REFERENCES core_members(member_id) ON DELETE SET NULL");
     fieldConfigs.add(fieldConfig);
 
     DatabaseTableConfig<RegisteredPlayer> tableConfig = new DatabaseTableConfig<>(databaseType, RegisteredPlayer.class, fieldConfigs);

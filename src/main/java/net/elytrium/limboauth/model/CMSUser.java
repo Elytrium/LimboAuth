@@ -5,7 +5,7 @@ import com.google.gson.JsonParser;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "cms_members")
+@DatabaseTable(tableName = "core_members")
 public class CMSUser {
     @DatabaseField(columnName = "member_id", id = true)
     private int memberId;
