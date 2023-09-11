@@ -28,15 +28,30 @@ import dev.samstevens.totp.code.DefaultCodeVerifier;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import io.netty.buffer.ByteBuf;
 import io.whitfin.siphash.SipHasher;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.Authenticator;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
@@ -144,17 +159,13 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (this.playerInfo == null) {
       try {
         String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD, ip);
+        List<CMSUser> alreadyRegistered = this.cmsUserDao.queryForEq("", ip);
         if (alreadyRegistered != null) {
           int sizeOfValidRegistrations = alreadyRegistered.size();
           if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
-              registeredPlayer.setIP("");
-              this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
-            }
+            sizeOfValidRegistrations -= (int) alreadyRegistered.stream()
+                    .filter(user -> user.getJoined() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
+                    .count();
           }
 
           if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
@@ -199,46 +210,26 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void handleRegister(String[] args) {
-    String email = null;
-    String password;
-    if (args[1].contains("@")) {
-      email = args[1];
-      password = args[2];
-    } else {
-        password = args[1];
-        if (!password.equals(args[2])) {
-            this.proxyPlayer.sendMessage(registerDifferentPasswords);
-            return;
-        }
+    String password = args[1];
+    if (!password.equals(args[2])) {
+      this.proxyPlayer.sendMessage(registerDifferentPasswords);
+      return;
     }
     if (!this.checkPasswordLength(password) || !this.checkPasswordStrength(password)) {
       return;
     }
     this.saveTempPassword(password);
     RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer);
-    if (email != null) {
-      try {
-        List<CMSUser> matchingUsers = cmsUserDao.queryForEq("email", email);
-        if (matchingUsers.isEmpty()) {
-          this.proxyPlayer.sendMessage(registerEmailNotFound);
-          return;
-        }
-        CMSUser user = matchingUsers.get(0);
-        boolean isCorrect = HASH_VERIFIER.verify(
-                password.getBytes(StandardCharsets.UTF_8),
-                user.getPasswordHash().getBytes(StandardCharsets.UTF_8)
-        ).verified;
-        if (!isCorrect) {
-          handleIncorrectPassword();
-          return;
-        }
-        registeredPlayer.setCmsLinkedMember(user);
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
+    createCmsUser(registeredPlayer.getNickname(), password);
+    try {
+      List<CMSUser> matchingUsers = cmsUserDao.queryForEq("name", registeredPlayer.getNickname());
+      if (matchingUsers.isEmpty()) {
+        this.proxyPlayer.disconnect(databaseErrorKick);
+        throw new RuntimeException("Couldn't find new CMS user " + registeredPlayer.getNickname());
       }
-    } else {
-      // Save password in player table if there's no linked CMS user
-      registeredPlayer.setPassword(password);
+      registeredPlayer.setCmsLinkedMember(matchingUsers.get(0));
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
 
     try {
@@ -260,6 +251,40 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
     // invoking Player#sendMessage that sends its own message in case if the return value is false.
+  }
+
+  private void createCmsUser(String username, String password) {
+    try {
+      // https://stackoverflow.com/a/35013372
+      URL url = new URL(Settings.IMP.CMS.BASE_API_URL + "/core/members");
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setRequestMethod("POST");
+      connection.setDoOutput(true);
+      Map<String,String> data = new HashMap<>();
+      data.put("name", username);
+      data.put("password", password);
+      StringJoiner sj = new StringJoiner("&");
+      for(Map.Entry<String,String> entry : data.entrySet())
+        sj.add(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8) + "="
+                + URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+      byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
+      int length = out.length;
+      connection.setFixedLengthStreamingMode(length);
+      connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+      byte[] auth = (Settings.IMP.CMS.API_KEY + ":").getBytes();
+      connection.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString(auth));
+      connection.connect();
+      try(OutputStream os = connection.getOutputStream()) {
+        os.write(out);
+      }
+      int responseCode = connection.getResponseCode();
+      if (responseCode != 201) {
+        throw new RuntimeException("CMS API returned " + responseCode + connection.getResponseMessage());
+      }
+      connection.disconnect();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void handleLogin(String[] args) {
@@ -606,6 +631,26 @@ public class AuthSessionHandler implements LimboSessionHandler {
     try {
       List<RegisteredPlayer> playerList = playerDao.queryForEq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
       return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
+    } catch (SQLException e) {
+      throw new SQLRuntimeException(e);
+    }
+  }
+
+  public static RegisteredPlayer fetchOrImport(Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao, String nickname, UUID uuid, InetSocketAddress ip) {
+    RegisteredPlayer existingPlayer = fetchInfo(playerDao, nickname);
+    if (existingPlayer != null) {
+      return existingPlayer;
+    }
+    try {
+      List<CMSUser> users = cmsUserDao.query(cmsUserDao.queryBuilder().where().like("name", nickname).prepare());
+      if (users.isEmpty()) {
+        return null;
+      }
+      CMSUser user = users.get(0);
+      RegisteredPlayer player = new RegisteredPlayer(nickname, uuid, ip);
+      player.setCmsLinkedMember(user);
+      playerDao.create(player);
+      return player;
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
     }

@@ -103,7 +103,7 @@ public class ChangePasswordCommand implements SimpleCommand {
 
       UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
       updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, username.toLowerCase());
-      updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
+      //updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
       updateBuilder.update();
 
       this.plugin.removePlayerFromCache(username);

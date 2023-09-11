@@ -39,39 +39,13 @@ public class RegisteredPlayer {
 
   private String lowercaseNickname;
 
-  private String hash = "";
-
-  private String ip;
-
-  private String totpToken = "";
-
-  private Long regDate = System.currentTimeMillis();
-
   private String uuid = "";
 
   private String premiumUuid = "";
 
-  private String loginIp;
-
-  private Long loginDate = System.currentTimeMillis();
-
   private Long tokenIssuedAt = System.currentTimeMillis();
 
   private CMSUser cmsLinkedMember;
-
-  @Deprecated
-  public RegisteredPlayer(String nickname, String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
-    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    this.hash = hash;
-    this.ip = ip;
-    // Use setter for deserialization
-    this.setTotpToken(totpToken);
-    this.regDate = regDate;
-    this.uuid = uuid;
-    this.premiumUuid = premiumUuid;
-    this.loginIp = loginIp;
-    this.loginDate = loginDate;
-  }
 
   public RegisteredPlayer(Player player) {
     this(player.getUsername(), player.getUniqueId(), player.getRemoteAddress());
@@ -84,8 +58,6 @@ public class RegisteredPlayer {
   public RegisteredPlayer(String nickname, String uuid, String ip) {
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     this.uuid = uuid;
-    this.ip = ip;
-    this.loginIp = ip;
   }
 
   public RegisteredPlayer() {
@@ -118,54 +90,22 @@ public class RegisteredPlayer {
     if (cmsLinkedMember != null) {
       cmsLinkedMember.setPasswordHash(hash);
     }
-    this.hash = hash;
+    //this.hash = hash;
     this.tokenIssuedAt = System.currentTimeMillis();
 
     return this;
   }
 
   public String getHash() {
-    if (cmsLinkedMember != null) {
-      return cmsLinkedMember.getPasswordHash();
-    }
-    return this.hash == null ? "" : this.hash;
-  }
-
-  public RegisteredPlayer setIP(String ip) {
-    this.ip = ip;
-
-    return this;
-  }
-
-  public String getIP() {
-    return this.ip == null ? "" : this.ip;
-  }
-
-  public RegisteredPlayer setTotpToken(String totpToken) {
-    if (cmsLinkedMember != null) {
-      cmsLinkedMember.setTotpToken(totpToken);
-    }
-
-    this.totpToken = totpToken;
-
-    return this;
+    return cmsLinkedMember.getPasswordHash();
   }
 
   public String getTotpToken() {
-    if (cmsLinkedMember != null) {
-      return cmsLinkedMember.getTotpToken();
-    }
-    return this.totpToken == null ? "" : this.totpToken;
-  }
-
-  public RegisteredPlayer setRegDate(Long regDate) {
-    this.regDate = regDate;
-
-    return this;
+    return cmsLinkedMember.getTotpToken();
   }
 
   public long getRegDate() {
-    return this.regDate == null ? Long.MIN_VALUE : this.regDate;
+    return cmsLinkedMember.getJoined();
   }
 
   public RegisteredPlayer setUuid(String uuid) {
@@ -192,26 +132,6 @@ public class RegisteredPlayer {
 
   public String getPremiumUuid() {
     return this.premiumUuid == null ? "" : this.premiumUuid;
-  }
-
-  public String getLoginIp() {
-    return this.loginIp == null ? "" : this.loginIp;
-  }
-
-  public RegisteredPlayer setLoginIp(String loginIp) {
-    this.loginIp = loginIp;
-
-    return this;
-  }
-
-  public long getLoginDate() {
-    return this.loginDate == null ? Long.MIN_VALUE : this.loginDate;
-  }
-
-  public RegisteredPlayer setLoginDate(Long loginDate) {
-    this.loginDate = loginDate;
-
-    return this;
   }
 
   public long getTokenIssuedAt() {
@@ -243,36 +163,12 @@ public class RegisteredPlayer {
     fieldConfigs.add(fieldConfig);
 
     // Reuse same variable
-    fieldConfig = new DatabaseFieldConfig("hash");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD);
-    fieldConfigs.add(fieldConfig);
-
-    fieldConfig = new DatabaseFieldConfig("ip");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.IP_FIELD);
-    fieldConfigs.add(fieldConfig);
-
-    fieldConfig = new DatabaseFieldConfig("totpToken");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.TOTP_TOKEN_FIELD);
-    fieldConfigs.add(fieldConfig);
-
-    fieldConfig = new DatabaseFieldConfig("regDate");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.REG_DATE_FIELD);
-    fieldConfigs.add(fieldConfig);
-
     fieldConfig = new DatabaseFieldConfig("uuid");
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.UUID_FIELD);
     fieldConfigs.add(fieldConfig);
 
     fieldConfig = new DatabaseFieldConfig("premiumUuid");
     fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD);
-    fieldConfigs.add(fieldConfig);
-
-    fieldConfig = new DatabaseFieldConfig("loginIp");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD);
-    fieldConfigs.add(fieldConfig);
-
-    fieldConfig = new DatabaseFieldConfig("loginDate");
-    fieldConfig.setColumnName(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD);
     fieldConfigs.add(fieldConfig);
 
     fieldConfig = new DatabaseFieldConfig("tokenIssuedAt");
@@ -284,7 +180,7 @@ public class RegisteredPlayer {
     fieldConfig.setForeign(true);
     fieldConfig.setForeignAutoRefresh(true);
     // Handle deletion of CMS user
-    fieldConfig.setColumnDefinition("BIGINT(20) UNSIGNED CONSTRAINT FK_CMS_LINKED_MEMBER REFERENCES core_members(member_id) ON DELETE SET NULL");
+    fieldConfig.setColumnDefinition("BIGINT(20) UNSIGNED CONSTRAINT FK_CMS_LINKED_MEMBER REFERENCES core_members(member_id) ON DELETE CASCADE");
     fieldConfigs.add(fieldConfig);
 
     DatabaseTableConfig<RegisteredPlayer> tableConfig = new DatabaseTableConfig<>(databaseType, RegisteredPlayer.class, fieldConfigs);

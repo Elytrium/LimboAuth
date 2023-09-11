@@ -334,11 +334,11 @@ public class LimboAuth {
     manager.unregister("2fa");
     manager.unregister("limboauth");
 
-    manager.register("unregister", new UnregisterCommand(this, this.playerDao, this.cmsUserDao), "unreg");
-    manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
+    //manager.register("unregister", new UnregisterCommand(this, this.playerDao, this.cmsUserDao), "unreg");
+    //manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
     // TODO: implement maybe?
     //manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
-    manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
+    //manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     // TODO: implement
     //manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
     //manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
@@ -383,7 +383,7 @@ public class LimboAuth {
 
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
-    eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
+    eventManager.register(this, new AuthListener(this, this.playerDao, this.cmsUserDao, this.floodgateApi));
 
     if (this.purgeCacheTask != null) {
       this.purgeCacheTask.cancel();
@@ -538,7 +538,7 @@ public class LimboAuth {
       return;
     }
 
-    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchOrImport(this.playerDao, this.cmsUserDao, nickname, player.getUniqueId(), player.getRemoteAddress());
 
     boolean onlineMode = player.isOnlineMode();
     TaskEvent.Result result = TaskEvent.Result.NORMAL;
@@ -642,8 +642,8 @@ public class LimboAuth {
     String lowercaseNickname = player.getUsername().toLowerCase(Locale.ROOT);
     UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
     updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
-    updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
-    updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD, System.currentTimeMillis());
+    //updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
+    //updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.LOGIN_DATE_FIELD, System.currentTimeMillis());
     updateBuilder.update();
 
     if (Settings.IMP.MAIN.MOD.ENABLED) {
@@ -714,7 +714,8 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumInternal(String nickname) {
-    try {
+    return new PremiumResponse(PremiumState.CRACKED);
+    /*try {
       QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
       crackedCountQuery.where()
           .eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname)
@@ -741,11 +742,12 @@ public class LimboAuth {
     } catch (SQLException e) {
       LOGGER.error("Unable to check if account is premium.", e);
       return new PremiumResponse(PremiumState.ERROR);
-    }
+    }*/
   }
 
   public boolean isPremiumUuid(UUID uuid) {
-    try {
+    return false;
+    /*try {
       QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
       premiumCountQuery.where()
           .eq(Settings.IMP.DATABASE.COLUMN_NAMES.PREMIUM_UUID_FIELD, uuid.toString())
@@ -757,7 +759,7 @@ public class LimboAuth {
     } catch (SQLException e) {
       LOGGER.error("Unable to check if account is premium.", e);
       return false;
-    }
+    }*/
   }
 
   @SafeVarargs

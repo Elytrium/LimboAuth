@@ -32,6 +32,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -41,6 +42,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   private final LimboAuth plugin;
   private final ProxyServer server;
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final Dao<CMSUser, String> cmsUserDao;
 
   private final String message;
   private final String successful;
@@ -48,10 +50,11 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   private final String notRegistered;
   private final Component usage;
 
-  public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao) {
     this.plugin = plugin;
     this.server = server;
     this.playerDao = playerDao;
+    this.cmsUserDao = cmsUserDao;
 
     this.message = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_MESSAGE;
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
@@ -91,7 +94,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
       UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
       updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
-      updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
+      //updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, newHash);
       updateBuilder.update();
 
       this.plugin.removePlayerFromCache(nickname);

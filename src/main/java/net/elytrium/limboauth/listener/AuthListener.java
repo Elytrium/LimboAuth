@@ -44,6 +44,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.CMSUser;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 
@@ -55,11 +56,13 @@ public class AuthListener {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
+  private final Dao<CMSUser, String> cmsUserDao;
   private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, Dao<CMSUser, String> cmsUserDao, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
     this.playerDao = playerDao;
+    this.cmsUserDao = cmsUserDao;
     this.floodgateApi = floodgateApi;
   }
 
@@ -148,14 +151,14 @@ public class AuthListener {
         }
       }
     } else if (event.isOnlineMode()) {
-      try {
+      /*try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(Settings.IMP.DATABASE.COLUMN_NAMES.LOWERCASE_NICKNAME_FIELD, event.getUsername().toLowerCase(Locale.ROOT));
         updateBuilder.updateColumnValue(Settings.IMP.DATABASE.COLUMN_NAMES.HASH_FIELD, "");
         updateBuilder.update();
       } catch (SQLException e) {
         throw new SQLRuntimeException(e);
-      }
+      }*/
     }
 
     if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {

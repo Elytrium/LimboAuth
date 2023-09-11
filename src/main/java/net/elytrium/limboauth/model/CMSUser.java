@@ -13,6 +13,8 @@ public class CMSUser {
     private String username;
     @DatabaseField(columnName = "email")
     private String email;
+    @DatabaseField(columnName = "joined")
+    private int joined;
     @DatabaseField(columnName = "ip_address")
     private String ipAddress;
     @DatabaseField(columnName = "members_pass_hash")
@@ -35,6 +37,10 @@ public class CMSUser {
 
     public String getEmail() {
         return email;
+    }
+
+    public long getJoined() {
+        return (long)joined * 1000L;
     }
 
     public String getIpAddress() {

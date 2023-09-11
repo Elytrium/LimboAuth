@@ -396,7 +396,7 @@ public class Settings extends YamlConfig {
       public String LOGIN_SUCCESSFUL_SUBTITLE = "&aSuccessfully logged in!";
 
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
-      public String REGISTER = "{PRFX} Please, register using &6/register <email> <password> &rOR &6/register <password> <repeat password>";
+      public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
       public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
@@ -405,7 +405,7 @@ public class Settings extends YamlConfig {
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <email> <password> &rOR &6/register <password> <repeat password>";
+      public String REGISTER_SUBTITLE = "&aPlease, register using &6/register <password> <repeat password>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_SUCCESSFUL_TITLE = "{PRFX}";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
@@ -466,6 +466,25 @@ public class Settings extends YamlConfig {
   }
 
   @Create
+  public CMS CMS;
+
+  @Comment("CMS settings")
+  public static class CMS {
+    @Comment({
+            "Invision API key. You can create one of these in the admin panel",
+            "under System -> API -> REST API Keys. Access to POST /core/members is required."
+    })
+    public String API_KEY = "0123456789abcdef0123456789abcdef";
+
+    @Comment({
+            "Base API URL. You can find this in System -> API -> REST API Reference",
+            "by clicking on 'GET /core/hello' and looking at the right pane.",
+            "The base URL is the part before '/core/hello'."
+    })
+    public String BASE_API_URL = "https://example.com/api/index.php?";
+  }
+
+  @Create
   public DATABASE DATABASE;
 
   @Comment("Database settings")
@@ -488,16 +507,10 @@ public class Settings extends YamlConfig {
     @Comment("Column name settings")
     public static class COLUMN_NAMES {
       public String LOWERCASE_NICKNAME_FIELD = "name";
-      public String HASH_FIELD = "members_pass_hash";
-      public String IP_FIELD = "ip_address";
-      public String LOGIN_IP_FIELD = "login_ip_address";
-      public String TOTP_TOKEN_FIELD = "mfa_details";
-      public String REG_DATE_FIELD = "MINECRAFT_REGISTER_DATE";
-      public String LOGIN_DATE_FIELD = "LOGINDATE";
-      public String UUID_FIELD = "UUID";
-      public String PREMIUM_UUID_FIELD = "PREMIUMUUID";
-      public String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
-      public String CMS_LINKED_MEMBER = "CMS_LINKED_MEMBER";
+      public String UUID_FIELD = "uuid";
+      public String PREMIUM_UUID_FIELD = "premiumuuid";
+      public String TOKEN_ISSUED_AT_FIELD = "issuedtime";
+      public String CMS_LINKED_MEMBER = "cms_linked_member";
     }
   }
 
