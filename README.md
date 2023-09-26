@@ -12,7 +12,7 @@ Auth System built in virtual server (Limbo). \
 [Описание и обсуждение на русском языке (spigotmc.ru)](https://spigotmc.ru/resources/limboapi-limboauth-limbofilter-virtualnye-servera-dlja-velocity.715/) \
 [Описание и обсуждение на русском языке (rubukkit.org)](http://rubukkit.org/threads/limboapi-limboauth-limbofilter-virtualnye-servera-dlja-velocity.177904/)
 
-Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216)
+Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216), [``ely.su on Mineserv``](https://mineserv.top/elytrium)
 
 ## See also
 
