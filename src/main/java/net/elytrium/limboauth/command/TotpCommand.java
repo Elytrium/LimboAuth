@@ -39,7 +39,7 @@ import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 
-public class TotpCommand implements SimpleCommand {
+public class TotpCommand extends RatelimitedCommand {
 
   private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
   private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
@@ -88,10 +88,7 @@ public class TotpCommand implements SimpleCommand {
 
   // TODO: Rewrite.
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       if (args.length == 0) {
         source.sendMessage(this.usage);

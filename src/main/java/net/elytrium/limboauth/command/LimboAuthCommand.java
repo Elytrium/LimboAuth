@@ -29,7 +29,7 @@ import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-public class LimboAuthCommand implements SimpleCommand {
+public class LimboAuthCommand extends RatelimitedCommand {
 
   private static final List<Component> HELP_MESSAGE = List.of(
       Component.text("This server is using LimboAuth and LimboAPI.", NamedTextColor.YELLOW),
@@ -70,10 +70,7 @@ public class LimboAuthCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     int argsAmount = args.length;
     if (argsAmount > 0) {
       try {

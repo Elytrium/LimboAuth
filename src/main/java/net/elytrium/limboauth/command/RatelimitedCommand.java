@@ -20,39 +20,30 @@ package net.elytrium.limboauth.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
 
-public class DestroySessionCommand extends RatelimitedCommand {
+public abstract class RatelimitedCommand implements SimpleCommand {
 
-  private final LimboAuth plugin;
+  private final Component ratelimited;
 
-  private final Component successful;
-  private final Component notPlayer;
-
-  public DestroySessionCommand(LimboAuth plugin) {
-    this.plugin = plugin;
-
-    Serializer serializer = LimboAuth.getSerializer();
-    this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DESTROY_SESSION_SUCCESSFUL);
-    this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+  public RatelimitedCommand() {
+    this.ratelimited = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RATELIMITED);
   }
 
   @Override
-  public void execute(CommandSource source, String[] args) {
+  public final void execute(SimpleCommand.Invocation invocation) {
+    CommandSource source = invocation.source();
     if (source instanceof Player) {
-      this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful);
-    } else {
-      source.sendMessage(this.notPlayer);
+      if (!LimboAuth.RATELIMITER.attempt(((Player) source).getRemoteAddress().getAddress())) {
+        source.sendMessage(this.ratelimited);
+        return;
+      }
     }
+
+    this.execute(source, invocation.arguments());
   }
 
-  @Override
-  public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.DESTROY_SESSION
-        .hasPermission(invocation.source(), "limboauth.commands.destroysession");
-  }
+  protected abstract void execute(CommandSource source, String[] args);
 }

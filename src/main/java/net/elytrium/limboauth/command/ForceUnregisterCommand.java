@@ -34,7 +34,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class ForceUnregisterCommand implements SimpleCommand {
+public class ForceUnregisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final ProxyServer server;
@@ -63,10 +63,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (args.length == 1) {
       String playerNick = args[0];
 

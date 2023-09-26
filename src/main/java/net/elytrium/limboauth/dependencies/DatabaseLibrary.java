@@ -17,7 +17,8 @@
 
 package net.elytrium.limboauth.dependencies;
 
-import com.j256.ormlite.jdbc.JdbcSingleConnectionSource;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.jdbc.db.DatabaseTypeUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -128,7 +129,9 @@ public enum DatabaseLibrary {
     addPath.setAccessible(true);
     addPath.invoke(currentClassLoader, Path.of(baseLibraryURL.toURI()));
 
-    return new JdbcSingleConnectionSource(jdbc, this.connect(currentClassLoader, dir, jdbc, user, password));
+    this.connect(currentClassLoader, dir, jdbc, user, password).close(); // Load database driver (Will be rewritten soon)
+    boolean h2 = this.baseLibrary == BaseLibrary.H2_V1 || this.baseLibrary == BaseLibrary.H2_V2;
+    return new JdbcPooledConnectionSource(jdbc, h2 ? null : user, h2 ? null : password, DatabaseTypeUtils.createDatabaseType(jdbc));
   }
 
   private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register)
