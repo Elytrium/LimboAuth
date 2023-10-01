@@ -363,6 +363,7 @@ public class Settings extends YamlConfig {
       public String PLAYER_USAGE = "{PRFX} Usage: &6/limboauth player <username>";
       public String PLAYER_NOT_FOUND = "{PRFX} &cPlayer {0} not found";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
+      public String RATELIMITED = "{PRFX} &cPlease wait before next usage!";
       public String DATABASE_ERROR_KICK = "{PRFX} &cA database error has occurred!";
 
       public String NOT_PLAYER = "{PRFX} &cСonsole is not allowed to execute this command!";

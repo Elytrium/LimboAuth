@@ -32,7 +32,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class ChangePasswordCommand implements SimpleCommand {
+public class ChangePasswordCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -60,10 +60,7 @@ public class ChangePasswordCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       String username = ((Player) source).getUsername();
       RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);

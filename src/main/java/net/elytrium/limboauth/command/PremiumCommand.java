@@ -31,7 +31,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class PremiumCommand implements SimpleCommand {
+public class PremiumCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -63,10 +63,7 @@ public class PremiumCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {

@@ -59,6 +59,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
+  private static Component ratelimited;
   private static BossBar.Color bossbarColor;
   private static BossBar.Overlay bossbarOverlay;
   private static Component ipLimitKick;
@@ -200,6 +201,11 @@ public class AuthSessionHandler implements LimboSessionHandler {
   @Override
   public void onChat(String message) {
     if (this.loginOnlyByMod) {
+      return;
+    }
+
+    if (!LimboAuth.RATELIMITER.attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
+      this.proxyPlayer.sendMessage(AuthSessionHandler.ratelimited);
       return;
     }
 
@@ -446,6 +452,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static void reload() {
     Serializer serializer = LimboAuth.getSerializer();
+    AuthSessionHandler.ratelimited = serializer.deserialize(Settings.IMP.MAIN.STRINGS.RATELIMITED);
     bossbarColor = Settings.IMP.MAIN.BOSSBAR_COLOR;
     bossbarOverlay = Settings.IMP.MAIN.BOSSBAR_OVERLAY;
     ipLimitKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.IP_LIMIT_KICK);
