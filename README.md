@@ -28,7 +28,7 @@ Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216)
 - Ability to migrate from [AuthMe](https://www.spigotmc.org/resources/authmereloaded.6269/)-alike plugins;
 - Ability to block weak passwords;
 - [TOTP](https://en.wikipedia.org/wiki/Time-based_one-time_password) [2FA](https://en.wikipedia.org/wiki/Help:Two-factor_authentication) support;
-- Ability to set [UUID](https://minecraft.fandom.com/wiki/Universally_unique_identifier) from [database](https://en.wikipedia.org/wiki/Database);
+- Ability to set [UUID](https://minecraft.wiki/w/Universally_unique_identifier) from [database](https://en.wikipedia.org/wiki/Database);
 - Highly customisable config - you can change all the messages the plugin sends, or just disable them;
 - [MCEdit](https://www.mcedit.net/about.html) schematic world loading;
 - And more...
