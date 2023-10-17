@@ -29,21 +29,12 @@ import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 import net.elytrium.commons.kyori.serialization.Serializer;
@@ -53,7 +44,8 @@ import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
-import net.elytrium.limboapi.api.file.WorldFile;
+import net.elytrium.limboauth.auth.AuthManager;
+import net.elytrium.limboauth.cache.CacheManager;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
@@ -74,10 +66,6 @@ import net.kyori.adventure.text.serializer.ComponentSerializer;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
-import org.jooq.DSLContext;
-import org.jooq.Field;
-import org.jooq.Table;
-import org.jooq.impl.DSL;
 import org.slf4j.Logger;
 
 public class LimboAuth { // split one bing class into small ones (главный гласс должен служить бутстраппером для остальных систем, а не главным обработчиком этих систем)
@@ -86,13 +74,7 @@ public class LimboAuth { // split one bing class into small ones (главный
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
 
-  // TODO поменять все карты, сэты и листы с очередями на fastutil
-  private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
-  private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
-  private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
-  private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
-  private final Set<String> unsafePasswords = new HashSet<>();
-  private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
+  private final Set<String> unsafePasswords = new HashSet<>(); // TODO куда то в другое место + fastutil
 
   private final Logger logger;
   private final Path dataDirectory;
@@ -106,11 +88,10 @@ public class LimboAuth { // split one bing class into small ones (главный
   private Database database;
   private Serializer serializer;
 
-  private ScheduledTask purgeCacheTask;
-  private ScheduledTask purgePremiumCacheTask;
-  private ScheduledTask purgeBruteforceCacheTask;
-
   private Limbo authServer;
+  private CacheManager cacheManager;
+  private HybridAuthManager hybridAuthManager;
+  private AuthManager authManager;
 
   LimboAuth(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
     this.logger = logger;
@@ -268,10 +249,6 @@ public class LimboAuth { // split one bing class into small ones (главный
     return this.server;
   }
 
-  public DSLContext getDslContext() {
-    return this.dslContext;
-  }
-
   public Serializer getSerializer() {
     return this.serializer;
   }
@@ -280,136 +257,39 @@ public class LimboAuth { // split one bing class into small ones (главный
     return this.authServer;
   }
 
-  public Pattern getNicknameValidationPattern() {
-    return this.nicknameValidationPattern;
-  }
-
   public Logger getLogger() {
     return this.logger;
   }
 
-  public <T> T handleSqlError(Throwable t) {
-    this.logger.error("An unexpected internal error was caught during the database SQL operations.", t);
-    return null;
+  public Path getDataDirectory() {
+    return this.dataDirectory;
   }
 
-  private static class CachedUser {
-
-    private final long checkTime;
-
-    public CachedUser(long checkTime) {
-      this.checkTime = checkTime;
-    }
-
-    public long getCheckTime() {
-      return this.checkTime;
-    }
+  public ExecutorService getExecutor() {
+    return this.executor;
   }
 
-  private static class CachedSessionUser extends CachedUser {
-
-    private final InetAddress inetAddress;
-    private final String username;
-
-    public CachedSessionUser(long checkTime, InetAddress inetAddress, String username) {
-      super(checkTime);
-
-      this.inetAddress = inetAddress;
-      this.username = username;
-    }
-
-    public InetAddress getInetAddress() {
-      return this.inetAddress;
-    }
-
-    public String getUsername() {
-      return this.username;
-    }
+  public CacheManager getCacheManager() {
+    return this.cacheManager;
   }
 
-  private static class CachedPremiumUser extends CachedUser {
-
-    private final boolean premium;
-
-    public CachedPremiumUser(long checkTime, boolean premium) {
-      super(checkTime);
-
-      this.premium = premium;
-    }
-
-    public boolean isPremium() {
-      return this.premium;
-    }
+  public HybridAuthManager getHybridAuthManager() {
+    return this.hybridAuthManager;
   }
 
-  private static class CachedBruteforceUser extends CachedUser {
-
-    private int attempts;
-
-    public CachedBruteforceUser(long checkTime) {
-      super(checkTime);
-    }
-
-    public void incrementAttempts() {
-      this.attempts++;
-    }
-
-    public int getAttempts() {
-      return this.attempts;
-    }
+  public AuthManager getAuthManager() {
+    return this.authManager;
   }
 
-  public static class PremiumResponse {
-
-    public static final PremiumResponse CRACKED = new PremiumResponse(PremiumState.CRACKED);
-    public static final PremiumResponse PREMIUM = new PremiumResponse(PremiumState.PREMIUM);
-    public static final PremiumResponse UNKNOWN = new PremiumResponse(PremiumState.UNKNOWN);
-    public static final PremiumResponse RATE_LIMIT = new PremiumResponse(PremiumState.RATE_LIMIT);
-    public static final PremiumResponse ERROR = new PremiumResponse(PremiumState.ERROR);
-
-    private final PremiumState state;
-    private final UUID uuid;
-
-    public PremiumResponse(PremiumState state) {
-      this.state = state;
-      this.uuid = null;
-    }
-
-    public PremiumResponse(PremiumState state, UUID uuid) {
-      this.state = state;
-      this.uuid = uuid;
-    }
-
-    public PremiumResponse(PremiumState state, String uuid) {
-      this.state = state;
-      if (uuid.contains("-")) {
-        this.uuid = UUID.fromString(uuid);
-      } else {
-        this.uuid = new UUID(Long.parseUnsignedLong(uuid.substring(0, 16), 16), Long.parseUnsignedLong(uuid.substring(16), 16));
-      }
-    }
-
-    public PremiumState getState() {
-      return this.state;
-    }
-
-    public UUID getUuid() {
-      return this.uuid;
-    }
+  public LimboFactory getLimboFactory() {
+    return this.limboFactory;
   }
 
-  public enum PremiumState {
-    PREMIUM,
-    PREMIUM_USERNAME,
-    CRACKED,
-    UNKNOWN,
-    RATE_LIMIT,
-    ERROR
+  public FloodgateApiHolder getFloodgateApi() {
+    return this.floodgateApi;
   }
 
-  public interface PremiumCheckStep {
-
-    void checkIsPremiumAndCacheStep(Function<String, CompletableFuture<PremiumResponse>> function, String nickname, String lowercaseNickname,
-        boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid);
+  public Database getDatabase() {
+    return this.database;
   }
 }

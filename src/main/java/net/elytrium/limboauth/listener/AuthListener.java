@@ -60,7 +60,7 @@ public class AuthListener {
   @Subscribe
   public EventTask onPreLoginEvent(PreLoginEvent event) {
     if (!event.getResult().isForceOfflineMode()) {
-      return EventTask.resumeWhenComplete(this.plugin.isPremium(event.getUsername()).thenAccept(isPremium -> {
+      return EventTask.resumeWhenComplete(this.plugin.getHybridAuthManager().isPremium(event.getUsername()).thenAccept(isPremium -> {
         if (isPremium) {
           event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
         } else {
@@ -68,7 +68,7 @@ public class AuthListener {
         }
       }));
     } else {
-      this.plugin.saveForceOfflineMode(event.getUsername());
+      this.plugin.getCacheManager().saveForceOfflineMode(event.getUsername());
       return null;
     }
   }
@@ -91,13 +91,13 @@ public class AuthListener {
 
   @Subscribe
   public void onProxyDisconnect(DisconnectEvent event) {
-    this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
+    this.plugin.getCacheManager().unsetForcedPreviously(event.getPlayer().getUsername());
   }
 
   @Subscribe
   public void onPostLogin(PostLoginEvent event) {
     UUID uuid = event.getPlayer().getUniqueId();
-    Runnable postLoginTask = this.plugin.getPostLoginTasks().remove(uuid);
+    Runnable postLoginTask = this.plugin.getCacheManager().popPostLoginTask(uuid);
     if (postLoginTask != null) {
       // We need to delay for player's client to finish switching the server, it takes a little time.
       this.plugin.getServer().getScheduler()
@@ -109,8 +109,9 @@ public class AuthListener {
 
   @Subscribe
   public void onLoginLimboRegister(LoginLimboRegisterEvent event) {
-    if (this.plugin.needAuth(event.getPlayer())) {
-      event.addOnJoinCallback(() -> this.plugin.authPlayer(event.getPlayer()));
+    AuthManager authManager = this.plugin.getAuthManager();
+    if (authManager.needAuth(event.getPlayer())) {
+      event.addOnJoinCallback(() -> authManager.authPlayer(event.getPlayer()));
     }
   }
 

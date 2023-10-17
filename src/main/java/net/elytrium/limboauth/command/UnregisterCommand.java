@@ -54,11 +54,11 @@ public class UnregisterCommand implements SimpleCommand {
                     .executeAsync()
                     .exceptionally((e) -> {
                       source.sendMessage(Settings.MESSAGES.errorOccurred);
-                      this.plugin.handleSqlError(e);
+                      this.plugin.getDatabase().handleSqlError(e);
                       return null;
                     });
-                this.plugin.removePlayerFromCache(lowercaseNickname);
-                ((Player) source).disconnect(Settings.MESSAGES.unregisterSuccessful);
+                this.plugin.getCacheManager().removePlayerFromCache(lowercaseNickname);
+                player.disconnect(Settings.MESSAGES.unregisterSuccessful);
               },
               () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
               (e) -> source.sendMessage(Settings.MESSAGES.errorOccurred)

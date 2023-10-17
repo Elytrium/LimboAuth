@@ -30,11 +30,9 @@ import net.elytrium.limboauth.data.PlayerData;
 public class ChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
 
-  public ChangePasswordCommand(LimboAuth plugin, DSLContext dslContext) {
+  public ChangePasswordCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
   }
 
   @Override

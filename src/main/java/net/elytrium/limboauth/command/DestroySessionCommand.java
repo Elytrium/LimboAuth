@@ -22,6 +22,7 @@ import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.cache.CacheManager;
 
 public class DestroySessionCommand implements SimpleCommand {
 
