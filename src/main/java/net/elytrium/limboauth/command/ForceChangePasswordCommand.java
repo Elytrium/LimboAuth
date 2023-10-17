@@ -25,27 +25,17 @@ import java.util.Locale;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.event.ChangePasswordEvent;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.events.ChangePasswordEvent;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.serializer.placeholders.Placeholders;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final ProxyServer server;
-  private final DSLContext dslContext;
 
-  public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, DSLContext dslContext) {
+  public ForceChangePasswordCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.server = server;
-    this.dslContext = dslContext;
-  }
-
-  @Override
-  public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
   }
 
   @Override
@@ -58,44 +48,40 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
-      this.dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
-          .from(RegisteredPlayer.Table.INSTANCE)
-          .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
-          .fetchAsync()
-          .thenAccept(hashResult -> {
-            if (hashResult.isEmpty()) {
-              source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotRegistered, nickname)));
-              return;
-            }
+      DSLContext context = this.plugin.getDatabase().getContext();
+      context.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(hashResult -> {
+        if (hashResult.isEmpty()) {
+          source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotRegistered, nickname)));
+          return;
+        }
 
-            final String oldHash = hashResult.get(0).value1();
-            final String newHash = RegisteredPlayer.genHash(newPassword);
+        final String oldHash = hashResult.get(0).value1();
+        final String newHash = PlayerData.genHash(newPassword);
 
-            this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
-                .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
-                .executeAsync();
+        context.update(PlayerData.Table.INSTANCE).set(PlayerData.Table.HASH_FIELD, newHash).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync();
 
-            this.plugin.removePlayerFromCache(nickname);
-            this.server.getPlayer(nickname)
-                .ifPresent(player -> player.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword))));
-
-            this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(nickname, null, oldHash, newPassword, newHash));
-
-            source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordSuccessful, nickname)));
-          })
-          .exceptionally(e -> {
-            this.plugin.handleSqlError(e);
-            source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotSuccessful, nickname)));
-            return null;
-          });
+        this.plugin.removePlayerFromCache(nickname);
+        ProxyServer server = this.plugin.getServer();
+        server.getPlayer(nickname).ifPresent(player -> player.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword))));
+        server.getEventManager().fireAndForget(new ChangePasswordEvent(nickname, null, oldHash, newPassword, newHash));
+        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordSuccessful, nickname)));
+      }).exceptionally(e -> {
+        this.plugin.getDatabase().handleSqlError(e);
+        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotSuccessful, nickname)));
+        return null;
+      });
     } else {
       source.sendMessage(Settings.MESSAGES.forceChangePasswordUsage);
     }
   }
 
   @Override
+  public List<String> suggest(SimpleCommand.Invocation invocation) {
+    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
+  }
+
+  @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.forceChangePassword.hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
+    return Settings.HEAD.commandPermissionState.forceChangePassword.hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
   }
 }

@@ -23,19 +23,15 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.event.AuthUnregisterEvent;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
+import net.elytrium.limboauth.events.AuthUnregisterEvent;
+import net.elytrium.limboauth.data.PlayerData;
 
 public class UnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
 
-  public UnregisterCommand(LimboAuth plugin, DSLContext dslContext) {
+  public UnregisterCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
   }
 
   @Override
@@ -43,18 +39,18 @@ public class UnregisterCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (source instanceof Player) {
+    if (source instanceof Player player) {
       if (args.length == 2) {
-        if (Settings.IMP.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String username = ((Player) source).getUsername();
+        if (Settings.HEAD.confirmKeyword.equalsIgnoreCase(args[1])) {
+          String username = player.getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+          PlayerData.checkPassword(lowercaseNickname, args[0],
               () -> source.sendMessage(Settings.MESSAGES.notRegistered),
               () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
               h -> {
                 this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-                this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
-                    .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+                this.plugin.getDatabase().getContext().deleteFrom(PlayerData.Table.INSTANCE)
+                    .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
                     .executeAsync()
                     .exceptionally((e) -> {
                       source.sendMessage(Settings.MESSAGES.errorOccurred);
@@ -79,7 +75,6 @@ public class UnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.unregister
-        .hasPermission(invocation.source(), "limboauth.commands.unregister");
+    return Settings.HEAD.commandPermissionState.unregister.hasPermission(invocation.source(), "limboauth.commands.unregister");
   }
 }

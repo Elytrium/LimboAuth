@@ -15,8 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.event;
+package net.elytrium.limboauth.events;
 
-public class AuthPluginReloadEvent {
+import com.velocitypowered.api.proxy.Player;
+import java.util.function.Consumer;
 
+public class PreRegisterEvent extends PreEvent {
+
+  public PreRegisterEvent(Consumer<TaskEvent> onComplete, Result result, Player player) {
+    super(onComplete, result, player);
+  }
 }

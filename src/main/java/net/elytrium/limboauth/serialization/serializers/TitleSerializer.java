@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.utils;
+package net.elytrium.limboauth.serialization.serializers;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Map;
 import java.util.Objects;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.utils.Maps;
 import net.elytrium.serializer.custom.ClassSerializer;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
@@ -35,16 +35,16 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
       return null;
     }
 
-    Map<String, Object> value = new Object2ObjectLinkedOpenHashMap<>(3);
-    value.put("title", from.title());
-    value.put("subtitle", from.subtitle());
     Title.Times times = Objects.requireNonNullElse(from.times(), Title.DEFAULT_TIMES);
-    Map<String, Object> timesValue = new Object2ObjectLinkedOpenHashMap<>(3);
-    timesValue.put("fade-in", times.fadeIn().toMillis() / Ticks.SINGLE_TICK_DURATION_MS);
-    timesValue.put("stay", times.stay().toMillis() / Ticks.SINGLE_TICK_DURATION_MS);
-    timesValue.put("fade-out", times.fadeOut().toMillis() / Ticks.SINGLE_TICK_DURATION_MS);
-    value.put("times", timesValue);
-    return value;
+    return Maps.o2o(
+        "title", from.title(),
+        "subtitle", from.subtitle(),
+        "times", Maps.o2o(
+            "fade-in", times.fadeIn().toMillis() / Ticks.SINGLE_TICK_DURATION_MS,
+            "stay", times.stay().toMillis() / Ticks.SINGLE_TICK_DURATION_MS,
+            "fade-out", times.fadeOut().toMillis() / Ticks.SINGLE_TICK_DURATION_MS
+        )
+    );
   }
 
   @Override
@@ -56,15 +56,13 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
 
     var times = (Map<String, Object>) from.get("times");
     return Title.title(
-        Settings.IMP.serializer.getSerializer().deserialize((String) from.get("title")),
-        Settings.IMP.serializer.getSerializer().deserialize((String) from.get("subtitle")),
-        times == null
-            ? Title.DEFAULT_TIMES
-            : Title.Times.times(
-                Ticks.duration(((Number) times.get("fade-in")).longValue()),
-                Ticks.duration(((Number) times.get("stay")).longValue()),
-                Ticks.duration(((Number) times.get("fade-out")).longValue())
-            )
+        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("title")),
+        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("subtitle")),
+        times == null ? Title.DEFAULT_TIMES : Title.Times.times(
+            Ticks.duration(((Number) times.get("fade-in")).longValue()),
+            Ticks.duration(((Number) times.get("stay")).longValue()),
+            Ticks.duration(((Number) times.get("fade-out")).longValue())
+        )
     );
   }
 }

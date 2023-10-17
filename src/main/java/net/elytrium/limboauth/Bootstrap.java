@@ -32,6 +32,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
+import net.elytrium.limboauth.utils.LibrariesLoader;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
@@ -53,23 +54,18 @@ public class Bootstrap { // в идеале этот класс не нужен 
   private final LimboAuth limboAuth;
 
   @Inject
-  public Bootstrap(Logger logger, @DataDirectory Path dataDirectory, @Named("limboapi") PluginContainer limboApi, Metrics.Factory metricsFactory, ExecutorService executor,
-      ProxyServer server, PluginManager pluginManager, EventManager eventManager, CommandManager commandManager) {
-    this.limboAuth = new LimboAuth(logger, dataDirectory, limboApi, metricsFactory, executor, server, pluginManager, eventManager, commandManager);
+  public Bootstrap(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
+    this.limboAuth = new LimboAuth(logger, dataDirectory, server, metricsFactory, executor, limboApi);
   }
 
   @Subscribe
-  public void onProxyInitialization(ProxyInitializeEvent event) {
-    for (String dependency : BuildConfig.COMMON_DEPENDENCIES) {
-      // TODO загрузка качалка тут
-    }
-
-    // если загрузилось норм
+  public void onProxyInitialization(ProxyInitializeEvent event) throws Throwable {
+    LibrariesLoader.resolveAndLoad(this, this.limboAuth.getLogger(), this.limboAuth.getServer(), BuildConfig.COMMON_DEPENDENCIES);
     this.limboAuth.onProxyInitialization();
   }
 
   @Subscribe
-  public void onProxyInitialization(ProxyShutdownEvent event) {
-    // TODO правильное выключение
+  public void onProxyShutdown(ProxyShutdownEvent event) {
+    this.limboAuth.onProxyShutdown();
   }
 }

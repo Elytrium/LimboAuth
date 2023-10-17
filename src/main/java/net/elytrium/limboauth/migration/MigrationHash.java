@@ -17,70 +17,106 @@
 
 package net.elytrium.limboauth.migration;
 
-import com.google.common.hash.Hashing;
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Factory;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import org.apache.commons.codec.binary.Hex;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import java.util.Arrays;
+import java.util.Base64;
+import net.elytrium.limboauth.utils.Hashing;
+import org.bouncycastle.crypto.params.Argon2Parameters;
 
 @SuppressWarnings("unused")
 public enum MigrationHash {
 
-  AUTHME((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$salt$hash
-    return args.length == 4 && args[3].equals(getDigest(getDigest(password, "SHA-256") + args[2], "SHA-256"));
-  }),
-  AUTHME_NP((hash, password) -> {
-    String[] args = hash.split("\\$"); // SHA$salt$hash
-    return args.length == 3 && args[2].equals(getDigest(getDigest(password, "SHA-256") + args[1], "SHA-256"));
-  }),
-  ARGON2(new Argon2Verifier()),
-  SHA512_DBA((hash, password) -> {
-    String[] args = hash.split("\\$"); // SHA$salt$hash
-    return args.length == 3 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[1], "SHA-512"));
-  }),
-  SHA512_NP((hash, password) -> {
-    String[] args = hash.split("\\$"); // SHA$salt$hash
-    return args.length == 3 && args[2].equals(getDigest(password + args[1], "SHA-512"));
-  }),
-  SHA512_P((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$salt$hash
-    return args.length == 4 && args[3].equals(getDigest(password + args[2], "SHA-512"));
-  }),
-  SHA256_NP((hash, password) -> {
-    String[] args = hash.split("\\$"); // SHA$salt$hash
-    return args.length == 3 && args[2].equals(getDigest(password + args[1], "SHA-256"));
-  }),
-  SHA256_P((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$salt$hash
-    return args.length == 4 && args[3].equals(getDigest(password + args[2], "SHA-256"));
-  }),
-  MD5((hash, password) -> hash.equals(getDigest(password, "MD5"))),
-  MOON_SHA256((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$hash
-    return args.length == 3 && args[2].equals(getDigest(getDigest(password, "SHA-256"), "SHA-256"));
-  }),
   SHA256_NO_SALT((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$hash
-    return args.length == 3 && args[2].equals(getDigest(password, "SHA-256"));
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha256(password));
   }),
+  SHA256_MOONAUTH((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha256(Hashing.sha256(password)));
+  }),
+  SHA256((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha256(password + args[offset + 1]));
+  }),
+  SHA256_AUTHME((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha256(Hashing.sha256(password) + args[offset + 1]));
+  }),
+
   SHA512_NO_SALT((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$hash
-    return args.length == 3 && args[2].equals(getDigest(password, "SHA-512"));
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha512(password));
   }),
-  SHA512_P_REVERSED_HASH((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$hash$salt
-    return args.length == 4 && args[2].equals(getDigest(password + args[3], "SHA-512"));
+  SHA512((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha512(password + args[offset + 1]));
+  }),
+  SHA512_DBA((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha512(Hashing.sha512(password) + args[offset + 1]));
+  }),
+  SHA512_REVERSED((hash, password) -> {
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 1].equals(Hashing.sha512(password + args[offset + 2]));
   }),
   SHA512_NLOGIN((hash, password) -> {
-    String[] args = hash.split("\\$"); // $SHA$hash$salt
-    return args.length == 4 && args[2].equals(getDigest(getDigest(password, "SHA-512") + args[3], "SHA-512"));
+    String[] args = hash.split("\\$");
+    var offset = MigrationHash.offset(hash);
+    return args.length - offset == 3 && args[offset + 1].equals(Hashing.sha512(Hashing.sha512(password) + args[offset + 2]));
   }),
-  @SuppressWarnings("UnstableApiUsage")
-  CRC32C((hash, password) -> hash.equals(Hashing.crc32c().hashString(password, StandardCharsets.UTF_8).toString())),
+
+  ARGON2((hash, password) -> {
+    var parameter = MigrationHash.offset(hash);
+    String[] parameters = hash.split("\\$");
+    int parametersLength = parameters.length - parameter;
+    if (parametersLength != 4 && parametersLength != 5) {
+      return false;
+    }
+
+    Argon2Parameters.Builder builder = new Argon2Parameters.Builder(switch (parameters[parameter]) {
+      case "argon2d" -> Argon2Parameters.ARGON2_d;
+      case "argon2i" -> Argon2Parameters.ARGON2_i;
+      case "argon2id" -> Argon2Parameters.ARGON2_id;
+      default -> throw new IllegalArgumentException("Invalid algorithm type: " + parameters[parameter]);
+    });
+
+    if (parameters[++parameter].startsWith("v=")) {
+      builder.withVersion(Integer.parseInt(parameters[parameter++].substring(2)));
+    }
+
+    String[] performanceParameters = parameters[parameter++].split(",");
+    if (performanceParameters.length != 3) {
+      throw new IllegalArgumentException("Amount of performance parameters invalid");
+    }
+
+    if (!performanceParameters[0].startsWith("m=")) {
+      throw new IllegalArgumentException("Invalid memory parameter");
+    }
+    builder.withMemoryAsKB(Integer.parseInt(performanceParameters[0].substring(2)));
+
+    if (!performanceParameters[1].startsWith("t=")) {
+      throw new IllegalArgumentException("Invalid iterations parameter");
+    }
+    builder.withIterations(Integer.parseInt(performanceParameters[1].substring(2)));
+
+    if (!performanceParameters[2].startsWith("p=")) {
+      throw new IllegalArgumentException("Invalid parallelity parameter");
+    }
+    builder.withParallelism(Integer.parseInt(performanceParameters[2].substring(2)));
+
+    Base64.Decoder base64Decoder = Base64.getDecoder();
+    builder.withSalt(base64Decoder.decode(parameters[parameter++]));
+    byte[] decodedHash = base64Decoder.decode(parameters[parameter]);
+    return Arrays.equals(decodedHash, Hashing.argon2(builder.build(), decodedHash.length, password));
+  }),
+  MD5((hash, password) -> hash.equals(Hashing.md5AsHex(password))),
   PLAINTEXT(String::equals);
 
   private final MigrationHashVerifier verifier;
@@ -90,32 +126,20 @@ public enum MigrationHash {
   }
 
   public boolean checkPassword(String hash, String password) {
+    if (hash.isEmpty()) {
+      return false;
+    }
+
     return this.verifier.checkPassword(hash, password);
   }
 
-  private static String getDigest(String string, String algorithm) {
-    try {
-      MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-      messageDigest.update(string.getBytes(StandardCharsets.UTF_8));
-      byte[] array = messageDigest.digest();
-      return Hex.encodeHexString(array);
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalArgumentException(e);
-    }
+  private static byte offset(String hash) {
+    return (byte) (hash.charAt(0) == '$' ? 1 : 0);
   }
 
-  private static class Argon2Verifier implements MigrationHashVerifier {
+  @FunctionalInterface
+  private interface MigrationHashVerifier {
 
-    @MonotonicNonNull
-    private Argon2 argon2;
-
-    @Override
-    public boolean checkPassword(String hash, String password) {
-      if (this.argon2 == null) {
-        this.argon2 = Argon2Factory.create();
-      }
-
-      return this.argon2.verify(hash, password.getBytes(StandardCharsets.UTF_8));
-    }
+    boolean checkPassword(String hash, String password);
   }
 }

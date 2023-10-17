@@ -17,28 +17,32 @@
 
 package net.elytrium.limboauth;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
-import net.elytrium.limboauth.dependencies.DatabaseLibrary;
+import net.elytrium.limboauth.data.DataSource;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.migration.MigrationHash;
-import net.elytrium.limboauth.utils.BossBarSerializer;
-import net.elytrium.limboauth.utils.ComponentReplacer;
-import net.elytrium.limboauth.utils.ComponentSerializer;
-import net.elytrium.limboauth.utils.TitleReplacer;
-import net.elytrium.limboauth.utils.TitleSerializer;
+import net.elytrium.limboauth.serialization.serializers.BossBarSerializer;
+import net.elytrium.limboauth.serialization.replacers.ComponentReplacer;
+import net.elytrium.limboauth.serialization.serializers.ComponentSerializer;
+import net.elytrium.limboauth.utils.Hashing;
+import net.elytrium.limboauth.utils.Maps;
+import net.elytrium.limboauth.serialization.replacers.TitleReplacer;
+import net.elytrium.limboauth.serialization.serializers.TitleSerializer;
 import net.elytrium.serializer.SerializerConfig;
 import net.elytrium.serializer.annotations.Comment;
 import net.elytrium.serializer.annotations.CommentValue;
+import net.elytrium.serializer.annotations.NewLine;
 import net.elytrium.serializer.annotations.RegisterPlaceholders;
 import net.elytrium.serializer.annotations.Serializer;
 import net.elytrium.serializer.custom.ClassSerializer;
@@ -47,22 +51,24 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
+import org.bouncycastle.crypto.params.KeyParameter;
 
 public class Settings extends YamlSerializable {
 
-  public static final Settings IMP = new Settings();
-  public static final Settings.Messages MESSAGES = Settings.IMP.messages;
+  public static final Settings HEAD = new Settings(new SerializerConfig.Builder()
+      .registerSerializer(ComponentSerializer.INSTANCE)
+      .registerSerializer(TitleSerializer.INSTANCE)
+      .registerSerializer(BossBarSerializer.INSTANCE)
+      .registerReplacer(ComponentReplacer.INSTANCE)
+      .registerReplacer(TitleReplacer.INSTANCE)
+      .setCommentValueIndent(1)
+      .build()
+  );
+  public static final Settings.Messages MESSAGES = Settings.HEAD.messages;
+  public static final Settings.Database DATABASE = Settings.HEAD.database;
 
-  private Settings() {
-    super(new SerializerConfig.Builder()
-        .registerSerializer(ComponentSerializer.INSTANCE)
-        .registerSerializer(TitleSerializer.INSTANCE)
-        .registerSerializer(BossBarSerializer.INSTANCE)
-        .registerReplacer(ComponentReplacer.INSTANCE)
-        .registerReplacer(TitleReplacer.INSTANCE)
-        .setCommentValueIndent(1)
-        .build()
-    );
+  private Settings(SerializerConfig config) {
+    super(config);
   }
 
   public final String version = BuildConfig.VERSION;
@@ -123,24 +129,24 @@ public class Settings extends YamlSerializable {
   @Comment({
       @CommentValue("If you want to migrate your database from another plugin, which is not using BCrypt."),
       @CommentValue("You can set an old hash algorithm to migrate from."),
-      @CommentValue("AUTHME - AuthMe SHA256(SHA256(password) + salt) that looks like $SHA$salt$hash (AuthMe, MoonVKAuth, DSKAuth, DBA)"),
-      @CommentValue("AUTHME_NP - AuthMe SHA256(SHA256(password) + salt) that looks like SHA$salt$hash (JPremium)"),
-      @CommentValue("SHA256_NP - SHA256(password) that looks like SHA$salt$hash"),
-      @CommentValue("SHA256_P - SHA256(password) that looks like $SHA$salt$hash"),
-      @CommentValue("SHA512_NP - SHA512(password) that looks like SHA$salt$hash"),
-      @CommentValue("SHA512_P - SHA512(password) that looks like $SHA$salt$hash"),
-      @CommentValue("SHA512_DBA - DBA plugin SHA512(SHA512(password) + salt) that looks like SHA$salt$hash (DBA, JPremium)"),
-      @CommentValue("MD5 - Basic md5 hash"),
-      @CommentValue("ARGON2 - Argon2 hash that looks like $argon2i$v=1234$m=1234,t=1234,p=1234$hash"),
-      @CommentValue("MOON_SHA256 - Moon SHA256(SHA256(password)) that looks like $SHA$hash (no salt)"),
-      @CommentValue("SHA256_NO_SALT - SHA256(password) that looks like $SHA$hash (NexAuth)"),
-      @CommentValue("SHA512_NO_SALT - SHA512(password) that looks like $SHA$hash (NexAuth)"),
-      @CommentValue("SHA512_P_REVERSED_HASH - SHA512(password) that looks like $SHA$hash$salt (nLogin)"),
-      @CommentValue("SHA512_NLOGIN - SHA512(SHA512(password) + salt) that looks like $SHA$hash$salt (nLogin)"),
-      @CommentValue("CRC32C - Basic CRC32C hash"),
-      @CommentValue("PLAINTEXT - Plain text"),
+      @CommentValue("All hashes ignores first \"$\" if present."),
+      @CommentValue(type = CommentValue.Type.NEW_LINE),
+      @CommentValue("SHA256_NO_SALT  - SHA256(        password        ) that looks like SHA$hash      (NexAuth)"),
+      @CommentValue("SHA256_MOONAUTH - SHA256(    SHA256(password)    ) that looks like SHA$hash"),
+      @CommentValue("SHA256          - SHA256(     password     + salt) that looks like SHA$salt$hash"),
+      @CommentValue("SHA256_AUTHME   - SHA256( SHA256(password) + salt) that looks like SHA$salt$hash (AuthMe, MoonVKAuth, DSKAuth, DBA, JPremium)"),
+      @CommentValue(type = CommentValue.Type.NEW_LINE),
+      @CommentValue("SHA512_NO_SALT  - SHA512(        password        ) that looks like SHA$hash      (NexAuth)"),
+      @CommentValue("SHA512          - SHA512(     password     + salt) that looks like SHA$salt$hash"),
+      @CommentValue("SHA512_DBA      - SHA512( SHA512(password) + salt) that looks like SHA$salt$hash (DBA, JPremium)"),
+      @CommentValue("SHA512_REVERSED - SHA512(     password     + salt) that looks like SHA$hash$salt (nLogin)"),
+      @CommentValue("SHA512_NLOGIN   - SHA512( SHA512(password) + salt) that looks like SHA$hash$salt (nLogin)"),
+      @CommentValue(type = CommentValue.Type.NEW_LINE),
+      @CommentValue("ARGON2          - Hash that looks like argon2i$v=19$m=1234,t=1234,p=1234$salt$hash (All argon2 versions are supported: argon2d, argon2i, argon2id)"),
+      @CommentValue("MD5             - Hash that looks like 0b28572ad58a2662c77825de2b39c00d"), // Jokerge
+      @CommentValue("PLAINTEXT       - Plain text"),
   })
-  public MigrationHash migrationHash = MigrationHash.AUTHME;
+  public MigrationHash migrationHash = null;
   @Comment(@CommentValue("Available dimensions: OVERWORLD, NETHER, THE_END"))
   public Dimension dimension = Dimension.THE_END;
   public long purgeCacheMillis = 3600000;
@@ -150,9 +156,13 @@ public class Settings extends YamlSerializable {
   public int bruteforceMaxAttempts = 10;
   @Comment(@CommentValue("QR Generator URL, set {data} placeholder"))
   @RegisterPlaceholders("DATA")
-  public String qrGeneratorUrl = "https://api.qrserver.com/v1/create-qr-code/?data={DATA}&size=200x200&ecc=M&margin=30";
+  public String qrGeneratorUrl = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl={DATA}&chld=M|1";
+  @Serializer(URLEncoderSerializer.class)
   public String totpIssuer = "LimboAuth by Elytrium";
+  @Comment(@CommentValue("Should be in range [4, 31]"))
   public int bcryptCost = 10;
+  @Comment(@CommentValue("Available versions: 2, 2a, 2b, 2x, 2y"))
+  public String bcryptVersion = "2a";
   public int loginAttempts = 3;
   public int ipLimitRegistrations = 3;
   public int totpRecoveryCodesAmount = 16;
@@ -200,11 +210,11 @@ public class Settings extends YamlSerializable {
       @CommentValue("Responses with unlisted status codes will be identified as responses with a server error"),
       @CommentValue("Set 200 if you use using Mojang or CloudFlare API"),
   })
-  public List<Integer> statusCodeUserExists = List.of(200);
+  public IntArrayList statusCodeUserExists = IntArrayList.of(200);
   @Comment(@CommentValue("Set 204 and 404 if you use Mojang API, 404 if you use CloudFlare API"))
-  public List<Integer> statusCodeUserNotExists = List.of(204, 404);
+  public IntArrayList statusCodeUserNotExists = IntArrayList.of(204, 404);
   @Comment(@CommentValue("Set 429 if you use Mojang or CloudFlare API"))
-  public List<Integer> statusCodeRateLimit = List.of(429);
+  public IntArrayList statusCodeRateLimit = IntArrayList.of(429);
 
   @Comment({
       @CommentValue("Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}"),
@@ -216,9 +226,9 @@ public class Settings extends YamlSerializable {
       @CommentValue("Responses with an invalid scheme will be identified as responses with a server error"),
       @CommentValue("Set this parameter to [], to disable JSON scheme validation"),
   })
-  public List<String> userExistsJsonValidatorFields = List.of("name", "id");
+  public ObjectArrayList<String> userExistsJsonValidatorFields = ObjectArrayList.of("name", "id");
   public String jsonUuidField = "id";
-  public List<String> userNotExistsJsonValidatorFields = List.of();
+  public ObjectArrayList<String> userNotExistsJsonValidatorFields = ObjectArrayList.of();
 
   @Comment({
       @CommentValue("If Mojang rate-limits your server, we cannot determine if the player is premium or not"),
@@ -234,9 +244,9 @@ public class Settings extends YamlSerializable {
   })
   public boolean onServerErrorPremium = true;
 
-  public List<String> registerCommand = List.of("/r", "/reg", "/register");
-  public List<String> loginCommand = List.of("/l", "/log", "/login");
-  public List<String> totpCommand = List.of("/2fa", "/totp");
+  public ObjectArrayList<String> registerCommand = ObjectArrayList.of("/r", "/reg", "/register");
+  public ObjectArrayList<String> loginCommand = ObjectArrayList.of("/l", "/log", "/login");
+  public ObjectArrayList<String> totpCommand = ObjectArrayList.of("/2fa", "/totp");
 
   @Comment(@CommentValue("New players will be kicked with registrations-disabled-kick message"))
   public boolean disableRegistrations = false;
@@ -256,8 +266,7 @@ public class Settings extends YamlSerializable {
 
     @Comment(@CommentValue("The key must be the same in the plugin config and in the server hash issuer, if you use it"))
     @Serializer(MD5KeySerializer.class)
-    public byte[] verifyKey = null;
-
+    public KeyParameter verifyKey = null;
   }
 
   public WorldCoords worldCoords = new WorldCoords();
@@ -341,10 +350,10 @@ public class Settings extends YamlSerializable {
   }
 
   private static Component component(String value) {
-    return Settings.IMP.serializer.getSerializer().deserialize(value);
+    return Settings.HEAD.serializer.getSerializer().deserialize(value);
   }
 
-  public Messages messages = new Messages();
+  Messages messages = new Messages();
 
   public static class Messages {
 
@@ -465,66 +474,82 @@ public class Settings extends YamlSerializable {
     public Component modSessionExpired = Settings.component("LimboAuth &6>>&f Your session has expired, log in again.");
   }
 
-  public Database database = new Database();
+  Database database = new Database();
 
   @Comment(@CommentValue("Database settings"))
   public static class Database {
 
     @Comment(@CommentValue("Available database types: MariaDB, MySQL, PostgreSQL, SQLite or H2."))
-    public DatabaseLibrary storageType = DatabaseLibrary.H2;
+    public DataSource storageType = DataSource.H2;
 
     @Comment(@CommentValue("Settings for Network-based database (like MySQL, PostgreSQL): "))
     public String hostname = "127.0.0.1:3306";
-    public String user = "user";
+    public String username = "user";
     public String password = "password";
     public String database = "limboauth";
-    public Map<String, String> connectionParameters = Map.of(
-        "autoReconnect", "true",
-        "initialTimeout", "1",
+
+    @NewLine
+    public int connectionTimeout = 5000;
+    public int maxLifetime = 1800000;
+    public int maximumPoolSize = 10;
+    public int minimumIdle = 10;
+    public int keepaliveTime = 0;
+
+    @NewLine
+    @Comment(value = {
+        @CommentValue("useSSL: \"false\""),
+        @CommentValue("verifyServerCertificate: \"false\"")
+    }, at = Comment.At.APPEND)
+    public Object2ObjectLinkedOpenHashMap<String, String> connectionParameters = Maps.o2o(
+        "useUnicode", "true",
+        "characterEncoding", "utf8",
         "cachePrepStmts", "true",
         "prepStmtCacheSize", "250",
         "prepStmtCacheSqlLimit", "2048",
         "useServerPrepStmts", "true",
         "useLocalSessionState", "true",
+        "rewriteBatchedStatements", "true",
         "cacheResultSetMetadata", "true",
         "cacheServerConfiguration", "true",
-        "cacheCallableStmts", "true"
+        "elideSetAutoCommits", "true",
+        "maintainTimeStats", "false",
+        "alwaysSendSetIsolation", "false",
+        "cacheCallableStmts", "true",
+        "serverTimezone", "UTC",
+        "socketTimeout", "30000"
     );
 
-    public String nicknameField = "NICKNAME";
-    public String lowercaseNicknameField = "LOWERCASENICKNAME";
-    public String hashField = "HASH";
-    public String ipField = "IP";
-    public String loginIpField = "LOGINIP";
-    public String totpTokenField = "TOTPTOKEN";
-    public String regDateField = "REGDATE";
-    public String loginDateField = "LOGINDATE";
-    public String uuidField = "UUID";
-    public String premiumUuidField = "PREMIUMUUID";
-    public String tokenIssuedAtField = "ISSUEDTIME";
-    public String onlyByModField = "ONLYMOD";
+    public PlayerData.Table table = new PlayerData.Table();
+
+    public static class Table {
+
+      public String nicknameField = "NICKNAME";
+      public String lowercaseNicknameField = "LOWERCASENICKNAME";
+      public String hashField = "HASH";
+      public String ipField = "IP";
+      public String loginIpField = "LOGINIP";
+      public String totpTokenField = "TOTPTOKEN";
+      public String regDateField = "REGDATE";
+      public String loginDateField = "LOGINDATE";
+      public String uuidField = "UUID";
+      public String premiumUuidField = "PREMIUMUUID";
+      public String tokenIssuedAtField = "ISSUEDTIME";
+      public String onlyByModField = "ONLYMOD";
+    }
   }
 
-  public static class MD5KeySerializer extends ClassSerializer<byte[], String> {
+  private static class MD5KeySerializer extends ClassSerializer<KeyParameter, String> {
 
-    private final MessageDigest md5;
-    private final Random random;
-
-    private String originalValue;
-
-    public MD5KeySerializer() throws NoSuchAlgorithmException {
-      super(byte[].class, String.class);
-      this.md5 = MessageDigest.getInstance("MD5");
-      this.random = new SecureRandom();
-    }
+    private String originalValue; // TODO map
 
     @Override
-    public String serialize(byte[] from) {
+    public String serialize(KeyParameter from) {
       if (this.originalValue == null || this.originalValue.isEmpty()) {
+        // TODO better generator
         String characters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
         StringBuilder result = new StringBuilder();
         for (int i = 23; i >= 0; --i) {
-          result.append(characters.charAt(this.random.nextInt(characters.length())));
+          result.append(characters.charAt(ThreadLocalRandom.current().nextInt(characters.length())));
         }
 
         this.originalValue = result.toString();
@@ -534,9 +559,22 @@ public class Settings extends YamlSerializable {
     }
 
     @Override
-    public byte[] deserialize(String from) {
+    public KeyParameter deserialize(String from) {
       this.originalValue = from;
-      return this.md5.digest(from.getBytes(StandardCharsets.UTF_8));
+      return new KeyParameter(Hashing.md5(from));
+    }
+  }
+
+  private static class URLEncoderSerializer extends ClassSerializer<String, String> {
+
+    @Override
+    public String serialize(String from) {
+      return URLDecoder.decode(from, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public String deserialize(String from) {
+      return URLEncoder.encode(from, StandardCharsets.UTF_8);
     }
   }
 }

@@ -15,15 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.event;
+package net.elytrium.limboauth.serialization.serializers;
 
-import java.util.function.Consumer;
-import net.elytrium.limboapi.api.player.LimboPlayer;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.Settings;
+import net.elytrium.serializer.custom.ClassSerializer;
+import net.kyori.adventure.text.Component;
 
-public class PostAuthorizationEvent extends PostEvent {
+public class ComponentSerializer extends ClassSerializer<Component, String> {
 
-  public PostAuthorizationEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo, String password) {
-    super(onComplete, player, playerInfo, password);
+  public static final ComponentSerializer INSTANCE = new ComponentSerializer();
+
+  @Override
+  public String serialize(Component from) {
+    return from == null ? "" : Settings.HEAD.serializer.getSerializer().serialize(from);
+  }
+
+  @Override
+  public Component deserialize(String from) {
+    return from.isEmpty() ? null : Settings.HEAD.serializer.getSerializer().deserialize(from);
   }
 }

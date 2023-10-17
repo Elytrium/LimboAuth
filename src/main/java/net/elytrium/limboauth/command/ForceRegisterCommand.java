@@ -23,19 +23,15 @@ import java.util.Locale;
 import java.util.function.Function;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.serializer.placeholders.Placeholders;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
 public class ForceRegisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
 
-  public ForceRegisterCommand(LimboAuth plugin, DSLContext dslContext) {
+  public ForceRegisterCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
   }
 
   @Override
@@ -53,15 +49,15 @@ public class ForceRegisterCommand implements SimpleCommand {
       }
 
       Function<Throwable, Void> onError = e -> {
-        this.plugin.handleSqlError(e);
+        this.plugin.getDatabase().handleSqlError(e);
         source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
         return null;
       };
 
       String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-      this.dslContext.selectCount()
-          .from(RegisteredPlayer.Table.INSTANCE)
-          .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+      this.plugin.getDatabase().getContext().selectCount()
+          .from(PlayerData.Table.INSTANCE)
+          .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
           .fetchAsync()
           .thenAccept(countResult -> {
             if (countResult.get(0).value1() != 0) {
@@ -69,8 +65,8 @@ public class ForceRegisterCommand implements SimpleCommand {
               return;
             }
 
-            RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
-            this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
+            PlayerData player = new PlayerData(nickname, "", "").setPassword(password);
+            this.plugin.getDatabase().getContext().insertInto(PlayerData.Table.INSTANCE)
                 .values(player)
                 .executeAsync()
                 .thenRun(() -> source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceRegisterSuccessful, nickname)))
@@ -83,6 +79,6 @@ public class ForceRegisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.forceRegister.hasPermission(invocation.source(), "limboauth.admin.forceregister");
+    return Settings.HEAD.commandPermissionState.forceRegister.hasPermission(invocation.source(), "limboauth.admin.forceregister");
   }
 }

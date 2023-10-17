@@ -15,18 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.model;
+package net.elytrium.limboauth.data;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.auth.AuthSessionHandler;
+import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
 import org.jetbrains.annotations.NotNull;
-import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.Record12;
 import org.jooq.Row12;
@@ -39,9 +40,7 @@ import org.jooq.impl.TableImpl;
 import org.jooq.impl.UpdatableRecordImpl;
 
 @SuppressWarnings("NullableProblems")
-public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> implements Record12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> {
-
-  private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
+public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Record12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> {
 
   private String nickname;
 
@@ -68,7 +67,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   private boolean onlyByMod = false;
 
   @Deprecated
-  public RegisteredPlayer(String nickname, String lowercaseNickname,
+  public PlayerData(String nickname, String lowercaseNickname,
       String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     super(Table.INSTANCE);
     this.nickname = nickname;
@@ -83,15 +82,15 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     this.loginDate = loginDate;
   }
 
-  public RegisteredPlayer(Player player) {
+  public PlayerData(Player player) {
     this(player.getUsername(), player.getUniqueId(), player.getRemoteAddress());
   }
 
-  public RegisteredPlayer(String nickname, UUID uuid, InetSocketAddress ip) {
+  public PlayerData(String nickname, UUID uuid, InetSocketAddress ip) {
     this(nickname, uuid.toString(), ip.getAddress().getHostAddress());
   }
 
-  public RegisteredPlayer(String nickname, String uuid, String ip) {
+  public PlayerData(String nickname, String uuid, String ip) {
     super(Table.INSTANCE);
     this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
@@ -101,13 +100,14 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.bcryptCost, password.toCharArray());
+    byte[] salt = new byte[16];
+    ThreadLocalRandom.current().nextBytes(salt);
+    return OpenBSDBCrypt.generate(Settings.HEAD.bcryptVersion, password.getBytes(StandardCharsets.UTF_8), salt, Settings.HEAD.bcryptCost);
   }
 
-  public RegisteredPlayer setNickname(String nickname) {
+  public PlayerData setNickname(String nickname) {
     this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-
     return this;
   }
 
@@ -119,14 +119,14 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.lowercaseNickname;
   }
 
-  public RegisteredPlayer setPassword(String password) {
+  public PlayerData setPassword(String password) {
     this.hash = genHash(password);
     this.tokenIssuedAt = System.currentTimeMillis();
 
     return this;
   }
 
-  public RegisteredPlayer setHash(String hash) {
+  public PlayerData setHash(String hash) {
     this.hash = hash;
     this.tokenIssuedAt = System.currentTimeMillis();
 
@@ -137,7 +137,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.hash == null ? "" : this.hash;
   }
 
-  public RegisteredPlayer setIP(String ip) {
+  public PlayerData setIP(String ip) {
     this.ip = ip;
 
     return this;
@@ -147,7 +147,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.ip == null ? "" : this.ip;
   }
 
-  public RegisteredPlayer setTotpToken(String totpToken) {
+  public PlayerData setTotpToken(String totpToken) {
     this.totpToken = totpToken;
 
     return this;
@@ -157,7 +157,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.totpToken == null ? "" : this.totpToken;
   }
 
-  public RegisteredPlayer setRegDate(Long regDate) {
+  public PlayerData setRegDate(Long regDate) {
     this.regDate = regDate;
 
     return this;
@@ -167,7 +167,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.regDate == null ? Long.MIN_VALUE : this.regDate;
   }
 
-  public RegisteredPlayer setUuid(String uuid) {
+  public PlayerData setUuid(String uuid) {
     this.uuid = uuid;
 
     return this;
@@ -177,15 +177,13 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.uuid == null ? "" : this.uuid;
   }
 
-  public RegisteredPlayer setPremiumUuid(String premiumUuid) {
+  public PlayerData setPremiumUuid(String premiumUuid) {
     this.premiumUuid = premiumUuid;
-
     return this;
   }
 
-  public RegisteredPlayer setPremiumUuid(UUID premiumUuid) {
+  public PlayerData setPremiumUuid(UUID premiumUuid) {
     this.premiumUuid = premiumUuid.toString();
-
     return this;
   }
 
@@ -197,9 +195,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.loginIp == null ? "" : this.loginIp;
   }
 
-  public RegisteredPlayer setLoginIp(String loginIp) {
+  public PlayerData setLoginIp(String loginIp) {
     this.loginIp = loginIp;
-
     return this;
   }
 
@@ -207,9 +204,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.loginDate == null ? Long.MIN_VALUE : this.loginDate;
   }
 
-  public RegisteredPlayer setLoginDate(Long loginDate) {
+  public PlayerData setLoginDate(Long loginDate) {
     this.loginDate = loginDate;
-
     return this;
   }
 
@@ -217,9 +213,8 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.tokenIssuedAt == null ? Long.MIN_VALUE : this.tokenIssuedAt;
   }
 
-  public RegisteredPlayer setTokenIssuedAt(Long tokenIssuedAt) {
+  public PlayerData setTokenIssuedAt(Long tokenIssuedAt) {
     this.tokenIssuedAt = tokenIssuedAt;
-
     return this;
   }
 
@@ -227,37 +222,30 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return this.onlyByMod;
   }
 
-  public RegisteredPlayer setOnlyByMod(boolean onlyByMod) {
+  public PlayerData setOnlyByMod(boolean onlyByMod) {
     this.onlyByMod = onlyByMod;
-
     return this;
   }
 
-  public static void checkPassword(DSLContext dslContext, String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium,
-      Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
-    dslContext.select(RegisteredPlayer.Table.HASH_FIELD)
-        .from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
-        .fetchAsync()
-        .thenAccept(hashResult -> {
-          if (hashResult.isEmpty()) {
-            onNotRegistered.run();
-            return;
-          }
+  public static void checkPassword(String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium, Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
+    Database.DSL_CONTEXT.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(result -> {
+      if (result.isEmpty()) {
+        onNotRegistered.run();
+        return;
+      }
 
-          String hash = hashResult.get(0).value1();
-          if (hash == null || hash.isEmpty()) {
-            onPremium.run();
-          } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password, dslContext)) {
-            onCorrect.accept(hash);
-          } else {
-            onWrong.run();
-          }
-        })
-        .exceptionally(e -> {
-          onError.accept(e);
-          return null;
-        });
+      String hash = result.get(0).value1();
+      if (hash == null || hash.isEmpty()) {
+        onPremium.run();
+      } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password)) {
+        onCorrect.accept(hash);
+      } else {
+        onWrong.run();
+      }
+    }).exceptionally(e -> {
+      onError.accept(e);
+      return null;
+    });
   }
 
   @Override
@@ -326,7 +314,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value1(String value) {
+  public @NotNull PlayerData value1(String value) {
     return this.setNickname(value);
   }
 
@@ -336,7 +324,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value2(String value) {
+  public @NotNull PlayerData value2(String value) {
     this.lowercaseNickname = value;
     return this;
   }
@@ -347,7 +335,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value3(String value) {
+  public @NotNull PlayerData value3(String value) {
     return this.setHash(value);
   }
 
@@ -357,7 +345,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value4(String value) {
+  public @NotNull PlayerData value4(String value) {
     return this.setIP(value);
   }
 
@@ -367,7 +355,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value5(String value) {
+  public @NotNull PlayerData value5(String value) {
     return this.setTotpToken(value);
   }
 
@@ -377,7 +365,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value6(Long value) {
+  public @NotNull PlayerData value6(Long value) {
     return this.setRegDate(value);
   }
 
@@ -387,7 +375,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value7(String value) {
+  public @NotNull PlayerData value7(String value) {
     return this.setUuid(value);
   }
 
@@ -397,7 +385,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value8(String value) {
+  public @NotNull PlayerData value8(String value) {
     return this.setPremiumUuid(value);
   }
 
@@ -407,7 +395,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value9(String value) {
+  public @NotNull PlayerData value9(String value) {
     return this.setLoginIp(value);
   }
 
@@ -417,7 +405,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value10(Long value) {
+  public @NotNull PlayerData value10(Long value) {
     return this.setLoginDate(value);
   }
 
@@ -427,7 +415,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value11(Long value) {
+  public @NotNull PlayerData value11(Long value) {
     return this.setTokenIssuedAt(value);
   }
 
@@ -437,12 +425,12 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
   }
 
   @Override
-  public @NotNull RegisteredPlayer value12(Boolean value) {
+  public @NotNull PlayerData value12(Boolean value) {
     return this.setOnlyByMod(value);
   }
 
   @Override
-  public @NotNull RegisteredPlayer values(String nickname, String lowercaseNickname, String hash, String ip, String totpToken,
+  public @NotNull PlayerData values(String nickname, String lowercaseNickname, String hash, String ip, String totpToken,
       Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate,
       Long tokenIssuedAt, Boolean onlyByMod) {
     this.nickname = nickname;
@@ -543,37 +531,26 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
     return super.hashCode();
   }
 
-  public static class Table extends TableImpl<RegisteredPlayer> {
+  public static class Table extends TableImpl<PlayerData> { // TODO uuid
 
     public static final Table INSTANCE = new Table();
-    public static final UniqueKey<RegisteredPlayer> PRIMARY_KEY = Internal.createUniqueKey(
+    public static final UniqueKey<PlayerData> PRIMARY_KEY = Internal.createUniqueKey(
         Table.INSTANCE,
         Table.LOWERCASE_NICKNAME_FIELD
     );
 
-    public static TableField<RegisteredPlayer, String> NICKNAME_FIELD;
-
-    public static TableField<RegisteredPlayer, String> LOWERCASE_NICKNAME_FIELD;
-
-    public static TableField<RegisteredPlayer, String> HASH_FIELD;
-
-    public static TableField<RegisteredPlayer, String> IP_FIELD;
-
-    public static TableField<RegisteredPlayer, String> TOTP_TOKEN_FIELD;
-
-    public static TableField<RegisteredPlayer, Long> REG_DATE_FIELD;
-
-    public static TableField<RegisteredPlayer, String> UUID_FIELD;
-
-    public static TableField<RegisteredPlayer, String> PREMIUM_UUID_FIELD;
-
-    public static TableField<RegisteredPlayer, String> LOGIN_IP_FIELD;
-
-    public static TableField<RegisteredPlayer, Long> LOGIN_DATE_FIELD;
-
-    public static TableField<RegisteredPlayer, Long> TOKEN_ISSUED_AT_FIELD;
-
-    public static TableField<RegisteredPlayer, Boolean> ONLY_BY_MOD_FIELD;
+    public static TableField<PlayerData, String> NICKNAME_FIELD;
+    public static TableField<PlayerData, String> LOWERCASE_NICKNAME_FIELD;
+    public static TableField<PlayerData, String> HASH_FIELD;
+    public static TableField<PlayerData, String> IP_FIELD;
+    public static TableField<PlayerData, String> TOTP_TOKEN_FIELD;
+    public static TableField<PlayerData, Long> REG_DATE_FIELD;
+    public static TableField<PlayerData, String> UUID_FIELD;
+    public static TableField<PlayerData, UUID> PREMIUM_UUID_FIELD;
+    public static TableField<PlayerData, String> LOGIN_IP_FIELD;
+    public static TableField<PlayerData, Long> LOGIN_DATE_FIELD;
+    public static TableField<PlayerData, Long> TOKEN_ISSUED_AT_FIELD;
+    public static TableField<PlayerData, Boolean> ONLY_BY_MOD_FIELD;
 
     public Table() {
       super(DSL.name("AUTH"));
@@ -587,7 +564,7 @@ public class RegisteredPlayer extends UpdatableRecordImpl<RegisteredPlayer> impl
       TOTP_TOKEN_FIELD = TableImpl.createField(DSL.name(databaseSettings.totpTokenField), SQLDataType.VARCHAR, Table.INSTANCE);
       REG_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.regDateField), SQLDataType.BIGINT, Table.INSTANCE);
       UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.uuidField), SQLDataType.VARCHAR, Table.INSTANCE);
-      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.premiumUuidField), SQLDataType.VARCHAR, Table.INSTANCE);
+      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.premiumUuidField), SQLDataType.UUID, Table.INSTANCE);
       LOGIN_IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginIpField), SQLDataType.VARCHAR, Table.INSTANCE);
       LOGIN_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginDateField), SQLDataType.BIGINT, Table.INSTANCE);
       TOKEN_ISSUED_AT_FIELD = TableImpl.createField(DSL.name(databaseSettings.tokenIssuedAtField), SQLDataType.BIGINT, Table.INSTANCE);

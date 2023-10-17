@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.utils;
+package net.elytrium.limboauth.serialization.serializers;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class BossBarSerializer extends ClassSerializer<BossBar, Map<String, Obje
   @Override
   public BossBar deserialize(Map<String, Object> from) {
     return BossBar.bossBar(
-        Settings.IMP.serializer.getSerializer().deserialize((String) from.get("name")),
+        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("name")),
         1.0F,
         Objects.requireNonNull(BossBar.Color.NAMES.value((String) from.get("color")), "bossbar.color"),
         Objects.requireNonNull(BossBar.Overlay.NAMES.value((String) from.get("overlay")), "bossbar.overlay")

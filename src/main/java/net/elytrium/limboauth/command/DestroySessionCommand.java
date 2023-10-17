@@ -34,9 +34,8 @@ public class DestroySessionCommand implements SimpleCommand {
   @Override
   public void execute(SimpleCommand.Invocation invocation) {
     CommandSource source = invocation.source();
-
-    if (source instanceof Player) {
-      this.plugin.removePlayerFromCache(((Player) source).getUsername());
+    if (source instanceof Player player) {
+      this.plugin.getCacheManager().removePlayerFromCache(player.getUsername());
       source.sendMessage(Settings.MESSAGES.destroySessionSuccessful);
     } else {
       source.sendMessage(Settings.MESSAGES.notPlayer);
@@ -45,6 +44,6 @@ public class DestroySessionCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
+    return Settings.HEAD.commandPermissionState.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
   }
 }

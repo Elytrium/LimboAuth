@@ -19,33 +19,21 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.proxy.ProxyServer;
 import java.util.List;
 import java.util.Locale;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.event.AuthUnregisterEvent;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.events.AuthUnregisterEvent;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.serializer.placeholders.Placeholders;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
 public class ForceUnregisterCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final ProxyServer server;
-  private final DSLContext dslContext;
 
-  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, DSLContext dslContext) {
+  public ForceUnregisterCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.server = server;
-    this.dslContext = dslContext;
-  }
-
-  @Override
-  public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
   }
 
   @Override
@@ -57,15 +45,15 @@ public class ForceUnregisterCommand implements SimpleCommand {
       String playerNick = args[0];
 
       this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-      this.dslContext.deleteFrom(RegisteredPlayer.Table.INSTANCE)
-          .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(playerNick.toLowerCase(Locale.ROOT)))
+      this.plugin.getDatabase().getContext().deleteFrom(PlayerData.Table.INSTANCE)
+          .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(playerNick.toLowerCase(Locale.ROOT)))
           .executeAsync()
           .thenRun(() -> {
             this.plugin.removePlayerFromCache(playerNick);
-            this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
+            this.plugin.getServer().getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
             source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterSuccessful, playerNick));
           }).exceptionally(e -> {
-            this.plugin.handleSqlError(e);
+            this.plugin.getDatabase().handleSqlError(e);
             source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterNotSuccessful, playerNick));
             return null;
           });
@@ -75,7 +63,12 @@ public class ForceUnregisterCommand implements SimpleCommand {
   }
 
   @Override
+  public List<String> suggest(SimpleCommand.Invocation invocation) {
+    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
+  }
+
+  @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.forceUnregister.hasPermission(invocation.source(), "limboauth.admin.forceunregister");
+    return Settings.HEAD.commandPermissionState.forceUnregister.hasPermission(invocation.source(), "limboauth.admin.forceunregister");
   }
 }

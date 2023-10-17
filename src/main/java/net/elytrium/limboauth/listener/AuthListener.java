@@ -26,24 +26,22 @@ import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
 import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.util.UuidUtils;
-import com.velocitypowered.proxy.connection.MinecraftConnection;
 import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
 import com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler;
 import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
 import com.velocitypowered.proxy.protocol.packet.ServerLogin;
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.auth.AuthManager;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.utils.Reflection;
 import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -52,12 +50,10 @@ public class AuthListener {
   private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
   private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, DSLContext dslContext, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
     this.floodgateApi = floodgateApi;
   }
 
@@ -79,12 +75,8 @@ public class AuthListener {
 
   // Temporarily disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
   private boolean isPremiumByIdentifiedKey(InboundConnection inbound) throws Throwable {
-    LoginInboundConnection inboundConnection = (LoginInboundConnection) inbound;
-    InitialInboundConnection initialInbound = (InitialInboundConnection) DELEGATE_FIELD.invokeExact(inboundConnection);
-    MinecraftConnection connection = initialInbound.getConnection();
-    InitialLoginSessionHandler handler = (InitialLoginSessionHandler) connection.getSessionHandler();
-
-    ServerLogin packet = (ServerLogin) LOGIN_FIELD.invokeExact(handler);
+    InitialInboundConnection inboundConnection = (InitialInboundConnection) AuthListener.DELEGATE_FIELD.invokeExact((LoginInboundConnection) inbound);
+    ServerLogin packet = (ServerLogin) AuthListener.LOGIN_FIELD.invokeExact((InitialLoginSessionHandler) inboundConnection.getConnection().getActiveSessionHandler());
     if (packet == null) {
       return false;
     }
@@ -110,7 +102,7 @@ public class AuthListener {
       // We need to delay for player's client to finish switching the server, it takes a little time.
       this.plugin.getServer().getScheduler()
           .buildTask(this.plugin, postLoginTask)
-          .delay(Settings.IMP.premiumAndFloodgateMessagesDelay, TimeUnit.MILLISECONDS)
+          .delay(Settings.HEAD.premiumAndFloodgateMessagesDelay, TimeUnit.MILLISECONDS)
           .schedule();
     }
   }
@@ -125,13 +117,14 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public EventTask onGameProfileRequest(GameProfileRequestEvent event) {
     EventTask eventTask = null;
-    if (Settings.IMP.saveUuid && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
+    DSLContext context = this.plugin.getDatabase().getContext();
+    if (Settings.HEAD.saveUuid && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       CompletableFuture<Void> completableFuture = new CompletableFuture<>();
       eventTask = EventTask.resumeWhenComplete(completableFuture);
 
-      this.dslContext.select(RegisteredPlayer.Table.UUID_FIELD)
-          .from(RegisteredPlayer.Table.INSTANCE)
-          .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+      context.select(PlayerData.Table.UUID_FIELD)
+          .from(PlayerData.Table.INSTANCE)
+          .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
           .fetchAsync()
           .thenAccept(uuidResult -> {
             if (!uuidResult.isEmpty()) {
@@ -139,49 +132,40 @@ public class AuthListener {
               if (uuid != null && !uuid.isEmpty()) {
                 event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(uuid)));
               } else {
-                this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                    .set(RegisteredPlayer.Table.UUID_FIELD, event.getGameProfile().getId().toString())
-                    .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+                context.update(PlayerData.Table.INSTANCE)
+                    .set(PlayerData.Table.UUID_FIELD, event.getGameProfile().getId().toString())
+                    .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
                     .executeAsync()
-                    .exceptionally(e -> {
-                      this.plugin.handleSqlError(e);
-                      return null;
-                    });
+                    .exceptionally(this.plugin.getDatabase()::handleSqlError);
               }
             }
           })
           .thenAccept(completableFuture::complete);
     } else if (event.isOnlineMode()) {
-      this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-          .set(RegisteredPlayer.Table.HASH_FIELD, "")
-          .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(event.getUsername()))
+      context.update(PlayerData.Table.INSTANCE)
+          .set(PlayerData.Table.HASH_FIELD, "")
+          .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
           .executeAsync()
-          .exceptionally(this.plugin::handleSqlError);
+          .exceptionally(this.plugin.getDatabase()::handleSqlError);
     }
 
-    if (Settings.IMP.forceOfflineUuid) {
+    if (Settings.HEAD.forceOfflineUuid) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
 
-    if (!event.isOnlineMode() && !Settings.IMP.offlineModePrefix.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.offlineModePrefix + event.getUsername()));
+    if (!event.isOnlineMode() && !Settings.HEAD.offlineModePrefix.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.HEAD.offlineModePrefix + event.getUsername()));
     }
 
-    if (event.isOnlineMode() && !Settings.IMP.onlineModePrefix.isEmpty()) {
-      event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.onlineModePrefix + event.getUsername()));
+    if (event.isOnlineMode() && !Settings.HEAD.onlineModePrefix.isEmpty()) {
+      event.setGameProfile(event.getOriginalProfile().withName(Settings.HEAD.onlineModePrefix + event.getUsername()));
     }
 
     return eventTask;
   }
 
   static {
-    try {
-      DELEGATE_FIELD = MethodHandles.privateLookupIn(LoginInboundConnection.class, MethodHandles.lookup())
-          .findGetter(LoginInboundConnection.class, "delegate", InitialInboundConnection.class);
-      LOGIN_FIELD = MethodHandles.privateLookupIn(InitialLoginSessionHandler.class, MethodHandles.lookup())
-          .findGetter(InitialLoginSessionHandler.class, "login", ServerLogin.class);
-    } catch (NoSuchFieldException | IllegalAccessException e) {
-      throw new ReflectionException(e);
-    }
+    DELEGATE_FIELD = Reflection.getter1(LoginInboundConnection.class, "delegate", InitialInboundConnection.class);
+    LOGIN_FIELD = Reflection.getter1(InitialLoginSessionHandler.class, "login", ServerLogin.class);
   }
 }

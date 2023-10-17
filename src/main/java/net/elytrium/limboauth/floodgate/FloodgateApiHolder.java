@@ -21,7 +21,7 @@ import java.util.UUID;
 import org.geysermc.floodgate.api.FloodgateApi;
 
 /**
- * Holder class for optional floodgate feature, we can't inject of optional plugins without holders due to Velocity structure.
+ * Holder class for optional floodgate feature, we can't inject of optional plugins without holders due to class loaders issue.
  */
 public class FloodgateApiHolder {
 

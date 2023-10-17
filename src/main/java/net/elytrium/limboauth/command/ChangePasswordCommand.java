@@ -24,10 +24,8 @@ import java.util.Locale;
 import java.util.function.Consumer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.event.ChangePasswordEvent;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
+import net.elytrium.limboauth.events.ChangePasswordEvent;
+import net.elytrium.limboauth.data.PlayerData;
 
 public class ChangePasswordCommand implements SimpleCommand {
 
@@ -45,7 +43,7 @@ public class ChangePasswordCommand implements SimpleCommand {
     String[] args = invocation.arguments();
 
     if (source instanceof Player player) {
-      boolean needOldPass = Settings.IMP.changePasswordNeedOldPassword && !player.isOnlineMode();
+      boolean needOldPass = Settings.HEAD.changePasswordNeedOldPassword && !player.isOnlineMode();
       if (needOldPass) {
         if (args.length < 2) {
           source.sendMessage(Settings.MESSAGES.changePasswordUsage);
@@ -60,21 +58,21 @@ public class ChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = username.toLowerCase(Locale.ROOT);
       Consumer<String> onCorrect = oldHash -> {
         final String newPassword = needOldPass ? args[1] : args[0];
-        final String newHash = RegisteredPlayer.genHash(newPassword);
+        final String newHash = PlayerData.genHash(newPassword);
 
-        this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-            .set(RegisteredPlayer.Table.HASH_FIELD, newHash)
-            .where(DSL.field(RegisteredPlayer.Table.NICKNAME_FIELD).eq(username))
+        this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+            .set(PlayerData.Table.HASH_FIELD, newHash)
+            .where(PlayerData.Table.NICKNAME_FIELD.eq(username))
             .executeAsync();
 
-        this.plugin.removePlayerFromCache(username);
+        this.plugin.getCacheManager().removePlayerFromCache(username);
 
         this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(username, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
 
         source.sendMessage(Settings.MESSAGES.changePasswordSuccessful);
       };
 
-      RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, needOldPass ? args[0] : null,
+      PlayerData.checkPassword(lowercaseNickname, needOldPass ? args[0] : null,
           () -> source.sendMessage(Settings.MESSAGES.notRegistered),
           () -> onCorrect.accept(null),
           onCorrect,
@@ -88,6 +86,6 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.changePassword.hasPermission(invocation.source(), "limboauth.commands.changepassword");
+    return Settings.HEAD.commandPermissionState.changePassword.hasPermission(invocation.source(), "limboauth.commands.changepassword");
   }
 }

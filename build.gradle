@@ -30,7 +30,7 @@ compileJava() {
 }
 
 configurations() {
-  implementation.extendsFrom(common, totp, bcrypt, argon2, siphash)
+  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb.extendsFrom(jna), postgresql.extendsFrom(jna), jna)
 }
 
 repositories() {
@@ -38,7 +38,7 @@ repositories() {
 
   maven {
     name = "elytrium-repo"
-    url = "https://maven.elytrium.net/repo/"
+    url = "https://maven.jnngl.me/public/"
   }
 
   maven {
@@ -71,32 +71,42 @@ dependencies() {
   compileOnly("net.elytrium.limboapi:api:$limboapiVersion") {
     exclude(module: "config") // TODO remove
   }
-  compileOnly("net.elytrium.commons:utils:$elytriumCommonsVersion")
-  compileOnly("net.elytrium.commons:velocity:$elytriumCommonsVersion")
-  compileOnly("net.elytrium.commons:kyori:$elytriumCommonsVersion")
+
+  common("it.unimi.dsi:fastutil:$fastutilVersion")
   common("net.elytrium:serializer:$elytriumSerializerVersion")
 
-  common("it.unimi.dsi:fastutil-core:$fastutilVersion")
+  common("org.bstats:bstats-velocity:$bstatsVersion")
 
   common("com.zaxxer:HikariCP:5.0.1") {
     exclude(module: "slf4j-api")
   }
-  common("org.jooq:jooq:3.18.6")
-  common("org.reactivestreams:reactive-streams:1.0.4") // Updated dependency of dependency
+  common("org.jooq:jooq:3.18.7")
+  common("org.reactivestreams:reactive-streams:1.0.4") // Updated dependency of dependency of dependency
 
-  common("org.bstats:bstats-velocity:$bstatsVersion")
+  common("org.bouncycastle:bcprov-jdk18on:1.76")
 
-  totp("dev.samstevens.totp:totp:1.7.1") {
-    exclude(group: "com.google.zxing")
+  h2v1("com.h2database:h2:1.4.199") // https://github.com/h2database/h2database/issues/2078
+
+  h2("com.h2database:h2:2.2.224")
+
+  sqlite("org.xerial:sqlite-jdbc:3.43.0.0")
+
+  mysql("com.mysql:mysql-connector-j:8.1.0")
+  mysql("com.google.protobuf:protobuf-java:3.24.4") // Updated dependency
+
+  jna("com.github.waffle:waffle-jna:3.3.0") {
+    exclude(group: "org.slf4j")
+    exclude(module: "caffeine")
+    exclude(module: "checker-qual")
   }
-  totp("commons-codec:commons-codec:1.16.0") // Updated dependency
 
-  bcrypt("at.favre.lib:bcrypt:0.10.2")
-  argon2("de.mkammerer:argon2-jvm:2.11")
-  argon2("net.java.dev.jna:jna:5.13.0") // Updated dependency
-  siphash("io.whitfin:siphash:2.0.0")
+  mariadb("org.mariadb.jdbc:mariadb-java-client:3.2.0") {
+    exclude(module: "*")
+  }
 
-  compileOnly("com.github.spotbugs:spotbugs-annotations:$spotbugsVersion")
+  postgresql("org.postgresql:postgresql:42.6.0") {
+    exclude(module: "checker-qual")
+  }
 }
 
 checkstyle() {
@@ -170,7 +180,7 @@ publishing() {
 }
 
 buildConfig() {
-  packageName("net.elytrium.limboauth")
+  packageName("${this.group}.${this.name}")
 
   buildConfigField("String", "VERSION", "\"$version\"")
 
@@ -179,11 +189,15 @@ buildConfig() {
       def matcher = (~".*[\\\\/](.*)[\\\\/](.*)[\\\\/](.*)[\\\\/].*[\\\\/](.*\\.jar)").matcher(file.getAbsolutePath())
       matcher.find()
       "${matcher.group(1).replace('.', '/')}/${matcher.group(2)}/${matcher.group(3)}/${matcher.group(4)}"
-    }).join("\", \"")+ "\" }"
+    }).join("\", \"") + "\" }"
   }
+
   buildConfigField("String[]", "COMMON_DEPENDENCIES", formatConfiguration(configurations.common))
-  buildConfigField("String[]", "TOTP_DEPENDENCIES", formatConfiguration(configurations.totp))
-  buildConfigField("String[]", "BCRYPT_DEPENDENCIES", formatConfiguration(configurations.bcrypt))
-  buildConfigField("String[]", "ARGON2_DEPENDENCIES", formatConfiguration(configurations.argon2))
-  buildConfigField("String[]", "SIPHASH_DEPENDENCIES", formatConfiguration(configurations.siphash))
+
+  buildConfigField("String[]", "H2V1_DEPENDENCIES", formatConfiguration(configurations.h2v1))
+  buildConfigField("String[]", "H2_DEPENDENCIES", formatConfiguration(configurations.h2))
+  buildConfigField("String[]", "SQLITE_DEPENDENCIES", formatConfiguration(configurations.sqlite))
+  buildConfigField("String[]", "MYSQL_DEPENDENCIES", formatConfiguration(configurations.mysql))
+  buildConfigField("String[]", "MARIADB_DEPENDENCIES", formatConfiguration(configurations.mariadb))
+  buildConfigField("String[]", "POSTGRESQL_DEPENDENCIES", formatConfiguration(configurations.postgresql))
 }

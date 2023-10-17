@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.event;
+package net.elytrium.limboauth.events;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 

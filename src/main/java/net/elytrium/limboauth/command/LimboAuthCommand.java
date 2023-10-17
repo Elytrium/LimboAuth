@@ -97,7 +97,7 @@ public class LimboAuthCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(Invocation invocation) {
-    return Settings.IMP.commandPermissionState.help.hasPermission(invocation.source(), "limboauth.commands.help");
+    return Settings.HEAD.commandPermissionState.help.hasPermission(invocation.source(), "limboauth.commands.help");
   }
 
   private void showHelp(CommandSource source) {
@@ -125,7 +125,7 @@ public class LimboAuthCommand implements SimpleCommand {
   }
 
   private enum Subcommand {
-    RELOAD("Reload config.", () -> Settings.IMP.commandPermissionState.reload);
+    RELOAD("Reload config.", () -> Settings.HEAD.commandPermissionState.reload);
 
     private final String command;
     private final String permission;

@@ -15,27 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.utils;
+package net.elytrium.limboauth.serialization.replacers;
 
 import java.util.regex.Pattern;
 import net.elytrium.serializer.placeholders.PlaceholderReplacer;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.title.Title;
 
-public class TitleReplacer implements PlaceholderReplacer<Title, Pattern> {
+public class ComponentReplacer implements PlaceholderReplacer<Component, Pattern> {
 
-  public static final TitleReplacer INSTANCE = new TitleReplacer();
+  public static final ComponentReplacer INSTANCE = new ComponentReplacer();
 
   @Override
-  public Title replace(Title value, Pattern[] placeholders, Object... values) {
-    Component title = value.title();
-    Component subtitle = value.subtitle();
+  public Component replace(Component value, Pattern[] placeholders, Object... values) {
     for (int index = Math.min(values.length, placeholders.length) - 1; index >= 0; --index) {
-      title = ComponentReplacer.replace(title, placeholders[index], values[index]);
-      subtitle = ComponentReplacer.replace(subtitle, placeholders[index], values[index]);
+      value = ComponentReplacer.replace(value, placeholders[index], values[index]);
     }
 
-    return Title.title(title.compact(), subtitle.compact(), value.times());
+    return value.compact();
+  }
+
+  static Component replace(Component value, Pattern placeholder, Object replacement) {
+    return value.replaceText(builder -> builder.match(placeholder).replacement((result, input) -> replacement instanceof Component component ? component : input.content(String.valueOf(replacement))));
   }
 
   @Override

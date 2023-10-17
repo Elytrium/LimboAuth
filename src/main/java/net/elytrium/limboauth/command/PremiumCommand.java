@@ -23,18 +23,14 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
+import net.elytrium.limboauth.data.PlayerData;
 
 public class PremiumCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
 
-  public PremiumCommand(LimboAuth plugin, DSLContext dslContext) {
+  public PremiumCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
   }
 
   @Override
@@ -44,23 +40,23 @@ public class PremiumCommand implements SimpleCommand {
 
     if (source instanceof Player) {
       if (args.length == 2) {
-        if (Settings.IMP.confirmKeyword.equalsIgnoreCase(args[1])) {
+        if (Settings.HEAD.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, args[0],
+          PlayerData.checkPassword(lowercaseNickname, args[0],
               () -> source.sendMessage(Settings.MESSAGES.notRegistered),
               () -> source.sendMessage(Settings.MESSAGES.alreadyPremium),
               h -> this.plugin.isPremiumExternal(lowercaseNickname).thenAccept(premiumResponse -> {
                 if (premiumResponse.getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
-                  this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                      .set(RegisteredPlayer.Table.HASH_FIELD, "")
-                      .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+                  this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+                      .set(PlayerData.Table.HASH_FIELD, "")
+                      .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
                       .executeAsync()
                       .thenRun(() -> {
                         this.plugin.removePlayerFromCache(username);
                         ((Player) source).disconnect(Settings.MESSAGES.premiumSuccessful);
                       }).exceptionally(e -> {
-                        this.plugin.handleSqlError(e);
+                        this.plugin.getDatabase().handleSqlError(e);
                         source.sendMessage(Settings.MESSAGES.errorOccurred);
                         return null;
                       });
@@ -84,6 +80,6 @@ public class PremiumCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.premium.hasPermission(invocation.source(), "limboauth.commands.premium");
+    return Settings.HEAD.commandPermissionState.premium.hasPermission(invocation.source(), "limboauth.commands.premium");
   }
 }

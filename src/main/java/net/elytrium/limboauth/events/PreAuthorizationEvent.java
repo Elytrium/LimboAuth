@@ -15,15 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.event;
+package net.elytrium.limboauth.events;
 
+import com.velocitypowered.api.proxy.Player;
 import java.util.function.Consumer;
-import net.elytrium.limboapi.api.player.LimboPlayer;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.data.PlayerData;
 
-public class PostRegisterEvent extends PostEvent {
+public class PreAuthorizationEvent extends PreEvent {
 
-  public PostRegisterEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo, String password) {
-    super(onComplete, player, playerInfo, password);
+  private final PlayerData playerInfo;
+
+  public PreAuthorizationEvent(Consumer<TaskEvent> onComplete, Result result, Player player, PlayerData playerInfo) {
+    super(onComplete, result, player);
+
+    this.playerInfo = playerInfo;
+  }
+
+  public PlayerData getPlayerInfo() {
+    return this.playerInfo;
   }
 }

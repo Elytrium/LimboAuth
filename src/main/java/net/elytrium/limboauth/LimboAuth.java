@@ -17,28 +17,17 @@
 
 package net.elytrium.limboauth;
 
-import com.google.common.net.UrlEscapers;
-import com.google.common.primitives.Bytes;
-import com.google.common.primitives.Longs;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.inject.name.Named;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.plugin.PluginContainer;
-import com.velocitypowered.api.plugin.PluginManager;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import com.velocitypowered.api.scheduler.ScheduledTask;
-import com.velocitypowered.proxy.VelocityServer;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import io.whitfin.siphash.SipHasher;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
@@ -48,8 +37,6 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
@@ -58,10 +45,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.kyori.serialization.Serializers;
@@ -80,20 +63,14 @@ import net.elytrium.limboauth.command.LimboAuthCommand;
 import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
-import net.elytrium.limboauth.event.AuthPluginReloadEvent;
-import net.elytrium.limboauth.event.PreAuthorizationEvent;
-import net.elytrium.limboauth.event.PreEvent;
-import net.elytrium.limboauth.event.PreRegisterEvent;
-import net.elytrium.limboauth.event.TaskEvent;
+import net.elytrium.limboauth.data.Database;
+import net.elytrium.limboauth.events.AuthPluginReloadEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.auth.HybridAuthManager;
 import net.elytrium.limboauth.listener.AuthListener;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.data.PlayerData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.ListenableFuture;
-import org.asynchttpclient.Response;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
@@ -118,74 +95,68 @@ public class LimboAuth { // split one bing class into small ones (главный
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
 
   private final Logger logger;
-
   private final Path dataDirectory;
-  private final Path configPath;
-
-  private final LimboFactory limboFactory;
-  private final Metrics.Factory metricsFactory;
-
-  private final ExecutorService executor;
-
+  private final Path configFile;
   private final ProxyServer server;
-  private final PluginManager pluginManager;
-  private final EventManager eventManager;
-  private final CommandManager commandManager;
-
-  private final AsyncHttpClient httpClient;
+  private final ExecutorService executor;
+  private final Metrics.Factory metricsFactory;
+  private final LimboFactory limboFactory;
   private final FloodgateApiHolder floodgateApi;
 
+  private Database database;
   private Serializer serializer;
 
   private ScheduledTask purgeCacheTask;
   private ScheduledTask purgePremiumCacheTask;
   private ScheduledTask purgeBruteforceCacheTask;
 
-  private DSLContext dslContext; // TODO убрать его отсюда нахуй, если он тут будет то плагин не запустится с тем что есть сейчас
-  private Pattern nicknameValidationPattern;
   private Limbo authServer;
 
-  LimboAuth(Logger logger, @DataDirectory Path dataDirectory, @Named("limboapi") PluginContainer limboApi, Metrics.Factory metricsFactory, ExecutorService executor,
-      ProxyServer server, PluginManager pluginManager, EventManager eventManager, CommandManager commandManager) {
+  LimboAuth(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
     this.logger = logger;
-
     this.dataDirectory = dataDirectory;
-    this.configPath = dataDirectory.resolve("config.yml");
-
-    this.limboFactory = (LimboFactory) limboApi.getInstance().orElseThrow();
-    this.metricsFactory = metricsFactory;
-
-    this.executor = executor;
-
+    this.configFile = dataDirectory.resolve("config.yml");
     this.server = server;
-    this.pluginManager = pluginManager;
-    this.eventManager = eventManager;
-    this.commandManager = commandManager;
-
-    this.httpClient = ((VelocityServer) this.server).getAsyncHttpClient();
+    this.metricsFactory = metricsFactory; // TODO создавать рефлексией видимо
+    this.executor = executor;
+    this.limboFactory = (LimboFactory) limboApi.getInstance().orElseThrow();
     this.floodgateApi = this.server.getPluginManager().getPlugin("floodgate").isPresent() ? new FloodgateApiHolder() : null;
   }
 
   void onProxyInitialization() {
     try {
       this.reload();
-    } catch (Throwable throwable) {
-      this.logger.error("SQL exception caught", throwable);
+    } catch (Throwable t) {
+      this.logger.error("Caught unhandled exception", t);
       this.server.shutdown();
+      return;
     }
 
+    CommandManager manager = this.server.getCommandManager();
+    manager.register("unregister", new UnregisterCommand(this), "unreg");
+    manager.register("forceregister", new ForceRegisterCommand(this), "forcereg");
+    manager.register("premium", new PremiumCommand(this), "license");
+    manager.register("forceunregister", new ForceUnregisterCommand(this), "forceunreg");
+    manager.register("changepassword", new ChangePasswordCommand(this), "changepass", "cp");
+    manager.register("forcechangepassword", new ForceChangePasswordCommand(this), "forcechangepass", "fcp");
+    manager.register("destroysession", new DestroySessionCommand(this), "logout");
+    if (Settings.HEAD.enableTotp) {
+      manager.register("2fa", new TotpCommand(this), "totp");
+    }
+    manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
+
     Metrics metrics = this.metricsFactory.make(this, 13700);
-    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.IMP.floodgateNeedAuth)));
-    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.IMP.onlineModeNeedAuth)));
-    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.IMP.database.storageType)));
-    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.IMP.loadWorld)));
-    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.enableTotp)));
-    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.IMP.dimension)));
-    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.saveUuid)));
-    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.dslContext.fetchCount(RegisteredPlayer.Table.INSTANCE))));
+    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.HEAD.floodgateNeedAuth)));
+    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.HEAD.onlineModeNeedAuth)));
+    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.DATABASE.storageType)));
+    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.HEAD.loadWorld)));
+    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.HEAD.enableTotp)));
+    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.HEAD.dimension)));
+    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.HEAD.saveUuid)));
+    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.database.getContext().fetchCount(PlayerData.Table.INSTANCE))));
 
     try {
-      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.version)) {
+      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.HEAD.version)) {
         this.logger.error("****************************************");
         this.logger.warn("The new LimboAuth update was found, please update.");
         this.logger.error("https://github.com/Elytrium/LimboAuth/releases/");
@@ -196,15 +167,27 @@ public class LimboAuth { // split one bing class into small ones (главный
     }
   }
 
+  void onProxyShutdown() {
+    if (this.database != null) {
+      this.database.shutdown();
+    }
+  }
+
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
   public void reload() {
-    Settings.IMP.reload(this.configPath);
+    Settings.HEAD.reload(this.configFile);
 
-    if (this.floodgateApi == null && !Settings.IMP.floodgateNeedAuth) {
+    if (this.floodgateApi == null && !Settings.HEAD.floodgateNeedAuth) {
       throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false), please install floodgate plugin.");
     }
 
-    ComponentSerializer<Component, Component, String> serializer = Settings.IMP.serializer.getSerializer();
+    try {
+      this.database = new Database(this);
+    } catch (Throwable e) {
+      throw new RuntimeException(e);
+    }
+
+    ComponentSerializer<Component, Component, String> serializer = Settings.HEAD.serializer.getSerializer();
     if (serializer == null) {
       this.logger.warn("The specified serializer could not be founded, using default. (LEGACY_AMPERSAND)");
       this.serializer = new Serializer(Objects.requireNonNull(Serializers.LEGACY_AMPERSAND.getSerializer()));
@@ -212,10 +195,10 @@ public class LimboAuth { // split one bing class into small ones (главный
       this.serializer = new Serializer(serializer);
     }
 
-    if (Settings.IMP.checkPasswordStrength) {
+    if (Settings.HEAD.checkPasswordStrength) {
       try {
         this.unsafePasswords.clear();
-        Path unsafePasswordsPath = this.dataDirectory.resolve(Settings.IMP.unsafePasswordsFile);
+        Path unsafePasswordsPath = this.dataDirectory.resolve(Settings.HEAD.unsafePasswordsFile);
         if (!unsafePasswordsPath.toFile().exists()) {
           Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsPath);
         }
@@ -226,56 +209,21 @@ public class LimboAuth { // split one bing class into small ones (главный
       }
     }
 
-    this.cachedAuthChecks.clear();
-    this.premiumCache.clear();
-    this.bruteforceCache.clear();
-
-    this.dslContext = Settings.IMP.database.storageType.connect(
-        this,
-        this.dataDirectory,
-        Settings.IMP.database,
-        this.executor
-    );
-
-    this.nicknameValidationPattern = Pattern.compile(Settings.IMP.allowedNicknameRegex);
-    this.migrateDb(RegisteredPlayer.Table.INSTANCE);
-
-    // TODO register commands once on start, no need to create new now
-    CommandManager manager = this.server.getCommandManager();
-    manager.unregister("unregister");
-    manager.unregister("forceregister");
-    manager.unregister("premium");
-    manager.unregister("forceunregister");
-    manager.unregister("changepassword");
-    manager.unregister("forcechangepassword");
-    manager.unregister("destroysession");
-    manager.unregister("2fa");
-    manager.unregister("limboauth");
-
-    manager.register("unregister", new UnregisterCommand(this, this.dslContext), "unreg");
-    manager.register("forceregister", new ForceRegisterCommand(this, this.dslContext), "forcereg");
-    manager.register("premium", new PremiumCommand(this, this.dslContext), "license");
-    manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.dslContext), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this, this.dslContext), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.dslContext), "forcechangepass", "fcp");
-    manager.register("destroysession", new DestroySessionCommand(this), "logout");
-    if (Settings.IMP.enableTotp) {
-      manager.register("2fa", new TotpCommand(this, this.dslContext), "totp");
-    }
-    manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
+    this.cacheManager = new CacheManager();
+    this.hybridAuthManager = new HybridAuthManager(this);
+    this.authManager = new AuthManager(this);
 
     VirtualWorld authWorld = this.limboFactory.createVirtualWorld(
-        Settings.IMP.dimension,
-        Settings.IMP.authCoords.posX, Settings.IMP.authCoords.posY, Settings.IMP.authCoords.posZ,
-        (float) Settings.IMP.authCoords.yaw, (float) Settings.IMP.authCoords.pitch
+        Settings.HEAD.dimension,
+        Settings.HEAD.authCoords.posX, Settings.HEAD.authCoords.posY, Settings.HEAD.authCoords.posZ,
+        (float) Settings.HEAD.authCoords.yaw, (float) Settings.HEAD.authCoords.pitch
     );
 
-    if (Settings.IMP.loadWorld) {
+    if (Settings.HEAD.loadWorld) {
       try {
-        Path path = this.dataDirectory.resolve(Settings.IMP.worldFilePath);
-        WorldFile file = this.limboFactory.openWorldFile(Settings.IMP.worldFileType, path);
-
-        file.toWorld(this.limboFactory, authWorld, Settings.IMP.worldCoords.posX, Settings.IMP.worldCoords.posY, Settings.IMP.worldCoords.posZ, Settings.IMP.worldLightLevel);
+        this.limboFactory.openWorldFile(Settings.HEAD.worldFileType, this.dataDirectory.resolve(Settings.HEAD.worldFilePath)).toWorld(
+            this.limboFactory, authWorld, Settings.HEAD.worldCoords.posX, Settings.HEAD.worldCoords.posY, Settings.HEAD.worldCoords.posZ, Settings.HEAD.worldLightLevel
+        );
       } catch (IOException e) {
         throw new IllegalArgumentException(e);
       }
@@ -288,48 +236,18 @@ public class LimboAuth { // split one bing class into small ones (главный
     this.authServer = this.limboFactory
         .createLimbo(authWorld)
         .setName("LimboAuth")
-        .setWorldTime(Settings.IMP.worldTicks)
-        .setGameMode(Settings.IMP.gameMode)
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.registerCommand)))
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.loginCommand)));
+        .setWorldTime(Settings.HEAD.worldTicks)
+        .setGameMode(Settings.HEAD.gameMode)
+        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.registerCommand)))
+        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.loginCommand)));
 
-    if (Settings.IMP.enableTotp) {
-      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.IMP.totpCommand)));
+    if (Settings.HEAD.enableTotp) {
+      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.totpCommand)));
     }
 
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
-    eventManager.register(this, new AuthListener(this, this.dslContext, this.floodgateApi));
-
-    if (this.purgeCacheTask != null) {
-      this.purgeCacheTask.cancel();
-    }
-
-    this.purgeCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.purgeCacheMillis))
-        .delay(Settings.IMP.purgeCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(Settings.IMP.purgeCacheMillis, TimeUnit.MILLISECONDS)
-        .schedule();
-
-    if (this.purgePremiumCacheTask != null) {
-      this.purgePremiumCacheTask.cancel();
-    }
-
-    this.purgePremiumCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.premiumCache, Settings.IMP.purgePremiumCacheMillis))
-        .delay(Settings.IMP.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(Settings.IMP.purgePremiumCacheMillis, TimeUnit.MILLISECONDS)
-        .schedule();
-
-    if (this.purgeBruteforceCacheTask != null) {
-      this.purgeBruteforceCacheTask.cancel();
-    }
-
-    this.purgeBruteforceCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.bruteforceCache, Settings.IMP.purgeBruteforceCacheMillis))
-        .delay(Settings.IMP.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
-        .repeat(Settings.IMP.purgeBruteforceCacheMillis, TimeUnit.MILLISECONDS)
-        .schedule();
+    eventManager.register(this, new AuthListener(this, this.floodgateApi));
 
     eventManager.fireAndForget(new AuthPluginReloadEvent());
   }
@@ -338,417 +256,8 @@ public class LimboAuth { // split one bing class into small ones (главный
     return commands.stream().filter(command -> command.startsWith("/")).map(command -> command.substring(1)).collect(Collectors.toList());
   }
 
-  private void checkCache(Map<?, ? extends CachedUser> userMap, long time) {
-    userMap.entrySet().stream()
-        .filter(userEntry -> userEntry.getValue().getCheckTime() + time <= System.currentTimeMillis())
-        .map(Map.Entry::getKey)
-        .forEach(userMap::remove);
-  }
-
-  public void migrateDb(Table<?> table) {
-    Field<?>[] fields = table.fields();
-    this.dslContext.createTableIfNotExists(table).columns(fields).execute();
-    for (Field<?> field : fields) {
-      this.dslContext.alterTable(table).addColumnIfNotExists(field).execute();
-    }
-  }
-
-  public void cacheAuthUser(Player player) {
-    String username = player.getUsername();
-    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
-  }
-
-  public void removePlayerFromCache(String username) {
-    this.cachedAuthChecks.remove(username.toLowerCase(Locale.ROOT));
-    this.premiumCache.remove(username.toLowerCase(Locale.ROOT));
-  }
-
-  public boolean needAuth(Player player) {
-    String username = player.getUsername();
-    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    if (!this.cachedAuthChecks.containsKey(lowercaseUsername)) {
-      return true;
-    } else {
-      CachedSessionUser sessionUser = this.cachedAuthChecks.get(lowercaseUsername);
-      return !sessionUser.getInetAddress().equals(player.getRemoteAddress().getAddress()) || !sessionUser.getUsername().equals(username);
-    }
-  }
-
-  public void authPlayer(Player player) {
-    boolean isFloodgate = !Settings.IMP.floodgateNeedAuth && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
-    if (!isFloodgate && this.isForcedPreviously(player.getUsername())) {
-      this.isPremium(player.getUsername()).thenAccept(isPremium -> {
-        if (isPremium) {
-          player.disconnect(Settings.MESSAGES.reconnectKick);
-        } else {
-          this.authPlayer0(player, false);
-        }
-      });
-    } else {
-      this.authPlayer0(player, isFloodgate);
-    }
-  }
-
-  private void authPlayer0(Player player, boolean isFloodgate) {
-    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress()) >= Settings.IMP.bruteforceMaxAttempts) {
-      player.disconnect(Settings.MESSAGES.loginWrongPasswordKick);
-      return;
-    }
-
-    String nickname = player.getUsername();
-    String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    if (!this.nicknameValidationPattern.matcher((isFloodgate) ? nickname.substring(this.floodgateApi.getPrefixLength()) : nickname).matches()) {
-      player.disconnect(Settings.MESSAGES.nicknameInvalidKick);
-      return;
-    }
-
-    this.dslContext.fetchAsync(
-            RegisteredPlayer.Table.INSTANCE,
-            DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname)
-        )
-        .thenAccept(registeredPlayerResult -> {
-          boolean onlineMode = player.isOnlineMode();
-          RegisteredPlayer nicknameRegisteredPlayer = registeredPlayerResult.isEmpty() ? null : registeredPlayerResult.get(0);
-          if ((onlineMode || isFloodgate) && (nicknameRegisteredPlayer == null || nicknameRegisteredPlayer.getHash().isEmpty())) {
-            this.dslContext.fetchAsync(
-                    RegisteredPlayer.Table.INSTANCE,
-                    DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname)
-                )
-                .thenAccept(premiumRegisteredPlayerResult -> {
-                  RegisteredPlayer registeredPlayer = premiumRegisteredPlayerResult.isEmpty() ? null : registeredPlayerResult.get(0);
-                  if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
-                    registeredPlayer = nicknameRegisteredPlayer;
-                    registeredPlayer.setPremiumUuid(player.getUniqueId().toString());
-                    this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                        .set(RegisteredPlayer.Table.PREMIUM_UUID_FIELD, player.getUniqueId().toString())
-                        .executeAsync();
-                  }
-
-                  if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.savePremiumAccounts) {
-                    registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
-
-                    this.dslContext.insertInto(RegisteredPlayer.Table.INSTANCE)
-                        .values(registeredPlayer)
-                        .executeAsync();
-                  }
-
-                  TaskEvent.Result result = TaskEvent.Result.NORMAL;
-                  if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
-                    // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
-                    // We need to wait for the PLAY connection state to set.
-                    this.postLoginTasks.put(player.getUniqueId(), () -> {
-                      if (onlineMode) {
-                        if (Settings.MESSAGES.loginPremiumMessage != null) {
-                          player.sendMessage(Settings.MESSAGES.loginPremiumMessage);
-                        }
-
-                        if (Settings.MESSAGES.loginPremiumTitle != null) {
-                          player.showTitle(Settings.MESSAGES.loginPremiumTitle);
-                        }
-                      } else {
-                        if (Settings.MESSAGES.loginFloodgate != null) {
-                          player.sendMessage(Settings.MESSAGES.loginFloodgate);
-                        }
-
-                        if (Settings.MESSAGES.loginFloodgateTitle != null) {
-                          player.showTitle(Settings.MESSAGES.loginFloodgateTitle);
-                        }
-                      }
-                    });
-
-                    result = TaskEvent.Result.BYPASS;
-                  }
-
-                  this.authPlayer0(player, registeredPlayer, result);
-                });
-          } else {
-            this.authPlayer0(player, nicknameRegisteredPlayer, TaskEvent.Result.NORMAL);
-          }
-        });
-  }
-
-  private void authPlayer0(Player player, RegisteredPlayer registeredPlayer, TaskEvent.Result result) {
-    EventManager eventManager = this.server.getEventManager();
-    if (registeredPlayer == null) {
-      if (Settings.IMP.disableRegistrations) {
-        player.disconnect(Settings.MESSAGES.registrationsDisabledKick);
-        return;
-      }
-
-      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
-      eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
-    } else {
-      Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
-      eventManager.fire(new PreAuthorizationEvent(eventConsumer, result, player, registeredPlayer)).thenAcceptAsync(eventConsumer);
-    }
-  }
-
-  private void sendPlayer(TaskEvent event, RegisteredPlayer registeredPlayer) {
-    Player player = ((PreEvent) event).getPlayer();
-    switch (event.getResult()) {
-      case BYPASS -> {
-        this.limboFactory.passLoginLimbo(player);
-        this.cacheAuthUser(player);
-        this.updateLoginData(player);
-      }
-      case CANCEL -> player.disconnect(event.getReason());
-      case WAIT -> {
-
-      }
-      default -> this.authServer.spawnPlayer(player, new AuthSessionHandler(this.dslContext, player, this, registeredPlayer));
-    }
-  }
-
-  public void updateLoginData(Player player) {
-    String lowercaseNickname = player.getUsername().toLowerCase(Locale.ROOT);
-    this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-        .set(RegisteredPlayer.Table.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress())
-        .set(RegisteredPlayer.Table.LOGIN_DATE_FIELD, System.currentTimeMillis())
-        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
-        .executeAsync()
-        .thenRun(() -> {
-          if (Settings.IMP.mod.enabled) {
-            byte[] lowercaseNicknameSerialized = lowercaseNickname.getBytes(StandardCharsets.UTF_8);
-            long issueTime = System.currentTimeMillis();
-            long hash = SipHasher.init(Settings.IMP.mod.verifyKey)
-                .update(lowercaseNicknameSerialized)
-                .update(Longs.toByteArray(issueTime))
-                .digest();
-
-            player.sendPluginMessage(this.getChannelIdentifier(player), Bytes.concat(Longs.toByteArray(issueTime), Longs.toByteArray(hash)));
-          }
-        });
-  }
-
   public ChannelIdentifier getChannelIdentifier(Player player) {
     return player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_13) >= 0 ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
-  }
-
-  private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
-    if (!scheme.isEmpty()) {
-      if (!(jsonElement instanceof JsonObject object)) {
-        return false;
-      }
-
-      for (String field : scheme) {
-        if (!object.has(field)) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  public CompletableFuture<PremiumResponse> isPremiumExternal(String nickname) {
-    CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
-    ListenableFuture<Response> responseListenable = this.httpClient.prepareGet(String.format(Settings.IMP.isPremiumAuthUrl, UrlEscapers.urlFormParameterEscaper().escape(nickname))).execute();
-
-    responseListenable.addListener(() -> {
-      try {
-        Response response = responseListenable.get();
-        int statusCode = response.getStatusCode();
-
-        if (Settings.IMP.statusCodeRateLimit.contains(statusCode)) {
-          completableFuture.complete(PremiumResponse.RATE_LIMIT);
-          return;
-        }
-
-        JsonElement jsonElement = JsonParser.parseString(response.getResponseBody());
-
-        if (Settings.IMP.statusCodeUserExists.contains(statusCode) && this.validateScheme(jsonElement, Settings.IMP.userExistsJsonValidatorFields)) {
-          completableFuture.complete(new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.jsonUuidField).getAsString()));
-          return;
-        }
-
-        if (Settings.IMP.statusCodeUserNotExists.contains(statusCode) && this.validateScheme(jsonElement, Settings.IMP.userNotExistsJsonValidatorFields)) {
-          completableFuture.complete(PremiumResponse.CRACKED);
-          return;
-        }
-
-        completableFuture.complete(PremiumResponse.ERROR);
-      } catch (ExecutionException | InterruptedException e) {
-        this.logger.error("Unable to authenticate with Mojang.", e);
-        completableFuture.complete(PremiumResponse.ERROR);
-      }
-    }, this.executor);
-
-    return completableFuture;
-  }
-
-  public CompletableFuture<PremiumResponse> isPremiumInternal(String nickname) {
-    CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
-    this.dslContext.selectCount().from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(nickname).and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).ne("")))
-        .fetchAsync()
-        .handle((result, t) -> {
-          if (result == null) {
-            this.logger.error("Unable to check if account is premium.", t);
-            completableFuture.complete(PremiumResponse.ERROR);
-          } else {
-            completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.CRACKED);
-          }
-
-          return null;
-        });
-
-    this.dslContext.selectCount().from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(nickname)
-            .and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).eq("")))
-        .fetchAsync()
-        .handle((result, t) -> {
-          if (result == null) {
-            this.logger.error("Unable to check if account is premium.", t);
-            completableFuture.complete(PremiumResponse.ERROR);
-          } else {
-            completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.PREMIUM);
-          }
-
-          return null;
-        });
-
-    return completableFuture;
-  }
-
-  public CompletableFuture<Boolean> isPremiumUuid(UUID uuid) {
-    CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-    this.dslContext.selectCount().from(RegisteredPlayer.Table.INSTANCE)
-        .where(DSL.field(RegisteredPlayer.Table.PREMIUM_UUID_FIELD).eq(uuid.toString()).and(DSL.field(RegisteredPlayer.Table.HASH_FIELD).eq("")))
-        .fetchAsync()
-        .thenAccept(result -> completableFuture.complete(result.get(0).value1() != 0));
-    return completableFuture;
-  }
-
-  private CompletableFuture<Boolean> checkIsPremiumAndCacheFinal(String nickname, String lowercaseNickname, boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid) {
-    if (unknown) {
-      if (uuid != null) {
-        CompletableFuture<Boolean> isPremiumFuture = new CompletableFuture<>();
-
-        this.isPremiumUuid(uuid).thenAccept(isPremium -> {
-          if (isPremium) {
-            this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-            isPremiumFuture.complete(true);
-          }
-        });
-
-        return isPremiumFuture;
-      }
-
-      if (Settings.IMP.onlineModeNeedAuth) {
-        return CompletableFuture.completedFuture(false);
-      }
-    }
-
-    if (wasRateLimited && unknown || wasRateLimited && wasError) {
-      return CompletableFuture.completedFuture(Settings.IMP.onRateLimitPremium);
-    }
-
-    if (wasError && unknown || !premium) {
-      return CompletableFuture.completedFuture(Settings.IMP.onServerErrorPremium);
-    }
-
-    this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-    return CompletableFuture.completedFuture(true);
-  }
-
-  private CompletableFuture<Boolean> checkIsPremiumAndCacheStep(Queue<Function<String, CompletableFuture<PremiumResponse>>> queue,
-      String nickname, String lowercaseNickname, boolean premiumFinal, boolean unknownFinal,
-      boolean wasRateLimitedFinal, boolean wasErrorFinal, UUID uuidFinal) {
-    // TODO loop, no deque
-    if (queue.isEmpty()) {
-      return this.checkIsPremiumAndCacheFinal(nickname, lowercaseNickname, premiumFinal, unknownFinal, wasRateLimitedFinal, wasErrorFinal, uuidFinal);
-    }
-
-    return queue.poll().apply(lowercaseNickname).thenCompose(check -> {
-      boolean premium = premiumFinal;
-      boolean unknown = unknownFinal;
-      boolean wasRateLimited = wasRateLimitedFinal;
-      boolean wasError = wasErrorFinal;
-      UUID uuid;
-
-      if (check.getUuid() != null) {
-        uuid = check.getUuid();
-      } else {
-        uuid = uuidFinal;
-      }
-
-      switch (check.getState()) {
-        case CRACKED -> {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
-          return CompletableFuture.completedFuture(false);
-        }
-        case PREMIUM -> {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-          return CompletableFuture.completedFuture(true);
-        }
-        case PREMIUM_USERNAME -> premium = true;
-        case UNKNOWN -> unknown = true;
-        case RATE_LIMIT -> wasRateLimited = true;
-        default -> wasError = true;
-      }
-
-      return this.checkIsPremiumAndCacheStep(queue, nickname, lowercaseNickname, premium, unknown, wasRateLimited, wasError, uuid);
-    });
-  }
-
-  private CompletableFuture<Boolean> checkIsPremiumAndCache(String nickname, Queue<Function<String, CompletableFuture<PremiumResponse>>> queue) {
-    String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    if (this.premiumCache.containsKey(lowercaseNickname)) {
-      return CompletableFuture.completedFuture(this.premiumCache.get(lowercaseNickname).isPremium());
-    }
-
-    boolean premium = false;
-    boolean unknown = false;
-    boolean wasRateLimited = false;
-    boolean wasError = false;
-    UUID uuid = null;
-
-    return this.checkIsPremiumAndCacheStep(queue, nickname, lowercaseNickname, premium, unknown, wasRateLimited, wasError, uuid);
-  }
-
-  public CompletableFuture<Boolean> isPremium(String nickname) {
-    return Settings.IMP.forceOfflineMode ? CompletableFuture.completedFuture(false)
-        : Settings.IMP.checkPremiumPriorityInternal ? this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumInternal, this::isPremiumExternal)))
-        : this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumExternal, this::isPremiumInternal)));
-  }
-
-  public void incrementBruteforceAttempts(InetAddress address) {
-    this.getBruteforceUser(address).incrementAttempts();
-  }
-
-  public int getBruteforceAttempts(InetAddress address) {
-    return this.getBruteforceUser(address).getAttempts();
-  }
-
-  private CachedBruteforceUser getBruteforceUser(InetAddress address) {
-    CachedBruteforceUser user = this.bruteforceCache.get(address);
-    if (user == null) {
-      user = new CachedBruteforceUser(System.currentTimeMillis());
-      this.bruteforceCache.put(address, user);
-    }
-
-    return user;
-  }
-
-  public void clearBruteforceAttempts(InetAddress address) {
-    this.bruteforceCache.remove(address);
-  }
-
-  public void saveForceOfflineMode(String nickname) {
-    this.forcedPreviously.add(nickname);
-  }
-
-  public void unsetForcedPreviously(String nickname) {
-    this.forcedPreviously.remove(nickname);
-  }
-
-  public boolean isForcedPreviously(String nickname) {
-    return this.forcedPreviously.contains(nickname);
-  }
-
-  public Map<UUID, Runnable> getPostLoginTasks() {
-    return this.postLoginTasks;
   }
 
   public Set<String> getUnsafePasswords() {

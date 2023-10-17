@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.event;
+package net.elytrium.limboauth.events;
 
 import java.util.function.Consumer;
 import net.elytrium.limboapi.api.player.LimboPlayer;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.data.PlayerData;
 
 public abstract class PostEvent extends TaskEvent {
 
   private final LimboPlayer player;
-  private final RegisteredPlayer playerInfo;
+  private final PlayerData playerInfo;
   private final String password;
 
-  protected PostEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, RegisteredPlayer playerInfo, String password) {
+  protected PostEvent(Consumer<TaskEvent> onComplete, LimboPlayer player, PlayerData playerInfo, String password) {
     super(onComplete);
 
     this.player = player;
@@ -35,7 +35,7 @@ public abstract class PostEvent extends TaskEvent {
     this.password = password;
   }
 
-  protected PostEvent(Consumer<TaskEvent> onComplete, Result result, LimboPlayer player, RegisteredPlayer playerInfo, String password) {
+  protected PostEvent(Consumer<TaskEvent> onComplete, Result result, LimboPlayer player, PlayerData playerInfo, String password) {
     super(onComplete, result);
 
     this.player = player;
@@ -47,7 +47,7 @@ public abstract class PostEvent extends TaskEvent {
     return this.player;
   }
 
-  public RegisteredPlayer getPlayerInfo() {
+  public PlayerData getPlayerInfo() {
     return this.playerInfo;
   }
 

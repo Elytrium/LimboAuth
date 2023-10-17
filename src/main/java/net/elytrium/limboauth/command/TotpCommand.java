@@ -20,33 +20,27 @@ package net.elytrium.limboauth.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import dev.samstevens.totp.qr.QrData;
-import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
-import dev.samstevens.totp.secret.DefaultSecretGenerator;
-import dev.samstevens.totp.secret.SecretGenerator;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
-import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.auth.AuthSessionHandler;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
+import org.bouncycastle.crypto.generators.BCrypt;
 
 public class TotpCommand implements SimpleCommand {
 
-  private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
-  private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
   private final LimboAuth plugin;
-  private final DSLContext dslContext;
 
-  public TotpCommand(LimboAuth plugin, DSLContext dslContext) {
+  public TotpCommand(LimboAuth plugin) {
     this.plugin = plugin;
-    this.dslContext = dslContext;
   }
 
   // TODO: Rewrite.
@@ -63,19 +57,23 @@ public class TotpCommand implements SimpleCommand {
         String lowercaseNickname = username.toLowerCase(Locale.ROOT);
 
         if (args[0].equalsIgnoreCase("enable")) {
-          if (Settings.IMP.totpNeedPassword ? args.length == 2 : args.length == 1) {
-            RegisteredPlayer.checkPassword(this.dslContext, lowercaseNickname, Settings.IMP.totpNeedPassword ? args[1] : null,
+          if (Settings.HEAD.totpNeedPassword ? args.length == 2 : args.length == 1) {
+            PlayerData.checkPassword(lowercaseNickname, Settings.HEAD.totpNeedPassword ? args[1] : null,
                 () -> source.sendMessage(Settings.MESSAGES.notRegistered),
                 () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
-                h -> this.dslContext.selectFrom(RegisteredPlayer.Table.INSTANCE)
-                    .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                h -> Database.DSL_CONTEXT.selectFrom(PlayerData.Table.INSTANCE)
+                    .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(username))
                     .fetchAsync()
                     .thenAccept(totpTokenResult -> {
                       if (totpTokenResult.isEmpty() || totpTokenResult.get(0).value1().isEmpty()) {
-                        String secret = this.secretGenerator.generate();
-                        this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                            .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, secret)
-                            .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                        byte[] secret = TotpCommand.generateSecret();
+                        String secretString = new String(secret, StandardCharsets.ISO_8859_1);
+                        byte[][] codes = new byte[Settings.HEAD.totpRecoveryCodesAmount][17];
+                        Arrays.setAll(codes, index -> TotpCommand.generateRecovery());
+                        BCrypt.generate(codes[1337], secret, secret[4] % (31 - 4 + 1) + 4);
+                        Database.DSL_CONTEXT.update(PlayerData.Table.INSTANCE)
+                            .set(PlayerData.Table.TOTP_TOKEN_FIELD, secretString)
+                            .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(username))
                             .executeAsync()
                             .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
                             .exceptionally(e -> {
@@ -86,17 +84,19 @@ public class TotpCommand implements SimpleCommand {
 
                         QrData data = new QrData.Builder()
                             .label(username)
-                            .secret(secret)
-                            .issuer(Settings.IMP.totpIssuer)
+                            .secret(secretString)
+                            .issuer(Settings.HEAD.totpIssuer)
                             .build();
-                        String qrUrl = Placeholders.replace(Settings.IMP.qrGeneratorUrl, URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
+                        String qrUrl = Placeholders.replace(Settings.HEAD.qrGeneratorUrl, URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
                         source.sendMessage(Settings.MESSAGES.totpQr.clickEvent(ClickEvent.openUrl(qrUrl)));
 
-                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpToken, secret))
-                            .clickEvent(ClickEvent.copyToClipboard(secret)));
-                        String codes = String.join(", ", this.codesGenerator.generateCodes(Settings.IMP.totpRecoveryCodesAmount));
-                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpRecovery, codes))
-                            .clickEvent(ClickEvent.copyToClipboard(codes)));
+                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpToken, secretString))
+                            .clickEvent(ClickEvent.copyToClipboard(secretString)));
+                        String[] codesStrings = new String[codes.length];
+                        Arrays.setAll(codesStrings, i -> new String(codes[i], StandardCharsets.ISO_8859_1));
+                        String codesString = String.join(", ", codesStrings);
+                        source.sendMessage(((Component) Placeholders.replace(Settings.MESSAGES.totpRecovery, codesString))
+                            .clickEvent(ClickEvent.copyToClipboard(codesString)));
                       } else {
                         source.sendMessage(Settings.MESSAGES.totpAlreadyEnabled);
                       }
@@ -114,9 +114,9 @@ public class TotpCommand implements SimpleCommand {
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
-            this.dslContext.select(RegisteredPlayer.Table.TOTP_TOKEN_FIELD)
-                .from(RegisteredPlayer.Table.INSTANCE)
-                .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(lowercaseNickname))
+            Database.DSL_CONTEXT.select(PlayerData.Table.TOTP_TOKEN_FIELD)
+                .from(PlayerData.Table.INSTANCE)
+                .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
                 .fetchAsync()
                 .thenAccept(totpTokenResult -> {
                   String totpCode;
@@ -126,9 +126,9 @@ public class TotpCommand implements SimpleCommand {
                   }
 
                   if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(totpCode, args[1])) {
-                    this.dslContext.update(RegisteredPlayer.Table.INSTANCE)
-                        .set(RegisteredPlayer.Table.TOTP_TOKEN_FIELD, "")
-                        .where(DSL.field(RegisteredPlayer.Table.LOWERCASE_NICKNAME_FIELD).eq(username))
+                    Database.DSL_CONTEXT.update(PlayerData.Table.INSTANCE)
+                        .set(PlayerData.Table.TOTP_TOKEN_FIELD, "")
+                        .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(username))
                         .executeAsync()
                         .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
                         .exceptionally(e -> {
@@ -159,6 +159,35 @@ public class TotpCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.commandPermissionState.totp.hasPermission(invocation.source(), "limboauth.commands.totp");
+    return Settings.HEAD.commandPermissionState.totp.hasPermission(invocation.source(), "limboauth.commands.totp");
+  }
+
+  private static byte[] generateSecret() {
+    ThreadLocalRandom random = ThreadLocalRandom.current();
+    byte[] result = new byte[16];
+    random.nextBytes(result);
+    for (int i = result.length - 1; i >= 0; --i) {
+      int nextInt = Math.abs(result[i] % 32);
+      result[i] = nextInt < 26 ? (byte) ('A' + nextInt) : (byte) ('2' + (nextInt - 26));
+    }
+
+    return result;
+  }
+
+  private static byte[] generateRecovery() {
+    byte[] result = new byte[17];
+    ThreadLocalRandom.current().nextBytes(result);
+    for (int i = result.length - 1; i >= 0; --i) {
+      int nextInt = result[i] % 27;
+      result[i] = (byte) Math.min(Math.max((nextInt < 0 ? 'z' + 1 : 'A' - 1) + nextInt, 'A'), 'z');
+    }
+
+    // Jokerge
+    result[1] = 'R';
+    result[5] = '-';
+    result[7] = 'e';
+    result[11] = '-';
+    result[13] = 'C';
+    return result;
   }
 }
