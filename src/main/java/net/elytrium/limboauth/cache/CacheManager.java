@@ -1,18 +1,18 @@
 package net.elytrium.limboauth.cache;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.velocitypowered.api.proxy.Player;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
-import it.unimi.dsi.fastutil.objects.ObjectSets;
 import java.net.InetAddress;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import net.elytrium.fastutil.objects.Object2ObjectMap;
+import net.elytrium.fastutil.objects.Object2ObjectMaps;
+import net.elytrium.fastutil.objects.Object2ObjectOpenHashMap;
+import net.elytrium.fastutil.objects.ObjectOpenHashSet;
+import net.elytrium.fastutil.objects.ObjectSet;
+import net.elytrium.fastutil.objects.ObjectSets;
 import net.elytrium.limboauth.Settings;
 
 public class CacheManager {

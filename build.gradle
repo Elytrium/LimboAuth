@@ -1,17 +1,17 @@
+//file:noinspection DependencyNotationArgument
 //file:noinspection VulnerableLibrariesLocal
 
 plugins() {
   id("java")
-
-  id("org.ajoberstar.grgit").version("5.2.0")
+  alias(libs.plugins.grgit)
 
   id("checkstyle")
-  id("com.github.spotbugs").version("5.0.14")
-  id("org.cadixdev.licenser").version("0.6.1")
+  alias(libs.plugins.spotbugs)
+  alias(libs.plugins.licenser)
 
   id("maven-publish")
 
-  id("com.github.gmazzo.buildconfig").version("4.1.2") // kotlin :skull:
+  alias(libs.plugins.buildconfig) // kotlin :skull:
 }
 
 this.group = "net.elytrium"
@@ -22,15 +22,15 @@ if (this.version.endsWith("-SNAPSHOT")) {
 }
 
 compileJava() {
-  sourceCompatibility = JavaVersion.VERSION_17
-  targetCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_16
+  targetCompatibility = JavaVersion.VERSION_16
   options.getRelease().set(11)
 
   options.setEncoding("UTF-8")
 }
 
 configurations() {
-  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb.extendsFrom(jna), postgresql.extendsFrom(jna), jna)
+  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql, compile/*workaround for the old buildconfig plugin (i’d rather use a 10-year-old plugin written in groovy than in Kotlin)*/)
 }
 
 repositories() {
@@ -38,7 +38,7 @@ repositories() {
 
   maven {
     name = "elytrium-repo"
-    url = "https://maven.jnngl.me/public/"
+    url = "https://maven.elytrium.net/repo/"
   }
 
   maven {
@@ -52,65 +52,44 @@ repositories() {
 }
 
 dependencies() {
-  annotationProcessor("net.java.dev.jna:jna-platform:5.13.0")
-  annotationProcessor("com.github.bsideup.jabel:jabel-javac-plugin:1.0.0")
+  annotationProcessor(libs.bundles.jabel)
 
-  compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
-  annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
-  compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
+  annotationProcessor(libs.velocity.api)
+  compileOnly(libs.bundles.velocity)
+  compileOnly(libs.bundles.netty)
+  compileOnly(libs.asynchttpclient)
 
-  compileOnly("io.netty:netty-codec:$nettyVersion")
-  compileOnly("io.netty:netty-handler:$nettyVersion")
-
-  compileOnly("org.asynchttpclient:async-http-client:2.12.3")
-
-  compileOnly("org.geysermc.floodgate:api:$floodgateVersion") {
+  compileOnly(libs.limboapi) {
+    exclude(module: "config") // TODO remove
+  }
+  compileOnly(libs.floodgate.api) {
     exclude(module: "cumulus")
   }
 
-  compileOnly("net.elytrium.limboapi:api:$limboapiVersion") {
-    exclude(module: "config") // TODO remove
-  }
-
-  common("it.unimi.dsi:fastutil:$fastutilVersion")
-  common("net.elytrium:serializer:$elytriumSerializerVersion")
-
-  common("org.bstats:bstats-velocity:$bstatsVersion")
-
-  common("com.zaxxer:HikariCP:5.0.1") {
+  common(libs.bundles.common) {
     exclude(module: "slf4j-api")
   }
-  common("org.jooq:jooq:3.18.7")
-  common("org.reactivestreams:reactive-streams:1.0.4") // Updated dependency of dependency of dependency
 
-  common("org.bouncycastle:bcprov-jdk18on:1.76")
-
-  h2v1("com.h2database:h2:1.4.199") // https://github.com/h2database/h2database/issues/2078
-
-  h2("com.h2database:h2:2.2.224")
-
-  sqlite("org.xerial:sqlite-jdbc:3.43.0.0")
-
-  mysql("com.mysql:mysql-connector-j:8.1.0")
-  mysql("com.google.protobuf:protobuf-java:3.24.4") // Updated dependency
-
-  jna("com.github.waffle:waffle-jna:3.3.0") {
+  h2v1(libs.h2v1)
+  h2(libs.h2)
+  sqlite(libs.sqlite) {
+    exclude(module: "slf4j-api")
+  }
+  mysql(libs.bundles.mysql)
+  mariadb(libs.bundles.mariadb) {
     exclude(group: "org.slf4j")
     exclude(module: "caffeine")
     exclude(module: "checker-qual")
   }
-
-  mariadb("org.mariadb.jdbc:mariadb-java-client:3.2.0") {
-    exclude(module: "*")
-  }
-
-  postgresql("org.postgresql:postgresql:42.6.0") {
+  postgresql(libs.bundles.postgresql) {
+    exclude(group: "org.slf4j")
+    exclude(module: "caffeine")
     exclude(module: "checker-qual")
   }
 }
 
 checkstyle() {
-  toolVersion = "10.12.1"
+  toolVersion = libs.versions.checkstyle.get()
 
   configFile = file("$rootDir/.config/checkstyle/checkstyle.xml")
   configProperties = ["configDirectory": "$rootDir/.config/checkstyle"]
@@ -144,9 +123,9 @@ tasks.register("javadocJar", Jar) {
 }
 
 javadoc() {
-  options.setEncoding("UTF-8")
-  options.setSource("17")
-  options.links("https://docs.oracle.com/en/java/javase/17/docs/api/")
+  options.encoding("UTF-8")
+  options.source("16")
+  options.links("https://docs.oracle.com/en/java/javase/11/docs/api/")
   options.addStringOption("Xdoclint:none", "-quiet")
   if (JavaVersion.current() >= JavaVersion.VERSION_1_9 && JavaVersion.current() < JavaVersion.VERSION_12) {
     options.addBooleanOption("-no-module-directories", true)
@@ -167,7 +146,7 @@ publishing() {
         password = System.getenv("ELYTRIUM_MAVEN_PASSWORD")
       }
 
-      name = "elytrium-repo"
+      name = "elytrium"
       url = "https://maven.elytrium.net/repo/"
     }
   }
@@ -182,22 +161,25 @@ publishing() {
 buildConfig() {
   packageName("${this.group}.${this.name}")
 
-  buildConfigField("String", "VERSION", "\"$version\"")
+  // Omit the NAME field using a little... extravagant way
+  buildConfigField("java.lang.String", "VERSION", "\"${this.version}\"/*")
+  buildConfigField("Object", "NAME", "null*/")
 
-  Closure<String> formatConfiguration = configuration -> {
-    "new String[] { \"" + configuration.collect(file -> {
-      def matcher = (~".*[\\\\/](.*)[\\\\/](.*)[\\\\/](.*)[\\\\/].*[\\\\/](.*\\.jar)").matcher(file.getAbsolutePath())
-      matcher.find()
-      "${matcher.group(1).replace('.', '/')}/${matcher.group(2)}/${matcher.group(3)}/${matcher.group(4)}"
-    }).join("\", \"") + "\" }"
-  }
+  buildConfigField("String[]", "REPOSITORIES", () -> "new String[] { \"${this.repositories.collect(repository -> repository.getProperties().get("url")).join("\", \"")}\" }")
 
-  buildConfigField("String[]", "COMMON_DEPENDENCIES", formatConfiguration(configurations.common))
+  buildConfigField("String[]", "COMMON", resolvedArtifacts(configurations.common))
 
-  buildConfigField("String[]", "H2V1_DEPENDENCIES", formatConfiguration(configurations.h2v1))
-  buildConfigField("String[]", "H2_DEPENDENCIES", formatConfiguration(configurations.h2))
-  buildConfigField("String[]", "SQLITE_DEPENDENCIES", formatConfiguration(configurations.sqlite))
-  buildConfigField("String[]", "MYSQL_DEPENDENCIES", formatConfiguration(configurations.mysql))
-  buildConfigField("String[]", "MARIADB_DEPENDENCIES", formatConfiguration(configurations.mariadb))
-  buildConfigField("String[]", "POSTGRESQL_DEPENDENCIES", formatConfiguration(configurations.postgresql))
+  buildConfigField("String[]", "H2V1", resolvedArtifacts(configurations.h2v1))
+  buildConfigField("String[]", "H2", resolvedArtifacts(configurations.h2))
+  buildConfigField("String[]", "SQLITE", resolvedArtifacts(configurations.sqlite))
+  buildConfigField("String[]", "MYSQL", resolvedArtifacts(configurations.mysql))
+  buildConfigField("String[]", "MARIADB", resolvedArtifacts(configurations.mariadb))
+  buildConfigField("String[]", "POSTGRESQL", resolvedArtifacts(configurations.postgresql))
+}
+
+static Closure<String> resolvedArtifacts(Configuration configuration) {
+  return () -> "new String[] { \"" + configuration.getResolvedConfiguration().getResolvedArtifacts().collect(artifact -> {
+    final id = artifact.moduleVersion.id
+    return "${id.group.replace('.', '/')}/${artifact.name}/${id.version}/${artifact.file.name}"
+  }).join("\", \"") + "\" }"
 }

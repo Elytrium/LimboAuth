@@ -25,10 +25,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
-import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.auth.AuthSessionHandler;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.text.Component;
@@ -76,8 +76,7 @@ public class TotpCommand implements SimpleCommand {
                             .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(username))
                             .executeAsync()
                             .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
-                            .exceptionally(e -> {
-                              this.plugin.handleSqlError(e);
+                            .exceptionally(t -> {
                               source.sendMessage(Settings.MESSAGES.errorOccurred);
                               return null;
                             });
@@ -101,8 +100,7 @@ public class TotpCommand implements SimpleCommand {
                         source.sendMessage(Settings.MESSAGES.totpAlreadyEnabled);
                       }
                     })
-                    .exceptionally(e -> {
-                      this.plugin.handleSqlError(e);
+                    .exceptionally(t -> {
                       source.sendMessage(Settings.MESSAGES.errorOccurred);
                       return null;
                     }),
@@ -131,8 +129,7 @@ public class TotpCommand implements SimpleCommand {
                         .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(username))
                         .executeAsync()
                         .thenRun(() -> source.sendMessage(Settings.MESSAGES.totpSuccessful))
-                        .exceptionally(e -> {
-                          this.plugin.handleSqlError(e);
+                        .exceptionally(t -> {
                           source.sendMessage(Settings.MESSAGES.errorOccurred);
                           return null;
                         });
@@ -140,8 +137,7 @@ public class TotpCommand implements SimpleCommand {
                     source.sendMessage(Settings.MESSAGES.totpWrong);
                   }
                 })
-                .exceptionally(e -> {
-                  this.plugin.handleSqlError(e);
+                .exceptionally(t -> {
                   source.sendMessage(Settings.MESSAGES.errorOccurred);
                   return null;
                 });

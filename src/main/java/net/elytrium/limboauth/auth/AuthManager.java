@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.cache.CachedSessionUser;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.PreAuthorizationEvent;
 import net.elytrium.limboauth.events.PreEvent;
@@ -17,7 +18,6 @@ import net.elytrium.limboauth.events.PreRegisterEvent;
 import net.elytrium.limboauth.events.TaskEvent;
 import net.elytrium.limboauth.utils.Hashing;
 import org.bouncycastle.util.Pack;
-import org.jooq.DSLContext;
 
 public class AuthManager {
 
@@ -67,23 +67,25 @@ public class AuthManager {
       return;
     }
 
-    DSLContext context = this.plugin.getDatabase().getContext();
+    Database database = this.plugin.getDatabase();
     UUID uniqueId = player.getUniqueId();
-    context.selectFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).limit(1).fetchAsync().thenAcceptAsync(resultByName -> {
+    database.selectFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).limit(1).fetchAsync().thenAcceptAsync(resultByName -> {
       boolean onlineMode = player.isOnlineMode();
       PlayerData playerDataByName = resultByName.isEmpty() ? null : resultByName.get(0);
       if ((onlineMode || isFloodgate) && (playerDataByName == null || playerDataByName.getHash().isEmpty())) {
-        context.selectFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.PREMIUM_UUID_FIELD.eq(uniqueId)).limit(1).fetchAsync().thenAcceptAsync(resultByUUID -> {
+        database.selectFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.PREMIUM_UUID_FIELD.eq(uniqueId)).limit(1).fetchAsync().thenAcceptAsync(resultByUUID -> {
           PlayerData playerData = resultByUUID.isEmpty() ? null : resultByName.get(0);
           if (playerDataByName != null && playerData == null && playerDataByName.getHash().isEmpty()) {
             playerData = playerDataByName;
             playerData.setPremiumUuid(uniqueId.toString());
-            context.update(PlayerData.Table.INSTANCE).set(PlayerData.Table.PREMIUM_UUID_FIELD, uniqueId)
-                .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync();
+            database.update(PlayerData.Table.INSTANCE)
+                .set(PlayerData.Table.PREMIUM_UUID_FIELD, uniqueId)
+                .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
+                .executeAsync();
           }
 
           if (playerDataByName == null && playerData == null && Settings.HEAD.savePremiumAccounts) {
-            context.insertInto(PlayerData.Table.INSTANCE).values(playerData = new PlayerData(player).setPremiumUuid(uniqueId)).executeAsync();
+            database.insertInto(PlayerData.Table.INSTANCE).values(playerData = new PlayerData(player).setPremiumUuid(uniqueId)).executeAsync();
           }
 
           TaskEvent.Result eventResult = TaskEvent.Result.NORMAL;
@@ -155,12 +157,12 @@ public class AuthManager {
 
   public void updateLoginData(Player player) {
     String lowercaseNickname = player.getUsername().toLowerCase(Locale.ROOT);
-    this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+    this.plugin.getDatabase().update(PlayerData.Table.INSTANCE)
         .set(PlayerData.Table.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress())
         .set(PlayerData.Table.LOGIN_DATE_FIELD, System.currentTimeMillis())
         .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
         .executeAsync()
-        .thenRun(() -> {
+        .thenRunAsync(() -> {
           if (Settings.HEAD.mod.enabled) {
             long issueTime = System.currentTimeMillis();
             byte[] data = new byte[8 * 2];

@@ -1,0 +1,52 @@
+[versions]
+velocity = "3.2.0-SNAPSHOT"
+netty = "4.1.101.Final"
+checkstyle = "10.12.5"
+
+[libraries]
+jna-platform = "net.java.dev.jna:jna-platform:5.13.0"
+jabel = "com.github.bsideup.jabel:jabel-javac-plugin:1.0.0"
+
+velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
+velocity-proxy = { module = "com.velocitypowered:velocity-proxy", version.ref = "velocity" } # From Elytrium repo.
+
+netty-codec = { module = "io.netty:netty-codec", version.ref = "netty" }
+netty-handler = { module = "io.netty:netty-handler", version.ref = "netty" }
+
+asynchttpclient = "org.asynchttpclient:async-http-client:2.12.3"
+
+limboapi = "net.elytrium.limboapi:api:1.1.17-SNAPSHOT"
+floodgate-api = "org.geysermc.floodgate:api:2.2.2-SNAPSHOT"
+
+serializer = "net.elytrium:serializer:1.1.0"
+fastutil = "net.elytrium:fastutil:8.5.13"
+hikari = "com.zaxxer:HikariCP:5.1.0"
+jooq = "org.jooq:jooq:3.18.7"
+bouncycastle = "org.bouncycastle:bcprov-jdk18on:1.77"
+bstats = "org.bstats:bstats-velocity:3.0.2"
+
+h2v1 = "com.h2database:h2:1.4.199" # https://github.com/h2database/h2database/issues/2078
+h2 = "com.h2database:h2:2.2.224"
+sqlite = "org.xerial:sqlite-jdbc:3.44.1.0"
+mysql = "com.mysql:mysql-connector-j:8.2.0"
+mariadb = "org.mariadb.jdbc:mariadb-java-client:3.3.1"
+postgresql = "org.postgresql:postgresql:42.7.0"
+
+reactivestreams = "org.reactivestreams:reactive-streams:1.0.4"
+protobuf = "com.google.protobuf:protobuf-java:3.25.1"
+wafflejna = "com.github.waffle:waffle-jna:3.3.0"
+
+[bundles]
+jabel = ["jabel", "jna-platform"]
+velocity = ["velocity-api", "velocity-proxy"]
+netty = ["netty-codec", "netty-handler"]
+common = ["serializer", "fastutil", "hikari", "jooq", "reactivestreams", "bouncycastle", "bstats"]
+mysql = ["mysql", "protobuf"]
+mariadb = ["mariadb", "wafflejna"]
+postgresql = ["postgresql", "wafflejna"]
+
+[plugins]
+grgit = "org.ajoberstar.grgit:5.2.1"
+spotbugs = "com.github.spotbugs:6.0.1"
+licenser = "org.cadixdev.licenser:0.6.1"
+buildconfig = "de.fuerstenau.buildconfig:1.1.8"

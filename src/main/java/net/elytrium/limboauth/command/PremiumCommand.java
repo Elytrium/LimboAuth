@@ -23,6 +23,7 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 
 public class PremiumCommand implements SimpleCommand {
@@ -38,7 +39,7 @@ public class PremiumCommand implements SimpleCommand {
     CommandSource source = invocation.source();
     String[] args = invocation.arguments();
 
-    if (source instanceof Player) {
+    if (source instanceof Player player) {
       if (args.length == 2) {
         if (Settings.HEAD.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
@@ -48,15 +49,14 @@ public class PremiumCommand implements SimpleCommand {
               () -> source.sendMessage(Settings.MESSAGES.alreadyPremium),
               h -> this.plugin.isPremiumExternal(lowercaseNickname).thenAccept(premiumResponse -> {
                 if (premiumResponse.getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
-                  this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+                  this.plugin.getDatabase().update(PlayerData.Table.INSTANCE)
                       .set(PlayerData.Table.HASH_FIELD, "")
                       .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
                       .executeAsync()
                       .thenRun(() -> {
                         this.plugin.removePlayerFromCache(username);
-                        ((Player) source).disconnect(Settings.MESSAGES.premiumSuccessful);
-                      }).exceptionally(e -> {
-                        this.plugin.getDatabase().handleSqlError(e);
+                        player.disconnect(Settings.MESSAGES.premiumSuccessful);
+                      }).exceptionally(t -> {
                         source.sendMessage(Settings.MESSAGES.errorOccurred);
                         return null;
                       });

@@ -48,20 +48,19 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public Title deserialize(Map<String, Object> from) {
     if (from == null || from.isEmpty()) {
       return null;
     }
 
-    var times = (Map<String, Object>) from.get("times");
+    Map<String, Object> times = Maps.getChecked(from, "times");
     return Title.title(
-        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("title")),
-        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("subtitle")),
+        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("title")), // TODO
+        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("subtitle")), // TODO
         times == null ? Title.DEFAULT_TIMES : Title.Times.times(
-            Ticks.duration(((Number) times.get("fade-in")).longValue()),
-            Ticks.duration(((Number) times.get("stay")).longValue()),
-            Ticks.duration(((Number) times.get("fade-out")).longValue())
+            Maps.getTicksDuration(times, "fade-in", Title.DEFAULT_TIMES.fadeIn()),
+            Maps.getTicksDuration(times, "stay", Title.DEFAULT_TIMES.stay()),
+            Maps.getTicksDuration(times, "fade-out", Title.DEFAULT_TIMES.fadeOut())
         )
     );
   }

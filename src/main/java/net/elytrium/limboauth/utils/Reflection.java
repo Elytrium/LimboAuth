@@ -29,9 +29,9 @@ public class Reflection {
 
   static {
     try {
-      Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-      unsafeField.setAccessible(true);
-      Unsafe unsafe = (Unsafe) unsafeField.get(null);
+      Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
+      theUnsafe.setAccessible(true);
+      Unsafe unsafe = (Unsafe) theUnsafe.get(null);
 
       Field implLookupField = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
       IMPL_LOOKUP = (MethodHandles.Lookup) unsafe.getObject(unsafe.staticFieldBase(implLookupField), unsafe.staticFieldOffset(implLookupField));

@@ -24,8 +24,8 @@ import java.util.Locale;
 import java.util.function.Consumer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.events.ChangePasswordEvent;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.events.ChangePasswordEvent;
 
 public class ChangePasswordCommand implements SimpleCommand {
 
@@ -55,10 +55,10 @@ public class ChangePasswordCommand implements SimpleCommand {
       String username = player.getUsername();
       String lowercaseNickname = username.toLowerCase(Locale.ROOT);
       Consumer<String> onCorrect = oldHash -> {
-        final String newPassword = needOldPass ? args[1] : args[0];
+        final String newPassword = needOldPass ? args[1] : args[0]; // TODO check length
         final String newHash = PlayerData.genHash(newPassword);
 
-        this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+        this.plugin.getDatabase().update(PlayerData.Table.INSTANCE)
             .set(PlayerData.Table.HASH_FIELD, newHash)
             .where(PlayerData.Table.NICKNAME_FIELD.eq(username))
             .executeAsync();

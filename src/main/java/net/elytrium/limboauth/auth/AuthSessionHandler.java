@@ -19,10 +19,6 @@ package net.elytrium.limboauth.auth;
 
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
-import dev.samstevens.totp.code.CodeVerifier;
-import dev.samstevens.totp.code.DefaultCodeGenerator;
-import dev.samstevens.totp.code.DefaultCodeVerifier;
-import dev.samstevens.totp.time.SystemTimeProvider;
 import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ScheduledFuture;
@@ -33,10 +29,10 @@ import net.elytrium.limboapi.api.LimboSessionHandler;
 import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.PostAuthorizationEvent;
 import net.elytrium.limboauth.events.PostRegisterEvent;
 import net.elytrium.limboauth.events.TaskEvent;
-import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.utils.Hashing;
 import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.bossbar.BossBar;
@@ -90,10 +86,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = this.plugin.getSerializer();
 
     if (this.playerInfo == null) {
-      String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-      this.plugin.getDatabase().getContext().selectCount()
+      this.plugin.getDatabase().selectCount()
           .from(PlayerData.Table.INSTANCE)
-          .where(PlayerData.Table.IP_FIELD.eq(ip).and(PlayerData.Table.REG_DATE_FIELD.ge(System.currentTimeMillis() - Settings.HEAD.ipLimitValidTime)))
+          .where(PlayerData.Table.IP_FIELD.eq(this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress()).and(PlayerData.Table.REG_DATE_FIELD.ge(System.currentTimeMillis() - Settings.HEAD.ipLimitValidTime)))
           .fetchAsync()
           .thenAccept(registeredResult -> {
             if (registeredResult.get(0).value1() >= Settings.HEAD.ipLimitRegistrations) {
@@ -102,8 +97,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
               this.onSpawnAfterChecks();
             }
           })
-          .exceptionally(e -> {
-            this.plugin.getDatabase().handleSqlError(e);
+          .exceptionally(t -> {
             this.proxyPlayer.disconnect(Settings.MESSAGES.databaseErrorKick);
             return null;
           });
@@ -159,9 +153,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           this.saveTempPassword(password);
           PlayerData playerData = new PlayerData(this.proxyPlayer).setPassword(password);
 
-          this.plugin.getDatabase().getContext().insertInto(PlayerData.Table.INSTANCE)
-              .values(playerData)
-              .executeAsync();
+          this.plugin.getDatabase().insertInto(PlayerData.Table.INSTANCE).values(playerData).executeAsync();
           this.playerInfo = playerData;
 
           this.proxyPlayer.sendMessage(Settings.MESSAGES.registerSuccessful);
@@ -388,7 +380,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (!valid && Settings.HEAD.migrationHash != null) {
       valid = Settings.HEAD.migrationHash.checkPassword(hash, password);
       if (valid) {
-        this.plugin.getDatabase().getContext().update(PlayerData.Table.INSTANCE)
+        this.plugin.getDatabase().update(PlayerData.Table.INSTANCE)
             .set(PlayerData.Table.HASH_FIELD, PlayerData.genHash(password))
             .set(PlayerData.Table.TOKEN_ISSUED_AT_FIELD, System.currentTimeMillis())
             .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))

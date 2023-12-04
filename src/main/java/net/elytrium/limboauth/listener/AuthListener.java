@@ -38,10 +38,10 @@ import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.auth.AuthManager;
-import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.utils.Reflection;
-import org.jooq.DSLContext;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -118,12 +118,12 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public EventTask onGameProfileRequest(GameProfileRequestEvent event) {
     EventTask eventTask = null;
-    DSLContext context = this.plugin.getDatabase().getContext();
+    Database database = this.plugin.getDatabase();
     if (Settings.HEAD.saveUuid && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       CompletableFuture<Void> completableFuture = new CompletableFuture<>();
       eventTask = EventTask.resumeWhenComplete(completableFuture);
 
-      context.select(PlayerData.Table.UUID_FIELD)
+      database.select(PlayerData.Table.UUID_FIELD)
           .from(PlayerData.Table.INSTANCE)
           .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
           .fetchAsync()
@@ -133,21 +133,19 @@ public class AuthListener {
               if (uuid != null && !uuid.isEmpty()) {
                 event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(uuid)));
               } else {
-                context.update(PlayerData.Table.INSTANCE)
+                database.update(PlayerData.Table.INSTANCE)
                     .set(PlayerData.Table.UUID_FIELD, event.getGameProfile().getId().toString())
                     .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
-                    .executeAsync()
-                    .exceptionally(this.plugin.getDatabase()::handleSqlError);
+                    .executeAsync();
               }
             }
           })
           .thenAccept(completableFuture::complete);
     } else if (event.isOnlineMode()) {
-      context.update(PlayerData.Table.INSTANCE)
+      database.update(PlayerData.Table.INSTANCE)
           .set(PlayerData.Table.HASH_FIELD, "")
           .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
-          .executeAsync()
-          .exceptionally(this.plugin.getDatabase()::handleSqlError);
+          .executeAsync();
     }
 
     if (Settings.HEAD.forceOfflineUuid) {

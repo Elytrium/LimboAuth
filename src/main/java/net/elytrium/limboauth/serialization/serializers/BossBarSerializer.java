@@ -17,33 +17,33 @@
 
 package net.elytrium.limboauth.serialization.serializers;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.util.Map;
-import java.util.Objects;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.utils.Maps;
 import net.elytrium.serializer.custom.ClassSerializer;
 import net.kyori.adventure.bossbar.BossBar;
 
-public class BossBarSerializer extends ClassSerializer<BossBar, Map<String, Object>> {
+@SuppressWarnings("DataFlowIssue")
+public class BossBarSerializer extends ClassSerializer<BossBar, Map<String, String>> {
 
   public static final BossBarSerializer INSTANCE = new BossBarSerializer();
 
   @Override
-  public Map<String, Object> serialize(BossBar from) { // TODO progress, flags
-    Map<String, Object> value = new Object2ObjectLinkedOpenHashMap<>(3);
-    value.put("name", from.name());
-    value.put("color", BossBar.Color.NAMES.key(from.color()));
-    value.put("overlay", BossBar.Overlay.NAMES.key(from.overlay()));
-    return value;
+  public Map<String, String> serialize(BossBar from) { // TODO progress, flags
+    return Maps.o2o(
+        "name", from.name(),
+        "color", BossBar.Color.NAMES.key(from.color()),
+        "overlay", BossBar.Overlay.NAMES.key(from.overlay())
+    );
   }
 
   @Override
-  public BossBar deserialize(Map<String, Object> from) {
+  public BossBar deserialize(Map<String, String> from) {
     return BossBar.bossBar(
-        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("name")),
+        Settings.HEAD.serializer.getSerializer().deserialize(from.get("name")), // TODO
         1.0F,
-        Objects.requireNonNull(BossBar.Color.NAMES.value((String) from.get("color")), "bossbar.color"),
-        Objects.requireNonNull(BossBar.Overlay.NAMES.value((String) from.get("overlay")), "bossbar.overlay")
+        BossBar.Color.NAMES.value(from.get("color")),
+        BossBar.Overlay.NAMES.value(from.get("overlay"))
     );
   }
 }

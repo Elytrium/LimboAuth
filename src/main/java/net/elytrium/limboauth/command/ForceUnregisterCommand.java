@@ -19,13 +19,15 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.ProxyServer;
 import java.util.List;
 import java.util.Locale;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.events.AuthUnregisterEvent;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.events.AuthUnregisterEvent;
 import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceUnregisterCommand implements SimpleCommand {
@@ -44,16 +46,16 @@ public class ForceUnregisterCommand implements SimpleCommand {
     if (args.length == 1) {
       String playerNick = args[0];
 
-      this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-      this.plugin.getDatabase().getContext().deleteFrom(PlayerData.Table.INSTANCE)
+      ProxyServer server = this.plugin.getServer();
+      server.getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
+      this.plugin.getDatabase().deleteFrom(PlayerData.Table.INSTANCE)
           .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(playerNick.toLowerCase(Locale.ROOT)))
           .executeAsync()
           .thenRun(() -> {
             this.plugin.removePlayerFromCache(playerNick);
-            this.plugin.getServer().getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
+            server.getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
             source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterSuccessful, playerNick));
-          }).exceptionally(e -> {
-            this.plugin.getDatabase().handleSqlError(e);
+          }).exceptionally(t -> {
             source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterNotSuccessful, playerNick));
             return null;
           });

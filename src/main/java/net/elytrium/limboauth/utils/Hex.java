@@ -9,27 +9,27 @@ public class Hex {
       '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
   };
 
-  public static byte[] encode2Bytes(byte[] data) {
+  public static byte[] bytes(byte[] data) {
     byte[] result = new byte[data.length << 1];
-    for (int i = 0, j = 0; i < data.length; ++i) {
-      result[j++] = Hex.BYTE_TABLE[(data[i] & 0xF0) >>> 4];
-      result[j++] = Hex.BYTE_TABLE[data[i] & 0x0F];
+    for (int from = 0, to = 0; from < data.length; ++from) {
+      result[to++] = Hex.BYTE_TABLE[(data[from] & 0xF0) >>> 4];
+      result[to++] = Hex.BYTE_TABLE[data[from] & 0x0F];
     }
 
     return result;
   }
 
-  public static char[] encode2Chars(byte[] data) {
+  public static char[] chars(byte[] data) {
     char[] result = new char[data.length << 1];
-    for (int i = 0, j = 0; i < data.length; ++i) {
-      result[j++] = Hex.CHAR_TABLE[(data[i] & 0xF0) >>> 4];
-      result[j++] = Hex.CHAR_TABLE[data[i] & 0x0F];
+    for (int from = 0, to = 0; from < data.length; ++from) {
+      result[to++] = Hex.CHAR_TABLE[(data[from] & 0xF0) >>> 4];
+      result[to++] = Hex.CHAR_TABLE[data[from] & 0x0F];
     }
 
     return result;
   }
 
-  public static String encode2String(byte[] data) {
-    return new String(Hex.encode2Chars(data));
+  public static String string(byte[] data) {
+    return new String(Hex.chars(data));
   }
 }

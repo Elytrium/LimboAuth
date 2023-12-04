@@ -27,53 +27,53 @@ public enum MigrationHash {
 
   SHA256_NO_SALT((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha256(password));
   }),
   SHA256_MOONAUTH((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha256(Hashing.sha256(password)));
   }),
   SHA256((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha256(password + args[offset + 1]));
   }),
   SHA256_AUTHME((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha256(Hashing.sha256(password) + args[offset + 1]));
   }),
 
   SHA512_NO_SALT((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 2 && args[offset + 1].equals(Hashing.sha512(password));
   }),
   SHA512((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha512(password + args[offset + 1]));
   }),
   SHA512_DBA((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 2].equals(Hashing.sha512(Hashing.sha512(password) + args[offset + 1]));
   }),
   SHA512_REVERSED((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 1].equals(Hashing.sha512(password + args[offset + 2]));
   }),
   SHA512_NLOGIN((hash, password) -> {
     String[] args = hash.split("\\$");
-    var offset = MigrationHash.offset(hash);
+    int offset = MigrationHash.offset(hash);
     return args.length - offset == 3 && args[offset + 1].equals(Hashing.sha512(Hashing.sha512(password) + args[offset + 2]));
   }),
 
   ARGON2((hash, password) -> {
-    var parameter = MigrationHash.offset(hash);
+    int parameter = MigrationHash.offset(hash);
     String[] parameters = hash.split("\\$");
     int parametersLength = parameters.length - parameter;
     if (parametersLength != 4 && parametersLength != 5) {
@@ -133,8 +133,8 @@ public enum MigrationHash {
     return this.verifier.checkPassword(hash, password);
   }
 
-  private static byte offset(String hash) {
-    return (byte) (hash.charAt(0) == '$' ? 1 : 0);
+  private static int offset(String hash) {
+    return hash.charAt(0) == '$' ? 1 : 0;
   }
 
   @FunctionalInterface

@@ -242,8 +242,8 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
       } else {
         onWrong.run();
       }
-    }).exceptionally(e -> {
-      onError.accept(e);
+    }).exceptionally(t -> {
+      onError.accept(t);
       return null;
     });
   }

@@ -23,8 +23,8 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.events.AuthUnregisterEvent;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.events.AuthUnregisterEvent;
 
 public class UnregisterCommand implements SimpleCommand {
 
@@ -49,14 +49,10 @@ public class UnregisterCommand implements SimpleCommand {
               () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
               h -> {
                 this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-                this.plugin.getDatabase().getContext().deleteFrom(PlayerData.Table.INSTANCE)
-                    .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
-                    .executeAsync()
-                    .exceptionally((e) -> {
-                      source.sendMessage(Settings.MESSAGES.errorOccurred);
-                      this.plugin.getDatabase().handleSqlError(e);
-                      return null;
-                    });
+                this.plugin.getDatabase().deleteFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync().exceptionally(t -> {
+                  source.sendMessage(Settings.MESSAGES.errorOccurred);
+                  return null;
+                });
                 this.plugin.getCacheManager().removePlayerFromCache(lowercaseNickname);
                 player.disconnect(Settings.MESSAGES.unregisterSuccessful);
               },

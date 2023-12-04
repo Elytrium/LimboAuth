@@ -17,28 +17,28 @@
 
 package net.elytrium.limboauth;
 
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ThreadLocalRandom;
 import net.elytrium.commons.kyori.serialization.Serializers;
+import net.elytrium.fastutil.ints.IntArrayList;
+import net.elytrium.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.elytrium.fastutil.objects.ObjectArrayList;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
-import net.elytrium.limboauth.data.DataSource;
+import net.elytrium.limboauth.data.DataSourceType;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.migration.MigrationHash;
-import net.elytrium.limboauth.serialization.serializers.BossBarSerializer;
 import net.elytrium.limboauth.serialization.replacers.ComponentReplacer;
+import net.elytrium.limboauth.serialization.replacers.TitleReplacer;
+import net.elytrium.limboauth.serialization.serializers.BossBarSerializer;
 import net.elytrium.limboauth.serialization.serializers.ComponentSerializer;
+import net.elytrium.limboauth.serialization.serializers.TitleSerializer;
 import net.elytrium.limboauth.utils.Hashing;
 import net.elytrium.limboauth.utils.Maps;
-import net.elytrium.limboauth.serialization.replacers.TitleReplacer;
-import net.elytrium.limboauth.serialization.serializers.TitleSerializer;
 import net.elytrium.serializer.SerializerConfig;
 import net.elytrium.serializer.annotations.Comment;
 import net.elytrium.serializer.annotations.CommentValue;
@@ -480,7 +480,7 @@ public class Settings extends YamlSerializable {
   public static class Database {
 
     @Comment(@CommentValue("Available database types: MariaDB, MySQL, PostgreSQL, SQLite or H2."))
-    public DataSource storageType = DataSource.H2;
+    public DataSourceType storageType = DataSourceType.H2;
 
     @Comment(@CommentValue("Settings for Network-based database (like MySQL, PostgreSQL): "))
     public String hostname = "127.0.0.1:3306";

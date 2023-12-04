@@ -41,18 +41,10 @@ public class ForceRegisterCommand implements SimpleCommand {
 
     if (args.length == 2) {
       String nickname = args[0];
-      String password = args[1];
-
       if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
         source.sendMessage(Settings.MESSAGES.forceRegisterIncorrectNickname);
         return;
       }
-
-      Function<Throwable, Void> onError = e -> {
-        this.plugin.getDatabase().handleSqlError(e);
-        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
-        return null;
-      };
 
       String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
       this.plugin.getDatabase().getContext().selectCount()
@@ -65,13 +57,19 @@ public class ForceRegisterCommand implements SimpleCommand {
               return;
             }
 
-            PlayerData player = new PlayerData(nickname, "", "").setPassword(password);
+            PlayerData player = new PlayerData(nickname, "", "").setPassword(args[1]);
             this.plugin.getDatabase().getContext().insertInto(PlayerData.Table.INSTANCE)
                 .values(player)
                 .executeAsync()
                 .thenRun(() -> source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceRegisterSuccessful, nickname)))
-                .exceptionally(onError);
-          }).exceptionally(onError);
+                .exceptionally(t -> {
+                  source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
+                  return null;
+                });
+          }).exceptionally(t -> {
+            source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
+            return null;
+          });
     } else {
       source.sendMessage(Settings.MESSAGES.forceRegisterUsage);
     }

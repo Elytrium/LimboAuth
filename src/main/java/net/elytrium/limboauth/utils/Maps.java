@@ -1,8 +1,8 @@
 package net.elytrium.limboauth.utils;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import java.time.Duration;
 import java.util.Map;
+import net.elytrium.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.kyori.adventure.util.Ticks;
 
 @SuppressWarnings("unchecked")

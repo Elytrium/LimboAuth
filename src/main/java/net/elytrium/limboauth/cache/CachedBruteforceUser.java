@@ -1,6 +1,6 @@
 package net.elytrium.limboauth.cache;
 
-public class CachedBruteforceUser extends LimboAuth.CachedUser {
+public class CachedBruteforceUser extends CachedUser {
 
   private int attempts;
 

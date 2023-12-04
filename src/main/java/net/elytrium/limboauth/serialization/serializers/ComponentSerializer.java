@@ -27,11 +27,11 @@ public class ComponentSerializer extends ClassSerializer<Component, String> {
 
   @Override
   public String serialize(Component from) {
-    return from == null ? "" : Settings.HEAD.serializer.getSerializer().serialize(from);
+    return from == null ? "" : Settings.HEAD.serializer.getSerializer().serialize(from); // TODO
   }
 
   @Override
   public Component deserialize(String from) {
-    return from.isEmpty() ? null : Settings.HEAD.serializer.getSerializer().deserialize(from);
+    return from.isEmpty() ? null : Settings.HEAD.serializer.getSerializer().deserialize(from); // TODO
   }
 }

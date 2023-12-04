@@ -25,8 +25,9 @@ import java.util.Locale;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.events.ChangePasswordEvent;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.events.ChangePasswordEvent;
 import net.elytrium.serializer.placeholders.Placeholders;
 import org.jooq.DSLContext;
 
@@ -48,8 +49,8 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
-      DSLContext context = this.plugin.getDatabase().getContext();
-      context.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(hashResult -> {
+      Database database = this.plugin.getDatabase();
+      database.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(hashResult -> {
         if (hashResult.isEmpty()) {
           source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotRegistered, nickname)));
           return;
@@ -58,15 +59,14 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         final String oldHash = hashResult.get(0).value1();
         final String newHash = PlayerData.genHash(newPassword);
 
-        context.update(PlayerData.Table.INSTANCE).set(PlayerData.Table.HASH_FIELD, newHash).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync();
+        database.update(PlayerData.Table.INSTANCE).set(PlayerData.Table.HASH_FIELD, newHash).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync();
 
         this.plugin.removePlayerFromCache(nickname);
         ProxyServer server = this.plugin.getServer();
         server.getPlayer(nickname).ifPresent(player -> player.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword))));
         server.getEventManager().fireAndForget(new ChangePasswordEvent(nickname, null, oldHash, newPassword, newHash));
         source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordSuccessful, nickname)));
-      }).exceptionally(e -> {
-        this.plugin.getDatabase().handleSqlError(e);
+      }).exceptionally(t -> {
         source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotSuccessful, nickname)));
         return null;
       });

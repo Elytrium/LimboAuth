@@ -45,6 +45,7 @@ import net.elytrium.limboapi.api.LimboFactory;
 import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
 import net.elytrium.limboauth.auth.AuthManager;
+import net.elytrium.limboauth.auth.HybridAuthManager;
 import net.elytrium.limboauth.cache.CacheManager;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
@@ -56,11 +57,10 @@ import net.elytrium.limboauth.command.PremiumCommand;
 import net.elytrium.limboauth.command.TotpCommand;
 import net.elytrium.limboauth.command.UnregisterCommand;
 import net.elytrium.limboauth.data.Database;
+import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.AuthPluginReloadEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.auth.HybridAuthManager;
 import net.elytrium.limboauth.listener.AuthListener;
-import net.elytrium.limboauth.data.PlayerData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import org.bstats.charts.SimplePie;
@@ -150,7 +150,7 @@ public class LimboAuth { // split one bing class into small ones (главный
 
   void onProxyShutdown() {
     if (this.database != null) {
-      this.database.shutdown();
+      this.database.close();
     }
   }
 
@@ -163,8 +163,13 @@ public class LimboAuth { // split one bing class into small ones (главный
     }
 
     try {
+      if (this.database != null) {
+        this.database.close();
+      }
+
       this.database = new Database(this);
     } catch (Throwable e) {
+      this.server.shutdown();
       throw new RuntimeException(e);
     }
 
@@ -176,6 +181,7 @@ public class LimboAuth { // split one bing class into small ones (главный
       this.serializer = new Serializer(serializer);
     }
 
+    // TODO contains instead of equals (maybe add strategy in config), filter passwords by this parameter
     if (Settings.HEAD.checkPasswordStrength) {
       try {
         this.unsafePasswords.clear();
@@ -202,9 +208,9 @@ public class LimboAuth { // split one bing class into small ones (главный
 
     if (Settings.HEAD.loadWorld) {
       try {
-        this.limboFactory.openWorldFile(Settings.HEAD.worldFileType, this.dataDirectory.resolve(Settings.HEAD.worldFilePath)).toWorld(
-            this.limboFactory, authWorld, Settings.HEAD.worldCoords.posX, Settings.HEAD.worldCoords.posY, Settings.HEAD.worldCoords.posZ, Settings.HEAD.worldLightLevel
-        );
+        this.limboFactory
+            .openWorldFile(Settings.HEAD.worldFileType, this.dataDirectory.resolve(Settings.HEAD.worldFilePath))
+            .toWorld(this.limboFactory, authWorld, Settings.HEAD.worldCoords.posX, Settings.HEAD.worldCoords.posY, Settings.HEAD.worldCoords.posZ, Settings.HEAD.worldLightLevel);
       } catch (IOException e) {
         throw new IllegalArgumentException(e);
       }
@@ -226,6 +232,7 @@ public class LimboAuth { // split one bing class into small ones (главный
       this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.totpCommand)));
     }
 
+    // TODO register once
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.floodgateApi));
