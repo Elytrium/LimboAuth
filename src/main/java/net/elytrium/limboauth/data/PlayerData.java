@@ -23,9 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.auth.AuthSessionHandler;
 import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
 import org.jetbrains.annotations.NotNull;
 import org.jooq.Field;
@@ -40,7 +38,7 @@ import org.jooq.impl.TableImpl;
 import org.jooq.impl.UpdatableRecordImpl;
 
 @SuppressWarnings("NullableProblems")
-public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Record12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> {
+public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Record12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean> {
 
   private String nickname;
 
@@ -54,9 +52,9 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
 
   private Long regDate = System.currentTimeMillis();
 
-  private String uuid = "";
+  private UUID uuid;
 
-  private String premiumUuid = "";
+  private UUID premiumUuid;
 
   private String loginIp;
 
@@ -66,31 +64,19 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
 
   private boolean onlyByMod = false;
 
-  @Deprecated
-  public PlayerData(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
-    super(Table.INSTANCE);
-    this.nickname = nickname;
-    this.lowercaseNickname = lowercaseNickname;
-    this.hash = hash;
-    this.ip = ip;
-    this.totpToken = totpToken;
-    this.regDate = regDate;
-    this.uuid = uuid;
-    this.premiumUuid = premiumUuid;
-    this.loginIp = loginIp;
-    this.loginDate = loginDate;
-  }
-
   public PlayerData(Player player) {
     this(player.getUsername(), player.getUniqueId(), player.getRemoteAddress());
   }
 
   public PlayerData(String nickname, UUID uuid, InetSocketAddress ip) {
-    this(nickname, uuid.toString(), ip.getAddress().getHostAddress());
+    this(nickname, uuid, ip.getAddress().getHostAddress());
   }
 
   public PlayerData(String nickname, String uuid, String ip) {
+    this(nickname, UUID.fromString(uuid), ip);
+  }
+
+  public PlayerData(String nickname, UUID uuid, String ip) {
     super(Table.INSTANCE);
     this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
@@ -168,27 +154,31 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
   }
 
   public PlayerData setUuid(String uuid) {
-    this.uuid = uuid;
-
+    this.uuid = UUID.fromString(uuid);
     return this;
   }
 
-  public String getUuid() {
-    return this.uuid == null ? "" : this.uuid;
+  public PlayerData setUuid(UUID uuid) {
+    this.uuid = uuid;
+    return this;
+  }
+
+  public UUID getUuid() {
+    return this.uuid;
   }
 
   public PlayerData setPremiumUuid(String premiumUuid) {
-    this.premiumUuid = premiumUuid;
+    this.premiumUuid = UUID.fromString(premiumUuid);
     return this;
   }
 
   public PlayerData setPremiumUuid(UUID premiumUuid) {
-    this.premiumUuid = premiumUuid.toString();
+    this.premiumUuid = premiumUuid;
     return this;
   }
 
-  public String getPremiumUuid() {
-    return this.premiumUuid == null ? "" : this.premiumUuid;
+  public UUID getPremiumUuid() {
+    return this.premiumUuid;
   }
 
   public String getLoginIp() {
@@ -227,27 +217,6 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
     return this;
   }
 
-  public static void checkPassword(String lowercaseNickname, String password, Runnable onNotRegistered, Runnable onPremium, Consumer<String> onCorrect, Runnable onWrong, Consumer<Throwable> onError) {
-    Database.DSL_CONTEXT.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(result -> {
-      if (result.isEmpty()) {
-        onNotRegistered.run();
-        return;
-      }
-
-      String hash = result.get(0).value1();
-      if (hash == null || hash.isEmpty()) {
-        onPremium.run();
-      } else if (password == null || AuthSessionHandler.checkPassword(lowercaseNickname, hash, password)) {
-        onCorrect.accept(hash);
-      } else {
-        onWrong.run();
-      }
-    }).exceptionally(t -> {
-      onError.accept(t);
-      return null;
-    });
-  }
-
   @Override
   public @NotNull Field<String> field1() {
     return Table.NICKNAME_FIELD;
@@ -279,12 +248,12 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
   }
 
   @Override
-  public @NotNull Field<String> field7() {
+  public @NotNull Field<UUID> field7() {
     return Table.UUID_FIELD;
   }
 
   @Override
-  public @NotNull Field<String> field8() {
+  public @NotNull Field<UUID> field8() {
     return Table.PREMIUM_UUID_FIELD;
   }
 
@@ -370,22 +339,22 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
   }
 
   @Override
-  public String value7() {
+  public UUID value7() {
     return this.uuid;
   }
 
   @Override
-  public @NotNull PlayerData value7(String value) {
+  public @NotNull PlayerData value7(UUID value) {
     return this.setUuid(value);
   }
 
   @Override
-  public String value8() {
+  public UUID value8() {
     return this.premiumUuid;
   }
 
   @Override
-  public @NotNull PlayerData value8(String value) {
+  public @NotNull PlayerData value8(UUID value) {
     return this.setPremiumUuid(value);
   }
 
@@ -431,8 +400,7 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
 
   @Override
   public @NotNull PlayerData values(String nickname, String lowercaseNickname, String hash, String ip, String totpToken,
-      Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate,
-      Long tokenIssuedAt, Boolean onlyByMod) {
+      Long regDate, UUID uuid, UUID premiumUuid, String loginIp, Long loginDate, Long tokenIssuedAt, Boolean onlyByMod) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -480,12 +448,12 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
   }
 
   @Override
-  public String component7() {
+  public UUID component7() {
     return this.uuid;
   }
 
   @Override
-  public String component8() {
+  public UUID component8() {
     return this.premiumUuid;
   }
 
@@ -511,14 +479,14 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
 
   @Override
   @SuppressWarnings("unchecked")
-  public @NotNull Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> fieldsRow() {
-    return (Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean>) super.fieldsRow();
+  public @NotNull Row12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean> fieldsRow() {
+    return (Row12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean>) super.fieldsRow();
   }
 
   @Override
   @SuppressWarnings("unchecked")
-  public @NotNull Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean> valuesRow() {
-    return (Row12<String, String, String, String, String, Long, String, String, String, Long, Long, Boolean>) super.valuesRow();
+  public @NotNull Row12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean> valuesRow() {
+    return (Row12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean>) super.valuesRow();
   }
 
   @Override
@@ -531,7 +499,7 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
     return super.hashCode();
   }
 
-  public static class Table extends TableImpl<PlayerData> { // TODO uuid
+  public static class Table extends TableImpl<PlayerData> {
 
     public static final Table INSTANCE = new Table();
     public static final UniqueKey<PlayerData> PRIMARY_KEY = Internal.createUniqueKey(
@@ -545,7 +513,7 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
     public static TableField<PlayerData, String> IP_FIELD;
     public static TableField<PlayerData, String> TOTP_TOKEN_FIELD;
     public static TableField<PlayerData, Long> REG_DATE_FIELD;
-    public static TableField<PlayerData, String> UUID_FIELD;
+    public static TableField<PlayerData, UUID> UUID_FIELD;
     public static TableField<PlayerData, UUID> PREMIUM_UUID_FIELD;
     public static TableField<PlayerData, String> LOGIN_IP_FIELD;
     public static TableField<PlayerData, Long> LOGIN_DATE_FIELD;
@@ -557,18 +525,18 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
     }
 
     public static void reload(Settings.Database databaseSettings) {
-      NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.nicknameField), SQLDataType.VARCHAR, Table.INSTANCE);
-      LOWERCASE_NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.lowercaseNicknameField), SQLDataType.VARCHAR.notNull(), Table.INSTANCE);
-      HASH_FIELD = TableImpl.createField(DSL.name(databaseSettings.hashField), SQLDataType.VARCHAR, Table.INSTANCE);
-      IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.ipField), SQLDataType.VARCHAR, Table.INSTANCE);
-      TOTP_TOKEN_FIELD = TableImpl.createField(DSL.name(databaseSettings.totpTokenField), SQLDataType.VARCHAR, Table.INSTANCE);
-      REG_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.regDateField), SQLDataType.BIGINT, Table.INSTANCE);
-      UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.uuidField), SQLDataType.VARCHAR, Table.INSTANCE);
-      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.premiumUuidField), SQLDataType.UUID, Table.INSTANCE);
-      LOGIN_IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginIpField), SQLDataType.VARCHAR, Table.INSTANCE);
-      LOGIN_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.loginDateField), SQLDataType.BIGINT, Table.INSTANCE);
-      TOKEN_ISSUED_AT_FIELD = TableImpl.createField(DSL.name(databaseSettings.tokenIssuedAtField), SQLDataType.BIGINT, Table.INSTANCE);
-      ONLY_BY_MOD_FIELD = TableImpl.createField(DSL.name(databaseSettings.onlyByModField), SQLDataType.BOOLEAN, Table.INSTANCE);
+      NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.nicknameField), SQLDataType.VARCHAR, Table.INSTANCE);
+      LOWERCASE_NICKNAME_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.lowercaseNicknameField), SQLDataType.VARCHAR.notNull(), Table.INSTANCE);
+      HASH_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.hashField), SQLDataType.VARCHAR, Table.INSTANCE);
+      IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.ipField), SQLDataType.VARCHAR, Table.INSTANCE);
+      TOTP_TOKEN_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.totpTokenField), SQLDataType.VARCHAR, Table.INSTANCE);
+      REG_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.regDateField), SQLDataType.BIGINT, Table.INSTANCE);
+      UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.uuidField), SQLDataType.UUID, Table.INSTANCE);
+      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.premiumUuidField), SQLDataType.UUID, Table.INSTANCE);
+      LOGIN_IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.loginIpField), SQLDataType.VARCHAR, Table.INSTANCE);
+      LOGIN_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.loginDateField), SQLDataType.BIGINT, Table.INSTANCE);
+      TOKEN_ISSUED_AT_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.tokenIssuedAtField), SQLDataType.BIGINT, Table.INSTANCE);
+      ONLY_BY_MOD_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.onlyByModField), SQLDataType.BOOLEAN, Table.INSTANCE);
     }
   }
 }

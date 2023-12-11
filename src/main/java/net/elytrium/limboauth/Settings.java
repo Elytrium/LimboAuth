@@ -27,10 +27,11 @@ import net.elytrium.fastutil.objects.ObjectArrayList;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
+import net.elytrium.limboauth.password.CheckPasswordStrategy;
 import net.elytrium.limboauth.command.PermissionState;
 import net.elytrium.limboauth.data.DataSourceType;
 import net.elytrium.limboauth.data.PlayerData;
-import net.elytrium.limboauth.migration.MigrationHash;
+import net.elytrium.limboauth.password.MigrationHash;
 import net.elytrium.limboauth.serialization.replacers.ComponentReplacer;
 import net.elytrium.limboauth.serialization.replacers.TitleReplacer;
 import net.elytrium.limboauth.serialization.serializers.BossBarSerializer;
@@ -88,7 +89,12 @@ public class Settings extends YamlSerializable {
   public int minPasswordLength = 4;
   @Comment(@CommentValue("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71."))
   public int maxPasswordLength = 71;
-  public boolean checkPasswordStrength = true;
+  @Comment({
+      @CommentValue("Available strategies:"),
+      @CommentValue("NONE - all the passwords will be considered as totally strength"),
+      @CommentValue("EXACT - the similar password should be located in unsafe password file lines"),
+  })
+  public CheckPasswordStrategy checkPasswordStrategy = CheckPasswordStrategy.EXACT;
   public String unsafePasswordsFile = "unsafe_passwords.txt";
   @Comment({
       @CommentValue("Players with premium nicknames should register/auth if this option is enabled"),
@@ -143,6 +149,7 @@ public class Settings extends YamlSerializable {
       @CommentValue(type = CommentValue.Type.NEW_LINE),
       @CommentValue("ARGON2          - Hash that looks like argon2i$v=19$m=1234,t=1234,p=1234$salt$hash (All argon2 versions are supported: argon2d, argon2i, argon2id)"),
       @CommentValue("MD5             - Hash that looks like 0b28572ad58a2662c77825de2b39c00d"), // Jokerge
+      @CommentValue("BCRYPT_JPREMIUM - Hash that looks like BCRYPT$cost$hash"),
       @CommentValue("PLAINTEXT       - Plain text"),
   })
   public MigrationHash migrationHash = null;
@@ -490,7 +497,7 @@ public class Settings extends YamlSerializable {
         "socketTimeout", "30000"
     );
 
-    public PlayerData.Table table = new PlayerData.Table();
+    public Table table = new Table();
 
     public static class Table {
 

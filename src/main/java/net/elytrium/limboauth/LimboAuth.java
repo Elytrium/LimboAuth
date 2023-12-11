@@ -28,12 +28,8 @@ import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 import net.elytrium.commons.utils.updates.UpdatesChecker;
@@ -58,6 +54,7 @@ import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.AuthPluginReloadEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.listener.AuthListener;
+import net.elytrium.limboauth.password.UnsafePasswordManager;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
@@ -68,8 +65,6 @@ public class LimboAuth { // split one bing class into small ones (главный
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
-
-  private final Set<String> unsafePasswords = new HashSet<>(); // TODO куда то в другое место + fastutil
 
   private final Logger logger;
   private final Path dataDirectory;
@@ -86,6 +81,7 @@ public class LimboAuth { // split one bing class into small ones (главный
   private CacheManager cacheManager;
   private HybridAuthManager hybridAuthManager;
   private AuthManager authManager;
+  private UnsafePasswordManager unsafePasswordManager;
 
   LimboAuth(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
     this.logger = logger;
@@ -169,24 +165,15 @@ public class LimboAuth { // split one bing class into small ones (главный
       throw new RuntimeException(e);
     }
 
-    // TODO contains instead of equals (maybe add strategy in config), filter passwords by this parameter
-    if (Settings.HEAD.checkPasswordStrength) {
-      try {
-        this.unsafePasswords.clear();
-        Path unsafePasswordsPath = this.dataDirectory.resolve(Settings.HEAD.unsafePasswordsFile);
-        if (!unsafePasswordsPath.toFile().exists()) {
-          Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_passwords.txt")), unsafePasswordsPath);
-        }
-
-        this.unsafePasswords.addAll(Files.readAllLines(unsafePasswordsPath));
-      } catch (IOException e) {
-        throw new IllegalArgumentException(e);
-      }
-    }
-
     this.cacheManager = new CacheManager();
     this.hybridAuthManager = new HybridAuthManager(this);
     this.authManager = new AuthManager(this);
+
+    try {
+      this.unsafePasswordManager = new UnsafePasswordManager(this);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
 
     VirtualWorld authWorld = this.limboFactory.createVirtualWorld(
         Settings.HEAD.dimension,
@@ -231,10 +218,6 @@ public class LimboAuth { // split one bing class into small ones (главный
     return player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_13) >= 0 ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
   }
 
-  public Set<String> getUnsafePasswords() {
-    return this.unsafePasswords;
-  }
-
   public ProxyServer getServer() {
     return this.server;
   }
@@ -265,6 +248,10 @@ public class LimboAuth { // split one bing class into small ones (главный
 
   public AuthManager getAuthManager() {
     return this.authManager;
+  }
+
+  public UnsafePasswordManager getUnsafePasswordManager() {
+    return this.unsafePasswordManager;
   }
 
   public LimboFactory getLimboFactory() {

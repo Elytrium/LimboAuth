@@ -23,19 +23,18 @@ import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
 import net.elytrium.limboapi.api.player.LimboPlayer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.cache.CacheManager;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.PostAuthorizationEvent;
 import net.elytrium.limboauth.events.PostRegisterEvent;
 import net.elytrium.limboauth.events.TaskEvent;
 import net.elytrium.limboauth.serialization.ComponentSerializer;
 import net.elytrium.limboauth.utils.Hashing;
-import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
@@ -253,8 +252,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void checkBruteforceAttempts() {
-    this.plugin.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
-    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= Settings.HEAD.bruteforceMaxAttempts) {
+    CacheManager cacheManager = this.plugin.getCacheManager();
+    cacheManager.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
+    if (cacheManager.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= Settings.HEAD.bruteforceMaxAttempts) {
       this.proxyPlayer.disconnect(Settings.MESSAGES.loginWrongPasswordKick);
     }
   }
@@ -320,12 +320,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private boolean checkPasswordStrength(String password) {
-    if (Settings.HEAD.checkPasswordStrength && this.plugin.getUnsafePasswords().contains(password)) {
-      this.proxyPlayer.sendMessage(Settings.MESSAGES.registerPasswordUnsafe);
-      return false;
-    } else {
+    if (Settings.HEAD.checkPasswordStrategy.checkPasswordStrength(this.plugin.getUnsafePasswordManager(), password)) {
       return true;
     }
+
+    this.proxyPlayer.sendMessage(Settings.MESSAGES.registerPasswordUnsafe);
+    return false;
   }
 
   private void finishLogin() {
@@ -334,7 +334,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.showTitle(Settings.MESSAGES.loginSuccessfulTitle);
     }
 
-    this.plugin.clearBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
+    this.plugin.getCacheManager().clearBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
 
     this.plugin.getServer().getEventManager()
         .fire(new PostAuthorizationEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
@@ -357,8 +357,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.clearTitle();
     }
 
-    this.plugin.updateLoginData(this.proxyPlayer);
-    this.plugin.cacheSessionUser(this.proxyPlayer);
+    this.plugin.getAuthManager().updateLoginData(this.proxyPlayer);
+    this.plugin.getCacheManager().cacheSessionUser(this.proxyPlayer);
     this.player.disconnect();
   }
 
@@ -369,7 +369,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     boolean valid;
     try {
-      valid = OpenBSDBCrypt.checkPassword(hash.charAt(0) == '$' ? hash : '$' + hash/*just in case*/, password.getBytes(StandardCharsets.UTF_8)); // TODO BCRYPT$ migration
+      valid = OpenBSDBCrypt.checkPassword(hash.charAt(0) == '$' ? hash : '$' + hash/*just in case*/, password.getBytes(StandardCharsets.UTF_8));
     } catch (Throwable t) {
       valid = false;
     }

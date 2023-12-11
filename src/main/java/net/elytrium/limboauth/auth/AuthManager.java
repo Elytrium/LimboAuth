@@ -77,7 +77,7 @@ public class AuthManager {
           PlayerData playerData = resultByUUID.isEmpty() ? null : resultByName.get(0);
           if (playerDataByName != null && playerData == null && playerDataByName.getHash().isEmpty()) {
             playerData = playerDataByName;
-            playerData.setPremiumUuid(uniqueId.toString());
+            playerData.setPremiumUuid(uniqueId);
             database.update(PlayerData.Table.INSTANCE)
                 .set(PlayerData.Table.PREMIUM_UUID_FIELD, uniqueId)
                 .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))

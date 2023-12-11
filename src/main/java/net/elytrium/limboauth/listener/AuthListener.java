@@ -129,12 +129,12 @@ public class AuthListener {
           .fetchAsync()
           .thenAccept(uuidResult -> {
             if (!uuidResult.isEmpty()) {
-              String uuid = uuidResult.get(0).value1();
-              if (uuid != null && !uuid.isEmpty()) {
-                event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(uuid)));
+              UUID uuid = uuidResult.get(0).value1();
+              if (uuid != null) {
+                event.setGameProfile(event.getOriginalProfile().withId(uuid));
               } else {
                 database.update(PlayerData.Table.INSTANCE)
-                    .set(PlayerData.Table.UUID_FIELD, event.getGameProfile().getId().toString())
+                    .set(PlayerData.Table.UUID_FIELD, event.getGameProfile().getId())
                     .where(PlayerData.Table.NICKNAME_FIELD.eq(event.getUsername()))
                     .executeAsync();
               }

@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.migration;
+package net.elytrium.limboauth.password;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import net.elytrium.limboauth.utils.Hashing;
+import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
 import org.bouncycastle.crypto.params.Argon2Parameters;
 
 @SuppressWarnings("unused")
@@ -117,6 +119,7 @@ public enum MigrationHash {
     return Arrays.equals(decodedHash, Hashing.argon2(builder.build(), decodedHash.length, password));
   }),
   MD5((hash, password) -> hash.equals(Hashing.md5AsHex(password))),
+  BCRYPT_JPREMIUM((hash, password) -> OpenBSDBCrypt.checkPassword(hash.replace("BCRYPT$", "$2a$"), password.getBytes(StandardCharsets.UTF_8))),
   PLAINTEXT(String::equals);
 
   private final MigrationHashVerifier verifier;
