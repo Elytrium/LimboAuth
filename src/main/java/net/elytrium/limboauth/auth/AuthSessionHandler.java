@@ -33,6 +33,7 @@ import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.PostAuthorizationEvent;
 import net.elytrium.limboauth.events.PostRegisterEvent;
 import net.elytrium.limboauth.events.TaskEvent;
+import net.elytrium.limboauth.serialization.ComponentSerializer;
 import net.elytrium.limboauth.utils.Hashing;
 import net.elytrium.serializer.placeholders.Placeholders;
 import net.kyori.adventure.bossbar.BossBar;
@@ -83,8 +84,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.player.enableFalling();
     }
 
-    Serializer serializer = this.plugin.getSerializer();
-
     if (this.playerInfo == null) {
       this.plugin.getDatabase().selectCount()
           .from(PlayerData.Table.INSTANCE)
@@ -103,9 +102,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           });
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
-        this.proxyPlayer.disconnect(serializer.deserialize(
-            Placeholders.replace(Settings.MESSAGES.wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()))
-        );
+        this.proxyPlayer.disconnect(ComponentSerializer.replace(Settings.MESSAGES.wrongNicknameCaseKick, this.playerInfo.getNickname(), this.proxyPlayer.getUsername()));
       } else {
         this.onSpawnAfterChecks();
       }
@@ -121,7 +118,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         this.proxyPlayer.disconnect(Settings.MESSAGES.timesUp);
       } else if (bossBarEnabled) {
         float secondsLeft = (authTime - (System.currentTimeMillis() - this.joinTime)) / 1000.0F;
-        this.bossBar.name(Placeholders.replaceFor(Settings.MESSAGES.bossbar, Settings.MESSAGES.bossbar.name(), (int) secondsLeft));
+        this.bossBar.name(ComponentSerializer.replaceFor(Settings.MESSAGES.bossbar, Settings.MESSAGES.bossbar.name(), (int) secondsLeft));
         // It's possible, that the progress value can overcome 1, e.g. 1.0000001.
         this.bossBar.progress(Math.min(1.0F, secondsLeft * multiplier));
       }
@@ -185,7 +182,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             this.sendMessage(true);
           }
         } else if (--this.attempts != 0) {
-          this.proxyPlayer.sendMessage(Placeholders.replace(Settings.MESSAGES.loginWrongPassword, this.attempts));
+          this.proxyPlayer.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.loginWrongPassword, this.attempts));
           this.checkBruteforceAttempts();
         } else {
           this.proxyPlayer.disconnect(Settings.MESSAGES.loginWrongPasswordKick);
@@ -289,7 +286,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         this.proxyPlayer.showTitle(Settings.MESSAGES.registerTitle);
       }
     } else {
-      this.proxyPlayer.sendMessage(Placeholders.replace(Settings.MESSAGES.loginMessage, this.attempts));
+      this.proxyPlayer.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.loginMessage, this.attempts));
       if (sendTitle && Settings.MESSAGES.loginTitle != null) {
         this.proxyPlayer.showTitle(Settings.MESSAGES.loginTitle);
       }
@@ -356,7 +353,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void finishAuth() {
-    if (Settings.HEAD.crackedTitleSettings.clearAfterLogin) {
+    if (Settings.HEAD.clearTitleAfterLogin) {
       this.proxyPlayer.clearTitle();
     }
 

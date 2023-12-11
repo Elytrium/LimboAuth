@@ -21,19 +21,19 @@ import com.velocitypowered.api.permission.PermissionSubject;
 import com.velocitypowered.api.permission.Tristate;
 import java.util.function.BiFunction;
 
-public enum CommandPermissionState {
+public enum PermissionState {
 
   FALSE((source, permission) -> false),
   TRUE((source, permission) -> source.getPermissionValue(permission) != Tristate.FALSE),
   PERMISSION(PermissionSubject::hasPermission);
 
-  private final BiFunction<PermissionSubject, String, Boolean> hasPermissionFunction;
+  private final BiFunction<PermissionSubject, String, Boolean> function;
 
-  CommandPermissionState(BiFunction<PermissionSubject, String, Boolean> hasPermissionFunction) {
-    this.hasPermissionFunction = hasPermissionFunction;
+  PermissionState(BiFunction<PermissionSubject, String, Boolean> function) {
+    this.function = function;
   }
 
   public boolean hasPermission(PermissionSubject permissionSubject, String permission) {
-    return this.hasPermissionFunction.apply(permissionSubject, permission);
+    return this.function.apply(permissionSubject, permission);
   }
 }

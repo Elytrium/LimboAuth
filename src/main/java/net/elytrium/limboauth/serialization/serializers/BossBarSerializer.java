@@ -40,7 +40,7 @@ public class BossBarSerializer extends ClassSerializer<BossBar, Map<String, Stri
   @Override
   public BossBar deserialize(Map<String, String> from) {
     return BossBar.bossBar(
-        Settings.HEAD.serializer.getSerializer().deserialize(from.get("name")), // TODO
+        Settings.SERIALIZER.deserialize(from.get("name")),
         1.0F,
         BossBar.Color.NAMES.value(from.get("color")),
         BossBar.Overlay.NAMES.value(from.get("overlay"))

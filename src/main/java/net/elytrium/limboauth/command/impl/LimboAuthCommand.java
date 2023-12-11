@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.velocitypowered.api.command.CommandSource;
@@ -27,6 +27,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.command.PermissionState;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -97,7 +98,7 @@ public class LimboAuthCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.help.hasPermission(invocation.source(), "limboauth.commands.help");
+    return Settings.PERMISSION_STATES.help.hasPermission(invocation.source(), "limboauth.commands.help");
   }
 
   private void showHelp(CommandSource source) {
@@ -125,15 +126,15 @@ public class LimboAuthCommand implements SimpleCommand {
   }
 
   private enum Subcommand {
-    RELOAD("Reload config.", () -> Settings.HEAD.commandPermissionState.reload);
+    RELOAD("Reload config.", () -> Settings.PERMISSION_STATES.reload);
 
     private final String command;
     private final String permission;
     private final Component messageLine;
-    private final Supplier<CommandPermissionState> permissionState;
+    private final Supplier<PermissionState> permissionState;
     private SubcommandExecutor executor;
 
-    Subcommand(String description, Supplier<CommandPermissionState> permissionState) {
+    Subcommand(String description, Supplier<PermissionState> permissionState) {
       this.permissionState = permissionState;
       this.command = this.name().toLowerCase(Locale.ROOT);
       this.permission = "limboauth.admin." + this.command;

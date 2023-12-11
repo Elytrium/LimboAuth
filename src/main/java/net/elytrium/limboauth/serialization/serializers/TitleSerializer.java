@@ -55,8 +55,8 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
 
     Map<String, Object> times = Maps.getChecked(from, "times");
     return Title.title(
-        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("title")), // TODO
-        Settings.HEAD.serializer.getSerializer().deserialize((String) from.get("subtitle")), // TODO
+        Settings.SERIALIZER.deserialize((String) from.get("title")),
+        Settings.SERIALIZER.deserialize((String) from.get("subtitle")),
         times == null ? Title.DEFAULT_TIMES : Title.Times.times(
             Maps.getTicksDuration(times, "fade-in", Title.DEFAULT_TIMES.fadeIn()),
             Maps.getTicksDuration(times, "stay", Title.DEFAULT_TIMES.stay()),

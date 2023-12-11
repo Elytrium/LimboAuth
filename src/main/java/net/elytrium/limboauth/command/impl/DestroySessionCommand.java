@@ -15,20 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.command.BaseRawCommand;
+import net.elytrium.limboauth.command.BaseSubcommand;
 
-public class DestroySessionCommand implements SimpleCommand {
-
-  private final LimboAuth plugin;
+public class DestroySessionCommand extends BaseRawCommand {
 
   public DestroySessionCommand(LimboAuth plugin) {
-    this.plugin = plugin;
+    super(command -> command.permission(Settings.PERMISSION_STATES.destroySession, "limboauth.commands.destroysession"), plugin, "destroysession", "logout");
   }
 
   @Override
@@ -44,6 +44,6 @@ public class DestroySessionCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
+    return Settings.PERMISSION_STATES.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
   }
 }

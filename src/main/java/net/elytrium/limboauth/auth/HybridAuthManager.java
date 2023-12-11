@@ -116,14 +116,14 @@ public class HybridAuthManager {
 
   public CompletableFuture<Boolean> isPremiumUuid(UUID uuid) {
     CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
-    this.plugin.getDatabase().getContext().selectCount().from(PlayerData.Table.INSTANCE)
+    this.plugin.getDatabase().selectCount().from(PlayerData.Table.INSTANCE)
         .where(PlayerData.Table.PREMIUM_UUID_FIELD.eq(uuid).and(PlayerData.Table.HASH_FIELD.eq("")))
         .fetchAsync()
         .thenAccept(result -> completableFuture.complete(result.get(0).value1() != 0));
     return completableFuture;
   }
 
-  private CompletableFuture<Boolean> checkIsPremiumAndCacheFinal(String nickname, String lowercaseNickname, boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid) {
+  private CompletableFuture<Boolean> checkIsPremiumAndCacheFinal(String lowercaseNickname, boolean premium, boolean unknown, boolean wasRateLimited, boolean wasError, UUID uuid) {
     if (unknown) {
       if (uuid != null) {
         CompletableFuture<Boolean> isPremiumFuture = new CompletableFuture<>();
@@ -156,11 +156,11 @@ public class HybridAuthManager {
   }
 
   private CompletableFuture<Boolean> checkIsPremiumAndCacheStep(Queue<Function<String, CompletableFuture<PremiumResponse>>> queue,
-      String nickname, String lowercaseNickname, boolean premiumFinal, boolean unknownFinal,
+      String lowercaseNickname, boolean premiumFinal, boolean unknownFinal,
       boolean wasRateLimitedFinal, boolean wasErrorFinal, UUID uuidFinal) {
     // TODO loop, no deque
     if (queue.isEmpty()) {
-      return this.checkIsPremiumAndCacheFinal(nickname, lowercaseNickname, premiumFinal, unknownFinal, wasRateLimitedFinal, wasErrorFinal, uuidFinal);
+      return this.checkIsPremiumAndCacheFinal(lowercaseNickname, premiumFinal, unknownFinal, wasRateLimitedFinal, wasErrorFinal, uuidFinal);
     }
 
     return queue.poll().apply(lowercaseNickname).thenCompose(check -> {
@@ -168,13 +168,7 @@ public class HybridAuthManager {
       boolean unknown = unknownFinal;
       boolean wasRateLimited = wasRateLimitedFinal;
       boolean wasError = wasErrorFinal;
-      UUID uuid;
-
-      if (check.getUuid() != null) {
-        uuid = check.getUuid();
-      } else {
-        uuid = uuidFinal;
-      }
+      UUID uuid = check.getUuid() == null ? uuidFinal : check.getUuid();
 
       switch (check.getState()) {
         case CRACKED -> {
@@ -191,7 +185,7 @@ public class HybridAuthManager {
         default -> wasError = true;
       }
 
-      return this.checkIsPremiumAndCacheStep(queue, nickname, lowercaseNickname, premium, unknown, wasRateLimited, wasError, uuid);
+      return this.checkIsPremiumAndCacheStep(queue, lowercaseNickname, premium, unknown, wasRateLimited, wasError, uuid);
     });
   }
 
@@ -199,7 +193,7 @@ public class HybridAuthManager {
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     CachedPremiumUser cachedPremiumUser = this.plugin.getCacheManager().getPremiumUser(lowercaseNickname);
     return cachedPremiumUser == null
-        ? this.checkIsPremiumAndCacheStep(queue, nickname, lowercaseNickname, false, false, false, false, null)
+        ? this.checkIsPremiumAndCacheStep(queue, lowercaseNickname, false, false, false, false, null)
         : CompletableFuture.completedFuture(cachedPremiumUser.isPremium());
 
   }

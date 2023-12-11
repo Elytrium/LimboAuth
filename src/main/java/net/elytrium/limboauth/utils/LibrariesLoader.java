@@ -31,7 +31,7 @@ public class LibrariesLoader {
 
       final boolean fastutil = library.startsWith("it/unimi/dsi/fastutil");
       if (fastutil && library.contains("-core")) {
-        logger.warn("Plugin tried to load not relocated fastutil version, if you are the author of this plugin, then please use elytrium version. (net.elytrium:fastutil:8.5.12)");
+        logger.warn("Plugin tried to load not relocated fastutil version, if you are the author of this plugin, then please use elytrium version. (net.elytrium:fastutil:8.5.13)");
         continue;
       }
       */

@@ -19,7 +19,6 @@ package net.elytrium.limboauth;
 
 import com.google.inject.name.Named;
 import com.velocitypowered.api.command.CommandManager;
-import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
@@ -37,8 +36,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
-import net.elytrium.commons.kyori.serialization.Serializer;
-import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.commons.utils.updates.UpdatesChecker;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
@@ -47,22 +44,20 @@ import net.elytrium.limboapi.api.command.LimboCommandMeta;
 import net.elytrium.limboauth.auth.AuthManager;
 import net.elytrium.limboauth.auth.HybridAuthManager;
 import net.elytrium.limboauth.cache.CacheManager;
-import net.elytrium.limboauth.command.ChangePasswordCommand;
-import net.elytrium.limboauth.command.DestroySessionCommand;
-import net.elytrium.limboauth.command.ForceChangePasswordCommand;
-import net.elytrium.limboauth.command.ForceRegisterCommand;
-import net.elytrium.limboauth.command.ForceUnregisterCommand;
-import net.elytrium.limboauth.command.LimboAuthCommand;
-import net.elytrium.limboauth.command.PremiumCommand;
-import net.elytrium.limboauth.command.TotpCommand;
-import net.elytrium.limboauth.command.UnregisterCommand;
+import net.elytrium.limboauth.command.impl.ChangePasswordCommand;
+import net.elytrium.limboauth.command.impl.DestroySessionCommand;
+import net.elytrium.limboauth.command.impl.ForceChangePasswordCommand;
+import net.elytrium.limboauth.command.impl.ForceRegisterCommand;
+import net.elytrium.limboauth.command.impl.ForceUnregisterCommand;
+import net.elytrium.limboauth.command.impl.LimboAuthCommand;
+import net.elytrium.limboauth.command.impl.PremiumCommand;
+import net.elytrium.limboauth.command.impl.TotpCommand;
+import net.elytrium.limboauth.command.impl.UnregisterCommand;
 import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.AuthPluginReloadEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.listener.AuthListener;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
@@ -86,7 +81,6 @@ public class LimboAuth { // split one bing class into small ones (главный
   private final FloodgateApiHolder floodgateApi;
 
   private Database database;
-  private Serializer serializer;
 
   private Limbo authServer;
   private CacheManager cacheManager;
@@ -113,18 +107,21 @@ public class LimboAuth { // split one bing class into small ones (главный
       return;
     }
 
-    CommandManager manager = this.server.getCommandManager();
-    manager.register("unregister", new UnregisterCommand(this), "unreg");
-    manager.register("forceregister", new ForceRegisterCommand(this), "forcereg");
-    manager.register("premium", new PremiumCommand(this), "license");
-    manager.register("forceunregister", new ForceUnregisterCommand(this), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this), "forcechangepass", "fcp");
-    manager.register("destroysession", new DestroySessionCommand(this), "logout");
+    CommandManager commandManager = this.server.getCommandManager();
+    // TODO config aliases
+    commandManager.register("unregister", new UnregisterCommand(this), "unreg");
+    commandManager.register("forceregister", new ForceRegisterCommand(this), "forcereg");
+    commandManager.register("premium", new PremiumCommand(this), "license");
+    commandManager.register("forceunregister", new ForceUnregisterCommand(this), "forceunreg");
+    commandManager.register("changepassword", new ChangePasswordCommand(this), "changepass", "cp");
+    commandManager.register("forcechangepassword", new ForceChangePasswordCommand(this), "forcechangepass", "fcp");
+    new DestroySessionCommand(this);
     if (Settings.HEAD.enableTotp) {
-      manager.register("2fa", new TotpCommand(this), "totp");
+      commandManager.register("2fa", new TotpCommand(this), "totp");
     }
-    manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
+    commandManager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
+
+    this.server.getEventManager().register(this, new AuthListener(this, this.floodgateApi));
 
     Metrics metrics = this.metricsFactory.make(this, 13700);
     metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.HEAD.floodgateNeedAuth)));
@@ -134,7 +131,7 @@ public class LimboAuth { // split one bing class into small ones (главный
     metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.HEAD.enableTotp)));
     metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.HEAD.dimension)));
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.HEAD.saveUuid)));
-    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.database.getContext().fetchCount(PlayerData.Table.INSTANCE))));
+    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.database.fetchCount(PlayerData.Table.INSTANCE))));
 
     try {
       if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.HEAD.version)) {
@@ -154,7 +151,6 @@ public class LimboAuth { // split one bing class into small ones (главный
     }
   }
 
-  @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
   public void reload() {
     Settings.HEAD.reload(this.configFile);
 
@@ -171,14 +167,6 @@ public class LimboAuth { // split one bing class into small ones (главный
     } catch (Throwable e) {
       this.server.shutdown();
       throw new RuntimeException(e);
-    }
-
-    ComponentSerializer<Component, Component, String> serializer = Settings.HEAD.serializer.getSerializer();
-    if (serializer == null) {
-      this.logger.warn("The specified serializer could not be founded, using default. (LEGACY_AMPERSAND)");
-      this.serializer = new Serializer(Objects.requireNonNull(Serializers.LEGACY_AMPERSAND.getSerializer()));
-    } else {
-      this.serializer = new Serializer(serializer);
     }
 
     // TODO contains instead of equals (maybe add strategy in config), filter passwords by this parameter
@@ -232,12 +220,7 @@ public class LimboAuth { // split one bing class into small ones (главный
       this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.totpCommand)));
     }
 
-    // TODO register once
-    EventManager eventManager = this.server.getEventManager();
-    eventManager.unregisterListeners(this);
-    eventManager.register(this, new AuthListener(this, this.floodgateApi));
-
-    eventManager.fireAndForget(new AuthPluginReloadEvent());
+    this.server.getEventManager().fireAndForget(new AuthPluginReloadEvent());
   }
 
   private List<String> filterCommands(List<String> commands) {
@@ -254,10 +237,6 @@ public class LimboAuth { // split one bing class into small ones (главный
 
   public ProxyServer getServer() {
     return this.server;
-  }
-
-  public Serializer getSerializer() {
-    return this.serializer;
   }
 
   public Limbo getAuthServer() {

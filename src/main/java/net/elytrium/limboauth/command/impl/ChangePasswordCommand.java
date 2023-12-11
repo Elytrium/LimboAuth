@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -84,6 +84,6 @@ public class ChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.changePassword.hasPermission(invocation.source(), "limboauth.commands.changepassword");
+    return Settings.PERMISSION_STATES.changePassword.hasPermission(invocation.source(), "limboauth.commands.changepassword");
   }
 }

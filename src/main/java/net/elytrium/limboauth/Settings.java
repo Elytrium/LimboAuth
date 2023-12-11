@@ -21,14 +21,13 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ThreadLocalRandom;
-import net.elytrium.commons.kyori.serialization.Serializers;
 import net.elytrium.fastutil.ints.IntArrayList;
 import net.elytrium.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.elytrium.fastutil.objects.ObjectArrayList;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
-import net.elytrium.limboauth.command.CommandPermissionState;
+import net.elytrium.limboauth.command.PermissionState;
 import net.elytrium.limboauth.data.DataSourceType;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.migration.MigrationHash;
@@ -50,7 +49,6 @@ import net.elytrium.serializer.language.object.YamlSerializable;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
-import net.kyori.adventure.util.Ticks;
 import org.bouncycastle.crypto.params.KeyParameter;
 
 public class Settings extends YamlSerializable {
@@ -64,6 +62,8 @@ public class Settings extends YamlSerializable {
       .setCommentValueIndent(1)
       .build()
   );
+  public static final net.elytrium.limboauth.serialization.ComponentSerializer SERIALIZER = Settings.HEAD.serializer;
+  public static final PermissionStates PERMISSION_STATES = Settings.HEAD.permissionStates;
   public static final Settings.Messages MESSAGES = Settings.HEAD.messages;
   public static final Settings.Database DATABASE = Settings.HEAD.database;
 
@@ -79,9 +79,8 @@ public class Settings extends YamlSerializable {
       @CommentValue("LEGACY_SECTION - \"§c§lExample §c§9Text\"."),
       @CommentValue("MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\". (https://webui.adventure.kyori.net/)"),
       @CommentValue("GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)"),
-      @CommentValue("GSON_COLOR_DOWNSAMPLING - Same as GSON, but uses downsampling."),
   })
-  public Serializers serializer = Serializers.LEGACY_AMPERSAND; // TODO сделать по нормальному
+  net.elytrium.limboauth.serialization.ComponentSerializer serializer = net.elytrium.limboauth.serialization.ComponentSerializer.LEGACY_AMPERSAND;
 
   @Comment(@CommentValue("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked."))
   public int authTime = 60000;
@@ -188,7 +187,7 @@ public class Settings extends YamlSerializable {
   public boolean disableFalling = true;
 
   @Comment(@CommentValue("World time in ticks (24000 ticks == 1 in-game day)"))
-  public long worldTicks = 1000L;
+  public long worldTicks = 1000;
 
   @Comment(@CommentValue("World light level (from 0 to 15)"))
   public int worldLightLevel = 15;
@@ -289,189 +288,161 @@ public class Settings extends YamlSerializable {
     public double pitch = 0;
   }
 
-  public CrackedTitleSettings crackedTitleSettings = new CrackedTitleSettings();
+  @Comment(@CommentValue("Affects only cracked users"))
+  public boolean clearTitleAfterLogin = false;
 
-  public static class CrackedTitleSettings {
-
-    public int fadeIn = 10;
-    public int stay = 70;
-    public int fadeOut = 20;
-    public boolean clearAfterLogin = false;
-
-    public Title.Times toTimes() {
-      return Title.Times.times(Ticks.duration(this.fadeIn), Ticks.duration(this.stay), Ticks.duration(this.fadeOut));
-    }
-  }
-
-  public PremiumTitleSettings premiumTitleSettings = new PremiumTitleSettings();
-
-  public static class PremiumTitleSettings {
-
-    public int fadeIn = 10;
-    public int stay = 70;
-    public int fadeOut = 20;
-
-    public Title.Times toTimes() {
-      return Title.Times.times(Ticks.duration(this.fadeIn), Ticks.duration(this.stay), Ticks.duration(this.fadeOut));
-    }
-  }
-
-  public CommandPermissionStateConfig commandPermissionState = new CommandPermissionStateConfig();
+  PermissionStates permissionStates = new PermissionStates();
 
   @Comment({
       @CommentValue("Available values: FALSE, TRUE, PERMISSION"),
       @CommentValue(" FALSE - the command will be disallowed"),
-      @CommentValue(" TRUE - the command will be allowed if player has false permission state"),
-      @CommentValue(" PERMISSION - the command will be allowed if player has true permission state"),
+      @CommentValue(" TRUE - the command will be allowed if player permission state is set to true or not set altogether"),
+      @CommentValue(" PERMISSION - the command will be allowed only if player have true permission state"),
   })
-  public static class CommandPermissionStateConfig {
+  public static class PermissionStates {
 
     @Comment(@CommentValue("Permission: limboauth.commands.changepassword"))
-    public CommandPermissionState changePassword = CommandPermissionState.PERMISSION;
+    public PermissionState changePassword = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.commands.destroysession"))
-    public CommandPermissionState destroySession = CommandPermissionState.PERMISSION;
+    public PermissionState destroySession = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.commands.premium"))
-    public CommandPermissionState premium = CommandPermissionState.PERMISSION;
+    public PermissionState premium = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.commands.totp"))
-    public CommandPermissionState totp = CommandPermissionState.PERMISSION;
+    public PermissionState totp = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.commands.unregister"))
-    public CommandPermissionState unregister = CommandPermissionState.PERMISSION;
+    public PermissionState unregister = PermissionState.PERMISSION;
 
     @Comment(@CommentValue("Permission: limboauth.admin.forcechangepassword"))
-    public CommandPermissionState forceChangePassword = CommandPermissionState.PERMISSION;
+    public PermissionState forceChangePassword = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.admin.forceregister"))
-    public CommandPermissionState forceRegister = CommandPermissionState.PERMISSION;
+    public PermissionState forceRegister = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.admin.forceunregister"))
-    public CommandPermissionState forceUnregister = CommandPermissionState.PERMISSION;
+    public PermissionState forceUnregister = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.admin.reload"))
-    public CommandPermissionState reload = CommandPermissionState.PERMISSION;
+    public PermissionState reload = PermissionState.PERMISSION;
     @Comment(@CommentValue("Permission: limboauth.admin.help"))
-    public CommandPermissionState help = CommandPermissionState.TRUE;
-  }
-
-  private static Component component(String value) {
-    return Settings.HEAD.serializer.getSerializer().deserialize(value);
+    public PermissionState help = PermissionState.TRUE;
   }
 
   Messages messages = new Messages();
 
   public static class Messages {
 
-    public Component reload = Settings.component("LimboAuth &6>>&f &aReloaded successfully!");
-    public Component errorOccurred = Settings.component("LimboAuth &6>>&f &cAn internal error has occurred!");
-    public Component databaseErrorKick = Settings.component("LimboAuth &6>>&f &cA database error has occurred!");
+    public Component reload = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aReloaded successfully!");
+    public Component errorOccurred = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cAn internal error has occurred!");
+    public Component databaseErrorKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cA database error has occurred!");
 
-    public Component notPlayer = Settings.component("LimboAuth &6>>&f &cСonsole is not allowed to execute this command!");
-    public Component notRegistered = Settings.component("LimboAuth &6>>&f &cYou are not registered or your account is &6PREMIUM!");
-    public Component crackedCommand = Settings.component("LimboAuth &6>>&f\n&aYou can not use this command since your account is &6PREMIUM&a!");
-    public Component wrongPassword = Settings.component("LimboAuth &6>>&f &cPassword is wrong!");
+    public Component notPlayer = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cСonsole is not allowed to execute this command!");
+    public Component notRegistered = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou are not registered or your account is &6PREMIUM!");
+    public Component crackedCommand = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aYou can not use this command since your account is &6PREMIUM&a!");
+    public Component wrongPassword = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cPassword is wrong!");
 
-    public Component nicknameInvalidKick = Settings.component("LimboAuth &6>>&f\n&cYour nickname contains forbidden characters. Please, change your nickname!");
-    public Component reconnectKick = Settings.component("LimboAuth &6>>&f\n&cReconnect to the server to verify your account!");
+    public Component nicknameInvalidKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cYour nickname contains forbidden characters. Please, change your nickname!");
+    public Component reconnectKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cReconnect to the server to verify your account!");
 
     @Comment(@CommentValue("6 hours by default in ip-limit-valid-time"))
-    public Component ipLimitKick = Settings.component("LimboAuth &6>>&f\n\n&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.");
+    public Component ipLimitKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n\n&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.");
     @RegisterPlaceholders({"REQUIRED", "CURRENT"})
-    public Component wrongNicknameCaseKick = Settings.component("LimboAuth &6>>&f\n&cYou should join using username &6{REQUIRED}&c, not &6{CURRENT}&c.");
+    public Component wrongNicknameCaseKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cYou should join using username &6{REQUIRED}&c, not &6{CURRENT}&c.");
 
     @RegisterPlaceholders("REMAINING")
-    public BossBar bossbar = BossBar.bossBar(Settings.component("LimboAuth &6>>&f You have &6{REMAINING} &fseconds left to log in."), BossBar.MAX_PROGRESS, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20);
-    public Component timesUp = Settings.component("LimboAuth &6>>&f\n&cAuthorization time is up.");
+    public BossBar bossbar = BossBar.bossBar(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You have &6{REMAINING} &fseconds left to log in."), BossBar.MAX_PROGRESS, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20);
+    public Component timesUp = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cAuthorization time is up.");
 
     @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
-    public Component loginPremiumMessage = Settings.component("LimboAuth &6>>&f You've been logged in automatically using the premium account!");
-    public Title loginPremiumTitle = Title.title(Settings.component("LimboAuth &6>>&f Welcome!"), Settings.component("&aYou has been logged in as premium player!"));
+    public Component loginPremiumMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You've been logged in automatically using the premium account!");
+    public Title loginPremiumTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Welcome!"), Settings.SERIALIZER.deserialize("&aYou has been logged in as premium player!"));
     @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
-    public Component loginFloodgate = Settings.component("LimboAuth &6>>&f You've been logged in automatically using the bedrock account!");
-    public Title loginFloodgateTitle = Title.title(Settings.component("LimboAuth &6>>&f Welcome!"), Settings.component("&aYou has been logged in as bedrock player!"));
+    public Component loginFloodgate = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You've been logged in automatically using the bedrock account!");
+    public Title loginFloodgateTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Welcome!"), Settings.SERIALIZER.deserialize("&aYou has been logged in as bedrock player!"));
 
     @RegisterPlaceholders("ATTEMPTS")
-    public Component loginMessage = Settings.component("LimboAuth &6>>&f &aPlease, login using &6/login <password>&a, you have &6{ATTEMPTS} &aattempts.");
+    public Component loginMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aPlease, login using &6/login <password>&a, you have &6{ATTEMPTS} &aattempts.");
     @RegisterPlaceholders("ATTEMPTS")
-    public Component loginWrongPassword = Settings.component("LimboAuth &6>>&f &cYou''ve entered the wrong password, you have &6{ATTEMPTS} &cattempts left.");
-    public Component loginWrongPasswordKick = Settings.component("LimboAuth &6>>&f\n&cYou've entered the wrong password numerous times!");
-    public Component loginSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully logged in!");
+    public Component loginWrongPassword = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou''ve entered the wrong password, you have &6{ATTEMPTS} &cattempts left.");
+    public Component loginWrongPasswordKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cYou've entered the wrong password numerous times!");
+    public Component loginSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully logged in!");
     @RegisterPlaceholders("ATTEMPTS")
-    public Title loginTitle = Title.title(Settings.component("&fPlease, login using &6/login <password>&a."), Settings.component("&aYou have &6{ATTEMPTS} &aattempts."));
+    public Title loginTitle = Title.title(Settings.SERIALIZER.deserialize("&fPlease, login using &6/login <password>&a."), Settings.SERIALIZER.deserialize("&aYou have &6{ATTEMPTS} &aattempts."));
     @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
-    public Title loginSuccessfulTitle = Title.title(Settings.component("LimboAuth &6>>&f"), Settings.component("&aSuccessfully logged in!"));
+    public Title loginSuccessfulTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aSuccessfully logged in!"));
 
     @Comment(@CommentValue("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part."))
-    public Component registerMessage = Settings.component("LimboAuth &6>>&f Please, register using &6/register <password> <repeat password>");
-    public Component registerDifferentPasswords = Settings.component("LimboAuth &6>>&f &cThe entered passwords differ from each other!");
-    public Component registerPasswordTooShort = Settings.component("LimboAuth &6>>&f &cYou entered too short password, use a different one!");
-    public Component registerPasswordTooLong = Settings.component("LimboAuth &6>>&f &cYou entered too long password, use a different one!");
-    public Component registerPasswordUnsafe = Settings.component("LimboAuth &6>>&f &cYour password is unsafe, use a different one!");
-    public Component registerSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully registered!");
-    public Title registerTitle = Title.title(Settings.component("LimboAuth &6>>&f"), Settings.component("&aPlease, register using &6/register <password> <repeat password>"));
-    public Title registerSuccessfulTitle = Title.title(Settings.component("LimboAuth &6>>&f"), Settings.component("&aSuccessfully registered!"));
+    public Component registerMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Please, register using &6/register <password> <repeat password>");
+    public Component registerDifferentPasswords = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cThe entered passwords differ from each other!");
+    public Component registerPasswordTooShort = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou entered too short password, use a different one!");
+    public Component registerPasswordTooLong = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou entered too long password, use a different one!");
+    public Component registerPasswordUnsafe = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYour password is unsafe, use a different one!");
+    public Component registerSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully registered!");
+    public Title registerTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aPlease, register using &6/register <password> <repeat password>"));
+    public Title registerSuccessfulTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aSuccessfully registered!"));
 
-    public Component unregisterSuccessful = Settings.component("LimboAuth &6>>&f\n&aSuccessfully unregistered!");
-    public Component unregisterUsage = Settings.component("LimboAuth &6>>&f Usage: &6/unregister <current password> confirm");
+    public Component unregisterSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aSuccessfully unregistered!");
+    public Component unregisterUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/unregister <current password> confirm");
 
-    public Component premiumSuccessful = Settings.component("LimboAuth &6>>&f\n&aSuccessfully changed account state to &6PREMIUM&a!");
-    public Component alreadyPremium = Settings.component("LimboAuth &6>>&f &cYour account is already &6PREMIUM&c!");
-    public Component notPremium = Settings.component("LimboAuth &6>>&f &cYour account is not &6PREMIUM&c!");
-    public Component premiumUsage = Settings.component("LimboAuth &6>>&f Usage: &6/premium <current password> confirm");
+    public Component premiumSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aSuccessfully changed account state to &6PREMIUM&a!");
+    public Component alreadyPremium = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYour account is already &6PREMIUM&c!");
+    public Component notPremium = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYour account is not &6PREMIUM&c!");
+    public Component premiumUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/premium <current password> confirm");
 
-    public Component pairSuccessful = Settings.component("LimboAuth &6>>&f\n&aNow you can login only with &6LimboAuth Client Mod&a!");
-    public Component unpairSuccessful = Settings.component("LimboAuth &6>>&f\n&aNow you can login without &6LimboAuth Client Mod&a!");
-    public Component alreadyPaired = Settings.component("LimboAuth &6>>&f &cYour account is already &6PAIRED&c!");
-    public Component notPaired = Settings.component("LimboAuth &6>>&f &cYour account is not &6PAIRED&c!");
-    public Component modNotFound = Settings.component("LimboAuth &6>>&f &cYou can't pair account without LimboAuth Client Mod installed!");
-    public Component pairUsage = Settings.component("LimboAuth &6>>&f Usage: &6/pair <current password> confirm");
-    public Component unpairUsage = Settings.component("LimboAuth &6>>&f Usage: &6/unpair <current password> confirm");
+    public Component pairSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aNow you can login only with &6LimboAuth Client Mod&a!");
+    public Component unpairSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aNow you can login without &6LimboAuth Client Mod&a!");
+    public Component alreadyPaired = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYour account is already &6PAIRED&c!");
+    public Component notPaired = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYour account is not &6PAIRED&c!");
+    public Component modNotFound = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou can't pair account without LimboAuth Client Mod installed!");
+    public Component pairUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/pair <current password> confirm");
+    public Component unpairUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/unpair <current password> confirm");
 
-    public Component eventCancelled = Settings.component("LimboAuth &6>>&f Authorization event was cancelled");
+    public Component eventCancelled = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Authorization event was cancelled");
 
     @RegisterPlaceholders("TARGET")
-    public Component forceUnregisterSuccessful = Settings.component("LimboAuth &6>>&f &6{TARGET} &asuccessfully unregistered!");
-    public Component forceUnregisterKick = Settings.component("LimboAuth &6>>&f\n&aYou have been unregistered by administrator!");
+    public Component forceUnregisterSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &6{TARGET} &asuccessfully unregistered!");
+    public Component forceUnregisterKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&aYou have been unregistered by administrator!");
     @RegisterPlaceholders("TARGET")
-    public Component forceUnregisterNotSuccessful = Settings.component("LimboAuth &6>>&f &cUnable to unregister &6{TARGET}&c. Most likely this player has never been on this server.");
-    public Component forceUnregisterUsage = Settings.component("LimboAuth &6>>&f Usage: &6/forceunregister <nickname>");
+    public Component forceUnregisterNotSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cUnable to unregister &6{TARGET}&c. Most likely this player has never been on this server.");
+    public Component forceUnregisterUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/forceunregister <nickname>");
 
-    public Component registrationsDisabledKick = Settings.component("LimboAuth &6>>&f Registrations are currently disabled.");
+    public Component registrationsDisabledKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Registrations are currently disabled.");
 
-    public Component changePasswordSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully changed password!");
+    public Component changePasswordSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully changed password!");
     @Comment(@CommentValue("Or if change-password-need-old-pass set to false remove the \"<old password>\" part."))
-    public Component changePasswordUsage = Settings.component("LimboAuth &6>>&f Usage: &6/changepassword <old password> <new password>");
+    public Component changePasswordUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/changepassword <old password> <new password>");
 
     @RegisterPlaceholders("TARGET")
-    public Component forceChangePasswordSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully changed password for player &6{TARGET}&a!");
+    public Component forceChangePasswordSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully changed password for player &6{TARGET}&a!");
     @RegisterPlaceholders("PASSWORD")
-    public Component forceChangePasswordMessage = Settings.component("LimboAuth &6>>&f &aYour password has been changed to &6{PASSWORD} &aby administator!");
+    public Component forceChangePasswordMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aYour password has been changed to &6{PASSWORD} &aby administator!");
     @RegisterPlaceholders("TARGET")
-    public Component forceChangePasswordNotSuccessful = Settings.component("LimboAuth &6>>&f &cUnable to change password for &6{TARGET}&c. Most likely this player has never been on this server.");
+    public Component forceChangePasswordNotSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cUnable to change password for &6{TARGET}&c. Most likely this player has never been on this server.");
     @RegisterPlaceholders("TARGET")
-    public Component forceChangePasswordNotRegistered = Settings.component("LimboAuth &6>>&f &cPlayer &6{TARGET}&c is not registered.");
-    public Component forceChangePasswordUsage = Settings.component("LimboAuth &6>>&f Usage: &6/forcechangepassword <nickname> <new password>");
+    public Component forceChangePasswordNotRegistered = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cPlayer &6{TARGET}&c is not registered.");
+    public Component forceChangePasswordUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/forcechangepassword <nickname> <new password>");
 
-    public Component forceRegisterUsage = Settings.component("LimboAuth &6>>&f Usage: &6/forceregister <nickname> <password>");
-    public Component forceRegisterIncorrectNickname = Settings.component("LimboAuth &6>>&f &cNickname contains forbidden characters.");
-    public Component forceRegisterTakenNickname = Settings.component("LimboAuth &6>>&f &cThis nickname is already taken.");
+    public Component forceRegisterUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/forceregister <nickname> <password>");
+    public Component forceRegisterIncorrectNickname = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cNickname contains forbidden characters.");
+    public Component forceRegisterTakenNickname = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cThis nickname is already taken.");
     @RegisterPlaceholders("TARGET")
-    public Component forceRegisterSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully registered player &6{TARGET}&a!");
+    public Component forceRegisterSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully registered player &6{TARGET}&a!");
     @RegisterPlaceholders("TARGET")
-    public Component forceRegisterNotSuccessful = Settings.component("LimboAuth &6>>&f &cUnable to register player &6{TARGET}&c.");
+    public Component forceRegisterNotSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cUnable to register player &6{TARGET}&c.");
 
-    public Component totpMessage = Settings.component("LimboAuth &6>>&f Please, enter your 2FA key using &6/2fa <key>");
-    public Title totpTitle = Title.title(Settings.component("LimboAuth &6>>&f"), Settings.component("&aEnter your 2FA key using &6/2fa <key>"));
-    public Component totpSuccessful = Settings.component("LimboAuth &6>>&f &aSuccessfully enabled 2FA!");
-    public Component totpDisabled = Settings.component("LimboAuth &6>>&f &aSuccessfully disabled 2FA!");
+    public Component totpMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Please, enter your 2FA key using &6/2fa <key>");
+    public Title totpTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aEnter your 2FA key using &6/2fa <key>"));
+    public Component totpSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully enabled 2FA!");
+    public Component totpDisabled = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully disabled 2FA!");
     @Comment(@CommentValue("Or if totp-need-pass set to false remove the \"<current password>\" part."))
-    public Component totpUsage = Settings.component("LimboAuth &6>>&f Usage: &6/2fa enable <current password>&f or &6/2fa disable <totp key>&f.");
-    public Component totpWrong = Settings.component("LimboAuth &6>>&f &cWrong 2FA key!");
-    public Component totpAlreadyEnabled = Settings.component("LimboAuth &6>>&f &c2FA is already enabled. Disable it using &6/2fa disable <key>&c.");
-    public Component totpQr = Settings.component("LimboAuth &6>>&f Click here to open 2FA QR code in browser.");
+    public Component totpUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/2fa enable <current password>&f or &6/2fa disable <totp key>&f.");
+    public Component totpWrong = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cWrong 2FA key!");
+    public Component totpAlreadyEnabled = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &c2FA is already enabled. Disable it using &6/2fa disable <key>&c.");
+    public Component totpQr = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Click here to open 2FA QR code in browser.");
     @RegisterPlaceholders("TOKEN")
-    public Component totpToken = Settings.component("LimboAuth &6>>&f &aYour 2FA token &7(Click to copy)&a: &6{TOKEN}");
+    public Component totpToken = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aYour 2FA token &7(Click to copy)&a: &6{TOKEN}");
     @RegisterPlaceholders("CODES")
-    public Component totpRecovery = Settings.component("LimboAuth &6>>&f &aYour recovery codes &7(Click to copy)&a: &6{CODES}");
+    public Component totpRecovery = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aYour recovery codes &7(Click to copy)&a: &6{CODES}");
 
-    public Component destroySessionSuccessful = Settings.component("LimboAuth &6>>&f &eYour session is now destroyed, you'll need to log in again after reconnecting.");
+    public Component destroySessionSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &eYour session is now destroyed, you'll need to log in again after reconnecting.");
 
-    public Component modSessionExpired = Settings.component("LimboAuth &6>>&f Your session has expired, log in again.");
+    public Component modSessionExpired = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Your session has expired, log in again.");
   }
 
   Database database = new Database();

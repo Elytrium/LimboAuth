@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -24,13 +24,12 @@ import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.data.PlayerData;
-import net.elytrium.limboauth.events.AuthUnregisterEvent;
 
-public class UnregisterCommand implements SimpleCommand {
+public class PremiumCommand implements SimpleCommand {
 
   private final LimboAuth plugin;
 
-  public UnregisterCommand(LimboAuth plugin) {
+  public PremiumCommand(LimboAuth plugin) {
     this.plugin = plugin;
   }
 
@@ -42,28 +41,37 @@ public class UnregisterCommand implements SimpleCommand {
     if (source instanceof Player player) {
       if (args.length == 2) {
         if (Settings.HEAD.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String username = player.getUsername();
+          String username = ((Player) source).getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
           PlayerData.checkPassword(lowercaseNickname, args[0],
               () -> source.sendMessage(Settings.MESSAGES.notRegistered),
-              () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
-              h -> {
-                this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-                this.plugin.getDatabase().deleteFrom(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync().exceptionally(t -> {
-                  source.sendMessage(Settings.MESSAGES.errorOccurred);
-                  return null;
-                });
-                this.plugin.getCacheManager().removePlayerFromCache(lowercaseNickname);
-                player.disconnect(Settings.MESSAGES.unregisterSuccessful);
-              },
+              () -> source.sendMessage(Settings.MESSAGES.alreadyPremium),
+              h -> this.plugin.isPremiumExternal(lowercaseNickname).thenAccept(premiumResponse -> {
+                if (premiumResponse.getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
+                  this.plugin.getDatabase().update(PlayerData.Table.INSTANCE)
+                      .set(PlayerData.Table.HASH_FIELD, "")
+                      .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
+                      .executeAsync()
+                      .thenRun(() -> {
+                        this.plugin.removePlayerFromCache(username);
+                        player.disconnect(Settings.MESSAGES.premiumSuccessful);
+                      }).exceptionally(t -> {
+                        source.sendMessage(Settings.MESSAGES.errorOccurred);
+                        return null;
+                      });
+                } else {
+                  source.sendMessage(Settings.MESSAGES.notPremium);
+                }
+              }),
               () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
-              (e) -> source.sendMessage(Settings.MESSAGES.errorOccurred)
+              e -> source.sendMessage(Settings.MESSAGES.errorOccurred)
           );
+
           return;
         }
       }
 
-      source.sendMessage(Settings.MESSAGES.unregisterUsage);
+      source.sendMessage(Settings.MESSAGES.premiumUsage);
     } else {
       source.sendMessage(Settings.MESSAGES.notPlayer);
     }
@@ -71,6 +79,6 @@ public class UnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.unregister.hasPermission(invocation.source(), "limboauth.commands.unregister");
+    return Settings.PERMISSION_STATES.premium.hasPermission(invocation.source(), "limboauth.commands.premium");
   }
 }

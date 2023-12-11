@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -25,9 +25,9 @@ import java.util.Locale;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.AuthUnregisterEvent;
+import net.elytrium.limboauth.serialization.ComponentSerializer;
 import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceUnregisterCommand implements SimpleCommand {
@@ -54,9 +54,9 @@ public class ForceUnregisterCommand implements SimpleCommand {
           .thenRun(() -> {
             this.plugin.removePlayerFromCache(playerNick);
             server.getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
-            source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterSuccessful, playerNick));
+            source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceUnregisterSuccessful, playerNick));
           }).exceptionally(t -> {
-            source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceUnregisterNotSuccessful, playerNick));
+            source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceUnregisterNotSuccessful, playerNick));
             return null;
           });
     } else {
@@ -71,6 +71,6 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.forceUnregister.hasPermission(invocation.source(), "limboauth.admin.forceunregister");
+    return Settings.PERMISSION_STATES.forceUnregister.hasPermission(invocation.source(), "limboauth.admin.forceunregister");
   }
 }

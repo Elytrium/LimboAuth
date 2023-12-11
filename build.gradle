@@ -11,7 +11,7 @@ plugins() {
 
   id("maven-publish")
 
-  alias(libs.plugins.buildconfig) // kotlin :skull:
+  alias(libs.plugins.buildconfig)
 }
 
 this.group = "net.elytrium"
@@ -30,23 +30,23 @@ compileJava() {
 }
 
 configurations() {
-  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql, compile/*workaround for the old buildconfig plugin (i’d rather use a 10-year-old plugin written in groovy than in Kotlin)*/)
+  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql, compile/*workaround for the old buildconfig plugin (i’d rather use a 10-year-old plugin written in groovy than in kotlin)*/)
 }
 
 repositories() {
   mavenCentral()
 
   maven {
-    name = "elytrium-repo"
+    name = "elytrium"
     url = "https://maven.elytrium.net/repo/"
   }
 
   maven {
-    name = "papermc-repo"
+    name = "papermc"
     url = "https://repo.papermc.io/repository/maven-public/"
   }
   maven {
-    name = "opencollab-snapshot"
+    name = "opencollab"
     url = "https://repo.opencollab.dev/maven-snapshots/"
   }
 }
@@ -161,7 +161,7 @@ publishing() {
 buildConfig() {
   packageName("${this.group}.${this.name}")
 
-  // Omit the NAME field using a little... extravagant way
+  // Omit the NAME field using a little bit... extravagant way
   buildConfigField("java.lang.String", "VERSION", "\"${this.version}\"/*")
   buildConfigField("Object", "NAME", "null*/")
 
@@ -178,8 +178,7 @@ buildConfig() {
 }
 
 static Closure<String> resolvedArtifacts(Configuration configuration) {
-  return () -> "new String[] { \"" + configuration.getResolvedConfiguration().getResolvedArtifacts().collect(artifact -> {
-    final id = artifact.moduleVersion.id
-    return "${id.group.replace('.', '/')}/${artifact.name}/${id.version}/${artifact.file.name}"
-  }).join("\", \"") + "\" }"
+  return () -> "new String[] { \"" + configuration.getResolvedConfiguration().getResolvedArtifacts().collect(
+      artifact -> "${artifact.moduleVersion.id.group.replace('.', '/')}/${artifact.name}/${artifact.moduleVersion.id.version}/${artifact.file.name}"
+  ).join("\", \"") + "\" }"
 }

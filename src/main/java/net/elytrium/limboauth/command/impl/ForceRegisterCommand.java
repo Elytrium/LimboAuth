@@ -15,15 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import java.util.Locale;
-import java.util.function.Function;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.serialization.ComponentSerializer;
 import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceRegisterCommand implements SimpleCommand {
@@ -46,10 +47,10 @@ public class ForceRegisterCommand implements SimpleCommand {
         return;
       }
 
-      String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-      this.plugin.getDatabase().getContext().selectCount()
+      Database database = this.plugin.getDatabase();
+      database.selectCount()
           .from(PlayerData.Table.INSTANCE)
-          .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname))
+          .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(nickname.toLowerCase(Locale.ROOT)))
           .fetchAsync()
           .thenAccept(countResult -> {
             if (countResult.get(0).value1() != 0) {
@@ -58,16 +59,16 @@ public class ForceRegisterCommand implements SimpleCommand {
             }
 
             PlayerData player = new PlayerData(nickname, "", "").setPassword(args[1]);
-            this.plugin.getDatabase().getContext().insertInto(PlayerData.Table.INSTANCE)
+            database.insertInto(PlayerData.Table.INSTANCE)
                 .values(player)
                 .executeAsync()
-                .thenRun(() -> source.sendMessage(Placeholders.replace(Settings.MESSAGES.forceRegisterSuccessful, nickname)))
+                .thenRun(() -> source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceRegisterSuccessful, nickname)))
                 .exceptionally(t -> {
-                  source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
+                  source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname));
                   return null;
                 });
           }).exceptionally(t -> {
-            source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname)));
+            source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceRegisterNotSuccessful, nickname));
             return null;
           });
     } else {
@@ -77,6 +78,6 @@ public class ForceRegisterCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.forceRegister.hasPermission(invocation.source(), "limboauth.admin.forceregister");
+    return Settings.PERMISSION_STATES.forceRegister.hasPermission(invocation.source(), "limboauth.admin.forceregister");
   }
 }

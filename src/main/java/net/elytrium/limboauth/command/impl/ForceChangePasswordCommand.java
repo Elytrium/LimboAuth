@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.command;
+package net.elytrium.limboauth.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -28,8 +28,8 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.ChangePasswordEvent;
+import net.elytrium.limboauth.serialization.ComponentSerializer;
 import net.elytrium.serializer.placeholders.Placeholders;
-import org.jooq.DSLContext;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
 
@@ -52,7 +52,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
       Database database = this.plugin.getDatabase();
       database.select(PlayerData.Table.HASH_FIELD).from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).fetchAsync().thenAccept(hashResult -> {
         if (hashResult.isEmpty()) {
-          source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotRegistered, nickname)));
+          source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceChangePasswordNotRegistered, nickname));
           return;
         }
 
@@ -63,11 +63,11 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
         this.plugin.removePlayerFromCache(nickname);
         ProxyServer server = this.plugin.getServer();
-        server.getPlayer(nickname).ifPresent(player -> player.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword))));
+        server.getPlayer(nickname).ifPresent(player -> player.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword)));
         server.getEventManager().fireAndForget(new ChangePasswordEvent(nickname, null, oldHash, newPassword, newHash));
-        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordSuccessful, nickname)));
+        source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceChangePasswordSuccessful, nickname));
       }).exceptionally(t -> {
-        source.sendMessage((Placeholders.replace(Settings.MESSAGES.forceChangePasswordNotSuccessful, nickname)));
+        source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceChangePasswordNotSuccessful, nickname));
         return null;
       });
     } else {
@@ -82,6 +82,6 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.HEAD.commandPermissionState.forceChangePassword.hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
+    return Settings.PERMISSION_STATES.forceChangePassword.hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
   }
 }
