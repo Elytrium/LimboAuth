@@ -52,7 +52,7 @@ public class RegisteredPlayer {
   @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash = "";
 
-  @DatabaseField(columnName = IP_FIELD)
+  @DatabaseField(columnName = IP_FIELD, index = true)
   private String ip;
 
   @DatabaseField(columnName = TOTP_TOKEN_FIELD)
@@ -64,7 +64,7 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = UUID_FIELD)
   private String uuid = "";
 
-  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
+  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD, index = true)
   private String premiumUuid = "";
 
   @DatabaseField(columnName = LOGIN_IP_FIELD)

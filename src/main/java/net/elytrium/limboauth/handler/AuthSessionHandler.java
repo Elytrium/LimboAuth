@@ -555,8 +555,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
+    return AuthSessionHandler.fetchInfoLowercased(playerDao, nickname.toLowerCase(Locale.ROOT));
+  }
+
+  public static RegisteredPlayer fetchInfoLowercased(Dao<RegisteredPlayer, String> playerDao, String nickname) {
     try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname);
       return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);

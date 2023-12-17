@@ -30,6 +30,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -94,12 +95,13 @@ public class TotpCommand extends RatelimitedCommand {
         source.sendMessage(this.usage);
       } else {
         String username = ((Player) source).getUsername();
+        String usernameLowercase = username.toLowerCase(Locale.ROOT);
 
         RegisteredPlayer playerInfo;
         UpdateBuilder<RegisteredPlayer, String> updateBuilder;
         if (args[0].equalsIgnoreCase("enable")) {
           if (this.needPassword ? args.length == 2 : args.length == 1) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
+            playerInfo = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
               return;
@@ -119,7 +121,7 @@ public class TotpCommand extends RatelimitedCommand {
             String secret = this.secretGenerator.generate();
             try {
               updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+              updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
               updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
               updateBuilder.update();
             } catch (SQLException e) {
@@ -147,7 +149,7 @@ public class TotpCommand extends RatelimitedCommand {
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
+            playerInfo = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
 
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
@@ -157,7 +159,7 @@ public class TotpCommand extends RatelimitedCommand {
             if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
               try {
                 updateBuilder = this.playerDao.updateBuilder();
-                updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+                updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
                 updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, "");
                 updateBuilder.update();
 

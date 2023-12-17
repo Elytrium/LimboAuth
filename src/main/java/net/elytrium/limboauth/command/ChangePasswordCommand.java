@@ -23,6 +23,7 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
+import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -62,8 +63,8 @@ public class ChangePasswordCommand extends RatelimitedCommand {
   @Override
   public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
-      String username = ((Player) source).getUsername();
-      RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+      String usernameLowercase = ((Player) source).getUsername().toLowerCase(Locale.ROOT);
+      RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
 
       if (player == null) {
         source.sendMessage(this.notRegistered);
@@ -93,11 +94,11 @@ public class ChangePasswordCommand extends RatelimitedCommand {
         final String newHash = RegisteredPlayer.genHash(newPassword);
 
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
         updateBuilder.update();
 
-        this.plugin.removePlayerFromCache(username);
+        this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
 
         this.plugin.getServer().getEventManager().fireAndForget(
             new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));

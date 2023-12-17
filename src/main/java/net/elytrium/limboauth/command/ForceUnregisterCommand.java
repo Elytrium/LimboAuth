@@ -66,12 +66,13 @@ public class ForceUnregisterCommand extends RatelimitedCommand {
   public void execute(CommandSource source, String[] args) {
     if (args.length == 1) {
       String playerNick = args[0];
+      String usernameLowercased = playerNick.toLowerCase(Locale.ROOT);
 
       Serializer serializer = LimboAuth.getSerializer();
       try {
         this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-        this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
-        this.plugin.removePlayerFromCache(playerNick);
+        this.playerDao.deleteById(usernameLowercased);
+        this.plugin.removePlayerFromCacheLowercased(usernameLowercased);
         this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
       } catch (SQLException e) {

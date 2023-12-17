@@ -67,18 +67,18 @@ public class PremiumCommand extends RatelimitedCommand {
     if (source instanceof Player) {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String username = ((Player) source).getUsername();
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+          String usernameLowercase = ((Player) source).getUsername().toLowerCase(Locale.ROOT);
+          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
           if (player == null) {
             source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
             source.sendMessage(this.alreadyPremium);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            if (this.plugin.isPremiumExternal(username.toLowerCase(Locale.ROOT)).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
+            if (this.plugin.isPremiumExternal(usernameLowercase).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
               try {
                 player.setHash("");
                 this.playerDao.update(player);
-                this.plugin.removePlayerFromCache(username);
+                this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
                 ((Player) source).disconnect(this.successful);
               } catch (SQLException e) {
                 source.sendMessage(this.errorOccurred);

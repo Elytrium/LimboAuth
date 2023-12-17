@@ -510,8 +510,12 @@ public class LimboAuth {
   }
 
   public void removePlayerFromCache(String username) {
-    this.cachedAuthChecks.remove(username.toLowerCase(Locale.ROOT));
-    this.premiumCache.remove(username.toLowerCase(Locale.ROOT));
+    this.removePlayerFromCacheLowercased(username.toLowerCase(Locale.ROOT));
+  }
+
+  public void removePlayerFromCacheLowercased(String username) {
+    this.cachedAuthChecks.remove(username);
+    this.premiumCache.remove(username);
   }
 
   public boolean needAuth(Player player) {

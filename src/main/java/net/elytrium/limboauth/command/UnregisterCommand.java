@@ -67,7 +67,8 @@ public class UnregisterCommand extends RatelimitedCommand {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+          String usernameLowercase = username.toLowerCase(Locale.ROOT);
+          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
           if (player == null) {
             source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
@@ -75,8 +76,8 @@ public class UnregisterCommand extends RatelimitedCommand {
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
             try {
               this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-              this.playerDao.deleteById(username.toLowerCase(Locale.ROOT));
-              this.plugin.removePlayerFromCache(username);
+              this.playerDao.deleteById(usernameLowercase);
+              this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
               ((Player) source).disconnect(this.successful);
             } catch (SQLException e) {
               source.sendMessage(this.errorOccurred);
