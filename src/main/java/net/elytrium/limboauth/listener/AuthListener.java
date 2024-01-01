@@ -150,7 +150,7 @@ public class AuthListener {
       }
     }
 
-    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID && !plugin.getFloodgateApi().isFloodgatePlayer(event.getOriginalProfile().getId())) {
+    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID && !(Settings.IMP.MAIN.EXEMPT_FLOODGATE_FOR_FORCE_OFFLINE_UUID && plugin.getFloodgateApi().isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
 
