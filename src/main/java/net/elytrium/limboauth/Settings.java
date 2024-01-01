@@ -85,7 +85,7 @@ public class Settings extends YamlConfig {
     @Comment("Forces all players to get offline uuid")
     public boolean FORCE_OFFLINE_UUID = false;
     @Comment("Does not force floodgate players to get an offline uuid")
-    public boolean EXEMPT_FLOODGATE_FOR_FORCE_OFFLINE_UUID = false;
+    public boolean EXEMPT_FLOODGATE_FOR_FORCE_OFFLINE_UUID = true;
     @Comment("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API.")
     public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
     @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
