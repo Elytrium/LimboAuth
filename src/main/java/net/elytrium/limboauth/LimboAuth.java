@@ -27,7 +27,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.field.DatabaseFieldConfig;
 import com.j256.ormlite.field.FieldType;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
@@ -55,9 +54,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.whitfin.siphash.SipHasher;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -82,7 +78,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -326,33 +321,18 @@ public class LimboAuth {
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
     try {
-      this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
-
-      // fuck ormlite
-      if (!this.connectionSource.getDatabaseType().isCreateIndexIfNotExistsSupported()) {
-        Field fieldConfigField = FieldType.class.getDeclaredField("fieldConfig");
-        fieldConfigField.setAccessible(true);
-        for (FieldType fieldType : this.playerDao.getTableInfo().getFieldTypes()) {
-          if (fieldType.getIndexName() != null) {
-            ((DatabaseFieldConfig) fieldConfigField.get(fieldType)).setIndex(false);
-          }
+      try {
+        TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+      } catch (SQLException e) {
+        if (!e.getMessage().contains("CREATE INDEX")) {
+          throw e;
         }
       }
 
-      Method doCreateTable = TableUtils.class.getDeclaredMethod("doCreateTable", Dao.class, boolean.class);
-      doCreateTable.setAccessible(true);
-      doCreateTable.invoke(null, this.playerDao, true);
-
-      Matcher format = Pattern.compile("%s")
-          .matcher("declare continue handler for sqlstate '42000' begin end; create index `AUTH_%s_idx` on `AUTH`(`%s`);");
-      this.playerDao.executeRawNoArgs(format.replaceAll(RegisteredPlayer.PREMIUM_UUID_FIELD));
-      this.playerDao.executeRawNoArgs(format.replaceAll(RegisteredPlayer.IP_FIELD));
-
+      this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
-    } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
-      throw new ReflectionException(e);
     }
 
     CommandManager manager = this.server.getCommandManager();
