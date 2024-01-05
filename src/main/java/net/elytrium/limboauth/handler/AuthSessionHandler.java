@@ -525,10 +525,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
     String hash = player.getHash();
-    boolean isCorrect = HASH_VERIFIER.verify(
-        password.getBytes(StandardCharsets.UTF_8),
-        hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
-    ).verified;
+    boolean isCorrect = new String(HASHER.hash(Settings.IMP.MAIN.BCRYPT_COST, Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+            password.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8).equals(hash);
 
     if (!isCorrect && migrationHash != null) {
       isCorrect = migrationHash.checkPassword(hash, password);

@@ -22,6 +22,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
@@ -112,7 +113,12 @@ public class RegisteredPlayer {
   }
 
   public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+    return new String(HASHER.hash(
+            Settings.IMP.MAIN.BCRYPT_COST,
+            Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+            password.getBytes(StandardCharsets.UTF_8)),
+            StandardCharsets.UTF_8
+    );
   }
 
   public RegisteredPlayer setNickname(String nickname) {
