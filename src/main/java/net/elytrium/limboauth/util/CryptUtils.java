@@ -25,14 +25,12 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import java.nio.charset.StandardCharsets;
 
 public class CryptUtils {
-    private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
     private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
 
     public static boolean checkPassword(String password, RegisteredPlayer player) {
         MigrationHash migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
 
         String hash = player.getHash();
-
 
         boolean isCorrect = HASH_VERIFIER.verify(
                 password.getBytes(StandardCharsets.UTF_8),
