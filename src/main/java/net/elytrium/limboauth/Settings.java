@@ -17,12 +17,6 @@
 
 package net.elytrium.limboauth;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.Random;
 import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
@@ -36,13 +30,20 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Random;
+
 public class Settings extends YamlConfig {
 
   @Ignore
   public static final Settings IMP = new Settings();
 
   @Final
-  public String VERSION = BuildConstants.AUTH_VERSION;
+  public String VERSION = "1.1.14-SNAPSHOT";
 
   @Comment({
       "Available serializers:",
@@ -132,7 +133,6 @@ public class Settings extends YamlConfig {
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public Dimension DIMENSION = Dimension.THE_END;
     public long PURGE_CACHE_MILLIS = 3600000;
-    public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
     @Comment("Used to ban IPs when a possible attacker incorrectly enters the password")
     public int BRUTEFORCE_MAX_ATTEMPTS = 10;
@@ -144,8 +144,8 @@ public class Settings extends YamlConfig {
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;
     public int TOTP_RECOVERY_CODES_AMOUNT = 16;
-    @Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
-    public long IP_LIMIT_VALID_TIME = 21600000;
+    /*@Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
+    public long IP_LIMIT_VALID_TIME = 21600000;*/
     @Comment({
         "Regex of allowed nicknames",
         "^ means the start of the line, $ means the end of the line",

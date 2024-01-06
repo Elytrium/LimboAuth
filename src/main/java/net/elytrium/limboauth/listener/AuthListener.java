@@ -17,8 +17,6 @@
 
 package net.elytrium.limboauth.listener;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
@@ -26,17 +24,15 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
 import com.velocitypowered.api.util.UuidUtils;
-import java.sql.SQLException;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -45,12 +41,12 @@ public class AuthListener {
   //private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final PlayerStorage playerStorage;
   private final FloodgateApiHolder floodgateApi;
 
-  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, PlayerStorage playerStorage, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.playerStorage = playerStorage;
     this.floodgateApi = floodgateApi;
   }
 
@@ -117,37 +113,26 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public void onGameProfileRequest(GameProfileRequestEvent event) {
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
-      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
+      RegisteredPlayer registeredPlayer = playerStorage.getAccount(event.getOriginalProfile().getId());
 
       if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
         event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
         return;
       }
-      registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getUsername());
+      registeredPlayer = playerStorage.getAccount(event.getUsername());
 
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
 
         if (currentUuid.isEmpty()) {
-          try {
-            registeredPlayer.setUuid(event.getGameProfile().getId().toString());
-            this.playerDao.update(registeredPlayer);
-          } catch (SQLException e) {
-            throw new SQLRuntimeException(e);
-          }
+          registeredPlayer.setUuid(event.getGameProfile().getId().toString());
         } else {
           event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
         }
       }
     } else if (event.isOnlineMode()) {
-      try {
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, event.getUsername().toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
-        updateBuilder.update();
-      } catch (SQLException e) {
-        throw new SQLRuntimeException(e);
-      }
+      RegisteredPlayer registeredPlayer = playerStorage.getAccount(event.getUsername());
+      registeredPlayer.setHash("");
     }
 
     if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {

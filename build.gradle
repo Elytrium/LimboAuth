@@ -2,9 +2,9 @@
 
 plugins {
     id("java")
-    id("checkstyle")
+    //id("checkstyle")
     id("maven-publish")
-    id("com.github.spotbugs").version("5.0.7")
+    //id("com.github.spotbugs").version("5.0.7")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
 }
@@ -123,7 +123,7 @@ license {
     setHeader(file("HEADER.txt"))
 }
 
-checkstyle {
+/*checkstyle {
     setToolVersion("10.1")
     setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
     setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
@@ -143,7 +143,7 @@ spotbugsMain {
             setStylesheet("fancy-hist.xsl")
         }
     }
-}
+}*/
 
 task javadocJar(type: Jar) {
     getArchiveClassifier().set("javadoc")

@@ -19,7 +19,6 @@ package net.elytrium.limboauth.handler;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.google.common.primitives.Longs;
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import dev.samstevens.totp.code.CodeVerifier;
@@ -28,15 +27,6 @@ import dev.samstevens.totp.code.DefaultCodeVerifier;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import io.netty.buffer.ByteBuf;
 import io.whitfin.siphash.SipHasher;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
@@ -49,15 +39,22 @@ import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
+import net.elytrium.limboauth.util.CryptUtils;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 public class AuthSessionHandler implements LimboSessionHandler {
 
   private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
-  private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
   private static Component ratelimited;
@@ -92,7 +89,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   @Nullable
   private static MigrationHash migrationHash;
 
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final PlayerStorage playerStorage;
   private final Player proxyPlayer;
   private final LimboAuth plugin;
 
@@ -116,8 +113,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private String tempPassword;
   private boolean tokenReceived;
 
-  public AuthSessionHandler(Dao<RegisteredPlayer, String> playerDao, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
-    this.playerDao = playerDao;
+  public AuthSessionHandler(PlayerStorage playerStorage, Player proxyPlayer, LimboAuth plugin, @Nullable RegisteredPlayer playerInfo) {
+    this.playerStorage = playerStorage;
     this.proxyPlayer = proxyPlayer;
     this.plugin = plugin;
     this.playerInfo = playerInfo;
@@ -136,30 +133,17 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = LimboAuth.getSerializer();
 
     if (this.playerInfo == null) {
-      try {
-        String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(RegisteredPlayer.IP_FIELD, ip);
-        if (alreadyRegistered != null) {
-          int sizeOfValidRegistrations = alreadyRegistered.size();
-          if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
-              registeredPlayer.setIP("");
-              this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
+        playerStorage.getAccountCount(this.proxyPlayer.getRemoteAddress().getAddress()).thenAccept(accountCount -> {
+            if (accountCount >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+                this.proxyPlayer.disconnect(ipLimitKick);
             }
-          }
+        }).orTimeout(2, TimeUnit.SECONDS).exceptionally(throwable -> {
+            this.proxyPlayer.disconnect(databaseErrorKick);
+            throwable.printStackTrace();
+            return null;
+        });
 
-          if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
-            this.proxyPlayer.disconnect(ipLimitKick);
-            return;
-          }
-        }
-      } catch (SQLException e) {
-        this.proxyPlayer.disconnect(databaseErrorKick);
-        throw new SQLRuntimeException(e);
-      }
+        return;
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
         this.proxyPlayer.disconnect(serializer.deserialize(
@@ -212,15 +196,20 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String password = args[1];
         if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
           this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
-          try {
-            this.playerDao.create(registeredPlayer);
-            this.playerInfo = registeredPlayer;
-          } catch (SQLException e) {
-            this.proxyPlayer.disconnect(databaseErrorKick);
-            throw new SQLRuntimeException(e);
-          }
+            PlayerStorage.LoginRegisterResult result = playerStorage.loginOrRegister(
+                    this.proxyPlayer.getUsername(),
+                    this.proxyPlayer.getUniqueId().toString(),
+                    this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress(),
+                    password
+            );
+
+            if(result != PlayerStorage.LoginRegisterResult.REGISTERED) {
+                this.proxyPlayer.disconnect(databaseErrorKick);
+                return;
+            }
+
+            this.playerInfo = playerStorage.getAccount(this.proxyPlayer.getUsername());
 
           this.proxyPlayer.sendMessage(registerSuccessful);
           if (registerSuccessfulTitle != null) {
@@ -241,7 +230,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String password = args[1];
         this.saveTempPassword(password);
 
-        if (password.length() > 0 && checkPassword(password, this.playerInfo, this.playerDao)) {
+        if (password.length() > 0 && CryptUtils.checkPassword(password, this.playerInfo)) {
           if (this.playerInfo.getTotpToken().isEmpty()) {
             this.finishLogin();
           } else {
@@ -521,48 +510,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
-  }
-
-  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
-    String hash = player.getHash();
-    boolean isCorrect = new String(HASHER.hash(Settings.IMP.MAIN.BCRYPT_COST, Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
-            password.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8).equals(hash);
-
-    if (!isCorrect && migrationHash != null) {
-      isCorrect = migrationHash.checkPassword(hash, password);
-      if (isCorrect) {
-        player.setPassword(password);
-        try {
-          playerDao.update(player);
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
-        }
-      }
-    }
-
-    return isCorrect;
-  }
-
-  public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
-    try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
-      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    }
-  }
-
-  public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
-    return AuthSessionHandler.fetchInfoLowercased(playerDao, nickname.toLowerCase(Locale.ROOT));
-  }
-
-  public static RegisteredPlayer fetchInfoLowercased(Dao<RegisteredPlayer, String> playerDao, String nickname) {
-    try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname);
-      return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    }
   }
 
   /**

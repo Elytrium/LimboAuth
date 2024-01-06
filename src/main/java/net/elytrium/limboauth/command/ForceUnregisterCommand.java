@@ -17,38 +17,36 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ProxyServer;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
+
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Locale;
 
 public class ForceUnregisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final ProxyServer server;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final PlayerStorage playerStorage;
 
   private final Component kick;
   private final String successful;
   private final String notSuccessful;
   private final Component usage;
 
-  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceUnregisterCommand(LimboAuth plugin, ProxyServer server, PlayerStorage playerStorage) {
     this.plugin = plugin;
     this.server = server;
-    this.playerDao = playerDao;
+    this.playerStorage = playerStorage;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.kick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_UNREGISTER_KICK);
@@ -66,19 +64,16 @@ public class ForceUnregisterCommand extends RatelimitedCommand {
   public void execute(CommandSource source, String[] args) {
     if (args.length == 1) {
       String playerNick = args[0];
-      String usernameLowercased = playerNick.toLowerCase(Locale.ROOT);
 
       Serializer serializer = LimboAuth.getSerializer();
-      try {
-        this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-        this.playerDao.deleteById(usernameLowercased);
-        this.plugin.removePlayerFromCacheLowercased(usernameLowercased);
-        this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
-      } catch (SQLException e) {
+      this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
+
+      if(!playerStorage.unregister(playerNick)) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
-        throw new SQLRuntimeException(e);
       }
+
+      this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
     } else {
       source.sendMessage(this.usage);
     }

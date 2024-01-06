@@ -17,24 +17,23 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import java.sql.SQLException;
-import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
+import net.elytrium.limboauth.util.CryptUtils;
 import net.kyori.adventure.text.Component;
+
+import java.util.Locale;
 
 public class PremiumCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final PlayerStorage playerStorage;
 
   private final String confirmKeyword;
   private final Component notRegistered;
@@ -46,9 +45,9 @@ public class PremiumCommand extends RatelimitedCommand {
   private final Component usage;
   private final Component notPlayer;
 
-  public PremiumCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public PremiumCommand(LimboAuth plugin, PlayerStorage playerStorage) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.playerStorage = playerStorage;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
@@ -67,23 +66,19 @@ public class PremiumCommand extends RatelimitedCommand {
     if (source instanceof Player) {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String usernameLowercase = ((Player) source).getUsername().toLowerCase(Locale.ROOT);
-          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
+          String username = ((Player) source).getUsername();
+          String usernameLowercase = username.toLowerCase(Locale.ROOT);
+
+          RegisteredPlayer player = playerStorage.getAccount(username);
+
           if (player == null) {
             source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
             source.sendMessage(this.alreadyPremium);
-          } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+          } else if (CryptUtils.checkPassword(args[0], player)) {
             if (this.plugin.isPremiumExternal(usernameLowercase).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
-              try {
-                player.setHash("");
-                this.playerDao.update(player);
-                this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
-                ((Player) source).disconnect(this.successful);
-              } catch (SQLException e) {
-                source.sendMessage(this.errorOccurred);
-                throw new SQLRuntimeException(e);
-              }
+              player.setHash("");
+              ((Player) source).disconnect(this.successful);
             } else {
               source.sendMessage(this.notPremium);
             }

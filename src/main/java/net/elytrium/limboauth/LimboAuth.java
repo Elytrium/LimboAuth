@@ -23,16 +23,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.dao.GenericRawResults;
-import com.j256.ormlite.db.DatabaseType;
-import com.j256.ormlite.field.FieldType;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableInfo;
-import com.j256.ormlite.table.TableUtils;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.Subscribe;
@@ -52,6 +43,34 @@ import com.velocitypowered.proxy.util.ratelimit.Ratelimiter;
 import com.velocitypowered.proxy.util.ratelimit.Ratelimiters;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.whitfin.siphash.SipHasher;
+import net.elytrium.commons.kyori.serialization.Serializer;
+import net.elytrium.commons.kyori.serialization.Serializers;
+import net.elytrium.commons.utils.reflection.ReflectionException;
+import net.elytrium.commons.utils.updates.UpdatesChecker;
+import net.elytrium.limboapi.api.Limbo;
+import net.elytrium.limboapi.api.LimboFactory;
+import net.elytrium.limboapi.api.chunk.VirtualWorld;
+import net.elytrium.limboapi.api.command.LimboCommandMeta;
+import net.elytrium.limboapi.api.file.WorldFile;
+import net.elytrium.limboauth.command.*;
+import net.elytrium.limboauth.dependencies.DatabaseLibrary;
+import net.elytrium.limboauth.event.*;
+import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
+import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.listener.AuthListener;
+import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.ComponentSerializer;
+import net.kyori.adventure.title.Title;
+import org.bstats.charts.SimplePie;
+import org.bstats.charts.SingleLineChart;
+import org.bstats.velocity.Metrics;
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -66,14 +85,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -81,49 +93,11 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.elytrium.commons.kyori.serialization.Serializer;
-import net.elytrium.commons.kyori.serialization.Serializers;
-import net.elytrium.commons.utils.reflection.ReflectionException;
-import net.elytrium.commons.utils.updates.UpdatesChecker;
-import net.elytrium.limboapi.api.Limbo;
-import net.elytrium.limboapi.api.LimboFactory;
-import net.elytrium.limboapi.api.chunk.VirtualWorld;
-import net.elytrium.limboapi.api.command.LimboCommandMeta;
-import net.elytrium.limboapi.api.file.WorldFile;
-import net.elytrium.limboauth.command.ChangePasswordCommand;
-import net.elytrium.limboauth.command.DestroySessionCommand;
-import net.elytrium.limboauth.command.ForceChangePasswordCommand;
-import net.elytrium.limboauth.command.ForceRegisterCommand;
-import net.elytrium.limboauth.command.ForceUnregisterCommand;
-import net.elytrium.limboauth.command.LimboAuthCommand;
-import net.elytrium.limboauth.command.PremiumCommand;
-import net.elytrium.limboauth.command.TotpCommand;
-import net.elytrium.limboauth.command.UnregisterCommand;
-import net.elytrium.limboauth.dependencies.DatabaseLibrary;
-import net.elytrium.limboauth.event.AuthPluginReloadEvent;
-import net.elytrium.limboauth.event.PreAuthorizationEvent;
-import net.elytrium.limboauth.event.PreEvent;
-import net.elytrium.limboauth.event.PreRegisterEvent;
-import net.elytrium.limboauth.event.TaskEvent;
-import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.handler.AuthSessionHandler;
-import net.elytrium.limboauth.listener.AuthListener;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
-import net.kyori.adventure.title.Title;
-import org.bstats.charts.SimplePie;
-import org.bstats.charts.SingleLineChart;
-import org.bstats.velocity.Metrics;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
 
 @Plugin(
     id = "limboauth",
     name = "LimboAuth",
-    version = BuildConstants.AUTH_VERSION,
+    version = "1.1.14-SNAPSHOT",
     url = "https://elytrium.net/",
     authors = {
         "Elytrium (https://elytrium.net/)",
@@ -145,9 +119,6 @@ public class LimboAuth {
   private static Logger LOGGER;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
-
-  private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
-  private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
@@ -175,14 +146,15 @@ public class LimboAuth {
   private Component bruteforceAttemptKick;
   private Component nicknameInvalidKick;
   private Component reconnectKick;
-  private ScheduledTask purgeCacheTask;
-  private ScheduledTask purgePremiumCacheTask;
+  private ScheduledTask saveCacheTask;
+
   private ScheduledTask purgeBruteforceCacheTask;
 
   private ConnectionSource connectionSource;
-  private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
+
+  private PlayerStorage playerStorage;
 
   @Inject
   public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
@@ -223,7 +195,7 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.IMP.MAIN.ENABLE_TOTP)));
     metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.IMP.MAIN.DIMENSION)));
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
-    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
+    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Integer.MAX_VALUE));
 
     if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
       LOGGER.error("****************************************");
@@ -296,8 +268,6 @@ public class LimboAuth {
       }
     }
 
-    this.cachedAuthChecks.clear();
-    this.premiumCache.clear();
     this.bruteforceCache.clear();
 
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
@@ -320,20 +290,8 @@ public class LimboAuth {
 
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
-    try {
-      try {
-        TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
-      } catch (SQLException e) {
-        if (!e.getMessage().contains("CREATE INDEX")) {
-          throw e;
-        }
-      }
-
-      this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
-      this.migrateDb(this.playerDao);
-    } catch (SQLException e) {
-      throw new SQLRuntimeException(e);
-    }
+    this.playerStorage = new PlayerStorage(this.connectionSource);
+    playerStorage.migrate();
 
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
@@ -346,15 +304,15 @@ public class LimboAuth {
     manager.unregister("2fa");
     manager.unregister("limboauth");
 
-    manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
-    manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
-    manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
-    manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
-    manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
-    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
-    manager.register("destroysession", new DestroySessionCommand(this), "logout");
+    manager.register("unregister", new UnregisterCommand(this, this.playerStorage), "unreg");
+    manager.register("forceregister", new ForceRegisterCommand(this, this.playerStorage), "forcereg");
+    manager.register("premium", new PremiumCommand(this, this.playerStorage), "license");
+    manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerStorage), "forceunreg");
+    manager.register("changepassword", new ChangePasswordCommand(this, this.playerStorage), "changepass", "cp");
+    manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerStorage), "forcechangepass", "fcp");
+    manager.register("destroysession", new DestroySessionCommand(this, this.playerStorage), "logout");
     if (Settings.IMP.MAIN.ENABLE_TOTP) {
-      manager.register("2fa", new TotpCommand(this.playerDao), "totp");
+      manager.register("2fa", new TotpCommand(this.playerStorage), "totp");
     }
     manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 
@@ -395,31 +353,21 @@ public class LimboAuth {
 
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
-    eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
+    eventManager.register(this, new AuthListener(this, this.playerStorage, this.floodgateApi));
 
-    if (this.purgeCacheTask != null) {
-      this.purgeCacheTask.cancel();
+    if (this.saveCacheTask != null) {
+      this.saveCacheTask.cancel();
     }
-
-    this.purgeCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.cachedAuthChecks, Settings.IMP.MAIN.PURGE_CACHE_MILLIS))
-        .delay(Settings.IMP.MAIN.PURGE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
-        .repeat(Settings.IMP.MAIN.PURGE_CACHE_MILLIS, TimeUnit.MILLISECONDS)
-        .schedule();
-
-    if (this.purgePremiumCacheTask != null) {
-      this.purgePremiumCacheTask.cancel();
-    }
-
-    this.purgePremiumCacheTask = this.server.getScheduler()
-        .buildTask(this, () -> this.checkCache(this.premiumCache, Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS))
-        .delay(Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS, TimeUnit.MILLISECONDS)
-        .repeat(Settings.IMP.MAIN.PURGE_PREMIUM_CACHE_MILLIS, TimeUnit.MILLISECONDS)
-        .schedule();
 
     if (this.purgeBruteforceCacheTask != null) {
       this.purgeBruteforceCacheTask.cancel();
     }
+
+    this.saveCacheTask = this.server.getScheduler()
+            .buildTask(this, () -> playerStorage.trySave())
+            .delay(1, TimeUnit.MINUTES)
+            .repeat(1, TimeUnit.MINUTES)
+            .schedule();
 
     this.purgeBruteforceCacheTask = this.server.getScheduler()
         .buildTask(this, () -> this.checkCache(this.bruteforceCache, Settings.IMP.MAIN.PURGE_BRUTEFORCE_CACHE_MILLIS))
@@ -441,99 +389,21 @@ public class LimboAuth {
         .forEach(userMap::remove);
   }
 
-  public void migrateDb(Dao<?, ?> dao) {
-    TableInfo<?, ?> tableInfo = dao.getTableInfo();
-
-    Set<FieldType> tables = new HashSet<>();
-    Collections.addAll(tables, tableInfo.getFieldTypes());
-
-    String findSql;
-    String database = Settings.IMP.DATABASE.DATABASE;
-    String tableName = tableInfo.getTableName();
-    DatabaseLibrary databaseLibrary = Settings.IMP.DATABASE.STORAGE_TYPE;
-    switch (databaseLibrary) {
-      case SQLITE: {
-        findSql = "SELECT name FROM PRAGMA_TABLE_INFO('" + tableName + "')";
-        break;
-      }
-      case H2: {
-        findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + tableName + "';";
-        break;
-      }
-      case POSTGRESQL: {
-        findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
-        break;
-      }
-      case MARIADB:
-      case MYSQL: {
-        findSql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + database + "' AND TABLE_NAME = '" + tableName + "';";
-        break;
-      }
-      default: {
-        LOGGER.error("WRONG DATABASE TYPE.");
-        this.server.shutdown();
-        return;
-      }
-    }
-
-    try (GenericRawResults<String[]> queryResult = dao.queryRaw(findSql)) {
-      queryResult.forEach(result -> tables.removeIf(table -> table.getColumnName().equalsIgnoreCase(result[0])));
-
-      tables.forEach(table -> {
-        try {
-          StringBuilder builder = new StringBuilder("ALTER TABLE ");
-          if (databaseLibrary == DatabaseLibrary.POSTGRESQL) {
-            builder.append('"');
-          }
-          builder.append(tableName);
-          if (databaseLibrary == DatabaseLibrary.POSTGRESQL) {
-            builder.append('"');
-          }
-          builder.append(" ADD ");
-          String columnDefinition = table.getColumnDefinition();
-          DatabaseType databaseType = dao.getConnectionSource().getDatabaseType();
-          if (columnDefinition == null) {
-            List<String> dummy = List.of();
-            databaseType.appendColumnArg(table.getTableName(), builder, table, dummy, dummy, dummy, dummy);
-          } else {
-            databaseType.appendEscapedEntityName(builder, table.getColumnName());
-            builder.append(" ").append(columnDefinition).append(" ");
-          }
-
-          dao.executeRawNoArgs(builder.toString());
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
-        }
-      });
-    } catch (Exception e) {
-      throw new SQLRuntimeException(e);
-    }
-  }
-
   public void cacheAuthUser(Player player) {
     String username = player.getUsername();
-    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
-  }
+    String host = player.getRemoteAddress().getAddress().getHostAddress();
 
-  public void removePlayerFromCache(String username) {
-    this.removePlayerFromCacheLowercased(username.toLowerCase(Locale.ROOT));
-  }
-
-  public void removePlayerFromCacheLowercased(String username) {
-    this.cachedAuthChecks.remove(username);
-    this.premiumCache.remove(username);
+    playerStorage.resumeSession(host, username);
   }
 
   public boolean needAuth(Player player) {
     String username = player.getUsername();
-    String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    if (!this.cachedAuthChecks.containsKey(lowercaseUsername)) {
-      return true;
-    } else {
-      CachedSessionUser sessionUser = this.cachedAuthChecks.get(lowercaseUsername);
-      return !sessionUser.getInetAddress().equals(player.getRemoteAddress().getAddress()) || !sessionUser.getUsername().equals(username);
-    }
+    String host = player.getRemoteAddress().getAddress().getHostAddress();
+
+    PlayerStorage.ResumeSessionResult result =
+            playerStorage.resumeSession(host, username);
+
+    return result != PlayerStorage.ResumeSessionResult.RESUMED;
   }
 
   public void authPlayer(Player player) {
@@ -554,7 +424,7 @@ public class LimboAuth {
       return;
     }
 
-    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+    RegisteredPlayer registeredPlayer = playerStorage.getAccount(nickname);
 
     boolean onlineMode = player.isOnlineMode();
     TaskEvent.Result result = TaskEvent.Result.NORMAL;
@@ -562,26 +432,15 @@ public class LimboAuth {
     if (onlineMode || isFloodgate) {
       if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
         RegisteredPlayer nicknameRegisteredPlayer = registeredPlayer;
-        registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
+        registeredPlayer = playerStorage.getAccount(player.getUniqueId());
 
         if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
           registeredPlayer = nicknameRegisteredPlayer;
           registeredPlayer.setPremiumUuid(player.getUniqueId().toString());
-          try {
-            this.playerDao.update(registeredPlayer);
-          } catch (SQLException e) {
-            throw new SQLRuntimeException(e);
-          }
         }
 
         if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
-          registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
-
-          try {
-            this.playerDao.create(registeredPlayer);
-          } catch (SQLException e) {
-            throw new SQLRuntimeException(e);
-          }
+          registeredPlayer = playerStorage.registerPremium(player);
         }
 
         if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
@@ -648,7 +507,7 @@ public class LimboAuth {
       }
       case NORMAL:
       default: {
-        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerDao, player, this, registeredPlayer));
+        this.authServer.spawnPlayer(player, new AuthSessionHandler(this.playerStorage, player, this, registeredPlayer));
         break;
       }
     }
@@ -656,11 +515,15 @@ public class LimboAuth {
 
   public void updateLoginData(Player player) throws SQLException {
     String lowercaseNickname = player.getUsername().toLowerCase(Locale.ROOT);
-    UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-    updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
-    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
-    updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_DATE_FIELD, System.currentTimeMillis());
-    updateBuilder.update();
+    RegisteredPlayer registeredPlayer = playerStorage.getAccount(lowercaseNickname);
+
+    if(registeredPlayer != null) {
+      String hostAddress = player.getRemoteAddress().getAddress().getHostAddress();
+
+      registeredPlayer.setIP(hostAddress);
+      registeredPlayer.setLoginIp(hostAddress);
+      registeredPlayer.setLoginDate(System.currentTimeMillis());
+    }
 
     if (Settings.IMP.MAIN.MOD.ENABLED) {
       byte[] lowercaseNicknameSerialized = lowercaseNickname.getBytes(StandardCharsets.UTF_8);
@@ -730,57 +593,33 @@ public class LimboAuth {
   }
 
   public PremiumResponse isPremiumInternal(String nickname) {
-    try {
-      QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
-      crackedCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
-          .and()
-          .ne(RegisteredPlayer.HASH_FIELD, "");
-      crackedCountQuery.setCountOf(true);
+    RegisteredPlayer account = playerStorage.getAccount(nickname);
 
-      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
-      premiumCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
-          .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
-      premiumCountQuery.setCountOf(true);
-
-      if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
-        return new PremiumResponse(PremiumState.CRACKED);
-      }
-
-      if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
-        return new PremiumResponse(PremiumState.PREMIUM);
-      }
-
+    if(account == null || account.getPremiumUuid().isEmpty()) {
       return new PremiumResponse(PremiumState.UNKNOWN);
-    } catch (SQLException e) {
-      LOGGER.error("Unable to check if account is premium.", e);
-      return new PremiumResponse(PremiumState.ERROR);
     }
+
+    if (!account.getHash().isEmpty()) {
+      return new PremiumResponse(PremiumState.CRACKED);
+    } else return new PremiumResponse(PremiumState.PREMIUM);
   }
 
   public boolean isPremiumUuid(UUID uuid) {
-    try {
-      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
-      premiumCountQuery.where()
-          .eq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString())
-          .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
-      premiumCountQuery.setCountOf(true);
+    RegisteredPlayer account = playerStorage.getAccount(uuid);
 
-      return this.playerDao.countOf(premiumCountQuery.prepare()) != 0;
-    } catch (SQLException e) {
-      LOGGER.error("Unable to check if account is premium.", e);
-      return false;
-    }
+    if(account == null) return false;
+
+    return account.getHash().isEmpty();
   }
 
   @SafeVarargs
   private boolean checkIsPremiumAndCache(String nickname, Function<String, PremiumResponse>... functions) {
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-    if (this.premiumCache.containsKey(lowercaseNickname)) {
-      return this.premiumCache.get(lowercaseNickname).isPremium();
+
+    RegisteredPlayer account = playerStorage.getAccount(lowercaseNickname);
+
+    if(account != null && account.getPremiumUuid() != null) {
+      return true;
     }
 
     boolean premium = false;
@@ -797,11 +636,9 @@ public class LimboAuth {
 
       switch (check.getState()) {
         case CRACKED: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
           return false;
         }
         case PREMIUM: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
           return true;
         }
         case PREMIUM_USERNAME: {
@@ -826,7 +663,6 @@ public class LimboAuth {
 
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
-        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
         return true;
       }
 
@@ -843,7 +679,6 @@ public class LimboAuth {
       return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
 
-    this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
     return true;
   }
 
@@ -909,10 +744,6 @@ public class LimboAuth {
     return this.connectionSource;
   }
 
-  public Dao<RegisteredPlayer, String> getPlayerDao() {
-    return this.playerDao;
-  }
-
   private static void setLogger(Logger logger) {
     LOGGER = logger;
   }
@@ -943,42 +774,6 @@ public class LimboAuth {
 
     public long getCheckTime() {
       return this.checkTime;
-    }
-  }
-
-  private static class CachedSessionUser extends CachedUser {
-
-    private final InetAddress inetAddress;
-    private final String username;
-
-    public CachedSessionUser(long checkTime, InetAddress inetAddress, String username) {
-      super(checkTime);
-
-      this.inetAddress = inetAddress;
-      this.username = username;
-    }
-
-    public InetAddress getInetAddress() {
-      return this.inetAddress;
-    }
-
-    public String getUsername() {
-      return this.username;
-    }
-  }
-
-  private static class CachedPremiumUser extends CachedUser {
-
-    private final boolean premium;
-
-    public CachedPremiumUser(long checkTime, boolean premium) {
-      super(checkTime);
-
-      this.premium = premium;
-    }
-
-    public boolean isPremium() {
-      return this.premium;
     }
   }
 

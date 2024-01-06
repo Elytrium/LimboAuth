@@ -17,23 +17,20 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
+
+import java.text.MessageFormat;
 
 public class ForceRegisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final PlayerStorage playerStorage;
 
   private final String successful;
   private final String notSuccessful;
@@ -41,9 +38,9 @@ public class ForceRegisterCommand extends RatelimitedCommand {
   private final Component takenNickname;
   private final Component incorrectNickname;
 
-  public ForceRegisterCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceRegisterCommand(LimboAuth plugin, PlayerStorage playerStorage) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.playerStorage = playerStorage;
 
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_NOT_SUCCESSFUL;
@@ -59,26 +56,25 @@ public class ForceRegisterCommand extends RatelimitedCommand {
       String password = args[1];
 
       Serializer serializer = LimboAuth.getSerializer();
-      try {
-        if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
-          source.sendMessage(this.incorrectNickname);
-          return;
-        }
-
-        String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-        if (this.playerDao.idExists(lowercaseNickname)) {
-          source.sendMessage(this.takenNickname);
-          return;
-        }
-
-        RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
-        this.playerDao.create(player);
-
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        throw new SQLRuntimeException(e);
+      if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
+        source.sendMessage(this.incorrectNickname);
+        return;
       }
+
+      if (this.playerStorage.isRegistered(nickname)) {
+        source.sendMessage(this.takenNickname);
+        return;
+      }
+
+
+      PlayerStorage.LoginRegisterResult result = playerStorage.loginOrRegister(nickname, "", "", password);
+
+      if(result != PlayerStorage.LoginRegisterResult.REGISTERED) {
+        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
+        return;
+      }
+
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
     } else {
       source.sendMessage(this.usage);
     }

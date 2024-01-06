@@ -21,14 +21,15 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
+import net.elytrium.limboauth.Settings;
+
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.UUID;
-import net.elytrium.limboauth.Settings;
 
 @DatabaseTable(tableName = "AUTH")
-public class RegisteredPlayer {
+public class RegisteredPlayer implements AuthenticateEntity {
 
   public static final String NICKNAME_FIELD = "NICKNAME";
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
@@ -112,6 +113,8 @@ public class RegisteredPlayer {
 
   }
 
+  private transient boolean needSave = false;
+
   public static String genHash(String password) {
     return new String(HASHER.hash(
             Settings.IMP.MAIN.BCRYPT_COST,
@@ -124,6 +127,7 @@ public class RegisteredPlayer {
   public RegisteredPlayer setNickname(String nickname) {
     this.nickname = nickname;
     this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.needSave = true;
 
     return this;
   }
@@ -139,6 +143,7 @@ public class RegisteredPlayer {
   public RegisteredPlayer setPassword(String password) {
     this.hash = genHash(password);
     this.tokenIssuedAt = System.currentTimeMillis();
+    this.needSave = true;
 
     return this;
   }
@@ -146,6 +151,7 @@ public class RegisteredPlayer {
   public RegisteredPlayer setHash(String hash) {
     this.hash = hash;
     this.tokenIssuedAt = System.currentTimeMillis();
+    this.needSave = true;
 
     return this;
   }
@@ -156,6 +162,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setIP(String ip) {
     this.ip = ip;
+    this.needSave = true;
 
     return this;
   }
@@ -166,6 +173,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setTotpToken(String totpToken) {
     this.totpToken = totpToken;
+    this.needSave = true;
 
     return this;
   }
@@ -176,6 +184,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setRegDate(Long regDate) {
     this.regDate = regDate;
+    this.needSave = true;
 
     return this;
   }
@@ -186,9 +195,11 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setUuid(String uuid) {
     this.uuid = uuid;
+    this.needSave = true;
 
     return this;
   }
+
 
   public String getUuid() {
     return this.uuid == null ? "" : this.uuid;
@@ -196,12 +207,14 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setPremiumUuid(String premiumUuid) {
     this.premiumUuid = premiumUuid;
+    this.needSave = true;
 
     return this;
   }
 
   public RegisteredPlayer setPremiumUuid(UUID premiumUuid) {
     this.premiumUuid = premiumUuid.toString();
+    this.needSave = true;
 
     return this;
   }
@@ -216,6 +229,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setLoginIp(String loginIp) {
     this.loginIp = loginIp;
+    this.needSave = true;
 
     return this;
   }
@@ -226,6 +240,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setLoginDate(Long loginDate) {
     this.loginDate = loginDate;
+    this.needSave = true;
 
     return this;
   }
@@ -236,7 +251,16 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setTokenIssuedAt(Long tokenIssuedAt) {
     this.tokenIssuedAt = tokenIssuedAt;
+    this.needSave = true;
 
     return this;
+  }
+
+  public boolean isNeedSave() {
+    return needSave;
+  }
+
+  public void setNeedSave(boolean needSave) {
+    this.needSave = needSave;
   }
 }

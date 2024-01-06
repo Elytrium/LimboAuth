@@ -23,17 +23,22 @@ import com.velocitypowered.api.proxy.Player;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.model.RegisteredPlayer;
+import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
 
 public class DestroySessionCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
 
+  private final PlayerStorage playerStorage;
+
   private final Component successful;
   private final Component notPlayer;
 
-  public DestroySessionCommand(LimboAuth plugin) {
+  public DestroySessionCommand(LimboAuth plugin, PlayerStorage playerStorage) {
     this.plugin = plugin;
+    this.playerStorage = playerStorage;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DESTROY_SESSION_SUCCESSFUL);
@@ -43,8 +48,13 @@ public class DestroySessionCommand extends RatelimitedCommand {
   @Override
   public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
-      this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful);
+      RegisteredPlayer account = playerStorage.getAccount(((Player) source).getUsername());
+
+      if(account != null) {
+        account.setTokenIssuedAt(0L);
+        source.sendMessage(this.successful);
+      }
+
     } else {
       source.sendMessage(this.notPlayer);
     }
