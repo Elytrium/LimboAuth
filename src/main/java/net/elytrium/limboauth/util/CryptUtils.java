@@ -26,20 +26,18 @@ import java.nio.charset.StandardCharsets;
 
 public class CryptUtils {
     private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
+    private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
 
     public static boolean checkPassword(String password, RegisteredPlayer player) {
         MigrationHash migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
 
         String hash = player.getHash();
 
-        boolean isCorrect = new String(
-                HASHER.hash(
-                        Settings.IMP.MAIN.BCRYPT_COST,
-                        Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
-                        password.getBytes(StandardCharsets.UTF_8)
-                ),
-                StandardCharsets.UTF_8
-        ).equals(hash);
+
+        boolean isCorrect = HASH_VERIFIER.verify(
+                password.getBytes(StandardCharsets.UTF_8),
+                hash.getBytes(StandardCharsets.UTF_8)
+        ).verified;
 
         if (!isCorrect && migrationHash != null) {
 
