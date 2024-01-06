@@ -116,7 +116,7 @@ public class LimboAuth {
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
 
   @MonotonicNonNull
-  private static Logger LOGGER;
+  public static Logger LOGGER;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
@@ -520,7 +520,6 @@ public class LimboAuth {
     if(registeredPlayer != null) {
       String hostAddress = player.getRemoteAddress().getAddress().getHostAddress();
 
-      registeredPlayer.setIP(hostAddress);
       registeredPlayer.setLoginIp(hostAddress);
       registeredPlayer.setLoginDate(System.currentTimeMillis());
     }

@@ -26,6 +26,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
+import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.dependencies.DatabaseLibrary;
 import net.elytrium.limboauth.model.SQLRuntimeException;
@@ -43,8 +44,10 @@ public class DaoUtils {
     public static <T> void createTableIfNotExists(ConnectionSource source, Class<T> clazz) {
         try {
             TableUtils.createTableIfNotExists(source, clazz);
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+        } catch (Exception e) {
+            if (!e.getMessage().contains("CREATE INDEX")) {
+                LimboAuth.LOGGER.error(e.getMessage());
+            }
         }
     }
 
@@ -133,7 +136,7 @@ public class DaoUtils {
         try {
             return query.get();
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            LimboAuth.LOGGER.error(exception.getMessage());
 
             return null;
         }

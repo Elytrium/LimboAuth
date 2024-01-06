@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 @DatabaseTable(tableName = "AUTH")
-public class RegisteredPlayer implements AuthenticateEntity {
+public class RegisteredPlayer {
 
   public static final String NICKNAME_FIELD = "NICKNAME";
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";

@@ -66,7 +66,6 @@ public class ForceRegisterCommand extends RatelimitedCommand {
         return;
       }
 
-
       PlayerStorage.LoginRegisterResult result = playerStorage.loginOrRegister(nickname, "", "", password);
 
       if(result != PlayerStorage.LoginRegisterResult.REGISTERED) {

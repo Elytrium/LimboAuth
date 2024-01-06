@@ -67,7 +67,7 @@ public class PremiumCommand extends RatelimitedCommand {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
-          String usernameLowercase = username.toLowerCase(Locale.ROOT);
+          String usernameLowercase = username.toLowerCase();
 
           RegisteredPlayer player = playerStorage.getAccount(username);
 

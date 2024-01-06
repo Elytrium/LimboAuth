@@ -19,11 +19,11 @@ package net.elytrium.limboauth.storage;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.velocitypowered.api.proxy.Player;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.model.AuthenticateEntity;
-import net.elytrium.limboauth.model.NotRegisteredPlayer;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.elytrium.limboauth.util.CryptUtils;
@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 public class PlayerStorage {
     private final Dao<RegisteredPlayer, String> playerDao;
 
-    private final Map<String, AuthenticateEntity> cache = new ConcurrentHashMap<>();
+    private final Map<String, RegisteredPlayer> cache = new ConcurrentHashMap<>();
 
     public PlayerStorage(ConnectionSource source) {
         DaoUtils.createTableIfNotExists(source, RegisteredPlayer.class);
@@ -56,47 +56,19 @@ public class PlayerStorage {
     }
 
     public void trySave() {
-        CompletableFuture.runAsync(() -> {
-
-            System.out.println("Start save player storage.");
-
-            DaoUtils.callBatchTasks(playerDao, () -> {
-
-                cache.values().forEach(entity -> {
-                    if(entity instanceof NotRegisteredPlayer){
-                        cache.remove(((NotRegisteredPlayer) entity).getUsername().toLowerCase(Locale.ROOT));
-                    }
-                });
-
-                cache.values().forEach(entity -> {
-                    if(!(entity instanceof RegisteredPlayer)) return;
-
-                    RegisteredPlayer player = (RegisteredPlayer) entity;
-
-
-                    if(player.isNeedSave()) {
-                        DaoUtils.updateSilent(playerDao, player, true);
-                    }
-
-                });
-
-                return null;
-            }, () -> {
-                cache.values().forEach(entity -> {
-
-                    if(!(entity instanceof RegisteredPlayer)) return;
-                    RegisteredPlayer player = (RegisteredPlayer) entity;
-                    player.setNeedSave(false);
-
-                });
-
-                System.out.println("Player storage success saved.");
-                return null;
+        CompletableFuture.runAsync(() -> DaoUtils.callBatchTasks(playerDao, () -> {
+            cache.values().forEach(registeredPlayer -> {
+                if(registeredPlayer.isNeedSave()) {
+                    DaoUtils.updateSilent(playerDao, registeredPlayer, true);
+                }
             });
-        }).exceptionally(throwable -> {
-            System.out.println("Player storage had some issues with saving data.");
-            throwable.printStackTrace();
 
+            return null;
+        }, () -> {
+            cache.values().forEach(registeredPlayer -> registeredPlayer.setNeedSave(false));
+            return null;
+        })).exceptionally(throwable -> {
+            throwable.printStackTrace();
             return null;
         }).orTimeout(10, TimeUnit.SECONDS);
     }
@@ -108,42 +80,45 @@ public class PlayerStorage {
     public CompletableFuture<Long> getAccountCount(InetAddress ip) {
         String keyIp = ip.getHostAddress();
 
-        return CompletableFuture.supplyAsync(() -> DaoUtils.count(playerDao,
-                DaoUtils.getWhereQuery(playerDao, RegisteredPlayer.IP_FIELD, keyIp)));
+        try {
+            QueryBuilder<RegisteredPlayer, String> queryBuilder = playerDao.queryBuilder();
+
+            queryBuilder.setCountOf(true);
+            queryBuilder.setWhere(queryBuilder.where().eq(RegisteredPlayer.IP_FIELD, keyIp).and().between(RegisteredPlayer.REG_DATE_FIELD, System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME, System.currentTimeMillis()));
+
+            PreparedQuery<RegisteredPlayer> query = queryBuilder.prepare();
+
+            return CompletableFuture.supplyAsync(() -> DaoUtils.count(playerDao, query));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return CompletableFuture.completedFuture(0L);
+        }
     }
 
     public RegisteredPlayer getAccount(UUID id) {
         String key = id.toString();
 
-        AuthenticateEntity entity = cache.values().stream()
-                .filter(e -> e instanceof RegisteredPlayer &&
-                        Objects.equals(((RegisteredPlayer) e).getPremiumUuid(), key))
+        RegisteredPlayer entity = cache.values().stream()
+                .filter(e -> e.getPremiumUuid().equals(key))
                 .findAny().orElse(null);
 
         if (entity == null) {
             entity = DaoUtils.queryForFieldSilent(playerDao, RegisteredPlayer.PREMIUM_UUID_FIELD, key);
-
-            if (entity != null) {
-                cache.put(((RegisteredPlayer) entity).getLowercaseNickname(), entity);
-            }
         }
 
-        return entity instanceof RegisteredPlayer ? (RegisteredPlayer) entity : null;
+        return entity;
     }
 
     public RegisteredPlayer getAccount(String username) {
         username = usernameKey(username);
 
-        AuthenticateEntity entity = cache.get(username);
+        RegisteredPlayer entity = cache.get(username);
 
         if (entity == null) {
             entity = DaoUtils.queryForIdSilent(playerDao, username);
-
-            // NotRegisteredPlayer от флуда ботами и чтобы не кешить всех в бд
-            cache.put(username, entity != null ? entity : new NotRegisteredPlayer(username, Instant.now()));
         }
 
-        return entity instanceof RegisteredPlayer ? (RegisteredPlayer) entity : null;
+        return entity;
     }
 
     public ChangePasswordResult changePassword(String username, String newPassword) {
@@ -154,7 +129,7 @@ public class PlayerStorage {
         }
 
         entity.setHash(RegisteredPlayer.genHash(newPassword));
-        entity.setTokenIssuedAt(0L);
+        entity.setLoginDate(0L);
 
         return ChangePasswordResult.SUCCESS;
     }
@@ -166,8 +141,8 @@ public class PlayerStorage {
             return false;
         }
 
-        entity.setIP(ip);
-        entity.setTokenIssuedAt(Instant.now().toEpochMilli());
+        entity.setLoginIp(ip);
+        entity.setLoginDate(Instant.now().toEpochMilli());
 
         return true;
     }
@@ -184,7 +159,7 @@ public class PlayerStorage {
         entity = new RegisteredPlayer(player)
                 .setPremiumUuid(player.getUniqueId());
 
-        cache.put(usernameKey(entity.getNickname()), entity);
+        cache.put(usernameKey(player.getUsername()), entity);
         DaoUtils.createSilent(playerDao, entity);
 
         return entity;
@@ -201,12 +176,11 @@ public class PlayerStorage {
                 return LoginRegisterResult.TOO_LONG_PASSWORD;
             }
 
-            entity = new RegisteredPlayer(username.replace('\u0451', '\u0435'), uuid, ip)
+            entity = new RegisteredPlayer(username, uuid, ip)
                     .setHash(RegisteredPlayer.genHash(password));
 
             entity.setIP(ip);
-            entity.setLoginIp(ip);
-            entity.setTokenIssuedAt(Instant.now().toEpochMilli());
+            entity.setRegDate(Instant.now().toEpochMilli());
 
             cache.put(usernameKey(username), entity);
             DaoUtils.createSilent(playerDao, entity);
@@ -222,10 +196,6 @@ public class PlayerStorage {
             return LoginRegisterResult.INVALID_PASSWORD;
         }
 
-        entity.setIP(ip);
-        entity.setLoginIp(ip);
-        entity.setTokenIssuedAt(Instant.now().toEpochMilli());
-
         return LoginRegisterResult.LOGGED_IN;
     }
 
@@ -236,11 +206,11 @@ public class PlayerStorage {
             return false;
         }
 
-        if (entity.getTokenIssuedAt() <= 0) {
+        if (entity.getLoginDate() <= 0) {
             return false;
         }
 
-        entity.setTokenIssuedAt(null);
+        entity.setLoginDate(null);
         DaoUtils.updateSilent(playerDao, entity, false);
         cache.remove(usernameKey(username));
 
@@ -250,27 +220,25 @@ public class PlayerStorage {
     public ResumeSessionResult resumeSession(String ip, String username) {
         RegisteredPlayer entity = getAccount(username);
 
-        if (entity == null || !entity.getIP().equals(ip)) {
+        if (entity == null || !entity.getLoginIp().equals(ip)) {
             return ResumeSessionResult.NOT_LOGGED_IN;
         }
 
-        if (!usernameKey(username).equals(entity.getLowercaseNickname())) {
+        if (!username.equals(entity.getNickname())) {
             return new ResumeSessionResult.InvalidUsernameCase(entity.getNickname());
         }
 
         long now = Instant.now().toEpochMilli();
 
-        if (entity.getTokenIssuedAt() <= 0) {
+        if (entity.getLoginDate() <= 0) {
             return ResumeSessionResult.NOT_LOGGED_IN;
         }
 
         long sessionDuration = Settings.IMP.MAIN.PURGE_CACHE_MILLIS;
 
-        if(sessionDuration > 0 && now >= (entity.getTokenIssuedAt() + sessionDuration)) {
+        if(sessionDuration > 0 && now >= (entity.getLoginDate() + sessionDuration)) {
             return ResumeSessionResult.NOT_LOGGED_IN;
         }
-
-        entity.setTokenIssuedAt(now);
 
         return ResumeSessionResult.RESUMED;
     }
@@ -290,7 +258,7 @@ public class PlayerStorage {
 
 
     private static String usernameKey(final String input) {
-        return input.toLowerCase().replace('\u0451', '\u0435');
+        return input.toLowerCase(Locale.ROOT).replace('\u0451', '\u0435');
     }
 
     public enum ChangePasswordResult {

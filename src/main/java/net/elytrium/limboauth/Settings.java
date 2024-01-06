@@ -144,8 +144,8 @@ public class Settings extends YamlConfig {
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;
     public int TOTP_RECOVERY_CODES_AMOUNT = 16;
-    /*@Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
-    public long IP_LIMIT_VALID_TIME = 21600000;*/
+    @Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
+    public long IP_LIMIT_VALID_TIME = 21600000;
     @Comment({
         "Regex of allowed nicknames",
         "^ means the start of the line, $ means the end of the line",
