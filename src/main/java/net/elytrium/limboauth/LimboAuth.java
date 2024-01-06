@@ -365,8 +365,8 @@ public class LimboAuth {
 
     this.saveCacheTask = this.server.getScheduler()
             .buildTask(this, () -> playerStorage.trySave())
-            .delay(1, TimeUnit.MINUTES)
-            .repeat(1, TimeUnit.MINUTES)
+            .delay(2, TimeUnit.MINUTES)
+            .repeat(2, TimeUnit.MINUTES)
             .schedule();
 
     this.purgeBruteforceCacheTask = this.server.getScheduler()

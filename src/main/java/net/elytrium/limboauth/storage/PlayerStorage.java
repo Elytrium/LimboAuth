@@ -112,9 +112,9 @@ public class PlayerStorage {
     }
 
     public RegisteredPlayer getAccount(String username) {
-        username = usernameKey(username);
+        String usernameKey = usernameKey(username);
 
-        RegisteredPlayer entity = cache.get(username);
+        RegisteredPlayer entity = cache.get(usernameKey);
 
         if (entity == null) {
             entity = DaoUtils.queryForIdSilent(playerDao, username);
@@ -134,19 +134,6 @@ public class PlayerStorage {
         entity.setLoginDate(0L);
 
         return ChangePasswordResult.SUCCESS;
-    }
-
-    public boolean changeSession(String username, String ip) {
-        RegisteredPlayer entity = getAccount(username);
-
-        if (entity == null) {
-            return false;
-        }
-
-        entity.setLoginIp(ip);
-        entity.setLoginDate(Instant.now().toEpochMilli());
-
-        return true;
     }
 
     public boolean isRegistered(String username) {
@@ -199,24 +186,6 @@ public class PlayerStorage {
         }
 
         return LoginRegisterResult.LOGGED_IN;
-    }
-
-    public boolean logout(String username) {
-        RegisteredPlayer entity = getAccount(username);
-
-        if (entity == null) {
-            return false;
-        }
-
-        if (entity.getLoginDate() <= 0) {
-            return false;
-        }
-
-        entity.setLoginDate(null);
-        DaoUtils.updateSilent(playerDao, entity, false);
-        cache.remove(usernameKey(username));
-
-        return true;
     }
 
     public ResumeSessionResult resumeSession(String ip, String username) {
