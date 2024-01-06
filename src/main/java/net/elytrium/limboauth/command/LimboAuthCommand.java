@@ -22,7 +22,6 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -74,7 +73,7 @@ public class LimboAuthCommand extends RatelimitedCommand {
     int argsAmount = args.length;
     if (argsAmount > 0) {
       try {
-        Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
+        Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase());
         if (!subcommand.hasPermission(source)) {
           this.showHelp(source);
           return;
@@ -124,7 +123,7 @@ public class LimboAuthCommand extends RatelimitedCommand {
 
     Subcommand(String description, CommandPermissionState permissionState, SubcommandExecutor executor) {
       this.permissionState = permissionState;
-      this.command = this.name().toLowerCase(Locale.ROOT);
+      this.command = this.name().toLowerCase();
       this.description = description;
       this.executor = executor;
     }

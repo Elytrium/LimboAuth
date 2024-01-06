@@ -31,7 +31,6 @@ import net.kyori.adventure.text.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class ForceChangePasswordCommand extends RatelimitedCommand {
 
@@ -66,7 +65,6 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
   public void execute(CommandSource source, String[] args) {
     if (args.length == 2) {
       String nickname = args[0];
-      String nicknameLowercased = args[0].toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
       Serializer serializer = LimboAuth.getSerializer();

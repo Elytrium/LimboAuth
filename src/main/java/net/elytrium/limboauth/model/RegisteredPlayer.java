@@ -25,7 +25,6 @@ import net.elytrium.limboauth.Settings;
 
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 import java.util.UUID;
 
 @DatabaseTable(tableName = "AUTH")
@@ -103,7 +102,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
     this.nickname = nickname;
-    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.lowercaseNickname = nickname.toLowerCase();
     this.uuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
@@ -126,7 +125,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setNickname(String nickname) {
     this.nickname = nickname;
-    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.lowercaseNickname = nickname.toLowerCase();
     this.needSave = true;
 
     return this;

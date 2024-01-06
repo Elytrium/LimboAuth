@@ -32,8 +32,6 @@ import net.elytrium.limboauth.util.DaoUtils;
 
 import java.net.InetAddress;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -67,12 +65,20 @@ public class PlayerStorage {
         }, () -> {
             cache.values().forEach(registeredPlayer -> registeredPlayer.setNeedSave(false));
             cache.entrySet().removeIf(p -> LimboAuth.PROXY.getAllPlayers().stream()
-                    .noneMatch(player -> player.getUsername().toLowerCase(Locale.ROOT).equals(p.getKey())));
+                    .noneMatch(player -> usernameKey(player.getUsername()).equals(p.getKey())));
             return null;
         })).exceptionally(throwable -> {
             throwable.printStackTrace();
             return null;
         }).orTimeout(10, TimeUnit.SECONDS);
+    }
+
+    public void save() {
+        cache.values().forEach(registeredPlayer -> {
+            if(registeredPlayer.isNeedSave()) {
+                DaoUtils.updateSilent(playerDao, registeredPlayer, true);
+            }
+        });
     }
 
     public void migrate() {
@@ -108,6 +114,7 @@ public class PlayerStorage {
 
         if (entity == null) {
             entity = DaoUtils.queryForFieldSilent(playerDao, RegisteredPlayer.PREMIUM_UUID_FIELD, key);
+            if (entity != null) cache.put(entity.getLowercaseNickname(), entity);
         }
 
         return entity;
@@ -119,7 +126,8 @@ public class PlayerStorage {
         RegisteredPlayer entity = cache.get(usernameKey);
 
         if (entity == null) {
-            entity = DaoUtils.queryForIdSilent(playerDao, username.toLowerCase(Locale.ROOT));
+            entity = DaoUtils.queryForIdSilent(playerDao, usernameKey);
+            if (entity != null) cache.put(usernameKey, entity);
         }
 
         return entity;
@@ -171,7 +179,7 @@ public class PlayerStorage {
                     .setHash(RegisteredPlayer.genHash(password));
 
             entity.setIP(ip);
-            entity.setRegDate(Instant.now().toEpochMilli());
+            entity.setRegDate(System.currentTimeMillis());
 
             cache.put(usernameKey(username), entity);
             DaoUtils.createSilent(playerDao, entity);
@@ -179,7 +187,7 @@ public class PlayerStorage {
             return LoginRegisterResult.REGISTERED;
         }
 
-        if (!usernameKey(username).equals(entity.getLowercaseNickname())) {
+        if (!username.equals(entity.getNickname())) {
             return new LoginRegisterResult.InvalidUsernameCase(entity.getNickname());
         }
 
@@ -201,7 +209,7 @@ public class PlayerStorage {
             return new ResumeSessionResult.InvalidUsernameCase(entity.getNickname());
         }
 
-        long now = Instant.now().toEpochMilli();
+        long now = System.currentTimeMillis();
 
         if (entity.getLoginDate() <= 0) {
             return ResumeSessionResult.NOT_LOGGED_IN;
@@ -212,6 +220,8 @@ public class PlayerStorage {
         if(sessionDuration > 0 && now >= (entity.getLoginDate() + sessionDuration)) {
             return ResumeSessionResult.NOT_LOGGED_IN;
         }
+
+        entity.setLoginDate(now);
 
         return ResumeSessionResult.RESUMED;
     }
@@ -231,7 +241,7 @@ public class PlayerStorage {
 
 
     private static String usernameKey(final String input) {
-        return input.toLowerCase(Locale.ROOT).replace('\u0451', '\u0435');
+        return input.toLowerCase();
     }
 
     public enum ChangePasswordResult {

@@ -431,7 +431,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
       e.printStackTrace();
     }
 
-    this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
   }
 

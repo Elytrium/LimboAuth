@@ -30,7 +30,6 @@ import net.kyori.adventure.text.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class ForceUnregisterCommand extends RatelimitedCommand {
 

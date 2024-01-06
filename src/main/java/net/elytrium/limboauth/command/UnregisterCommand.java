@@ -29,8 +29,6 @@ import net.elytrium.limboauth.storage.PlayerStorage;
 import net.elytrium.limboauth.util.CryptUtils;
 import net.kyori.adventure.text.Component;
 
-import java.util.Locale;
-
 public class UnregisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
