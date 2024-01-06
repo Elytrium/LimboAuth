@@ -84,7 +84,9 @@ public class PlayerStorage {
             QueryBuilder<RegisteredPlayer, String> queryBuilder = playerDao.queryBuilder();
 
             queryBuilder.setCountOf(true);
-            queryBuilder.setWhere(queryBuilder.where().eq(RegisteredPlayer.IP_FIELD, keyIp).and().between(RegisteredPlayer.REG_DATE_FIELD, System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME, System.currentTimeMillis()));
+
+            long now = System.currentTimeMillis();
+            queryBuilder.setWhere(queryBuilder.where().eq(RegisteredPlayer.IP_FIELD, keyIp).and().between(RegisteredPlayer.REG_DATE_FIELD, now - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME, now));
 
             PreparedQuery<RegisteredPlayer> query = queryBuilder.prepare();
 
