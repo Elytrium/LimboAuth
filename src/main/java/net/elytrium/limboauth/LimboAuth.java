@@ -119,6 +119,8 @@ public class LimboAuth {
   public static Logger LOGGER;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
+  @MonotonicNonNull
+  public static ProxyServer PROXY;
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
@@ -158,7 +160,8 @@ public class LimboAuth {
 
   @Inject
   public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
-    setLogger(logger);
+    LOGGER = logger;
+    PROXY = server;
 
     this.server = server;
     this.metricsFactory = metricsFactory;

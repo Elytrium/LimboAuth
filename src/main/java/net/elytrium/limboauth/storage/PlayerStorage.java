@@ -23,6 +23,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.velocitypowered.api.proxy.Player;
+import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
@@ -34,7 +35,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,6 +66,8 @@ public class PlayerStorage {
             return null;
         }, () -> {
             cache.values().forEach(registeredPlayer -> registeredPlayer.setNeedSave(false));
+            cache.entrySet().removeIf(p -> LimboAuth.PROXY.getAllPlayers().stream()
+                    .noneMatch(player -> player.getUsername().toLowerCase(Locale.ROOT).equals(p.getKey())));
             return null;
         })).exceptionally(throwable -> {
             throwable.printStackTrace();
@@ -117,7 +119,7 @@ public class PlayerStorage {
         RegisteredPlayer entity = cache.get(usernameKey);
 
         if (entity == null) {
-            entity = DaoUtils.queryForIdSilent(playerDao, username);
+            entity = DaoUtils.queryForIdSilent(playerDao, username.toLowerCase(Locale.ROOT));
         }
 
         return entity;
