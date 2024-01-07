@@ -186,8 +186,8 @@ public class LimboAuth {
 
         try {
             this.reload();
-        } catch (SQLRuntimeException exception) {
-            LOGGER.error("SQL EXCEPTION CAUGHT.", exception);
+        } catch (Exception exception) {
+            LOGGER.error("Error connecting to database.", exception);
             this.server.shutdown();
         }
 
@@ -211,13 +211,8 @@ public class LimboAuth {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        playerStorage.save();
-
-        try {
-            connectionSource.close();
-        } catch (Exception ignored) {
-
-        }
+        if (playerStorage != null) playerStorage.save();
+        if (connectionSource != null) connectionSource.closeQuietly();
     }
 
     @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
