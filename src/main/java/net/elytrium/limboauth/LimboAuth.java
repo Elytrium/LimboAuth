@@ -601,13 +601,13 @@ public class LimboAuth {
     public PremiumResponse isPremiumInternal(String nickname) {
         RegisteredPlayer account = playerStorage.getAccount(nickname);
 
-        if (account == null || account.getPremiumUuid().isEmpty()) {
-            return new PremiumResponse(PremiumState.UNKNOWN);
-        }
+        if (account == null) return new PremiumResponse(PremiumState.UNKNOWN);
 
-        if (!account.getHash().isEmpty()) {
-            return new PremiumResponse(PremiumState.CRACKED);
-        } else return new PremiumResponse(PremiumState.PREMIUM);
+        if (account.getHash().isEmpty()) {
+            return new PremiumResponse(PremiumState.PREMIUM);
+        } else {
+           return new PremiumResponse(PremiumState.CRACKED);
+        }
     }
 
     public boolean isPremiumUuid(UUID uuid) {
@@ -621,12 +621,6 @@ public class LimboAuth {
     @SafeVarargs
     private boolean checkIsPremiumAndCache(String nickname, Function<String, PremiumResponse>... functions) {
         String lowercaseNickname = nickname.toLowerCase();
-
-        RegisteredPlayer account = playerStorage.getAccount(lowercaseNickname);
-
-        if (account != null && account.getPremiumUuid() != null) {
-            return true;
-        }
 
         boolean premium = false;
         boolean unknown = false;
