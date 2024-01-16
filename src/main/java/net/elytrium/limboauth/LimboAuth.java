@@ -759,6 +759,10 @@ public class LimboAuth {
         return this.nicknameValidationPattern;
     }
 
+    public PlayerStorage getPlayerStorage() {
+        return playerStorage;
+    }
+
     private static class CachedUser {
 
         private final long checkTime;

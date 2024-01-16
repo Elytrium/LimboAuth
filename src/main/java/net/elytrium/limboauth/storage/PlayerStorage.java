@@ -250,6 +250,10 @@ public class PlayerStorage {
         SUCCESS
     }
 
+    public Dao<RegisteredPlayer, String> getPlayerDao() {
+        return playerDao;
+    }
+
     public static class LoginRegisterResult {
         public static final LoginRegisterResult INVALID_PASSWORD;
         public static final LoginRegisterResult TOO_SHORT_PASSWORD;
