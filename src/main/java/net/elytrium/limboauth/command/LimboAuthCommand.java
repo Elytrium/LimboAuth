@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -33,7 +33,7 @@ public class LimboAuthCommand extends RatelimitedCommand {
 
   private static final List<Component> HELP_MESSAGE = List.of(
       Component.text("This server is using LimboAuth and LimboAPI.", NamedTextColor.YELLOW),
-      Component.text("(C) 2021 - 2023 Elytrium", NamedTextColor.YELLOW),
+      Component.text("(C) 2021 - 2024 Elytrium", NamedTextColor.YELLOW),
       Component.text("https://elytrium.net/github/", NamedTextColor.GREEN),
       Component.empty()
   );
