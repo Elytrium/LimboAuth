@@ -210,7 +210,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
       Command command = Command.parse(args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
         String password = args[1];
-        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
+        if (this.checkPasswordsRepeat(args) 
+            && checkPasswordLength(this.proxyPlayer, password) 
+            && checkPasswordStrength(this.plugin, this.proxyPlayer, password)) {
           this.saveTempPassword(password);
           RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
@@ -383,28 +385,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
   }
 
-  private boolean checkPasswordLength(String password) {
-    int length = password.length();
-    if (length > Settings.IMP.MAIN.MAX_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooLong);
-      return false;
-    } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooShort);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  private boolean checkPasswordStrength(String password) {
-    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && this.plugin.getUnsafePasswords().contains(password)) {
-      this.proxyPlayer.sendMessage(registerPasswordUnsafe);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   private void finishLogin() {
     this.proxyPlayer.sendMessage(loginSuccessful);
     if (loginSuccessfulTitle != null) {
@@ -543,6 +523,28 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
 
     return isCorrect;
+  }
+
+  public static boolean checkPasswordLength(Player proxyPlayer, String password) {
+    int length = password.length();
+    if (length > Settings.IMP.MAIN.MAX_PASSWORD_LENGTH) {
+      proxyPlayer.sendMessage(registerPasswordTooLong);
+      return false;
+    } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
+      proxyPlayer.sendMessage(registerPasswordTooShort);
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public static boolean checkPasswordStrength(LimboAuth plugin, Player proxyPlayer, String password) {
+    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && plugin.getUnsafePasswords().contains(password)) {
+      proxyPlayer.sendMessage(registerPasswordUnsafe);
+      return false;
+    } else {
+      return true;
+    }
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
