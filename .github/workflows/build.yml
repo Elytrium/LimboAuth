@@ -51,18 +51,3 @@ jobs:
           prerelease: true
           name: Dev-build ${{ steps.git-version.outputs.id }}
           tag: dev-build
-      - name: Upload to Modrinth
-        if: ${{ github.event_name == 'push' }}
-        uses: RubixDev/modrinth-upload@v1.0.0
-        with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          file_path: build/libs/${{ steps.find-jar.outputs.jarname }}
-          name: Dev-build ${{ steps.git-version.outputs.id }}
-          version: ${{ steps.git-version.outputs.id }}
-          changelog: ${{ join(github.event.commits.*.message, '\n') }}
-          relations: TZOteSf2:required
-          game_versions: 1.7.2
-          release_type: beta
-          loaders: velocity
-          featured: false
-          project_id: 4iChqdl8
