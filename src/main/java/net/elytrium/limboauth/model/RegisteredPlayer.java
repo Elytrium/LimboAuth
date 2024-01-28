@@ -35,7 +35,7 @@ public class RegisteredPlayer {
   public static final String IP_FIELD = "ip";
   public static final String LOGIN_IP_FIELD = "creationIP";
   public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-  public static final String REG_DATE_FIELD = "creationDate";
+  public static final String REG_DATE_FIELD = "regDate";
   public static final String LOGIN_DATE_FIELD = "lastlogin";
   public static final String UUID_FIELD = "uuid";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
