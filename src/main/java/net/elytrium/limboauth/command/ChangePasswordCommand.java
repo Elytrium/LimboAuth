@@ -79,6 +79,10 @@ public class ChangePasswordCommand extends RatelimitedCommand {
           return;
         }
 
+        if (!AuthSessionHandler.checkPasswordLength((Player) source, args[0])) {
+          return;
+        }
+
         if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           source.sendMessage(this.wrongPassword);
           return;
@@ -92,6 +96,11 @@ public class ChangePasswordCommand extends RatelimitedCommand {
         final String oldHash = player.getHash();
         final String newPassword = needOldPass ? args[1] : args[0];
         final String newHash = RegisteredPlayer.genHash(newPassword);
+
+        if (!AuthSessionHandler.checkPasswordLength((Player) source, newPassword)
+            || !AuthSessionHandler.checkPasswordStrength(this.plugin, (Player) source, newPassword)) {
+          return;
+        }
 
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
