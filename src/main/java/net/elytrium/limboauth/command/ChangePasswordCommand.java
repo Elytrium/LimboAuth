@@ -79,6 +79,10 @@ public class ChangePasswordCommand extends RatelimitedCommand {
           return;
         }
 
+        if (!AuthSessionHandler.checkPasswordLength((Player) source, args[0])) {
+          return;
+        }
+
         if (!AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
           source.sendMessage(this.wrongPassword);
           return;
