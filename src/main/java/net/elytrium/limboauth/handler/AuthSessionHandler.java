@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.google.common.primitives.Longs;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.proxy.protocol.packet.PluginMessage;
+import com.velocitypowered.proxy.protocol.packet.PluginMessagePacket;
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
 import dev.samstevens.totp.code.DefaultCodeVerifier;
@@ -56,7 +56,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
-  private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
+  public static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
@@ -271,8 +271,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   @Override
   public void onGeneric(Object packet) {
-    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessage) {
-      PluginMessage pluginMessage = (PluginMessage) packet;
+    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessagePacket) {
+      PluginMessagePacket pluginMessage = (PluginMessagePacket) packet;
       String channel = pluginMessage.getChannel();
 
       if (channel.equals("MC|Brand") || channel.equals("minecraft:brand")) {
@@ -575,9 +575,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
   }
 
-  public static CodeVerifier getTotpCodeVerifier() {
-    return TOTP_CODE_VERIFIER;
-  }
 
   private enum Command {
 

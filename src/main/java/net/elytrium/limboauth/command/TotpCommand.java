@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -156,7 +156,7 @@ public class TotpCommand extends RatelimitedCommand {
               return;
             }
 
-            if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
+            if (AuthSessionHandler.TOTP_CODE_VERIFIER.isValidCode(playerInfo.getTotpToken(), args[1])) {
               try {
                 updateBuilder = this.playerDao.updateBuilder();
                 updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
