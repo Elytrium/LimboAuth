@@ -33,7 +33,7 @@ public class CryptUtils {
 
     boolean isCorrect = HASH_VERIFIER.verify(
         password.getBytes(StandardCharsets.UTF_8),
-        hash.getBytes(StandardCharsets.UTF_8)
+        hash.replace("BCRYPT$", "$2a$").getBytes(StandardCharsets.UTF_8)
     ).verified;
 
     if (!isCorrect && migrationHash != null) {

@@ -53,7 +53,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
-  private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
+  public static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
   private static Component ratelimited;
@@ -513,11 +513,16 @@ public class AuthSessionHandler implements LimboSessionHandler {
    */
   @Deprecated()
   public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
-  }
-
-  public static CodeVerifier getTotpCodeVerifier() {
-    return TOTP_CODE_VERIFIER;
+    if (Settings.IMP.MAIN.BCRYPT_USE_SALT) {
+      return new String(HASHER.hash(
+          Settings.IMP.MAIN.BCRYPT_COST,
+          Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+          password.getBytes(StandardCharsets.UTF_8)),
+          StandardCharsets.UTF_8
+      );
+    } else {
+      return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+    }
   }
 
   private enum Command {

@@ -122,11 +122,11 @@ public class LimboAuth {
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
 
   @MonotonicNonNull
-  public static Logger LOGGER;
+  private static Logger LOGGER;
+  @MonotonicNonNull
+  private static ProxyServer PROXY;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
-  @MonotonicNonNull
-  public static ProxyServer PROXY;
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
@@ -166,8 +166,8 @@ public class LimboAuth {
 
   @Inject
   public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
-    LOGGER = logger;
-    PROXY = server;
+    setLogger(logger);
+    setProxy(server);
 
     this.server = server;
     this.metricsFactory = metricsFactory;
@@ -183,6 +183,18 @@ public class LimboAuth {
     } else {
       this.floodgateApi = null;
     }
+  }
+
+  private static void setProxy(ProxyServer server) {
+    PROXY = server;
+  }
+
+  public static ProxyServer getProxy() {
+    return PROXY;
+  }
+
+  public static Logger getLogger() {
+    return LOGGER;
   }
 
   @Subscribe

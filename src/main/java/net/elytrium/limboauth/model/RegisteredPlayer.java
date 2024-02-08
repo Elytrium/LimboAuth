@@ -114,12 +114,16 @@ public class RegisteredPlayer {
   private transient boolean needSave = false;
 
   public static String genHash(String password) {
-    return new String(HASHER.hash(
-        Settings.IMP.MAIN.BCRYPT_COST,
-        Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
-        password.getBytes(StandardCharsets.UTF_8)),
-        StandardCharsets.UTF_8
-    );
+    if (Settings.IMP.MAIN.BCRYPT_USE_SALT) {
+      return new String(HASHER.hash(
+          Settings.IMP.MAIN.BCRYPT_COST,
+          Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+          password.getBytes(StandardCharsets.UTF_8)),
+          StandardCharsets.UTF_8
+      );
+    } else {
+      return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+    }
   }
 
   public RegisteredPlayer setNickname(String nickname) {

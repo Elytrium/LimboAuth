@@ -139,7 +139,7 @@ public class TotpCommand extends RatelimitedCommand {
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
-            if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
+            if (AuthSessionHandler.TOTP_CODE_VERIFIER.isValidCode(playerInfo.getTotpToken(), args[1])) {
 
               playerInfo.setTotpToken("");
               source.sendMessage(this.disabled);

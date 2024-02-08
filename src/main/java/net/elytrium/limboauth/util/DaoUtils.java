@@ -45,7 +45,7 @@ public class DaoUtils {
       TableUtils.createTableIfNotExists(source, clazz);
     } catch (Exception e) {
       if (!e.getMessage().contains("CREATE INDEX")) {
-        LimboAuth.LOGGER.error(e.getMessage());
+        LimboAuth.getLogger().error(e.getMessage());
       }
     }
   }
@@ -137,7 +137,7 @@ public class DaoUtils {
     try {
       return query.get();
     } catch (Exception exception) {
-      LimboAuth.LOGGER.error(exception.getMessage());
+      LimboAuth.getLogger().error(exception.getMessage());
 
       return null;
     }

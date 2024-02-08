@@ -139,6 +139,7 @@ public class Settings extends YamlConfig {
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";
     public int BCRYPT_COST = 10;
+    public boolean BCRYPT_USE_SALT = false;
     public String BCRYPT_SALT = "123456";
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;

@@ -63,7 +63,7 @@ public class PlayerStorage {
       return null;
     }, () -> {
       this.cache.values().forEach(registeredPlayer -> registeredPlayer.setNeedSave(false));
-      this.cache.entrySet().removeIf(p -> LimboAuth.PROXY.getAllPlayers().stream()
+      this.cache.entrySet().removeIf(p -> LimboAuth.getProxy().getAllPlayers().stream()
           .noneMatch(player -> usernameKey(player.getUsername()).equals(p.getKey())));
       return null;
     })).exceptionally(throwable -> {
