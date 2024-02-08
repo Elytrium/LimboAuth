@@ -19,13 +19,12 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import java.text.MessageFormat;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
-
-import java.text.MessageFormat;
 
 public class ForceRegisterCommand extends RatelimitedCommand {
 
@@ -66,9 +65,9 @@ public class ForceRegisterCommand extends RatelimitedCommand {
         return;
       }
 
-      PlayerStorage.LoginRegisterResult result = playerStorage.loginOrRegister(nickname, "", "", password);
+      PlayerStorage.LoginRegisterResult result = this.playerStorage.loginOrRegister(nickname, "", "", password);
 
-      if(result != PlayerStorage.LoginRegisterResult.REGISTERED) {
+      if (result != PlayerStorage.LoginRegisterResult.REGISTERED) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         return;
       }

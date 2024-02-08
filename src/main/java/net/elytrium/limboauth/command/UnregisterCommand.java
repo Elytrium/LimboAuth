@@ -65,7 +65,7 @@ public class UnregisterCommand extends RatelimitedCommand {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
 
           String username = ((Player) source).getUsername();
-          RegisteredPlayer player = playerStorage.getAccount(username);
+          RegisteredPlayer player = this.playerStorage.getAccount(username);
 
           if (player == null) {
             source.sendMessage(this.notRegistered);
@@ -74,9 +74,11 @@ public class UnregisterCommand extends RatelimitedCommand {
           } else if (CryptUtils.checkPassword(args[0], player)) {
             this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
 
-            if(this.playerStorage.unregister(username)) {
+            if (this.playerStorage.unregister(username)) {
               ((Player) source).disconnect(this.successful);
-            } else source.sendMessage(this.errorOccurred);
+            } else {
+              source.sendMessage(this.errorOccurred);
+            }
 
             return;
           } else {

@@ -20,6 +20,8 @@ package net.elytrium.limboauth.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ProxyServer;
+import java.text.MessageFormat;
+import java.util.List;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
@@ -27,9 +29,6 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 public class ForceUnregisterCommand extends RatelimitedCommand {
 
@@ -67,7 +66,7 @@ public class ForceUnregisterCommand extends RatelimitedCommand {
       Serializer serializer = LimboAuth.getSerializer();
       this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
 
-      if(!playerStorage.unregister(playerNick)) {
+      if (!this.playerStorage.unregister(playerNick)) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, playerNick)));
       }
 

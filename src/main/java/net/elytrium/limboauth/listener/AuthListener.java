@@ -24,15 +24,14 @@ import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
 import com.velocitypowered.api.util.UuidUtils;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.storage.PlayerStorage;
-
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -113,13 +112,13 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public void onGameProfileRequest(GameProfileRequestEvent event) {
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
-      RegisteredPlayer registeredPlayer = playerStorage.getAccount(event.getOriginalProfile().getId());
+      RegisteredPlayer registeredPlayer = this.playerStorage.getAccount(event.getOriginalProfile().getId());
 
       if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
         event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
         return;
       }
-      registeredPlayer = playerStorage.getAccount(event.getUsername());
+      registeredPlayer = this.playerStorage.getAccount(event.getUsername());
 
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
@@ -131,7 +130,7 @@ public class AuthListener {
         }
       }
     } else if (event.isOnlineMode()) {
-      RegisteredPlayer registeredPlayer = playerStorage.getAccount(event.getUsername());
+      RegisteredPlayer registeredPlayer = this.playerStorage.getAccount(event.getUsername());
       registeredPlayer.setHash("");
     }
 

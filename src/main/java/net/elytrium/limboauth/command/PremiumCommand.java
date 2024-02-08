@@ -67,7 +67,7 @@ public class PremiumCommand extends RatelimitedCommand {
           String username = ((Player) source).getUsername();
           String usernameLowercase = username.toLowerCase();
 
-          RegisteredPlayer player = playerStorage.getAccount(username);
+          RegisteredPlayer player = this.playerStorage.getAccount(username);
 
           if (player == null) {
             source.sendMessage(this.notRegistered);

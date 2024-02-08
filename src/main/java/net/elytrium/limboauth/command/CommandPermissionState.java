@@ -19,7 +19,6 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.permission.PermissionSubject;
 import com.velocitypowered.api.permission.Tristate;
-
 import java.util.function.BiFunction;
 
 public enum CommandPermissionState {

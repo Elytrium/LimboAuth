@@ -27,6 +27,11 @@ import dev.samstevens.totp.code.DefaultCodeVerifier;
 import dev.samstevens.totp.time.SystemTimeProvider;
 import io.netty.buffer.ByteBuf;
 import io.whitfin.siphash.SipHasher;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
@@ -45,12 +50,6 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.checkerframework.checker.nullness.qual.Nullable;
-
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
@@ -133,15 +132,15 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = LimboAuth.getSerializer();
 
     if (this.playerInfo == null) {
-        playerStorage.getAccountCount(this.proxyPlayer.getRemoteAddress().getAddress()).thenAccept(accountCount -> {
-            if (accountCount >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
-                this.proxyPlayer.disconnect(ipLimitKick);
-            }
-        }).orTimeout(2, TimeUnit.SECONDS).exceptionally(throwable -> {
-            this.proxyPlayer.disconnect(databaseErrorKick);
-            throwable.printStackTrace();
-            return null;
-        });
+      this.playerStorage.getAccountCount(this.proxyPlayer.getRemoteAddress().getAddress()).thenAccept(accountCount -> {
+        if (accountCount >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+          this.proxyPlayer.disconnect(ipLimitKick);
+        }
+      }).orTimeout(2, TimeUnit.SECONDS).exceptionally(throwable -> {
+        this.proxyPlayer.disconnect(databaseErrorKick);
+        throwable.printStackTrace();
+        return null;
+      });
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
         this.proxyPlayer.disconnect(serializer.deserialize(
@@ -195,19 +194,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
         if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
           this.saveTempPassword(password);
 
-            PlayerStorage.LoginRegisterResult result = playerStorage.loginOrRegister(
-                    this.proxyPlayer.getUsername(),
-                    this.proxyPlayer.getUniqueId().toString(),
-                    this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress(),
-                    password
-            );
+          PlayerStorage.LoginRegisterResult result = this.playerStorage.loginOrRegister(
+              this.proxyPlayer.getUsername(),
+              this.proxyPlayer.getUniqueId().toString(),
+              this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress(),
+              password
+          );
 
-            if(result != PlayerStorage.LoginRegisterResult.REGISTERED) {
-                this.proxyPlayer.disconnect(databaseErrorKick);
-                return;
-            }
+          if (result != PlayerStorage.LoginRegisterResult.REGISTERED) {
+            this.proxyPlayer.disconnect(databaseErrorKick);
+            return;
+          }
 
-            this.playerInfo = playerStorage.getAccount(this.proxyPlayer.getUsername());
+          this.playerInfo = this.playerStorage.getAccount(this.proxyPlayer.getUsername());
 
           this.proxyPlayer.sendMessage(registerSuccessful);
           if (registerSuccessfulTitle != null) {

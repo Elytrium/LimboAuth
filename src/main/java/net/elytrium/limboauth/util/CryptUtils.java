@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,35 +18,34 @@
 package net.elytrium.limboauth.util;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import java.nio.charset.StandardCharsets;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 
-import java.nio.charset.StandardCharsets;
-
 public class CryptUtils {
-    private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
+  private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
 
-    public static boolean checkPassword(String password, RegisteredPlayer player) {
-        MigrationHash migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
+  public static boolean checkPassword(String password, RegisteredPlayer player) {
+    MigrationHash migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
 
-        String hash = player.getHash();
+    String hash = player.getHash();
 
-        boolean isCorrect = HASH_VERIFIER.verify(
-                password.getBytes(StandardCharsets.UTF_8),
-                hash.getBytes(StandardCharsets.UTF_8)
-        ).verified;
+    boolean isCorrect = HASH_VERIFIER.verify(
+        password.getBytes(StandardCharsets.UTF_8),
+        hash.getBytes(StandardCharsets.UTF_8)
+    ).verified;
 
-        if (!isCorrect && migrationHash != null) {
+    if (!isCorrect && migrationHash != null) {
 
-            isCorrect = migrationHash.checkPassword(hash, password);
+      isCorrect = migrationHash.checkPassword(hash, password);
 
-            if (isCorrect) {
-                player.setPassword(password);
-            }
+      if (isCorrect) {
+        player.setPassword(password);
+      }
 
-        }
-
-        return isCorrect;
     }
+
+    return isCorrect;
+  }
 }

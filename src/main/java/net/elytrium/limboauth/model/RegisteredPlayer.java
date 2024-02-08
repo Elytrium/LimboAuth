@@ -21,11 +21,10 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
-import net.elytrium.limboauth.Settings;
-
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import net.elytrium.limboauth.Settings;
 
 @DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
@@ -79,7 +78,7 @@ public class RegisteredPlayer {
 
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+                          String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -116,10 +115,10 @@ public class RegisteredPlayer {
 
   public static String genHash(String password) {
     return new String(HASHER.hash(
-            Settings.IMP.MAIN.BCRYPT_COST,
-            Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
-            password.getBytes(StandardCharsets.UTF_8)),
-            StandardCharsets.UTF_8
+        Settings.IMP.MAIN.BCRYPT_COST,
+        Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+        password.getBytes(StandardCharsets.UTF_8)),
+        StandardCharsets.UTF_8
     );
   }
 
@@ -256,7 +255,7 @@ public class RegisteredPlayer {
   }
 
   public boolean isNeedSave() {
-    return needSave;
+    return this.needSave;
   }
 
   public void setNeedSave(boolean needSave) {

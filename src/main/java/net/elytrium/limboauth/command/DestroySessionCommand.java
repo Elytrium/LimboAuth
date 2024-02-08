@@ -48,9 +48,9 @@ public class DestroySessionCommand extends RatelimitedCommand {
   @Override
   public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
-      RegisteredPlayer account = playerStorage.getAccount(((Player) source).getUsername());
+      RegisteredPlayer account = this.playerStorage.getAccount(((Player) source).getUsername());
 
-      if(account != null) {
+      if (account != null) {
         account.setLoginDate(0L);
         source.sendMessage(this.successful);
       }

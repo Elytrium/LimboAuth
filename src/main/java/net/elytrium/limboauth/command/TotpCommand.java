@@ -24,6 +24,9 @@ import dev.samstevens.totp.qr.QrData;
 import dev.samstevens.totp.recovery.RecoveryCodeGenerator;
 import dev.samstevens.totp.secret.DefaultSecretGenerator;
 import dev.samstevens.totp.secret.SecretGenerator;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -33,10 +36,6 @@ import net.elytrium.limboauth.storage.PlayerStorage;
 import net.elytrium.limboauth.util.CryptUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 
 public class TotpCommand extends RatelimitedCommand {
 
@@ -93,7 +92,7 @@ public class TotpCommand extends RatelimitedCommand {
         source.sendMessage(this.usage);
       } else {
         String username = ((Player) source).getUsername();
-        RegisteredPlayer playerInfo = playerStorage.getAccount(username);
+        RegisteredPlayer playerInfo = this.playerStorage.getAccount(username);
 
         if (playerInfo == null) {
           source.sendMessage(this.notRegistered);

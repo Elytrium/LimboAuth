@@ -20,6 +20,8 @@ package net.elytrium.limboauth.command;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.ProxyServer;
+import java.text.MessageFormat;
+import java.util.List;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.commons.velocity.commands.SuggestUtils;
 import net.elytrium.limboauth.LimboAuth;
@@ -28,9 +30,6 @@ import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.storage.PlayerStorage;
 import net.kyori.adventure.text.Component;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 public class ForceChangePasswordCommand extends RatelimitedCommand {
 
@@ -68,7 +67,7 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
       String newPassword = args[1];
 
       Serializer serializer = LimboAuth.getSerializer();
-      RegisteredPlayer registeredPlayer = playerStorage.getAccount(nickname);
+      RegisteredPlayer registeredPlayer = this.playerStorage.getAccount(nickname);
 
       if (registeredPlayer == null) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, nickname)));
@@ -77,18 +76,18 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
 
       final String oldHash = registeredPlayer.getHash();
 
-      PlayerStorage.ChangePasswordResult result =
-              playerStorage.changePassword(nickname, newPassword);
+      PlayerStorage.ChangePasswordResult result = this.playerStorage.changePassword(nickname, newPassword);
 
-      if(result != PlayerStorage.ChangePasswordResult.SUCCESS) {
+      if (result != PlayerStorage.ChangePasswordResult.SUCCESS) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
         return;
       }
 
-      this.server.getPlayer(nickname)
-          .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
+      this.server.getPlayer(nickname).ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
 
-      this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(registeredPlayer, null, oldHash, newPassword, registeredPlayer.getHash()));
+      this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(
+          registeredPlayer, null, oldHash, newPassword, registeredPlayer.getHash()
+      ));
 
       source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
     } else {
@@ -98,7 +97,6 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
 
   @Override
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_CHANGE_PASSWORD
-        .hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
+    return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_CHANGE_PASSWORD.hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
   }
 }

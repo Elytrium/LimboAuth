@@ -60,7 +60,7 @@ public class ChangePasswordCommand extends RatelimitedCommand {
   public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       String username = ((Player) source).getUsername();
-      RegisteredPlayer player = playerStorage.getAccount(username);
+      RegisteredPlayer player = this.playerStorage.getAccount(username);
 
       if (player == null) {
         source.sendMessage(this.notRegistered);
@@ -88,9 +88,9 @@ public class ChangePasswordCommand extends RatelimitedCommand {
       final String newPassword = needOldPass ? args[1] : args[0];
 
       PlayerStorage.ChangePasswordResult result =
-              playerStorage.changePassword(username, newPassword);
+          this.playerStorage.changePassword(username, newPassword);
 
-      if(result != PlayerStorage.ChangePasswordResult.SUCCESS) {
+      if (result != PlayerStorage.ChangePasswordResult.SUCCESS) {
         source.sendMessage(this.errorOccurred);
         return;
       }
