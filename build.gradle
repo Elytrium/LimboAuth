@@ -2,9 +2,9 @@
 
 plugins {
     id("java")
-    //id("checkstyle")
+    id("checkstyle")
     id("maven-publish")
-    //id("com.github.spotbugs").version("5.0.7")
+    id("com.github.spotbugs").version("5.0.14")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
 }
@@ -35,6 +35,10 @@ repositories {
     maven {
         setName("opencollab-snapshot")
         setUrl("https://repo.opencollab.dev/maven-snapshots")
+    }
+    maven() {
+        setName("sonatype-snapshots-repo")
+        setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 
@@ -123,7 +127,7 @@ license {
     setHeader(file("HEADER.txt"))
 }
 
-/*checkstyle {
+checkstyle {
     setToolVersion("10.1")
     setConfigFile(file("${this.getRootDir()}/config/checkstyle/checkstyle.xml"))
     setConfigProperties("configDirectory": "${this.getRootDir()}/config/checkstyle")
@@ -143,7 +147,7 @@ spotbugsMain {
             setStylesheet("fancy-hist.xsl")
         }
     }
-}*/
+}
 
 task javadocJar(type: Jar) {
     getArchiveClassifier().set("javadoc")
