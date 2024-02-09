@@ -31,6 +31,8 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -54,6 +56,7 @@ public class TotpCommand extends RatelimitedCommand {
   private final Component alreadyEnabled;
   private final Component errorOccurred;
   private final Component successful;
+  private final Component verify;
   private final String issuer;
   private final String qrGeneratorUrl;
   private final Component qr;
@@ -63,6 +66,8 @@ public class TotpCommand extends RatelimitedCommand {
   private final Component disabled;
   private final Component wrong;
   private final Component crackedCommand;
+
+  private final Map<String, String> totpSecretTmpMap = new ConcurrentHashMap<>();
 
   public TotpCommand(Dao<RegisteredPlayer, String> playerDao) {
     this.playerDao = playerDao;
@@ -75,6 +80,7 @@ public class TotpCommand extends RatelimitedCommand {
     this.wrongPassword = serializer.deserialize(Settings.IMP.MAIN.STRINGS.WRONG_PASSWORD);
     this.alreadyEnabled = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_ALREADY_ENABLED);
     this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
+    this.verify = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_VERIFY);
     this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP_SUCCESSFUL);
     this.issuer = Settings.IMP.MAIN.TOTP_ISSUER;
     this.qrGeneratorUrl = Settings.IMP.MAIN.QR_GENERATOR_URL;
@@ -119,16 +125,7 @@ public class TotpCommand extends RatelimitedCommand {
             }
 
             String secret = this.secretGenerator.generate();
-            try {
-              updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
-              updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
-              updateBuilder.update();
-            } catch (SQLException e) {
-              source.sendMessage(this.errorOccurred);
-              throw new SQLRuntimeException(e);
-            }
-            source.sendMessage(this.successful);
+            this.totpSecretTmpMap.put(playerInfo.getUuid(), secret);
 
             QrData data = new QrData.Builder()
                 .label(username)
@@ -136,14 +133,52 @@ public class TotpCommand extends RatelimitedCommand {
                 .issuer(this.issuer)
                 .build();
             String qrUrl = this.qrGeneratorUrl.replace("{data}", URLEncoder.encode(data.getUri(), StandardCharsets.UTF_8));
-            source.sendMessage(this.qr.clickEvent(ClickEvent.openUrl(qrUrl)));
+            Component clickableQR = Component.empty().append(this.qr).clickEvent(ClickEvent.openUrl(qrUrl)).compact();
 
             Serializer serializer = LimboAuth.getSerializer();
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.token, secret))
-                .clickEvent(ClickEvent.copyToClipboard(secret)));
+
+            Component totpToken = serializer.deserialize(MessageFormat.format(this.token, secret))
+                    .clickEvent(ClickEvent.copyToClipboard(secret));
+
             String codes = String.join(", ", this.codesGenerator.generateCodes(this.recoveryCodesAmount));
-            source.sendMessage(serializer.deserialize(MessageFormat.format(this.recovery, codes))
-                .clickEvent(ClickEvent.copyToClipboard(codes)));
+            Component restoreCodes = serializer.deserialize(MessageFormat.format(this.recovery, codes))
+                    .clickEvent(ClickEvent.copyToClipboard(codes));
+
+            Component combined = Component.empty()
+                    .append(clickableQR).appendNewline()
+                    .append(totpToken).appendNewline()
+                    .append(restoreCodes).appendNewline()
+                    .append(this.verify)
+                    .compact();
+            source.sendMessage(combined);
+          } else {
+            source.sendMessage(this.usage);
+          }
+        } else if (args[0].equalsIgnoreCase("verify")) {
+          if (args.length == 2) {
+            playerInfo = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
+
+            if (playerInfo == null) {
+              source.sendMessage(this.notRegistered);
+              return;
+            }
+
+            String secret = this.totpSecretTmpMap.get(playerInfo.getUuid());
+
+            if (AuthSessionHandler.TOTP_CODE_VERIFIER.isValidCode(secret, args[1])) {
+              try {
+                updateBuilder = this.playerDao.updateBuilder();
+                updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
+                updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
+                updateBuilder.update();
+              } catch (SQLException e) {
+                source.sendMessage(this.errorOccurred);
+                throw new SQLRuntimeException(e);
+              }
+              source.sendMessage(this.successful);
+            } else {
+              source.sendMessage(this.wrong);
+            }
           } else {
             source.sendMessage(this.usage);
           }

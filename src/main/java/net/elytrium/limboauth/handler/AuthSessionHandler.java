@@ -72,6 +72,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static Title registerSuccessfulTitle;
   private static Component[] loginWrongPassword;
   private static Component loginWrongPasswordKick;
+  private static Component loginWrongOTPKick;
+  private static Component loginWrongOTPImmediateKick;
   private static Component totp;
   @Nullable
   private static Title totpTitle;
@@ -261,7 +263,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
           this.finishLogin();
           return;
         } else {
-          this.checkBruteforceAttempts();
+          this.checkBruteforceOTPAttempts();
+          if (this.proxyPlayer.isActive()) {
+            this.proxyPlayer.disconnect(loginWrongOTPImmediateKick);
+          }
         }
       }
     }
@@ -328,9 +333,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   private void checkBruteforceAttempts() {
-    this.plugin.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
-    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
+    this.plugin.incrementBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress().toString());
+    if (this.plugin.getBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress().toString()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
       this.proxyPlayer.disconnect(loginWrongPasswordKick);
+    }
+  }
+
+  private void checkBruteforceOTPAttempts() {
+    this.plugin.incrementBruteforceAttempts("otp:" + this.proxyPlayer.getRemoteAddress().getAddress().toString());
+    if (
+            this.plugin.getBruteforceAttempts("otp:" + this.proxyPlayer.getRemoteAddress().getAddress().toString())
+            >= Settings.IMP.MAIN.BRUTEFORCE_MAX_OTP_ATTEMPTS
+    ) {
+      this.proxyPlayer.disconnect(loginWrongOTPKick);
     }
   }
 
@@ -411,7 +426,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       this.proxyPlayer.showTitle(loginSuccessfulTitle);
     }
 
-    this.plugin.clearBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress());
+    this.plugin.clearBruteforceAttempts(this.proxyPlayer.getRemoteAddress().getAddress().toString());
+    this.plugin.clearBruteforceAttempts("otp:" + this.proxyPlayer.getRemoteAddress().getAddress().toString());
 
     this.plugin.getServer().getEventManager()
         .fire(new PostAuthorizationEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
@@ -471,6 +487,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       loginWrongPassword[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD, i + 1));
     }
     loginWrongPasswordKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
+    loginWrongOTPKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_OTP_KICK);
+    loginWrongOTPImmediateKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_OTP_IMMEDIATE_KICK);
     totp = serializer.deserialize(Settings.IMP.MAIN.STRINGS.TOTP);
     if (Settings.IMP.MAIN.STRINGS.TOTP_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.TOTP_SUBTITLE.isEmpty()) {
       totpTitle = null;
