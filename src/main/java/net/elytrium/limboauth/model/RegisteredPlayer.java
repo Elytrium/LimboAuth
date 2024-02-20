@@ -22,7 +22,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
-import java.util.Locale;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
 
@@ -78,7 +78,7 @@ public class RegisteredPlayer {
 
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+                          String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -101,7 +101,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
     this.nickname = nickname;
-    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.lowercaseNickname = nickname.toLowerCase();
     this.uuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
@@ -111,13 +111,25 @@ public class RegisteredPlayer {
 
   }
 
+  private transient boolean needSave = false;
+
   public static String genHash(String password) {
-    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+    if (Settings.IMP.MAIN.BCRYPT_USE_SALT) {
+      return new String(HASHER.hash(
+          Settings.IMP.MAIN.BCRYPT_COST,
+          Settings.IMP.MAIN.BCRYPT_SALT.getBytes(StandardCharsets.UTF_8),
+          password.getBytes(StandardCharsets.UTF_8)),
+          StandardCharsets.UTF_8
+      );
+    } else {
+      return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
+    }
   }
 
   public RegisteredPlayer setNickname(String nickname) {
     this.nickname = nickname;
-    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.lowercaseNickname = nickname.toLowerCase();
+    this.needSave = true;
 
     return this;
   }
@@ -133,6 +145,7 @@ public class RegisteredPlayer {
   public RegisteredPlayer setPassword(String password) {
     this.hash = genHash(password);
     this.tokenIssuedAt = System.currentTimeMillis();
+    this.needSave = true;
 
     return this;
   }
@@ -140,6 +153,7 @@ public class RegisteredPlayer {
   public RegisteredPlayer setHash(String hash) {
     this.hash = hash;
     this.tokenIssuedAt = System.currentTimeMillis();
+    this.needSave = true;
 
     return this;
   }
@@ -150,6 +164,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setIP(String ip) {
     this.ip = ip;
+    this.needSave = true;
 
     return this;
   }
@@ -160,6 +175,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setTotpToken(String totpToken) {
     this.totpToken = totpToken;
+    this.needSave = true;
 
     return this;
   }
@@ -170,6 +186,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setRegDate(Long regDate) {
     this.regDate = regDate;
+    this.needSave = true;
 
     return this;
   }
@@ -180,9 +197,11 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setUuid(String uuid) {
     this.uuid = uuid;
+    this.needSave = true;
 
     return this;
   }
+
 
   public String getUuid() {
     return this.uuid == null ? "" : this.uuid;
@@ -190,12 +209,14 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setPremiumUuid(String premiumUuid) {
     this.premiumUuid = premiumUuid;
+    this.needSave = true;
 
     return this;
   }
 
   public RegisteredPlayer setPremiumUuid(UUID premiumUuid) {
     this.premiumUuid = premiumUuid.toString();
+    this.needSave = true;
 
     return this;
   }
@@ -210,6 +231,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setLoginIp(String loginIp) {
     this.loginIp = loginIp;
+    this.needSave = true;
 
     return this;
   }
@@ -220,6 +242,7 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setLoginDate(Long loginDate) {
     this.loginDate = loginDate;
+    this.needSave = true;
 
     return this;
   }
@@ -230,7 +253,16 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setTokenIssuedAt(Long tokenIssuedAt) {
     this.tokenIssuedAt = tokenIssuedAt;
+    this.needSave = true;
 
     return this;
+  }
+
+  public boolean isNeedSave() {
+    return this.needSave;
+  }
+
+  public void setNeedSave(boolean needSave) {
+    this.needSave = needSave;
   }
 }

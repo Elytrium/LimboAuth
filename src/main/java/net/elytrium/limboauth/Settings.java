@@ -42,7 +42,7 @@ public class Settings extends YamlConfig {
   public static final Settings IMP = new Settings();
 
   @Final
-  public String VERSION = BuildConstants.AUTH_VERSION;
+  public String VERSION = "1.1.14-SNAPSHOT";
 
   @Comment({
       "Available serializers:",
@@ -132,7 +132,6 @@ public class Settings extends YamlConfig {
     @Comment("Available dimensions: OVERWORLD, NETHER, THE_END")
     public Dimension DIMENSION = Dimension.THE_END;
     public long PURGE_CACHE_MILLIS = 3600000;
-    public long PURGE_PREMIUM_CACHE_MILLIS = 28800000;
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
     @Comment("Used to ban IPs when a possible attacker incorrectly enters the password")
     public int BRUTEFORCE_MAX_ATTEMPTS = 10;
@@ -140,6 +139,8 @@ public class Settings extends YamlConfig {
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";
     public int BCRYPT_COST = 10;
+    public boolean BCRYPT_USE_SALT = false;
+    public String BCRYPT_SALT = "123456";
     public int LOGIN_ATTEMPTS = 3;
     public int IP_LIMIT_REGISTRATIONS = 3;
     public int TOTP_RECOVERY_CODES_AMOUNT = 16;
@@ -417,6 +418,7 @@ public class Settings extends YamlConfig {
 
       public String PREMIUM_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to &6PREMIUM&a!";
       public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
+      public String REDISBUNGEE_ONLINE = "{PRFX}{NL}{NL}&cYou are already on the server!";
       public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
 
