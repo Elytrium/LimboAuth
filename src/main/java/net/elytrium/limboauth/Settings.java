@@ -418,6 +418,7 @@ public class Settings extends YamlConfig {
 
       public String PREMIUM_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to &6PREMIUM&a!";
       public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
+      public String REDISBUNGEE_ONLINE = "{PRFX}{NL}{NL}&cYou are already on the server!";
       public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
 

@@ -40,6 +40,11 @@ repositories {
         setName("sonatype-snapshots-repo")
         setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
+
+    maven() {
+        setName("jitpack-repo")
+        setUrl("https://jitpack.io/")
+    }
 }
 
 dependencies {
@@ -70,6 +75,8 @@ dependencies {
     implementation("org.bstats:bstats-velocity:$bstatsVersion")
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:$spotbugsVersion")
+
+    implementation("com.github.ProxioDev.redisbungee:RedisBungee-Velocity:0.11.0")
 }
 
 shadowJar {
