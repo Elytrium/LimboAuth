@@ -292,7 +292,7 @@ public class LimboAuth {
 
     this.bruteforceAttemptKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
     this.nicknameInvalidKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
-    this.redisbungeePlaying = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REDISBUNGEE_ONLINE);
+    this.redisbungeePlaying = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REDISBUNGEE_ONLINE);
     this.reconnectKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.RECONNECT_KICK);
     this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
 
