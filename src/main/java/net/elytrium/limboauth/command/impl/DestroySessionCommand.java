@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,38 +12,35 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
 
-import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.command.SimpleCommand;
-import com.velocitypowered.api.proxy.Player;
 import net.elytrium.limboauth.LimboAuth;
-import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.command.BaseRawCommand;
-import net.elytrium.limboauth.command.BaseSubcommand;
+import net.elytrium.limboauth.command.AbstractRawCommand;
 
-public class DestroySessionCommand extends BaseRawCommand {
+public class DestroySessionCommand extends AbstractRawCommand {
 
   public DestroySessionCommand(LimboAuth plugin) {
-    super(command -> command.permission(Settings.PERMISSION_STATES.destroySession, "limboauth.commands.destroysession"), plugin, "destroysession", "logout");
+    super(plugin);
+  }
+
+  /*
+  public DestroySessionCommand(LimboAuth plugin) {
+    super(plugin, "destroysession", "logout");
+    this.permission("limboauth.commands.destroysession").permissionState(Settings.PERMISSION_STATES.destroySession);
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
+  public void execute(RawCommand.Invocation invocation) {
     CommandSource source = invocation.source();
     if (source instanceof Player player) {
       this.plugin.getCacheManager().removePlayerFromCache(player.getUsername());
-      source.sendMessage(Settings.MESSAGES.destroySessionSuccessful);
+      player.sendMessage(Settings.MESSAGES.destroySessionSuccessful);
     } else {
       source.sendMessage(Settings.MESSAGES.notPlayer);
     }
   }
-
-  @Override
-  public boolean hasPermission(SimpleCommand.Invocation invocation) {
-    return Settings.PERMISSION_STATES.destroySession.hasPermission(invocation.source(), "limboauth.commands.destroysession");
-  }
+  */
 }

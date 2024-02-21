@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -28,7 +28,6 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.AuthUnregisterEvent;
 import net.elytrium.limboauth.serialization.ComponentSerializer;
-import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceUnregisterCommand implements SimpleCommand {
 
@@ -52,7 +51,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
           .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(playerNick.toLowerCase(Locale.ROOT)))
           .executeAsync()
           .thenRun(() -> {
-            this.plugin.removePlayerFromCache(playerNick);
+            this.plugin.getCacheManager().removePlayerFromCache(playerNick);
             server.getPlayer(playerNick).ifPresent(player -> player.disconnect(Settings.MESSAGES.forceUnregisterKick));
             source.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceUnregisterSuccessful, playerNick));
           }).exceptionally(t -> {
@@ -66,7 +65,7 @@ public class ForceUnregisterCommand implements SimpleCommand {
 
   @Override
   public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
+    return SuggestUtils.suggestPlayers(this.plugin.getServer(), invocation.arguments(), 0);
   }
 
   @Override

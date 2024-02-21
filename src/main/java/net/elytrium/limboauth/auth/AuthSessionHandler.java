@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,13 +12,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.auth;
 
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.proxy.protocol.packet.PluginMessage;
+import com.velocitypowered.proxy.protocol.packet.PluginMessagePacket;
 import io.netty.buffer.ByteBuf;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ScheduledFuture;
@@ -38,12 +38,11 @@ import net.elytrium.limboauth.utils.Hashing;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
-import org.bouncycastle.util.Pack;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
-  private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider()); // TODO check for analogs
+  //TODO private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider()); // TODO check for analogs
 
   private final Player proxyPlayer;
   private final LimboAuth plugin;
@@ -86,7 +85,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (this.playerInfo == null) {
       this.plugin.getDatabase().selectCount()
           .from(PlayerData.Table.INSTANCE)
-          .where(PlayerData.Table.IP_FIELD.eq(this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress()).and(PlayerData.Table.REG_DATE_FIELD.ge(System.currentTimeMillis() - Settings.HEAD.ipLimitValidTime)))
+          .where(PlayerData.Table.IP_FIELD.eq(this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress())
+              .and(PlayerData.Table.REG_DATE_FIELD.ge(System.currentTimeMillis() - Settings.HEAD.ipLimitValidTime)))
           .fetchAsync()
           .thenAccept(registeredResult -> {
             if (registeredResult.get(0).value1() >= Settings.HEAD.ipLimitRegistrations) {
@@ -165,14 +165,14 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
         // {@code return} placed here (not above), because
         // AuthSessionHandler#checkPasswordsRepeat, AuthSessionHandler#checkPasswordLength, and AuthSessionHandler#checkPasswordStrength methods are
-        // invoking Player#sendMessage that sends its own message in case if the return value is false.
-        // If we don't place {@code return} here, another message (AuthSessionHandler#sendMessage) will be sent.
+        // invoking Player#sendMessage that sends its own message in case if the return value is false
+        // If we don't place {@code return} here, another message (AuthSessionHandler#sendMessage) will be sent
         return;
       } else if (command == Command.LOGIN && !this.totpState && this.playerInfo != null) {
         String password = args[1];
         this.saveTempPassword(password);
 
-        if (!password.isEmpty() && checkPassword(this.proxyPlayer.getUsername(), this.playerInfo.getHash(), password)) {
+        if (!password.isEmpty() && this.checkPassword(this.proxyPlayer.getUsername(), this.playerInfo.getHash(), password)) {
           if (this.playerInfo.getTotpToken().isEmpty()) {
             this.authorized = true;
             this.finishLogin();
@@ -189,7 +189,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
         return;
       } else if (command == Command.TOTP && this.totpState && this.playerInfo != null) {
-        if (TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])) {
+        if (true/*TODO TOTP_CODE_VERIFIER.isValidCode(this.playerInfo.getTotpToken(), args[1])*/) {
           this.authorized = true;
           this.finishLogin();
           return;
@@ -204,7 +204,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   @Override
   public void onGeneric(Object packet) {
-    if (Settings.HEAD.mod.enabled && packet instanceof PluginMessage pluginMessage) {
+    if (Settings.HEAD.mod.enabled && packet instanceof PluginMessagePacket pluginMessage) {
       String channel = pluginMessage.getChannel();
       if (channel.equals("MC|Brand") || channel.equals("minecraft:brand")) {
         // Minecraft can't handle the plugin message immediately after going to the PLAY
@@ -241,7 +241,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
           return;
         }
 
-        if (Hashing.sipHash(Settings.HEAD.mod.verifyKey, this.playerInfo.getLowercaseNickname().getBytes(StandardCharsets.UTF_8), Pack.longToBigEndian(issueTime)) == hash) {
+        if (Hashing.sipHash(this.playerInfo.getLowercaseNickname().getBytes(StandardCharsets.UTF_8), issueTime) == hash) {
           this.finishAuth();
         } else {
           this.checkBruteforceAttempts();
@@ -388,10 +388,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
     return valid;
   }
 
-  public static CodeVerifier getTotpCodeVerifier() {
-    return TOTP_CODE_VERIFIER;
-  }
-
   private enum Command {
 
     INVALID,
@@ -402,8 +398,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
     static Command parse(String command) {
       return Settings.HEAD.registerCommand.contains(command) ? Command.REGISTER
           : Settings.HEAD.loginCommand.contains(command) ? Command.LOGIN
-          : Settings.HEAD.totpCommand.contains(command) ? Command.TOTP
-          : Command.INVALID;
+              : Settings.HEAD.totpCommand.contains(command) ? Command.TOTP
+                  : Command.INVALID;
     }
   }
 }

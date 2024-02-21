@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -22,10 +22,10 @@ import com.velocitypowered.api.command.SimpleCommand;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.auth.AuthManager;
 import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.serialization.ComponentSerializer;
-import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceRegisterCommand implements SimpleCommand {
 
@@ -42,13 +42,13 @@ public class ForceRegisterCommand implements SimpleCommand {
 
     if (args.length == 2) {
       String nickname = args[0];
-      if (!this.plugin.getNicknameValidationPattern().matcher(nickname).matches()) {
+      if (!AuthManager.NICKNAME_VALIDATION_PATTERN.matcher(nickname).matches()) {
         source.sendMessage(Settings.MESSAGES.forceRegisterIncorrectNickname);
         return;
       }
 
       Database database = this.plugin.getDatabase();
-      database.selectCount()
+      database.selectCount() // TODO fetchExistsAsync
           .from(PlayerData.Table.INSTANCE)
           .where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(nickname.toLowerCase(Locale.ROOT)))
           .fetchAsync()

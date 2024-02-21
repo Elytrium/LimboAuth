@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -34,14 +34,14 @@ import net.kyori.adventure.text.format.NamedTextColor;
 public class LimboAuthCommand implements SimpleCommand {
 
   private static final List<Component> HELP_MESSAGE = List.of(
-      Component.text("This server is using LimboAuth and LimboAPI.", NamedTextColor.YELLOW),
+      Component.text("This server is using LimboAuth and LimboAPI", NamedTextColor.YELLOW),
       Component.text("(C) 2021 - 2023 Elytrium", NamedTextColor.YELLOW),
       Component.text("https://elytrium.net/github/", NamedTextColor.GREEN),
       Component.empty()
   );
 
   private static final Component AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("Available subcommands:", NamedTextColor.WHITE);
-  private static final Component NO_AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("There is no available subcommands for you.", NamedTextColor.WHITE);
+  private static final Component NO_AVAILABLE_SUBCOMMANDS_MESSAGE = Component.text("There is no available subcommands for you", NamedTextColor.WHITE);
 
   private final LimboAuth plugin;
 
@@ -126,7 +126,7 @@ public class LimboAuthCommand implements SimpleCommand {
   }
 
   private enum Subcommand {
-    RELOAD("Reload config.", () -> Settings.PERMISSION_STATES.reload);
+    RELOAD("Reload config", () -> Settings.PERMISSION_STATES.reload);
 
     private final String command;
     private final String permission;

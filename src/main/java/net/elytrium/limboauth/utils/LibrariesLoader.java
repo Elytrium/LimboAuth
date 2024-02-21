@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021-2023 Elytrium
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.elytrium.limboauth.utils;
 
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -39,12 +56,13 @@ public class LibrariesLoader {
       repositoriesLoop:
       for (int repositoryIndex = 0, repositoriesAmount = repositories.length; repositoryIndex < repositoriesAmount; ++repositoryIndex) {
         final String repository = repositories[repositoryIndex];
+        final boolean needExtraSlash = repository.charAt(repository.length() - 1) != '/';
 
         final Path jarPath = librariesDirectory.resolve(library);
-        final String jarUrl = repository + library;
+        final String jarUrl = needExtraSlash ? (repository + '/' + library) : (repository + library);
 
         final Path sha1Path = librariesDirectory.resolve(library + ".sha1");
-        final String sha1Url = repository + library + ".sha1";
+        final String sha1Url = needExtraSlash ? (repository + '/' + library + ".sha1") : (repository + library + ".sha1");
 
         byte[] expectedHash;
         if (Files.exists(sha1Path) && Files.exists(jarPath) && System.currentTimeMillis() - jarPath.toFile().lastModified() < LibrariesLoader.TWO_WEEKS_MILLIS) {
@@ -58,11 +76,11 @@ public class LibrariesLoader {
           } catch (Throwable t) {
             if (t instanceof FileNotFoundException) {
               if (repositoryIndex + 1 == repositoriesAmount) {
-                logger.warn("Couldn't find file in {}, no repositories left, shutting down server.", repository);
+                logger.warn("Couldn't find file in {}, no repositories left, shutting down the server", repository);
                 server.shutdown();
                 return;
               } else {
-                logger.warn("Couldn't find file in {}, trying next repo.", repository);
+                logger.warn("Couldn't find file in {}, trying next repo", repository);
                 continue;
               }
             } else {
@@ -78,15 +96,15 @@ public class LibrariesLoader {
           do {
             if (attempt == LibrariesLoader.MAX_ATTEMPTS) {
               if (repositoryIndex + 1 == repositoriesAmount) {
-                logger.error("Download failed after " + LibrariesLoader.MAX_ATTEMPTS + " times, shutting down the server.");
+                logger.error("Download failed after " + LibrariesLoader.MAX_ATTEMPTS + " times, shutting down the server");
                 server.shutdown();
                 return;
               } else {
-                logger.error("Download failed after " + LibrariesLoader.MAX_ATTEMPTS + " times, trying next repo.");
+                logger.error("Download failed after " + LibrariesLoader.MAX_ATTEMPTS + " times, trying next repo");
                 continue repositoriesLoop;
               }
             } else if (attempt != 0) {
-              logger.warn("Failed to download, trying again.");
+              logger.warn("Failed to download, trying again");
             }
 
             try (InputStream inputStream = new URL(jarUrl).openStream()) {
@@ -94,11 +112,11 @@ public class LibrariesLoader {
             } catch (Throwable t) {
               if (t instanceof FileNotFoundException) {
                 if (repositoryIndex + 1 == repositoriesAmount) {
-                  logger.warn("Couldn't find file in {}, no repositories left, shutting down server.", repository);
+                  logger.warn("Couldn't find file in {}, no repositories left, shutting down the server", repository);
                   server.shutdown();
                   return;
                 } else {
-                  logger.warn("Couldn't find file in {}, trying next repo.", repository);
+                  logger.warn("Couldn't find file in {}, trying next repo", repository);
                   continue repositoriesLoop;
                 }
               } else {
@@ -118,6 +136,6 @@ public class LibrariesLoader {
   }
 
   private static boolean notMatches(byte[] expectedHash, Path jarPath) throws IOException {
-    return expectedHash != null && !Arrays.equals(expectedHash, Hex.bytes(Hashing.sha1(Files.readAllBytes(jarPath))));
+    return expectedHash != null && !Arrays.equals(expectedHash, Hex.encodeBytes(Hashing.sha1(Files.readAllBytes(jarPath))));
   }
 }

@@ -7,4 +7,11 @@
   <Match>
     <Bug pattern="EI_EXPOSE_REP2"/>
   </Match>
+  <Match>
+    <Bug pattern="MS_MUTABLE_ARRAY"/>
+  </Match>
+  <Match>
+    <Class name="net.elytrium.limboauth.BuildConfig"/>
+    <Bug pattern="MS_PKGPROTECT"/>
+  </Match>
 </FindBugsFilter>

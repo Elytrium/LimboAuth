@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -23,8 +23,6 @@ import com.velocitypowered.api.proxy.Player;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.data.PlayerData;
-import net.elytrium.limboauth.events.AuthUnregisterEvent;
 
 public class UnregisterCommand implements SimpleCommand {
 
@@ -44,6 +42,7 @@ public class UnregisterCommand implements SimpleCommand {
         if (Settings.HEAD.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = player.getUsername();
           String lowercaseNickname = username.toLowerCase(Locale.ROOT);
+          /* TODO
           PlayerData.checkPassword(lowercaseNickname, args[0],
               () -> source.sendMessage(Settings.MESSAGES.notRegistered),
               () -> source.sendMessage(Settings.MESSAGES.crackedCommand),
@@ -59,6 +58,7 @@ public class UnregisterCommand implements SimpleCommand {
               () -> source.sendMessage(Settings.MESSAGES.wrongPassword),
               (e) -> source.sendMessage(Settings.MESSAGES.errorOccurred)
           );
+          */
           return;
         }
       }

@@ -15,23 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.password;
+package net.elytrium.limboauth.command;
 
-import java.util.function.BiFunction;
+public class AbstractSimpleCommand {
 
-// TODO: other strategies (contains, etc.)
-public enum CheckPasswordStrategy {
-
-  NONE((passwordManager, password) -> true),
-  EXACT((passwordManager, password) -> !passwordManager.exactMatch(password));
-
-  private final BiFunction<UnsafePasswordManager, String, Boolean> function;
-
-  CheckPasswordStrategy(BiFunction<UnsafePasswordManager, String, Boolean> function) {
-    this.function = function;
-  }
-
-  public boolean checkPasswordStrength(UnsafePasswordManager passwordManager, String password) {
-    return this.function.apply(passwordManager, password);
-  }
 }

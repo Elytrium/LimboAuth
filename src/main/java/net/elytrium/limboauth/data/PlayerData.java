@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.data;
@@ -30,15 +30,13 @@ import org.jooq.Field;
 import org.jooq.Record12;
 import org.jooq.Row12;
 import org.jooq.TableField;
-import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
-import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 import org.jooq.impl.UpdatableRecordImpl;
 
 @SuppressWarnings("NullableProblems")
-public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Record12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean> {
+public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Record12<String, String, String, String, String, Long, UUID, UUID, String, Long, Long, Boolean> { // TODO get rid
 
   private String nickname;
 
@@ -502,10 +500,6 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
   public static class Table extends TableImpl<PlayerData> {
 
     public static final Table INSTANCE = new Table();
-    public static final UniqueKey<PlayerData> PRIMARY_KEY = Internal.createUniqueKey(
-        Table.INSTANCE,
-        Table.LOWERCASE_NICKNAME_FIELD
-    );
 
     public static TableField<PlayerData, String> NICKNAME_FIELD;
     public static TableField<PlayerData, String> LOWERCASE_NICKNAME_FIELD;
@@ -521,7 +515,7 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
     public static TableField<PlayerData, Boolean> ONLY_BY_MOD_FIELD;
 
     public Table() {
-      super(DSL.name("AUTH"));
+      super(DSL.name("AUTH"/*TODO configurable?*/));
     }
 
     public static void reload(Settings.Database databaseSettings) {
@@ -532,7 +526,7 @@ public class PlayerData extends UpdatableRecordImpl<PlayerData> implements Recor
       TOTP_TOKEN_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.totpTokenField), SQLDataType.VARCHAR, Table.INSTANCE);
       REG_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.regDateField), SQLDataType.BIGINT, Table.INSTANCE);
       UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.uuidField), SQLDataType.UUID, Table.INSTANCE);
-      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.premiumUuidField), SQLDataType.UUID, Table.INSTANCE);
+      PREMIUM_UUID_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.premiumUuidField), SQLDataType.UUID, Table.INSTANCE); // TODO default null
       LOGIN_IP_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.loginIpField), SQLDataType.VARCHAR, Table.INSTANCE);
       LOGIN_DATE_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.loginDateField), SQLDataType.BIGINT, Table.INSTANCE);
       TOKEN_ISSUED_AT_FIELD = TableImpl.createField(DSL.name(databaseSettings.table.tokenIssuedAtField), SQLDataType.BIGINT, Table.INSTANCE);

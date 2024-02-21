@@ -1,47 +1,59 @@
+/*
+ * Copyright (C) 2021-2023 Elytrium
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.elytrium.limboauth.auth;
 
-import com.google.common.net.UrlEscapers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.velocitypowered.proxy.VelocityServer;
+import java.net.http.HttpClient;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.cache.CachedPremiumUser;
+import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
-import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.ListenableFuture;
-import org.asynchttpclient.Response;
-import org.jooq.DSLContext;
 
 public class HybridAuthManager {
 
   private final LimboAuth plugin;
-  private final AsyncHttpClient httpClient;
+  private final VelocityServer server;
 
   public HybridAuthManager(LimboAuth plugin) {
     this.plugin = plugin;
-    this.httpClient = ((VelocityServer) plugin.getServer()).getAsyncHttpClient();
+    this.server = (VelocityServer) plugin.getServer();
   }
 
   private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
     if (!scheme.isEmpty()) {
-      if (!(jsonElement instanceof JsonObject object)) {
-        return false;
-      }
-
-      for (String field : scheme) {
-        if (!object.has(field)) {
-          return false;
+      if (jsonElement instanceof JsonObject object) {
+        for (String field : scheme) {
+          if (!object.has(field)) {
+            return false;
+          }
         }
+      } else {
+        return false;
       }
     }
 
@@ -50,8 +62,9 @@ public class HybridAuthManager {
 
   public CompletableFuture<PremiumResponse> isPremiumExternal(String nickname) {
     CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
-    ListenableFuture<Response> responseListenable = this.httpClient.prepareGet(String.format(Settings.HEAD.isPremiumAuthUrl, UrlEscapers.urlFormParameterEscaper().escape(nickname))).execute();
-
+    HttpClient httpClient = this.server.createHttpClient();
+    /*
+    ListenableFuture<Response> responseListenable = httpClient.prepareGet(String.format(Settings.HEAD.isPremiumAuthUrl, UrlEscapers.urlFormParameterEscaper().escape(nickname))).execute();
     responseListenable.addListener(() -> {
       try {
         Response response = responseListenable.get();
@@ -76,22 +89,22 @@ public class HybridAuthManager {
 
         completableFuture.complete(PremiumResponse.ERROR);
       } catch (ExecutionException | InterruptedException e) {
-        this.plugin.getLogger().error("Unable to authenticate with Mojang.", e);
+        this.plugin.getLogger().error("Unable to authenticate with Mojang", e);
         completableFuture.complete(PremiumResponse.ERROR);
       }
     }, this.plugin.getExecutor());
-
+    */
     return completableFuture;
   }
 
   public CompletableFuture<PremiumResponse> isPremiumInternal(String nickname) {
     CompletableFuture<PremiumResponse> completableFuture = new CompletableFuture<>();
-    DSLContext context = this.plugin.getDatabase().getContext();
-    context.selectCount().from(PlayerData.Table.INSTANCE).where(
+    Database database = this.plugin.getDatabase();
+    database.selectCount().from(PlayerData.Table.INSTANCE).where(
         PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(nickname).and(PlayerData.Table.HASH_FIELD.ne(""))
     ).limit(1).fetchAsync().handle((result, t) -> {
       if (result == null) {
-        this.plugin.getLogger().error("Unable to check if account is premium.", t);
+        this.plugin.getLogger().error("Unable to check if account is premium", t);
         completableFuture.complete(PremiumResponse.ERROR);
       } else {
         completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.CRACKED);
@@ -99,11 +112,9 @@ public class HybridAuthManager {
 
       return null;
     });
-    context.selectCount().from(PlayerData.Table.INSTANCE).where(
-        PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(nickname).and(PlayerData.Table.HASH_FIELD.eq(""))
-    ).fetchAsync().handle((result, t) -> {
+    database.selectCount().from(PlayerData.Table.INSTANCE).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(nickname).and(PlayerData.Table.HASH_FIELD.eq(""))).fetchAsync().handle((result, t) -> {
       if (result == null) {
-        this.plugin.getLogger().error("Unable to check if account is premium.", t);
+        this.plugin.getLogger().error("Unable to check if account is premium", t);
         completableFuture.complete(PremiumResponse.ERROR);
       } else {
         completableFuture.complete(result.get(0).value1() == 0 ? PremiumResponse.UNKNOWN : PremiumResponse.PREMIUM);
@@ -201,6 +212,6 @@ public class HybridAuthManager {
   public CompletableFuture<Boolean> isPremium(String nickname) {
     return Settings.HEAD.forceOfflineMode ? CompletableFuture.completedFuture(false)
         : Settings.HEAD.checkPremiumPriorityInternal ? this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumInternal, this::isPremiumExternal)))
-        : this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumExternal, this::isPremiumInternal)));
+            : this.checkIsPremiumAndCache(nickname, new ArrayDeque<>(List.of(this::isPremiumExternal, this::isPremiumInternal)));
   }
 }

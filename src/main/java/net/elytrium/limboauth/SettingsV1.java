@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2023 Elytrium
+ * Copyright (C) 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,23 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package net.elytrium.limboauth.password;
+package net.elytrium.limboauth;
 
-import java.util.function.BiFunction;
+public class SettingsV1 {
 
-// TODO: other strategies (contains, etc.)
-public enum CheckPasswordStrategy {
-
-  NONE((passwordManager, password) -> true),
-  EXACT((passwordManager, password) -> !passwordManager.exactMatch(password));
-
-  private final BiFunction<UnsafePasswordManager, String, Boolean> function;
-
-  CheckPasswordStrategy(BiFunction<UnsafePasswordManager, String, Boolean> function) {
-    this.function = function;
-  }
-
-  public boolean checkPasswordStrength(UnsafePasswordManager passwordManager, String password) {
-    return this.function.apply(passwordManager, password);
-  }
 }

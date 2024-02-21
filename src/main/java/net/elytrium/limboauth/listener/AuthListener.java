@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.listener;
@@ -24,13 +24,7 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
-import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.util.UuidUtils;
-import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
-import com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler;
-import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
-import com.velocitypowered.proxy.protocol.packet.ServerLogin;
-import java.lang.invoke.MethodHandle;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -41,13 +35,12 @@ import net.elytrium.limboauth.auth.AuthManager;
 import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
-import net.elytrium.limboauth.utils.Reflection;
 
 // TODO: Customizable events priority
 public class AuthListener {
 
-  private static final MethodHandle DELEGATE_FIELD;
-  private static final MethodHandle LOGIN_FIELD;
+  //private static final MethodHandle DELEGATE_GETTER = Reflection.findGetter(LoginInboundConnection.class, "delegate", InitialInboundConnection.class);
+  //private static final MethodHandle LOGIN_GETTER = Reflection.findGetter(InitialLoginSessionHandler.class, "login", ServerLoginPacket.class);
 
   private final LimboAuth plugin;
   private final FloodgateApiHolder floodgateApi;
@@ -73,10 +66,10 @@ public class AuthListener {
     }
   }
 
-  // Temporarily disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
+  /* Disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
   private boolean isPremiumByIdentifiedKey(InboundConnection inbound) throws Throwable {
     InitialInboundConnection inboundConnection = (InitialInboundConnection) AuthListener.DELEGATE_FIELD.invokeExact((LoginInboundConnection) inbound);
-    ServerLogin packet = (ServerLogin) AuthListener.LOGIN_FIELD.invokeExact((InitialLoginSessionHandler) inboundConnection.getConnection().getActiveSessionHandler());
+    ServerLoginPacket packet = (ServerLoginPacket) AuthListener.LOGIN_FIELD.invokeExact((InitialLoginSessionHandler) inboundConnection.getConnection().getActiveSessionHandler());
     if (packet == null) {
       return false;
     }
@@ -88,6 +81,7 @@ public class AuthListener {
 
     return holder.version() != 3;
   }
+  */
 
   @Subscribe
   public void onProxyDisconnect(DisconnectEvent event) {
@@ -161,10 +155,5 @@ public class AuthListener {
     }
 
     return eventTask;
-  }
-
-  static {
-    DELEGATE_FIELD = Reflection.getter1(LoginInboundConnection.class, "delegate", InitialInboundConnection.class);
-    LOGIN_FIELD = Reflection.getter1(InitialLoginSessionHandler.class, "login", ServerLogin.class);
   }
 }

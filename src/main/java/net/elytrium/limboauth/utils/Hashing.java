@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021-2023 Elytrium
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.elytrium.limboauth.utils;
 
 import java.nio.charset.StandardCharsets;
@@ -6,10 +23,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import net.elytrium.limboauth.Settings;
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.macs.SipHash;
 import org.bouncycastle.crypto.params.Argon2Parameters;
-import org.bouncycastle.crypto.params.KeyParameter;
 
 public class Hashing {
 
@@ -34,7 +51,7 @@ public class Hashing {
       Hashing.SHA256 = Hashing.messageDigest("SHA-256");
     }
 
-    return Hex.string(Hashing.digest(Hashing.SHA256, input));
+    return Hex.encodeString(Hashing.digest(Hashing.SHA256, input));
   }
 
   public static String sha512(String input) {
@@ -42,11 +59,7 @@ public class Hashing {
       Hashing.SHA512 = Hashing.messageDigest("SHA-512");
     }
 
-    return Hex.string(Hashing.digest(Hashing.SHA512, input));
-  }
-
-  public static String md5AsHex(String input) {
-    return Hex.string(Hashing.md5(input));
+    return Hex.encodeString(Hashing.digest(Hashing.SHA512, input));
   }
 
   public static byte[] md5(String input) {
@@ -69,16 +82,25 @@ public class Hashing {
     return result;
   }
 
-  public static long sipHash(KeyParameter key, byte[] input1, byte[] input2) {
+  public static long sipHash(byte[] input1, long input2) {
     if (Hashing.SIP_HASH == null) {
-      Hashing.SIP_HASH = ThreadLocal.withInitial(SipHash::new);
+      Hashing.SIP_HASH = ThreadLocal.withInitial(() -> {
+        SipHash sipHash = new SipHash();
+        sipHash.init(Settings.HEAD.mod.verifyKey);
+        return sipHash;
+      });
     }
 
     SipHash mac = Hashing.SIP_HASH.get();
-    mac.init(key);
-    // A little bit of hardcode.
     mac.update(input1, 0, input1.length);
-    mac.update(input2, 0, 8);
+    mac.update((byte) ((input2 >>> 56) & 0xFF));
+    mac.update((byte) ((input2 >>> 48) & 0xFF));
+    mac.update((byte) ((input2 >>> 40) & 0xFF));
+    mac.update((byte) ((input2 >>> 32) & 0xFF));
+    mac.update((byte) ((input2 >>> 24) & 0xFF));
+    mac.update((byte) ((input2 >>> 16) & 0xFF));
+    mac.update((byte) ((input2 >>> 8) & 0xFF));
+    mac.update((byte) (input2 & 0xFF));
     return mac.doFinal();
   }
 
@@ -126,7 +148,7 @@ public class Hashing {
     try {
       return algorithm.digest(input);
     } finally {
-      // Not all the engines are resetting themselves after digest. (SHA-1 at least, see sun.security.provider.SHA#implDigest)
+      // Not all the engines are resetting themselves after digest (SHA-1 at least, see sun.security.provider.SHA#implDigest)
       algorithm.reset();
     }
   }

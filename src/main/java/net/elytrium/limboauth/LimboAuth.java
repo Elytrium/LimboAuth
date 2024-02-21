@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth;
@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
 import net.elytrium.commons.utils.updates.UpdatesChecker;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboFactory;
@@ -55,12 +54,13 @@ import net.elytrium.limboauth.events.AuthPluginReloadEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.password.UnsafePasswordManager;
+import net.elytrium.limboauth.utils.Reflection;
 import org.bstats.charts.SimplePie;
 import org.bstats.charts.SingleLineChart;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
-public class LimboAuth { // split one bing class into small ones (главный гласс должен служить бутстраппером для остальных систем, а не главным обработчиком этих систем)
+public class LimboAuth {
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
@@ -71,30 +71,28 @@ public class LimboAuth { // split one bing class into small ones (главный
   private final Path configFile;
   private final ProxyServer server;
   private final ExecutorService executor;
-  private final Metrics.Factory metricsFactory;
   private final LimboFactory limboFactory;
   private final FloodgateApiHolder floodgateApi;
 
   private Database database;
 
   private Limbo authServer;
+  private UnsafePasswordManager unsafePasswordManager;
   private CacheManager cacheManager;
   private HybridAuthManager hybridAuthManager;
   private AuthManager authManager;
-  private UnsafePasswordManager unsafePasswordManager;
 
-  LimboAuth(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
+  LimboAuth(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
     this.logger = logger;
     this.dataDirectory = dataDirectory;
     this.configFile = dataDirectory.resolve("config.yml");
     this.server = server;
-    this.metricsFactory = metricsFactory; // TODO создавать рефлексией видимо
     this.executor = executor;
     this.limboFactory = (LimboFactory) limboApi.getInstance().orElseThrow();
     this.floodgateApi = this.server.getPluginManager().getPlugin("floodgate").isPresent() ? new FloodgateApiHolder() : null;
   }
 
-  void onProxyInitialization() {
+  void onProxyInitialize() {
     try {
       this.reload();
     } catch (Throwable t) {
@@ -105,6 +103,7 @@ public class LimboAuth { // split one bing class into small ones (главный
 
     CommandManager commandManager = this.server.getCommandManager();
     // TODO config aliases
+    commandManager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
     commandManager.register("unregister", new UnregisterCommand(this), "unreg");
     commandManager.register("forceregister", new ForceRegisterCommand(this), "forcereg");
     commandManager.register("premium", new PremiumCommand(this), "license");
@@ -115,24 +114,33 @@ public class LimboAuth { // split one bing class into small ones (главный
     if (Settings.HEAD.enableTotp) {
       commandManager.register("2fa", new TotpCommand(this), "totp");
     }
-    commandManager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 
     this.server.getEventManager().register(this, new AuthListener(this, this.floodgateApi));
 
-    Metrics metrics = this.metricsFactory.make(this, 13700);
-    metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.HEAD.floodgateNeedAuth)));
-    metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.HEAD.onlineModeNeedAuth)));
-    metrics.addCustomChart(new SimplePie("db_type", () -> String.valueOf(Settings.DATABASE.storageType)));
-    metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.HEAD.loadWorld)));
-    metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.HEAD.enableTotp)));
-    metrics.addCustomChart(new SimplePie("dimension", () -> String.valueOf(Settings.HEAD.dimension)));
-    metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.HEAD.saveUuid)));
-    metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.database.fetchCount(PlayerData.Table.INSTANCE))));
+    try {
+      final String previous = System.getProperty("bstats.relocatecheck");
+      System.setProperty("bstats.relocatecheck", "false"); // Jokerge
+
+      Metrics metrics = (Metrics) Reflection.findConstructor(Metrics.class, Object.class, ProxyServer.class, Logger.class, Path.class, int.class)
+          .invokeExact(this, this.server, this.logger, this.dataDirectory, 13700);
+      metrics.addCustomChart(new SimplePie("floodgate_auth", () -> String.valueOf(Settings.HEAD.floodgateNeedAuth)));
+      metrics.addCustomChart(new SimplePie("premium_auth", () -> String.valueOf(Settings.HEAD.onlineModeNeedAuth)));
+      metrics.addCustomChart(new SimplePie("db_type", () -> Settings.DATABASE.storageType.name()));
+      metrics.addCustomChart(new SimplePie("load_world", () -> String.valueOf(Settings.HEAD.loadWorld)));
+      metrics.addCustomChart(new SimplePie("totp_enabled", () -> String.valueOf(Settings.HEAD.enableTotp)));
+      metrics.addCustomChart(new SimplePie("dimension", () -> Settings.HEAD.dimension.name()));
+      metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.HEAD.saveUuid)));
+      metrics.addCustomChart(new SingleLineChart("registered_players", () -> this.database.fetchCount(PlayerData.Table.INSTANCE)));
+
+      System.getProperty("bstats.relocatecheck", previous);
+    } catch (Throwable e) {
+      throw new RuntimeException(e);
+    }
 
     try {
       if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.HEAD.version)) {
         this.logger.error("****************************************");
-        this.logger.warn("The new LimboAuth update was found, please update.");
+        this.logger.warn("The new LimboAuth update was found, please update");
         this.logger.error("https://github.com/Elytrium/LimboAuth/releases/");
         this.logger.error("****************************************");
       }
@@ -151,7 +159,7 @@ public class LimboAuth { // split one bing class into small ones (главный
     Settings.HEAD.reload(this.configFile);
 
     if (this.floodgateApi == null && !Settings.HEAD.floodgateNeedAuth) {
-      throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false), please install floodgate plugin.");
+      throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false), please install floodgate plugin");
     }
 
     try {
@@ -159,15 +167,11 @@ public class LimboAuth { // split one bing class into small ones (главный
         this.database.close();
       }
 
-      this.database = new Database(this);
+      this.database = new Database(this); // TODO dont reload
     } catch (Throwable e) {
       this.server.shutdown();
       throw new RuntimeException(e);
     }
-
-    this.cacheManager = new CacheManager();
-    this.hybridAuthManager = new HybridAuthManager(this);
-    this.authManager = new AuthManager(this);
 
     try {
       this.unsafePasswordManager = new UnsafePasswordManager(this);
@@ -175,10 +179,14 @@ public class LimboAuth { // split one bing class into small ones (главный
       throw new RuntimeException(e);
     }
 
+    this.cacheManager = new CacheManager();
+    this.hybridAuthManager = new HybridAuthManager(this);
+    this.authManager = new AuthManager(this);
+
     VirtualWorld authWorld = this.limboFactory.createVirtualWorld(
         Settings.HEAD.dimension,
         Settings.HEAD.authCoords.posX, Settings.HEAD.authCoords.posY, Settings.HEAD.authCoords.posZ,
-        (float) Settings.HEAD.authCoords.yaw, (float) Settings.HEAD.authCoords.pitch
+        Settings.HEAD.authCoords.yaw, Settings.HEAD.authCoords.pitch
     );
 
     if (Settings.HEAD.loadWorld) {
@@ -200,22 +208,18 @@ public class LimboAuth { // split one bing class into small ones (главный
         .setName("LimboAuth")
         .setWorldTime(Settings.HEAD.worldTicks)
         .setGameMode(Settings.HEAD.gameMode)
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.registerCommand)))
-        .registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.loginCommand)));
+        .registerCommand(new LimboCommandMeta(LimboAuth.filterCommands(Settings.HEAD.registerCommand)))
+        .registerCommand(new LimboCommandMeta(LimboAuth.filterCommands(Settings.HEAD.loginCommand)));
 
     if (Settings.HEAD.enableTotp) {
-      this.authServer.registerCommand(new LimboCommandMeta(this.filterCommands(Settings.HEAD.totpCommand)));
+      this.authServer.registerCommand(new LimboCommandMeta(LimboAuth.filterCommands(Settings.HEAD.totpCommand)));
     }
 
     this.server.getEventManager().fireAndForget(new AuthPluginReloadEvent());
   }
 
-  private List<String> filterCommands(List<String> commands) {
-    return commands.stream().filter(command -> command.startsWith("/")).map(command -> command.substring(1)).collect(Collectors.toList());
-  }
-
   public ChannelIdentifier getChannelIdentifier(Player player) {
-    return player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_13) >= 0 ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
+    return player.getProtocolVersion().noLessThan(ProtocolVersion.MINECRAFT_1_13) ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
   }
 
   public ProxyServer getServer() {
@@ -238,6 +242,10 @@ public class LimboAuth { // split one bing class into small ones (главный
     return this.executor;
   }
 
+  public UnsafePasswordManager getUnsafePasswordManager() {
+    return this.unsafePasswordManager;
+  }
+
   public CacheManager getCacheManager() {
     return this.cacheManager;
   }
@@ -250,10 +258,6 @@ public class LimboAuth { // split one bing class into small ones (главный
     return this.authManager;
   }
 
-  public UnsafePasswordManager getUnsafePasswordManager() {
-    return this.unsafePasswordManager;
-  }
-
   public LimboFactory getLimboFactory() {
     return this.limboFactory;
   }
@@ -264,5 +268,9 @@ public class LimboAuth { // split one bing class into small ones (главный
 
   public Database getDatabase() {
     return this.database;
+  }
+
+  private static List<String> filterCommands(List<String> commands) {
+    return commands.stream().map(command -> command.charAt(0) == '/' ? command.substring(1) : command).toList();
   }
 }

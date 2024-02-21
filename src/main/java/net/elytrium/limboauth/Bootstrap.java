@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth;
@@ -30,7 +30,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutorService;
 import net.elytrium.limboauth.utils.LibrariesLoader;
-import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 @Plugin(
@@ -39,7 +38,7 @@ import org.slf4j.Logger;
     version = BuildConfig.VERSION,
     url = "https://elytrium.net/",
     authors = {
-        "Elytrium (https://elytrium.net/)",
+        "Elytrium",
     },
     dependencies = {
         @Dependency(id = "limboapi"),
@@ -51,14 +50,14 @@ public class Bootstrap { // в идеале этот класс не нужен 
   private final LimboAuth limboAuth;
 
   @Inject
-  public Bootstrap(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, Metrics.Factory metricsFactory, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
-    this.limboAuth = new LimboAuth(logger, dataDirectory, server, metricsFactory, executor, limboApi);
+  public Bootstrap(Logger logger, @DataDirectory Path dataDirectory, ProxyServer server, ExecutorService executor, @Named("limboapi") PluginContainer limboApi) {
+    this.limboAuth = new LimboAuth(logger, dataDirectory, server, executor, limboApi);
   }
 
   @Subscribe
-  public void onProxyInitialization(ProxyInitializeEvent event) throws Throwable {
+  public void onProxyInitialize(ProxyInitializeEvent event) throws Throwable {
     LibrariesLoader.resolveAndLoad(this, this.limboAuth.getLogger(), this.limboAuth.getServer(), BuildConfig.REPOSITORIES, BuildConfig.COMMON);
-    this.limboAuth.onProxyInitialization();
+    this.limboAuth.onProxyInitialize();
   }
 
   @Subscribe

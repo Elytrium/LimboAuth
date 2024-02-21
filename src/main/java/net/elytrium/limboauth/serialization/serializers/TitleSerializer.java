@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.serialization.serializers;
@@ -39,7 +39,7 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
     return Maps.o2o(
         "title", from.title(),
         "subtitle", from.subtitle(),
-        "times", Maps.o2o(
+        "times", Maps.o2i(
             "fade-in", times.fadeIn().toMillis() / Ticks.SINGLE_TICK_DURATION_MS,
             "stay", times.stay().toMillis() / Ticks.SINGLE_TICK_DURATION_MS,
             "fade-out", times.fadeOut().toMillis() / Ticks.SINGLE_TICK_DURATION_MS
@@ -55,8 +55,8 @@ public class TitleSerializer extends ClassSerializer<Title, Map<String, Object>>
 
     Map<String, Object> times = Maps.getChecked(from, "times");
     return Title.title(
-        Settings.SERIALIZER.deserialize((String) from.get("title")),
-        Settings.SERIALIZER.deserialize((String) from.get("subtitle")),
+        Settings.SERIALIZER.deserialize(Maps.getString(from, "title")),
+        Settings.SERIALIZER.deserialize(Maps.getString(from, "subtitle")),
         times == null ? Title.DEFAULT_TIMES : Title.Times.times(
             Maps.getTicksDuration(times, "fade-in", Title.DEFAULT_TIMES.fadeIn()),
             Maps.getTicksDuration(times, "stay", Title.DEFAULT_TIMES.stay()),

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.password;
@@ -20,7 +20,9 @@ package net.elytrium.limboauth.password;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.function.BiFunction;
 import net.elytrium.limboauth.utils.Hashing;
+import net.elytrium.limboauth.utils.Hex;
 import org.bouncycastle.crypto.generators.OpenBSDBCrypt;
 import org.bouncycastle.crypto.params.Argon2Parameters;
 
@@ -82,12 +84,17 @@ public enum MigrationHash {
       return false;
     }
 
+    // Stupid checkstyle can't handle new switch statements properly
+    // CHECKSTYLE.OFF: WhitespaceAround
+    // CHECKSTYLE.OFF: Indentation
     Argon2Parameters.Builder builder = new Argon2Parameters.Builder(switch (parameters[parameter]) {
       case "argon2d" -> Argon2Parameters.ARGON2_d;
       case "argon2i" -> Argon2Parameters.ARGON2_i;
       case "argon2id" -> Argon2Parameters.ARGON2_id;
       default -> throw new IllegalArgumentException("Invalid algorithm type: " + parameters[parameter]);
     });
+    // CHECKSTYLE.ON: Indentation
+    // CHECKSTYLE.ON: WhitespaceAround
 
     if (parameters[++parameter].startsWith("v=")) {
       builder.withVersion(Integer.parseInt(parameters[parameter++].substring(2)));
@@ -118,13 +125,13 @@ public enum MigrationHash {
     byte[] decodedHash = base64Decoder.decode(parameters[parameter]);
     return Arrays.equals(decodedHash, Hashing.argon2(builder.build(), decodedHash.length, password));
   }),
-  MD5((hash, password) -> hash.equals(Hashing.md5AsHex(password))),
+  MD5((hash, password) -> hash.equals(Hex.encodeString(Hashing.md5(password)))),
   BCRYPT_JPREMIUM((hash, password) -> OpenBSDBCrypt.checkPassword(hash.replace("BCRYPT$", "$2a$"), password.getBytes(StandardCharsets.UTF_8))),
   PLAINTEXT(String::equals);
 
-  private final MigrationHashVerifier verifier;
+  private final BiFunction<String, String, Boolean> verifier;
 
-  MigrationHash(MigrationHashVerifier verifier) {
+  MigrationHash(BiFunction<String, String, Boolean> verifier) {
     this.verifier = verifier;
   }
 
@@ -133,16 +140,10 @@ public enum MigrationHash {
       return false;
     }
 
-    return this.verifier.checkPassword(hash, password);
+    return this.verifier.apply(hash, password);
   }
 
   private static int offset(String hash) {
     return hash.charAt(0) == '$' ? 1 : 0;
-  }
-
-  @FunctionalInterface
-  private interface MigrationHashVerifier {
-
-    boolean checkPassword(String hash, String password);
   }
 }

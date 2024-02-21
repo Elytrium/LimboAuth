@@ -1,44 +1,42 @@
 [versions]
-velocity = "3.2.0-SNAPSHOT"
-netty = "4.1.101.Final"
-checkstyle = "10.12.5"
+velocity = "3.3.0-SNAPSHOT"
+netty = "4.1.106.Final"
+checkstyle = "10.13.0"
 
 [libraries]
-jna-platform = "net.java.dev.jna:jna-platform:5.13.0"
-jabel = "com.github.bsideup.jabel:jabel-javac-plugin:1.0.0"
-
 velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
-velocity-proxy = { module = "com.velocitypowered:velocity-proxy", version.ref = "velocity" } # From Elytrium repo.
+velocity-proxy = { module = "com.velocitypowered:velocity-proxy", version.ref = "velocity" } # from Elytrium repo.
 
 netty-codec = { module = "io.netty:netty-codec", version.ref = "netty" }
 netty-handler = { module = "io.netty:netty-handler", version.ref = "netty" }
 
-asynchttpclient = "org.asynchttpclient:async-http-client:2.12.3"
-
-limboapi = "net.elytrium.limboapi:api:1.1.17-SNAPSHOT"
+limboapi-api = "net.elytrium.limboapi:api:1.1.17-SNAPSHOT"
 floodgate-api = "org.geysermc.floodgate:api:2.2.2-SNAPSHOT"
 
 serializer = "net.elytrium:serializer:1.1.1"
-fastutil = "net.elytrium:fastutil:8.5.13" # workaround for velocity's partially-excluded shaded fastutil
+fastutil = "net.elytrium:fastutil:8.5.13" # workaround for velocity's partially excluded shaded fastutil
 hikari = "com.zaxxer:HikariCP:5.1.0"
-jooq = "org.jooq:jooq:3.18.7"
+jooq = "org.jooq:jooq:3.19.3"
 bouncycastle = "org.bouncycastle:bcprov-jdk18on:1.77"
 bstats = "org.bstats:bstats-velocity:3.0.2"
 
 h2v1 = "com.h2database:h2:1.4.199" # https://github.com/h2database/h2database/issues/2078
 h2 = "com.h2database:h2:2.2.224"
-sqlite = "org.xerial:sqlite-jdbc:3.44.1.0"
-mysql = "com.mysql:mysql-connector-j:8.2.0"
-mariadb = "org.mariadb.jdbc:mariadb-java-client:3.3.1"
+sqlite = "org.xerial:sqlite-jdbc:3.45.1.0"
+mysql = "com.mysql:mysql-connector-j:8.3.0"
+mariadb = "org.mariadb.jdbc:mariadb-java-client:3.3.2"
 postgresql = "org.postgresql:postgresql:42.7.1"
 
-reactivestreams = "org.reactivestreams:reactive-streams:1.0.4"
-protobuf = "com.google.protobuf:protobuf-java:3.25.1"
-wafflejna = "com.github.waffle:waffle-jna:3.3.0"
+log4j-core = "org.apache.logging.log4j:log4j-core:2.22.1"
+
+reactivestreams = "org.reactivestreams:reactive-streams:1.0.4" # updated jooq's dependecy
+protobuf = "com.google.protobuf:protobuf-java:3.25.2" # updated mysql's dependency
+wafflejna = "com.github.waffle:waffle-jna:3.3.0" # optinal mariadb's and postgresql's dependency
+
+jakarta = "jakarta.xml.bind:jakarta.xml.bind-api:4.0.1" # optinal jooq's compile only dependency to suppress "unknown enum constant XmlAccessType.FIELD" warning
 
 [bundles]
-jabel = ["jabel", "jna-platform"]
-velocity = ["velocity-api", "velocity-proxy"]
+velocity = ["velocity-api", "velocity-proxy", "log4j-core"]
 netty = ["netty-codec", "netty-handler"]
 common = ["serializer", "fastutil", "hikari", "jooq", "reactivestreams", "bouncycastle", "bstats"]
 mysql = ["mysql", "protobuf"]
@@ -46,7 +44,8 @@ mariadb = ["mariadb", "wafflejna"]
 postgresql = ["postgresql", "wafflejna"]
 
 [plugins]
-grgit = "org.ajoberstar.grgit:5.2.1"
-spotbugs = "com.github.spotbugs:6.0.1"
-licenser = "org.cadixdev.licenser:0.6.1"
-buildconfig = "de.fuerstenau.buildconfig:1.1.8"
+grgit = "org.ajoberstar.grgit:5.2.2"
+buildconfig = "com.github.gmazzo.buildconfig:5.3.5" # kotlin 💀
+
+spotless = "com.diffplug.spotless:6.25.0"
+spotbugs = "com.github.spotbugs:6.0.7"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -20,19 +20,11 @@ package net.elytrium.limboauth.command.impl;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Locale;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
-import net.elytrium.limboauth.auth.AuthSessionHandler;
 import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
-import net.elytrium.limboauth.serialization.ComponentSerializer;
-import net.elytrium.serializer.placeholders.Placeholders;
-import net.kyori.adventure.text.event.ClickEvent;
-import org.bouncycastle.crypto.generators.BCrypt;
 
 public class TotpCommand implements SimpleCommand {
 
@@ -55,6 +47,7 @@ public class TotpCommand implements SimpleCommand {
         String username = player.getUsername();
         if (args[0].equalsIgnoreCase("enable")) {
           if (Settings.HEAD.totpNeedPassword ? args.length == 2 : args.length == 1) {
+            /* TODO
             PlayerData.checkPassword(username.toLowerCase(Locale.ROOT), Settings.HEAD.totpNeedPassword ? args[1] : null,
                 () -> player.sendMessage(Settings.MESSAGES.notRegistered),
                 () -> player.sendMessage(Settings.MESSAGES.crackedCommand),
@@ -102,6 +95,7 @@ public class TotpCommand implements SimpleCommand {
                 () -> player.sendMessage(Settings.MESSAGES.wrongPassword),
                 (e) -> player.sendMessage(Settings.MESSAGES.errorOccurred)
             );
+            */
           } else {
             player.sendMessage(Settings.MESSAGES.totpUsage);
           }
@@ -115,9 +109,9 @@ public class TotpCommand implements SimpleCommand {
                   String totpCode;
                   if (totpTokenResult.isEmpty() || (totpCode = totpTokenResult.get(0).value1()).isEmpty()) {
                     player.sendMessage(Settings.MESSAGES.totpDisabled);
-                    return;
                   }
 
+                  /* TODO
                   if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(totpCode, args[1])) {
                     database.update(PlayerData.Table.INSTANCE)
                         .set(PlayerData.Table.TOTP_TOKEN_FIELD, "")
@@ -131,6 +125,7 @@ public class TotpCommand implements SimpleCommand {
                   } else {
                     player.sendMessage(Settings.MESSAGES.totpWrong);
                   }
+                  */
                 })
                 .exceptionally(t -> {
                   player.sendMessage(Settings.MESSAGES.errorOccurred);

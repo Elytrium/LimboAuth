@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth.command.impl;
@@ -29,7 +29,6 @@ import net.elytrium.limboauth.data.Database;
 import net.elytrium.limboauth.data.PlayerData;
 import net.elytrium.limboauth.events.ChangePasswordEvent;
 import net.elytrium.limboauth.serialization.ComponentSerializer;
-import net.elytrium.serializer.placeholders.Placeholders;
 
 public class ForceChangePasswordCommand implements SimpleCommand {
 
@@ -61,7 +60,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
         database.update(PlayerData.Table.INSTANCE).set(PlayerData.Table.HASH_FIELD, newHash).where(PlayerData.Table.LOWERCASE_NICKNAME_FIELD.eq(lowercaseNickname)).executeAsync();
 
-        this.plugin.removePlayerFromCache(nickname);
+        this.plugin.getCacheManager().removePlayerFromCache(nickname);
         ProxyServer server = this.plugin.getServer();
         server.getPlayer(nickname).ifPresent(player -> player.sendMessage(ComponentSerializer.replace(Settings.MESSAGES.forceChangePasswordMessage, newPassword)));
         server.getEventManager().fireAndForget(new ChangePasswordEvent(nickname, null, oldHash, newPassword, newHash));
@@ -77,7 +76,7 @@ public class ForceChangePasswordCommand implements SimpleCommand {
 
   @Override
   public List<String> suggest(SimpleCommand.Invocation invocation) {
-    return SuggestUtils.suggestPlayers(this.server, invocation.arguments(), 0);
+    return SuggestUtils.suggestPlayers(this.plugin.getServer(), invocation.arguments(), 0);
   }
 
   @Override

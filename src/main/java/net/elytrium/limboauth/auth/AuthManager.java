@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2021-2023 Elytrium
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package net.elytrium.limboauth.auth;
 
 import com.velocitypowered.api.event.EventManager;
@@ -21,7 +38,7 @@ import org.bouncycastle.util.Pack;
 
 public class AuthManager {
 
-  private static final Pattern NICKNAME_VALIDATION_PATTERN = Pattern.compile(Settings.HEAD.allowedNicknameRegex);
+  public static final Pattern NICKNAME_VALIDATION_PATTERN = Pattern.compile(Settings.HEAD.allowedNicknameRegex);
 
   private final LimboAuth plugin;
 
@@ -90,8 +107,8 @@ public class AuthManager {
 
           TaskEvent.Result eventResult = TaskEvent.Result.NORMAL;
           if (playerData == null || playerData.getHash().isEmpty()) {
-            // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
-            // We need to wait for the PLAY connection state to set.
+            // Due to the current connection state, which is set to LOGIN there, we cannot send the packets
+            // We need to wait for the PLAY connection state to set
             this.plugin.getCacheManager().pushPostLoginTask(uniqueId, () -> {
               if (onlineMode) {
                 if (Settings.MESSAGES.loginPremiumMessage != null) {
@@ -167,7 +184,7 @@ public class AuthManager {
             long issueTime = System.currentTimeMillis();
             byte[] data = new byte[8 * 2];
             Pack.longToBigEndian(issueTime, data, 0);
-            Pack.longToBigEndian(Hashing.sipHash(Settings.HEAD.mod.verifyKey, lowercaseNickname.getBytes(StandardCharsets.UTF_8), data), data, 8);
+            Pack.longToBigEndian(Hashing.sipHash(lowercaseNickname.getBytes(StandardCharsets.UTF_8), issueTime), data, 8);
             player.sendPluginMessage(this.plugin.getChannelIdentifier(player), data);
           }
         });

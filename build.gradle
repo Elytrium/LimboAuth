@@ -1,17 +1,17 @@
-//file:noinspection DependencyNotationArgument
 //file:noinspection VulnerableLibrariesLocal
 
 plugins() {
   id("java")
+
   alias(libs.plugins.grgit)
+  alias(libs.plugins.buildconfig)
+
+  alias(libs.plugins.spotless)
 
   id("checkstyle")
   alias(libs.plugins.spotbugs)
-  alias(libs.plugins.licenser)
 
   id("maven-publish")
-
-  alias(libs.plugins.buildconfig)
 }
 
 this.group = "net.elytrium"
@@ -21,51 +21,59 @@ if (this.version.endsWith("-SNAPSHOT")) {
   this.version += " (${grgit.head().abbreviatedId})"
 }
 
-compileJava() {
-  sourceCompatibility = JavaVersion.VERSION_16
-  targetCompatibility = JavaVersion.VERSION_16
-  options.getRelease().set(11)
-
+tasks.withType(JavaCompile).configureEach() {
   options.setEncoding("UTF-8")
 }
 
+java() {
+  withJavadocJar()
+  withSourcesJar()
+
+  toolchain.setLanguageVersion(JavaLanguageVersion.of(17))
+}
+
 configurations() {
-  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql, compile/*workaround for the old buildconfig plugin (i’d rather use a 10-year-old plugin written in groovy than in kotlin)*/)
+  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql)
+
+  // TODO remove when checkstyle get fixed
+  checkstyle() {
+    resolutionStrategy.getCapabilitiesResolution().withCapability("com.google.collections:google-collections") {
+      select("com.google.guava:guava:0")
+    }
+  }
 }
 
 repositories() {
   mavenCentral()
 
-  maven {
+  maven() {
     name = "elytrium"
     url = "https://maven.elytrium.net/repo/"
   }
 
-  maven {
+  maven() {
     name = "papermc"
     url = "https://repo.papermc.io/repository/maven-public/"
   }
-  maven {
+  maven() {
     name = "opencollab"
     url = "https://repo.opencollab.dev/maven-snapshots/"
   }
 }
 
 dependencies() {
-  annotationProcessor(libs.bundles.jabel)
-
   annotationProcessor(libs.velocity.api)
   compileOnly(libs.bundles.velocity)
   compileOnly(libs.bundles.netty)
-  compileOnly(libs.asynchttpclient)
 
-  compileOnly(libs.limboapi) {
+  compileOnly(libs.limboapi.api) {
     exclude(module: "config") // TODO remove
   }
   compileOnly(libs.floodgate.api) {
     exclude(module: "cumulus")
   }
 
+  compileOnly(libs.jakarta)
   common(libs.bundles.common) {
     exclude(module: "slf4j-api")
   }
@@ -88,56 +96,68 @@ dependencies() {
   }
 }
 
+buildConfig() {
+  packageName("${this.group}.${this.name}")
+
+  buildConfigField("String", "VERSION", "\"${this.version}\"")
+
+  buildConfigField("String[]", "REPOSITORIES", array(this.repositories.collect(MavenArtifactRepository::getUrl)))
+
+  buildConfigField("String[]", "COMMON", resolvedArtifacts(this.configurations.common))
+
+  buildConfigField("String[]", "H2V1", resolvedArtifacts(this.configurations.h2v1))
+  buildConfigField("String[]", "H2", resolvedArtifacts(this.configurations.h2))
+  buildConfigField("String[]", "SQLITE", resolvedArtifacts(this.configurations.sqlite))
+  buildConfigField("String[]", "MYSQL", resolvedArtifacts(this.configurations.mysql))
+  buildConfigField("String[]", "MARIADB", resolvedArtifacts(this.configurations.mariadb))
+  buildConfigField("String[]", "POSTGRESQL", resolvedArtifacts(this.configurations.postgresql))
+}
+
+static String resolvedArtifacts(Configuration configuration) {
+  return array(configuration.getResolvedConfiguration().getResolvedArtifacts().collect(it -> "${it.moduleVersion.id.group.replace('.', '/')}/${it.name}/${it.moduleVersion.id.version}/${it.file.name}"))
+}
+
+static String array(List<?> elements) {
+  return /*this.provider(() -> */"{ \"" + elements.join("\", \"") + "\" }"//)
+}
+
+spotless() {
+  java() {
+    licenseHeaderFile(rootProject.file("HEADER.txt"))
+    importOrder()
+    removeUnusedImports()
+  }
+}
+
 checkstyle() {
   toolVersion = libs.versions.checkstyle.get()
 
-  configFile = file("$rootDir/.config/checkstyle/checkstyle.xml")
-  configProperties = ["configDirectory": "$rootDir/.config/checkstyle"]
+  configFile = rootProject.file(".config/checkstyle/checkstyle.xml")
   maxErrors = 0
   maxWarnings = 0
 }
 
-spotbugsMain() {
-  excludeFilter.set(file("$rootDir/.config/spotbugs/suppressions.xml"))
+checkstyleMain() {
+  exclude("**/BuildConfig.java")
+}
+
+spotbugsMain() { // TODO fix reports
+  excludeFilter.set(rootProject.file(".config/spotbugs/suppressions.xml"))
   reports.register("html") {
     required = true
-    outputLocation.value(layout.buildDirectory.file("reports/spotbugs/main/spotbugs.html"))
+    outputLocation.value(layout.buildDirectory.file("reports/spotbugs/spotbugs.html"))
     stylesheet = "fancy-hist.xsl"
   }
 }
 
-license() {
-  header = file("$rootDir/HEADER.txt")
-
-  exclude("**/BuildConfig.java")
-}
-
-tasks.register("sourcesJar", Jar) {
-  archiveClassifier = "sources"
-  from(sourceSets.main.getAllSource())
-}
-
-tasks.register("javadocJar", Jar) {
-  archiveClassifier = "javadoc"
-  from(javadoc)
-}
-
 javadoc() {
   options.encoding("UTF-8")
-  options.source("16")
-  options.links("https://docs.oracle.com/en/java/javase/11/docs/api/")
+  options.source("17")
+  options.links("https://docs.oracle.com/en/java/javase/17/docs/api/")
   options.addStringOption("Xdoclint:none", "-quiet")
-  if (JavaVersion.current() >= JavaVersion.VERSION_1_9 && JavaVersion.current() < JavaVersion.VERSION_12) {
-    options.addBooleanOption("-no-module-directories", true)
-  }
 }
 
-artifacts() {
-  archives(sourcesJar)
-  archives(javadocJar)
-  archives(jar)
-}
-
+// TODO separate the api module, as in limboapi
 publishing() {
   repositories() {
     maven() {
@@ -151,34 +171,8 @@ publishing() {
     }
   }
 
-  publications.create("publication", MavenPublication) {
-    artifact(sourcesJar)
-    artifact(javadocJar)
-    artifact(jar)
+  publications.create("maven", MavenPublication) {
+    // TODO pom
+    from(components.java)
   }
-}
-
-buildConfig() {
-  packageName("${this.group}.${this.name}")
-
-  // Omit the NAME field using a little bit... extravagant way
-  buildConfigField("java.lang.String", "VERSION", "\"${this.version}\"/*")
-  buildConfigField("Object", "NAME", "null*/")
-
-  buildConfigField("String[]", "REPOSITORIES", () -> "new String[] { \"${this.repositories.collect(repository -> repository.getProperties().get("url")).join("\", \"")}\" }")
-
-  buildConfigField("String[]", "COMMON", resolvedArtifacts(configurations.common))
-
-  buildConfigField("String[]", "H2V1", resolvedArtifacts(configurations.h2v1))
-  buildConfigField("String[]", "H2", resolvedArtifacts(configurations.h2))
-  buildConfigField("String[]", "SQLITE", resolvedArtifacts(configurations.sqlite))
-  buildConfigField("String[]", "MYSQL", resolvedArtifacts(configurations.mysql))
-  buildConfigField("String[]", "MARIADB", resolvedArtifacts(configurations.mariadb))
-  buildConfigField("String[]", "POSTGRESQL", resolvedArtifacts(configurations.postgresql))
-}
-
-static Closure<String> resolvedArtifacts(Configuration configuration) {
-  return () -> "new String[] { \"" + configuration.getResolvedConfiguration().getResolvedArtifacts().collect(
-      artifact -> "${artifact.moduleVersion.id.group.replace('.', '/')}/${artifact.name}/${artifact.moduleVersion.id.version}/${artifact.file.name}"
-  ).join("\", \"") + "\" }"
 }

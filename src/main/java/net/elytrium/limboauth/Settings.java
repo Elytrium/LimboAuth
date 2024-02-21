@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021-2023 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -12,7 +12,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package net.elytrium.limboauth;
@@ -27,10 +27,9 @@ import net.elytrium.fastutil.objects.ObjectArrayList;
 import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
-import net.elytrium.limboauth.password.CheckPasswordStrategy;
 import net.elytrium.limboauth.command.PermissionState;
 import net.elytrium.limboauth.data.DataSourceType;
-import net.elytrium.limboauth.data.PlayerData;
+import net.elytrium.limboauth.password.CheckPasswordStrategy;
 import net.elytrium.limboauth.password.MigrationHash;
 import net.elytrium.limboauth.serialization.replacers.ComponentReplacer;
 import net.elytrium.limboauth.serialization.replacers.TitleReplacer;
@@ -76,18 +75,19 @@ public class Settings extends YamlSerializable {
 
   @Comment({
       @CommentValue("Available serializers:"),
-      @CommentValue("LEGACY_AMPERSAND - \"&c&lExample &c&9Text\"."),
-      @CommentValue("LEGACY_SECTION - \"§c§lExample §c§9Text\"."),
-      @CommentValue("MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\". (https://webui.adventure.kyori.net/)"),
-      @CommentValue("GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\". (https://minecraft.tools/en/json_text.php/)"),
+      @CommentValue("LEGACY_AMPERSAND - \"&c&lExample &c&9Text\""),
+      @CommentValue("LEGACY_SECTION - \"§c§lExample §c§9Text\""),
+      @CommentValue("MINIMESSAGE - \"<bold><red>Example</red> <blue>Text</blue></bold>\" (https://webui.adventure.kyori.net/)"),
+      @CommentValue("GSON - \"[{\"text\":\"Example\",\"bold\":true,\"color\":\"red\"},{\"text\":\" \",\"bold\":true},{\"text\":\"Text\",\"bold\":true,\"color\":\"blue\"}]\" (https://minecraft.tools/en/json_text.php/)"),
+      @CommentValue("PLAIN - Any plain text.")
   })
-  net.elytrium.limboauth.serialization.ComponentSerializer serializer = net.elytrium.limboauth.serialization.ComponentSerializer.LEGACY_AMPERSAND;
+  net.elytrium.limboauth.serialization.ComponentSerializer serializer = net.elytrium.limboauth.serialization.ComponentSerializer.LEGACY_AMPERSAND; // TODO auto convert on change
 
-  @Comment(@CommentValue("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked."))
-  public int authTime = 60000;
   public boolean enableBossbar = true;
+  @Comment(@CommentValue("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked"))
+  public int authTime = 60000;
   public int minPasswordLength = 4;
-  @Comment(@CommentValue("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71."))
+  @Comment(@CommentValue("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71"))
   public int maxPasswordLength = 71;
   @Comment({
       @CommentValue("Available strategies:"),
@@ -101,19 +101,19 @@ public class Settings extends YamlSerializable {
       @CommentValue("Players with premium nicknames must login with a premium Minecraft account if this option is disabled"),
   })
   public boolean onlineModeNeedAuth = true;
-  @Comment(@CommentValue("Needs floodgate plugin if disabled."))
+  @Comment(@CommentValue("Needs floodgate plugin if disabled"))
   public boolean floodgateNeedAuth = true;
   @Comment(@CommentValue("TOTALLY disables hybrid auth feature"))
   public boolean forceOfflineMode = false;
   @Comment(@CommentValue("Forces all players to get offline uuid"))
   public boolean forceOfflineUuid = false;
-  @Comment(@CommentValue("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API."))
+  @Comment(@CommentValue("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API"))
   public boolean checkPremiumPriorityInternal = true;
-  @Comment(@CommentValue("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)"))
+  @Comment(@CommentValue("Delay in milliseconds before sending auth-confirming titles and messages to the player (login-premium-title, login-floodgate, etc)"))
   public int premiumAndFloodgateMessagesDelay = 1250;
   @Comment({
       @CommentValue("Forcibly set player's UUID to the value from the database"),
-      @CommentValue("If the player had the cracked account, and switched to the premium account, the cracked UUID will be used."),
+      @CommentValue("If the player had the cracked account, and switched to the premium account, the cracked UUID will be used"),
   })
   public boolean saveUuid = true;
   @Comment({
@@ -125,16 +125,16 @@ public class Settings extends YamlSerializable {
   public boolean totpNeedPassword = true;
   public boolean registerNeedRepeatPassword = true;
   public boolean changePasswordNeedOldPassword = true;
-  @Comment(@CommentValue("Used in unregister and premium commands."))
+  @Comment(@CommentValue("Used in unregister and premium commands"))
   public String confirmKeyword = "confirm";
   @Comment(@CommentValue("This prefix will be added to offline mode players nickname"))
   public String offlineModePrefix = "";
   @Comment(@CommentValue("This prefix will be added to online mode players nickname"))
   public String onlineModePrefix = "";
   @Comment({
-      @CommentValue("If you want to migrate your database from another plugin, which is not using BCrypt."),
-      @CommentValue("You can set an old hash algorithm to migrate from."),
-      @CommentValue("All hashes ignores first \"$\" if present."),
+      @CommentValue("If you want to migrate your database from another plugin, which is not using BCrypt"),
+      @CommentValue("You can set an old hash algorithm to migrate from"),
+      @CommentValue("All hashes ignores first \"$\" if present"),
       @CommentValue(type = CommentValue.Type.NEW_LINE),
       @CommentValue("SHA256_NO_SALT  - SHA256(        password        ) that looks like SHA$hash      (NexAuth)"),
       @CommentValue("SHA256_MOONAUTH - SHA256(    SHA256(password)    ) that looks like SHA$hash"),
@@ -172,7 +172,7 @@ public class Settings extends YamlSerializable {
   public int loginAttempts = 3;
   public int ipLimitRegistrations = 3;
   public int totpRecoveryCodesAmount = 16;
-  @Comment(@CommentValue("Time in milliseconds, when ip limit works, set to 0 for disable."))
+  @Comment(@CommentValue("Time in milliseconds, when ip limit works, set to 0 for disable"))
   public long ipLimitValidTime = 21600000;
   @Comment({
       @CommentValue("Regex of allowed nicknames"),
@@ -185,9 +185,9 @@ public class Settings extends YamlSerializable {
   public boolean loadWorld = false;
   @Comment({
       @CommentValue("World file type:"),
-      @CommentValue(" SCHEMATIC (MCEdit .schematic, 1.12.2 and lower, not recommended)"),
-      @CommentValue(" STRUCTURE (structure block .nbt, any Minecraft version is supported, but the latest one is recommended)."),
-      @CommentValue(" WORLDEDIT_SCHEM (WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended)."),
+      @CommentValue(" SCHEMATIC - MCEdit .schematic, 1.12.2 and lower, not recommended"),
+      @CommentValue(" STRUCTURE - structure block .nbt, any Minecraft version is supported, but the latest one is recommended"),
+      @CommentValue(" WORLDEDIT_SCHEM - WorldEdit .schem, any Minecraft version is supported, but the latest one is recommended"),
   })
   public BuiltInWorldFileType worldFileType = BuiltInWorldFileType.STRUCTURE;
   public String worldFilePath = "world.nbt";
@@ -226,8 +226,8 @@ public class Settings extends YamlSerializable {
       @CommentValue("Sample Mojang API exists response: {\"name\":\"hevav\",\"id\":\"9c7024b2a48746b3b3934f397ae5d70f\"}"),
       @CommentValue("Sample CloudFlare API exists response: {\"uuid\":\"9c7024b2a48746b3b3934f397ae5d70f\",\"username\":\"hevav\", ...}"),
       @CommentValue(),
-      @CommentValue("Sample Mojang API not exists response (sometimes can be empty): {\"path\":\"/users/profiles/minecraft/someletters1234566\",\"errorMessage\":\"Couldn't find any profile with that name\"}"),
-      @CommentValue("Sample CloudFlare API not exists response: {\"code\":404,\"error\":\"Not Found\",\"reason\":\"No user with the name 'someletters123456' was found\"}"),
+      @CommentValue("Sample Mojang API not exists response (sometimes can be empty): {\"path\":\"/users/profiles/minecraft/DJ_KaMa3\",\"errorMessage\":\"Couldn't find any profile with that name\"}"),
+      @CommentValue("Sample CloudFlare API not exists response: {\"code\":404,\"error\":\"Not Found\",\"reason\":\"No user with the name 'DJ_KaMa3' was found\"}"),
       @CommentValue(),
       @CommentValue("Responses with an invalid scheme will be identified as responses with a server error"),
       @CommentValue("Set this parameter to [], to disable JSON scheme validation"),
@@ -239,14 +239,14 @@ public class Settings extends YamlSerializable {
   @Comment({
       @CommentValue("If Mojang rate-limits your server, we cannot determine if the player is premium or not"),
       @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang is rate-limiting the server"),
-      @CommentValue("True - as premium; False - as cracked"),
+      @CommentValue("true - as premium; false - as cracked"),
   })
   public boolean onRateLimitPremium = true;
 
   @Comment({
       @CommentValue("If Mojang API is down, we cannot determine if the player is premium or not"),
       @CommentValue("This option allows you to choose whether every player will be defined as premium or as cracked while Mojang API is unavailable"),
-      @CommentValue("True - as premium; False - as cracked"),
+      @CommentValue("true - as premium; false - as cracked"),
   })
   public boolean onServerErrorPremium = true;
 
@@ -291,8 +291,8 @@ public class Settings extends YamlSerializable {
     public double posX = 0;
     public double posY = 0;
     public double posZ = 0;
-    public double yaw = 0;
-    public double pitch = 0;
+    public float yaw = 0;
+    public float pitch = 0;
   }
 
   @Comment(@CommentValue("Affects only cracked users"))
@@ -348,18 +348,20 @@ public class Settings extends YamlSerializable {
     public Component reconnectKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cReconnect to the server to verify your account!");
 
     @Comment(@CommentValue("6 hours by default in ip-limit-valid-time"))
-    public Component ipLimitKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n\n&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.");
+    public Component ipLimitKick = Settings.SERIALIZER.deserialize(
+        "LimboAuth &6>>&f\n\n&cYour IP has reached max registered accounts. If this is an error, restart your router, or wait about 6 hours.");
     @RegisterPlaceholders({"REQUIRED", "CURRENT"})
     public Component wrongNicknameCaseKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cYou should join using username &6{REQUIRED}&c, not &6{CURRENT}&c.");
 
     @RegisterPlaceholders("REMAINING")
-    public BossBar bossbar = BossBar.bossBar(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You have &6{REMAINING} &fseconds left to log in."), BossBar.MAX_PROGRESS, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20);
+    public BossBar bossbar = BossBar.bossBar(
+        Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You have &6{REMAINING} &fseconds left to log in."), BossBar.MAX_PROGRESS, BossBar.Color.RED, BossBar.Overlay.NOTCHED_20);
     public Component timesUp = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f\n&cAuthorization time is up.");
 
-    @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
+    @Comment(value = @CommentValue("Can be null"), at = Comment.At.SAME_LINE)
     public Component loginPremiumMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You've been logged in automatically using the premium account!");
     public Title loginPremiumTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Welcome!"), Settings.SERIALIZER.deserialize("&aYou has been logged in as premium player!"));
-    @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
+    @Comment(value = @CommentValue("Can be null"), at = Comment.At.SAME_LINE)
     public Component loginFloodgate = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f You've been logged in automatically using the bedrock account!");
     public Title loginFloodgateTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Welcome!"), Settings.SERIALIZER.deserialize("&aYou has been logged in as bedrock player!"));
 
@@ -371,10 +373,10 @@ public class Settings extends YamlSerializable {
     public Component loginSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully logged in!");
     @RegisterPlaceholders("ATTEMPTS")
     public Title loginTitle = Title.title(Settings.SERIALIZER.deserialize("&fPlease, login using &6/login <password>&a."), Settings.SERIALIZER.deserialize("&aYou have &6{ATTEMPTS} &aattempts."));
-    @Comment(value = @CommentValue("Can be empty."), at = Comment.At.SAME_LINE)
+    @Comment(value = @CommentValue("Can be null"), at = Comment.At.SAME_LINE)
     public Title loginSuccessfulTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aSuccessfully logged in!"));
 
-    @Comment(@CommentValue("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part."))
+    @Comment(@CommentValue("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part"))
     public Component registerMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Please, register using &6/register <password> <repeat password>");
     public Component registerDifferentPasswords = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cThe entered passwords differ from each other!");
     public Component registerPasswordTooShort = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cYou entered too short password, use a different one!");
@@ -412,7 +414,7 @@ public class Settings extends YamlSerializable {
     public Component registrationsDisabledKick = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Registrations are currently disabled.");
 
     public Component changePasswordSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully changed password!");
-    @Comment(@CommentValue("Or if change-password-need-old-pass set to false remove the \"<old password>\" part."))
+    @Comment(@CommentValue("Or if change-password-need-old-pass set to false remove the \"<old password>\" part"))
     public Component changePasswordUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/changepassword <old password> <new password>");
 
     @RegisterPlaceholders("TARGET")
@@ -420,7 +422,8 @@ public class Settings extends YamlSerializable {
     @RegisterPlaceholders("PASSWORD")
     public Component forceChangePasswordMessage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aYour password has been changed to &6{PASSWORD} &aby administator!");
     @RegisterPlaceholders("TARGET")
-    public Component forceChangePasswordNotSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cUnable to change password for &6{TARGET}&c. Most likely this player has never been on this server.");
+    public Component forceChangePasswordNotSuccessful = Settings.SERIALIZER.deserialize(
+        "LimboAuth &6>>&f &cUnable to change password for &6{TARGET}&c. Most likely this player has never been on this server.");
     @RegisterPlaceholders("TARGET")
     public Component forceChangePasswordNotRegistered = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cPlayer &6{TARGET}&c is not registered.");
     public Component forceChangePasswordUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/forcechangepassword <nickname> <new password>");
@@ -437,7 +440,7 @@ public class Settings extends YamlSerializable {
     public Title totpTitle = Title.title(Settings.SERIALIZER.deserialize("LimboAuth &6>>&f"), Settings.SERIALIZER.deserialize("&aEnter your 2FA key using &6/2fa <key>"));
     public Component totpSuccessful = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully enabled 2FA!");
     public Component totpDisabled = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &aSuccessfully disabled 2FA!");
-    @Comment(@CommentValue("Or if totp-need-pass set to false remove the \"<current password>\" part."))
+    @Comment(@CommentValue("Or if totp-need-pass set to false remove the \"<current password>\" part"))
     public Component totpUsage = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f Usage: &6/2fa enable <current password>&f or &6/2fa disable <totp key>&f.");
     public Component totpWrong = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &cWrong 2FA key!");
     public Component totpAlreadyEnabled = Settings.SERIALIZER.deserialize("LimboAuth &6>>&f &c2FA is already enabled. Disable it using &6/2fa disable <key>&c.");
@@ -457,7 +460,7 @@ public class Settings extends YamlSerializable {
   @Comment(@CommentValue("Database settings"))
   public static class Database {
 
-    @Comment(@CommentValue("Available database types: MariaDB, MySQL, PostgreSQL, SQLite or H2."))
+    @Comment(@CommentValue("Available database types: MariaDB, MySQL, PostgreSQL, SQLite or H2"))
     public DataSourceType storageType = DataSourceType.H2;
 
     @Comment(@CommentValue("Settings for Network-based database (like MySQL, PostgreSQL): "))
