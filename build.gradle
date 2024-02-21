@@ -124,8 +124,7 @@ static String array(List<?> elements) {
 spotless() {
   java() {
     licenseHeaderFile(rootProject.file("HEADER.txt"))
-    importOrder()
-    removeUnusedImports()
+    targetExclude("**/BuildConfig.java")
   }
 }
 

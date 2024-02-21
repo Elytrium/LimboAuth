@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2023 Elytrium
+ * Copyright (C) 2021-2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -19,7 +19,6 @@ package net.elytrium.limboauth.command;
 
 import com.velocitypowered.api.permission.PermissionSubject;
 import com.velocitypowered.api.permission.Tristate;
-import java.util.function.BiFunction;
 
 public enum PermissionState {
 
@@ -27,13 +26,19 @@ public enum PermissionState {
   TRUE((source, permission) -> source.getPermissionValue(permission) != Tristate.FALSE),
   PERMISSION(PermissionSubject::hasPermission);
 
-  private final BiFunction<PermissionSubject, String, Boolean> function;
+  private final PermissionChecker function;
 
-  PermissionState(BiFunction<PermissionSubject, String, Boolean> function) {
+  PermissionState(PermissionChecker function) {
     this.function = function;
   }
 
   public boolean hasPermission(PermissionSubject permissionSubject, String permission) {
-    return this.function.apply(permissionSubject, permission);
+    return this.function.test(permissionSubject, permission);
+  }
+
+  @FunctionalInterface
+  private interface PermissionChecker {
+
+    boolean test(PermissionSubject subject, String permission);
   }
 }
