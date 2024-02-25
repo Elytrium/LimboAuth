@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,18 +18,10 @@
 package net.elytrium.limboauth.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.google.common.hash.Hashing;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
-
-import java.math.BigInteger;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
@@ -40,7 +32,6 @@ public class RegisteredPlayer {
   public static final String NICKNAME_FIELD = "NICKNAME";
   public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
   public static final String HASH_FIELD = "HASH";
-  public static final String SALT_FIELD = "SALT";
   public static final String IP_FIELD = "IP";
   public static final String LOGIN_IP_FIELD = "LOGINIP";
   public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
@@ -61,10 +52,7 @@ public class RegisteredPlayer {
   @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash = "";
 
-  @DatabaseField(canBeNull = false, columnName = SALT_FIELD)
-  private String salt = "";
-
-  @DatabaseField(columnName = IP_FIELD)
+  @DatabaseField(columnName = IP_FIELD, index = true)
   private String ip;
 
   @DatabaseField(columnName = TOTP_TOKEN_FIELD)
@@ -76,7 +64,7 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = UUID_FIELD)
   private String uuid = "";
 
-  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD)
+  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD, index = true)
   private String premiumUuid = "";
 
   @DatabaseField(columnName = LOGIN_IP_FIELD)
@@ -90,11 +78,10 @@ public class RegisteredPlayer {
 
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String salt, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
-    this.salt = salt;
     this.ip = ip;
     this.totpToken = totpToken;
     this.regDate = regDate;
@@ -124,23 +111,8 @@ public class RegisteredPlayer {
 
   }
 
-  /*
   public static String genHash(String password) {
     return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
-  }
-   */
-
-  public static String genHash(String password, String salt) {
-    String str = Hashing.sha512().hashString(password, StandardCharsets.UTF_8).toString();
-    return Hashing.sha512().hashString(str + salt, StandardCharsets.UTF_8).toString();
-  }
-
-  public static String generateSalt(){
-    SecureRandom random = new SecureRandom();
-    byte[] salt = new byte[10];
-    random.nextBytes(salt);
-
-    return Base64.getEncoder().encodeToString(salt);
   }
 
   public RegisteredPlayer setNickname(String nickname) {
@@ -159,8 +131,7 @@ public class RegisteredPlayer {
   }
 
   public RegisteredPlayer setPassword(String password) {
-    this.salt = generateSalt();
-    this.hash = genHash(password, salt);
+    this.hash = genHash(password);
     this.tokenIssuedAt = System.currentTimeMillis();
 
     return this;
@@ -175,16 +146,6 @@ public class RegisteredPlayer {
 
   public String getHash() {
     return this.hash == null ? "" : this.hash;
-  }
-
-  public RegisteredPlayer setSalt(String salt) {
-    this.salt = salt;
-
-    return this;
-  }
-
-  public String getSalt() {
-    return this.salt == null ? "" : this.salt;
   }
 
   public RegisteredPlayer setIP(String ip) {

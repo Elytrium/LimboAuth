@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -36,7 +36,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class ForceChangePasswordCommand implements SimpleCommand {
+public class ForceChangePasswordCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final ProxyServer server;
@@ -66,17 +66,15 @@ public class ForceChangePasswordCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (args.length == 2) {
       String nickname = args[0];
+      String nicknameLowercased = args[0].toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
       Serializer serializer = LimboAuth.getSerializer();
       try {
-        RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+        RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfoLowercased(this.playerDao, nicknameLowercased);
 
         if (registeredPlayer == null) {
           source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, nickname)));
@@ -84,14 +82,14 @@ public class ForceChangePasswordCommand implements SimpleCommand {
         }
 
         final String oldHash = registeredPlayer.getHash();
-        final String newHash = RegisteredPlayer.genHash(newPassword, registeredPlayer.getSalt());
+        final String newHash = RegisteredPlayer.genHash(newPassword);
 
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nicknameLowercased);
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
         updateBuilder.update();
 
-        this.plugin.removePlayerFromCache(nickname);
+        this.plugin.removePlayerFromCacheLowercased(nicknameLowercased);
         this.server.getPlayer(nickname)
             .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
 

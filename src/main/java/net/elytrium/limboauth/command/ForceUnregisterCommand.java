@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -34,7 +34,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class ForceUnregisterCommand implements SimpleCommand {
+public class ForceUnregisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final ProxyServer server;
@@ -63,18 +63,16 @@ public class ForceUnregisterCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (args.length == 1) {
       String playerNick = args[0];
+      String usernameLowercased = playerNick.toLowerCase(Locale.ROOT);
 
       Serializer serializer = LimboAuth.getSerializer();
       try {
         this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(playerNick));
-        this.playerDao.deleteById(playerNick.toLowerCase(Locale.ROOT));
-        this.plugin.removePlayerFromCache(playerNick);
+        this.playerDao.deleteById(usernameLowercased);
+        this.plugin.removePlayerFromCacheLowercased(usernameLowercased);
         this.server.getPlayer(playerNick).ifPresent(player -> player.disconnect(this.kick));
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, playerNick)));
       } catch (SQLException e) {

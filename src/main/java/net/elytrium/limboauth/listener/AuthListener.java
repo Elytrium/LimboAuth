@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -25,19 +25,11 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
-import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.util.UuidUtils;
-import com.velocitypowered.proxy.connection.MinecraftConnection;
-import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
-import com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler;
-import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
-import com.velocitypowered.proxy.protocol.packet.ServerLogin;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -49,8 +41,8 @@ import net.elytrium.limboauth.model.SQLRuntimeException;
 // TODO: Customizable events priority
 public class AuthListener {
 
-  private static final MethodHandle DELEGATE_FIELD;
-  private static final MethodHandle LOGIN_FIELD;
+  //private static final MethodHandle DELEGATE_FIELD;
+  //private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -64,18 +56,19 @@ public class AuthListener {
 
   @Subscribe
   public void onPreLoginEvent(PreLoginEvent event) {
-    //if (!event.getResult().isForceOfflineMode()) {
+    if (!event.getResult().isForceOfflineMode()) {
       if (this.plugin.isPremium(event.getUsername())) {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOnlineMode());
       } else {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       }
-    //} else {
-      //this.plugin.saveForceOfflineMode(event.getUsername());
-    //}
+    } else {
+      this.plugin.saveForceOfflineMode(event.getUsername());
+    }
   }
 
   // Temporarily disabled because some clients send UUID version 4 (random UUID) even if the player is cracked
+  /*
   private boolean isPremiumByIdentifiedKey(InboundConnection inbound) throws Throwable {
     LoginInboundConnection inboundConnection = (LoginInboundConnection) inbound;
     InitialInboundConnection initialInbound = (InitialInboundConnection) DELEGATE_FIELD.invokeExact(inboundConnection);
@@ -94,6 +87,7 @@ public class AuthListener {
 
     return holder.version() != 3;
   }
+  */
 
   @Subscribe
   public void onProxyDisconnect(DisconnectEvent event) {
@@ -148,7 +142,7 @@ public class AuthListener {
     } else if (event.isOnlineMode()) {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, event.getUsername());
+        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, event.getUsername().toLowerCase(Locale.ROOT));
         updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
         updateBuilder.update();
       } catch (SQLException e) {
@@ -169,6 +163,7 @@ public class AuthListener {
     }
   }
 
+  /*
   static {
     try {
       DELEGATE_FIELD = MethodHandles.privateLookupIn(LoginInboundConnection.class, MethodHandles.lookup())
@@ -179,4 +174,5 @@ public class AuthListener {
       throw new ReflectionException(e);
     }
   }
+  */
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -30,6 +30,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -39,7 +40,7 @@ import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 
-public class TotpCommand implements SimpleCommand {
+public class TotpCommand extends RatelimitedCommand {
 
   private final SecretGenerator secretGenerator = new DefaultSecretGenerator();
   private final RecoveryCodeGenerator codesGenerator = new RecoveryCodeGenerator();
@@ -88,21 +89,19 @@ public class TotpCommand implements SimpleCommand {
 
   // TODO: Rewrite.
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       if (args.length == 0) {
         source.sendMessage(this.usage);
       } else {
         String username = ((Player) source).getUsername();
+        String usernameLowercase = username.toLowerCase(Locale.ROOT);
 
         RegisteredPlayer playerInfo;
         UpdateBuilder<RegisteredPlayer, String> updateBuilder;
         if (args[0].equalsIgnoreCase("enable")) {
           if (this.needPassword ? args.length == 2 : args.length == 1) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
+            playerInfo = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
               return;
@@ -122,7 +121,7 @@ public class TotpCommand implements SimpleCommand {
             String secret = this.secretGenerator.generate();
             try {
               updateBuilder = this.playerDao.updateBuilder();
-              updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+              updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
               updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, secret);
               updateBuilder.update();
             } catch (SQLException e) {
@@ -150,17 +149,17 @@ public class TotpCommand implements SimpleCommand {
           }
         } else if (args[0].equalsIgnoreCase("disable")) {
           if (args.length == 2) {
-            playerInfo = AuthSessionHandler.fetchInfo(this.playerDao, username);
+            playerInfo = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
 
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
               return;
             }
 
-            if (AuthSessionHandler.getTotpCodeVerifier().isValidCode(playerInfo.getTotpToken(), args[1])) {
+            if (AuthSessionHandler.TOTP_CODE_VERIFIER.isValidCode(playerInfo.getTotpToken(), args[1])) {
               try {
                 updateBuilder = this.playerDao.updateBuilder();
-                updateBuilder.where().eq(RegisteredPlayer.NICKNAME_FIELD, username);
+                updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercase);
                 updateBuilder.updateColumnValue(RegisteredPlayer.TOTP_TOKEN_FIELD, "");
                 updateBuilder.update();
 

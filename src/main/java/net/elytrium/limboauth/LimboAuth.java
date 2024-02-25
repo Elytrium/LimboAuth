@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -48,6 +48,8 @@ import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.scheduler.ScheduledTask;
+import com.velocitypowered.proxy.util.ratelimit.Ratelimiter;
+import com.velocitypowered.proxy.util.ratelimit.Ratelimiters;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.whitfin.siphash.SipHasher;
 import java.io.File;
@@ -64,7 +66,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -133,6 +134,8 @@ import org.slf4j.Logger;
     }
 )
 public class LimboAuth {
+
+  public static final Ratelimiter RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
@@ -318,7 +321,14 @@ public class LimboAuth {
     this.nicknameValidationPattern = Pattern.compile(Settings.IMP.MAIN.ALLOWED_NICKNAME_REGEX);
 
     try {
-      TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+      try {
+        TableUtils.createTableIfNotExists(this.connectionSource, RegisteredPlayer.class);
+      } catch (SQLException e) {
+        if (!e.getMessage().contains("CREATE INDEX")) {
+          throw e;
+        }
+      }
+
       this.playerDao = DaoManager.createDao(this.connectionSource, RegisteredPlayer.class);
       this.migrateDb(this.playerDao);
     } catch (SQLException e) {
@@ -507,8 +517,12 @@ public class LimboAuth {
   }
 
   public void removePlayerFromCache(String username) {
-    this.cachedAuthChecks.remove(username.toLowerCase(Locale.ROOT));
-    this.premiumCache.remove(username.toLowerCase(Locale.ROOT));
+    this.removePlayerFromCacheLowercased(username.toLowerCase(Locale.ROOT));
+  }
+
+  public void removePlayerFromCacheLowercased(String username) {
+    this.cachedAuthChecks.remove(username);
+    this.premiumCache.remove(username);
   }
 
   public boolean needAuth(Player player) {
@@ -664,127 +678,56 @@ public class LimboAuth {
     return player.getProtocolVersion().compareTo(ProtocolVersion.MINECRAFT_1_13) >= 0 ? MOD_CHANNEL : LEGACY_MOD_CHANNEL;
   }
 
-  private boolean validateScheme(JsonElement jsonElement, List<List<String>> schemes) {
-    if (!(jsonElement instanceof JsonObject)) {
-      return false;
-    }
+  private boolean validateScheme(JsonElement jsonElement, List<String> scheme) {
+    if (!scheme.isEmpty()) {
+      if (!(jsonElement instanceof JsonObject)) {
+        return false;
+      }
 
-    JsonObject object = (JsonObject) jsonElement;
-
-    // Boucle sur chaque schéma
-    for (List<String> scheme : schemes) {
-      boolean validScheme = true;
-
-      // Vérifier si tous les champs du schéma sont présents dans l'objet JSON
+      JsonObject object = (JsonObject) jsonElement;
       for (String field : scheme) {
         if (!object.has(field)) {
-          validScheme = false;
-          break; // Ce schéma n'est pas valide, passez au suivant
+          return false;
         }
       }
-
-      // Si un schéma valide a été trouvé, retournez true
-      if (validScheme) {
-        return true;
-      }
     }
 
-    return false; // Aucun schéma valide n'a été trouvé
-  }
-  private HttpResponse<String> tryAuthentication(String nickname, String url) throws IOException, InterruptedException {
-    return this.client.send(
-            HttpRequest.newBuilder()
-                    .uri(URI.create(String.format(url, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
-                    .timeout(Duration.ofSeconds(3))
-                    .build(),
-            HttpResponse.BodyHandlers.ofString()
-    );
-  }
-
-  public PremiumResponse getPremiumResponse(JsonElement jsonElement) {
-    JsonObject jsonObject = (JsonObject) jsonElement;
-
-    String uuidValue;
-    if (jsonObject.has(Settings.IMP.MAIN.JSON_UUID_FIELD)) {
-      uuidValue = jsonObject.get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString();
-    } else if (jsonObject.has("uuid")) {
-      uuidValue = jsonObject.get("uuid").getAsString();
-    } else {
-      throw new IllegalArgumentException("JSON object does not have 'id' or 'uuid' field.");
-    }
-
-    return new PremiumResponse(PremiumState.PREMIUM_USERNAME, uuidValue);
+    return true;
   }
 
   public PremiumResponse isPremiumExternal(String nickname) {
-    HttpResponse<String> response;
-
-
     try {
-      // Essayez d'abord avec l'URL principale
-      response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL);
-    } catch (Exception e) {
+      HttpResponse<String> response = this.client.send(
+          HttpRequest.newBuilder()
+              .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
+              .build(),
+          HttpResponse.BodyHandlers.ofString()
+      );
 
-      LOGGER.warn("Failed to authenticate with primary URL. Trying backup...", e);
-      try {
-        // Si l'URL principale échoue, essayez avec l'URL de secours
-        response = tryAuthentication(nickname, Settings.IMP.MAIN.ISPREMIUM_AUTH_URL_BACKUP);
-      } catch (Exception e1) {
+      int statusCode = response.statusCode();
 
-        LOGGER.error("Unable to authenticate with both primary and backup URLs.", e1);
-        return new PremiumResponse(PremiumState.ERROR);
+      if (Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT.contains(statusCode)) {
+        return new PremiumResponse(PremiumState.RATE_LIMIT);
       }
-    }
 
-    int statusCode = response.statusCode();
+      JsonElement jsonElement = JsonParser.parseString(response.body());
 
-    if (Settings.IMP.MAIN.STATUS_CODE_RATE_LIMIT.contains(statusCode)) {
-      return new PremiumResponse(PremiumState.RATE_LIMIT);
-    }
-
-    JsonElement jsonElement = JsonParser.parseString(response.body());
-
-    if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)) {
-
-      if (this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
-
-        System.out.println("MOJANG RESPONSE : PREMIUM " + nickname);
-        RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
-        if (player == null) {
-          return getPremiumResponse(jsonElement);
-        }
-        try {
-          if(!player.getHash().equals("")){
-            try {
-              player.setHash("");
-              this.playerDao.update(player);
-              System.out.println(nickname + " est détécté premium par Mojang, je retire le hash de la base de donnée");
-              removePlayerFromCache(nickname);
-              ((Player) server.getPlayer(nickname).get()).disconnect(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.PREMIUM_SUCCESSFUL));
-            } catch (SQLException e) {
-              ((Player) server.getPlayer(nickname).get()).sendMessage(getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED));
-              throw new SQLRuntimeException(e);
-            }
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        return getPremiumResponse(jsonElement);
+      if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
+        return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
       }
-    }
 
-    if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)) {
-
-      if (this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
-
-        System.out.println("MOJANG RESPONSE : CRACKED " + nickname);
+      if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)
+          && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS)) {
         return new PremiumResponse(PremiumState.CRACKED);
       }
+
+      return new PremiumResponse(PremiumState.ERROR);
+    } catch (IOException | InterruptedException e) {
+      LOGGER.error("Unable to authenticate with Mojang.", e);
+      return new PremiumResponse(PremiumState.ERROR);
     }
-
-    return new PremiumResponse(PremiumState.ERROR);
   }
-
 
   public PremiumResponse isPremiumInternal(String nickname) {
     try {
@@ -803,12 +746,10 @@ public class LimboAuth {
       premiumCountQuery.setCountOf(true);
 
       if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
-        System.out.println("INTERNAL RESPONSE : CRACKED " + nickname);
         return new PremiumResponse(PremiumState.CRACKED);
       }
 
       if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
-        System.out.println("INTERNAL RESPONSE : PREMIUM " + nickname);
         return new PremiumResponse(PremiumState.PREMIUM);
       }
 
@@ -839,7 +780,6 @@ public class LimboAuth {
   private boolean checkIsPremiumAndCache(String nickname, Function<String, PremiumResponse>... functions) {
     String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
     if (this.premiumCache.containsKey(lowercaseNickname)) {
-      System.out.println("CACHE RESPONSE : " + this.premiumCache.get(lowercaseNickname).isPremium() + " " + nickname);
       return this.premiumCache.get(lowercaseNickname).isPremium();
     }
 

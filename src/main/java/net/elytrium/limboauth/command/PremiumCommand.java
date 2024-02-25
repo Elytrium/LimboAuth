@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -31,7 +31,7 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
 
-public class PremiumCommand implements SimpleCommand {
+public class PremiumCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
   private final Dao<RegisteredPlayer, String> playerDao;
@@ -63,25 +63,22 @@ public class PremiumCommand implements SimpleCommand {
   }
 
   @Override
-  public void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    String[] args = invocation.arguments();
-
+  public void execute(CommandSource source, String[] args) {
     if (source instanceof Player) {
       if (args.length == 2) {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
-          String username = ((Player) source).getUsername();
-          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, username);
+          String usernameLowercase = ((Player) source).getUsername().toLowerCase(Locale.ROOT);
+          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
           if (player == null) {
             source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
             source.sendMessage(this.alreadyPremium);
           } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
-            if (this.plugin.isPremiumExternal(username.toLowerCase(Locale.ROOT)).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
+            if (this.plugin.isPremiumExternal(usernameLowercase).getState() == LimboAuth.PremiumState.PREMIUM_USERNAME) {
               try {
                 player.setHash("");
                 this.playerDao.update(player);
-                this.plugin.removePlayerFromCache(username);
+                this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
                 ((Player) source).disconnect(this.successful);
               } catch (SQLException e) {
                 source.sendMessage(this.errorOccurred);

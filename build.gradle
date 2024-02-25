@@ -4,17 +4,17 @@ plugins {
     id("java")
     id("checkstyle")
     id("maven-publish")
-    id("com.github.spotbugs").version("5.0.7")
+    id("com.github.spotbugs").version("5.0.14")
     id("org.cadixdev.licenser").version("0.6.1")
     id("com.github.johnrengelman.shadow").version("7.1.2")
 }
 
 setGroup("net.elytrium")
-setVersion("1.1.13")
+setVersion("1.1.14-SNAPSHOT")
 
 java {
-    setSourceCompatibility(JavaVersion.VERSION_11)
-    setTargetCompatibility(JavaVersion.VERSION_11)
+    setSourceCompatibility(JavaVersion.VERSION_17)
+    setTargetCompatibility(JavaVersion.VERSION_17)
 }
 
 compileJava {
@@ -35,6 +35,10 @@ repositories {
     maven {
         setName("opencollab-snapshot")
         setUrl("https://repo.opencollab.dev/maven-snapshots")
+    }
+    maven() {
+        setName("sonatype-snapshots-repo")
+        setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }
 

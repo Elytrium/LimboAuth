@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -85,7 +85,7 @@ public class Settings extends YamlConfig {
     @Comment("Forces all players to get offline uuid")
     public boolean FORCE_OFFLINE_UUID = false;
     @Comment("If enabled, the plugin will firstly check whether the player is premium through the local database, and secondly through Mojang API.")
-    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = false;
+    public boolean CHECK_PREMIUM_PRIORITY_INTERNAL = true;
     @Comment("Delay in milliseconds before sending auth-confirming titles and messages to the player. (login-premium-title, login-floodgate, etc.)")
     public int PREMIUM_AND_FLOODGATE_MESSAGES_DELAY = 1250;
     @Comment({
@@ -180,8 +180,7 @@ public class Settings extends YamlConfig {
         "Or use this code to make your own API: https://blog.cloudflare.com/minecraft-api-with-workers-coffeescript/",
         "Or implement your own API, it should just respond with HTTP code 200 (see parameters below) only if the player is premium"
     })
-    public String ISPREMIUM_AUTH_URL_BACKUP = "https://api.mojang.com/users/profiles/minecraft/%s";
-    public String ISPREMIUM_AUTH_URL = "https://api.ashcon.app/mojang/v2/user/%s";
+    public String ISPREMIUM_AUTH_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
 
     @Comment({
         "Status codes (see the comment above)",
@@ -204,14 +203,9 @@ public class Settings extends YamlConfig {
         "Responses with an invalid scheme will be identified as responses with a server error",
         "Set this parameter to [], to disable JSON scheme validation"
     })
-    public List<List<String>> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of(
-            List.of("name", "id"),
-            List.of("uuid", "username")
-    );
+    public List<String> USER_EXISTS_JSON_VALIDATOR_FIELDS = List.of("name", "id");
     public String JSON_UUID_FIELD = "id";
-    public List<List<String>> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of(
-            List.of()
-    );
+    public List<String> USER_NOT_EXISTS_JSON_VALIDATOR_FIELDS = List.of();
 
     @Comment({
         "If Mojang rate-limits your server, we cannot determine if the player is premium or not",
@@ -243,7 +237,7 @@ public class Settings extends YamlConfig {
     })
     public static class MOD {
 
-      public boolean ENABLED = false;
+      public boolean ENABLED = true;
 
       @Comment("Should the plugin forbid logging in without a mod")
       public boolean LOGIN_ONLY_BY_MOD = false;
@@ -358,6 +352,7 @@ public class Settings extends YamlConfig {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
+      public String RATELIMITED = "{PRFX} &cPlease wait before next usage!";
       public String DATABASE_ERROR_KICK = "{PRFX} &cA database error has occurred!";
 
       public String NOT_PLAYER = "{PRFX} &cСonsole is not allowed to execute this command!";

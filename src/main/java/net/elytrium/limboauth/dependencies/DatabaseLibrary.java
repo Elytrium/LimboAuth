@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,7 +17,8 @@
 
 package net.elytrium.limboauth.dependencies;
 
-import com.j256.ormlite.jdbc.JdbcSingleConnectionSource;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.jdbc.db.DatabaseTypeUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -29,8 +30,8 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 public enum DatabaseLibrary {
@@ -48,13 +49,15 @@ public enum DatabaseLibrary {
             if (Files.exists(legacyDatabase)) {
               Path dumpFile = dir.resolve("limboauth.dump.sql");
               try (Connection legacyConnection = H2_LEGACY_V1.connect(dir, null, null, user, password)) {
-                try (Statement migrateStatement = legacyConnection.createStatement()) {
-                  migrateStatement.execute("SCRIPT TO '" + dumpFile + "'");
+                try (PreparedStatement migrateStatement = legacyConnection.prepareStatement("SCRIPT TO '?'")) {
+                  migrateStatement.setString(1, dumpFile.toString());
+                  migrateStatement.execute();
                 }
               }
 
-              try (Statement migrateStatement = modernConnection.createStatement()) {
-                migrateStatement.execute("RUNSCRIPT FROM '" + dumpFile + "'");
+              try (PreparedStatement migrateStatement = modernConnection.prepareStatement("RUNSCRIPT FROM '?'")) {
+                migrateStatement.setString(1, dumpFile.toString());
+                migrateStatement.execute();
               }
 
               Files.delete(dumpFile);
@@ -128,7 +131,9 @@ public enum DatabaseLibrary {
     addPath.setAccessible(true);
     addPath.invoke(currentClassLoader, Path.of(baseLibraryURL.toURI()));
 
-    return new JdbcSingleConnectionSource(jdbc, this.connect(currentClassLoader, dir, jdbc, user, password));
+    this.connect(currentClassLoader, dir, jdbc, user, password).close(); // Load database driver (Will be rewritten soon)
+    boolean h2 = this.baseLibrary == BaseLibrary.H2_V1 || this.baseLibrary == BaseLibrary.H2_V2;
+    return new JdbcPooledConnectionSource(jdbc, h2 ? null : user, h2 ? null : password, DatabaseTypeUtils.createDatabaseType(jdbc));
   }
 
   private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register)

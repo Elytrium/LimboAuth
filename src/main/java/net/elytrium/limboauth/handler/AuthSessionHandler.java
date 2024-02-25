@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2023 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,11 +18,10 @@
 package net.elytrium.limboauth.handler;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.google.common.hash.Hashing;
 import com.google.common.primitives.Longs;
 import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.proxy.protocol.packet.PluginMessage;
+import com.velocitypowered.proxy.protocol.packet.PluginMessagePacket;
 import dev.samstevens.totp.code.CodeVerifier;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
 import dev.samstevens.totp.code.DefaultCodeVerifier;
@@ -57,10 +56,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
-  private static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
+  public static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
+  private static Component ratelimited;
   private static BossBar.Color bossbarColor;
   private static BossBar.Overlay bossbarOverlay;
   private static Component ipLimitKick;
@@ -200,6 +200,11 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
+    if (!LimboAuth.RATELIMITER.attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
+      this.proxyPlayer.sendMessage(AuthSessionHandler.ratelimited);
+      return;
+    }
+
     String[] args = message.split(" ");
     if (args.length != 0 && this.checkArgsLength(args.length)) {
       Command command = Command.parse(args[0]);
@@ -266,8 +271,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   @Override
   public void onGeneric(Object packet) {
-    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessage) {
-      PluginMessage pluginMessage = (PluginMessage) packet;
+    if (Settings.IMP.MAIN.MOD.ENABLED && packet instanceof PluginMessagePacket) {
+      PluginMessagePacket pluginMessage = (PluginMessagePacket) packet;
       String channel = pluginMessage.getChannel();
 
       if (channel.equals("MC|Brand") || channel.equals("minecraft:brand")) {
@@ -443,6 +448,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
   public static void reload() {
     Serializer serializer = LimboAuth.getSerializer();
+    AuthSessionHandler.ratelimited = serializer.deserialize(Settings.IMP.MAIN.STRINGS.RATELIMITED);
     bossbarColor = Settings.IMP.MAIN.BOSSBAR_COLOR;
     bossbarOverlay = Settings.IMP.MAIN.BOSSBAR_OVERLAY;
     ipLimitKick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.IP_LIMIT_KICK);
@@ -516,7 +522,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     migrationHash = Settings.IMP.MAIN.MIGRATION_HASH;
   }
-/*
+
   public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
     String hash = player.getHash();
     boolean isCorrect = HASH_VERIFIER.verify(
@@ -538,19 +544,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     return isCorrect;
   }
-  */
-
-  public static boolean checkPassword(String password, RegisteredPlayer player, Dao<RegisteredPlayer, String> playerDao) {
-    String hash = player.getHash();
-    String salt = player.getSalt();
-    boolean isCorrect = genHash(password, salt).equals(hash);
-    return isCorrect;
-  }
-
-  public static String genHash(String password , String salt) {
-    String str = Hashing.sha512().hashString(password, StandardCharsets.UTF_8).toString();
-    return Hashing.sha512().hashString(str + salt, StandardCharsets.UTF_8).toString();
-  }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, UUID uuid) {
     try {
@@ -562,17 +555,26 @@ public class AuthSessionHandler implements LimboSessionHandler {
   }
 
   public static RegisteredPlayer fetchInfo(Dao<RegisteredPlayer, String> playerDao, String nickname) {
+    return AuthSessionHandler.fetchInfoLowercased(playerDao, nickname.toLowerCase(Locale.ROOT));
+  }
+
+  public static RegisteredPlayer fetchInfoLowercased(Dao<RegisteredPlayer, String> playerDao, String nickname) {
     try {
-      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname.toLowerCase(Locale.ROOT));
+      List<RegisteredPlayer> playerList = playerDao.queryForEq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname);
       return (playerList != null ? playerList.size() : 0) == 0 ? null : playerList.get(0);
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
     }
   }
 
-  public static CodeVerifier getTotpCodeVerifier() {
-    return TOTP_CODE_VERIFIER;
+  /**
+   * Use {@link RegisteredPlayer#genHash(String)} or {@link RegisteredPlayer#setPassword}
+   */
+  @Deprecated()
+  public static String genHash(String password) {
+    return HASHER.hashToString(Settings.IMP.MAIN.BCRYPT_COST, password.toCharArray());
   }
+
 
   private enum Command {
 
