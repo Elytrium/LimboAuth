@@ -225,12 +225,14 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
 
-    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
-      LOGGER.error("****************************************");
-      LOGGER.warn("The new LimboAuth update was found, please update.");
-      LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
-      LOGGER.error("****************************************");
-    }
+    this.server.getScheduler().buildTask(this, () -> {
+      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
+        LOGGER.error("****************************************");
+        LOGGER.warn("The new LimboAuth update was found, please update.");
+        LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
+        LOGGER.error("****************************************");
+      }
+    }).schedule();
   }
 
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
