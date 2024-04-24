@@ -23,7 +23,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
-import com.imaginarycode.minecraft.redisbungee.RedisBungeeVelocityPlugin;
 import com.j256.ormlite.support.ConnectionSource;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
@@ -113,7 +112,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 
-@Plugin(id = "limboauth", name = "LimboAuth", version = "1.1.14-SNAPSHOT", url = "https://elytrium.net/", authors = {"Elytrium (https://elytrium.net/)"}, dependencies = {@Dependency(id = "limboapi"), @Dependency(id = "redisbungee", optional = true), @Dependency(id = "floodgate", optional = true)})
+@Plugin(id = "limboauth", name = "LimboAuth", version = "1.1.14-SNAPSHOT", url = "https://elytrium.net/", authors = {"Elytrium (https://elytrium.net/)"}, dependencies = {@Dependency(id = "limboapi"), @Dependency(id = "floodgate", optional = true)})
 public class LimboAuth {
 
   public static final Ratelimiter RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
@@ -142,7 +141,6 @@ public class LimboAuth {
   private final File configFile;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
-  private final RedisBungeeVelocityPlugin redisBungeeVelocityPlugin;
 
   @Nullable
   private Component loginPremium;
@@ -154,7 +152,6 @@ public class LimboAuth {
   private Title loginFloodgateTitle;
   private Component registrationsDisabledKick;
   private Component bruteforceAttemptKick;
-  private Component redisbungeePlaying;
   private Component nicknameInvalidKick;
   private Component reconnectKick;
   private ScheduledTask saveCacheTask;
@@ -185,13 +182,6 @@ public class LimboAuth {
       this.floodgateApi = new FloodgateApiHolder();
     } else {
       this.floodgateApi = null;
-    }
-
-    if (this.server.getPluginManager().getPlugin("redisbungee").isPresent()) {
-      this.redisBungeeVelocityPlugin = (RedisBungeeVelocityPlugin) this.server.getPluginManager()
-          .getPlugin("redisbungee").flatMap(PluginContainer::getInstance).orElseThrow();
-    } else {
-      this.redisBungeeVelocityPlugin = null;
     }
   }
 
@@ -228,12 +218,14 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Integer.MAX_VALUE));
 
-    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
-      LOGGER.error("****************************************");
-      LOGGER.warn("The new LimboAuth update was found, please update.");
-      LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
-      LOGGER.error("****************************************");
-    }
+    this.server.getScheduler().buildTask(this, () -> {
+      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
+        LOGGER.error("****************************************");
+        LOGGER.warn("The new LimboAuth update was found, please update.");
+        LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
+        LOGGER.error("****************************************");
+      }
+    }).schedule();
   }
 
   @Subscribe
@@ -292,7 +284,6 @@ public class LimboAuth {
 
     this.bruteforceAttemptKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_WRONG_PASSWORD_KICK);
     this.nicknameInvalidKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.NICKNAME_INVALID_KICK);
-    this.redisbungeePlaying = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REDISBUNGEE_ONLINE);
     this.reconnectKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.RECONNECT_KICK);
     this.registrationsDisabledKick = SERIALIZER.deserialize(Settings.IMP.MAIN.STRINGS.REGISTRATIONS_DISABLED_KICK);
 
@@ -440,11 +431,6 @@ public class LimboAuth {
   }
 
   public void authPlayer(Player player) {
-    if (this.redisBungeeVelocityPlugin != null && this.redisBungeeVelocityPlugin.isPlayerOnAServer(player)) {
-      player.disconnect(this.redisbungeePlaying);
-      return;
-    }
-
     boolean isFloodgate = !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH && this.floodgateApi.isFloodgatePlayer(player.getUniqueId());
     if (!isFloodgate && this.isForcedPreviously(player.getUsername()) && this.isPremium(player.getUsername())) {
       player.disconnect(this.reconnectKick);
@@ -527,11 +513,12 @@ public class LimboAuth {
 
     switch (event.getResult()) {
       case BYPASS: {
-        this.factory.passLoginLimbo(player);
         try {
           this.updateLoginData(player);
         } catch (SQLException e) {
           throw new SQLRuntimeException(e);
+        } finally {
+          this.factory.passLoginLimbo(player);
         }
         break;
       }
