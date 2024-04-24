@@ -632,12 +632,15 @@ public class LimboAuth {
 
     switch (event.getResult()) {
       case BYPASS: {
-        this.factory.passLoginLimbo(player);
-        this.cacheAuthUser(player);
         try {
-          this.updateLoginData(player);
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
+          this.cacheAuthUser(player);
+          try {
+            this.updateLoginData(player);
+          } catch (SQLException e) {
+            throw new SQLRuntimeException(e);
+          }
+        } finally {
+          this.factory.passLoginLimbo(player);
         }
         break;
       }
