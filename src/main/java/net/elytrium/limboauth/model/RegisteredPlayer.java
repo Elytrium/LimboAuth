@@ -26,20 +26,20 @@ import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
 
-@DatabaseTable(tableName = "AUTH")
+@DatabaseTable(tableName = "dle_users")
 public class RegisteredPlayer {
 
-  public static final String NICKNAME_FIELD = "NICKNAME";
-  public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-  public static final String HASH_FIELD = "HASH";
-  public static final String IP_FIELD = "IP";
-  public static final String LOGIN_IP_FIELD = "LOGINIP";
-  public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-  public static final String REG_DATE_FIELD = "REGDATE";
-  public static final String LOGIN_DATE_FIELD = "LOGINDATE";
-  public static final String UUID_FIELD = "UUID";
-  public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
-  public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
+  public static final String NICKNAME_FIELD = "name";
+  public static final String LOWERCASE_NICKNAME_FIELD = "name_lower";
+  public static final String HASH_FIELD = "password";
+  public static final String IP_FIELD = "limbo_ip";
+  public static final String LOGIN_IP_FIELD = "limbo_loginip";
+  public static final String TOTP_TOKEN_FIELD = "limbo_totptoken";
+  public static final String REG_DATE_FIELD = "limbo_regdate";
+  public static final String LOGIN_DATE_FIELD = "limbo_logindate";
+  public static final String UUID_FIELD = "limbo_uuid";
+  public static final String PREMIUM_UUID_FIELD = "limbo_premiumuuid";
+  public static final String TOKEN_ISSUED_AT_FIELD = "limbo_issuedtime";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
