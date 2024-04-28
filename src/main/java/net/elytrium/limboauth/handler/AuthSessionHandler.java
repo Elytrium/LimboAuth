@@ -205,6 +205,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
+    if (message.charAt(0) != '/') {
+      message = "/login " + message;
+    }
+
     String[] args = message.split(" ");
     if (args.length != 0 && this.checkArgsLength(args.length)) {
       Command command = Command.parse(args[0]);
