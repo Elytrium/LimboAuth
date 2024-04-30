@@ -1,0 +1,94 @@
+//file:noinspection VulnerableLibrariesLocal
+plugins() {
+  alias(libs.plugins.buildconfig)
+}
+
+configurations() {
+  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql)
+
+  // https://github.com/gradle/gradle/issues/27035
+  checkstyle() {
+    resolutionStrategy.getCapabilitiesResolution().withCapability("com.google.collections:google-collections") {
+      select("com.google.guava:guava:0")
+    }
+  }
+}
+
+repositories() {
+  maven() {
+    name = "opencollab"
+    url = "https://repo.opencollab.dev/maven-snapshots/"
+  }
+}
+
+dependencies() {
+  api(project(':api'))
+
+  compileOnly(libs.bundles.velocity)
+
+  compileOnly(libs.floodgate.api) {
+    exclude(module: "cumulus")
+  }
+
+  compileOnly(libs.jakarta)
+  common(libs.bundles.common) {
+    exclude(module: "slf4j-api")
+  }
+
+  h2v1(libs.h2v1)
+  h2(libs.h2)
+
+  sqlite(libs.sqlite) {
+    exclude(module: "slf4j-api")
+  }
+
+  mysql(libs.bundles.mysql)
+
+  mariadb(libs.bundles.mariadb) {
+    exclude(group: "org.slf4j")
+    exclude(module: "caffeine")
+    exclude(module: "checker-qual")
+  }
+
+  postgresql(libs.bundles.postgresql) {
+    exclude(group: "org.slf4j")
+    exclude(module: "caffeine")
+    exclude(module: "checker-qual")
+  }
+}
+
+buildConfig() {
+  packageName("${this.rootProject.group}.${this.rootProject.name}")
+
+  buildConfigField("String", "VERSION", "\"${this.rootProject.version}\"")
+
+  buildConfigField("String[]", "REPOSITORIES", array(this.repositories.collect(MavenArtifactRepository::getUrl)))
+
+  buildConfigField("String[]", "COMMON", resolvedArtifacts(this.configurations.common))
+
+  buildConfigField("String[]", "H2V1", resolvedArtifacts(this.configurations.h2v1))
+  buildConfigField("String[]", "H2", resolvedArtifacts(this.configurations.h2))
+  buildConfigField("String[]", "SQLITE", resolvedArtifacts(this.configurations.sqlite))
+  buildConfigField("String[]", "MYSQL", resolvedArtifacts(this.configurations.mysql))
+  buildConfigField("String[]", "MARIADB", resolvedArtifacts(this.configurations.mariadb))
+  buildConfigField("String[]", "POSTGRESQL", resolvedArtifacts(this.configurations.postgresql))
+}
+
+static String resolvedArtifacts(Configuration configuration) {
+  return array(configuration.getResolvedConfiguration().getResolvedArtifacts().collect(it -> "${it.moduleVersion.id.group.replace('.', '/')}/${it.name}/${it.moduleVersion.id.version}/${it.file.name}"))
+}
+
+static String array(List<?> elements) {
+  return "{ \"${elements.join("\", \"")}\" }"
+  //return /*this.provider(() -> */"{ \"" + elements.join("\", \"") + "\" }"//)
+}
+
+spotless() {
+  java() {
+    targetExclude("**/BuildConfig.java")
+  }
+}
+
+checkstyleMain() {
+  exclude("**/BuildConfig.java")
+}

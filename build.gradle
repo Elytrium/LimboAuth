@@ -1,17 +1,10 @@
 //file:noinspection VulnerableLibrariesLocal
 
 plugins() {
-  id("java")
-
   alias(libs.plugins.grgit)
-  alias(libs.plugins.buildconfig)
 
-  alias(libs.plugins.spotless)
-
-  id("checkstyle")
-  alias(libs.plugins.spotbugs)
-
-  id("maven-publish")
+  alias(libs.plugins.spotless).apply(false)
+  alias(libs.plugins.spotbugs).apply(false)
 }
 
 this.group = "net.elytrium"
@@ -21,157 +14,75 @@ if (this.version.endsWith("-SNAPSHOT")) {
   this.version += " (${grgit.head().abbreviatedId})"
 }
 
-tasks.withType(JavaCompile).configureEach() {
-  options.setEncoding("UTF-8")
-}
+allprojects() {
+  apply(plugin: "java-library")
 
-java() {
-  withJavadocJar()
-  withSourcesJar()
+  apply(plugin: libs.plugins.spotless.get().getPluginId())
+  apply(plugin: "checkstyle")
+  apply(plugin: libs.plugins.spotbugs.get().getPluginId())
 
-  toolchain.setLanguageVersion(JavaLanguageVersion.of(17))
-}
+  tasks.withType(JavaCompile).configureEach() {
+    options.setEncoding("UTF-8")
+  }
 
-configurations() {
-  implementation.extendsFrom(common, h2v1, h2, sqlite, mysql, mariadb, postgresql)
+  java() {
+    toolchain.setLanguageVersion(JavaLanguageVersion.of(17))
+  }
 
-  // TODO remove when checkstyle get fixed
-  checkstyle() {
-    resolutionStrategy.getCapabilitiesResolution().withCapability("com.google.collections:google-collections") {
-      select("com.google.guava:guava:0")
+  repositories() {
+    mavenCentral()
+
+    maven() {
+      name = "elytrium"
+      url = "https://maven.elytrium.net/repo/"
+    }
+
+    maven() {
+      name = "papermc"
+      url = "https://repo.papermc.io/repository/maven-public/"
     }
   }
-}
 
-repositories() {
-  mavenCentral()
-
-  maven() {
-    name = "elytrium"
-    url = "https://maven.elytrium.net/repo/"
+  dependencies() {
+    api(libs.velocity.api)
   }
 
-  maven() {
-    name = "papermc"
-    url = "https://repo.papermc.io/repository/maven-public/"
+  spotless() {
+    java() {
+      licenseHeaderFile(rootProject.file("HEADER.txt"))
+    }
   }
-  maven() {
-    name = "opencollab"
-    url = "https://repo.opencollab.dev/maven-snapshots/"
+
+  checkstyle() {
+    toolVersion = libs.versions.checkstyle.get()
+
+    configFile = rootProject.file(".config/checkstyle/checkstyle.xml")
+    maxErrors = 0
+    maxWarnings = 0
+  }
+
+  spotbugsMain() {
+    excludeFilter.set(rootProject.file(".config/spotbugs/suppressions.xml"))
+    reports() {
+      html() {
+        required = true
+        outputLocation.value(layout.buildDirectory.file("reports/spotbugs/spotbugs.html"))
+        stylesheet = "fancy-hist.xsl"
+      }
+    }
   }
 }
 
 dependencies() {
   annotationProcessor(libs.velocity.api)
-  compileOnly(libs.bundles.velocity)
-  compileOnly(libs.bundles.netty)
 
-  compileOnly(libs.limboapi.api) {
-    exclude(module: "config") // TODO remove
-  }
-  compileOnly(libs.floodgate.api) {
-    exclude(module: "cumulus")
-  }
-
-  compileOnly(libs.jakarta)
-  common(libs.bundles.common) {
-    exclude(module: "slf4j-api")
-  }
-
-  h2v1(libs.h2v1)
-  h2(libs.h2)
-  sqlite(libs.sqlite) {
-    exclude(module: "slf4j-api")
-  }
-  mysql(libs.bundles.mysql)
-  mariadb(libs.bundles.mariadb) {
-    exclude(group: "org.slf4j")
-    exclude(module: "caffeine")
-    exclude(module: "checker-qual")
-  }
-  postgresql(libs.bundles.postgresql) {
-    exclude(group: "org.slf4j")
-    exclude(module: "caffeine")
-    exclude(module: "checker-qual")
-  }
+  compileOnly(project(":plugin")) // BuildConfig.VERSION
 }
 
-buildConfig() {
-  packageName("${this.group}.${this.name}")
-
-  buildConfigField("String", "VERSION", "\"${this.version}\"")
-
-  buildConfigField("String[]", "REPOSITORIES", array(this.repositories.collect(MavenArtifactRepository::getUrl)))
-
-  buildConfigField("String[]", "COMMON", resolvedArtifacts(this.configurations.common))
-
-  buildConfigField("String[]", "H2V1", resolvedArtifacts(this.configurations.h2v1))
-  buildConfigField("String[]", "H2", resolvedArtifacts(this.configurations.h2))
-  buildConfigField("String[]", "SQLITE", resolvedArtifacts(this.configurations.sqlite))
-  buildConfigField("String[]", "MYSQL", resolvedArtifacts(this.configurations.mysql))
-  buildConfigField("String[]", "MARIADB", resolvedArtifacts(this.configurations.mariadb))
-  buildConfigField("String[]", "POSTGRESQL", resolvedArtifacts(this.configurations.postgresql))
-}
-
-static String resolvedArtifacts(Configuration configuration) {
-  return array(configuration.getResolvedConfiguration().getResolvedArtifacts().collect(it -> "${it.moduleVersion.id.group.replace('.', '/')}/${it.name}/${it.moduleVersion.id.version}/${it.file.name}"))
-}
-
-static String array(List<?> elements) {
-  return /*this.provider(() -> */"{ \"" + elements.join("\", \"") + "\" }"//)
-}
-
-spotless() {
-  java() {
-    licenseHeaderFile(rootProject.file("HEADER.txt"))
-    targetExclude("**/BuildConfig.java")
-  }
-}
-
-checkstyle() {
-  toolVersion = libs.versions.checkstyle.get()
-
-  configFile = rootProject.file(".config/checkstyle/checkstyle.xml")
-  maxErrors = 0
-  maxWarnings = 0
-}
-
-checkstyleMain() {
-  exclude("**/BuildConfig.java")
-}
-
-spotbugsMain() { // TODO fix reports
-  excludeFilter.set(rootProject.file(".config/spotbugs/suppressions.xml"))
-  reports.register("html") {
-    required = true
-    outputLocation.value(layout.buildDirectory.file("reports/spotbugs/spotbugs.html"))
-    stylesheet = "fancy-hist.xsl"
-  }
-}
-
-javadoc() {
-  options.encoding("UTF-8")
-  options.source("17")
-  options.links("https://docs.oracle.com/en/java/javase/17/docs/api/")
-  options.addStringOption("Xdoclint:none", "-quiet")
-}
-
-// TODO separate the api module, as in limboapi
-publishing() {
-  repositories() {
-    maven() {
-      credentials() {
-        username = System.getenv("ELYTRIUM_MAVEN_USERNAME")
-        password = System.getenv("ELYTRIUM_MAVEN_PASSWORD")
-      }
-
-      name = "elytrium"
-      url = "https://maven.elytrium.net/repo/"
-    }
+jar() {
+  project(":api") {
+    from(sourceSets.main.output)
   }
 
-  publications.create("maven", MavenPublication) {
-    // TODO pom
-    from(components.java)
-  }
+  from(project(":plugin").tasks.jar)
 }

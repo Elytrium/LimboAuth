@@ -1,0 +1,41 @@
+plugins() {
+  id("maven-publish")
+}
+
+dependencies() {
+  api(libs.limboapi) {
+    exclude(module: "config") // TODO remove
+  }
+}
+
+java() {
+  withSourcesJar()
+  withJavadocJar()
+}
+
+javadoc() {
+  def options = options as StandardJavadocDocletOptions
+  options.encoding("UTF-8")
+  options.source("17")
+  options.links("https://docs.oracle.com/en/java/javase/17/docs/api/")
+  options.addStringOption("Xdoclint:none", "-quiet")
+}
+
+publishing() {
+  repositories() {
+    maven() {
+      credentials() {
+        username = System.getenv("ELYTRIUM_MAVEN_USERNAME")
+        password = System.getenv("ELYTRIUM_MAVEN_PASSWORD")
+      }
+
+      name = "elytrium"
+      url = "https://maven.elytrium.net/repo/"
+    }
+  }
+
+  publications.create("maven", MavenPublication) {
+    // TODO pom
+    from(components.java)
+  }
+}
