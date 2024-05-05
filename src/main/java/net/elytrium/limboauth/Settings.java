@@ -375,13 +375,13 @@ public class Settings extends YamlConfig {
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_TITLE = "{PRFX} Welcome!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String LOGIN_PREMIUM_SUBTITLE = "&aYou has been logged in as premium player!";
+      public String LOGIN_PREMIUM_SUBTITLE = "&aYou have been logged in as premium player!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE = "{PRFX} You've been logged in automatically using the bedrock account!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_TITLE = "{PRFX} Welcome!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String LOGIN_FLOODGATE_SUBTITLE = "&aYou has been logged in as bedrock player!";
+      public String LOGIN_FLOODGATE_SUBTITLE = "&aYou have been logged in as bedrock player!";
 
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
@@ -399,8 +399,8 @@ public class Settings extends YamlConfig {
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
       public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
-      public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
-      public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
+      public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered a too short password, use a different one!";
+      public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered a too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
@@ -423,7 +423,7 @@ public class Settings extends YamlConfig {
       public String EVENT_CANCELLED = "{PRFX} Authorization event was cancelled";
 
       public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &6{0} &asuccessfully unregistered!";
-      public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";
+      public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by an administrator!";
       public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_UNREGISTER_USAGE = "{PRFX} Usage: &6/forceunregister <nickname>";
 
@@ -434,7 +434,7 @@ public class Settings extends YamlConfig {
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
 
       public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
-      public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby administator!";
+      public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby an administator!";
       public String FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL = "{PRFX} &cUnable to change password for &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_CHANGE_PASSWORD_NOT_REGISTERED = "{PRFX} &cPlayer &6{0}&c is not registered.";
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
