@@ -148,7 +148,7 @@ public class LimboAuth {
 
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
-  private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
+  private final Map<String, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
@@ -545,7 +545,7 @@ public class LimboAuth {
       return;
     }
 
-    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
+    if (this.getBruteforceAttempts(player.getRemoteAddress().getAddress().toString()) >= Settings.IMP.MAIN.BRUTEFORCE_MAX_ATTEMPTS) {
       player.disconnect(this.bruteforceAttemptKick);
       return;
     }
@@ -864,26 +864,26 @@ public class LimboAuth {
     }
   }
 
-  public void incrementBruteforceAttempts(InetAddress address) {
-    this.getBruteforceUser(address).incrementAttempts();
+  public void incrementBruteforceAttempts(String key) {
+    this.getBruteforceUser(key).incrementAttempts();
   }
 
-  public int getBruteforceAttempts(InetAddress address) {
-    return this.getBruteforceUser(address).getAttempts();
+  public int getBruteforceAttempts(String key) {
+    return this.getBruteforceUser(key).getAttempts();
   }
 
-  private CachedBruteforceUser getBruteforceUser(InetAddress address) {
-    CachedBruteforceUser user = this.bruteforceCache.get(address);
+  private CachedBruteforceUser getBruteforceUser(String key) {
+    CachedBruteforceUser user = this.bruteforceCache.get(key);
     if (user == null) {
       user = new CachedBruteforceUser(System.currentTimeMillis());
-      this.bruteforceCache.put(address, user);
+      this.bruteforceCache.put(key, user);
     }
 
     return user;
   }
 
-  public void clearBruteforceAttempts(InetAddress address) {
-    this.bruteforceCache.remove(address);
+  public void clearBruteforceAttempts(String key) {
+    this.bruteforceCache.remove(key);
   }
 
   public void saveForceOfflineMode(String nickname) {

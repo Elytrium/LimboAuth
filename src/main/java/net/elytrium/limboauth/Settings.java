@@ -136,6 +136,8 @@ public class Settings extends YamlConfig {
     public long PURGE_BRUTEFORCE_CACHE_MILLIS = 28800000;
     @Comment("Used to ban IPs when a possible attacker incorrectly enters the password")
     public int BRUTEFORCE_MAX_ATTEMPTS = 10;
+    @Comment("Used to ban IPs when a possible attacker incorrectly enters OTP")
+    public int BRUTEFORCE_MAX_OTP_ATTEMPTS = 10;
     @Comment("QR Generator URL, set {data} placeholder")
     public String QR_GENERATOR_URL = "https://api.qrserver.com/v1/create-qr-code/?data={data}&size=200x200&ecc=M&margin=30";
     public String TOTP_ISSUER = "LimboAuth by Elytrium";
@@ -386,6 +388,8 @@ public class Settings extends YamlConfig {
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
       public String LOGIN_WRONG_PASSWORD_KICK = "{PRFX}{NL}&cYou've entered the wrong password numerous times!";
+      public String LOGIN_WRONG_OTP_IMMEDIATE_KICK = "{PRFX}{NL}&cYou've entered wrong 2FA code!";
+      public String LOGIN_WRONG_OTP_KICK = "{PRFX}{NL}&cYou've entered wrong 2FA code numerous times!";
       public String LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully logged in!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_TITLE = "&fPlease, login using &6/login <password>&a.";
@@ -453,10 +457,11 @@ public class Settings extends YamlConfig {
       public String TOTP_SUCCESSFUL = "{PRFX} &aSuccessfully enabled 2FA!";
       public String TOTP_DISABLED = "{PRFX} &aSuccessfully disabled 2FA!";
       @Comment("Or if totp-need-pass set to false remove the \"<current password>\" part.")
-      public String TOTP_USAGE = "{PRFX} Usage: &6/2fa enable <current password>&f or &6/2fa disable <totp key>&f.";
+      public String TOTP_USAGE = "{PRFX} Usage: &6/2fa enable <current password>&f, &6/2fa verify <totp key>&f or &6/2fa disable <totp key>&f.";
       public String TOTP_WRONG = "{PRFX} &cWrong 2FA key!";
+      public String TOTP_VERIFY = "{PRFX} Type &6/2fa verify <totp key>&f to enable 2FA.";
       public String TOTP_ALREADY_ENABLED = "{PRFX} &c2FA is already enabled. Disable it using &6/2fa disable <key>&c.";
-      public String TOTP_QR = "{PRFX} Click here to open 2FA QR code in browser.";
+      public String TOTP_QR = "{PRFX} &9&nClick here to open 2FA QR code in browser.";
       public String TOTP_TOKEN = "{PRFX} &aYour 2FA token &7(Click to copy)&a: &6{0}";
       public String TOTP_RECOVERY = "{PRFX} &aYour recovery codes &7(Click to copy)&a: &6{0}";
 
