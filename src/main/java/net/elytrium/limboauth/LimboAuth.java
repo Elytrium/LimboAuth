@@ -152,6 +152,7 @@ public class LimboAuth {
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
+  private final Set<String> pendingLogins = ConcurrentHashMap.newKeySet();
 
   private final HttpClient client = HttpClient.newHttpClient();
 
@@ -802,12 +803,12 @@ public class LimboAuth {
 
       switch (check.getState()) {
         case CRACKED: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
-          return false;
+          return this.setPremium(lowercaseNickname, false).isPremium();
         }
         case PREMIUM: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-          return true;
+          CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
+          premiumUser.setForcePremium(true);
+          return premiumUser.isPremium();
         }
         case PREMIUM_USERNAME: {
           premium = true;
@@ -831,8 +832,7 @@ public class LimboAuth {
 
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
-        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-        return true;
+        return this.setPremium(lowercaseNickname, true).isPremium();
       }
 
       if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
@@ -848,8 +848,7 @@ public class LimboAuth {
       return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
 
-    this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-    return true;
+    return this.setPremium(lowercaseNickname, true).isPremium();
   }
 
   public boolean isPremium(String nickname) {
@@ -862,6 +861,16 @@ public class LimboAuth {
         return checkIsPremiumAndCache(nickname, this::isPremiumExternal, this::isPremiumInternal);
       }
     }
+  }
+
+  public CachedPremiumUser getPremiumCache(String nickname) {
+    return this.premiumCache.get(nickname.toLowerCase(Locale.ROOT));
+  }
+
+  public CachedPremiumUser setPremium(String lowercasedNickname, boolean value) {
+    CachedPremiumUser premiumUser = new CachedPremiumUser(System.currentTimeMillis(), value);
+    this.premiumCache.put(lowercasedNickname, premiumUser);
+    return premiumUser;
   }
 
   public void incrementBruteforceAttempts(InetAddress address) {
@@ -896,6 +905,10 @@ public class LimboAuth {
 
   public boolean isForcedPreviously(String nickname) {
     return this.forcedPreviously.contains(nickname);
+  }
+
+  public Set<String> getPendingLogins() {
+    return this.pendingLogins;
   }
 
   public Map<UUID, Runnable> getPostLoginTasks() {
@@ -938,7 +951,7 @@ public class LimboAuth {
     return this.nicknameValidationPattern;
   }
 
-  private static class CachedUser {
+  public static class CachedUser {
 
     private final long checkTime;
 
@@ -972,14 +985,23 @@ public class LimboAuth {
     }
   }
 
-  private static class CachedPremiumUser extends CachedUser {
+  public static class CachedPremiumUser extends CachedUser {
 
     private final boolean premium;
+    private boolean forcePremium;
 
     public CachedPremiumUser(long checkTime, boolean premium) {
       super(checkTime);
 
       this.premium = premium;
+    }
+
+    public void setForcePremium(boolean forcePremium) {
+      this.forcePremium = forcePremium;
+    }
+
+    public boolean isForcePremium() {
+      return this.forcePremium;
     }
 
     public boolean isPremium() {

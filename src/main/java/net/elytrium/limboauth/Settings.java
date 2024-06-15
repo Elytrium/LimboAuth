@@ -78,6 +78,13 @@ public class Settings extends YamlConfig {
         "Players with premium nicknames must login with a premium Minecraft account if this option is disabled",
     })
     public boolean ONLINE_MODE_NEED_AUTH = true;
+    @Comment({
+        "WARNING: This is semi-experimental feature.",
+        "Disable to allow offline-mode players using online-mode usernames",
+        "If you disable it, be sure that online-mode players still can be offline-mode as there",
+        "are no proper way to see if the player is joining via online-mode enabled client."
+    })
+    public boolean ONLINE_MODE_NEED_AUTH_STRICT = true;
     @Comment("Needs floodgate plugin if disabled.")
     public boolean FLOODGATE_NEED_AUTH = true;
     @Comment("TOTALLY disables hybrid auth feature")
