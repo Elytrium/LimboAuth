@@ -21,7 +21,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
@@ -92,7 +91,19 @@ public class AuthListener {
         event.setResult(PreLoginEvent.PreLoginComponentResult.forceOfflineMode());
       }
     } else {
-      this.plugin.saveForceOfflineMode(username);
+      try {
+        MinecraftConnection connection = this.getConnection(event.getConnection());
+        if (!connection.isClosed()) {
+          this.plugin.saveForceOfflineMode(username);
+
+          // As Velocity doesnt have any events for our usecase, just inject into netty
+          connection.getChannel().closeFuture().addListener(future -> {
+            this.plugin.unsetForcedPreviously(username);
+          });
+        }
+      } catch (Throwable throwable) {
+        throw new IllegalStateException("failed to track client disconnection", throwable);
+      }
     }
   }
 
@@ -123,11 +134,6 @@ public class AuthListener {
     return holder.version() != 3;
   }
   */
-
-  @Subscribe
-  public void onProxyDisconnect(DisconnectEvent event) {
-    this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
-  }
 
   @Subscribe
   public void onPostLogin(PostLoginEvent event) {
