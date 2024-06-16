@@ -39,6 +39,7 @@ import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.LimboAuth.CachedPremiumUser;
+import net.elytrium.limboauth.LimboAuth.PremiumState;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
@@ -72,7 +73,8 @@ public class AuthListener {
           if (!Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH_STRICT) {
             CachedPremiumUser premiumUser = this.plugin.getPremiumCache(username);
             MinecraftConnection connection = this.getConnection(event.getConnection());
-            if (!connection.isClosed() && premiumUser != null && !premiumUser.isForcePremium()) {
+            if (!connection.isClosed() && premiumUser != null && !premiumUser.isForcePremium()
+                && this.plugin.isPremiumInternal(username).getState() != PremiumState.PREMIUM) {
               this.plugin.getPendingLogins().add(username);
 
               // As Velocity doesnt have any events for our usecase, just inject into netty
@@ -152,6 +154,11 @@ public class AuthListener {
   public void onLoginLimboRegister(LoginLimboRegisterEvent event) {
     // Player has completed online-mode authentication, can be sure that the player has premium account
     if (event.getPlayer().isOnlineMode()) {
+      CachedPremiumUser premiumUser = this.plugin.getPremiumCache(event.getPlayer().getUsername());
+      if (premiumUser != null) {
+        premiumUser.setForcePremium(true);
+      }
+
       this.plugin.getPendingLogins().remove(event.getPlayer().getUsername());
     }
 

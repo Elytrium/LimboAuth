@@ -240,6 +240,12 @@ public class LimboAuth {
   public void reload() {
     Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX);
 
+    if (!Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH_STRICT && !Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
+      Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS = true;
+      LOGGER.error("As you have online-mode-need-auth-strict disabled, save-premium-accounts "
+          + "was forcibly enabled to prevent online-mode accounts hijacking.");
+    }
+
     if (this.floodgateApi == null && !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH) {
       throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false),"
           + " please install floodgate plugin.");
@@ -832,7 +838,9 @@ public class LimboAuth {
 
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
-        return this.setPremium(lowercaseNickname, true).isPremium();
+        CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
+        premiumUser.setForcePremium(true);
+        return premiumUser.isPremium();
       }
 
       if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
