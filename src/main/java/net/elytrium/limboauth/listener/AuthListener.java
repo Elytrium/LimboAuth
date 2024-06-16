@@ -74,7 +74,7 @@ public class AuthListener {
             CachedPremiumUser premiumUser = this.plugin.getPremiumCache(username);
             MinecraftConnection connection = this.getConnection(event.getConnection());
             if (!connection.isClosed() && premiumUser != null && !premiumUser.isForcePremium()
-                && this.plugin.isPremiumInternal(username).getState() != PremiumState.PREMIUM) {
+                && this.plugin.isPremiumInternal(username).getState() == PremiumState.UNKNOWN) {
               this.plugin.getPendingLogins().add(username);
 
               // As Velocity doesnt have any events for our usecase, just inject into netty
