@@ -939,6 +939,10 @@ public class LimboAuth {
     return this.playerDao;
   }
 
+  public FloodgateApiHolder getFloodgateApi() {
+    return this.floodgateApi;
+  }
+
   private static void setLogger(Logger logger) {
     LOGGER = logger;
   }
