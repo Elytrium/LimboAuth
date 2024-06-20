@@ -307,6 +307,27 @@ public class Settings extends YamlConfig {
     }
 
     @Create
+    public Settings.MAIN.BACKEND_API BACKEND_API;
+
+    public static class BACKEND_API {
+
+      @Comment({
+          "Should backend API be enabled?",
+          "Required for PlaceholderAPI expansion to work (https://github.com/UserNugget/LimboAuth-Expansion)"
+      })
+      public boolean ENABLED = true;
+
+      @Comment({
+          "Available endpoints:",
+          " premium_state, hash, totp_token, login_date, reg_date, token_issued_at,",
+          " uuid, premium_uuid, ip, login_ip, token_issued_at"
+      })
+      public List<String> ENABLED_ENDPOINTS = List.of(
+          "premium_state", "login_date", "reg_date", "uuid", "premium_uuid", "token_issued_at"
+      );
+    }
+
+    @Create
     public MAIN.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
 
     @Comment({

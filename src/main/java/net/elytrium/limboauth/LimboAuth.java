@@ -108,6 +108,7 @@ import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
+import net.elytrium.limboauth.listener.BackendEndpointsListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -405,6 +406,11 @@ public class LimboAuth {
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
+    if (Settings.IMP.MAIN.BACKEND_API.ENABLED) {
+      eventManager.register(this, new BackendEndpointsListener(this));
+    } else {
+      this.server.getChannelRegistrar().unregister(BackendEndpointsListener.API_CHANNEL);
+    }
 
     if (this.purgeCacheTask != null) {
       this.purgeCacheTask.cancel();

@@ -185,7 +185,7 @@ publishing {
 javadoc {
     getOptions().setEncoding("UTF-8")
     getOptions().setCharSet("UTF-8")
-    getOptions().setSource("11")
+    getOptions().setSource("17")
     getOptions().links("https://docs.oracle.com/en/java/javase/11/docs/api/")
 
     // Remove "undefined" from search paths when generating javadoc for a non-modular project. (JDK-8215291)
