@@ -352,6 +352,8 @@ public class Settings extends YamlConfig {
       public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.forceregister")
       public CommandPermissionState FORCE_REGISTER = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.forcelogin")
+      public CommandPermissionState FORCE_LOGIN = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.forceunregister")
       public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.reload")
@@ -472,6 +474,10 @@ public class Settings extends YamlConfig {
       public String FORCE_REGISTER_TAKEN_NICKNAME = "{PRFX} &cThis nickname is already taken.";
       public String FORCE_REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered player &6{0}&a!";
       public String FORCE_REGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to register player &6{0}&c.";
+
+      public String FORCE_LOGIN_USAGE = "{PRFX} Usage: &6/forcelogin <nickname>";
+      public String FORCE_LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully authenticated &6{0}&a!";
+      public String FORCE_LOGIN_UNKNOWN_PLAYER = "{PRFX} &cUnable to find authenticating player with username &6{0}&a!";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)

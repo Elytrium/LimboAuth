@@ -93,6 +93,7 @@ import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
+import net.elytrium.limboauth.command.ForceLoginCommand;
 import net.elytrium.limboauth.command.ForceRegisterCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
@@ -164,6 +165,7 @@ public class LimboAuth {
   private final File configFile;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
+  private final Map<String, AuthSessionHandler> authenticatingPlayers;
 
   @Nullable
   private Component loginPremium;
@@ -197,6 +199,7 @@ public class LimboAuth {
     this.dataDirectoryFile = dataDirectory.toFile();
     this.configFile = new File(this.dataDirectoryFile, "config.yml");
 
+    this.authenticatingPlayers = new ConcurrentHashMap<>();
     this.factory = (LimboFactory) this.server.getPluginManager().getPlugin("limboapi").flatMap(PluginContainer::getInstance).orElseThrow();
 
     if (this.server.getPluginManager().getPlugin("floodgate").isPresent()) {
@@ -348,6 +351,7 @@ public class LimboAuth {
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
     manager.unregister("forceregister");
+    manager.unregister("forcelogin");
     manager.unregister("premium");
     manager.unregister("forceunregister");
     manager.unregister("changepassword");
@@ -358,6 +362,7 @@ public class LimboAuth {
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
+    manager.register("forcelogin", new ForceLoginCommand(this));
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
@@ -963,6 +968,22 @@ public class LimboAuth {
 
   public Pattern getNicknameValidationPattern() {
     return this.nicknameValidationPattern;
+  }
+
+  public void addAuthenticatingPlayer(String nickname, AuthSessionHandler handler) {
+    this.authenticatingPlayers.put(nickname, handler);
+  }
+
+  public void removeAuthenticatingPlayer(String nickname) {
+    this.authenticatingPlayers.remove(nickname);
+  }
+
+  public AuthSessionHandler getAuthenticatingPlayer(String nickname) {
+    return this.authenticatingPlayers.get(nickname);
+  }
+
+  public Map<String, AuthSessionHandler> getAuthenticatingPlayers() {
+    return this.authenticatingPlayers;
   }
 
   public static class CachedUser {
