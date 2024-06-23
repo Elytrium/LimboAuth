@@ -53,7 +53,8 @@ public class StringEndpoint extends Endpoint {
       return;
     }
 
-    output.writeInt(0);
+    output.writeInt(1);
+    output.writeUTF(Settings.IMP.MAIN.BACKEND_API.TOKEN);
     output.writeUTF(this.username);
     output.writeUTF(this.value);
   }
