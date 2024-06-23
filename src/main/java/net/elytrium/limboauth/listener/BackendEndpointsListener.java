@@ -22,6 +22,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
+import com.velocitypowered.api.event.connection.PluginMessageEvent.ForwardResult;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.ChannelMessageSink;
@@ -68,7 +69,12 @@ public class BackendEndpointsListener {
 
   @Subscribe
   public void onRequest(PluginMessageEvent event) {
-    if (event.getIdentifier() != API_CHANNEL || !(event.getSource() instanceof ServerConnection server)) {
+    if (event.getIdentifier() != API_CHANNEL) {
+      return;
+    }
+
+    event.setResult(ForwardResult.handled());
+    if (!(event.getSource() instanceof ServerConnection server)) {
       return;
     }
 
