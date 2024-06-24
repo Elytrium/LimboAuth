@@ -21,7 +21,6 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import java.util.function.Function;
 import net.elytrium.limboauth.LimboAuth;
-import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.backend.Endpoint;
 
 public class LongEndpoint extends Endpoint {
