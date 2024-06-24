@@ -47,6 +47,16 @@ public class UnknownEndpoint extends Endpoint {
   }
 
   @Override
+  public void writeContents(ByteArrayDataOutput output) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void readContents(ByteArrayDataInput input) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public String toString() {
     return "UnknownEndpoint{"
         + "type='" + this.type + '\''

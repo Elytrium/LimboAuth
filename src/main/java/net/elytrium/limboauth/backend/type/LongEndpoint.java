@@ -26,47 +26,26 @@ import net.elytrium.limboauth.backend.Endpoint;
 
 public class LongEndpoint extends Endpoint {
 
-  private String type;
   private Function<String, Long> function;
-  private String username;
   private long value;
 
   public LongEndpoint(LimboAuth plugin, String type, Function<String, Long> function) {
-    super(plugin);
-    this.type = type;
+    super(plugin, type, null);
     this.function = function;
   }
 
   public LongEndpoint(LimboAuth plugin, String type, String username, long value) {
-    super(plugin);
-    this.type = type;
-    this.username = username;
+    super(plugin, type, username);
     this.value = value;
   }
 
   @Override
-  public void write(ByteArrayDataOutput output) {
-    output.writeUTF(this.type);
-    if (!Settings.IMP.MAIN.BACKEND_API.ENABLED_ENDPOINTS.contains(this.type)) {
-      output.writeInt(-1);
-      output.writeUTF(this.username);
-      return;
-    }
-
-    output.writeInt(1);
-    output.writeUTF(Settings.IMP.MAIN.BACKEND_API.TOKEN);
-    output.writeUTF(this.username);
+  public void writeContents(ByteArrayDataOutput output) {
     output.writeLong(this.value);
   }
 
   @Override
-  public void read(ByteArrayDataInput input) {
-    int version = input.readInt();
-    if (version != 0) {
-      throw new IllegalStateException("unsupported '" + this.type + "' endpoint version: " + version);
-    }
-
-    this.username = input.readUTF();
+  public void readContents(ByteArrayDataInput input) {
     this.value = this.function.apply(this.username);
   }
 

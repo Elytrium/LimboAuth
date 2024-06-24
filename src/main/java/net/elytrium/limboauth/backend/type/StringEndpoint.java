@@ -21,52 +21,30 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import java.util.function.Function;
 import net.elytrium.limboauth.LimboAuth;
-import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.backend.Endpoint;
 
 public class StringEndpoint extends Endpoint {
 
-  private String type;
-  private Function<String, String> function;
-  private String username;
   private String value;
+  private Function<String, String> function;
 
   public StringEndpoint(LimboAuth plugin, String type, Function<String, String> function) {
-    super(plugin);
-    this.type = type;
+    super(plugin, type, null);
     this.function = function;
   }
 
   public StringEndpoint(LimboAuth plugin, String type, String username, String value) {
-    super(plugin);
-    this.type = type;
-    this.username = username;
+    super(plugin, type, username);
     this.value = value;
   }
 
   @Override
-  public void write(ByteArrayDataOutput output) {
-    output.writeUTF(this.type);
-    if (!this.type.equals("available_endpoints") && !Settings.IMP.MAIN.BACKEND_API.ENABLED_ENDPOINTS.contains(this.type)) {
-      output.writeInt(-1);
-      output.writeUTF(this.username);
-      return;
-    }
-
-    output.writeInt(1);
-    output.writeUTF(Settings.IMP.MAIN.BACKEND_API.TOKEN);
-    output.writeUTF(this.username);
+  public void writeContents(ByteArrayDataOutput output) {
     output.writeUTF(this.value);
   }
 
   @Override
-  public void read(ByteArrayDataInput input) {
-    int version = input.readInt();
-    if (version != 0) {
-      throw new IllegalStateException("unsupported '" + this.type + "' endpoint version: " + version);
-    }
-
-    this.username = input.readUTF();
+  public void readContents(ByteArrayDataInput input) {
     this.value = this.function.apply(this.username);
   }
 
