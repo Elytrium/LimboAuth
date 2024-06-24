@@ -17,6 +17,8 @@
 
 package net.elytrium.limboauth.listener;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
@@ -25,7 +27,10 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.player.GameProfileRequestEvent;
+import com.velocitypowered.api.proxy.InboundConnection;
 import com.velocitypowered.api.util.UuidUtils;
+
+import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.UUID;
@@ -64,6 +69,11 @@ public class AuthListener {
       }
     } else {
       this.plugin.saveForceOfflineMode(event.getUsername());
+    }
+    InboundConnection connection = event.getConnection();
+    String host = connection.getVirtualHost().map(InetSocketAddress::getHostString).orElse("").toLowerCase();
+    if (!host.isEmpty()) {
+      plugin.getJoinHosts().put(event.getUsername(), host);
     }
   }
 

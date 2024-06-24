@@ -17,6 +17,8 @@
 
 package net.elytrium.limboauth;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Longs;
 import com.google.gson.JsonElement;
@@ -183,6 +185,8 @@ public class LimboAuth {
   private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
+  private Cache<String, String> joinHosts = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
+  private Cache<String, String> registeredAccounts = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS).build();
 
   @Inject
   public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
@@ -575,8 +579,11 @@ public class LimboAuth {
         }
 
         if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
-          registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
-
+          if (joinHosts.getIfPresent(player.getUsername()) != null) {
+            registeredPlayer = new RegisteredPlayer(player, joinHosts.getIfPresent(player.getUsername())).setPremiumUuid(player.getUniqueId());
+          } else {
+            registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
+          }
           try {
             this.playerDao.create(registeredPlayer);
           } catch (SQLException e) {
@@ -660,6 +667,9 @@ public class LimboAuth {
     updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
     updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
     updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_DATE_FIELD, System.currentTimeMillis());
+    if (joinHosts.getIfPresent(player.getUsername()) != null) {
+      updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_HOST_FIELD, joinHosts.getIfPresent(player.getUsername()));
+    }
     updateBuilder.update();
 
     if (Settings.IMP.MAIN.MOD.ENABLED) {
@@ -931,6 +941,14 @@ public class LimboAuth {
 
   public Limbo getAuthServer() {
     return this.authServer;
+  }
+
+  public Cache<String, String> getJoinHosts() {
+    return this.joinHosts;
+  }
+
+  public Cache<String, String> getRegisteredAccounts() {
+    return this.registeredAccounts;
   }
 
   public Pattern getNicknameValidationPattern() {
