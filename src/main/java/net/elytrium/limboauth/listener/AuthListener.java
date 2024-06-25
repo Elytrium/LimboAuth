@@ -62,8 +62,13 @@ public class AuthListener {
     this.floodgateApi = floodgateApi;
   }
 
-  @Subscribe
+  @Subscribe(order = PostOrder.LATE)
   public void onPreLoginEvent(PreLoginEvent event) {
+    // Ignore this event if it is was denied by other plugin
+    if (!event.getResult().isAllowed()) {
+      return;
+    }
+
     String username = event.getUsername();
     if (!event.getResult().isForceOfflineMode()) {
       if (this.plugin.isPremium(username)) {
