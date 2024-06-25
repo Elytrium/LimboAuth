@@ -202,7 +202,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
-    if (!LimboAuth.RATELIMITER.attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
+    if (!LimboAuth.getRatelimiter().attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
       this.proxyPlayer.sendMessage(AuthSessionHandler.ratelimited);
       return;
     }
