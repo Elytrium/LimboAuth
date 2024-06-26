@@ -316,7 +316,7 @@ public class Settings extends YamlConfig {
           "Should backend API be enabled?",
           "Required for PlaceholderAPI expansion to work (https://github.com/UserNugget/LimboAuth-Expansion)"
       })
-      public boolean ENABLED = true;
+      public boolean ENABLED = false;
 
       @Comment("Backend API token")
       public String TOKEN = Long.toString(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE), 36);
