@@ -32,6 +32,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.Properties;
 
 public enum DatabaseLibrary {
@@ -96,6 +97,7 @@ public enum DatabaseLibrary {
   private final BaseLibrary baseLibrary;
   private final DatabaseConnector connector;
   private final DatabaseStringGetter stringGetter;
+  private final IsolatedDriver driver = new IsolatedDriver("jdbc:limboauth_" + this.name().toLowerCase(Locale.ROOT) + ":");
 
   DatabaseLibrary(BaseLibrary baseLibrary, DatabaseConnector connector, DatabaseStringGetter stringGetter) {
     this.baseLibrary = baseLibrary;
@@ -124,16 +126,26 @@ public enum DatabaseLibrary {
 
   public ConnectionSource connectToORM(Path dir, String hostname, String database, String user, String password)
       throws ReflectiveOperationException, IOException, SQLException, URISyntaxException {
-    String jdbc = this.stringGetter.getJdbcString(dir, hostname, database);
-    URL baseLibraryURL = this.baseLibrary.getClassLoaderURL();
-    ClassLoader currentClassLoader = DatabaseLibrary.class.getClassLoader();
-    Method addPath = currentClassLoader.getClass().getDeclaredMethod("addPath", Path.class);
-    addPath.setAccessible(true);
-    addPath.invoke(currentClassLoader, Path.of(baseLibraryURL.toURI()));
+    if (this.driver.getOriginal() == null) {
+      IsolatedClassLoader classLoader = new IsolatedClassLoader(new URL[] {this.baseLibrary.getClassLoaderURL()});
+      Class<?> driverClass = classLoader.loadClass(
+          switch (this) {
+            case H2_LEGACY_V1, H2 -> "org.h2.Driver";
+            case MYSQL -> "com.mysql.cj.jdbc.NonRegisteringDriver";
+            case MARIADB -> "org.mariadb.jdbc.Driver";
+            case POSTGRESQL -> "org.postgresql.Driver";
+            case SQLITE -> "org.sqlite.JDBC";
+          }
+      );
 
-    this.connect(currentClassLoader, dir, jdbc, user, password).close(); // Load database driver (Will be rewritten soon)
+      this.driver.setOriginal((Driver) driverClass.getConstructor().newInstance());
+      DriverManager.registerDriver(this.driver);
+    }
+
+    String jdbc = this.stringGetter.getJdbcString(dir, hostname, database);
     boolean h2 = this.baseLibrary == BaseLibrary.H2_V1 || this.baseLibrary == BaseLibrary.H2_V2;
-    return new JdbcPooledConnectionSource(jdbc, h2 ? null : user, h2 ? null : password, DatabaseTypeUtils.createDatabaseType(jdbc));
+    return new JdbcPooledConnectionSource(this.driver.getInitializer() + jdbc,
+        h2 ? null : user, h2 ? null : password, DatabaseTypeUtils.createDatabaseType(jdbc));
   }
 
   private static Connection fromDriver(Class<?> connectionClass, String jdbc, String user, String password, boolean register)
