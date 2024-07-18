@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
 
-@DatabaseTable(tableName = "Accounts")
+@DatabaseTable(tableName = "accounts")
 public class RegisteredPlayer {
 
   public static final String NICKNAME_FIELD = "realname";
