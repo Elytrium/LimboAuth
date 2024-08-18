@@ -137,7 +137,7 @@ import org.slf4j.Logger;
 )
 public class LimboAuth {
 
-  public static final Ratelimiter RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
+  private static Ratelimiter RATELIMITER;
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
@@ -147,6 +147,14 @@ public class LimboAuth {
   private static Logger LOGGER;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
+
+  public static void setRatelimiter(Ratelimiter ratelimiter) {
+    LimboAuth.RATELIMITER = ratelimiter;
+  }
+
+  public static Ratelimiter getRatelimiter() {
+    return LimboAuth.RATELIMITER;
+  }
 
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
@@ -243,6 +251,8 @@ public class LimboAuth {
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
   public void reload() {
     Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX);
+
+    LimboAuth.setRatelimiter(Ratelimiters.createWithMilliseconds(Settings.IMP.MAIN.COMMAND_RATE_LIMIT));
 
     if (!Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH_STRICT && !Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
       Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS = true;
@@ -737,7 +747,10 @@ public class LimboAuth {
 
       if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
-        return new PremiumResponse(PremiumState.PREMIUM_USERNAME, ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString());
+        return PremiumResponse.fromUuidString(
+            PremiumState.PREMIUM_USERNAME,
+            ((JsonObject) jsonElement).get(Settings.IMP.MAIN.JSON_UUID_FIELD).getAsString()
+        );
       }
 
       if (Settings.IMP.MAIN.STATUS_CODE_USER_NOT_EXISTS.contains(statusCode)
@@ -1076,13 +1089,15 @@ public class LimboAuth {
       this.uuid = uuid;
     }
 
-    public PremiumResponse(PremiumState state, String uuid) {
-      this.state = state;
-      if (uuid.contains("-")) {
-        this.uuid = UUID.fromString(uuid);
+    // Had to do this as spotbug was mad on me for throwing possible exception in class constructor
+    public static PremiumResponse fromUuidString(PremiumState state, String uuidString) {
+      UUID uuid;
+      if (uuidString.contains("-")) {
+        uuid = UUID.fromString(uuidString);
       } else {
-        this.uuid = new UUID(Long.parseUnsignedLong(uuid.substring(0, 16), 16), Long.parseUnsignedLong(uuid.substring(16), 16));
+        uuid = new UUID(Long.parseUnsignedLong(uuidString.substring(0, 16), 16), Long.parseUnsignedLong(uuidString.substring(16), 16));
       }
+      return new PremiumResponse(state, uuid);
     }
 
     public PremiumState getState() {
