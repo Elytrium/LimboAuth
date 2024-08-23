@@ -23,10 +23,12 @@ import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent.ForwardResult;
-import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
-import com.velocitypowered.api.proxy.messages.ChannelMessageSink;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
+import com.velocitypowered.proxy.connection.MinecraftConnection;
+import com.velocitypowered.proxy.connection.backend.VelocityServerConnection;
+import com.velocitypowered.proxy.protocol.packet.PluginMessagePacket;
+import io.netty.buffer.Unpooled;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map;
 import java.util.function.Function;
@@ -74,25 +76,29 @@ public class BackendEndpointsListener {
     }
 
     event.setResult(ForwardResult.handled());
-    if (!(event.getSource() instanceof ServerConnection server)) {
+    if (!(event.getSource() instanceof VelocityServerConnection server) || !server.isActive()) {
       return;
     }
 
+    Endpoint endpoint;
     ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
     String dataType = in.readUTF();
     Function<LimboAuth, Endpoint> typeFunc = TYPES.get(dataType);
     if (typeFunc == null) {
-      this.send(server, new UnknownEndpoint(this.plugin, dataType));
+      endpoint = new UnknownEndpoint(this.plugin, dataType);
     } else {
-      Endpoint endpoint = typeFunc.apply(this.plugin);
+      endpoint = typeFunc.apply(this.plugin);
       endpoint.read(in);
-      this.send(server, endpoint);
     }
-  }
 
-  private void send(ChannelMessageSink sink, Endpoint endpoint) {
-    ByteArrayDataOutput output = ByteStreams.newDataOutput();
-    endpoint.write(output);
-    sink.sendPluginMessage(API_CHANNEL, output.toByteArray());
+    // Please do not use ServerConnection::sendPluginMessage as it can easly throw exception due to delayed response
+    // 1) Player can quit the server causing ServerConnection::sendPluginMessage to throw exception
+    // 2) There are no proper way to check if ServerConnection is not closed
+    MinecraftConnection connection = server.getConnection();
+    if (connection != null && !connection.isClosed()) {
+      ByteArrayDataOutput output = ByteStreams.newDataOutput();
+      endpoint.write(output);
+      connection.write(new PluginMessagePacket(API_CHANNEL.getId(), Unpooled.wrappedBuffer(output.toByteArray())));
+    }
   }
 }
