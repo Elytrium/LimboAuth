@@ -73,6 +73,7 @@ public class Settings extends YamlConfig {
     @Comment("Max password length for the BCrypt hashing algorithm, which is used in this plugin, can't be higher than 71. You can set a lower value than 71.")
     public int MAX_PASSWORD_LENGTH = 71;
     public boolean CHECK_PASSWORD_STRENGTH = true;
+    public String UNSAFE_SET_PASSWORDS_FILE = "unsafe_pass_user_set.txt";
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
     @Comment({
         "Players with premium nicknames should register/auth if this option is enabled",
@@ -436,6 +437,7 @@ public class Settings extends YamlConfig {
       public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered a too short password, use a different one!";
       public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered a too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
+      public String REGISTER_PASSWORD_UNSAFE_PASS_USER_SET = "{PRFX} &cYour password found in a database leak. You need to change your password to play in this server!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String REGISTER_TITLE = "{PRFX}";
