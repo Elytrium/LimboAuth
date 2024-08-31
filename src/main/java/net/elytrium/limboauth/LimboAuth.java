@@ -110,9 +110,9 @@ import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.listener.BackendEndpointsListener;
-import net.elytrium.limboauth.model.UnsafePlayer;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.model.UnsafePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.title.Title;
@@ -325,11 +325,11 @@ public class LimboAuth {
           String username = parts[0];
           String password = parts[1];
           UnsafePlayer unsafePlayer = new UnsafePlayer(username, password);
-          unsafePlayerPassSet.add(unsafePlayer);
+          this.unsafePlayerPassSet.add(unsafePlayer);
         }
       });
 
-      this.server.sendMessage(Component.text("Loadded " + unsafePlayerPassSet.size() + " unsafe user & password set!"));
+      this.server.sendMessage(Component.text("Loadded " + this.unsafePlayerPassSet.size() + " unsafe user & password set!"));
 
     } catch (IOException e) {
       throw new IllegalArgumentException(e);
@@ -960,12 +960,13 @@ public class LimboAuth {
     return this.postLoginTasks;
   }
 
-    public Set<String> getUnsafePasswords() {
-        return this.unsafePasswords;
-    }
-    public Set<UnsafePlayer> getUnsafePlayerPassSet() {
-        return this.unsafePlayerPassSet;
-    }
+  public Set<String> getUnsafePasswords() {
+    return this.unsafePasswords;
+  }
+
+  public Set<UnsafePlayer> getUnsafePlayerPassSet() {
+    return this.unsafePlayerPassSet;
+  }
 
   public ProxyServer getServer() {
     return this.server;
