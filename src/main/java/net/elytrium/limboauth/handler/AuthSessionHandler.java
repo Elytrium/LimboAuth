@@ -415,8 +415,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private boolean checkUnsafePassSet(String username, String password) {
     Set<UnsafePlayer> unsafePlayers = this.plugin.getUnsafePlayerPassSet();
 
-    for (UnsafePlayer risePlayer : unsafePlayers) {
-      if (username.equalsIgnoreCase(risePlayer.getUsername()) && risePlayer.getPassword().equalsIgnoreCase(password)) {
+    for (UnsafePlayer unsafePlayer : unsafePlayers) {
+      if (username.equalsIgnoreCase(unsafePlayer.getUsername()) && unsafePlayer.getPassword().equalsIgnoreCase(password)) {
         this.proxyPlayer.sendMessage(registerPasswordUnsafeUserPassSet);
         return false;
       }
