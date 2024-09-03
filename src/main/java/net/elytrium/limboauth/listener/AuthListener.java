@@ -86,7 +86,7 @@ public class AuthListener {
               connection.getChannel().closeFuture().addListener(future -> {
                 // Player has failed premium verfication client-side, mark as offline-mode
                 if (this.plugin.getPendingLogins().remove(username)) {
-                  this.plugin.setPremium(username.toLowerCase(Locale.ROOT), false);
+                  this.plugin.setPremiumCacheLowercased(username.toLowerCase(Locale.ROOT), false);
                 }
               });
             }

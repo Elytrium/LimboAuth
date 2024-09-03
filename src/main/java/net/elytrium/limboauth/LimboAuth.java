@@ -820,12 +820,10 @@ public class LimboAuth {
 
       switch (check.getState()) {
         case CRACKED: {
-          return this.setPremium(lowercaseNickname, false).isPremium();
+          return this.setPremiumCacheLowercased(lowercaseNickname, false).isPremium();
         }
         case PREMIUM: {
-          CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
-          premiumUser.setForcePremium(true);
-          return premiumUser.isPremium();
+          return this.setForcedPremiumCacheLowercased(lowercaseNickname, true).isPremium();
         }
         case PREMIUM_USERNAME: {
           premium = true;
@@ -849,9 +847,7 @@ public class LimboAuth {
 
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
-        CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
-        premiumUser.setForcePremium(true);
-        return premiumUser.isPremium();
+        return this.setForcedPremiumCacheLowercased(lowercaseNickname, true).isPremium();
       }
 
       if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
@@ -867,7 +863,7 @@ public class LimboAuth {
       return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
 
-    return this.setPremium(lowercaseNickname, true).isPremium();
+    return this.setPremiumCacheLowercased(lowercaseNickname, true).isPremium();
   }
 
   public boolean isPremium(String nickname) {
@@ -886,7 +882,13 @@ public class LimboAuth {
     return this.premiumCache.get(nickname.toLowerCase(Locale.ROOT));
   }
 
-  public CachedPremiumUser setPremium(String lowercasedNickname, boolean value) {
+  public CachedPremiumUser setForcedPremiumCacheLowercased(String lowercasedNickname, boolean value) {
+    CachedPremiumUser premiumUser = this.setPremiumCacheLowercased(lowercasedNickname, value);
+    premiumUser.setForcePremium(value);
+    return premiumUser;
+  }
+
+  public CachedPremiumUser setPremiumCacheLowercased(String lowercasedNickname, boolean value) {
     CachedPremiumUser premiumUser = new CachedPremiumUser(System.currentTimeMillis(), value);
     this.premiumCache.put(lowercasedNickname, premiumUser);
     return premiumUser;
