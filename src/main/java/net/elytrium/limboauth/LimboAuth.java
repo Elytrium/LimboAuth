@@ -746,8 +746,8 @@ public class LimboAuth {
       }
 
       return new PremiumResponse(PremiumState.ERROR);
-    } catch (IOException | InterruptedException e) {
-      LOGGER.error("Unable to authenticate with Mojang.", e);
+    } catch (Throwable t) {
+      LOGGER.error("Unable to authenticate with Mojang.", t);
       return new PremiumResponse(PremiumState.ERROR);
     }
   }
@@ -813,7 +813,14 @@ public class LimboAuth {
     UUID uuid = null;
 
     for (Function<String, PremiumResponse> function : functions) {
-      PremiumResponse check = function.apply(lowercaseNickname);
+      PremiumResponse check;
+      try {
+        check = function.apply(lowercaseNickname);
+      } catch (Throwable t) {
+        check = new PremiumResponse(PremiumState.ERROR);
+        LOGGER.error("Unable to check player account state.", t);
+      }
+
       if (check.getUuid() != null) {
         uuid = check.getUuid();
       }
