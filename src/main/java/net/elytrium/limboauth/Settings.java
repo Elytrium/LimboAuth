@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
@@ -78,6 +79,13 @@ public class Settings extends YamlConfig {
         "Players with premium nicknames must login with a premium Minecraft account if this option is disabled",
     })
     public boolean ONLINE_MODE_NEED_AUTH = true;
+    @Comment({
+        "WARNING: This is semi-experimental feature.",
+        "Disable to allow offline-mode players using online-mode usernames",
+        "If you disable it, be sure that online-mode players still can be offline-mode as there",
+        "are no proper way to see if the player is joining via online-mode enabled client."
+    })
+    public boolean ONLINE_MODE_NEED_AUTH_STRICT = true;
     @Comment("Needs floodgate plugin if disabled.")
     public boolean FLOODGATE_NEED_AUTH = true;
     @Comment("TOTALLY disables hybrid auth feature")
@@ -302,6 +310,30 @@ public class Settings extends YamlConfig {
     }
 
     @Create
+    public Settings.MAIN.BACKEND_API BACKEND_API;
+
+    public static class BACKEND_API {
+
+      @Comment({
+          "Should backend API be enabled?",
+          "Required for PlaceholderAPI expansion to work (https://github.com/UserNugget/LimboAuth-Expansion)"
+      })
+      public boolean ENABLED = true;
+
+      @Comment("Backend API token")
+      public String TOKEN = Long.toString(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE), 36);
+
+      @Comment({
+          "Available endpoints:",
+          " premium_state, hash, totp_token, login_date, reg_date, token_issued_at,",
+          " uuid, premium_uuid, ip, login_ip, token_issued_at"
+      })
+      public List<String> ENABLED_ENDPOINTS = List.of(
+          "premium_state", "login_date", "reg_date", "uuid", "premium_uuid", "token_issued_at"
+      );
+    }
+
+    @Create
     public MAIN.COMMAND_PERMISSION_STATE COMMAND_PERMISSION_STATE;
 
     @Comment({
@@ -326,6 +358,8 @@ public class Settings extends YamlConfig {
       public CommandPermissionState FORCE_CHANGE_PASSWORD = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.forceregister")
       public CommandPermissionState FORCE_REGISTER = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.forcelogin")
+      public CommandPermissionState FORCE_LOGIN = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.forceunregister")
       public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.reload")
@@ -377,13 +411,13 @@ public class Settings extends YamlConfig {
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_PREMIUM_TITLE = "{PRFX} Welcome!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String LOGIN_PREMIUM_SUBTITLE = "&aYou has been logged in as premium player!";
+      public String LOGIN_PREMIUM_SUBTITLE = "&aYou have been logged in as premium player!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE = "{PRFX} You've been logged in automatically using the bedrock account!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
       public String LOGIN_FLOODGATE_TITLE = "{PRFX} Welcome!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
-      public String LOGIN_FLOODGATE_SUBTITLE = "&aYou has been logged in as bedrock player!";
+      public String LOGIN_FLOODGATE_SUBTITLE = "&aYou have been logged in as bedrock player!";
 
       public String LOGIN = "{PRFX} &aPlease, login using &6/login <password>&a, you have &6{0} &aattempts.";
       public String LOGIN_WRONG_PASSWORD = "{PRFX} &cYou''ve entered the wrong password, you have &6{0} &cattempts left.";
@@ -401,8 +435,8 @@ public class Settings extends YamlConfig {
       @Comment("Or if register-need-repeat-password set to false remove the \"<repeat password>\" part.")
       public String REGISTER = "{PRFX} Please, register using &6/register <password> <repeat password>";
       public String REGISTER_DIFFERENT_PASSWORDS = "{PRFX} &cThe entered passwords differ from each other!";
-      public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered too short password, use a different one!";
-      public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered too long password, use a different one!";
+      public String REGISTER_PASSWORD_TOO_SHORT = "{PRFX} &cYou entered a too short password, use a different one!";
+      public String REGISTER_PASSWORD_TOO_LONG = "{PRFX} &cYou entered a too long password, use a different one!";
       public String REGISTER_PASSWORD_UNSAFE = "{PRFX} &cYour password is unsafe, use a different one!";
       public String REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered!";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)
@@ -425,7 +459,7 @@ public class Settings extends YamlConfig {
       public String EVENT_CANCELLED = "{PRFX} Authorization event was cancelled";
 
       public String FORCE_UNREGISTER_SUCCESSFUL = "{PRFX} &6{0} &asuccessfully unregistered!";
-      public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by administrator!";
+      public String FORCE_UNREGISTER_KICK = "{PRFX}{NL}&aYou have been unregistered by an administrator!";
       public String FORCE_UNREGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to unregister &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_UNREGISTER_USAGE = "{PRFX} Usage: &6/forceunregister <nickname>";
 
@@ -436,7 +470,7 @@ public class Settings extends YamlConfig {
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
 
       public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
-      public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby administator!";
+      public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby an administator!";
       public String FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL = "{PRFX} &cUnable to change password for &6{0}&c. Most likely this player has never been on this server.";
       public String FORCE_CHANGE_PASSWORD_NOT_REGISTERED = "{PRFX} &cPlayer &6{0}&c is not registered.";
       public String FORCE_CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/forcechangepassword <nickname> <new password>";
@@ -446,6 +480,10 @@ public class Settings extends YamlConfig {
       public String FORCE_REGISTER_TAKEN_NICKNAME = "{PRFX} &cThis nickname is already taken.";
       public String FORCE_REGISTER_SUCCESSFUL = "{PRFX} &aSuccessfully registered player &6{0}&a!";
       public String FORCE_REGISTER_NOT_SUCCESSFUL = "{PRFX} &cUnable to register player &6{0}&c.";
+
+      public String FORCE_LOGIN_USAGE = "{PRFX} Usage: &6/forcelogin <nickname>";
+      public String FORCE_LOGIN_SUCCESSFUL = "{PRFX} &aSuccessfully authenticated &6{0}&a!";
+      public String FORCE_LOGIN_UNKNOWN_PLAYER = "{PRFX} &cUnable to find authenticating player with username &6{0}&a!";
 
       public String TOTP = "{PRFX} Please, enter your 2FA key using &6/2fa <key>";
       @Comment(value = "Can be empty.", at = Comment.At.SAME_LINE)

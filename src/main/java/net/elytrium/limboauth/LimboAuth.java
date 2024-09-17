@@ -25,6 +25,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import com.google.zxing.common.StringUtils;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
@@ -53,6 +54,7 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.proxy.util.ratelimit.Ratelimiter;
 import com.velocitypowered.proxy.util.ratelimit.Ratelimiters;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.netty.util.internal.StringUtil;
 import io.whitfin.siphash.SipHasher;
 import java.io.File;
 import java.io.IOException;
@@ -68,14 +70,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -95,6 +90,7 @@ import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
+import net.elytrium.limboauth.command.ForceLoginCommand;
 import net.elytrium.limboauth.command.ForceRegisterCommand;
 import net.elytrium.limboauth.command.ForceUnregisterCommand;
 import net.elytrium.limboauth.command.LimboAuthCommand;
@@ -110,6 +106,7 @@ import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
 import net.elytrium.limboauth.listener.AuthListener;
+import net.elytrium.limboauth.listener.BackendEndpointsListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -154,6 +151,7 @@ public class LimboAuth {
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
+  private final Set<String> pendingLogins = ConcurrentHashMap.newKeySet();
 
   private final HttpClient client = HttpClient.newHttpClient();
 
@@ -164,6 +162,7 @@ public class LimboAuth {
   private final File configFile;
   private final LimboFactory factory;
   private final FloodgateApiHolder floodgateApi;
+  private final Map<String, AuthSessionHandler> authenticatingPlayers;
 
   @Nullable
   private Component loginPremium;
@@ -186,6 +185,9 @@ public class LimboAuth {
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
   private Cache<String, String> joinHosts = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
+  public HashMap<String, Boolean> kickedPlayers = new HashMap<>();
+  public HashMap<String, Boolean> updatedIpPlayers = new HashMap<>();
+  public boolean checkRuIP = false;
   private Cache<String, String> registeredAccounts = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS).build();
 
   @Inject
@@ -199,6 +201,7 @@ public class LimboAuth {
     this.dataDirectoryFile = dataDirectory.toFile();
     this.configFile = new File(this.dataDirectoryFile, "config.yml");
 
+    this.authenticatingPlayers = new ConcurrentHashMap<>();
     this.factory = (LimboFactory) this.server.getPluginManager().getPlugin("limboapi").flatMap(PluginContainer::getInstance).orElseThrow();
 
     if (this.server.getPluginManager().getPlugin("floodgate").isPresent()) {
@@ -229,17 +232,25 @@ public class LimboAuth {
     metrics.addCustomChart(new SimplePie("save_uuid", () -> String.valueOf(Settings.IMP.MAIN.SAVE_UUID)));
     metrics.addCustomChart(new SingleLineChart("registered_players", () -> Math.toIntExact(this.playerDao.countOf())));
 
-    if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
-      LOGGER.error("****************************************");
-      LOGGER.warn("The new LimboAuth update was found, please update.");
-      LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
-      LOGGER.error("****************************************");
-    }
+    this.server.getScheduler().buildTask(this, () -> {
+      if (!UpdatesChecker.checkVersionByURL("https://raw.githubusercontent.com/Elytrium/LimboAuth/master/VERSION", Settings.IMP.VERSION)) {
+        LOGGER.error("****************************************");
+        LOGGER.warn("The new LimboAuth update was found, please update.");
+        LOGGER.error("https://github.com/Elytrium/LimboAuth/releases/");
+        LOGGER.error("****************************************");
+      }
+    }).schedule();
   }
 
   @SuppressFBWarnings(value = "NP_NULL_ON_SOME_PATH", justification = "LEGACY_AMPERSAND can't be null in velocity.")
   public void reload() {
     Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX);
+
+    if (!Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH_STRICT && !Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
+      Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS = true;
+      LOGGER.error("As you have online-mode-need-auth-strict disabled, save-premium-accounts "
+          + "was forcibly enabled to prevent online-mode accounts hijacking.");
+    }
 
     if (this.floodgateApi == null && !Settings.IMP.MAIN.FLOODGATE_NEED_AUTH) {
       throw new IllegalStateException("If you want floodgate players to automatically pass auth (floodgate-need-auth: false),"
@@ -342,6 +353,7 @@ public class LimboAuth {
     CommandManager manager = this.server.getCommandManager();
     manager.unregister("unregister");
     manager.unregister("forceregister");
+    manager.unregister("forcelogin");
     manager.unregister("premium");
     manager.unregister("forceunregister");
     manager.unregister("changepassword");
@@ -352,6 +364,7 @@ public class LimboAuth {
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
+    manager.register("forcelogin", new ForceLoginCommand(this));
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
@@ -400,6 +413,11 @@ public class LimboAuth {
     EventManager eventManager = this.server.getEventManager();
     eventManager.unregisterListeners(this);
     eventManager.register(this, new AuthListener(this, this.playerDao, this.floodgateApi));
+    if (Settings.IMP.MAIN.BACKEND_API.ENABLED) {
+      eventManager.register(this, new BackendEndpointsListener(this));
+    } else {
+      this.server.getChannelRegistrar().unregister(BackendEndpointsListener.API_CHANNEL);
+    }
 
     if (this.purgeCacheTask != null) {
       this.purgeCacheTask.cancel();
@@ -627,6 +645,15 @@ public class LimboAuth {
       Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
       eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
     } else {
+      if (checkRuIP && joinHosts.getIfPresent(player.getUsername()) != null && joinHosts.getIfPresent(player.getUsername()).toLowerCase().endsWith(".ru") && System.currentTimeMillis() - registeredPlayer.getRegDate() > 14 * 24 * 60 * 60 * 1000) {
+        player.disconnect(SERIALIZER.deserialize("&cПожалуйста, обновите адрес сервера!\n\n" +
+                "&fДля игры необходимо использовать\n" +
+                "&fактуальный IP-адрес сервера. Добавьте в список\n" +
+                "&fсерверов новый с адресом &#f89d57mc.raidmine.com"));
+        kickedPlayers.put(player.getUsername(), true);
+      } else if (kickedPlayers.containsKey(player.getUsername())) {
+        updatedIpPlayers.put(player.getUsername(), true);
+      }
       Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
       eventManager.fire(new PreAuthorizationEvent(eventConsumer, result, player, registeredPlayer)).thenAcceptAsync(eventConsumer);
     }
@@ -637,12 +664,15 @@ public class LimboAuth {
 
     switch (event.getResult()) {
       case BYPASS: {
-        this.factory.passLoginLimbo(player);
-        this.cacheAuthUser(player);
         try {
-          this.updateLoginData(player);
-        } catch (SQLException e) {
-          throw new SQLRuntimeException(e);
+          this.cacheAuthUser(player);
+          try {
+            this.updateLoginData(player);
+          } catch (SQLException e) {
+            throw new SQLRuntimeException(e);
+          }
+        } finally {
+          this.factory.passLoginLimbo(player);
         }
         break;
       }
@@ -807,12 +837,12 @@ public class LimboAuth {
 
       switch (check.getState()) {
         case CRACKED: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), false));
-          return false;
+          return this.setPremium(lowercaseNickname, false).isPremium();
         }
         case PREMIUM: {
-          this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-          return true;
+          CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
+          premiumUser.setForcePremium(true);
+          return premiumUser.isPremium();
         }
         case PREMIUM_USERNAME: {
           premium = true;
@@ -836,8 +866,9 @@ public class LimboAuth {
 
     if (unknown) {
       if (uuid != null && this.isPremiumUuid(uuid)) {
-        this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-        return true;
+        CachedPremiumUser premiumUser = this.setPremium(lowercaseNickname, true);
+        premiumUser.setForcePremium(true);
+        return premiumUser.isPremium();
       }
 
       if (Settings.IMP.MAIN.ONLINE_MODE_NEED_AUTH) {
@@ -853,8 +884,7 @@ public class LimboAuth {
       return Settings.IMP.MAIN.ON_SERVER_ERROR_PREMIUM;
     }
 
-    this.premiumCache.put(lowercaseNickname, new CachedPremiumUser(System.currentTimeMillis(), true));
-    return true;
+    return this.setPremium(lowercaseNickname, true).isPremium();
   }
 
   public boolean isPremium(String nickname) {
@@ -867,6 +897,16 @@ public class LimboAuth {
         return checkIsPremiumAndCache(nickname, this::isPremiumExternal, this::isPremiumInternal);
       }
     }
+  }
+
+  public CachedPremiumUser getPremiumCache(String nickname) {
+    return this.premiumCache.get(nickname.toLowerCase(Locale.ROOT));
+  }
+
+  public CachedPremiumUser setPremium(String lowercasedNickname, boolean value) {
+    CachedPremiumUser premiumUser = new CachedPremiumUser(System.currentTimeMillis(), value);
+    this.premiumCache.put(lowercasedNickname, premiumUser);
+    return premiumUser;
   }
 
   public void incrementBruteforceAttempts(InetAddress address) {
@@ -901,6 +941,10 @@ public class LimboAuth {
 
   public boolean isForcedPreviously(String nickname) {
     return this.forcedPreviously.contains(nickname);
+  }
+
+  public Set<String> getPendingLogins() {
+    return this.pendingLogins;
   }
 
   public Map<UUID, Runnable> getPostLoginTasks() {
@@ -955,7 +999,23 @@ public class LimboAuth {
     return this.nicknameValidationPattern;
   }
 
-  private static class CachedUser {
+  public void addAuthenticatingPlayer(String nickname, AuthSessionHandler handler) {
+    this.authenticatingPlayers.put(nickname, handler);
+  }
+
+  public void removeAuthenticatingPlayer(String nickname) {
+    this.authenticatingPlayers.remove(nickname);
+  }
+
+  public AuthSessionHandler getAuthenticatingPlayer(String nickname) {
+    return this.authenticatingPlayers.get(nickname);
+  }
+
+  public Map<String, AuthSessionHandler> getAuthenticatingPlayers() {
+    return this.authenticatingPlayers;
+  }
+
+  public static class CachedUser {
 
     private final long checkTime;
 
@@ -989,14 +1049,23 @@ public class LimboAuth {
     }
   }
 
-  private static class CachedPremiumUser extends CachedUser {
+  public static class CachedPremiumUser extends CachedUser {
 
     private final boolean premium;
+    private boolean forcePremium;
 
     public CachedPremiumUser(long checkTime, boolean premium) {
       super(checkTime);
 
       this.premium = premium;
+    }
+
+    public void setForcePremium(boolean forcePremium) {
+      this.forcePremium = forcePremium;
+    }
+
+    public boolean isForcePremium() {
+      return this.forcePremium;
     }
 
     public boolean isPremium() {

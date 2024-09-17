@@ -73,6 +73,16 @@ public class LimboAuthCommand extends RatelimitedCommand {
   public void execute(CommandSource source, String[] args) {
     int argsAmount = args.length;
     if (argsAmount > 0) {
+      if (args[0].equalsIgnoreCase("stats")) {
+        source.sendMessage(Component.text("kicked " + plugin.kickedPlayers.size()));
+        source.sendMessage(Component.text("updated ip " + plugin.updatedIpPlayers.size() + " (" + plugin.updatedIpPlayers.size() / plugin.kickedPlayers.size() + ")"));
+        return;
+      }
+      if (args[0].equalsIgnoreCase("switch")) {
+        plugin.checkRuIP = !plugin.checkRuIP;
+        source.sendMessage(Component.text( "changed to " + plugin.checkRuIP));
+        return;
+      }
       try {
         Subcommand subcommand = Subcommand.valueOf(args[0].toUpperCase(Locale.ROOT));
         if (!subcommand.hasPermission(source)) {
