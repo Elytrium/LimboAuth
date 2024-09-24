@@ -36,7 +36,7 @@ public abstract class RatelimitedCommand implements SimpleCommand {
   public final void execute(SimpleCommand.Invocation invocation) {
     CommandSource source = invocation.source();
     if (source instanceof Player) {
-      if (!LimboAuth.RATELIMITER.attempt(((Player) source).getRemoteAddress().getAddress())) {
+      if (!LimboAuth.getRatelimiter().attempt(((Player) source).getRemoteAddress().getAddress())) {
         source.sendMessage(this.ratelimited);
         return;
       }

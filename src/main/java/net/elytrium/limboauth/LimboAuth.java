@@ -137,7 +137,6 @@ import org.slf4j.Logger;
 )
 public class LimboAuth {
 
-  public static final Ratelimiter RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
@@ -147,6 +146,8 @@ public class LimboAuth {
   private static Logger LOGGER;
   @MonotonicNonNull
   private static Serializer SERIALIZER;
+  @MonotonicNonNull
+  private static Ratelimiter RATELIMITER;
 
   private final Map<String, CachedSessionUser> cachedAuthChecks = new ConcurrentHashMap<>();
   private final Map<String, CachedPremiumUser> premiumCache = new ConcurrentHashMap<>();
@@ -262,6 +263,8 @@ public class LimboAuth {
     } else {
       setSerializer(new Serializer(serializer));
     }
+
+    setRatelimiter(Ratelimiters.createWithMilliseconds(Settings.IMP.MAIN.RATELIMIT_MILLIS));
 
     TaskEvent.reload();
     AuthSessionHandler.reload();
@@ -969,6 +972,14 @@ public class LimboAuth {
 
   public static Serializer getSerializer() {
     return SERIALIZER;
+  }
+
+  public static void setRatelimiter(Ratelimiter ratelimiter) {
+    RATELIMITER = ratelimiter;
+  }
+
+  public static Ratelimiter getRatelimiter() {
+    return RATELIMITER;
   }
 
   public Limbo getAuthServer() {
