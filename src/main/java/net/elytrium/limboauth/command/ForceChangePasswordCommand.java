@@ -32,6 +32,7 @@ import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.ChangePasswordEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.helper.PasswordVerifier;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
 import net.kyori.adventure.text.Component;
@@ -47,6 +48,11 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
   private final String notSuccessful;
   private final String notRegistered;
   private final Component usage;
+  private final Component passwordTooLong;
+  private final Component passwordTooShort;
+  private final Component passwordUnsafe;
+
+  private final boolean bypassPasswordCheck;
 
   public ForceChangePasswordCommand(LimboAuth plugin, ProxyServer server, Dao<RegisteredPlayer, String> playerDao) {
     this.plugin = plugin;
@@ -57,7 +63,15 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_SUCCESSFUL;
     this.notRegistered = Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_NOT_REGISTERED;
-    this.usage = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
+
+    Serializer serializer = LimboAuth.getSerializer();
+
+    this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.FORCE_CHANGE_PASSWORD_USAGE);
+    this.passwordTooLong = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_LONG);
+    this.passwordTooShort = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_SHORT);
+    this.passwordUnsafe = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_UNSAFE);
+
+    this.bypassPasswordCheck = Settings.IMP.MAIN.FORCE_CHANGE_PASSWORD_BYPASS_CHECK;
   }
 
   @Override
@@ -68,37 +82,19 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
   @Override
   public void execute(CommandSource source, String[] args) {
     if (args.length == 2) {
-      String nickname = args[0];
-      String nicknameLowercased = args[0].toLowerCase(Locale.ROOT);
       String newPassword = args[1];
 
-      Serializer serializer = LimboAuth.getSerializer();
-      try {
-        RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfoLowercased(this.playerDao, nicknameLowercased);
+      if (!this.bypassPasswordCheck) {
+        final PasswordVerifier passwordVerifier = new PasswordVerifier(this.plugin);
+        switch (passwordVerifier.checkPassword(newPassword)) {
+          case PASSWORD_TOO_LONG -> source.sendMessage(this.passwordTooLong);
+          case PASSWORD_TOO_SHORT -> source.sendMessage(this.passwordTooShort);
+          case PASSWORD_UNSAFE -> source.sendMessage(this.passwordUnsafe);
 
-        if (registeredPlayer == null) {
-          source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, nickname)));
-          return;
+          default -> this.performPasswordChange(source, args[0], newPassword);
         }
-
-        final String oldHash = registeredPlayer.getHash();
-        final String newHash = RegisteredPlayer.genHash(newPassword);
-
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nicknameLowercased);
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
-        updateBuilder.update();
-
-        this.plugin.removePlayerFromCacheLowercased(nicknameLowercased);
-        this.server.getPlayer(nickname)
-            .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
-
-        this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(registeredPlayer, null, oldHash, newPassword, newHash));
-
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
-      } catch (SQLException e) {
-        source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        throw new SQLRuntimeException(e);
+      } else {
+        this.performPasswordChange(source, args[0], newPassword);
       }
     } else {
       source.sendMessage(this.usage);
@@ -109,5 +105,37 @@ public class ForceChangePasswordCommand extends RatelimitedCommand {
   public boolean hasPermission(SimpleCommand.Invocation invocation) {
     return Settings.IMP.MAIN.COMMAND_PERMISSION_STATE.FORCE_CHANGE_PASSWORD
         .hasPermission(invocation.source(), "limboauth.admin.forcechangepassword");
+  }
+
+  private void performPasswordChange(CommandSource source, String username, String newPassword) {
+    Serializer serializer = LimboAuth.getSerializer();
+    String usernameLowercased = username.toLowerCase(Locale.ROOT);
+    RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercased);
+
+    if (registeredPlayer == null) {
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.notRegistered, username)));
+      return;
+    }
+
+    final String oldHash = registeredPlayer.getHash();
+    final String newHash = RegisteredPlayer.genHash(newPassword);
+
+    try {
+      UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
+      updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, usernameLowercased);
+      updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, newHash);
+      updateBuilder.update();
+
+      this.plugin.removePlayerFromCacheLowercased(usernameLowercased);
+      this.server.getPlayer(username)
+          .ifPresent(player -> player.sendMessage(serializer.deserialize(MessageFormat.format(this.message, newPassword))));
+
+      this.plugin.getServer().getEventManager().fireAndForget(new ChangePasswordEvent(registeredPlayer, null, oldHash, newPassword, newHash));
+
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, username)));
+    } catch (SQLException e) {
+      source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, username)));
+      throw new SQLRuntimeException(e);
+    }
   }
 }

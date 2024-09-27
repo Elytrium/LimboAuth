@@ -74,6 +74,8 @@ public class Settings extends YamlConfig {
     public int MAX_PASSWORD_LENGTH = 71;
     public boolean CHECK_PASSWORD_STRENGTH = true;
     public String UNSAFE_PASSWORDS_FILE = "unsafe_passwords.txt";
+    @Comment("Determines whether or not /forcechangepassword command will bypass password length & strength checks.")
+    public boolean FORCE_CHANGE_PASSWORD_BYPASS_CHECK = true;
     @Comment({
         "Players with premium nicknames should register/auth if this option is enabled",
         "Players with premium nicknames must login with a premium Minecraft account if this option is disabled",
@@ -229,6 +231,9 @@ public class Settings extends YamlConfig {
         "True - as premium; False - as cracked"
     })
     public boolean ON_SERVER_ERROR_PREMIUM = true;
+
+    @Comment("Defines rate limit between command executions from same IP-address in milliseconds.")
+    public long COMMAND_RATE_LIMIT = 5000;
 
     public List<String> REGISTER_COMMAND = List.of("/r", "/reg", "/register");
     public List<String> LOGIN_COMMAND = List.of("/l", "/log", "/login");
@@ -465,8 +470,9 @@ public class Settings extends YamlConfig {
       public String REGISTRATIONS_DISABLED_KICK = "{PRFX} Registrations are currently disabled.";
 
       public String CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password!";
-      @Comment("Or if change-password-need-old-pass set to false remove the \"<old password>\" part.")
       public String CHANGE_PASSWORD_USAGE = "{PRFX} Usage: &6/changepassword <old password> <new password>";
+      @Comment("Used if change-password-need-old-pass set to false or the player, which is trying to change the password is premium.")
+      public String CHANGE_PASSWORD_NO_OLD_PASS_USAGE = "{PRFX} Usage: &6/changepassword <new password>";
 
       public String FORCE_CHANGE_PASSWORD_SUCCESSFUL = "{PRFX} &aSuccessfully changed password for player &6{0}&a!";
       public String FORCE_CHANGE_PASSWORD_MESSAGE = "{PRFX} &aYour password has been changed to &6{0} &aby an administator!";
@@ -528,9 +534,19 @@ public class Settings extends YamlConfig {
     private final Random random;
     private String originalValue;
 
-    public MD5KeySerializer() throws NoSuchAlgorithmException {
+    public MD5KeySerializer() {
       super(byte[].class, String.class);
-      this.md5 = MessageDigest.getInstance("MD5");
+
+      // Had to do this as spotbug was mad on me for throwing possible exception in class constructor
+      MessageDigest md5;
+      try {
+        md5 = MessageDigest.getInstance("MD5");
+      } catch (NoSuchAlgorithmException e) {
+        e.printStackTrace();
+        md5 = null;
+      }
+
+      this.md5 = md5;
       this.random = new SecureRandom();
     }
 

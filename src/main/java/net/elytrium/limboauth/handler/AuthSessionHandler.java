@@ -46,6 +46,7 @@ import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.PostAuthorizationEvent;
 import net.elytrium.limboauth.event.PostRegisterEvent;
 import net.elytrium.limboauth.event.TaskEvent;
+import net.elytrium.limboauth.helper.PasswordVerifier;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
@@ -202,7 +203,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return;
     }
 
-    if (!LimboAuth.RATELIMITER.attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
+    if (!LimboAuth.getRatelimiter().attempt(this.proxyPlayer.getRemoteAddress().getAddress())) {
       this.proxyPlayer.sendMessage(AuthSessionHandler.ratelimited);
       return;
     }
@@ -211,27 +212,36 @@ public class AuthSessionHandler implements LimboSessionHandler {
     if (args.length != 0 && this.checkArgsLength(args.length)) {
       Command command = Command.parse(args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
+        final PasswordVerifier passwordVerifier = new PasswordVerifier(this.plugin);
         String password = args[1];
-        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
-          this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
-          try {
-            this.playerDao.create(registeredPlayer);
-            this.playerInfo = registeredPlayer;
-          } catch (SQLException e) {
-            this.proxyPlayer.disconnect(databaseErrorKick);
-            throw new SQLRuntimeException(e);
+        switch (passwordVerifier.checkPassword(args)) {
+          case PASSWORDS_DOESNT_MATCH -> this.proxyPlayer.sendMessage(registerDifferentPasswords);
+          case PASSWORD_TOO_LONG -> this.proxyPlayer.sendMessage(registerPasswordTooLong);
+          case PASSWORD_TOO_SHORT -> this.proxyPlayer.sendMessage(registerPasswordTooShort);
+          case PASSWORD_UNSAFE -> this.proxyPlayer.sendMessage(registerPasswordUnsafe);
+
+          default -> {
+            this.saveTempPassword(password);
+            RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+
+            try {
+              this.playerDao.create(registeredPlayer);
+              this.playerInfo = registeredPlayer;
+            } catch (SQLException e) {
+              this.proxyPlayer.disconnect(databaseErrorKick);
+              throw new SQLRuntimeException(e);
+            }
+
+            this.proxyPlayer.sendMessage(registerSuccessful);
+            if (registerSuccessfulTitle != null) {
+              this.proxyPlayer.showTitle(registerSuccessfulTitle);
+            }
+
+            this.plugin.getServer().getEventManager()
+                    .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
+                    .thenAcceptAsync(this::finishAuth);
           }
-
-          this.proxyPlayer.sendMessage(registerSuccessful);
-          if (registerSuccessfulTitle != null) {
-            this.proxyPlayer.showTitle(registerSuccessfulTitle);
-          }
-
-          this.plugin.getServer().getEventManager()
-              .fire(new PostRegisterEvent(this::finishAuth, this.player, this.playerInfo, this.tempPassword))
-              .thenAcceptAsync(this::finishAuth);
         }
 
         // {@code return} placed here (not above), because
@@ -374,37 +384,6 @@ public class AuthSessionHandler implements LimboSessionHandler {
       return argsLength == 3;
     } else {
       return argsLength == 2;
-    }
-  }
-
-  private boolean checkPasswordsRepeat(String[] args) {
-    if (!Settings.IMP.MAIN.REGISTER_NEED_REPEAT_PASSWORD || args[1].equals(args[2])) {
-      return true;
-    } else {
-      this.proxyPlayer.sendMessage(registerDifferentPasswords);
-      return false;
-    }
-  }
-
-  private boolean checkPasswordLength(String password) {
-    int length = password.length();
-    if (length > Settings.IMP.MAIN.MAX_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooLong);
-      return false;
-    } else if (length < Settings.IMP.MAIN.MIN_PASSWORD_LENGTH) {
-      this.proxyPlayer.sendMessage(registerPasswordTooShort);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  private boolean checkPasswordStrength(String password) {
-    if (Settings.IMP.MAIN.CHECK_PASSWORD_STRENGTH && this.plugin.getUnsafePasswords().contains(password)) {
-      this.proxyPlayer.sendMessage(registerPasswordUnsafe);
-      return false;
-    } else {
-      return true;
     }
   }
 
