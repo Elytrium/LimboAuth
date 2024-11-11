@@ -155,6 +155,12 @@ public class Settings extends YamlConfig {
     @Comment("Time in milliseconds, when ip limit works, set to 0 for disable.")
     public long IP_LIMIT_VALID_TIME = 21600000;
     @Comment({
+        "Should we remove registration ip when it reaches valid time?",
+        "If true it may speed up login but will result",
+        "at loss of data in /limboauth player <username>."
+    })
+    public boolean IP_LIMIT_REMOVE_OLD = true;
+    @Comment({
         "Regex of allowed nicknames",
         "^ means the start of the line, $ means the end of the line",
         "[A-Za-z0-9_] is a character set of A-Z, a-z, 0-9 and _",
@@ -363,6 +369,8 @@ public class Settings extends YamlConfig {
       public CommandPermissionState FORCE_UNREGISTER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.reload")
       public CommandPermissionState RELOAD = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.admin.player")
+      public CommandPermissionState PLAYER = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.admin.help")
       public CommandPermissionState HELP = CommandPermissionState.TRUE;
     }
@@ -386,6 +394,9 @@ public class Settings extends YamlConfig {
     public static class STRINGS {
 
       public String RELOAD = "{PRFX} &aReloaded successfully!";
+      public String PLAYER = "{PRFX} &e{0}&a''s current information. {NL}Ip at registration: &e{1}{NL}&aRegistration date: &e{2, date, dd.MM.yyyy}{NL}&aLast login ip: &e{3}{NL}&aLast login date: &e{4, date, dd.MM.yyyy}";
+      public String PLAYER_USAGE = "{PRFX} Usage: &6/limboauth player <username>";
+      public String PLAYER_NOT_FOUND = "{PRFX} &cPlayer {0} not found";
       public String ERROR_OCCURRED = "{PRFX} &cAn internal error has occurred!";
       public String RATELIMITED = "{PRFX} &cPlease wait before next usage!";
       public String DATABASE_ERROR_KICK = "{PRFX} &cA database error has occurred!";

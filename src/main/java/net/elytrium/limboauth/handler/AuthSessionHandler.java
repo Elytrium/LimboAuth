@@ -36,7 +36,6 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboapi.api.Limbo;
 import net.elytrium.limboapi.api.LimboSessionHandler;
@@ -142,12 +141,17 @@ public class AuthSessionHandler implements LimboSessionHandler {
         if (alreadyRegistered != null) {
           int sizeOfValidRegistrations = alreadyRegistered.size();
           if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
+            long untilTime = System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME;
+            for (RegisteredPlayer registeredPlayer : alreadyRegistered) {
+              if (registeredPlayer.getRegDate() > untilTime) {
+                continue;
+              }
+              --sizeOfValidRegistrations;
+              if (!Settings.IMP.MAIN.IP_LIMIT_REMOVE_OLD) {
+                continue;
+              }
               registeredPlayer.setIP("");
               this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
             }
           }
 
