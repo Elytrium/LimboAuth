@@ -81,10 +81,11 @@ public class Settings extends YamlConfig {
     })
     public boolean ONLINE_MODE_NEED_AUTH = true;
     @Comment({
-        "WARNING: This is semi-experimental feature.",
-        "Disable to allow offline-mode players using online-mode usernames",
-        "If you disable it, be sure that online-mode players still can be offline-mode as there",
-        "are no proper way to see if the player is joining via online-mode enabled client."
+        "WARNING: its experimental feature, so disable only if you really know what you are doing",
+        "When enabled, this option will keep default 'online-mode-need-auth' behavior",
+        "When disabled, this option will disable premium authentication for unregistered players if they fail it once,",
+        "allowing offline-mode players to use online-mode usernames",
+        "Does nothing when enabled, but when disabled require 'save-premium-accounts: true', 'online-mode-need-auth: false' and 'purge_premium_cache_millis > 100000'"
     })
     public boolean ONLINE_MODE_NEED_AUTH_STRICT = true;
     @Comment("Needs floodgate plugin if disabled.")
