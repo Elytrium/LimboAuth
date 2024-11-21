@@ -33,6 +33,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +50,7 @@ import net.elytrium.limboauth.event.TaskEvent;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.model.UnsafePlayer;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -85,6 +87,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
   private static Component registerPasswordTooLong;
   private static Component registerPasswordTooShort;
   private static Component registerPasswordUnsafe;
+  private static Component registerPasswordUnsafeUserPassSet;
   private static Component loginSuccessful;
   private static Component sessionExpired;
   @Nullable
@@ -212,7 +215,8 @@ public class AuthSessionHandler implements LimboSessionHandler {
       Command command = Command.parse(args[0]);
       if (command == Command.REGISTER && !this.totpState && this.playerInfo == null) {
         String password = args[1];
-        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
+        if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password)
+                && this.checkPasswordStrength(password) && this.checkUnsafePassSet(this.proxyPlayer.getUsername(), password)) {
           this.saveTempPassword(password);
           RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
 
@@ -408,6 +412,19 @@ public class AuthSessionHandler implements LimboSessionHandler {
     }
   }
 
+  private boolean checkUnsafePassSet(String username, String password) {
+    Set<UnsafePlayer> unsafePlayers = this.plugin.getUnsafePlayerPassSet();
+
+    for (UnsafePlayer unsafePlayer : unsafePlayers) {
+      if (username.equalsIgnoreCase(unsafePlayer.getUsername()) && unsafePlayer.getPassword().equalsIgnoreCase(password)) {
+        this.proxyPlayer.sendMessage(registerPasswordUnsafeUserPassSet);
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   public void finishLogin() {
     this.proxyPlayer.sendMessage(loginSuccessful);
     if (loginSuccessfulTitle != null) {
@@ -511,6 +528,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     registerPasswordTooLong = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_LONG);
     registerPasswordTooShort = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_TOO_SHORT);
     registerPasswordUnsafe = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_UNSAFE);
+    registerPasswordUnsafeUserPassSet = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER_PASSWORD_UNSAFE_PASS_USER_SET);
     loginSuccessful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL);
     sessionExpired = serializer.deserialize(Settings.IMP.MAIN.STRINGS.MOD_SESSION_EXPIRED);
     if (Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUCCESSFUL_SUBTITLE.isEmpty()) {
