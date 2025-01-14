@@ -24,6 +24,8 @@ import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 import java.util.UUID;
+
+import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 
 @DatabaseTable(tableName = "AUTH")
@@ -40,6 +42,8 @@ public class RegisteredPlayer {
   public static final String UUID_FIELD = "UUID";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
   public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
+  public static final String REG_HOST_FIELD = "REGHOST";
+  public static final String LOGIN_HOST_FIELD = "LOGINHOST";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
@@ -76,9 +80,16 @@ public class RegisteredPlayer {
   @DatabaseField(columnName = TOKEN_ISSUED_AT_FIELD)
   private Long tokenIssuedAt = System.currentTimeMillis();
 
+  @DatabaseField(columnName = REG_HOST_FIELD)
+  private String regHost;
+
+  @DatabaseField(columnName = LOGIN_HOST_FIELD)
+  private String loginHost;
+
   @Deprecated
   public RegisteredPlayer(String nickname, String lowercaseNickname,
-      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp, Long loginDate) {
+      String hash, String ip, String totpToken, Long regDate, String uuid, String premiumUuid, String loginIp,
+                          Long loginDate, String regHost, String loginHost) {
     this.nickname = nickname;
     this.lowercaseNickname = lowercaseNickname;
     this.hash = hash;
@@ -89,14 +100,24 @@ public class RegisteredPlayer {
     this.premiumUuid = premiumUuid;
     this.loginIp = loginIp;
     this.loginDate = loginDate;
+    this.regHost = regHost;
+    this.loginHost = loginHost;
   }
 
   public RegisteredPlayer(Player player) {
     this(player.getUsername(), player.getUniqueId(), player.getRemoteAddress());
   }
 
+  public RegisteredPlayer(Player player, String regHost) {
+    this(player.getUsername(), player.getUniqueId(), player.getRemoteAddress(), regHost);
+  }
+
   public RegisteredPlayer(String nickname, UUID uuid, InetSocketAddress ip) {
     this(nickname, uuid.toString(), ip.getAddress().getHostAddress());
+  }
+
+  public RegisteredPlayer(String nickname, UUID uuid, InetSocketAddress ip, String regHost) {
+    this(nickname, uuid.toString(), ip.getAddress().getHostAddress(), regHost);
   }
 
   public RegisteredPlayer(String nickname, String uuid, String ip) {
@@ -105,6 +126,15 @@ public class RegisteredPlayer {
     this.uuid = uuid;
     this.ip = ip;
     this.loginIp = ip;
+  }
+
+  public RegisteredPlayer(String nickname, String uuid, String ip, String regHost) {
+    this.nickname = nickname;
+    this.lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
+    this.uuid = uuid;
+    this.ip = ip;
+    this.loginIp = ip;
+    this.regHost = regHost;
   }
 
   public RegisteredPlayer() {
@@ -230,6 +260,26 @@ public class RegisteredPlayer {
 
   public RegisteredPlayer setTokenIssuedAt(Long tokenIssuedAt) {
     this.tokenIssuedAt = tokenIssuedAt;
+
+    return this;
+  }
+
+  public String getRegHost() {
+    return this.regHost == null ? "" : this.regHost;
+  }
+
+  public RegisteredPlayer setRegHost(String regHost) {
+    this.regHost = regHost;
+
+    return this;
+  }
+
+  public String getLoginHost() {
+    return this.loginHost == null ? "" : this.loginHost;
+  }
+
+  public RegisteredPlayer setLoginHost(String loginHost) {
+    this.loginHost = loginHost;
 
     return this;
   }
