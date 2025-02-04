@@ -62,6 +62,7 @@ public class Settings extends YamlConfig {
   @Comment("Don't use \\n, use {NL} for new line, and {PRFX} for prefix.")
   public static class MAIN {
 
+    public long RATELIMIT_MILLIS = 5000;
     @Comment("Maximum time for player to authenticate in milliseconds. If the player stays on the auth limbo for longer than this time, then the player will be kicked.")
     public int AUTH_TIME = 60000;
     public boolean ENABLE_BOSSBAR = true;
