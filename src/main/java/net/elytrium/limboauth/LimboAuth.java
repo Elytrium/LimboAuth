@@ -17,12 +17,15 @@
 
 package net.elytrium.limboauth;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Longs;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import com.google.zxing.common.StringUtils;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
@@ -51,6 +54,7 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import com.velocitypowered.proxy.util.ratelimit.Ratelimiter;
 import com.velocitypowered.proxy.util.ratelimit.Ratelimiters;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.netty.util.internal.StringUtil;
 import io.whitfin.siphash.SipHasher;
 import java.io.File;
 import java.io.IOException;
@@ -66,14 +70,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -187,6 +184,11 @@ public class LimboAuth {
   private Dao<RegisteredPlayer, String> playerDao;
   private Pattern nicknameValidationPattern;
   private Limbo authServer;
+  private Cache<String, String> joinHosts = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES).build();
+  public HashMap<String, Boolean> kickedPlayers = new HashMap<>();
+  public HashMap<String, Boolean> updatedIpPlayers = new HashMap<>();
+  public boolean checkRuIP = false;
+  private Cache<String, String> registeredAccounts = CacheBuilder.newBuilder().expireAfterWrite(12, TimeUnit.HOURS).build();
 
   @Inject
   public LimboAuth(Logger logger, ProxyServer server, Metrics.Factory metricsFactory, @DataDirectory Path dataDirectory) {
@@ -533,7 +535,9 @@ public class LimboAuth {
   public void cacheAuthUser(Player player) {
     String username = player.getUsername();
     String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
+    if (!List.of("89.22.229.214", "109.107.189.38").contains(player.getRemoteAddress().getAddress().getHostAddress())) {
+      this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
+    }
   }
 
   public void removePlayerFromCache(String username) {
@@ -595,8 +599,11 @@ public class LimboAuth {
         }
 
         if (nicknameRegisteredPlayer == null && registeredPlayer == null && Settings.IMP.MAIN.SAVE_PREMIUM_ACCOUNTS) {
-          registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
-
+          if (joinHosts.getIfPresent(player.getUsername()) != null) {
+            registeredPlayer = new RegisteredPlayer(player, joinHosts.getIfPresent(player.getUsername())).setPremiumUuid(player.getUniqueId());
+          } else {
+            registeredPlayer = new RegisteredPlayer(player).setPremiumUuid(player.getUniqueId());
+          }
           try {
             this.playerDao.create(registeredPlayer);
           } catch (SQLException e) {
@@ -640,6 +647,15 @@ public class LimboAuth {
       Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, null);
       eventManager.fire(new PreRegisterEvent(eventConsumer, result, player)).thenAcceptAsync(eventConsumer);
     } else {
+      if (checkRuIP && joinHosts.getIfPresent(player.getUsername()) != null && joinHosts.getIfPresent(player.getUsername()).toLowerCase().endsWith(".ru") && System.currentTimeMillis() - registeredPlayer.getRegDate() > 14 * 24 * 60 * 60 * 1000) {
+        player.disconnect(SERIALIZER.deserialize("&cПожалуйста, обновите адрес сервера!\n\n" +
+                "&fДля игры необходимо использовать\n" +
+                "&fактуальный IP-адрес сервера. Добавьте в список\n" +
+                "&fсерверов новый с адресом &#f89d57mc.raidmine.com"));
+        kickedPlayers.put(player.getUsername(), true);
+      } else if (kickedPlayers.containsKey(player.getUsername())) {
+        updatedIpPlayers.put(player.getUsername(), true);
+      }
       Consumer<TaskEvent> eventConsumer = (event) -> this.sendPlayer(event, ((PreAuthorizationEvent) event).getPlayerInfo());
       eventManager.fire(new PreAuthorizationEvent(eventConsumer, result, player, registeredPlayer)).thenAcceptAsync(eventConsumer);
     }
@@ -683,6 +699,9 @@ public class LimboAuth {
     updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, lowercaseNickname);
     updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_IP_FIELD, player.getRemoteAddress().getAddress().getHostAddress());
     updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_DATE_FIELD, System.currentTimeMillis());
+    if (joinHosts.getIfPresent(player.getUsername()) != null) {
+      updateBuilder.updateColumnValue(RegisteredPlayer.LOGIN_HOST_FIELD, joinHosts.getIfPresent(player.getUsername()));
+    }
     updateBuilder.update();
 
     if (Settings.IMP.MAIN.MOD.ENABLED) {
@@ -959,6 +978,10 @@ public class LimboAuth {
     return this.playerDao;
   }
 
+  public FloodgateApiHolder getFloodgateApi() {
+    return this.floodgateApi;
+  }
+
   private static void setLogger(Logger logger) {
     LOGGER = logger;
   }
@@ -973,6 +996,14 @@ public class LimboAuth {
 
   public Limbo getAuthServer() {
     return this.authServer;
+  }
+
+  public Cache<String, String> getJoinHosts() {
+    return this.joinHosts;
+  }
+
+  public Cache<String, String> getRegisteredAccounts() {
+    return this.registeredAccounts;
   }
 
   public Pattern getNicknameValidationPattern() {

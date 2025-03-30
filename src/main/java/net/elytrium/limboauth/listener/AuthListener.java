@@ -17,10 +17,13 @@
 
 package net.elytrium.limboauth.listener;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.connection.PreLoginEvent.PreLoginComponentResult;
@@ -32,7 +35,10 @@ import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
 import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+
+import java.net.InetSocketAddress;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -122,6 +128,11 @@ public class AuthListener {
       event.setResult(PreLoginComponentResult.denied(this.errorOccurred));
       throw throwable;
     }
+    InboundConnection connection = event.getConnection();
+    String host = connection.getVirtualHost().map(InetSocketAddress::getHostString).orElse("").toLowerCase();
+    if (!host.isEmpty()) {
+      plugin.getJoinHosts().put(event.getUsername(), host);
+    }
   }
 
   private MinecraftConnection getConnection(InboundConnection inbound) throws Throwable {
@@ -151,6 +162,11 @@ public class AuthListener {
     return holder.version() != 3;
   }
   */
+
+  @Subscribe
+  public void onProxyDisconnect(DisconnectEvent event) {
+    this.plugin.unsetForcedPreviously(event.getPlayer().getUsername());
+  }
 
   @Subscribe
   public void onPostLogin(PostLoginEvent event) {
@@ -218,7 +234,7 @@ public class AuthListener {
       }
     }
 
-    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
+    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID && !(Settings.IMP.MAIN.EXEMPT_FLOODGATE_FOR_FORCE_OFFLINE_UUID && plugin.getFloodgateApi().isFloodgatePlayer(event.getOriginalProfile().getId()))) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
 
@@ -228,6 +244,15 @@ public class AuthListener {
 
     if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
       event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()));
+    }
+
+    if (plugin.getFloodgateApi().isFloodgatePlayer(event.getOriginalProfile().getId())) {
+      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
+      if (registeredPlayer != null && registeredPlayer.getNickname() != null) {
+        if (!event.getUsername().equals(registeredPlayer.getNickname())) {
+          event.setGameProfile(event.getOriginalProfile().withName(registeredPlayer.getNickname()));
+        }
+      }
     }
   }
 

@@ -61,6 +61,7 @@ dependencies {
 
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("dev.samstevens.totp:totp:1.7.1")
+    implementation("club.minnced:discord-webhooks:0.8.4")
 
     implementation("com.j256.ormlite:ormlite-jdbc:6.1")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")

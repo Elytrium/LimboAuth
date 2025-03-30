@@ -136,29 +136,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
     Serializer serializer = LimboAuth.getSerializer();
 
     if (this.playerInfo == null) {
-      try {
-        String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
-        List<RegisteredPlayer> alreadyRegistered = this.playerDao.queryForEq(RegisteredPlayer.IP_FIELD, ip);
-        if (alreadyRegistered != null) {
-          int sizeOfValidRegistrations = alreadyRegistered.size();
-          if (Settings.IMP.MAIN.IP_LIMIT_VALID_TIME > 0) {
-            for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
-                .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
-                .collect(Collectors.toList())) {
-              registeredPlayer.setIP("");
-              this.playerDao.update(registeredPlayer);
-              --sizeOfValidRegistrations;
-            }
-          }
-
-          if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
-            this.proxyPlayer.disconnect(ipLimitKick);
-            return;
-          }
-        }
-      } catch (SQLException e) {
-        this.proxyPlayer.disconnect(databaseErrorKick);
-        throw new SQLRuntimeException(e);
+      String ip = this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress();
+      if (plugin.getRegisteredAccounts().asMap().values().stream().filter(i -> i.equalsIgnoreCase(ip)).count() >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+        this.proxyPlayer.disconnect(ipLimitKick);
+        return;
       }
     } else {
       if (!this.proxyPlayer.getUsername().equals(this.playerInfo.getNickname())) {
@@ -214,7 +195,12 @@ public class AuthSessionHandler implements LimboSessionHandler {
         String password = args[1];
         if (this.checkPasswordsRepeat(args) && this.checkPasswordLength(password) && this.checkPasswordStrength(password)) {
           this.saveTempPassword(password);
-          RegisteredPlayer registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+          RegisteredPlayer registeredPlayer;
+          if (plugin.getJoinHosts().getIfPresent(this.proxyPlayer.getUsername()) != null) {
+            registeredPlayer = new RegisteredPlayer(this.proxyPlayer, plugin.getJoinHosts().getIfPresent(this.proxyPlayer.getUsername())).setPassword(password);
+          } else {
+            registeredPlayer = new RegisteredPlayer(this.proxyPlayer).setPassword(password);
+          }
 
           try {
             this.playerDao.create(registeredPlayer);
@@ -447,6 +433,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
 
     this.plugin.cacheAuthUser(this.proxyPlayer);
     this.player.disconnect();
+    plugin.getRegisteredAccounts().put(this.proxyPlayer.getUsername(), this.proxyPlayer.getRemoteAddress().getAddress().getHostAddress());
   }
 
   public static void reload() {
