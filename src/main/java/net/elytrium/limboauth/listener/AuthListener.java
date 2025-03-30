@@ -37,6 +37,7 @@ import java.lang.invoke.MethodHandles;
 
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -228,6 +229,15 @@ public class AuthListener {
 
     if (event.isOnlineMode() && !Settings.IMP.MAIN.ONLINE_MODE_PREFIX.isEmpty()) {
       event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.ONLINE_MODE_PREFIX + event.getUsername()));
+    }
+
+    if (plugin.getFloodgateApi().isFloodgatePlayer(event.getOriginalProfile().getId())) {
+      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
+      if (registeredPlayer != null && registeredPlayer.getNickname() != null) {
+        if (!event.getUsername().equals(registeredPlayer.getNickname())) {
+          event.setGameProfile(event.getOriginalProfile().withName(registeredPlayer.getNickname()));
+        }
+      }
     }
   }
 

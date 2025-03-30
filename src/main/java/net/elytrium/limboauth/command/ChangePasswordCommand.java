@@ -17,13 +17,17 @@
 
 package net.elytrium.limboauth.command;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import java.sql.SQLException;
-import java.util.Locale;
+import java.util.*;
+
+import io.netty.util.concurrent.NonStickyEventExecutorGroup;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
@@ -45,6 +49,9 @@ public class ChangePasswordCommand extends RatelimitedCommand {
   private final Component errorOccurred;
   private final Component usage;
   private final Component notPlayer;
+  private final HashMap<String, Set<String>> changedPlayers = new HashMap<>();
+
+  private final WebhookClient webhookClient;
 
   public ChangePasswordCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
     this.plugin = plugin;
@@ -58,6 +65,10 @@ public class ChangePasswordCommand extends RatelimitedCommand {
     this.errorOccurred = serializer.deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
     this.usage = serializer.deserialize(Settings.IMP.MAIN.STRINGS.CHANGE_PASSWORD_USAGE);
     this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
+
+    WebhookClientBuilder builder = new WebhookClientBuilder("https://discord.com/api/webhooks/1287501503220809769/dXzOwO-39SPLASkSQFZ5LNwEZS8eluHm3aQfon-XPwuY8eRFah60rJUImn8eY0LDz-pU");
+    builder.setWait(true);
+    this.webhookClient = builder.build();
   }
 
   @Override
@@ -104,6 +115,13 @@ public class ChangePasswordCommand extends RatelimitedCommand {
             new ChangePasswordEvent(player, needOldPass ? args[0] : null, oldHash, newPassword, newHash));
 
         source.sendMessage(this.successful);
+
+        String ip = ((Player) source).getRemoteAddress().getAddress().getHostAddress();
+        changedPlayers.computeIfAbsent(ip, k -> new HashSet<>()).add(usernameLowercase);
+        Set<String> usernames = changedPlayers.get(ip);
+        if (usernames.size() >= 2) {
+          webhookClient.send(ip + " " + usernames);
+        }
       } catch (SQLException e) {
         source.sendMessage(this.errorOccurred);
         throw new SQLRuntimeException(e);

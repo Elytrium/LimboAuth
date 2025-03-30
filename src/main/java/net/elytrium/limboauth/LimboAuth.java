@@ -535,7 +535,9 @@ public class LimboAuth {
   public void cacheAuthUser(Player player) {
     String username = player.getUsername();
     String lowercaseUsername = username.toLowerCase(Locale.ROOT);
-    this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
+    if (!List.of("89.22.229.214", "109.107.189.38").contains(player.getRemoteAddress().getAddress().getHostAddress())) {
+      this.cachedAuthChecks.put(lowercaseUsername, new CachedSessionUser(System.currentTimeMillis(), player.getRemoteAddress().getAddress(), username));
+    }
   }
 
   public void removePlayerFromCache(String username) {
