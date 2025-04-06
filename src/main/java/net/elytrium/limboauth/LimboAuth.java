@@ -137,7 +137,7 @@ import org.slf4j.Logger;
 )
 public class LimboAuth {
 
-  public static final Ratelimiter RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
+  public static final Ratelimiter<InetAddress> RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
