@@ -1085,6 +1085,7 @@ public class LimboAuth {
       this.uuid = uuid;
     }
 
+    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     public PremiumResponse(PremiumState state, String uuid) {
       this.state = state;
       if (uuid.contains("-")) {
