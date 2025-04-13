@@ -112,6 +112,7 @@ import net.elytrium.limboauth.listener.AuthListener;
 import net.elytrium.limboauth.listener.BackendEndpointsListener;
 import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.model.UnsafePlayer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.kyori.adventure.title.Title;
@@ -153,6 +154,7 @@ public class LimboAuth {
   private final Map<InetAddress, CachedBruteforceUser> bruteforceCache = new ConcurrentHashMap<>();
   private final Map<UUID, Runnable> postLoginTasks = new ConcurrentHashMap<>();
   private final Set<String> unsafePasswords = new HashSet<>();
+  private final Set<UnsafePlayer> unsafePlayerPassSet = new HashSet<>();
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
   private final Set<String> pendingLogins = ConcurrentHashMap.newKeySet();
 
@@ -307,6 +309,30 @@ public class LimboAuth {
       } catch (IOException e) {
         throw new IllegalArgumentException(e);
       }
+    }
+
+    try {
+      this.unsafePlayerPassSet.clear();
+      Path craftrisePath = Paths.get(this.dataDirectoryFile.getAbsolutePath(), Settings.IMP.MAIN.UNSAFE_SET_PASSWORDS_FILE);
+      if (!craftrisePath.toFile().exists()) {
+        Files.copy(Objects.requireNonNull(this.getClass().getResourceAsStream("/unsafe_pass_user_set.txt")), craftrisePath);
+      }
+
+      List<String> stream = Files.readAllLines(craftrisePath);
+      stream.forEach(account -> {
+        String[] parts = account.split(":");
+        if (parts.length == 2) {
+          String username = parts[0];
+          String password = parts[1];
+          UnsafePlayer unsafePlayer = new UnsafePlayer(username, password);
+          this.unsafePlayerPassSet.add(unsafePlayer);
+        }
+      });
+
+      this.server.sendMessage(Component.text("Loadded " + this.unsafePlayerPassSet.size() + " unsafe user & password set!"));
+
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e);
     }
 
     this.cachedAuthChecks.clear();
@@ -945,6 +971,10 @@ public class LimboAuth {
 
   public Set<String> getUnsafePasswords() {
     return this.unsafePasswords;
+  }
+
+  public Set<UnsafePlayer> getUnsafePlayerPassSet() {
+    return this.unsafePlayerPassSet;
   }
 
   public ProxyServer getServer() {
