@@ -34,6 +34,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableInfo;
 import com.j256.ormlite.table.TableUtils;
 import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -357,7 +358,6 @@ public class LimboAuth {
     manager.unregister("changepassword");
     manager.unregister("forcechangepassword");
     manager.unregister("destroysession");
-    manager.unregister("2fa");
     manager.unregister("limboauth");
 
     manager.register("unregister", new UnregisterCommand(this, this.playerDao), "unreg");
@@ -369,7 +369,13 @@ public class LimboAuth {
     manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
     manager.register("destroysession", new DestroySessionCommand(this), "logout");
     if (Settings.IMP.MAIN.ENABLE_TOTP) {
-      manager.register("2fa", new TotpCommand(this.playerDao), "totp");
+      CommandMeta meta = manager.metaBuilder("2fa").aliases("totp").plugin(this).build();
+      manager.register(meta, new TotpCommand(this.playerDao));
+    } else {
+      CommandMeta meta = manager.getCommandMeta("2fa");
+      if (meta != null && this.equals(meta.getPlugin())) {
+        manager.unregister("2fa");
+      }
     }
     manager.register("limboauth", new LimboAuthCommand(this), "la", "auth", "lauth");
 
