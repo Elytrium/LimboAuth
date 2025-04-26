@@ -108,6 +108,10 @@ public class Settings extends YamlConfig {
         "Can be disabled to reduce the size of stored data in the database"
     })
     public boolean SAVE_PREMIUM_ACCOUNTS = true;
+    @Comment({
+        "Always checks if current premium account is actually used by saved user"
+    })
+    public boolean ALWAYS_CHECK_PREMIUM_PLAYERS = true;
     public boolean ENABLE_TOTP = true;
     public boolean TOTP_NEED_PASSWORD = true;
     public boolean REGISTER_NEED_REPEAT_PASSWORD = true;
@@ -397,6 +401,7 @@ public class Settings extends YamlConfig {
       public String WRONG_PASSWORD = "{PRFX} &cPassword is wrong!";
 
       public String NICKNAME_INVALID_KICK = "{PRFX}{NL}&cYour nickname contains forbidden characters. Please, change your nickname!";
+      public String FAILED_TO_VERIFY_USERNAME = "{PRFX} &cFailed to verify your username!";
       public String RECONNECT_KICK = "{PRFX}{NL}&cReconnect to the server to verify your account!";
 
       @Comment("6 hours by default in ip-limit-valid-time")
