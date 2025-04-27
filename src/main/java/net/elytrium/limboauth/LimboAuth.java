@@ -773,6 +773,27 @@ public class LimboAuth {
       }
 
       if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
+        if (Settings.IMP.MAIN.ALWAYS_CHECK_PREMIUM_PLAYERS) {
+          RegisteredPlayer player = AuthSessionHandler.fetchInfo(this.playerDao, nickname);
+          if (player == null) {
+            // Database got broken?
+            return new PremiumResponse(PremiumState.ERROR);
+          }
+
+          if (!player.getPremiumUuid().isEmpty()) {
+            PremiumResponse response = this.isPremiumExternal(nickname);
+            if (response.uuid == null) {
+              // Got rate-limited or something failed.
+              return new PremiumResponse(PremiumState.ERROR);
+            }
+
+            if (!response.uuid.toString().equals(player.getPremiumUuid())) {
+              // Something got broken or account is being hijacked.
+              return new PremiumResponse(PremiumState.ERROR);
+            }
+          }
+        }
+
         return new PremiumResponse(PremiumState.PREMIUM);
       }
 
