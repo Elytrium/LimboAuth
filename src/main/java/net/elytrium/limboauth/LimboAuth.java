@@ -733,7 +733,14 @@ public class LimboAuth {
         return new PremiumResponse(PremiumState.RATE_LIMIT);
       }
 
-      JsonElement jsonElement = JsonParser.parseString(response.body());
+      String responseBody = response.body();
+      JsonElement jsonElement;
+      try {
+        jsonElement = JsonParser.parseString(responseBody);
+      } catch (Throwable throwable) {
+        LOGGER.error("Mojang API responded with invalid json: " + responseBody, throwable);
+        return new PremiumResponse(PremiumState.ERROR);
+      }
 
       if (Settings.IMP.MAIN.STATUS_CODE_USER_EXISTS.contains(statusCode)
           && this.validateScheme(jsonElement, Settings.IMP.MAIN.USER_EXISTS_JSON_VALIDATOR_FIELDS)) {
