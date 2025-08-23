@@ -66,6 +66,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -142,6 +143,8 @@ public class LimboAuth {
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
+  private static final int TIMEOUT_SECONDS = Integer.getInteger("limboauth.http.timeout", 15);
+  private static final Duration TIMEOUT_DURATION = Duration.ofSeconds(TIMEOUT_SECONDS);
 
   @MonotonicNonNull
   private static Logger LOGGER;
@@ -156,7 +159,8 @@ public class LimboAuth {
   private final Set<String> forcedPreviously = Collections.synchronizedSet(new HashSet<>());
   private final Set<String> pendingLogins = ConcurrentHashMap.newKeySet();
 
-  private final HttpClient client = HttpClient.newHttpClient();
+  private final HttpClient client = HttpClient.newBuilder()
+      .connectTimeout(TIMEOUT_DURATION).build();
 
   private final ProxyServer server;
   private final Metrics.Factory metricsFactory;
@@ -720,12 +724,13 @@ public class LimboAuth {
 
   public PremiumResponse isPremiumExternal(String nickname) {
     try {
-      HttpResponse<String> response = this.client.send(
+      HttpResponse<String> response = this.client.sendAsync(
           HttpRequest.newBuilder()
               .uri(URI.create(String.format(Settings.IMP.MAIN.ISPREMIUM_AUTH_URL, URLEncoder.encode(nickname, StandardCharsets.UTF_8))))
+              .timeout(TIMEOUT_DURATION)
               .build(),
           HttpResponse.BodyHandlers.ofString()
-      );
+      ).get(TIMEOUT_SECONDS, TimeUnit.SECONDS);
 
       int statusCode = response.statusCode();
 

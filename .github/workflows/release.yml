@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-java@v4.7.0
         with:
           distribution: adopt
-          java-version: 17
+          java-version: 21
       - name: Build LimboAuth
         run: ./gradlew build
       - name: Upload LimboAuth
