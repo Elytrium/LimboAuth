@@ -48,8 +48,6 @@ import com.velocitypowered.api.proxy.messages.ChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.LegacyChannelIdentifier;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.scheduler.ScheduledTask;
-import com.velocitypowered.proxy.util.ratelimit.Ratelimiter;
-import com.velocitypowered.proxy.util.ratelimit.Ratelimiters;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.whitfin.siphash.SipHasher;
 import java.io.File;
@@ -137,7 +135,7 @@ import org.slf4j.Logger;
 )
 public class LimboAuth {
 
-  public static final Ratelimiter<InetAddress> RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
+  public static final InetAddressRateLimiter RATELIMITER = new InetAddressRateLimiter(5000);
 
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
@@ -1111,5 +1109,31 @@ public class LimboAuth {
     UNKNOWN,
     RATE_LIMIT,
     ERROR
+  }
+
+  public static final class InetAddressRateLimiter {
+    private final long windowMillis;
+    private final ConcurrentHashMap<InetAddress, Long> lastAttempt = new ConcurrentHashMap<>();
+    private static final long CLEANUP_INTERVAL = 3600000; // 1 hour in milliseconds
+
+    public InetAddressRateLimiter(long windowMillis) {
+      this.windowMillis = windowMillis;
+    }
+
+    public boolean attempt(InetAddress address) {
+      long now = System.currentTimeMillis();
+      Long lastAttemptTime = this.lastAttempt.get(address);
+
+      if (lastAttemptTime == null || now - lastAttemptTime >= this.windowMillis) {
+        this.lastAttempt.put(address, now);
+        // Periodically cleanup old entries to prevent memory leaks
+        if (now % 60000 == 0) { // cleanup every minute
+          this.lastAttempt.entrySet().removeIf(e -> now - e.getValue() > CLEANUP_INTERVAL);
+        }
+        return true;
+      }
+
+      return false;
+    }
   }
 }

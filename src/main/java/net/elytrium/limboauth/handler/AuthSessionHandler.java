@@ -53,12 +53,15 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthSessionHandler implements LimboSessionHandler {
 
   public static final CodeVerifier TOTP_CODE_VERIFIER = new DefaultCodeVerifier(new DefaultCodeGenerator(), new SystemTimeProvider());
   private static final BCrypt.Verifyer HASH_VERIFIER = BCrypt.verifyer();
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuthSessionHandler.class);
 
   private static Component ratelimited;
   private static BossBar.Color bossbarColor;
@@ -442,7 +445,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
     } catch (SQLException e) {
       throw new SQLRuntimeException(e);
     } catch (Throwable e) {
-      e.printStackTrace();
+      LOGGER.warn("Error occurred during finalization after authentication for player: {}", this.proxyPlayer.getUsername(), e);
     }
 
     this.plugin.cacheAuthUser(this.proxyPlayer);
