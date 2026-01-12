@@ -29,22 +29,25 @@ public class DestroySessionCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
 
-  private final Component successful;
+  private final Component kick;
   private final Component notPlayer;
+  private final Component successful;
 
   public DestroySessionCommand(LimboAuth plugin) {
     this.plugin = plugin;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.successful = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DESTROY_SESSION_SUCCESSFUL);
+    this.kick = serializer.deserialize(Settings.IMP.MAIN.STRINGS.DESTROY_SESSION_KICK);
     this.notPlayer = serializer.deserialize(Settings.IMP.MAIN.STRINGS.NOT_PLAYER);
   }
 
   @Override
   public void execute(CommandSource source, String[] args) {
-    if (source instanceof Player) {
-      this.plugin.removePlayerFromCache(((Player) source).getUsername());
-      source.sendMessage(this.successful);
+    if (source instanceof Player player) {
+      this.plugin.removePlayerFromCache(player.getUsername());
+      player.sendMessage(this.successful);
+      player.disconnect(this.kick);
     } else {
       source.sendMessage(this.notPlayer);
     }

@@ -501,6 +501,7 @@ public class Settings extends YamlConfig {
       public String TOTP_RECOVERY = "{PRFX} &aYour recovery codes &7(Click to copy)&a: &6{0}";
 
       public String DESTROY_SESSION_SUCCESSFUL = "{PRFX} &eYour session is now destroyed, you'll need to log in again after reconnecting.";
+      public String DESTROY_SESSION_KICK = "{PRFX} &eYour session has been destroyed. Please reconnect to log in again.";
 
       public String MOD_SESSION_EXPIRED = "{PRFX} Your session has expired, log in again.";
     }
