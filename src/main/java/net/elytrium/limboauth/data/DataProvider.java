@@ -1,17 +1,18 @@
 package net.elytrium.limboauth.data;
 
-import lombok.Getter;
 import net.elytrium.limboauth.dependencies.BaseLibrary;
 import net.elytrium.limboauth.dependencies.hikary.HikariRegisteredPlayerRepository;
 import net.elytrium.limboauth.repository.RegisteredPlayerRepository;
 
 import java.nio.file.Path;
 
-@Getter
 public enum DataProvider {
     MYSQL(BaseLibrary.MYSQL),
     MARIADB(BaseLibrary.MARIADB),
-    POSTGRESQL(BaseLibrary.POSTGRESQL);
+    POSTGRESQL(BaseLibrary.POSTGRESQL),
+    H2_LEGACY(BaseLibrary.H2_V1),
+    H2(BaseLibrary.H2_V2),
+    SQLITE(BaseLibrary.SQLITE);
 
     private final BaseLibrary baseLibrary;
 
@@ -28,6 +29,7 @@ public enum DataProvider {
     ) throws Exception {
         HikariRegisteredPlayerRepository repo = new HikariRegisteredPlayerRepository(
                 this,
+                path,
                 host,
                 database,
                 user,
@@ -37,4 +39,7 @@ public enum DataProvider {
         return repo;
     }
 
+    public BaseLibrary getBaseLibrary() {
+        return baseLibrary;
+    }
 }

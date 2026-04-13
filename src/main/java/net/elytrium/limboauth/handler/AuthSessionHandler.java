@@ -146,7 +146,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
                         for (RegisteredPlayer registeredPlayer : alreadyRegistered.stream()
                                 .filter(registeredPlayer -> registeredPlayer.getRegDate() < System.currentTimeMillis() - Settings.IMP.MAIN.IP_LIMIT_VALID_TIME)
                                 .collect(Collectors.toList())) {
-                            registeredPlayer.setIp("");
+                            registeredPlayer.setIP("");
                             this.registeredPlayerRepository.update(registeredPlayer);
                             --sizeOfValidRegistrations;
                         }

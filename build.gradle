@@ -49,9 +49,6 @@ dependencies {
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
     compileOnly("com.velocitypowered:velocity-proxy:$velocityVersion") // From Elytrium Repo.
 
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
-
     // Needs for some velocity methods.
     compileOnly("io.netty:netty-codec:$nettyVersion")
     compileOnly("io.netty:netty-handler:$nettyVersion")
@@ -63,7 +60,6 @@ dependencies {
 
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
     implementation("com.zaxxer:HikariCP:6.2.1")
-
 
     implementation("io.whitfin:siphash:2.0.0")
 

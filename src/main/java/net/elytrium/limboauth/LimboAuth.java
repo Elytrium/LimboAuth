@@ -286,6 +286,9 @@ public class LimboAuth {
     Settings.DATABASE dbConfig = Settings.IMP.DATABASE;
     DataProvider dataProvider = dbConfig.STORAGE_TYPE;
     try {
+      if (this.playerRepository != null) {
+        this.playerRepository.close();
+      }
       this.playerRepository = dataProvider.createRegisteredPlayerRepository(
           this.dataDirectoryFile.toPath().toAbsolutePath(),
           dbConfig.HOSTNAME,

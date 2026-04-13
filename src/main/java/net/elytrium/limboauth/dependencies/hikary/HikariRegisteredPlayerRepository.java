@@ -9,9 +9,11 @@ import net.elytrium.limboauth.model.RegisteredPlayer;
 import net.elytrium.limboauth.repository.RegisteredPlayerRepository;
 import net.elytrium.limboauth.repository.exception.DataAccessException;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.*;
 import java.util.*;
 
@@ -21,21 +23,27 @@ public class HikariRegisteredPlayerRepository implements RegisteredPlayerReposit
 
     public HikariRegisteredPlayerRepository(
             DataProvider dataProvider,
+            Path path,
             String hostname,
             String database,
             String user,
             String password
-    ) throws MalformedURLException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
-            InstantiationException, IllegalAccessException, SQLException {
+    ) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException,
+        InstantiationException, IllegalAccessException, SQLException {
         String driverClassName = switch (dataProvider) {
             case MYSQL -> "com.mysql.cj.jdbc.NonRegisteringDriver";
             case MARIADB -> "org.mariadb.jdbc.Driver";
             case POSTGRESQL -> "org.postgresql.Driver";
+            case H2, H2_LEGACY -> "org.h2.Driver";
+          case SQLITE -> "org.sqlite.JDBC";
         };
         String databaseUrl = switch (dataProvider) {
             case MYSQL -> "jdbc:mysql://%s/%s".formatted(hostname, database);
             case POSTGRESQL -> "jdbc:postgresql://%s/%s".formatted(hostname, database);
             case MARIADB -> "jdbc:mariadb://%s/%s".formatted(hostname, database);
+            case H2_LEGACY -> "jdbc:h2:" + path + "/limboauth";
+            case H2 -> "jdbc:h2:" + path + "/limboauth-v2";
+            case SQLITE -> "jdbc:sqlite:" + path + "/limboauth.db";
         };
 
         IsolatedDriver driver = new IsolatedDriver("jdbc:limboauth_" + dataProvider.name().toLowerCase(Locale.ROOT) + ":");
@@ -50,6 +58,32 @@ public class HikariRegisteredPlayerRepository implements RegisteredPlayerReposit
         config.setPassword(password);
         config.setMaximumPoolSize(2);
         dataSource = new HikariDataSource(config);
+        if (dataProvider == DataProvider.H2) {
+            Path legacyDatabase = path.resolve("limboauth.mv.db");
+            if (Files.exists(legacyDatabase)) {
+                Path dumpFile = path.resolve("limboauth.dump.sql");
+                try (HikariDataSource legacySource = new HikariDataSource(config)) {
+                    migrateH2(legacySource, dataSource, dumpFile);
+                    Files.delete(dumpFile);
+                }
+                Files.move(legacyDatabase, path.resolve("limboauth-v1-backup.mv.db"));
+            }
+        }
+    }
+
+    private void migrateH2(HikariDataSource source, HikariDataSource target, Path dumpFile) throws SQLException {
+        try (Connection legacyConnection = source.getConnection()) {
+            try (PreparedStatement migrateStatement = legacyConnection.prepareStatement("SCRIPT TO ?")) {
+                migrateStatement.setString(1, dumpFile.toString());
+                migrateStatement.execute();
+            }
+        }
+        try (Connection modernConnection = target.getConnection()) {
+            try (PreparedStatement migrateStatement = modernConnection.prepareStatement("RUNSCRIPT FROM ?")) {
+                migrateStatement.setString(1, dumpFile.toString());
+                migrateStatement.execute();
+            }
+        }
     }
 
     public void updateSchema(DataProvider dataProvider) throws SQLException {
@@ -360,22 +394,27 @@ public class HikariRegisteredPlayerRepository implements RegisteredPlayerReposit
     }
 
     private RegisteredPlayer parseRegisteredPlayer(ResultSet resultSet) throws SQLException {
-        return RegisteredPlayer.builder()
-                .nickname(resultSet.getString("NICKNAME"))
-                .lowercaseNickname(resultSet.getString("LOWERCASENICKNAME"))
-                .hash(resultSet.getString("HASH"))
-                .ip(resultSet.getString("IP"))
-                .totpToken(resultSet.getString("TOTPTOKEN"))
-                .regDate(resultSet.getLong("REGDATE"))
-                .uuid(resultSet.getString("UUID"))
-                .premiumUuid(resultSet.getString("PREMIUMUUID"))
-                .loginIp(resultSet.getString("LOGINIP"))
-                .loginDate(resultSet.getLong("LOGINDATE"))
-                .tokenIssuedAt(resultSet.getLong("ISSUEDTIME"))
-                .build();
+        return new RegisteredPlayer(
+            resultSet.getString("NICKNAME"),
+            resultSet.getString("UUID"),
+            resultSet.getString("IP")
+        )
+                .setNickname(resultSet.getString("LOWERCASENICKNAME"))
+                .setHash(resultSet.getString("HASH"))
+                .setTotpToken(resultSet.getString("TOTPTOKEN"))
+                .setRegDate(resultSet.getLong("REGDATE"))
+                .setPremiumUuid(resultSet.getString("PREMIUMUUID"))
+                .setLoginIp(resultSet.getString("LOGINIP"))
+                .setLoginDate(resultSet.getLong("LOGINDATE"))
+                .setTokenIssuedAt(resultSet.getLong("ISSUEDTIME"));
     }
 
     protected Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    @Override
+    public void close() throws IOException {
+        dataSource.close();
     }
 }
