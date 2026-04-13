@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2024 Elytrium
+ * Copyright (C) 2021 - 2025 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -17,6 +17,14 @@
 
 package net.elytrium.limboauth;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import net.elytrium.commons.config.ConfigSerializer;
 import net.elytrium.commons.config.YamlConfig;
 import net.elytrium.commons.kyori.serialization.Serializers;
@@ -529,6 +537,7 @@ public class Settings extends YamlConfig {
     private final Random random;
     private String originalValue;
 
+    @SuppressFBWarnings("CT_CONSTRUCTOR_THROW")
     public MD5KeySerializer() throws NoSuchAlgorithmException {
       super(byte[].class, String.class);
       this.md5 = MessageDigest.getInstance("MD5");
