@@ -30,7 +30,7 @@ public class StringDatabaseEndpoint extends StringEndpoint {
 
   public StringDatabaseEndpoint(LimboAuth plugin, String type, Function<RegisteredPlayer, String> function) {
     super(plugin, type, username -> {
-      RegisteredPlayer player = AuthSessionHandler.fetchInfo(plugin.getPlayerDao(), username);
+      RegisteredPlayer player = AuthSessionHandler.fetchInfo(plugin.getPlayerRepository(), username);
       if (player == null) {
         return "";
       } else {

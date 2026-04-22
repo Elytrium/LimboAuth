@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 - 2025 Elytrium
+ * Copyright (C) 2021 - 2024 Elytrium
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -18,62 +18,36 @@
 package net.elytrium.limboauth.model;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 import com.velocitypowered.api.proxy.Player;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 import java.util.UUID;
 import net.elytrium.limboauth.Settings;
 
-@DatabaseTable(tableName = "AUTH")
 public class RegisteredPlayer {
-
-  public static final String NICKNAME_FIELD = "NICKNAME";
-  public static final String LOWERCASE_NICKNAME_FIELD = "LOWERCASENICKNAME";
-  public static final String HASH_FIELD = "HASH";
-  public static final String IP_FIELD = "IP";
-  public static final String LOGIN_IP_FIELD = "LOGINIP";
-  public static final String TOTP_TOKEN_FIELD = "TOTPTOKEN";
-  public static final String REG_DATE_FIELD = "REGDATE";
-  public static final String LOGIN_DATE_FIELD = "LOGINDATE";
-  public static final String UUID_FIELD = "UUID";
-  public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
-  public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
 
-  @DatabaseField(canBeNull = false, columnName = NICKNAME_FIELD)
   private String nickname;
 
-  @DatabaseField(id = true, columnName = LOWERCASE_NICKNAME_FIELD)
   private String lowercaseNickname;
 
-  @DatabaseField(canBeNull = false, columnName = HASH_FIELD)
   private String hash = "";
 
-  @DatabaseField(columnName = IP_FIELD, index = true)
   private String ip;
 
-  @DatabaseField(columnName = TOTP_TOKEN_FIELD)
   private String totpToken = "";
 
-  @DatabaseField(columnName = REG_DATE_FIELD)
   private Long regDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = UUID_FIELD)
   private String uuid = "";
 
-  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD, index = true)
   private String premiumUuid = "";
 
-  @DatabaseField(columnName = LOGIN_IP_FIELD)
   private String loginIp;
 
-  @DatabaseField(columnName = LOGIN_DATE_FIELD)
   private Long loginDate = System.currentTimeMillis();
 
-  @DatabaseField(columnName = TOKEN_ISSUED_AT_FIELD)
   private Long tokenIssuedAt = System.currentTimeMillis();
 
   @Deprecated

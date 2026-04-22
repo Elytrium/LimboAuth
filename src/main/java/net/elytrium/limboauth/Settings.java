@@ -32,11 +32,19 @@ import net.elytrium.limboapi.api.chunk.Dimension;
 import net.elytrium.limboapi.api.file.BuiltInWorldFileType;
 import net.elytrium.limboapi.api.player.GameMode;
 import net.elytrium.limboauth.command.CommandPermissionState;
-import net.elytrium.limboauth.dependencies.DatabaseLibrary;
+import net.elytrium.limboauth.data.DataProvider;
 import net.elytrium.limboauth.migration.MigrationHash;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.util.Ticks;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Settings extends YamlConfig {
 
@@ -512,8 +520,8 @@ public class Settings extends YamlConfig {
   @Comment("Database settings")
   public static class DATABASE {
 
-    @Comment("Database type: mariadb, mysql, postgresql, sqlite or h2.")
-    public DatabaseLibrary STORAGE_TYPE = DatabaseLibrary.H2;
+    @Comment("Database type: mariadb, mysql, postgresql.")
+    public DataProvider STORAGE_TYPE = DataProvider.MYSQL;
 
     @Comment("Settings for Network-based database (like MySQL, PostgreSQL): ")
     public String HOSTNAME = "127.0.0.1:3306";

@@ -17,13 +17,13 @@
 
 package net.elytrium.limboauth.model;
 
-public class SQLRuntimeException extends RuntimeException {
+public class DataAccessRuntimeException extends RuntimeException {
 
-  public SQLRuntimeException(Throwable cause) {
-    this("An unexpected internal error was caught during the database SQL operations.", cause);
+  public DataAccessRuntimeException(Throwable cause) {
+    this("An unexpected internal error was caught during the data access operation.", cause);
   }
 
-  public SQLRuntimeException(String message, Throwable cause) {
+  public DataAccessRuntimeException(String message, Throwable cause) {
     super(message, cause);
   }
 }

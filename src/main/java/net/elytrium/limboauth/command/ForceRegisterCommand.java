@@ -17,23 +17,24 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
+import net.elytrium.limboauth.model.DataAccessRuntimeException;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.repository.RegisteredPlayerRepository;
+import net.elytrium.limboauth.repository.exception.DataAccessException;
 import net.kyori.adventure.text.Component;
+
+import java.text.MessageFormat;
+import java.util.Locale;
 
 public class ForceRegisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final RegisteredPlayerRepository registeredPlayerRepository;
 
   private final String successful;
   private final String notSuccessful;
@@ -41,9 +42,9 @@ public class ForceRegisterCommand extends RatelimitedCommand {
   private final Component takenNickname;
   private final Component incorrectNickname;
 
-  public ForceRegisterCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public ForceRegisterCommand(LimboAuth plugin, RegisteredPlayerRepository registeredPlayerRepository) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.registeredPlayerRepository = registeredPlayerRepository;
 
     this.successful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_SUCCESSFUL;
     this.notSuccessful = Settings.IMP.MAIN.STRINGS.FORCE_REGISTER_NOT_SUCCESSFUL;
@@ -66,18 +67,18 @@ public class ForceRegisterCommand extends RatelimitedCommand {
         }
 
         String lowercaseNickname = nickname.toLowerCase(Locale.ROOT);
-        if (this.playerDao.idExists(lowercaseNickname)) {
+        if (this.registeredPlayerRepository.getByLowercaseName(lowercaseNickname).isPresent()) {
           source.sendMessage(this.takenNickname);
           return;
         }
 
         RegisteredPlayer player = new RegisteredPlayer(nickname, "", "").setPassword(password);
-        this.playerDao.create(player);
+        this.registeredPlayerRepository.createIfNotExists(player);
 
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.successful, nickname)));
-      } catch (SQLException e) {
+      } catch (DataAccessException e) {
         source.sendMessage(serializer.deserialize(MessageFormat.format(this.notSuccessful, nickname)));
-        throw new SQLRuntimeException(e);
+        throw new DataAccessRuntimeException(e);
       }
     } else {
       source.sendMessage(this.usage);

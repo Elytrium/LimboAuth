@@ -17,8 +17,6 @@
 
 package net.elytrium.limboauth.listener;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.UpdateBuilder;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
@@ -30,12 +28,6 @@ import com.velocitypowered.api.util.UuidUtils;
 import com.velocitypowered.proxy.connection.MinecraftConnection;
 import com.velocitypowered.proxy.connection.client.InitialInboundConnection;
 import com.velocitypowered.proxy.connection.client.LoginInboundConnection;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.sql.SQLException;
-import java.util.Locale;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import net.elytrium.commons.utils.reflection.ReflectionException;
 import net.elytrium.limboapi.api.event.LoginLimboRegisterEvent;
 import net.elytrium.limboauth.LimboAuth;
@@ -44,9 +36,17 @@ import net.elytrium.limboauth.LimboAuth.PremiumState;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.floodgate.FloodgateApiHolder;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.DataAccessRuntimeException;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.repository.RegisteredPlayerRepository;
+import net.elytrium.limboauth.repository.exception.DataAccessException;
 import net.kyori.adventure.text.Component;
+
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.util.Locale;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 // TODO: Customizable events priority
 public class AuthListener {
@@ -55,13 +55,13 @@ public class AuthListener {
   //private static final MethodHandle LOGIN_FIELD;
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final RegisteredPlayerRepository playerRepository;
   private final FloodgateApiHolder floodgateApi;
   private final Component errorOccurred;
 
-  public AuthListener(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao, FloodgateApiHolder floodgateApi) {
+  public AuthListener(LimboAuth plugin, RegisteredPlayerRepository playerRepository, FloodgateApiHolder floodgateApi) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.playerRepository = playerRepository;
     this.floodgateApi = floodgateApi;
 
     this.errorOccurred = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.ERROR_OCCURRED);
@@ -185,13 +185,13 @@ public class AuthListener {
   @Subscribe(order = PostOrder.FIRST)
   public void onGameProfileRequest(GameProfileRequestEvent event) {
     if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
-      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
+      RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerRepository, event.getOriginalProfile().getId());
 
       if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
         event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(registeredPlayer.getUuid())));
         return;
       }
-      registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getUsername());
+      registeredPlayer = AuthSessionHandler.fetchInfo(this.playerRepository, event.getUsername());
 
       if (registeredPlayer != null) {
         String currentUuid = registeredPlayer.getUuid();
@@ -199,9 +199,9 @@ public class AuthListener {
         if (currentUuid.isEmpty()) {
           try {
             registeredPlayer.setUuid(event.getGameProfile().getId().toString());
-            this.playerDao.update(registeredPlayer);
-          } catch (SQLException e) {
-            throw new SQLRuntimeException(e);
+            this.playerRepository.update(registeredPlayer);
+          } catch (DataAccessException e) {
+            throw new DataAccessRuntimeException(e);
           }
         } else {
           event.setGameProfile(event.getOriginalProfile().withId(UUID.fromString(currentUuid)));
@@ -209,12 +209,9 @@ public class AuthListener {
       }
     } else if (event.isOnlineMode()) {
       try {
-        UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
-        updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, event.getUsername().toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
-        updateBuilder.update();
-      } catch (SQLException e) {
-        throw new SQLRuntimeException(e);
+        this.playerRepository.updateHash(event.getUsername().toLowerCase(Locale.ROOT), "");
+      } catch (DataAccessException e) {
+        throw new DataAccessRuntimeException(e);
       }
     }
 

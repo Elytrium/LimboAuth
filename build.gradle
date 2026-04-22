@@ -10,7 +10,7 @@ plugins {
 }
 
 setGroup("net.elytrium")
-setVersion("1.1.14")
+setVersion("1.2.0-SNAPSHOT-4")
 
 java {
     setSourceCompatibility(JavaVersion.VERSION_17)
@@ -58,8 +58,8 @@ dependencies {
     implementation("at.favre.lib:bcrypt:0.9.0")
     implementation("dev.samstevens.totp:totp:1.7.1")
 
-    implementation("com.j256.ormlite:ormlite-jdbc:6.1")
     implementation("de.mkammerer:argon2-jvm-nolibs:2.11")
+    implementation("com.zaxxer:HikariCP:6.2.1")
 
     implementation("io.whitfin:siphash:2.0.0")
 
@@ -84,7 +84,6 @@ shadowJar {
     exclude("META-INF/*.txt")
     exclude("google/protobuf/**")
     exclude("com/google/protobuf/**")
-    exclude("com/j256/ormlite/**/*.txt")
     exclude("com/mysql/cj/x/**")
     exclude("com/mysql/cj/xdevapi/**")
     exclude("com/sun/jna/aix-ppc*/**")
@@ -106,7 +105,6 @@ shadowJar {
     minimize()
 
     relocate("at.favre.lib", "net.elytrium.limboauth.thirdparty.at.favre.lib")
-    relocate("com.j256.ormlite", "net.elytrium.limboauth.thirdparty.com.j256.ormlite")
     relocate("com.sun.jna", "net.elytrium.limboauth.thirdparty.com.sun.jna") {
         exclude("com.sun.jna.Native") // For compatibility with native methods.
     }

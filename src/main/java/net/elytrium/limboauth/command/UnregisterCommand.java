@@ -17,25 +17,26 @@
 
 package net.elytrium.limboauth.command;
 
-import com.j256.ormlite.dao.Dao;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
-import java.sql.SQLException;
-import java.util.Locale;
 import net.elytrium.commons.kyori.serialization.Serializer;
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.elytrium.limboauth.event.AuthUnregisterEvent;
 import net.elytrium.limboauth.handler.AuthSessionHandler;
+import net.elytrium.limboauth.model.DataAccessRuntimeException;
 import net.elytrium.limboauth.model.RegisteredPlayer;
-import net.elytrium.limboauth.model.SQLRuntimeException;
+import net.elytrium.limboauth.repository.RegisteredPlayerRepository;
+import net.elytrium.limboauth.repository.exception.DataAccessException;
 import net.kyori.adventure.text.Component;
+
+import java.util.Locale;
 
 public class UnregisterCommand extends RatelimitedCommand {
 
   private final LimboAuth plugin;
-  private final Dao<RegisteredPlayer, String> playerDao;
+  private final RegisteredPlayerRepository registeredPlayerRepository;
 
   private final String confirmKeyword;
   private final Component notPlayer;
@@ -46,9 +47,9 @@ public class UnregisterCommand extends RatelimitedCommand {
   private final Component usage;
   private final Component crackedCommand;
 
-  public UnregisterCommand(LimboAuth plugin, Dao<RegisteredPlayer, String> playerDao) {
+  public UnregisterCommand(LimboAuth plugin, RegisteredPlayerRepository registeredPlayerRepository) {
     this.plugin = plugin;
-    this.playerDao = playerDao;
+    this.registeredPlayerRepository = registeredPlayerRepository;
 
     Serializer serializer = LimboAuth.getSerializer();
     this.confirmKeyword = Settings.IMP.MAIN.CONFIRM_KEYWORD;
@@ -68,20 +69,20 @@ public class UnregisterCommand extends RatelimitedCommand {
         if (this.confirmKeyword.equalsIgnoreCase(args[1])) {
           String username = ((Player) source).getUsername();
           String usernameLowercase = username.toLowerCase(Locale.ROOT);
-          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, usernameLowercase);
+          RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.registeredPlayerRepository, usernameLowercase);
           if (player == null) {
             source.sendMessage(this.notRegistered);
           } else if (player.getHash().isEmpty()) {
             source.sendMessage(this.crackedCommand);
-          } else if (AuthSessionHandler.checkPassword(args[0], player, this.playerDao)) {
+          } else if (AuthSessionHandler.checkPassword(args[0], player, this.registeredPlayerRepository)) {
             try {
               this.plugin.getServer().getEventManager().fireAndForget(new AuthUnregisterEvent(username));
-              this.playerDao.deleteById(usernameLowercase);
+              this.registeredPlayerRepository.deleteByLowercaseName(usernameLowercase);
               this.plugin.removePlayerFromCacheLowercased(usernameLowercase);
               ((Player) source).disconnect(this.successful);
-            } catch (SQLException e) {
+            } catch (DataAccessException e) {
               source.sendMessage(this.errorOccurred);
-              throw new SQLRuntimeException(e);
+              throw new DataAccessRuntimeException(e);
             }
           } else {
             source.sendMessage(this.wrongPassword);
