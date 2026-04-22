@@ -399,7 +399,6 @@ public class HikariRegisteredPlayerRepository implements RegisteredPlayerReposit
             resultSet.getString("UUID"),
             resultSet.getString("IP")
         )
-                .setNickname(resultSet.getString("LOWERCASENICKNAME"))
                 .setHash(resultSet.getString("HASH"))
                 .setTotpToken(resultSet.getString("TOTPTOKEN"))
                 .setRegDate(resultSet.getLong("REGDATE"))
