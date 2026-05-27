@@ -151,7 +151,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             }
           }
 
-          if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+          if (Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS > 0 && sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
             this.proxyPlayer.disconnect(ipLimitKick);
             return;
           }
