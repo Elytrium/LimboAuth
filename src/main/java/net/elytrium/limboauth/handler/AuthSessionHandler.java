@@ -151,7 +151,7 @@ public class AuthSessionHandler implements LimboSessionHandler {
             }
           }
 
-          if (sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
+          if (Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS > 0 && sizeOfValidRegistrations >= Settings.IMP.MAIN.IP_LIMIT_REGISTRATIONS) {
             this.proxyPlayer.disconnect(ipLimitKick);
             return;
           }
@@ -357,12 +357,16 @@ public class AuthSessionHandler implements LimboSessionHandler {
         this.proxyPlayer.showTitle(totpTitle);
       }
     } else if (this.playerInfo == null) {
-      this.proxyPlayer.sendMessage(register);
+      if (register != null) {
+        this.proxyPlayer.sendMessage(register);
+      }
       if (sendTitle && registerTitle != null) {
         this.proxyPlayer.showTitle(registerTitle);
       }
     } else {
-      this.proxyPlayer.sendMessage(login[this.attempts - 1]);
+      if (register != null) {
+        this.proxyPlayer.sendMessage(login[this.attempts - 1]);
+      }
       if (sendTitle && loginTitle != null) {
         this.proxyPlayer.showTitle(loginTitle);
       }
@@ -484,7 +488,9 @@ public class AuthSessionHandler implements LimboSessionHandler {
           Settings.IMP.MAIN.CRACKED_TITLE_SETTINGS.toTimes()
       );
     }
-    register = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER);
+    if (!Settings.IMP.MAIN.STRINGS.REGISTER.isEmpty()) {
+      register = serializer.deserialize(Settings.IMP.MAIN.STRINGS.REGISTER);
+    }
     if (Settings.IMP.MAIN.STRINGS.REGISTER_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.REGISTER_SUBTITLE.isEmpty()) {
       registerTitle = null;
     } else {
@@ -495,8 +501,10 @@ public class AuthSessionHandler implements LimboSessionHandler {
       );
     }
     login = new Component[loginAttempts];
-    for (int i = 0; i < loginAttempts; ++i) {
-      login[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN, i + 1));
+    if (!Settings.IMP.MAIN.STRINGS.LOGIN.isEmpty()) {
+      for (int i = 0; i < loginAttempts; ++i) {
+        login[i] = serializer.deserialize(MessageFormat.format(Settings.IMP.MAIN.STRINGS.LOGIN, i + 1));
+      }
     }
     if (Settings.IMP.MAIN.STRINGS.LOGIN_TITLE.isEmpty() && Settings.IMP.MAIN.STRINGS.LOGIN_SUBTITLE.isEmpty()) {
       loginTitle = null;
