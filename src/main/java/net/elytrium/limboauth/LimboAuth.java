@@ -28,7 +28,6 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.field.FieldType;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableInfo;
@@ -91,6 +90,7 @@ import net.elytrium.limboapi.api.chunk.VirtualWorld;
 import net.elytrium.limboapi.api.command.LimboCommandMeta;
 import net.elytrium.limboapi.api.file.WorldFile;
 import net.elytrium.limboauth.command.ChangePasswordCommand;
+import net.elytrium.limboauth.command.CrackedCommand;
 import net.elytrium.limboauth.command.DestroySessionCommand;
 import net.elytrium.limboauth.command.ForceChangePasswordCommand;
 import net.elytrium.limboauth.command.ForceLoginCommand;
@@ -353,6 +353,7 @@ public class LimboAuth {
     manager.unregister("forceregister");
     manager.unregister("forcelogin");
     manager.unregister("premium");
+    manager.unregister("cracked");
     manager.unregister("forceunregister");
     manager.unregister("changepassword");
     manager.unregister("forcechangepassword");
@@ -364,6 +365,7 @@ public class LimboAuth {
     manager.register("forceregister", new ForceRegisterCommand(this, this.playerDao), "forcereg");
     manager.register("forcelogin", new ForceLoginCommand(this));
     manager.register("premium", new PremiumCommand(this, this.playerDao), "license");
+    manager.register("cracked", new CrackedCommand(this, this.playerDao));
     manager.register("forceunregister", new ForceUnregisterCommand(this, this.server, this.playerDao), "forceunreg");
     manager.register("changepassword", new ChangePasswordCommand(this, this.playerDao), "changepass", "cp");
     manager.register("forcechangepassword", new ForceChangePasswordCommand(this, this.server, this.playerDao), "forcechangepass", "fcp");
@@ -580,11 +582,11 @@ public class LimboAuth {
     TaskEvent.Result result = TaskEvent.Result.NORMAL;
 
     if (onlineMode || isFloodgate) {
-      if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+      if (registeredPlayer == null || registeredPlayer.isPremium()) {
         RegisteredPlayer nicknameRegisteredPlayer = registeredPlayer;
         registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, player.getUniqueId());
 
-        if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.getHash().isEmpty()) {
+        if (nicknameRegisteredPlayer != null && registeredPlayer == null && nicknameRegisteredPlayer.isPremium()) {
           registeredPlayer = nicknameRegisteredPlayer;
           registeredPlayer.setPremiumUuid(player.getUniqueId().toString());
           try {
@@ -604,7 +606,7 @@ public class LimboAuth {
           }
         }
 
-        if (registeredPlayer == null || registeredPlayer.getHash().isEmpty()) {
+        if (registeredPlayer == null || registeredPlayer.isPremium()) {
           // Due to the current connection state, which is set to LOGIN there, we cannot send the packets.
           // We need to wait for the PLAY connection state to set.
           this.postLoginTasks.put(player.getUniqueId(), () -> {
@@ -754,30 +756,15 @@ public class LimboAuth {
 
   public PremiumResponse isPremiumInternal(String nickname) {
     try {
-      QueryBuilder<RegisteredPlayer, String> crackedCountQuery = this.playerDao.queryBuilder();
-      crackedCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
-          .and()
-          .ne(RegisteredPlayer.HASH_FIELD, "");
-      crackedCountQuery.setCountOf(true);
-
-      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
-      premiumCountQuery.where()
-          .eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, nickname)
-          .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
-      premiumCountQuery.setCountOf(true);
-
-      if (this.playerDao.countOf(crackedCountQuery.prepare()) != 0) {
-        return new PremiumResponse(PremiumState.CRACKED);
+      RegisteredPlayer player = AuthSessionHandler.fetchInfoLowercased(this.playerDao, nickname);
+      if (player == null) {
+        return new PremiumResponse(PremiumState.UNKNOWN);
       }
-
-      if (this.playerDao.countOf(premiumCountQuery.prepare()) != 0) {
+      if (player.isPremium()) {
         return new PremiumResponse(PremiumState.PREMIUM);
       }
-
-      return new PremiumResponse(PremiumState.UNKNOWN);
-    } catch (SQLException e) {
+      return new PremiumResponse(PremiumState.CRACKED);
+    } catch (SQLRuntimeException e) {
       LOGGER.error("Unable to check if account is premium.", e);
       return new PremiumResponse(PremiumState.ERROR);
     }
@@ -785,14 +772,15 @@ public class LimboAuth {
 
   public boolean isPremiumUuid(UUID uuid) {
     try {
-      QueryBuilder<RegisteredPlayer, String> premiumCountQuery = this.playerDao.queryBuilder();
-      premiumCountQuery.where()
-          .eq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString())
-          .and()
-          .eq(RegisteredPlayer.HASH_FIELD, "");
-      premiumCountQuery.setCountOf(true);
-
-      return this.playerDao.countOf(premiumCountQuery.prepare()) != 0;
+      List<RegisteredPlayer> playerList = this.playerDao.queryForEq(RegisteredPlayer.PREMIUM_UUID_FIELD, uuid.toString());
+      if (playerList != null) {
+        for (RegisteredPlayer player : playerList) {
+          if (player.isPremium()) {
+            return true;
+          }
+        }
+      }
+      return false;
     } catch (SQLException e) {
       LOGGER.error("Unable to check if account is premium.", e);
       return false;

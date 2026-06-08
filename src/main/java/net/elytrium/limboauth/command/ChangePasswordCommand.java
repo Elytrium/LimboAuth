@@ -71,7 +71,7 @@ public class ChangePasswordCommand extends RatelimitedCommand {
         return;
       }
 
-      boolean onlineMode = player.getHash().isEmpty();
+      boolean onlineMode = player.isPremium();
       boolean needOldPass = this.needOldPass && !onlineMode;
       if (needOldPass) {
         if (args.length < 2) {
