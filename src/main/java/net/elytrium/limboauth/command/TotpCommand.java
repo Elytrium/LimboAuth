@@ -105,7 +105,7 @@ public class TotpCommand extends RatelimitedCommand {
             if (playerInfo == null) {
               source.sendMessage(this.notRegistered);
               return;
-            } else if (playerInfo.getHash().isEmpty()) {
+            } else if (playerInfo.isPremium()) {
               source.sendMessage(this.crackedCommand);
               return;
             } else if (this.needPassword && !AuthSessionHandler.checkPassword(args[1], playerInfo, this.playerDao)) {

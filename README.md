@@ -39,6 +39,7 @@ Test server: [``ely.su``](https://hotmc.ru/minecraft-server-203216)
 
 - ***limboauth.commands.destroysession* | /destroysession** - Destroy Account Auth Session Command
 - ***limboauth.commands.premium* | /license or /premium** - Command Makes Account Premium
+- ***limboauth.commands.cracked* | /cracked** - Command Makes Account Cracked (Revert Premium)
 - ***limboauth.commands.unregister* | /unregister** - Unregister Account Command
 - ***limboauth.commands.changepassword* | /changepassword** - Change Account Password Command
 - ***limboauth.commands.totp* | /totp** - 2FA Management Command

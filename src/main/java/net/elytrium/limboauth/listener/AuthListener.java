@@ -211,7 +211,7 @@ public class AuthListener {
       try {
         UpdateBuilder<RegisteredPlayer, String> updateBuilder = this.playerDao.updateBuilder();
         updateBuilder.where().eq(RegisteredPlayer.LOWERCASE_NICKNAME_FIELD, event.getUsername().toLowerCase(Locale.ROOT));
-        updateBuilder.updateColumnValue(RegisteredPlayer.HASH_FIELD, "");
+        updateBuilder.updateColumnValue(RegisteredPlayer.PREMIUM_FIELD, true);
         updateBuilder.update();
       } catch (SQLException e) {
         throw new SQLRuntimeException(e);

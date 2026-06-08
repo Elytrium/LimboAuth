@@ -39,6 +39,7 @@ public class RegisteredPlayer {
   public static final String LOGIN_DATE_FIELD = "LOGINDATE";
   public static final String UUID_FIELD = "UUID";
   public static final String PREMIUM_UUID_FIELD = "PREMIUMUUID";
+  public static final String PREMIUM_FIELD = "PREMIUM";
   public static final String TOKEN_ISSUED_AT_FIELD = "ISSUEDTIME";
 
   private static final BCrypt.Hasher HASHER = BCrypt.withDefaults();
@@ -66,6 +67,9 @@ public class RegisteredPlayer {
 
   @DatabaseField(columnName = RegisteredPlayer.PREMIUM_UUID_FIELD, index = true)
   private String premiumUuid = "";
+
+  @DatabaseField(columnName = RegisteredPlayer.PREMIUM_FIELD)
+  private boolean premium = false;
 
   @DatabaseField(columnName = LOGIN_IP_FIELD)
   private String loginIp;
@@ -202,6 +206,16 @@ public class RegisteredPlayer {
 
   public String getPremiumUuid() {
     return this.premiumUuid == null ? "" : this.premiumUuid;
+  }
+
+  public boolean isPremium() {
+    return this.premium || this.hash.isEmpty();
+  }
+
+  public RegisteredPlayer setPremium(boolean premium) {
+    this.premium = premium;
+
+    return this;
   }
 
   public String getLoginIp() {

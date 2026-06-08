@@ -114,6 +114,12 @@ public class Settings extends YamlConfig {
     public boolean CHANGE_PASSWORD_NEED_OLD_PASSWORD = true;
     @Comment("Used in unregister and premium commands.")
     public String CONFIRM_KEYWORD = "confirm";
+    @Comment({
+        "If set to true, the password hash will NOT be cleared when using /premium,",
+        "allowing the player to revert back to cracked mode with /cracked.",
+        "Set to false to keep the old behavior (clear hash, no /cracked rollback)."
+    })
+    public boolean PREMIUM_KEEP_HASH = true;
     @Comment("This prefix will be added to offline mode players nickname")
     public String OFFLINE_MODE_PREFIX = "";
     @Comment("This prefix will be added to online mode players nickname")
@@ -349,6 +355,8 @@ public class Settings extends YamlConfig {
       public CommandPermissionState DESTROY_SESSION = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.commands.premium")
       public CommandPermissionState PREMIUM = CommandPermissionState.PERMISSION;
+      @Comment("Permission: limboauth.commands.cracked")
+      public CommandPermissionState CRACKED = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.commands.totp")
       public CommandPermissionState TOTP = CommandPermissionState.PERMISSION;
       @Comment("Permission: limboauth.commands.unregister")
@@ -455,6 +463,10 @@ public class Settings extends YamlConfig {
       public String ALREADY_PREMIUM = "{PRFX} &cYour account is already &6PREMIUM&c!";
       public String NOT_PREMIUM = "{PRFX} &cYour account is not &6PREMIUM&c!";
       public String PREMIUM_USAGE = "{PRFX} Usage: &6/premium <current password> confirm";
+
+      public String CRACKED_SUCCESSFUL = "{PRFX}{NL}&aSuccessfully changed account state to &6CRACKED&a!";
+      public String ALREADY_CRACKED = "{PRFX} &cYour account is already &6CRACKED&c!";
+      public String CRACKED_USAGE = "{PRFX} Usage: &6/cracked <password> confirm";
 
       public String EVENT_CANCELLED = "{PRFX} Authorization event was cancelled";
 
