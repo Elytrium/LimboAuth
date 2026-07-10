@@ -139,6 +139,8 @@ public class LimboAuth {
 
   public static final Ratelimiter<InetAddress> RATELIMITER = Ratelimiters.createWithMilliseconds(5000);
 
+  private static final String AUTH_WORLD_NAME = "limboauth:auth";
+
   // Architectury API appends /541f59e4256a337ea252bc482a009d46 to the channel name, that is a UUID.nameUUIDFromBytes from the TokenMessage class name
   private static final ChannelIdentifier MOD_CHANNEL = MinecraftChannelIdentifier.create("limboauth", "mod/541f59e4256a337ea252bc482a009d46");
   private static final ChannelIdentifier LEGACY_MOD_CHANNEL = new LegacyChannelIdentifier("LIMBOAUTH|MOD");
@@ -376,6 +378,7 @@ public class LimboAuth {
     Settings.MAIN.AUTH_COORDS authCoords = Settings.IMP.MAIN.AUTH_COORDS;
     VirtualWorld authWorld = this.factory.createVirtualWorld(
         Settings.IMP.MAIN.DIMENSION,
+        AUTH_WORLD_NAME,
         authCoords.X, authCoords.Y, authCoords.Z,
         (float) authCoords.YAW, (float) authCoords.PITCH
     );
