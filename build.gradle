@@ -13,8 +13,8 @@ setGroup("net.elytrium")
 setVersion("1.1.14")
 
 java {
-    setSourceCompatibility(JavaVersion.VERSION_17)
-    setTargetCompatibility(JavaVersion.VERSION_17)
+    setSourceCompatibility(JavaVersion.VERSION_21)
+    setTargetCompatibility(JavaVersion.VERSION_21)
 }
 
 compileJava {
