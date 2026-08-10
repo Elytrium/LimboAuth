@@ -184,7 +184,9 @@ public class AuthListener {
 
   @Subscribe(order = PostOrder.FIRST)
   public void onGameProfileRequest(GameProfileRequestEvent event) {
-    if (Settings.IMP.MAIN.SAVE_UUID && (this.floodgateApi == null || !this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId()))) {
+    boolean isFloodgatePlayer = this.floodgateApi != null && this.floodgateApi.isFloodgatePlayer(event.getOriginalProfile().getId());
+
+    if (Settings.IMP.MAIN.SAVE_UUID && !isFloodgatePlayer) {
       RegisteredPlayer registeredPlayer = AuthSessionHandler.fetchInfo(this.playerDao, event.getOriginalProfile().getId());
 
       if (registeredPlayer != null && !registeredPlayer.getUuid().isEmpty()) {
@@ -218,11 +220,11 @@ public class AuthListener {
       }
     }
 
-    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID) {
+    if (Settings.IMP.MAIN.FORCE_OFFLINE_UUID && !isFloodgatePlayer) {
       event.setGameProfile(event.getOriginalProfile().withId(UuidUtils.generateOfflinePlayerUuid(event.getUsername())));
     }
 
-    if (!event.isOnlineMode() && !Settings.IMP.MAIN.OFFLINE_MODE_PREFIX.isEmpty()) {
+    if (!event.isOnlineMode() && !isFloodgatePlayer && !Settings.IMP.MAIN.OFFLINE_MODE_PREFIX.isEmpty()) {
       event.setGameProfile(event.getOriginalProfile().withName(Settings.IMP.MAIN.OFFLINE_MODE_PREFIX + event.getUsername()));
     }
 
